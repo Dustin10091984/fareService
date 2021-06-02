@@ -1,0 +1,8 @@
+.text-danger {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+button:disabled, button:disabled:hover {
+    background: #dddddd;
+}

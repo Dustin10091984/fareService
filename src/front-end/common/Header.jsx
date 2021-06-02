@@ -1,8 +1,72 @@
-import React,{Component} from 'react';
-import { Link } from "react-router-dom";
-export class Header extends Component{
-    render(){
-       return(
+import React, { useEffect, useState} from 'react';
+import { Link, withRouter } from "react-router-dom";
+import axios from 'axios';
+
+const Header = props => {
+    const [state, setState] = useState({
+        is_loggedin: false,
+        header_menu: []
+    });
+
+    useEffect(()=>{
+        if(localStorage.userToken){
+            setState(state => ({
+                ...state,
+                is_loggedin: true
+            }));
+        }
+
+        axios({
+            method: 'get',
+            url: process.env.REACT_APP_API_BASE_URL+'api/user/get-menu',
+        })
+        .then(function (response) {
+            setState(state => ({
+                ...state,
+                header_menu: response.data.data
+            }));
+        })
+        .catch((error) => {
+            //handle error
+            console.log(error.response);
+        });
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.clear();
+        setState(state => ({
+            ...state,
+            is_loggedin: false
+        }));
+    }
+
+    const header_menu = state.header_menu.map((menu, idx) => {
+        return(
+            <li className="nav-item" key={`menu-${idx}`}>
+                <a className="nav-link active" href="#">{menu.name} <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
+                {
+                    (menu.sub_services && menu.sub_services.length) ?
+                            <ul className="dropdownmenu">
+                            {
+                                menu.sub_services.map((sub_menu, idx) => {
+                                    return(
+                                        <li className="nav-item" key={`sub-menu-${idx}`}>
+                                            <a href="#" className="nav-link border-bottom">
+                                                <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> a{sub_menu.name}
+                                            </a>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>                      
+                    : ''
+                }
+            </li>
+        )
+    })
+
+    
+    return(
         <>
         <header className="header-sec">
             <div className="container">
@@ -41,7 +105,12 @@ export class Header extends Component{
                                     <a href="#" className="link">Help</a>
                                 </li>
                                 <li className="item-list">
-                                    <Link to='/login' className="link">Login</Link>
+                                    {
+                                        state.is_loggedin ?
+                                            <Link to="" onClick={handleLogout} className="link">Logout</Link>
+                                        :
+                                            <Link to='/login' className="link">Login</Link>
+                                    }
                                 </li>
                             </ul>
                         </div>
@@ -61,816 +130,7 @@ export class Header extends Component{
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav mr-auto">
-                            <li className="nav-item">
-                                <a className="nav-link active" href="#">Cleaning <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Assembly <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">General Handyman <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Plumbing <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Electrical <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Painting <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Smart Home <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">TV & Electrical <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">More <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                                <ul className="dropdownmenu">
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Affordable Maids
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Apartment Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Bedroom Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Housekeeping
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Home Sanitization
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Maid Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move In Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Move Out Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Vacation Rental Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Deep Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Kitchen Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Living Room Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Local Cleaning Service
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link border-bottom">
-                                           <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> Same Day Cleaning
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                                {header_menu}
                             </ul>
 
                         </div>
@@ -880,6 +140,7 @@ export class Header extends Component{
             </div>
         </header>
         </>
-       )
-    }
+    )
 }
+
+export default withRouter(Header);
