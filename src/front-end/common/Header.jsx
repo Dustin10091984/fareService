@@ -52,7 +52,7 @@ const Header = props => {
                                     return(
                                         <li className="nav-item" key={`sub-menu-${idx}`}>
                                             <a href="#" className="nav-link border-bottom">
-                                                <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> a{sub_menu.name}
+                                                <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> {sub_menu.name}
                                             </a>
                                         </li>
                                     )

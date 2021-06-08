@@ -43,10 +43,12 @@ function App() {
      <Header></Header>
      
       <Switch>
+        <Route exact path='/' component={Index}  />
+        
         <Redirect
           exact
           from="/"
-          to="/login"
+          to="/"
         />
 
         <Route path='/register' component={ Register }  />
@@ -54,7 +56,7 @@ function App() {
 
         <ProtectedRoute path='/dashboard' component={ Dashboard }/>
 
-        <Route exact path='/' component={Index}  />
+        
         <Route path='/shop' component={Shop}  />
         <Route path='/shop2' component={ShopTwo}  />
         <Route path='/moving-help' component={MovingHelp}  />
