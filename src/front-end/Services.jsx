@@ -56,13 +56,13 @@ export class Services extends Component {
                                                     <img src="assets/img/service-card1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <ul className="service-list">
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Maids</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Apartment Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Bedroom Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Housekeeping</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Sanitization</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Maids</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Apartment Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Bedroom Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Housekeeping</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Sanitization</a></li>
                                                 </ul>
                                             </div>
 
@@ -71,13 +71,13 @@ export class Services extends Component {
                                                     <img src="assets/img/service-card1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <ul className="service-list">
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Maid Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Move In Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Move Out Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Room Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Office Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Commercial Sanitization</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Maid Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Move In Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Move Out Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Room Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Office Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Commercial Sanitization</a></li>
                                                 </ul>
                                             </div>
                                             <div className="service-card">
@@ -85,12 +85,12 @@ export class Services extends Component {
                                                     <img src="assets/img/service-card1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <ul className="service-list">
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Vacation Rental Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Deep Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Kitchen Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Living Room Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Local Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Same Day Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Vacation Rental Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Deep Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Kitchen Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Living Room Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Local Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Same Day Cleaning</a></li>
                                                 </ul>
                                             </div>
 
@@ -107,13 +107,13 @@ export class Services extends Component {
                                                     <img src="assets/img/service-card1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <ul className="service-list d-none">
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Maids</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Apartment Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Bedroom Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Housekeeping</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Sanitization</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Affordable Maids</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Apartment Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Bedroom Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Housekeeping</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Sanitization</a></li>
                                                 </ul>
                                             </div>
 
@@ -122,13 +122,13 @@ export class Services extends Component {
                                                     <img src="assets/img/service-card1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <ul className="service-list d-none">
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Maid Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Move In Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Move Out Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Room Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Office Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Commercial Sanitization</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Maid Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Move In Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Move Out Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Room Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Home Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Office Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Commercial Sanitization</a></li>
                                                 </ul>
                                             </div>
                                             <div className="service-card">
@@ -136,12 +136,12 @@ export class Services extends Component {
                                                     <img src="assets/img/service-card1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <ul className="service-list d-none">
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Vacation Rental Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Deep Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Kitchen Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Living Room Cleaning</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Local Cleaning Service</a></li>
-                                                    <li className="item"><a href="#" className="link"><i class="fa fa-angle-right pr-3" aria-hidden="true"></i>Same Day Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Vacation Rental Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Deep Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Kitchen Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Living Room Cleaning</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Local Cleaning Service</a></li>
+                                                    <li className="item"><a href="#" className="link"><i className="fa fa-angle-right pr-3" aria-hidden="true"></i>Same Day Cleaning</a></li>
                                                 </ul>
                                             </div>
 

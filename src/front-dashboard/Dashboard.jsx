@@ -9,10 +9,10 @@ export class Dashboard extends Component {
                         <div className="row">
                             <div className="col-12">
                                 <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><Link to="/order-history">Home</Link></li>
-                                        {/* <li class="breadcrumb-item"><Link to="/order-history">Library</Link></li> */}
-                                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                                    <ol className="breadcrumb">
+                                        <li className="breadcrumb-item"><Link to="/order-history">Home</Link></li>
+                                        {/* <li className="breadcrumb-item"><Link to="/order-history">Library</Link></li> */}
+                                        <li className="breadcrumb-item active" aria-current="page">Dashboard</li>
                                     </ol>
                                 </nav>
                             </div>
