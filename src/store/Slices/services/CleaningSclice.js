@@ -1,33 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 
-const userSlice = createSlice({
-    name: 'user',
+const cleaningSlice = createSlice({
+    name: 'cleaning',
     initialState: [],
     reducers: {
-        updateUser: (state, action) => {
+        cleaningQuestion: (state, action) => {
             return action.payload;
         },
     },
 });
-export default userSlice.reducer
+export default cleaningSlice.reducer
 
 
-const { updateUser } = userSlice.actions
-export const getUser = () => async dispatch => {
+const { cleaningQuestion } = cleaningSlice.actions
+export const getCleaningQuestion = () => async dispatch => {
     try {
         await axios({
             method: 'get',
             headers: {
                 Authorization: `Bearer ${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL+`api/public/chat/conversations`,
+            url: process.env.REACT_APP_API_BASE_URL + `api/user/questions/1`,
             // params: {
             //     chat_mark_read_id: chat_mark_read_id
             // }
         }).then((response) => {
             //handle success
-            dispatch(updateUser(response.data.data));
+            dispatch(cleaningQuestion(response.data));
         }).catch((error) => {
             //handle error
             console.log(error);

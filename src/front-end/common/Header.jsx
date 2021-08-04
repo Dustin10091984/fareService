@@ -9,7 +9,7 @@ const Header = props => {
     });
 
     useEffect(()=>{
-        if(localStorage.userToken){
+        if (localStorage.getItem('userToken')){
             setState(state => ({
                 ...state,
                 is_loggedin: true

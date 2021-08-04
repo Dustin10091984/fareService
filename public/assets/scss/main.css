@@ -1164,7 +1164,7 @@ body {
   -webkit-box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
           box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
   border-radius: 2.0rem;
-  padding: 9rem;
+  padding: 5rem;
 }
 
 .title-move {
@@ -2513,4 +2513,25 @@ hr {
   background: #FEA629;
   color: #FFFFFF;
 }
+
+.radio {
+    width: 20px;
+    height: 20px;
+}
+
+
+.question{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 3.6rem;
+  line-height: 4.4rem;
+  color: #000000;
+}
+
+.option{
+  font-weight: 50px;
+  font-size: 1.8rem;
+  color: #000000;
+}
+
 /*# sourceMappingURL=main.css.map */
