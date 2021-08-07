@@ -32,7 +32,7 @@ export class PaymentCard extends Component {
                             <div className="col-md-6 d-flex">
                                 <div className="order-card d-flex align-items-center justify-content-between">
                                 <div>
-                                   <img src="assets/img/master-card.svg" alt=""/>
+                                   <img src="/assets/img/master-card.svg" alt=""/>
                                 </div>
                                    <div className="d-flex align-items-center justify-content-between">
                                    <div className="order-des-b ml-4">

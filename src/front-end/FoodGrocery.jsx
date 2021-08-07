@@ -4,7 +4,7 @@ export class FoodGrocery extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/bread-bg.jpg")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/bread-bg.jpg")` }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-12">

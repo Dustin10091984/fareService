@@ -25,7 +25,7 @@ export class Cart extends Component {
                                         <div className="cart-total cart-page d-flex align-items-center justify-content-between">
                                             <div className="d-flex align-items-center justify-content">
                                                 <div className="cart-img">
-                                                    <img src="assets/img/cart-prod.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/cart-prod.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <div className="cart-title">Industrial Three-piece Dark Bronze<br /> Compact Dining Set</div>
                                             </div>

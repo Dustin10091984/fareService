@@ -73,6 +73,7 @@ function App() {
         <Route path='/gaurantee' component={ Gaurantee }  />
         <Route path='/food-grocery' component={ FoodGrocery }  />
         <Route path='/food-details' component={ FoodDetails }  />
+        <Route path='/services/:serviceId/:subServiceId' component={ Services }  />
         <Route path='/services' component={ Services }  />
         <Route path='/cart' component={ Cart }  />
         <Route path='/order-history' component={ OrderHistory }  />

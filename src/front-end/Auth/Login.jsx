@@ -43,8 +43,9 @@ const Login = props => {
           data: state.values,
         })
         .then(function (response) {
-            localStorage.setItem('userToken', response.data.access_token);
-            localStorage.setItem('user_data', JSON.stringify(response.data.user_data));
+            const data = response.data.data;
+            localStorage.setItem('userToken', data.auth_token);
+            localStorage.setItem('user_data', JSON.stringify(data.user));
             history.push('/dashboard');
         })
         .catch((error) => {
@@ -69,7 +70,7 @@ const Login = props => {
     const hasError = field => state.errors[field] ? true : false;
 
     return (
-        <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("assets/img/login-bg.jpg")` }}>
+        <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("/assets/img/login-bg.jpg")` }}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
@@ -88,7 +89,7 @@ const Login = props => {
                                     </div>
 
                                     <button type="submit" className="button-common w-100 mb-5" disabled={state.isLoading}>
-                                        Login {state.isLoading ?<i class="fas fa-spinner fa-spin ml-3"></i>:''}
+                                        Login {state.isLoading ?<i className="fas fa-spinner fa-spin ml-3"></i>:''}
                                     </button>
                                 </form>
 

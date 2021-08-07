@@ -4,7 +4,7 @@ export class AboutUs extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/news-media.png")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/news-media.png")` }}>
                     <div className="title">About Us</div>
                 </div>
 
@@ -45,7 +45,7 @@ export class AboutUs extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss1.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss1.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title">
                                     Emerson Botosh
@@ -76,7 +76,7 @@ export class AboutUs extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title">
                                     Jaylon Kenter
@@ -107,7 +107,7 @@ export class AboutUs extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title">
                                     Charlie Lipshutz

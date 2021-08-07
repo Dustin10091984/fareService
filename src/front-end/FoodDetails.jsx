@@ -5,7 +5,7 @@ export class  FoodDetails extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec product-detail-bread d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/bread-bg.jpg")` }}>
+                <div className="breadcrumb-sec product-detail-bread d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/bread-bg.jpg")` }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
@@ -15,7 +15,7 @@ export class  FoodDetails extends Component {
                                         <div>
                                             <Link to="product-detail" className="product-card box-shadow-none d-flex justify-content-center flex-column">
                                                 <div className="prod-img mx-auto">
-                                                    <img src="assets/img/product.png" alt="" />
+                                                    <img src="/assets/img/product.png" alt="" />
                                                 </div>
                                                 <div className="prod-detail">
                                                     <div className="title">[two or more lines of product title here.]</div>

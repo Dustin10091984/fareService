@@ -5,7 +5,7 @@ export class MovingHelp extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/moving-help.jpg")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/moving-help.jpg")` }}>
                 </div>
 
                 <div className="moving-help-sec ">
@@ -208,7 +208,7 @@ export class MovingHelp extends Component {
                             <div className="col-md-12">
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bedroom, Living Room & Common  Areas</div>
@@ -225,7 +225,7 @@ export class MovingHelp extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bathroom<br /> Cleaning</div>
@@ -243,7 +243,7 @@ export class MovingHelp extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Kitchen<br /> Cleaning</div>
@@ -261,7 +261,7 @@ export class MovingHelp extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Extras</div>
@@ -426,7 +426,7 @@ export class MovingHelp extends Component {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user1.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user1.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Sharonda H.
@@ -459,7 +459,7 @@ export class MovingHelp extends Component {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user2.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user2.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Justin R.
@@ -491,7 +491,7 @@ export class MovingHelp extends Component {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user3.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user3.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Milagros K.

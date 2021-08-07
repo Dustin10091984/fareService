@@ -4,7 +4,7 @@ export class Apply extends Component {
     render() {
         return (
             <>
-                <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("assets/img/apply-bg.jpg")` }}>
+                <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("/assets/img/apply-bg.jpg")` }}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
@@ -48,7 +48,7 @@ export class Apply extends Component {
                                         <div className="col-md-4">
                                             <div className="team-card">
                                                 <div className="team-img">
-                                                    <img src="assets/img/boss1.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/boss1.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <div className="title px-0">
                                                     great pay
@@ -63,7 +63,7 @@ export class Apply extends Component {
                                         <div className="col-md-4">
                                             <div className="team-card">
                                                 <div className="team-img">
-                                                    <img src="assets/img/boss2.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/boss2.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <div className="title px-0">
                                                     flexible shedule
@@ -76,7 +76,7 @@ export class Apply extends Component {
                                         <div className="col-md-4">
                                             <div className="team-card">
                                                 <div className="team-img">
-                                                    <img src="assets/img/boss3.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/boss3.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <div className="title px-0">
                                                     easy payments

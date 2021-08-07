@@ -27,7 +27,7 @@ export class OrderHistory extends Component {
                         <div className="row justify-content-center">   
                             <div className="col-md-3">
                                 <Link to="/food-delivery" className="bash-card">
-                                    <img src="assets/img/food.svg" className="img-fluid" alt=""/>
+                                    <img src="/assets/img/food.svg" className="img-fluid" alt=""/>
                                     <div className="dash-card-ds">
                                         <div className="title">Food Delivery</div>
                                         <div className="des">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.</div>
@@ -38,7 +38,7 @@ export class OrderHistory extends Component {
                          
                             <div className="col-md-3">
                                 <a href="#" className="bash-card">
-                                    <img src="assets/img/groceries.svg" className="img-fluid" alt=""/>
+                                    <img src="/assets/img/groceries.svg" className="img-fluid" alt=""/>
                                     <div className="dash-card-ds">
                                         <div className="title">Groceries</div>
                                         <div className="des">Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam.</div>

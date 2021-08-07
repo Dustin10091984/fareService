@@ -4,7 +4,7 @@ export class Scolarship extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/news-media.png")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/news-media.png")` }}>
                     <div className="title">Scolarship</div>
                 </div>
 

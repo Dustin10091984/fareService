@@ -18,7 +18,7 @@ export class ServicesDetail extends Component {
                                         <div className="job-provider-card service-card-des">
                                             <div className="user-des d-flex align-items-centet justify-content-start w-100">
                                                 <div className="user-img d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
                                                 <div className="user-detail w-100">
                                                     <div className=" w-100 d-flex align-items-centet justify-content-between">

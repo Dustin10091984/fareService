@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../front-end/common/product';
-import { Link } from "react-router-dom";
-export class HouseCleaning extends Component {
-    render() {
+import {Question} from './common/Question';
+export const HouseCleaning = (props) => {
+
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/moving-help.jpg")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/moving-help.jpg")` }}>
                 </div>
 
                 <div className="moving-help-sec ">
@@ -13,61 +13,7 @@ export class HouseCleaning extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="moving-search-box house-cleaning-sec">
-                                    <div className="title-move mb-5">
-                                        House Cleaning
-                                    </div>
-                                    <div className="d-flex justify-content-between">
-                                        <div className="m-search-left-box w-100">
-                                            <div className="mb-4 d-flex align-items-center justify-content-between">
-                                                <div className="common-input">
-                                                    <input type="text" placeholder="Zip Code" />
-                                                </div>
-                                                <div className="common-input px-4">
-                                                    <input type="text" placeholder="State" />
-                                                </div>
-                                                <div className="common-input">
-                                                    <input type="text" placeholder="City" />
-                                                </div>
-                                            </div>
-
-                                            <div className="d-flex justify-content-between">
-                                                <div className="common-input mb-4 mr-3">
-                                                    <select name="" id="">
-                                                        <option value="">1 Bedroom</option>
-                                                        <option value="">2 Bedroom</option>
-                                                        <option value="">3 Bedroom</option>
-                                                        <option value="">4 Bedroom</option>
-                                                        <option value="">5 Bedroom</option>
-                                                    </select>
-                                                </div>
-
-                                                <div className="common-input mb-4 ml-3">
-                                                    <select name="" id="">
-                                                        <option value="">1 Bedroom</option>
-                                                        <option value="">2 Bedroom</option>
-                                                        <option value="">3 Bedroom</option>
-                                                        <option value="">4 Bedroom</option>
-                                                        <option value="">5 Bedroom</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div className="mb-4 d-flex align-items-center justify-content-between">
-                                                <div className="common-input pr-3">
-                                                    <input type="text" placeholder="Phone Number" />
-                                                </div>
-                                                <div className="common-input pl-3">
-                                                    <input type="text" placeholder="Email" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div className="text-center mt-0">
-                                        <Link to="/service-providers" className="button-common mt-5 w-100">Get a Price</Link>
-                                    </div>
-
+                                    <Question serviceId={1} {...props}/>
                                     <div className="moving-des mt-5">
                                         <div className="title">For your home size, We recommend</div>
 
@@ -180,7 +126,7 @@ export class HouseCleaning extends Component {
                             <div className="col-md-12">
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bedroom, Living Room & Common  Areas</div>
@@ -197,7 +143,7 @@ export class HouseCleaning extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bathroom<br /> Cleaning</div>
@@ -215,7 +161,7 @@ export class HouseCleaning extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Kitchen<br /> Cleaning</div>
@@ -233,7 +179,7 @@ export class HouseCleaning extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Extras</div>
@@ -398,7 +344,7 @@ export class HouseCleaning extends Component {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user1.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user1.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Sharonda H.
@@ -431,7 +377,7 @@ export class HouseCleaning extends Component {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user2.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user2.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Justin R.
@@ -463,7 +409,7 @@ export class HouseCleaning extends Component {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user3.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user3.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Milagros K.
@@ -607,9 +553,6 @@ export class HouseCleaning extends Component {
                         </div>
                     </div>
                 </div>
-
-
             </>
         )
-    }
 }

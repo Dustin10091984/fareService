@@ -149,7 +149,7 @@ const Register = props => {
     const hasError = field => state.errors[field] ? true : false;
 
     return (
-        <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("assets/img/login-bg.jpg")` }}>
+        <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("/assets/img/login-bg.jpg")` }}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
@@ -165,7 +165,7 @@ const Register = props => {
                                                     <p className="text-danger">{hasError('phone') ? state.errors.phone : ''}</p>
                                                 </div>
                                                 <button type="submit" className="button-common w-100 mb-5" disabled={state.isLoading}>
-                                                    Submit {state.isLoading ?<i class="fas fa-spinner fa-spin ml-3"></i>:''}
+                                                    Submit {state.isLoading ?<i className="fas fa-spinner fa-spin ml-3"></i>:''}
                                                 </button>
                                             </form>
 
@@ -188,7 +188,7 @@ const Register = props => {
                                                     <p className="text-danger">{hasError('otp') ? state.errors.otp : ''}</p>
                                                 </div>
                                                 <button type="submit" className="button-common w-100 mb-5" disabled={state.isLoading}>
-                                                    Submit {state.isLoading ?<i class="fas fa-spinner fa-spin ml-3"></i>:''}
+                                                    Submit {state.isLoading ?<i className="fas fa-spinner fa-spin ml-3"></i>:''}
                                                 </button>
                                             </form>
                                         </div>
@@ -235,7 +235,7 @@ const Register = props => {
                                                 <div className="col-md-12">
                                                     <button type="submit" className="button-common w-100 mb-5" disabled={state.isLoading}
                                                     >
-                                                        Register {state.isLoading ?<i class="fas fa-spinner fa-spin ml-3"></i>:''}
+                                                        Register {state.isLoading ?<i className="fas fa-spinner fa-spin ml-3"></i>:''}
                                                     </button>
                                                 </div>
                                             </div>

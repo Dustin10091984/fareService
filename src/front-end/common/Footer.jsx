@@ -96,7 +96,7 @@ export class Footer extends Component{
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between">
                             <div className="footer-lgoo">
-                                <img src="assets/img/logo.png" className="img-fluid" alt=""/>
+                                <img src="/assets/img/logo.png" className="img-fluid" alt=""/>
                             </div>
 
                             <div className="footer-about">
@@ -105,10 +105,10 @@ export class Footer extends Component{
                             </div>
                             <div className="footer-social-link">
                                 <ul className="social d-flex">
-                                    <li className="item facebook mr-4"><a href="#"><img src="assets/img/facebook.png" className="img-fluid" alt="socail"/></a></li>
-                                    <li className="item instragram mr-4"><a href="#"><img src="assets/img/instagram.png" className="img-fluid" alt="socail"/></a></li>
-                                    <li className="item twitter mr-4"><a href="#"><img src="assets/img/twitter.png" className="img-fluid" alt="socail"/></a></li>
-                                    <li className="item whatsapp mr-0"><a href="#"><img src="assets/img/whatsapp.png" className="img-fluid" alt="socail"/></a></li>
+                                    <li className="item facebook mr-4"><a href="#"><img src="/assets/img/facebook.png" className="img-fluid" alt="socail"/></a></li>
+                                    <li className="item instragram mr-4"><a href="#"><img src="/assets/img/instagram.png" className="img-fluid" alt="socail"/></a></li>
+                                    <li className="item twitter mr-4"><a href="#"><img src="/assets/img/twitter.png" className="img-fluid" alt="socail"/></a></li>
+                                    <li className="item whatsapp mr-0"><a href="#"><img src="/assets/img/whatsapp.png" className="img-fluid" alt="socail"/></a></li>
                                 </ul>
                             </div>
                         </div>

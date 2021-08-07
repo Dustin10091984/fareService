@@ -21,7 +21,7 @@ export class Index extends Component{
                                 </div>
 
                                 <div className="banner-image d-flex align-items-center justify-content-center">
-                                    <img src='assets/img/banner-img.jpg' className="img-fluid" alt=""/>
+                                    <img src='/assets/img/banner-img.jpg' className="img-fluid" alt=""/>
                                 </div>
                             </div>
                         </div>
@@ -42,37 +42,37 @@ export class Index extends Component{
                         <div className="col-md-12 d-flex align-content-center justify-content-between flex-wrap">
                             <div className="service-box">
                                <Link to="/house-cleaning">
-                               <img src="assets/img/service1.jpg" className="img-fluid" alt=""/>
+                               <img src="/assets/img/service1.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Home Cleaning</div>
                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/food-grocery">
-                               <img src="assets/img/service2.jpg" className="img-fluid" alt=""/>
+                               <img src="/assets/img/service2.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Groceries</div>
                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/food-grocery">
-                               <img src="assets/img/service3.jpg" className="img-fluid" alt=""/>
+                               <img src="/assets/img/service3.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Food</div>
                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/moving-help">
-                               <img src="assets/img/service4.jpg" className="img-fluid" alt=""/>
+                               <img src="/assets/img/service4.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Hanging Pictures & Shelves</div>
                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/house-cleaning">
-                               <img src="assets/img/service5.jpg" className="img-fluid" alt=""/>
+                               <img src="/assets/img/service5.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Office Cleaning</div>
                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/moving-help">
-                               <img src="assets/img/service6.jpg" className="img-fluid" alt=""/>
+                               <img src="/assets/img/service6.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">TV Mounting</div>
                                </Link>
                             </div>
@@ -104,9 +104,9 @@ export class Index extends Component{
                         <div className="col-12">
                             <div className="back-check-box d-flex align-items-center justify-content-between">
                                 <div className="check-img">
-                                    <img src="assets/img/back-check-layer.svg" className="img-fluid layer-img" alt=""/>
+                                    <img src="/assets/img/back-check-layer.svg" className="img-fluid layer-img" alt=""/>
                                     <div className="layer-main-img">
-                                    <img src="assets/img/back-check.jpg" className="img-fluid" alt=""/>
+                                    <img src="/assets/img/back-check.jpg" className="img-fluid" alt=""/>
                                     </div>
                                 </div>
                                 <div className="back-check-text">
@@ -151,15 +151,15 @@ export class Index extends Component{
 
                         <div className="col-12">
                             <div className="phone-box text-center">
-                                <img src="assets/img/phone.png" className="img-fluid" alt=""/>
+                                <img src="/assets/img/phone.png" className="img-fluid" alt=""/>
                             </div>
 
                             <div className="app-links mx-auto d-flex align-items-center justify-content-between pad-t">
                                 <a href="#">
-                                    <img src="assets/img/play-store.png" className="img-fluid" alt=""/>
+                                    <img src="/assets/img/play-store.png" className="img-fluid" alt=""/>
                                 </a>
                                 <a href="#">
-                                    <img src="assets/img/ios.png" className="img-fluid" alt=""/>
+                                    <img src="/assets/img/ios.png" className="img-fluid" alt=""/>
                                 </a>
                             </div>
                         </div>
@@ -191,9 +191,9 @@ export class Index extends Component{
                         <div className="col-md-12">
                             <div className="shop-baner">
                             <div className="hany-shop-img">
-                                <img src="assets/img/shop-home.jpg" alt="" className="img-fluid"/>
+                                <img src="/assets/img/shop-home.jpg" alt="" className="img-fluid"/>
                                 <div className="back-layer">
-                                    {/* <img src="assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
+                                    {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
                                 </div>
                                 <div className="inner-btn d-flex align-items-center justify-content-center">
                                     <a href="#" className="button-common">Show all Home Products</a>
@@ -258,16 +258,16 @@ export class Index extends Component{
                         <div className="col-md-12">
                             <div className="partner-logos d-flex align-items-center justify-content-between flex-wrap">
                                 <div className="p-logo text-right w-50 px-5 mb-5">
-                                    <img src="assets/img/partner-1.png" className="partner" alt=""/>
+                                    <img src="/assets/img/partner-1.png" className="partner" alt=""/>
                                 </div>
                                 <div className="p-logo text-left w-50 px-5 mb-5">
-                                    <img src="assets/img/partner-2.png" className="partner" alt=""/>
+                                    <img src="/assets/img/partner-2.png" className="partner" alt=""/>
                                 </div>
                                 <div className="p-logo text-right w-50 px-5">
-                                    <img src="assets/img/partner-3.png" className="partner" alt=""/>
+                                    <img src="/assets/img/partner-3.png" className="partner" alt=""/>
                                 </div>
                                 <div className="p-logo text-left w-50 px-5">
-                                    <img src="assets/img/partner-4.png" className="partner" alt=""/>
+                                    <img src="/assets/img/partner-4.png" className="partner" alt=""/>
                                 </div>
                             </div>
                         </div>

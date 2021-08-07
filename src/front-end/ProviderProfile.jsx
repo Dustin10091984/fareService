@@ -11,7 +11,7 @@ export class ProviderProfile extends Component {
                             <div className="col-12">
                                 <div className="profile-info text-center">
                                     <div className="pro-pic">
-                                        <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="pro-title">Livia Philips</div>
                                     <div className="pro-price">$20.00</div>
@@ -145,7 +145,7 @@ export class ProviderProfile extends Component {
 
                                             <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                 <div className="review-img">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
 
                                                 <div className="review-detail">
@@ -178,7 +178,7 @@ export class ProviderProfile extends Component {
 
                                             <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                 <div className="review-img">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
 
                                                 <div className="review-detail">
@@ -211,7 +211,7 @@ export class ProviderProfile extends Component {
 
                                             <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                 <div className="review-img">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
 
                                                 <div className="review-detail">
@@ -244,7 +244,7 @@ export class ProviderProfile extends Component {
 
                                             <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                 <div className="review-img">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
 
                                                 <div className="review-detail">
@@ -277,7 +277,7 @@ export class ProviderProfile extends Component {
 
                                             <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                 <div className="review-img">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
 
                                                 <div className="review-detail">
@@ -310,7 +310,7 @@ export class ProviderProfile extends Component {
 
                                             <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                 <div className="review-img">
-                                                    <img src="assets/img/user4.jpg" className="img-fluid" alt="" />
+                                                    <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
                                                 </div>
 
                                                 <div className="review-detail">
