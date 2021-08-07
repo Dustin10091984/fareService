@@ -4,7 +4,7 @@ export class Gaurantee extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/gaurantee-bg.jpg")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/gaurantee-bg.jpg")` }}>
                     <div className="title text-center">The [site_name]<br />Happiness Guarantee</div>
                 </div>
 
@@ -14,7 +14,7 @@ export class Gaurantee extends Component {
                             <div className="col-md-12">
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Your experience matters.</div>
@@ -41,7 +41,7 @@ export class Gaurantee extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss1.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss1.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title">
                                     Emerson Botosh
@@ -72,7 +72,7 @@ export class Gaurantee extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title">
                                     Jaylon Kenter
@@ -103,7 +103,7 @@ export class Gaurantee extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title">
                                     Charlie Lipshutz
@@ -143,7 +143,7 @@ export class Gaurantee extends Component {
                                         </div>
                                     </div>
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                 </div>
 

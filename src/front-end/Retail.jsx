@@ -4,7 +4,7 @@ export class Retail extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec-2  d-flex align-items-center justify-content-center flex-column retailer" style={{ backgroundImage: `url("assets/img/retail-bg.jpg")` }}>
+                <div className="breadcrumb-sec-2  d-flex align-items-center justify-content-center flex-column retailer" style={{ backgroundImage: `url("/assets/img/retail-bg.jpg")` }}>
                     <div className="title">Revolutionize your retail experience</div>
                     <div className="detail2 text-center mt-5">Partner with Handy to accelerate growth by providing your<br className="d-none d-md-block" /> customers with the convenience of high quality assembly and
                     <br className="d-none d-md-block" />installation services. The Handy One Click Service is available at<br className="d-none d-md-block" /> point of sale online and in store.</div>
@@ -17,7 +17,7 @@ export class Retail extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss1.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss1.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title px-0">
                                         Increase Sale
@@ -32,7 +32,7 @@ export class Retail extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title px-0">
                                         Enhance Experience
@@ -47,7 +47,7 @@ export class Retail extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title px-0">
                                         Capture Share
@@ -69,9 +69,9 @@ export class Retail extends Component {
                             <div className="col-md-12">
                                 <div className="shop-baner">
                                     <div className="hany-shop-img">
-                                        <img src="assets/img/shop-home.jpg" alt="" className="img-fluid" />
+                                        <img src="/assets/img/shop-home.jpg" alt="" className="img-fluid" />
                                         <div className="back-layer">
-                                            {/* <img src="assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
+                                            {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
                                         </div>
                                         <div className="inner-btn d-flex align-items-center justify-content-center flex-column">
                                             <div className="detail-banner text-center mb-5">Today's customers expect convenience and “one-stop-shop” experiences from retailers. Providing an end-to-end purchase and installation experience for your customers will create competitive advantages and drive increased revenue for you.</div>
@@ -104,7 +104,7 @@ export class Retail extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bedroom, Living Room & Common  Areas</div>
@@ -122,7 +122,7 @@ export class Retail extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bedroom, Living Room & Common  Areas</div>
@@ -139,7 +139,7 @@ export class Retail extends Component {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bedroom, Living Room & Common  Areas</div>
@@ -176,7 +176,7 @@ export class Retail extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss1.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss1.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title px-0">
                                     Increase Sale
@@ -191,7 +191,7 @@ export class Retail extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title px-0">
                                         Enhance Experience
@@ -206,7 +206,7 @@ export class Retail extends Component {
                             <div className="col-md-4">
                                 <div className="team-card">
                                     <div className="team-img">
-                                        <img src="assets/img/boss3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/boss3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="title px-0">
                                         Capture Share

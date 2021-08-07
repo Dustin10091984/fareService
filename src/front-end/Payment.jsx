@@ -75,7 +75,7 @@ export class Payment extends Component {
                                             </div>
 
                                             <div className="card-img">
-                                                <img src="assets/img/card-imgs.png" className="img-fluid" alt="" />
+                                                <img src="/assets/img/card-imgs.png" className="img-fluid" alt="" />
                                             </div>
                                         </div>
                                     </div>

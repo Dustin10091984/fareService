@@ -4,7 +4,7 @@ export class LatestNews extends Component {
     render() {
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/news-media.png")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/news-media.png")` }}>
                     <div className="title">News & Media</div>
                 </div>
 
@@ -26,7 +26,7 @@ export class LatestNews extends Component {
                                     
                                     <div className="new-box  py-5">
                                         <div className="newsimg">
-                                            <img src="assets/img/nesw-1.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/nesw-1.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="new-title">Faced With Actually Having to Make Money, This Startup Did the Unthinkable</div>
                                         <div className="news-detail">
@@ -45,7 +45,7 @@ export class LatestNews extends Component {
                                     
                                     <div className="new-box  py-5">
                                         <div className="newsimg">
-                                            <img src="assets/img/nesw-2.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/nesw-2.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="new-title">Uber-like cleaning company tests New York political messaging</div>
                                         <div className="news-detail">
@@ -66,10 +66,10 @@ export class LatestNews extends Component {
                                     <div className="social-title  mb-5">Social Contact</div>
                                     <div className="footer-social-link">
                                         <ul className="social d-flex justify-content-center">
-                                            <li className="item facebook mr-4"><a href="#"><img src="assets/img/facebook.png" className="img-fluid" alt="socail"/></a></li>
-                                            <li className="item instragram mr-4"><a href="#"><img src="assets/img/instagram.png" className="img-fluid" alt="socail"/></a></li>
-                                            <li className="item twitter mr-4"><a href="#"><img src="assets/img/twitter.png" className="img-fluid" alt="socail"/></a></li>
-                                            <li className="item whatsapp mr-0"><a href="#"><img src="assets/img/whatsapp.png" className="img-fluid" alt="socail"/></a></li>
+                                            <li className="item facebook mr-4"><a href="#"><img src="/assets/img/facebook.png" className="img-fluid" alt="socail"/></a></li>
+                                            <li className="item instragram mr-4"><a href="#"><img src="/assets/img/instagram.png" className="img-fluid" alt="socail"/></a></li>
+                                            <li className="item twitter mr-4"><a href="#"><img src="/assets/img/twitter.png" className="img-fluid" alt="socail"/></a></li>
+                                            <li className="item whatsapp mr-0"><a href="#"><img src="/assets/img/whatsapp.png" className="img-fluid" alt="socail"/></a></li>
                                         </ul>
                                     </div>
                                 </div>

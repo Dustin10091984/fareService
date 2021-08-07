@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import userSclice from "./Slices/UserSlice";
-import cleaningSclice from "./Slices/services/CleaningSclice";
+import serviceSclice from "./Slices/services/ServiceSclice";
+import providerSclice from "./Slices/providers/providerListSclice";
 
 export default combineReducers({
     user: userSclice,
-    cleaning: cleaningSclice,
+    service: serviceSclice,
+    provider: providerSclice,
 });

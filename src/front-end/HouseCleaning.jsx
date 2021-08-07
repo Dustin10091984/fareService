@@ -5,7 +5,7 @@ export const HouseCleaning = (props) => {
 
         return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("assets/img/moving-help.jpg")` }}>
+                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/moving-help.jpg")` }}>
                 </div>
 
                 <div className="moving-help-sec ">
@@ -13,7 +13,7 @@ export const HouseCleaning = (props) => {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="moving-search-box house-cleaning-sec">
-                                    <Question serviceId={1}/>
+                                    <Question serviceId={1} {...props}/>
                                     <div className="moving-des mt-5">
                                         <div className="title">For your home size, We recommend</div>
 
@@ -126,7 +126,7 @@ export const HouseCleaning = (props) => {
                             <div className="col-md-12">
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bedroom, Living Room & Common  Areas</div>
@@ -143,7 +143,7 @@ export const HouseCleaning = (props) => {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Bathroom<br /> Cleaning</div>
@@ -161,7 +161,7 @@ export const HouseCleaning = (props) => {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Kitchen<br /> Cleaning</div>
@@ -179,7 +179,7 @@ export const HouseCleaning = (props) => {
 
                                 <div className="service-card-des d-flex align-items-center ">
                                     <div className="src-image-box">
-                                        <img src="assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/service-caed-2-3.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="service-card-detail">
                                         <div className="title">Extras</div>
@@ -344,7 +344,7 @@ export const HouseCleaning = (props) => {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user1.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user1.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Sharonda H.
@@ -377,7 +377,7 @@ export const HouseCleaning = (props) => {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user2.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user2.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Justin R.
@@ -409,7 +409,7 @@ export const HouseCleaning = (props) => {
                                 <div className="col-md-4">
                                     <div className="team-card">
                                         <div className="team-img">
-                                            <img src="assets/img/user3.jpg" className="img-fluid" alt="" />
+                                            <img src="/assets/img/user3.jpg" className="img-fluid" alt="" />
                                         </div>
                                         <div className="title">
                                             Milagros K.

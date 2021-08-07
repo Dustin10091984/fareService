@@ -149,7 +149,7 @@ const Register = props => {
     const hasError = field => state.errors[field] ? true : false;
 
     return (
-        <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("assets/img/login-bg.jpg")` }}>
+        <div className="login-sec d-flex align-items-center" style={{ backgroundImage: `url("/assets/img/login-bg.jpg")` }}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">

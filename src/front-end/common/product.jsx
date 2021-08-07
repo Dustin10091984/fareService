@@ -8,7 +8,7 @@ export class Product extends Component {
                 <div>
                     <Link to="food-details" className="product-card d-flex justify-content-center flex-column">
                         <div className="prod-img mx-auto">
-                            <img src="assets/img/product.png" alt="" />
+                            <img src="/assets/img/product.png" alt="" />
                         </div>
                         <div className="prod-detail">
                             <div className="title">[two or more lines of product title here.]</div>

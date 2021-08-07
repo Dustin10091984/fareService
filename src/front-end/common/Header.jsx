@@ -51,9 +51,9 @@ const Header = props => {
                                 menu.sub_services.map((sub_menu, idx) => {
                                     return(
                                         <li className="nav-item" key={`sub-menu-${idx}`}>
-                                            <a href="#" className="nav-link border-bottom">
+                                            <Link to={`/services/${menu.id}/${sub_menu.id}`} className="nav-link border-bottom">
                                                 <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> {sub_menu.name}
-                                            </a>
+                                            </Link>
                                         </li>
                                     )
                                 })

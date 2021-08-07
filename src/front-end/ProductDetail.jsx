@@ -16,13 +16,13 @@ export class ProductDetail extends Component {
                             <div className="col-md-12">
                                 <div className="product-des-imgs">
                                     <div className="img-g">
-                                        <img src="assets/img/product-d1.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/product-d1.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="img-g">
-                                        <img src="assets/img/product-d2.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/product-d2.jpg" className="img-fluid" alt="" />
                                     </div>
                                     <div className="img-g">
-                                        <img src="assets/img/product-d3.jpg" className="img-fluid" alt="" />
+                                        <img src="/assets/img/product-d3.jpg" className="img-fluid" alt="" />
                                     </div>
                                 </div>
                             </div>
