@@ -42,7 +42,7 @@ const Header = props => {
 
     const header_menu = state.header_menu.map((menu, idx) => {
         return(
-            <li className="nav-item" key={`menu-${idx}`}>
+            <li className="nav-item" key={`menu-${idx}`} style={{zIndex: 1}}>
                 <a className="nav-link active" href="#">{menu.name} <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
                 {
                     (menu.sub_services && menu.sub_services.length) ?

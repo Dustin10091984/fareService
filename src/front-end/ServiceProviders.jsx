@@ -33,7 +33,7 @@ const [state, setState] = useState();
                 <section className="service-provider-sec">
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-4">
+                            <div className="col-md-4" style={{zIndex : 0}}>
                                 <div className="sticky-top">
                                     <div className="service-time-box">
                                         <div className="date-ser mb-4">
