@@ -29,10 +29,9 @@ export const getServiceQuestion = (serviceId) => async dispatch => {
             //handle success
             dispatch(serviceQuestion(response.data));
         }).catch((error) => {
-            //handle error
-            console.log(error);
+            dispatch(serviceQuestion(error.response.data))
         });
     } catch (error) {
-        console.log("error", error);
+        dispatch(serviceQuestion(error.response.data))
     }
 };

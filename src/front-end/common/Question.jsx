@@ -67,55 +67,66 @@ export const Question = (props) => {
         <div className='row'>
             <div className="col-md-12">
                 <div className="title-move mb-5">
-                    {state.question ? state.question.data ? state.question.data.name : 'Please wait - - -' : ''}
+                    {state.question.error === undefined ? (<>{"Please wait"}</>) : state.question.error === false ? (
+                        <>{state.question.data.name}
+                        </>
+                    ) : (
+                        <>{state.question.message}</>
+                    )}
                 </div>
-                <div className="question">
-                    {state.question ? state.question.data && state.question.data.questions ? `${state.question.data.questions[state.currentStep].question}?` : 'Please wait - - -' : ''}
-                </div>
-                <div className='row'>
-                    {state.error}
-                {
-                state.question ? state.question.data ? state.question.data.questions[state.currentStep].options.map((data, index)=>{
-                    return(
-                        <div key={index} className='col-md-12 mt-3 ml-5'>
-                            <div className="form-check">
-                                    <input 
-                                        className="form-check-input radio" 
-                                    checked={parseInt(select["question_no_" + state.question.data.questions[state.currentStep].id]) === data.id}
-                                        defaultValue={data.id}
-                                        type="radio" 
-                                    name={`question_no_${state.question.data.questions[state.currentStep].id}`}
-                                        id={`radio${index}`} 
-                                        onChange={handleRadioChange}
-                                    />
-                                <label 
-                                    className="form-check-label ml-4 option" 
-                                    htmlFor={`radio${index}`}
-                                >
-                                    {data.option}
-                                </label>
-                            </div>
+                {state.question.error === undefined ? '' : state.question.error === false ? (
+                    <>
+                        <div className="question">
+                            {state.question ? state.question.data && state.question.data.questions ? `${state.question.data.questions[state.currentStep].question}?` : '' : ''}
                         </div>
-                    ) 
-                
-                    })
-                    : '' 
-                    : ''
-                }
-                </div>
-                <div className="text-center mt-0">
-                    {state.currentStep === 0 ? (
-                        <button disabled onClick={handleBackClick} className="button-common-2 float-left mt-5 w-25">Back</button>
-                    ) : (
-                            <button onClick={handleBackClick} className="button-common-2 float-left mt-5 w-25">Back</button>
-                    )}
-
-                    {state.question.data && state.question.data.questions && (state.currentStep === (state.question.data.questions.length - 1)) ? (
-                        <Link to="#" onClick={handleNextClick} className="button-common float-right mt-5 w-25">Search</Link>
-                    ) : (
-                        <button onClick={handleNextClick} className="button-common float-right mt-5 w-25">Next</button>
-                    )}
-                </div>
+                        <div className='row'>
+                            {state.error}
+                        {
+                            state.question ? state.question.data && state.question.data.questions[state.currentStep].options ? state.question.data.questions[state.currentStep].options.map((data, index)=>{
+                            return(
+                                <div key={index} className='col-md-12 mt-3 ml-5'>
+                                    <div className="form-check">
+                                            <input 
+                                                className="form-check-input radio" 
+                                                checked={parseInt(select["question_no_" + state.question.data.questions[state.currentStep].id]) === data.id}
+                                                defaultValue={data.id}
+                                                type="radio" 
+                                                name={`question_no_${state.question.data.questions[state.currentStep].id}`}
+                                                id={`radio${index}`} 
+                                                onChange={handleRadioChange}
+                                            />
+                                        <label 
+                                            className="form-check-label ml-4 option" 
+                                            htmlFor={`radio${index}`}
+                                        >
+                                            {data.option}
+                                        </label>
+                                    </div>
+                                </div>
+                            ) 
+                        
+                            })
+                            : '' 
+                            : ''
+                        }
+                        </div>
+                        <div className="text-center mt-0">
+                        {state.currentStep === 0 ? (
+                            <button disabled onClick={handleBackClick} className="button-common-2 float-left mt-5 w-25">Back</button>
+                        ) : (
+                                <button onClick={handleBackClick} className="button-common-2 float-left mt-5 w-25">Back</button>
+                        )}
+    
+                        {state.question.data && state.question.data.questions && (state.currentStep === (state.question.data.questions.length - 1)) ? (
+                            <Link to="#" onClick={handleNextClick} className="button-common float-right mt-5 w-25">Search</Link>
+                        ) : (
+                            <button onClick={handleNextClick} className="button-common float-right mt-5 w-25">Next</button>
+                        )}
+                    </div>
+                    </>
+                ) : (
+                    <></>
+                )}
             </div>
         </div>
     )
