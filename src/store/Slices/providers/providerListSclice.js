@@ -20,19 +20,17 @@ export const getProviderList = (params) => async dispatch => {
     try {
         await axios({
             method: 'get',
-            headers: {
-                Authorization: `Bearer ${localStorage.userToken}`
-            },
-            url: process.env.REACT_APP_API_BASE_URL + `api/provider/list`,
-            params: params
+            // headers: {
+            //     Authorization: `Bearer ${localStorage.userToken}`
+            // },
+            url: process.env.REACT_APP_API_BASE_URL + `api/user/services/provider-list${params}`,
         }).then((response) => {
             //handle success
             dispatch(getProvider(response.data));
         }).catch((error) => {
-            //handle error
-            console.log(error);
+            dispatch(getProvider(error.response.data));
         });
     } catch (error) {
-        console.log('error', error);
+        dispatch(getProvider({error: true, message: "something went wrong!"}));
     }
 }

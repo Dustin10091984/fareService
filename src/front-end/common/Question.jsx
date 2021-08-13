@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import { getServiceQuestion } from "../../store/Slices/services/ServiceSclice";
 export const Question = (props) => {
     const { serviceId, subServiceId} = props;
-    const [state, setState] = useState({ question : [], currentStep : 0, error : '' });
+    const [state, setState] = useState({ question : [], currentStep : 0, error : '', zipCode: '', zipCodeErr: '' });
     const [select, setSelect] = useState({});
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getServiceQuestion(subServiceId));
     }, []);
+
+    useEffect(() => {
+        dispatch(getServiceQuestion(subServiceId));
+    }, [subServiceId])
 
     const questionArray = useSelector((state) => state.service);
     useEffect(() => {
@@ -40,26 +44,44 @@ export const Question = (props) => {
 
     const handleNextClick = (e) => {
         if (state.question && state.question.data && state.currentStep < (state.question.data.questions.length-1)) {
-            if (select[`question_no_${state.question.data.questions[state.currentStep].id}`]){
+            if (select[`question_${state.question.data.questions[state.currentStep].id}`]){
                 setState(state => ({
                     ...state,
                     currentStep: state.currentStep + 1,
                     error : ''
                 }));
             }else{
-                setState(state => ({ ...state, error: <center className='col-md-12 text-danger'> please seclect a option!</center>}));
+                setState(state => ({ ...state, error: <center className='col-md-12 text-danger' style={{fontSize: 15}}> please seclect a option!</center>}));
             }
         } else if (state.question && state.question.data && state.currentStep === (state.question.data.questions.length - 1)){
             e.preventDefault();
+            if (select[`question_${state.question.data.questions[state.currentStep].id}`]) {
+                setState(state => ({
+                    ...state,
+                    currentStep: state.currentStep + 1,
+                    error: ''
+                }));
+                // var queryString = Object.keys(select).map(key => key[9] + '=' + `${select[key]}`).join('&');
+                props.history.push({
+                    pathname: '/service-providers',
+                    search: `?zipCode=${state.zipCode}`,
+                    state: select
+                });
+            } else {
+                setState(state => ({ ...state, error: <center className='col-md-12 text-danger'> please seclect a option!</center> }));
+            }
+        }
+    }
 
-            var queryString = Object.keys(select).map(key => key[12] + '=' + `${select[key]}`).join('&');
-            props.history.push({
-                pathname: '/service-providers',
-                search: `?service=${serviceId}&subService=${subServiceId}&${queryString}`,
-                state: select
-            });
+    const handleZipCodeChange = (e) => {
+        const {name, value} = e.target;
+        let re = /^(0|[1-9][0-9]*)$/;
+        if ((value.length < 4 || value.length > 10) || !re.test(value)) {
+            setState((state) => ({ ...state, [name]: value }));
+            setState((state) => ({ ...state, zipCodeErr: <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>Zip Code characher(Number only) should be in between 4 and 12</div> }));
         } else {
-            console.log(state, select);
+            setState((state) => ({ ...state, [name]: value }));
+            setState((state) => ({ ...state, zipCodeErr: '' }));
         }
     }
 
@@ -67,31 +89,31 @@ export const Question = (props) => {
         <div className='row'>
             <div className="col-md-12">
                 <div className="title-move mb-5">
-                    {state.question.error === undefined ? (<>{"Please wait"}</>) : state.question.error === false ? (
+                    {state.question && state.question.error === undefined ? (<>{"Please wait"}</>) : state.question.error === false ? (
                         <>{state.question.data.name}
                         </>
                     ) : (
                         <>{state.question.message}</>
                     )}
                 </div>
-                {state.question.error === undefined ? '' : state.question.error === false ? (
+                {state.question !== undefined && state.question.error === undefined ? '' : state.question.error === false ? (
                     <>
                         <div className="question">
-                            {state.question ? state.question.data && state.question.data.questions ? `${state.question.data.questions[state.currentStep].question}?` : '' : ''}
+                            {state.question && state.question !== undefined ? state.question.data && state.question.data.questions.length ? `${state.question.data.questions[state.currentStep].question}?` : '' : ''}
                         </div>
                         <div className='row'>
                             {state.error}
                         {
-                            state.question ? state.question.data && state.question.data.questions[state.currentStep].options ? state.question.data.questions[state.currentStep].options.map((data, index)=>{
+                            state.question && state.question !== undefined && state.question.data && state.question.data.questions[state.currentStep]?.options.length ? state.question.data.questions[state.currentStep].options.map((data, index)=>{
                             return(
                                 <div key={index} className='col-md-12 mt-3 ml-5'>
                                     <div className="form-check">
                                             <input 
                                                 className="form-check-input radio" 
-                                                checked={parseInt(select["question_no_" + state.question.data.questions[state.currentStep].id]) === data.id}
+                                                checked={parseInt(select["question_" + state.question.data.questions[state.currentStep].id]) === data.id}
                                                 defaultValue={data.id}
                                                 type="radio" 
-                                                name={`question_no_${state.question.data.questions[state.currentStep].id}`}
+                                                name={`question_${state.question.data.questions[state.currentStep].id}`}
                                                 id={`radio${index}`} 
                                                 onChange={handleRadioChange}
                                             />
@@ -104,11 +126,23 @@ export const Question = (props) => {
                                     </div>
                                 </div>
                             ) 
-                        
-                            })
-                            : '' 
-                            : ''
-                        }
+                            
+                        })
+                        : <center className='col-md-12 text-dark' style={{fontSize: 30}}> something went wrong </center>
+                    }
+                    {
+                        state.currentStep === (state.question.data.questions.length - 1) ? (
+                            <>
+                                <div className='col-md-12 text-dark mb-2 mt-3' style={{ fontSize: 20 }}>ZipCode</div>
+                                <div className="common-input">
+                                    <input type="text" onChange={handleZipCodeChange}  name="zipCode" value={state.zipCode}  placeholder="Address" />
+                                </div>
+                                {state.zipCodeErr}
+                            </>
+                        ):(
+                            <></>
+                        )
+                    }
                         </div>
                         <div className="text-center mt-0">
                         {state.currentStep === 0 ? (
@@ -118,11 +152,11 @@ export const Question = (props) => {
                         )}
     
                         {state.question.data && state.question.data.questions && (state.currentStep === (state.question.data.questions.length - 1)) ? (
-                            <Link to="#" onClick={handleNextClick} className="button-common float-right mt-5 w-25">Search</Link>
+                            <button onClick={handleNextClick} disabled={state.zipCode === ''|| state.zipCodeErr !== ''} className="button-common float-right mt-5 w-25">Search</button>
                         ) : (
                             <button onClick={handleNextClick} className="button-common float-right mt-5 w-25">Next</button>
                         )}
-                    </div>
+                        </div>
                     </>
                 ) : (
                     <></>
