@@ -1489,9 +1489,9 @@ body {
 }
 
 .time-list {
-  width: 29.2rem;
-  margin: 0 auto;
-  margin-top: 4rem;
+  /* width: 29.2rem; */
+  margin: auto;
+  /* margin-top: 4rem; */
 }
 
 .time-list li {
@@ -1511,10 +1511,10 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.time-list li:hover {
-  background: #FEA629;
-  color: #fff;
-}
+/* .time-list li:hover { */
+  /* background: #FEA629;
+  color: #fff; */
+/* } */
 
 .common-input {
   width: 100%;

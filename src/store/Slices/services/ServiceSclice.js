@@ -18,9 +18,9 @@ export const getServiceQuestion = (serviceId) => async dispatch => {
     try {
         await axios({
             method: 'get',
-            headers: {
-                Authorization: `Bearer ${localStorage.userToken}`
-            },
+            // headers: {
+            //     Authorization: `Bearer ${localStorage.userToken}`
+            // },
             url: process.env.REACT_APP_API_BASE_URL + `api/user/questions/${serviceId}`,
             // params: {
             //     chat_mark_read_id: chat_mark_read_id
@@ -32,6 +32,6 @@ export const getServiceQuestion = (serviceId) => async dispatch => {
             dispatch(serviceQuestion(error.response.data))
         });
     } catch (error) {
-        dispatch(serviceQuestion(error.response.data))
+        dispatch(serviceQuestion({error: true, message: "Something went wrong!"}))
     }
 };

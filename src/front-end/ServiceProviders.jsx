@@ -2,17 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Product } from './common/product';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProviderList } from '../store/Slices/providers/providerListSclice';
+import { getProviderSchedule } from '../store/Slices/providers/providerScheduleSclice';
+import { postRequestService } from '../store/Slices/services/RequestServiceSclice';
+import { getInitialRequestService } from '../store/Slices/services/RequestServiceSclice';
 import { Link } from "react-router-dom";
-export const ServiceProviders = (props) =>{
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
-const [state, setState] = useState();
+export const ServiceProviders = (props) =>{
+    const [state, setState] = useState({selectedSlot : [], address : '', addressErr : '', submiting: false});
+    const [value, setValue] = useState(new Date());
 
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getProviderList(props.location.search));
-    }, [])
 
     const providerList = useSelector((state) => state.provider);
+    const providerSchedule = useSelector((state) => state.providerSchedule);
+    const serviceRequest = useSelector((state) => state.serviceRequest);
+    
+    useEffect(() => {
+        dispatch(getProviderList(props.location.search));
+    }, [props.location.search])
+
     useEffect(() => {
         if (providerList !== undefined && !providerList.length) {
             setState(state => ({
@@ -20,7 +30,80 @@ const [state, setState] = useState();
                 providerList: providerList
             }));
         }
-    }, [providerList]);
+        if (providerSchedule !== undefined && !providerSchedule.length) {
+            setState(state => ({
+                ...state,
+                providerSchedule: providerSchedule
+            }));
+            handleCalendarClick(new Date());
+        }
+        if(serviceRequest !== undefined && serviceRequest !== null){
+            setState(state => ({
+                ...state,
+                serviceRequest: serviceRequest,
+                submiting: false
+            }));
+        }
+    }, [providerList, providerSchedule, serviceRequest]);
+
+    const handleContinueClick = (e) => {
+        dispatch(getProviderSchedule(e.target.value));
+    }
+
+    const handleCalendarClick = (selectedDate) => {
+        let date = new Date();
+        if (date.getDate() <= selectedDate.getDate() && date.getMonth() <= selectedDate.getMonth() && date.getFullYear() <= selectedDate.getFullYear()){
+            setValue(selectedDate);
+            let timeSlots = providerSchedule?.data?.data.find((date) =>
+                +date.year === selectedDate.getFullYear() && +date.month === selectedDate.getMonth() + 1 && +date.date === selectedDate.getDate()
+            );
+            if (timeSlots){ 
+                setState((state) => ({ ...state, timeSlots: timeSlots.time_slots }));
+            } else {
+                setState((state) => ({ ...state, timeSlots: undefined }));
+            }
+        } else {
+
+        }
+    }
+
+    const handleSlotClick = (e) => {
+        const { value } = e.target;
+        let selectedSlot = state.selectedSlot;
+        if (!selectedSlot.includes(value)){
+            selectedSlot.push(value);
+            setState((state) => ({ ...state, selectedSlot }));
+        } else {
+            selectedSlot = selectedSlot.filter((selected)=> selected !== value);
+            setState((state) => ({ ...state, selectedSlot }));
+        }
+    }
+
+    const handleAddressChange = (e) => {
+       const {name, value} = e.target;
+        if (value.length <= 20 || value.length >= 100 ){
+            setState((state) => ({ ...state, [name]: value }));
+            setState((state) => ({ ...state, addressErr: <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>Addess's characher should be in between 20 or 100</div> }));
+        } else {
+            setState((state) => ({ ...state, [name]: value }));
+            setState((state) => ({ ...state, addressErr: '' }));
+        }
+    }
+
+    const handlePlaceOrderClick = () => {
+        const {selectedSlot, address} = state;
+        if (props.location.state){
+            setState((state) => ({ ...state, submiting: true }));
+            dispatch(postRequestService({ slots: selectedSlot, address, questions: props.location.state }));
+        }
+    }
+
+    const handleCloseModalClick = () => {
+        setState((state) => ({ ...state, selectedSlot: '', address: '' }));
+        dispatch(getInitialRequestService());
+    } 
+
+
     return (
             <>
                 {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
@@ -106,7 +189,7 @@ const [state, setState] = useState();
                             </div>
                         
                             <div className="col-md-8">
-                            {providerList !== undefined && providerList !== null && providerList.data && providerList.data.data ? providerList.data.data.map((provider,index)=>{
+                            {providerList !== undefined && providerList !== null && providerList.error !== undefined && providerList.error === false && providerList?.data?.data ? providerList.data.data.map((provider,index)=>{
                                 return(
                                     <div key={index} className="job-provider-card">
                                         <div className="user-des d-flex align-items-centet justify-content-start w-100">
@@ -116,7 +199,7 @@ const [state, setState] = useState();
                                             <div className="user-detail w-100">
                                                 <div className=" w-100 d-flex align-items-centet justify-content-between">
                                                     <div className="title">{provider.first_name} {provider.last_name}</div>
-                                                    <Link to='/profile' className="button-common">View Profile</Link>
+                                                    <Link to={`/profile/${provider.id}`} className="button-common">View Profile</Link>
                                                 </div>
                                                 <div className="job-status">179 Jobs Completed</div>
                                                 <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
@@ -135,8 +218,17 @@ const [state, setState] = useState();
                                                         </div>
                                                         {/* <div className="ratilike ng-binding">5</div> */}
                                                     </div>
+                                                    <button onClick={handleContinueClick} value={provider.id} type="button"
+                                                        data-backdrop="static"
+                                                        data-keyboard="false" 
+                                                        className="button-common-2" 
+                                                        data-toggle="modal" 
+                                                        data-target="#continue"
+                                                    >
+                                                        Conitnue with this Provider
+                                                    </button>
 
-                                                    <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
+                                                    {/* <button onClick={handleContinueClick} className=""></button> */}
                                                 </div>
                                                 <div className="user-price">$20.00</div>
                                             </div>
@@ -169,15 +261,107 @@ const [state, setState] = useState();
                                         </div>
                                     </div>
                                 )
-                            }) : (
-                                    <>ksjhdjkfhdsjkfhsdkjfhjksdhfjks</>
-                                 ) }
-                               
-                            
+                            }) : providerList.error === true ? (
+                            <>
+                                        <div className="text-center display-4">{providerList.message}</div>
+                            </>) : (
+                                <div className="text-center display-4">Please Wait we are working on it . . .</div>
+                            )}
                             </div>
                         </div>
                     </div>
                 </section>
+
+
+           
+            <div className="modal fade bd-example-modal-lg" id="continue" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Service Request</h5>
+                            {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button> */}
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
+                                    <center className="col-12 ">
+                                        <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
+                                            {state.serviceRequest.message}
+                                        </div>
+                                    </center>
+                                ) : (
+                                    ''
+                                )}
+                                {state.serviceRequest !== undefined && state.serviceRequest.error === false ? (
+                                    <center className="col-12 ">
+                                        <div className="col-12  alert alert-success" role="alert" style={{ fontSize: 15 }}>
+                                            {state.serviceRequest.message}
+                                        </div>
+                                    </center>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 align-items-center justify-content-center">
+                                    <div style={{ marginLeft: 25 }}>
+                                        <Calendar
+                                            onChange={handleCalendarClick}
+                                            value={value}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-md-6 justify-center" style={{ marginLeft: -20 }}>
+                                    <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
+                                        <li style={{ backgroundColor: "#2F88E7", color: 'white' }}  className="d-flex align-items-center justify-content-center col-8 m-4"> Available time Slots</li>
+                                        {/* {slots.map((time, index) =>{
+                                            let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
+                                            return(
+                                                <React.Fragment key={index}>
+                                                    {slot ? (
+                                                        <li style={{backgroundColor: "#2F88E7", color: 'white'}} onClick={handleSlotClick} slotid={slot.id} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
+                                                        ) : (
+                                                        <li style={{color: 'black'}} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
+                                                    )}
+                                                </React.Fragment>
+
+                                            )}
+                                        )} */}
+                                            {state !== undefined && state.timeSlots !== undefined ? state.timeSlots.map((slot, index) =>{ 
+                                                return(
+                                                    <React.Fragment key={index}>
+                                                        {state.selectedSlot.includes(slot.id) ? (
+                                                            <li key={index} style={{ backgroundColor:"#2F88E7", color: 'white' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
+                                                        ):(
+                                                            <li key={index} style={{ color: 'black' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
+                                                        )}
+                                                    </React.Fragment>
+                                                )
+                                            }): (
+                                                <center className="col-12 text-dark" style={{fontSize: 20}}>Not Avalibale</center>
+                                            )}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-12 p-5">
+                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Addess</div>
+                                    <div className="common-input">
+                                        <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" />
+                                    </div>
+                                    {state.addressErr}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
+                            <button disabled={!state.selectedSlot.length || state.addressErr !== '' || state.address === '' || state.submiting === true ? true : false} onClick={handlePlaceOrderClick} type="button" className="button-common-2">Create Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </>
         )
 }
