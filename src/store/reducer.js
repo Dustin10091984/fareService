@@ -3,6 +3,7 @@ import userSclice from "./Slices/UserSlice";
 import serviceSclice from "./Slices/services/ServiceSclice";
 import requestServiceSlice from "./Slices/services/RequestServiceSclice";
 import providerSclice from "./Slices/providers/providerListSclice";
+import providerProfileSclice from "./Slices/providers/ProviderProfileSclice";
 import providerSchedule from "./Slices/providers/providerScheduleSclice";
 
 export default combineReducers({
@@ -10,5 +11,6 @@ export default combineReducers({
     service: serviceSclice,
     serviceRequest: requestServiceSlice,
     provider: providerSclice,
+    providerProfile: providerProfileSclice,
     providerSchedule: providerSchedule,
 });
