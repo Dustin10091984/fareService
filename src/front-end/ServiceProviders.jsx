@@ -10,7 +10,8 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 export const ServiceProviders = (props) =>{
-    const [state, setState] = useState({selectedSlot : [], address : '', addressErr : '', submiting: false});
+    console.log(props);
+    const [state, setState] = useState({ is_loggedin : false, loggedinErr: '', selectedSlot : [], address : '', addressErr : '', questionsErr : '', submiting : false, error : '' });
     const [value, setValue] = useState(new Date());
 
     const dispatch = useDispatch();
@@ -20,9 +21,14 @@ export const ServiceProviders = (props) =>{
     const serviceRequest = useSelector((state) => state.serviceRequest);
     
     useEffect(() => {
+        if(localStorage.getItem('userToken')){
+            setState((state)=> ({
+                ...state, is_loggedin : true
+            }));
+        }
         dispatch(getProviderList(props.location.search));
     }, [props.location.search])
-
+console.log(state.is_loggedin);
     useEffect(() => {
         if (providerList !== undefined && !providerList.length) {
             setState(state => ({
@@ -47,7 +53,18 @@ export const ServiceProviders = (props) =>{
     }, [providerList, providerSchedule, serviceRequest]);
 
     const handleContinueClick = (e) => {
-        dispatch(getProviderSchedule(e.target.value));
+        if(state.is_loggedin) {
+            if(props.location.state !== undefined){
+                dispatch(getProviderSchedule(e.target.value));
+            } else {
+                setState(state => ({
+                    ...state, error: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category from header</center>}))
+            }
+        } else {
+            setState(state => ({
+                ...state, error: <center className="col-md-12 alert alert-primary" role="alert" style={{fontSize: 15}}>please login</center>
+            }))
+        }
     }
 
     const handleCalendarClick = (selectedDate) => {
@@ -92,10 +109,13 @@ export const ServiceProviders = (props) =>{
 
     const handlePlaceOrderClick = () => {
         const {selectedSlot, address} = state;
-        if (props.location.state){
+        if (props.location.state !== undefined){
             setState((state) => ({ ...state, submiting: true }));
             dispatch(postRequestService({ slots: selectedSlot, address, questions: props.location.state }));
         }
+        //  else {
+        //     setState((state) => ({ ...state, questionsErr:  }));
+        // }
     }
 
     const handleCloseModalClick = () => {
@@ -189,6 +209,7 @@ export const ServiceProviders = (props) =>{
                             </div>
                         
                             <div className="col-md-8">
+                            {state.error}{state.loggedinErr}
                             {providerList !== undefined && providerList !== null && providerList.error !== undefined && providerList.error === false && providerList?.data?.data ? providerList.data.data.map((provider,index)=>{
                                 return(
                                     <div key={index} className="job-provider-card">
@@ -218,17 +239,21 @@ export const ServiceProviders = (props) =>{
                                                         </div>
                                                         {/* <div className="ratilike ng-binding">5</div> */}
                                                     </div>
-                                                    <button onClick={handleContinueClick} value={provider.id} type="button"
-                                                        data-backdrop="static"
-                                                        data-keyboard="false" 
-                                                        className="button-common-2" 
-                                                        data-toggle="modal" 
-                                                        data-target="#continue"
-                                                    >
-                                                        Conitnue with this Provider
-                                                    </button>
-
-                                                    {/* <button onClick={handleContinueClick} className=""></button> */}
+                                                    {
+                                                        props.location.state !== undefined && state.is_loggedin === true ? (
+                                                            <button onClick={handleContinueClick} value={provider.id} type="button"
+                                                            data-backdrop="static"
+                                                            data-keyboard="false" 
+                                                            className="button-common-2" 
+                                                            data-toggle="modal" 
+                                                            data-target="#continue"
+                                                            >
+                                                                Conitnue with this Provider
+                                                        </button>
+                                                        ) : (
+                                                            <button type="button" className="button-common-2" onClick={handleContinueClick}>Conitnue with this Provider</button>
+                                                        )
+                                                    }
                                                 </div>
                                                 <div className="user-price">$20.00</div>
                                             </div>
@@ -285,6 +310,9 @@ export const ServiceProviders = (props) =>{
                         </div>
                         <div className="modal-body">
                             <div className="row">
+                                <center className="col-12">
+                                    {state.questionsErr}
+                                </center>
                                 {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
                                     <center className="col-12 ">
                                         <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
