@@ -10,7 +10,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 export const ServiceProviders = (props) =>{
-    console.log(props);
+
     const [state, setState] = useState({ is_loggedin : false, loggedinErr: '', selectedSlot : [], address : '', addressErr : '', questionsErr : '', submiting : false, error : '' });
     const [value, setValue] = useState(new Date());
 
@@ -28,7 +28,7 @@ export const ServiceProviders = (props) =>{
         }
         dispatch(getProviderList(props.location.search));
     }, [props.location.search])
-console.log(state.is_loggedin);
+
     useEffect(() => {
         if (providerList !== undefined && !providerList.length) {
             setState(state => ({
@@ -69,13 +69,14 @@ console.log(state.is_loggedin);
 
     const handleCalendarClick = (selectedDate) => {
         let date = new Date();
-        if (date.getDate() <= selectedDate.getDate() && date.getMonth() <= selectedDate.getMonth() && date.getFullYear() <= selectedDate.getFullYear()){
+        
+        if (new Date(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`) <= new Date(`${selectedDate.getFullYear()}-${selectedDate.getMonth()}-${selectedDate.getDate()}`)){
             setValue(selectedDate);
-            let timeSlots = providerSchedule?.data?.data.find((date) =>
-                +date.year === selectedDate.getFullYear() && +date.month === selectedDate.getMonth() + 1 && +date.date === selectedDate.getDate()
+            let timeSlots = providerSchedule?.data?.data.filter((slot) =>
+                +slot.provider_schedule.year === selectedDate.getFullYear() && +slot.provider_schedule.month === selectedDate.getMonth() + 1 && +slot.provider_schedule.date === selectedDate.getDate()
             );
             if (timeSlots){ 
-                setState((state) => ({ ...state, timeSlots: timeSlots.time_slots }));
+                setState((state) => ({ ...state, timeSlots: timeSlots }));
             } else {
                 setState((state) => ({ ...state, timeSlots: undefined }));
             }

@@ -20,9 +20,9 @@ export const getProviderSchedule = (id) => async dispatch => {
     try {
         await axios({
             method: 'get',
-            // headers: {
-            //     Authorization: `Bearer ${localStorage.userToken}`
-            // },
+            headers: {
+                Authorization: `${localStorage.userToken}`
+            },
             url: process.env.REACT_APP_API_BASE_URL + `api/user/services/provider-schedule/${id}`,
         }).then((response) => {
             //handle success
