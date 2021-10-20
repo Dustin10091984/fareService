@@ -61,7 +61,7 @@ function App() {
         <Route path='/shop2' component={ShopTwo}  />
         <Route path='/moving-help' component={MovingHelp}  />
         <Route path='/house-cleaning' component={HouseCleaning}  />
-        <Route path='/service-providers' component={ServiceProviders}  />
+        <ProtectedRoute path='/service-providers' component={ServiceProviders}  />
         <Route path='/profile/:id' component={ProviderProfile}  />
         <Route path='/latest-news' component={LatestNews}  />
         <Route path='/scolarship' component={Scolarship}  />

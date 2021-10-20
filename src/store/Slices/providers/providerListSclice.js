@@ -26,6 +26,7 @@ export const getProviderList = (params) => async dispatch => {
             url: process.env.REACT_APP_API_BASE_URL + `api/user/services/provider-list${params}`,
         }).then((response) => {
             //handle success
+            console.log(response.data);
             dispatch(getProvider(response.data));
         }).catch((error) => {
             dispatch(getProvider(error.response.data));
