@@ -32,6 +32,15 @@ const Header = props => {
         });
     }, []);
 
+    useEffect(() => {
+        if (localStorage.getItem('userToken')) {
+            setState(state => ({
+                ...state,
+                is_loggedin: true
+            }));
+        }
+    }, [localStorage.getItem('userToken')])
+
     const handleLogout = () => {
         localStorage.clear();
         setState(state => ({

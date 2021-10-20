@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-export class Dashboard extends Component {
-    render() {
+export const Dashboard = () => {
         return (
             <>
                 <div className="breadcrumb-dash">
@@ -68,4 +67,3 @@ export class Dashboard extends Component {
             </>
         )
     }
-}
