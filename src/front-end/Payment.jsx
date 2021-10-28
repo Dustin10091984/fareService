@@ -286,6 +286,13 @@ export const Payment = (props) => {
         }  
     }
     
+    const handleGoToServicesHistory = () => {
+        dispatch(getInitialRequestService());
+        props.history.push({
+            pathname: '/services-history',
+        });
+    }
+
     return (
         <>
             <div className="moving-help-sec pad-Y m-0">
@@ -432,7 +439,15 @@ export const Payment = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    <button disabled={!stripe || !elements || submiting || checkoutError || serviceRequest.loading || serviceRequest.message == 'success'} onClick={handleClickMakeRequest} className="button-common mt-5 w-50">Place Order</button>
+                                    <button 
+                                        disabled={
+                                            !stripe || !elements || submiting || checkoutError || serviceRequest.loading
+                                        }
+                                        onClick={serviceRequest.message == 'success' || serviceRequest.message == 'Order already exist' ? handleGoToServicesHistory : handleClickMakeRequest}
+                                        className="button-common mt-5 w-50"
+                                    >
+                                        {serviceRequest.message == 'success' || serviceRequest.message == 'Order already exist' ? "Go to Services History" : "Make Service Request"}
+                                    </button>
                                 </div>
 
 

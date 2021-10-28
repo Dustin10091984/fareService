@@ -38,6 +38,12 @@ export const ServiceProviders = (props) =>{
     const serviceRequest = useSelector((state) => state.serviceRequest);
     
     useEffect(() => {
+      return () => {
+        dispatch(getInitialRequestService());
+      };
+    }, []);
+
+    useEffect(() => {
         if(localStorage.getItem('userToken')){
             setState((state)=> ({
                 ...state, is_loggedin : true
@@ -175,6 +181,13 @@ export const ServiceProviders = (props) =>{
          else {
             setState((state) => ({ ...state, questionsErr: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category and select questions from header</center> }));
         }
+    }
+
+    const handleGoToServicesHistory = () => {
+        dispatch(getInitialRequestService());
+        props.history.push({
+            pathname: '/services-history',
+        });
     }
 
     const handleCloseModalClick = () => {
@@ -546,7 +559,17 @@ export const ServiceProviders = (props) =>{
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
-                            <button disabled={state.addressErr !== '' || state.address === '', detailErr  || state.submitting === true ? true : false} onClick={serviceRequest.message == 'success' ? 'handleGoTo' : handleAddPaymentClick} type="button" className="button-common-2">Create Qoutation</button>
+                            <button
+                                data-dismiss={serviceRequest.message == 'success' ? "modal" : ""}
+                                disabled={
+                                    state.addressErr !== '' || state.address === '',
+                                    detailErr  || state.submitting === true ? true : false
+                                }
+                                onClick={serviceRequest.message == 'success' ? handleGoToServicesHistory : handleAddPaymentClick}
+                                type="button"
+                                className="button-common-2"
+                            >{serviceRequest.message == 'success' ? "Go to Services History" : "Get Quotation"}
+                            </button>
                         </div>
                     </div>
                 </div>
