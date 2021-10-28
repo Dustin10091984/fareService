@@ -14,14 +14,23 @@ export default requestServiceSlice.reducer
 
 
 const { requestService } = requestServiceSlice.actions
-export const postRequestService = (payload) => async dispatch => {
+export const postRequestService = (payload, formData) => async dispatch => {
+    let headers = null
+    if(formData == true){
+        headers = {
+            Authorization: `${localStorage.userToken}`,
+            'Content-type': 'multipart/form-data',
+        }
+    } else{
+        headers = {
+            Authorization: `${localStorage.userToken}`
+        }
+    }
     try {
         dispatch(requestService({error: false, loading: true}));
         await axios({
             method: 'post',
-            headers: {
-                Authorization: `${localStorage.userToken}`
-            },
+            headers: headers,
             url: `${process.env.REACT_APP_API_BASE_URL}api/user/services/service-request`,
             data: payload,
         }).then((response) => {

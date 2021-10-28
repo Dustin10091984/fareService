@@ -85,7 +85,7 @@ function App() {
           <Route path='/cart' component={ Cart }  />
           <Route path='/order-history' component={ OrderHistory }  />
           <Route path='/food-delivery' component={ FoodDelivery }  />
-          <Route path='/services-history' component={ ServicesHistory }  />
+          <ProtectedRoute path='/services-history' component={ ServicesHistory }  />
           <Route path='/order-detail' component={ OrderDetail }  />
           <Route path='/service-detail' component={ ServicesDetail }  />
           <Route path='/change-password' component={ ChangeP }  />

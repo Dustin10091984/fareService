@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Product } from '../front-end/common/product';
-import { postRequestService } from '../store/Slices/services/RequestServiceSclice';
+import { postRequestService, getInitialRequestService } from '../store/Slices/services/RequestServiceSclice';
 import { Link } from "react-router-dom";
 export const Payment = (props) => {
     const stripe = useStripe();
@@ -72,8 +72,10 @@ export const Payment = (props) => {
     } = state.error;
 
     useEffect(() => {
-
-    })
+      return () => {
+        dispatch(getInitialRequestService())
+      };
+    }, [])
     /**
      * Validate first and last name
      * 
@@ -339,18 +341,6 @@ export const Payment = (props) => {
                                             }
                                         }
                                     })()}
-                                    {/* {
-                                    serviceRequest.error == true ? (
-                                        <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
-                                        {(()=>{
-                                            const errorMsg = Object.values(serviceRequest.message);
-                                            
-                                            
-                                        })()}
-                                        </div>
-                                    ) : (
-                                        <></>
-                                    )} */}
                                 <div className="d-flex justify-content-center">
                                     {/* <div className="m-search-left-box">
                                         <div className="title-move mb-5">

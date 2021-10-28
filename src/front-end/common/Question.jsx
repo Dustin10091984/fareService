@@ -27,7 +27,7 @@ export const Question = (props) => {
     const handleRadioChange = (e) => {
         setSelect(select => ({
             ...select,
-            [e.target.name]: e.target.value,
+            [e.target.name]: parseInt(e.target.value),
         }));
 
         setState(state=>({...state, error: ''}));
