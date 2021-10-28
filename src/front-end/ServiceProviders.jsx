@@ -11,14 +11,26 @@ import 'react-calendar/dist/Calendar.css';
 
 export const ServiceProviders = (props) =>{
 
-    const [state, setState] = useState({ is_loggedin : false, loggedinErr: '', selectedSlot : [], address : '', addressErr : '', questionsErr : '', submitting : false, error : '', serviceRequest: '' });
+    const [state, setState] = useState({
+        is_loggedin : false,
+        loggedinErr: '',
+        selectedSlot : '',
+        is_hourly : '',
+        hours : '',
+        address : '',
+        addressErr : '',
+        questionsErr : '',
+        submitting : false,
+        error : '',
+        serviceRequest: ''
+    });
     const [value, setValue] = useState(new Date());
 
     const dispatch = useDispatch();
 
     const providerList = useSelector((state) => state.provider);
     const providerSchedule = useSelector((state) => state.providerSchedule);
-    const serviceRequest = useSelector((state) => state.serviceRequest);
+    // const serviceRequest = useSelector((state) => state.serviceRequest);
     
     useEffect(() => {
         if(localStorage.getItem('userToken')){
@@ -43,19 +55,25 @@ export const ServiceProviders = (props) =>{
             }));
             handleCalendarClick(new Date());
         }
-        if(serviceRequest !== undefined && serviceRequest !== null){
-            setState(state => ({
-                ...state,
-                serviceRequest: serviceRequest,
-                submitting: false
-            }));
-        }
-    }, [providerList, providerSchedule, serviceRequest]);
+        // if(serviceRequest !== undefined && serviceRequest !== null){
+        //     setState(state => ({
+        //         ...state,
+        //         serviceRequest: serviceRequest,
+        //         submitting: false
+        //     }));
+        // }
+    }, [
+        providerList,
+        providerSchedule,
+        // serviceRequest
+    ]);
 
-    const handleContinueClick = (e) => {
+    function handleContinueClick(event, type) {
+        const {value} = event.target
         if(state.is_loggedin) {
             if(props.location.state !== undefined){
-                dispatch(getProviderSchedule(e.target.value));
+                setState(state => ({...state, is_hourly: type, provider_id:value}))
+                dispatch(getProviderSchedule(value));
             } else {
                 setState(state => ({
                     ...state, error: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category from header</center>}))
@@ -80,16 +98,19 @@ export const ServiceProviders = (props) =>{
             } else {
                 setState((state) => ({ ...state, timeSlots: undefined }));
             }
-        } else {
-
         }
+    }
+
+
+    const handleHoursClick = (e) => {
+        const { value } = e.target;
+        setState((state) => ({ ...state, hours: value }));
     }
 
     const handleSlotClick = (e) => {
         const { value } = e.target;
-        let selectedSlot = state.selectedSlot;
-        selectedSlot[0] = value;
-        setState((state) => ({ ...state, selectedSlot }));
+        
+        setState((state) => ({ ...state, selectedSlot : state.selectedSlot == value ? '' : value }));
         
         // if (!selectedSlot.includes(value)){
             //     selectedSlot.push(value);
@@ -111,11 +132,16 @@ export const ServiceProviders = (props) =>{
         }
     }
 
-    const handlePlaceOrderClick = () => {
-        const {selectedSlot, address} = state;
+    const handleAddPaymentClick = (e) => {
+        e.preventDefault();
+        const {selectedSlot, address, hours, is_hourly, provider_id} = state;
         if (props.location.state !== undefined){
             setState((state) => ({ ...state, submitting: true }));
-            dispatch(postRequestService({ slots: selectedSlot, address, questions: props.location.state }));
+            props.history.push({
+                pathname: '/payment',
+                state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id }
+            });
+            // dispatch(postRequestService({ slots: selectedSlot, hours: hours , address, questions: props.location.state }));
         }
         //  else {
         //     setState((state) => ({ ...state, questionsErr:  }));
@@ -123,7 +149,7 @@ export const ServiceProviders = (props) =>{
     }
 
     const handleCloseModalClick = () => {
-        setState((state) => ({ ...state, selectedSlot: '', address: '' }));
+        setState((state) => ({ ...state, is_hourly : '',selectedSlot: '', address: '', hours : '', token: '' }));
         dispatch(getInitialRequestService());
     } 
 
@@ -246,7 +272,7 @@ export const ServiceProviders = (props) =>{
                                                     {
                                                         
                                                         props.location.state !== undefined && state.is_loggedin === true ? (
-                                                            <button onClick={handleContinueClick} value={provider.id} type="button"
+                                                            <button onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false)} value={provider.id} type="button"
                                                             data-backdrop="static"
                                                             data-keyboard="false" 
                                                             className="button-common-2" 
@@ -256,7 +282,7 @@ export const ServiceProviders = (props) =>{
                                                                 {provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}
                                                         </button>
                                                         ) : (
-                                                                <button type="button" className="button-common-2" onClick={handleContinueClick}>Continue with this Provider</button>
+                                                            <button type="button" className="button-common-2" onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false)}>{provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}</button>
                                                         )
                                                     }
                                                 </div>
@@ -264,10 +290,7 @@ export const ServiceProviders = (props) =>{
                                             </div>
                                         </div>
                                         {
-                                            provider.bio !== undefined && provider?.user_feedbacks[0] !== undefined ?
-                                            (
-                                                <hr />
-                                            ) : ""
+                                            provider.bio !== undefined && provider?.user_feedbacks[0] !== undefined && <hr />
                                         }
                                         {
                                             provider.bio && (
@@ -326,7 +349,7 @@ export const ServiceProviders = (props) =>{
                                 <center className="col-12">
                                     {state.questionsErr}
                                 </center>
-                                {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
+                                {/* {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
                                     <center className="col-12 ">
                                         <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
                                             {state.serviceRequest.message}
@@ -343,7 +366,7 @@ export const ServiceProviders = (props) =>{
                                     </center>
                                 ) : (
                                     ''
-                                )}
+                                )} */}
                             </div>
                             <div className="row">
                                 <div className="col-md-6 align-items-center justify-content-center">
@@ -355,8 +378,20 @@ export const ServiceProviders = (props) =>{
                                     </div>
                                 </div>
                                 <div className="col-md-6 justify-center" style={{ marginLeft: -20 }}>
+                                    <div className="common-input ml-3 w-auto">
+                                        <select className="hours" id="" onChange={handleHoursClick}>
+                                            <option defaultValue>please select hours</option>
+                                            {[...Array(12).keys()].map((index)=>(
+                                                <option 
+                                                    key={index+1}
+                                                    value={index+1}
+                                                >
+                                                    {`${index+1} hours`}
+                                                </option>
+                                                ))}
+                                        </select> 
+                                    </div>
                                     <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
-                                        
                                         <li style={{ backgroundColor: "#2F88E7", color: 'white' }}  className="d-flex align-items-center justify-content-center col-8 m-4"> Available time Slots</li>
                                         {/* {slots.map((time, index) =>{
                                             let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
@@ -374,7 +409,7 @@ export const ServiceProviders = (props) =>{
                                             {state !== undefined && state.timeSlots !== undefined ? state.timeSlots.map((slot, index) =>{ 
                                                 return(
                                                     <React.Fragment key={index}>
-                                                        {state.selectedSlot.includes(slot.id) ? (
+                                                        {state.selectedSlot == slot.id ? (
                                                             <li key={index} style={{ backgroundColor:"#2F88E7", color: 'white' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
                                                         ):(
                                                             <li key={index} style={{ color: 'black' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
@@ -399,7 +434,7 @@ export const ServiceProviders = (props) =>{
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
-                            <button disabled={!state.selectedSlot.length || state.addressErr !== '' || state.address === '' || state.submitting === true ? true : false} onClick={handlePlaceOrderClick} type="button" className="button-common-2">Create Request</button>
+                            <button data-dismiss="modal" disabled={!state.selectedSlot || state.addressErr !== '' || state.address === '' || state.submitting === true ? true : false} onClick={handleAddPaymentClick} type="button" className="button-common-2">Add payment detail</button>
                         </div>
                     </div>
                 </div>
@@ -463,7 +498,7 @@ export const ServiceProviders = (props) =>{
 
                                             )}
                                         )} */}
-                                            {state !== undefined && state.timeSlots !== undefined ? state.timeSlots.map((slot, index) =>{ 
+                                            {/* {state !== undefined && state.timeSlots !== undefined ? state.timeSlots.map((slot, index) =>{ 
                                                 return(
                                                     <React.Fragment key={index}>
                                                         {state.selectedSlot.includes(slot.id) ? (
@@ -475,7 +510,7 @@ export const ServiceProviders = (props) =>{
                                                 )
                                             }): (
                                                 <center className="col-12 text-dark" style={{ fontSize: 20 }}>Not Available</center>
-                                            )}
+                                            )} */}
                                     </ul>
                                 </div>
                             </div>
@@ -491,7 +526,7 @@ export const ServiceProviders = (props) =>{
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
-                            <button disabled={!state.selectedSlot.length || state.addressErr !== '' || state.address === '' || state.submitting === true ? true : false} onClick={handlePlaceOrderClick} type="button" className="button-common-2">Create Request</button>
+                            <button disabled={!state.selectedSlot.length || state.addressErr !== '' || state.address === '' || state.submitting === true ? true : false} onClick={handleAddPaymentClick} type="button" className="button-common-2">Create Request</button>
                         </div>
                     </div>
                 </div>
