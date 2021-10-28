@@ -115,7 +115,7 @@ export const ProviderProfile = (props) => {
 
                                 <ul className="profile-links-left">
                                     {state?.providerProfile?.data?.provider?.provider_services?.map((service, index) => {
-                                        <li className="item" key={index}>
+                                        return <li className="item" key={index}>
                                             <a href="#" className="link">
                                                 <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> {service?.sub_service?.name}
                                             </a>

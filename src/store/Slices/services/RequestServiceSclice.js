@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const requestServiceSlice = createSlice({
     name: 'requestService',
-    initialState: [],
+    initialState: '',
     reducers: {
         requestService: (state, action) => {
             return action.payload;
@@ -16,6 +16,7 @@ export default requestServiceSlice.reducer
 const { requestService } = requestServiceSlice.actions
 export const postRequestService = (payload) => async dispatch => {
     try {
+        dispatch(requestService({error: false, loading: true}));
         await axios({
             method: 'post',
             headers: {
@@ -24,13 +25,16 @@ export const postRequestService = (payload) => async dispatch => {
             url: `${process.env.REACT_APP_API_BASE_URL}api/user/services/service-request`,
             data: payload,
         }).then((response) => {
-            //handle success
+            const data = response.data;
+            data.loading = false
             dispatch(requestService(response.data));
         }).catch((error) => {
+            const data = error.response.data;
+            data.loading = false
             dispatch(requestService(error.response.data))
         });
     } catch (error) {
-        dispatch(requestService({ error: true, message: "Something went wrong!" }))
+        dispatch(requestService({ error: true, message: "Something went wrong!", loading: false }))
     }
 };
 
