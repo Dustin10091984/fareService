@@ -72,8 +72,7 @@ export const getServiceRequestList = (payload) => async dispatch => {
             headers:{
                 Authorization: `${localStorage.userToken}`
             },
-            url: `${process.env.REACT_APP_API_BASE_URL}api/user/order/list`,
-            data: payload,
+            url: `${process.env.REACT_APP_API_BASE_URL}api/user/order/list?${payload}`,
         }).then((response) => {
             const data = response.data;
             data.loading = false

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import { getServiceRequestList } from '../store/Slices/services/RequestServiceSclice';
 import {Loading} from '../front-end/common/Loading';
 export const ServicesHistory = (props) => {
 
+    const {location, history} = props;
+    // const location = useLocation();
+
     const [state, setstate] = useState({
 
-    })
+    });
 
     const dispatch = useDispatch();
 
@@ -18,10 +21,15 @@ export const ServicesHistory = (props) => {
     const serviceRequestList = useSelector((state) => state?.serviceRequest?.list?.data);
 
     useEffect(() => {
-        dispatch(getServiceRequestList());
+        console.log(location.search);
+        dispatch(getServiceRequestList(location.search));
       return () => {
       };
     }, [])
+
+    useEffect(() => {
+      dispatch(getServiceRequestList(location.search));
+    }, [location.search])
 
 
     return (
@@ -42,7 +50,7 @@ export const ServicesHistory = (props) => {
                 </div>
             </div>
 
-            <div className="dashborad-box order-history pad-y">
+            <div className="dashborad-box order-history pb-5">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
@@ -111,6 +119,73 @@ export const ServicesHistory = (props) => {
                         </div>
                         ))}
                     </div>
+                    <nav aria-label="...">
+                        {serviceRequestList?.last_page && <center className="display-4 m-2">There are total pages {serviceRequestList?.last_page}</center>}
+                        <ul className="pagination pagination-lg justify-content-center">
+                            { 
+                                <li className={`page-item ${serviceRequestList?.prev_page_url == null && "disabled"}`}>
+                                    {location.search == serviceRequestList?.prev_page_url ? (
+                                    <span className="page-link" style={{cursor: "pointer"}}>Previous</span>
+                                ) : (
+                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.prev_page_url}`} >Previous</Link>
+                                )}
+                                </li>
+                            }
+                            {serviceRequestList?.current_page ? (
+                                <li className={`page-item active`}>
+                                    <span className={`page-link`} style={{cursor: "pointer"}}>{serviceRequestList?.current_page}</span>
+                                </li>
+                            ): (
+                                ""
+                            )}
+                            {
+                                (()=>{
+                                    // const { current_page, last_page } = serviceRequestList !== null && serviceRequestList !== undefined;
+                                    // if(last_page - current_page > 5){
+                                    //     return [...Array(5).keys()].map(((pageNo, num)=>(
+                                    //         <li key={num} className={`page-item ${num == 0 ? 'active' : ""}`}>
+                                    //             <span className={`page-link`} style={{cursor: "pointer"}}>{num}</span>
+                                    //         </li>
+                                    //     )));
+                                    // }
+                                    // if(current_page !== undefined && last_page !== undefined && last_page == current_page ){
+                                    //     return(
+                                    //         <li className={`page-item active`}>
+                                    //             <span className={`page-link`} style={{cursor: "pointer"}}>{last_page}</span>
+                                    //         </li>
+                                    //     )
+                                    // }
+                                })()
+                            }
+                            {/* {serviceRequestList?.current_page == 1 ? (
+                                <li className={`page-item ${serviceRequestList?.current_page == 1 ? 'active': ''}`}>
+                                    <span className={`page-link`} style={{cursor: "pointer"}}>1</span>
+                                </li>
+                            ) : (
+                                <li className={`page-item ${serviceRequestList?.current_page == 1 ? 'active': ''}`}>
+                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >1</Link>
+                                </li>
+                            )}
+                            {serviceRequestList?.current_page == serviceRequestList?.last_page ? (
+                                <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page ? 'active': ''}`}>
+                                    <span className={`page-link`} style={{cursor: "pointer"}}>{serviceRequestList?.last_page}</span>
+                                </li>
+                            ) : (
+                                <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page ? 'active': ''}`}>
+                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >{serviceRequestList?.last_page}</Link>
+                                </li>
+                            )} */}
+                            
+                            {/* <li className="page-item"><a className="page-link" href="#">3</a></li> */}
+                            <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page && "disabled active"}`}>
+                                {location.search == serviceRequestList?.next_page_url ? (
+                                    <span className="page-link" style={{cursor: "pointer"}}>Next</span>
+                                ) : (
+                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >Next</Link>
+                                )}
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
 
