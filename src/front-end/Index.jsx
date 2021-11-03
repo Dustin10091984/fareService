@@ -1,8 +1,7 @@
 import React,{Component} from 'react';
 import { Link } from "react-router-dom";
-export class Index extends Component{
-    render(){
-       return(
+export const Index = (props) => {
+    return(
         <>
             <div className="banner">
                 <div className="container">
@@ -41,40 +40,40 @@ export class Index extends Component{
 
                         <div className="col-md-12 d-flex align-content-center justify-content-between flex-wrap">
                             <div className="service-box">
-                               <Link to="/house-cleaning">
-                               <img src="/assets/img/service1.jpg" className="img-fluid" alt=""/>
+                                <Link to="/house-cleaning">
+                                <img src="/assets/img/service1.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Home Cleaning</div>
-                               </Link>
+                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/food-grocery">
-                               <img src="/assets/img/service2.jpg" className="img-fluid" alt=""/>
+                                <img src="/assets/img/service2.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Groceries</div>
-                               </Link>
+                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/food-grocery">
-                               <img src="/assets/img/service3.jpg" className="img-fluid" alt=""/>
+                                <img src="/assets/img/service3.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Food</div>
-                               </Link>
+                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/moving-help">
-                               <img src="/assets/img/service4.jpg" className="img-fluid" alt=""/>
+                                <img src="/assets/img/service4.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Hanging Pictures & Shelves</div>
-                               </Link>
+                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/house-cleaning">
-                               <img src="/assets/img/service5.jpg" className="img-fluid" alt=""/>
+                                <img src="/assets/img/service5.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">Office Cleaning</div>
-                               </Link>
+                                </Link>
                             </div>
                             <div className="service-box">
                                 <Link to="/moving-help">
-                               <img src="/assets/img/service6.jpg" className="img-fluid" alt=""/>
+                                <img src="/assets/img/service6.jpg" className="img-fluid" alt=""/>
                                 <div className="cat-title d-flex align-items-center justify-content-center">TV Mounting</div>
-                               </Link>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -114,11 +113,11 @@ export class Index extends Component{
                                     Your Happiness,<br/>Guaranteed
                                     </div>
                                     <div className="check-des">
-                                     Your Happiness, GuaranteedYour happiness is our goal. If you’re not happy,
-                                     we’ll work to make it right. Our friendly customer service agents are 
-                                     available 24 hours a day, 7 days a week. The Handy Happiness Guarantee 
-                                     only applies when you book and pay for a service directly through the Handy 
-                                     platform. <a href="#">Learn more</a>
+                                        Your Happiness, GuaranteedYour happiness is our goal. If you’re not happy,
+                                        we’ll work to make it right. Our friendly customer service agents are 
+                                        available 24 hours a day, 7 days a week. The Handy Happiness Guarantee 
+                                        only applies when you book and pay for a service directly through the Handy 
+                                        platform. <a href="#">Learn more</a>
                                     </div>
                                 </div>
                             </div>
@@ -223,8 +222,8 @@ export class Index extends Component{
                                 <div className="des">
                                 From cleaners to handymen to smart home installers, Handy is always 
                                 looking for service professionals who are experts in their trade and provide
-                                 great service to their customers. The best home service professionals use 
-                                 Handy for the great pay and flexible scheduling.
+                                    great service to their customers. The best home service professionals use 
+                                    Handy for the great pay and flexible scheduling.
                                 </div>
                                 <a href="#" className="button-common">Become a Handy Pro</a>
                             </div>
@@ -275,8 +274,7 @@ export class Index extends Component{
                 </div>
             </section>
 
-         
+            
         </>
-       )
-    }
+    )
 }
