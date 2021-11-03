@@ -31,6 +31,7 @@ import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
 import { Services } from './front-end/Services';
 import { Dashboard } from './front-dashboard/Dashboard';
+import { Chat } from './front-end/Chat/Chat'
 import { OrderHistory } from './front-dashboard/OrderHistory';
 import { FoodDelivery } from './front-dashboard/FoodDelivery';
 import { ServicesHistory } from './front-dashboard/ServicesHistory';
@@ -39,10 +40,37 @@ import { ServicesDetail } from './front-dashboard/ServicesDetail';
 import { ChangeP } from "./front-dashboard/ChangeP";
 import { AddCard } from "./front-dashboard/AddCard";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
+import Echo from "laravel-echo"
+import io from "socket.io-client";
 
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
 function App() {
+  // window.io = io;
+  // if (typeof window.io != 'undefined') {
+  //   window.Echo = new Echo({
+  //     broadcaster: 'socket.io',
+  //     host: 'http://localhost:6001',
+  //   });
+  //   // client: io,
+  //   // auth: {headers: {Authorization: localStorage.userToken }}
+
+  //   window.Echo.connector.socket.on('connect', function(){
+  //     console.log("connect");
+  //   });
+    
+  //   window.Echo.connector.socket.on('disconnect', function(){
+  //     console.log("disconnect");
+  //   })
+  //   window.Echo.channel('.newMessage-2-2')
+  //     .listen('MessageEvent', (message) => {
+  //       console.log(message);  
+  //     });
+  
+  //   console.log(window.Echo);
+  // }
+  
+
   return (
     <Elements stripe={stripePromise} >
       <div className="App">
@@ -62,6 +90,7 @@ function App() {
           <Route path='/login' component={ Login }  />
 
           <ProtectedRoute path='/dashboard' component={ Dashboard }/>
+          <ProtectedRoute path='/chat' component={ Chat }/>
 
           
           <Route path='/shop' component={Shop}  />
@@ -85,7 +114,7 @@ function App() {
           <Route path='/cart' component={ Cart }  />
           <Route path='/order-history' component={ OrderHistory }  />
           <Route path='/food-delivery' component={ FoodDelivery }  />
-          <Route path='/services-history' component={ ServicesHistory }  />
+          <ProtectedRoute path='/services-history' component={ ServicesHistory }  />
           <Route path='/order-detail' component={ OrderDetail }  />
           <Route path='/service-detail' component={ ServicesDetail }  />
           <Route path='/change-password' component={ ChangeP }  />

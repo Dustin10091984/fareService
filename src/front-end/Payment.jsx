@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Product } from '../front-end/common/product';
-import { postRequestService } from '../store/Slices/services/RequestServiceSclice';
+import { postRequestService, getInitialRequestService } from '../store/Slices/services/RequestServiceSclice';
 import { Link } from "react-router-dom";
 export const Payment = (props) => {
     const stripe = useStripe();
@@ -72,8 +72,10 @@ export const Payment = (props) => {
     } = state.error;
 
     useEffect(() => {
-
-    })
+      return () => {
+        dispatch(getInitialRequestService())
+      };
+    }, [])
     /**
      * Validate first and last name
      * 
@@ -284,6 +286,13 @@ export const Payment = (props) => {
         }  
     }
     
+    const handleGoToServicesHistory = () => {
+        dispatch(getInitialRequestService());
+        props.history.push({
+            pathname: '/services-history',
+        });
+    }
+
     return (
         <>
             <div className="moving-help-sec pad-Y m-0">
@@ -339,18 +348,6 @@ export const Payment = (props) => {
                                             }
                                         }
                                     })()}
-                                    {/* {
-                                    serviceRequest.error == true ? (
-                                        <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
-                                        {(()=>{
-                                            const errorMsg = Object.values(serviceRequest.message);
-                                            
-                                            
-                                        })()}
-                                        </div>
-                                    ) : (
-                                        <></>
-                                    )} */}
                                 <div className="d-flex justify-content-center">
                                     {/* <div className="m-search-left-box">
                                         <div className="title-move mb-5">
@@ -442,7 +439,15 @@ export const Payment = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    <button disabled={!stripe || !elements || submiting || checkoutError || serviceRequest.loading || serviceRequest.message == 'success'} onClick={handleClickMakeRequest} className="button-common mt-5 w-50">Place Order</button>
+                                    <button 
+                                        disabled={
+                                            !stripe || !elements || submiting || checkoutError || serviceRequest.loading
+                                        }
+                                        onClick={serviceRequest.message == 'success' || serviceRequest.message == 'Order already exist' ? handleGoToServicesHistory : handleClickMakeRequest}
+                                        className="button-common mt-5 w-50"
+                                    >
+                                        {serviceRequest.message == 'success' || serviceRequest.message == 'Order already exist' ? "Go to Services History" : "Make Service Request"}
+                                    </button>
                                 </div>
 
 

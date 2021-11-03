@@ -19,19 +19,30 @@ export const ServiceProviders = (props) =>{
         hours : '',
         address : '',
         addressErr : '',
+        detail : '',
+        detailErr : '',
         questionsErr : '',
         submitting : false,
         error : '',
         serviceRequest: ''
     });
+
+    const {detail, detailErr} = state
+    
     const [value, setValue] = useState(new Date());
 
     const dispatch = useDispatch();
 
     const providerList = useSelector((state) => state.provider);
     const providerSchedule = useSelector((state) => state.providerSchedule);
-    // const serviceRequest = useSelector((state) => state.serviceRequest);
+    const serviceRequest = useSelector((state) => state.serviceRequest);
     
+    useEffect(() => {
+      return () => {
+        dispatch(getInitialRequestService());
+      };
+    }, []);
+
     useEffect(() => {
         if(localStorage.getItem('userToken')){
             setState((state)=> ({
@@ -73,10 +84,13 @@ export const ServiceProviders = (props) =>{
         if(state.is_loggedin) {
             if(props.location.state !== undefined){
                 setState(state => ({...state, is_hourly: type, provider_id:value}))
-                dispatch(getProviderSchedule(value));
+                if(type == true){
+                    dispatch(getProviderSchedule(value));
+                }
             } else {
                 setState(state => ({
-                    ...state, error: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category from header</center>}))
+                    ...state, error: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category from header</center>
+                }))
             }
         } else {
             setState(state => ({
@@ -132,20 +146,48 @@ export const ServiceProviders = (props) =>{
         }
     }
 
-    const handleAddPaymentClick = (e) => {
-        e.preventDefault();
-        const {selectedSlot, address, hours, is_hourly, provider_id} = state;
-        if (props.location.state !== undefined){
-            setState((state) => ({ ...state, submitting: true }));
-            props.history.push({
-                pathname: '/payment',
-                state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id }
-            });
-            // dispatch(postRequestService({ slots: selectedSlot, hours: hours , address, questions: props.location.state }));
+    const handleDetailChange = (e) => {
+        const {name, value} = e.target;
+        setState((state) => ({ ...state, [name]:value }));
+        let errorMsg = "Detail may not be less than 20 and greater than 200 characters"
+        if(value == '' || (value.length > 20 && value.length < 200)){
+            errorMsg = ''
         }
-        //  else {
-        //     setState((state) => ({ ...state, questionsErr:  }));
-        // }
+        setState((state) => ({ ...state, [`${name}Err`]: errorMsg }));
+    }
+
+    const handleAddPaymentClick = (e) => {
+
+        e.preventDefault();
+        const {selectedSlot, address, hours, is_hourly, provider_id, detail} = state;
+        console.log(selectedSlot, address, hours, is_hourly, provider_id);
+        if (props.location.state !== undefined){
+            // setState((state) => ({ ...state, submitting: true }));
+            if(is_hourly == true){
+                props.history.push({
+                    pathname: '/payment',
+                    state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id }
+                });
+            }
+            console.log(props.location.state);
+            let formData = new FormData();
+            formData.append('is_hourly', 0);
+            formData.append('address', address);
+            detail && formData.append('detail', detail);
+            formData.append('questions', JSON.stringify(props.location.state));
+            formData.append('provider_id', provider_id);
+            dispatch(postRequestService(formData, true));
+        }
+         else {
+            setState((state) => ({ ...state, questionsErr: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category and select questions from header</center> }));
+        }
+    }
+
+    const handleGoToServicesHistory = () => {
+        dispatch(getInitialRequestService());
+        props.history.push({
+            pathname: '/services-history',
+        });
     }
 
     const handleCloseModalClick = () => {
@@ -286,7 +328,7 @@ export const ServiceProviders = (props) =>{
                                                         )
                                                     }
                                                 </div>
-                                                <div className="user-price">{`$${provider.provider_profile.hourly_rate}`}</div>
+                                                <div className="user-price">{`$${provider?.provider_profile?.hourly_rate}`}</div>
                                             </div>
                                         </div>
                                         {
@@ -440,8 +482,8 @@ export const ServiceProviders = (props) =>{
                 </div>
             </div>
             
-            <div className="modal fade bd-example-modal-md" id="quotation" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div className="modal fade bd-example-modal-lg" id="quotation" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title display-4" id="exampleModalLongTitle">Service Request</h5>
@@ -450,90 +492,90 @@ export const ServiceProviders = (props) =>{
                             </button> */}
                         </div>
                         <div className="modal-body">
-                            <div className="row">
-                                <center className="col-12">
-                                    {state.questionsErr}
-                                </center>
-                                {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
-                                    <center className="col-12 ">
-                                        <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
-                                            {state.serviceRequest.message}
-                                        </div>
+                            {/* <div className="row">
+                            </div> */}
+                            <div className="row m-2">
+                                <div className="col-12">
+                                    <center className="col-12">
+                                        {state.questionsErr}
                                     </center>
-                                ) : (
-                                    ''
-                                )}
-                                {state.serviceRequest !== undefined && state.serviceRequest.error === false ? (
-                                    <center className="col-12 ">
-                                        <div className="col-12  alert alert-success" role="alert" style={{ fontSize: 15 }}>
-                                            {state.serviceRequest.message}
-                                        </div>
-                                    </center>
-                                ) : (
-                                    ''
-                                )}
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6 align-items-center justify-content-center">
-                                    <div style={{ marginLeft: 25 }}>
-                                        <Calendar
-                                            onChange={handleCalendarClick}
-                                            value={value}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-md-6 justify-center" style={{ marginLeft: -20 }}>
-                                    <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
-                                        <li style={{ backgroundColor: "#2F88E7", color: 'white' }}  className="d-flex align-items-center justify-content-center col-8 m-4"> Available time Slots</li>
-                                        {/* {slots.map((time, index) =>{
-                                            let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
-                                            return(
-                                                <React.Fragment key={index}>
-                                                    {slot ? (
-                                                        <li style={{backgroundColor: "#2F88E7", color: 'white'}} onClick={handleSlotClick} slot-id={slot.id} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
-                                                        ) : (
-                                                        <li style={{color: 'black'}} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
-                                                    )}
-                                                </React.Fragment>
+                                    {serviceRequest != '' && (()=>{
 
-                                            )}
-                                        )} */}
-                                            {/* {state !== undefined && state.timeSlots !== undefined ? state.timeSlots.map((slot, index) =>{ 
-                                                return(
-                                                    <React.Fragment key={index}>
-                                                        {state.selectedSlot.includes(slot.id) ? (
-                                                            <li key={index} style={{ backgroundColor:"#2F88E7", color: 'white' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
-                                                        ):(
-                                                            <li key={index} style={{ color: 'black' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
-                                                        )}
-                                                    </React.Fragment>
-                                                )
-                                            }): (
-                                                <center className="col-12 text-dark" style={{ fontSize: 20 }}>Not Available</center>
-                                            )} */}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-12 p-5">
+                                        if(serviceRequest.error == false && serviceRequest.loading == true){
+                                            return (
+                                                <div className="col-12  alert alert-primary text-center" role="alert" style={{fontSize: 15}}>
+                                                    Please loading 
+                                                </div>
+                                            )
+                                        }
+
+                                        if (serviceRequest.error == true && serviceRequest.loading == false) {
+                                            switch (typeof serviceRequest.message) {
+                                                case 'string':
+                                                    return (
+                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
+                                                            {serviceRequest.message}
+                                                        </div>
+                                                    )
+                                                    break;
+                                                case 'array':
+                                                    const errorMsg = Object.values(serviceRequest.message);
+                                                    return (
+                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
+                                                            {errorMsg.map((msg, index)=>(<React.Fragment key={index}>{msg}</React.Fragment>))}
+                                                        </div>
+                                                    )
+                                                    break;
+                                            }
+                                        }
+
+                                        if(serviceRequest.error == false && serviceRequest.loading == false){
+                                            switch (typeof serviceRequest.message) {
+                                                case 'string':
+                                                    return (
+                                                        <div className="col-12  alert alert-success text-center" role="alert" style={{fontSize: 15}}>
+                                                            {serviceRequest.message}
+                                                        </div>
+                                                    )
+                                                    break;
+                                                // case 'array':
+                                                //     console.log('array');
+                                                //     break;
+                                            }
+                                        }
+                                    })()}
                                     <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Address</div>
                                     <div className="common-input">
                                         <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" />
                                     </div>
                                     {state.addressErr}
+                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Details</div>
+                                    <div className="common-input">
+                                        <textarea type="text" onChange={handleDetailChange} name="detail" value={detail} placeholder="please add some details..." />
+                                    </div>
+                                    <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{detailErr}</div>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
-                            <button disabled={!state.selectedSlot.length || state.addressErr !== '' || state.address === '' || state.submitting === true ? true : false} onClick={handleAddPaymentClick} type="button" className="button-common-2">Create Request</button>
+                            <button
+                                data-dismiss={serviceRequest.message == 'success' ? "modal" : ""}
+                                disabled={
+                                    state.addressErr !== '' || state.address === '',
+                                    detailErr  || state.submitting === true ? true : false
+                                }
+                                onClick={serviceRequest.message == 'success' ? handleGoToServicesHistory : handleAddPaymentClick}
+                                type="button"
+                                className="button-common-2"
+                            >{serviceRequest.message == 'success' ? "Go to Services History" : "Get Quotation"}
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            </>
-        )
+        </>
+    )
 }
 
 
