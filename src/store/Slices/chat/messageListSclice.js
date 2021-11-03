@@ -6,13 +6,28 @@ const messageListSlice = createSlice({
     initialState: [],
     reducers: {
         getMessages: (state, action) => {
-            return action.payload
+            if(state?.data?.data && action.payload.error == false && action.payload.loading == false ){
+                // state.data.data.filter((data)=>{
+                //     if(data && action.payload.data.data){
+                //         data.push(action.payload.data.data);
+                //     }
+                // });
+                action.payload?.data?.data.push(...state?.data?.data);
+            }
+            return {
+                ...state,
+                ...action.payload
+            }
+        },
+
+        clearMessages: (state, action) => {
+            return action.payload;
         }
     }
 });
 
 export default messageListSlice.reducer;
-
+export const { clearMessages } = messageListSlice.actions;
 const { getMessages } = messageListSlice.actions;
 
 export const messageList = (id) => async dispatch => {
@@ -26,6 +41,7 @@ export const messageList = (id) => async dispatch => {
             url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${id}`,
         }).then((response) => {
             let data = response.data;
+            data?.data?.data.reverse();
             data.loading = false
             dispatch(getMessages(data));
         }).catch((error) => {

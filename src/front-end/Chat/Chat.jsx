@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { chatList } from '../../store/Slices/chat/chatlistSclice';
-import { messageList } from '../../store/Slices/chat/messageListSclice';
+import { messageList, clearMessages } from '../../store/Slices/chat/messageListSclice';
 import { 
     MainContainer,
     ChatContainer,
@@ -51,9 +51,18 @@ export const Chat = (props) => {
     const MessageError = useSelector((state) => state?.messageListReducer?.error);
     const listMessage = useSelector((state) => state?.messageListReducer?.message);
 
-    const handleClickChat = (userId, orderId) => {
-        setActive((active) => ({ ...active, userId, orderId  }));
-        dispatch(messageList(userId));
+    const handleClickChat = (data) => {
+        setActive((active) => ({ 
+            ...active,
+            userId: data?.provider?.id,
+            orderId: data?.id,
+            name:data?.provider?.first_name,
+            image:data?.provider?.image
+        }));
+        dispatch(messageList(data?.provider?.id));
+        if(active.userId != data?.provider?.id || active.orderId != data?.id){
+            dispatch( clearMessages(""));
+        }
 
     }
     return (
@@ -66,11 +75,11 @@ export const Chat = (props) => {
                             position: "relative"
                         }}>
                             <MainContainer responsive>
-                                <Sidebar position="left" scrollable={false}>
+                                <Sidebar position="left" scrollable={true}>
                                 <Search placeholder="Search..." />
+                                <ConversationList loading={loading}>
                                     { loading == false && list !== undefined && (
-                                        <ConversationList>
-                                        {list.map(((serviceRequest, index) => {
+                                        list.map(((serviceRequest, index) => {
                                             return (
                                                 <React.Fragment key = {index}>
                                                     {serviceRequest?.provider?.id == active?.userId && serviceRequest?.id == active?.orderId ? (
@@ -78,7 +87,7 @@ export const Chat = (props) => {
                                                             name={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name :'NAN'}
                                                             lastSenderName={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name : "NAN"} 
                                                             info={serviceRequest?.message?.message ? serviceRequest?.message?.message : "NAN"}
-                                                            onClick={() => handleClickChat(serviceRequest?.provider?.id, serviceRequest?.id)}
+                                                            onClick={() => handleClickChat(serviceRequest)}
                                                             active
                                                         >
                                                         <Avatar
@@ -92,7 +101,7 @@ export const Chat = (props) => {
                                                             name={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name :'NAN'}
                                                             lastSenderName={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name : "NAN"} 
                                                             info={serviceRequest?.message?.message ? serviceRequest?.message?.message : "NAN"}
-                                                            onClick={() => handleClickChat(serviceRequest?.provider?.id, serviceRequest?.id)}
+                                                            onClick={() => handleClickChat(serviceRequest)}
                                                         >
                                                         <Avatar
                                                             src={serviceRequest?.provider?.image ? serviceRequest?.provider?.image : image}
@@ -104,9 +113,91 @@ export const Chat = (props) => {
                                                 </React.Fragment>
                                             )
                                         }))
-                                    }
+                                    )}
+                                    </ConversationList>
+                                </Sidebar>
+
+                                <ChatContainer>
+                                <ConversationHeader>
+                                    <ConversationHeader.Back />
+                                    <Avatar src={active?.image ? active.image : image} name={active?.name ? active?.name : "NAN"} />
+                                    <ConversationHeader.Content
+                                        userName={active?.name}
+                                        // info="Active 10 mins ago"
+                                    />
+                                    <ConversationHeader.Actions>
+                                    {/* <VoiceCallButton />
+                                    <VideoCallButton /> */}
+                                    <InfoButton />
+                                    </ConversationHeader.Actions>          
+                                </ConversationHeader>
+                                {
+                                    (()=>{
+                                        return (
+                                            <MessageList >
+                                                {(messageLoading == false && messagesdata && localStorage.user_data) && 
+                                                    (messagesdata?.data?.map(((message,index)=>
+                                                                <Message key={index} model={{
+                                                                message: message.message,
+                                                                // sentTime: "15 mins ago",
+                                                                sender: message.sender.first_name,
+                                                                direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
+                                                                // position: "single"
+                                                            }}/>
+                                                        
+                                                    )))
+                                                }
+                                            </MessageList>
+                                        )
+                                    })()
+                                }
                                     
-                                    {/* <Conversation name="Joe" lastSenderName="Joe" info="Yes i can do it for you">
+                                <MessageInput placeholder="Type message here" value={messageInputValue} onChange={val => setMessageInputValue(val)} onSend={() => setMessageInputValue("")} />
+                                </ChatContainer>
+                                
+                                {/* <Sidebar position="right">
+                                    <ExpansionPanel open title="INFO">
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel title="LOCALIZATION">
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel title="MEDIA">
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel title="SURVEY">
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    </ExpansionPanel>
+                                    <ExpansionPanel title="OPTIONS">
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    <p>Lorem ipsum</p>
+                                    </ExpansionPanel>
+                                </Sidebar> */}
+                            </MainContainer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+ {/* <Conversation name="Joe" lastSenderName="Joe" info="Yes i can do it for you">
                                     <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Joe" status="dnd" />
                                     </Conversation> */}
                                     
@@ -134,38 +225,8 @@ export const Chat = (props) => {
                                     <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpghttps://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Patrik" status="invisible" />
                                     </Conversation> */}
 
-                                </ConversationList>
-                                )}
-                                </Sidebar>
 
-                                <ChatContainer>
-                                <ConversationHeader>
-                                    <ConversationHeader.Back />
-                                    <Avatar src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" name="Zoe" />
-                                    <ConversationHeader.Content userName="Zoe" info="Active 10 mins ago" />
-                                    <ConversationHeader.Actions>
-                                    {/* <VoiceCallButton />
-                                    <VideoCallButton /> */}
-                                    <InfoButton />
-                                    </ConversationHeader.Actions>          
-                                </ConversationHeader>
-                                {(messageLoading == false && messagesdata && localStorage.user_data) && 
-                                    <MessageList typingIndicator={<TypingIndicator content="Zoe is typing" />}>
-                                        
-                                        {/* <MessageSeparator content="Saturday, 30 November 2019" /> */}
-                                        {
-                                            messagesdata?.data?.map(((message,index)=>
-                                                        <Message key={index} model={{
-                                                        message: message.message,
-                                                        // sentTime: "15 mins ago",
-                                                        sender: message.sender.first_name,
-                                                        direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
-                                                        // position: "single"
-                                                    }}/>
-                                                
-                                            )).reverse()
-                                        }
-                                        {/* <Message model={{
+                                     {/* <Message model={{
                                             message: "Hello my friend",
                                             sentTime: "15 mins ago",
                                             sender: "Zoe",
@@ -258,48 +319,3 @@ export const Chat = (props) => {
                                         }}>
                                             <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Zoe" />
                                         </Message> */}
-                                    </MessageList>
-                                }
-                                <MessageInput placeholder="Type message here" value={messageInputValue} onChange={val => setMessageInputValue(val)} onSend={() => setMessageInputValue("")} />
-                                </ChatContainer>
-                                
-                                {/* <Sidebar position="right">
-                                    <ExpansionPanel open title="INFO">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="LOCALIZATION">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="MEDIA">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="SURVEY">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="OPTIONS">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                </Sidebar> */}
-                            </MainContainer>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
