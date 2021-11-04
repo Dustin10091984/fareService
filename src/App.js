@@ -46,29 +46,34 @@ import io from "socket.io-client";
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
 function App() {
-  // window.io = io;
-  // if (typeof window.io != 'undefined') {
-  //   window.Echo = new Echo({
-  //     broadcaster: 'socket.io',
-  //     host: 'http://localhost:6001',
-  //   });
-  //   // client: io,
-  //   // auth: {headers: {Authorization: localStorage.userToken }}
+  window.io = io;
+  const liveOption = {
+      host: "http://api.farenow.com:6001",
+      broadcaster: 'socket.io',
+  };
+  const localOption = {
+      host: "http://localhost:6001",
+      broadcaster: 'socket.io',
+    };
+  if (typeof window.io != 'undefined') {
+    window.Echo = new Echo(localOption);
+    // client: io,
+    // auth: {headers: {Authorization: localStorage.userToken }}
 
-  //   window.Echo.connector.socket.on('connect', function(){
-  //     console.log("connect");
-  //   });
+    window.Echo.connector.socket.on('connect', function(){
+      console.log("connect");
+    });
     
-  //   window.Echo.connector.socket.on('disconnect', function(){
-  //     console.log("disconnect");
-  //   })
-  //   window.Echo.channel('.newMessage-2-2')
-  //     .listen('MessageEvent', (message) => {
-  //       console.log(message);  
-  //     });
+    window.Echo.connector.socket.on('disconnect', function(){
+      console.log("disconnect");
+    })
+    window.Echo.channel(`newMessage-${3}-${2}`)
+      .listen('MessageEvent', (message) => {
+        console.log(message);  
+      });
   
-  //   console.log(window.Echo);
-  // }
+    console.log(window.Echo);
+  }
   
 
   return (

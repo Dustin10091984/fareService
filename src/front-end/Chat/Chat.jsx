@@ -24,12 +24,17 @@ import {
     
 } from '@chatscope/chat-ui-kit-react';
 import { Loading } from "../common/Loading";
+import { delay } from "lodash";
     
 export const Chat = (props) => {
 
     const image = "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
 
     const [messageInputValue, setMessageInputValue] = useState("");
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [loadedMessages, setLoadedMessages] = useState([]);
+    const [counter, setCounter] = useState(0)
+    
     const [active, setActive] = useState();
 
     const dispatch = useDispatch();
@@ -39,7 +44,7 @@ export const Chat = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log(active);
+        // console.log(active);
     })
     const loading = useSelector((state) => state?.chatlistReducer?.loading);
     const list = useSelector((state) => state?.chatlistReducer?.data);
@@ -59,12 +64,26 @@ export const Chat = (props) => {
             name:data?.provider?.first_name,
             image:data?.provider?.image
         }));
-        dispatch(messageList(data?.provider?.id));
-        if(active.userId != data?.provider?.id || active.orderId != data?.id){
-            dispatch( clearMessages(""));
+        if(active?.userId != data?.provider?.id || active.orderId != data?.id){
+            dispatch(messageList(data?.provider?.id));
+            dispatch(clearMessages(""));
         }
+    }
+
+    const handleSendMessage = () => {
+        setMessageInputValue('');
 
     }
+
+    const onYReachStart = async () => {
+        if(messageLoading == false){
+            if(active?.userId)
+            dispatch(messageList(active?.userId));
+            setLoadingMore(true);
+        }
+        await new Promise(resolve => setTimeout(resolve, 3000)); 
+    };
+
     return (
         <div className="dashborad-box order-history sticky-top p-5">
             <div className="container">
@@ -78,9 +97,8 @@ export const Chat = (props) => {
                                 <Sidebar position="left" scrollable={true}>
                                 <Search placeholder="Search..." />
                                 <ConversationList loading={loading}>
-                                    { loading == false && list !== undefined && (
-                                        list.map(((serviceRequest, index) => {
-                                            return (
+                                        {list?.map(((serviceRequest, index) => (
+
                                                 <React.Fragment key = {index}>
                                                     {serviceRequest?.provider?.id == active?.userId && serviceRequest?.id == active?.orderId ? (
                                                         <Conversation
@@ -111,9 +129,8 @@ export const Chat = (props) => {
                                                         </Conversation>
                                                     )}
                                                 </React.Fragment>
-                                            )
-                                        }))
-                                    )}
+                                        )))
+                                                    }
                                     </ConversationList>
                                 </Sidebar>
 
@@ -131,28 +148,24 @@ export const Chat = (props) => {
                                     <InfoButton />
                                     </ConversationHeader.Actions>          
                                 </ConversationHeader>
-                                {
-                                    (()=>{
-                                        return (
-                                            <MessageList >
-                                                {(messageLoading == false && messagesdata && localStorage.user_data) && 
-                                                    (messagesdata?.data?.map(((message,index)=>
-                                                                <Message key={index} model={{
-                                                                message: message.message,
-                                                                // sentTime: "15 mins ago",
-                                                                sender: message.sender.first_name,
-                                                                direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
-                                                                // position: "single"
-                                                            }}/>
-                                                        
-                                                    )))
-                                                }
-                                            </MessageList>
-                                        )
-                                    })()
-                                }
-                                    
-                                <MessageInput placeholder="Type message here" value={messageInputValue} onChange={val => setMessageInputValue(val)} onSend={() => setMessageInputValue("")} />
+                                <MessageList 
+                                    loading={messageLoading == true && messagesdata?.data == undefined ? true : false }
+                                    loadingMore={messageLoading} onYReachStart={messageLoading == false ? onYReachStart : ""}
+                                >
+                                    {loadedMessages}
+                                    {(messagesdata && localStorage.user_data) && 
+                                        (messagesdata?.data?.map(((message,index)=>
+                                            <Message key={index} model={{
+                                                message: message.message,
+                                                // sentTime: "15 mins ago",
+                                                sender: message.sender.first_name,
+                                                direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
+                                                // position: "single"
+                                            }}/>
+                                        )))
+                                    }
+                                </MessageList>
+                                <MessageInput placeholder="Type message here" value={messageInputValue} onChange={val => setMessageInputValue(val)} onSend={() => handleSendMessage()} />
                                 </ChatContainer>
                                 
                                 {/* <Sidebar position="right">
