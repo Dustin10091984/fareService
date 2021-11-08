@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { act } from 'react-dom/test-utils';
 
 const messageListSlice = createSlice({
     name: 'message',
@@ -22,15 +23,30 @@ const messageListSlice = createSlice({
 
         clearMessages: (state, action) => {
             return action.payload;
+        }, 
+
+        addMessage: (state, action) => {
+            const dataList = JSON.parse(JSON.stringify(state?.data?.data));
+            let newData = null;
+            if(dataList){
+                newData = [...dataList, action.payload];
+            }
+            
+            return {
+                ...state,
+                data : {
+                    ...state.data, data:newData == null ? [action.payload] : newData
+                },
+            }
         }
     }
 });
 
 export default messageListSlice.reducer;
-export const { clearMessages } = messageListSlice.actions;
+export const { clearMessages, addMessage } = messageListSlice.actions;
 const { getMessages } = messageListSlice.actions;
 
-export const messageList = (id) => async dispatch => {
+export const messageList = (data) => async dispatch => {
     try {
         dispatch(getMessages({error: false, loading: true}));
         await axios({
@@ -38,7 +54,7 @@ export const messageList = (id) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${id}`,
+            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${data.nextPage ? `?page=${data.nextPage}` : ''}`,
         }).then((response) => {
             let data = response.data;
             data?.data?.data.reverse();
