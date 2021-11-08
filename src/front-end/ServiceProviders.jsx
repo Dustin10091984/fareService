@@ -79,11 +79,11 @@ export const ServiceProviders = (props) =>{
         // serviceRequest
     ]);
 
-    function handleContinueClick(event, type) {
+    function handleContinueClick(event, type, provider) {
         const {value} = event.target
         if(state.is_loggedin) {
             if(props.location.state !== undefined){
-                setState(state => ({...state, is_hourly: type, provider_id:value}))
+                setState(state => ({...state, is_hourly: type, provider_id:value, provider}))
                 if(type == true){
                     dispatch(getProviderSchedule(value));
                 }
@@ -159,24 +159,24 @@ export const ServiceProviders = (props) =>{
     const handleAddPaymentClick = (e) => {
 
         e.preventDefault();
-        const {selectedSlot, address, hours, is_hourly, provider_id, detail} = state;
-        console.log(selectedSlot, address, hours, is_hourly, provider_id);
+        const {selectedSlot, address, hours, is_hourly, provider_id, detail, provider} = state;
         if (props.location.state !== undefined){
             // setState((state) => ({ ...state, submitting: true }));
             if(is_hourly == true){
                 props.history.push({
                     pathname: '/payment',
-                    state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id }
+                    state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id, provider }
                 });
+            } else {
+                console.log(props.location.state);
+                let formData = new FormData();
+                formData.append('is_hourly', 0);
+                formData.append('address', address);
+                detail && formData.append('detail', detail);
+                formData.append('questions', JSON.stringify(props.location.state));
+                formData.append('provider_id', provider_id);
+                dispatch(postRequestService(formData, true));
             }
-            console.log(props.location.state);
-            let formData = new FormData();
-            formData.append('is_hourly', 0);
-            formData.append('address', address);
-            detail && formData.append('detail', detail);
-            formData.append('questions', JSON.stringify(props.location.state));
-            formData.append('provider_id', provider_id);
-            dispatch(postRequestService(formData, true));
         }
          else {
             setState((state) => ({ ...state, questionsErr: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category and select questions from header</center> }));
@@ -314,7 +314,7 @@ export const ServiceProviders = (props) =>{
                                                     {
                                                         
                                                         props.location.state !== undefined && state.is_loggedin === true ? (
-                                                            <button onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false)} value={provider.id} type="button"
+                                                            <button onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false, provider)} value={provider.id} type="button"
                                                             data-backdrop="static"
                                                             data-keyboard="false" 
                                                             className="button-common-2" 
@@ -324,7 +324,7 @@ export const ServiceProviders = (props) =>{
                                                                 {provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}
                                                         </button>
                                                         ) : (
-                                                            <button type="button" className="button-common-2" onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false)}>{provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}</button>
+                                                            <button type="button" className="button-common-2" onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false, provider)}>{provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}</button>
                                                         )
                                                     }
                                                 </div>

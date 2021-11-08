@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import { getServiceRequestList } from '../store/Slices/services/RequestServiceSclice';
 import {Loading} from '../front-end/common/Loading';
+import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 // import Echo from "laravel-echo"
 // import io from "socket.io-client";
 export const ServicesHistory = (props) => {
@@ -12,7 +13,7 @@ export const ServicesHistory = (props) => {
     // const location = useLocation();
 
     const [state, setstate] = useState({
-
+        payable: ''
     });
 
     const dispatch = useDispatch();
@@ -66,8 +67,23 @@ export const ServicesHistory = (props) => {
 
     useEffect(() => {
       dispatch(getServiceRequestList(location.search));
-    }, [location.search])
+    }, [location.search]);
 
+    /**
+     * get payable object and set state
+     * 
+     * @param {object} payable 
+     */
+    const handlePaymentClick = (payable) => {
+        setstate((state)=>({...state, payable}));
+    }
+
+    /**
+     * close modal and remove payable state
+     */
+    const handleCloseClick = () => {
+        setstate((state)=>({...state, payable: ''}));
+    }
 
     return (
         <>
@@ -87,7 +103,7 @@ export const ServicesHistory = (props) => {
                 </div>
             </div>
 
-            <div className="dashborad-box order-history pb-5">
+            <div className="dashborad-box order-history pb-5" style={{ backgroundImage: `url("/assets/img/apply-bg.jpg")` }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
@@ -105,7 +121,7 @@ export const ServicesHistory = (props) => {
                             <div className="order-card d-flex align-items-center justify-content-between">
                                 <div className="order-des-b">
                                     <div className="title">{`${serviceRequest?.provider?.first_name} ${serviceRequest?.provider?.last_name}`}</div>
-                                    <div className="service-label">{serviceRequest?.sub_service}</div>
+                                    {serviceRequest?.sub_service && <div className="service-label">{serviceRequest.sub_service}</div>}
                                     <div className="star-rating-area d-flex align-items-center justify-content-start">
                                         <div className="rating-static clearfix mr-3" rel={serviceRequest?.user_feeback?.rating}>
                                             <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
@@ -146,11 +162,33 @@ export const ServicesHistory = (props) => {
                                         // serviceRequest?.payable_amount != null ? "$"+(parseInt(serviceRequest?.payable_amount) + parseInt(serviceRequest?.paid_amount)) : "$"+serviceRequest?.paid_amount
                                     }</div>
                                     <Link to={`/profile/${serviceRequest?.provider?.id}`} className="btn-view-profile">View Profile</Link>
-                                    {serviceRequest?.paid_amount !== null ? (
-                                        <div className="btn-price-serv" style={serviceRequest?.payment_status == null || serviceRequest?.payment_status == true ? {backgroundColor: 'red'} : {backgroundColor:""}}>{
-                                            serviceRequest?.payable_amount != null ? "$"+(parseInt(serviceRequest?.payable_amount) + parseInt(serviceRequest?.paid_amount)) : "$"+serviceRequest?.paid_amount
-                                        }</div>
-                                    ) : ""}
+                                    {
+                                    serviceRequest.paid_amount &&
+                                        (()=>{
+                                            if(serviceRequest?.payment_status == false && serviceRequest?.payable){
+                                                return (
+                                                    <div
+                                                        type="button"
+                                                        className="btn-price-serv"
+                                                        style={{backgroundColor: 'red'}}
+                                                        onClick={()=>handlePaymentClick(serviceRequest?.payable)}
+                                                        data-backdrop="static"
+                                                        data-keyboard="false" 
+                                                        data-toggle="modal" 
+                                                        data-target="#payable"
+                                                    >{
+                                                        serviceRequest?.payable_amount != null ? "$"+(parseInt(serviceRequest?.payable_amount) + parseInt(serviceRequest?.paid_amount)) : "$"+serviceRequest?.paid_amount
+                                                    }</div>
+                                                )
+                                            } else {
+                                                return (
+                                                    <div className="btn-price-serv">{
+                                                        serviceRequest?.payable_amount != null ? "$"+(parseInt(serviceRequest?.payable_amount) + parseInt(serviceRequest?.paid_amount)) : "$"+serviceRequest?.paid_amount
+                                                    }</div>
+                                                )
+                                            }
+                                        })()
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -223,6 +261,49 @@ export const ServicesHistory = (props) => {
                             </li>
                         </ul>
                     </nav>
+                </div>
+            </div>
+
+
+            <div className="modal fade bd-example-modal-md" id="payable" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Pending Payment</h5>
+                            {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button> */}
+                        </div>
+                        <div className="modal-body">
+                            {/* <div className="row">
+                            </div> */}
+                            <div className="row m-2">
+                                <div className="col-12">
+                                    <center className="col-12">
+                                        <div className="text-center" style={{fontSize: '2.5rem'}}>
+                                            {"Please Enter Card details"}
+                                        </div>
+                                        <CardElement onChange={"handleCardDetailsChange"} className="m-5"/>
+                                        <hr />
+                                        <div className="row justify-content-md-between mt-3">
+                                            <div className="col-6" style={{fontSize: '2rem'}}>Payable Amount</div>
+                                            <div className="col-6" style={{fontSize: '2rem'}}>${state?.payable?.amount}</div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button  type="button" className="button-common"data-dismiss="modal" onClick={handleCloseClick}>Close</button>
+                            <button
+                                disabled={state?.payable?.amount == null}
+                                data-dismiss="modal"
+                                type="button"
+                                className="button-common-2"
+                            >Pay
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -75,7 +75,8 @@ export const Payment = (props) => {
       return () => {
         dispatch(getInitialRequestService())
       };
-    }, [])
+    }, []);
+
     /**
      * Validate first and last name
      * 
@@ -276,7 +277,8 @@ export const Payment = (props) => {
                 }));
                 let withToken = serviceDetail;
                 withToken.token=token.id
-                dispatch(postRequestService(withToken));
+                // false means this is not form data
+                dispatch(postRequestService(withToken, false));
             }
             if(error){
                 setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
@@ -288,6 +290,11 @@ export const Payment = (props) => {
     
     const handleGoToServicesHistory = () => {
         dispatch(getInitialRequestService());
+        setState((state)=>({
+            ...state, form: {
+                ...state.form, serviceDetail: ''
+            }
+        }))
         props.history.push({
             pathname: '/services-history',
         });
@@ -458,20 +465,30 @@ export const Payment = (props) => {
 
                                     <div className="col-md-12">
                                         <div className="cart-total d-flex align-items-center justify-content-between">
-                                            <div className="cart-title">Industrial Three-piece Dark Bronze<br/> Compact Dining Set</div>
+                                            <div className="cart-title">Service Request</div>
                                             <div className="price-qnt-subtotal">
                                                 <ul className="list-heading d-flex align-items-center justify-content-between w-100">
-                                                    <li>Price</li>
-                                                    <li>Quantity</li>
-                                                    <li>Subtotal</li>
+                                                    <li>Hourly Rate</li>
+                                                    <li>Total Hours</li>
+                                                    <li>Total</li>
                                                 </ul>
                                                 <ul className="list-des d-flex align-items-center justify-content-between w-100">
-                                                    <li>$122.00</li>
-                                                    <li></li>
-                                                    <li>$122.00</li>
+                                                    {(()=>{
+                                                        if(serviceDetail?.provider?.provider_profile?.hourly_rate && serviceDetail.hours){
+                                                            const hourly_rate = serviceDetail?.provider?.provider_profile?.hourly_rate;
+                                                            const hours = serviceDetail?.hours;
+                                                            return (
+                                                                <>
+                                                                    <li>{`$${hourly_rate}`}</li>
+                                                                    <li>{hours}</li>
+                                                                    <li>{`$${hourly_rate*hours}`}</li>
+                                                                </>
+                                                            )
+                                                        }
+                                                    })()}
                                                 </ul>
 
-                                                <ul className="list-heading d-flex align-items-center justify-content-between w-100">
+                                                {/* <ul className="list-heading d-flex align-items-center justify-content-between w-100">
                                                     <li></li>
                                                     <li>Shipping</li>
                                                     <li>Total</li>
@@ -480,7 +497,7 @@ export const Payment = (props) => {
                                                     <li></li>
                                                     <li>00</li>
                                                     <li>$122.00</li>
-                                                </ul>
+                                                </ul> */}
                                             </div>
                                         </div>
                                     </div>
