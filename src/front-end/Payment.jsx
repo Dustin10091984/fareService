@@ -75,7 +75,9 @@ export const Payment = (props) => {
       return () => {
         dispatch(getInitialRequestService())
       };
-    }, [])
+    }, []);
+
+    console.log(serviceDetail);
     /**
      * Validate first and last name
      * 
@@ -276,7 +278,8 @@ export const Payment = (props) => {
                 }));
                 let withToken = serviceDetail;
                 withToken.token=token.id
-                dispatch(postRequestService(withToken));
+                // false means this is not form data
+                dispatch(postRequestService(withToken, false));
             }
             if(error){
                 setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
@@ -288,6 +291,11 @@ export const Payment = (props) => {
     
     const handleGoToServicesHistory = () => {
         dispatch(getInitialRequestService());
+        setState((state)=>({
+            ...state, form: {
+                ...state.form, serviceDetail: ''
+            }
+        }))
         props.history.push({
             pathname: '/services-history',
         });

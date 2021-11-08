@@ -168,15 +168,16 @@ export const ServiceProviders = (props) =>{
                     pathname: '/payment',
                     state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id }
                 });
+            } else {
+                console.log(props.location.state);
+                let formData = new FormData();
+                formData.append('is_hourly', 0);
+                formData.append('address', address);
+                detail && formData.append('detail', detail);
+                formData.append('questions', JSON.stringify(props.location.state));
+                formData.append('provider_id', provider_id);
+                dispatch(postRequestService(formData, true));
             }
-            console.log(props.location.state);
-            let formData = new FormData();
-            formData.append('is_hourly', 0);
-            formData.append('address', address);
-            detail && formData.append('detail', detail);
-            formData.append('questions', JSON.stringify(props.location.state));
-            formData.append('provider_id', provider_id);
-            dispatch(postRequestService(formData, true));
         }
          else {
             setState((state) => ({ ...state, questionsErr: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category and select questions from header</center> }));

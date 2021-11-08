@@ -105,7 +105,7 @@ export const ServicesHistory = (props) => {
                             <div className="order-card d-flex align-items-center justify-content-between">
                                 <div className="order-des-b">
                                     <div className="title">{`${serviceRequest?.provider?.first_name} ${serviceRequest?.provider?.last_name}`}</div>
-                                    <div className="service-label">{serviceRequest?.sub_service}</div>
+                                    {serviceRequest?.sub_service && <div className="service-label">{serviceRequest.sub_service}</div>}
                                     <div className="star-rating-area d-flex align-items-center justify-content-start">
                                         <div className="rating-static clearfix mr-3" rel={serviceRequest?.user_feeback?.rating}>
                                             <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
@@ -147,7 +147,7 @@ export const ServicesHistory = (props) => {
                                     }</div>
                                     <Link to={`/profile/${serviceRequest?.provider?.id}`} className="btn-view-profile">View Profile</Link>
                                     {serviceRequest?.paid_amount !== null ? (
-                                        <div className="btn-price-serv" style={serviceRequest?.payment_status == null || serviceRequest?.payment_status == true ? {backgroundColor: 'red'} : {backgroundColor:""}}>{
+                                        <div className="btn-price-serv" style={serviceRequest?.payment_status == false ? {backgroundColor: 'red'} : {backgroundColor:""}}>{
                                             serviceRequest?.payable_amount != null ? "$"+(parseInt(serviceRequest?.payable_amount) + parseInt(serviceRequest?.paid_amount)) : "$"+serviceRequest?.paid_amount
                                         }</div>
                                     ) : ""}

@@ -41,8 +41,6 @@ import { ChangeP } from "./front-dashboard/ChangeP";
 import { AddCard } from "./front-dashboard/AddCard";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
 
-import { chatUserId } from './front-end/Chat/Chat';
-import { addMessage } from "./store/Slices/chat/messageListSclice";
 import Echo from "laravel-echo";
 import io from "socket.io-client";
 
