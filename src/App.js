@@ -60,7 +60,7 @@ function App() {
       broadcaster: 'socket.io',
     };
     if (typeof window.io != 'undefined') {
-      window.Echo = new Echo(localOption);
+      window.Echo = new Echo(liveOption);
       // client: io,
       // auth: {headers: {Authorization: localStorage.userToken }}
 
