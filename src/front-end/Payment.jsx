@@ -77,7 +77,6 @@ export const Payment = (props) => {
       };
     }, []);
 
-    console.log(serviceDetail);
     /**
      * Validate first and last name
      * 
