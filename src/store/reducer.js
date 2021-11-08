@@ -7,6 +7,7 @@ import providerProfileSclice from "./Slices/providers/ProviderProfileSclice";
 import providerSchedule from "./Slices/providers/providerScheduleSclice";
 import chatlistSclice from "./Slices/chat/chatlistSclice";
 import messageListSclice from "./Slices/chat/messageListSclice";
+import messageSlice from "./Slices/chat/messageSlice";
 
 export default combineReducers({
     user: userSclice,
@@ -16,5 +17,6 @@ export default combineReducers({
     providerProfile: providerProfileSclice,
     providerSchedule: providerSchedule,
     chatlistReducer : chatlistSclice,
-    messageListReducer : messageListSclice
+    messageListReducer : messageListSclice,
+    messageReducer : messageSlice
 });
