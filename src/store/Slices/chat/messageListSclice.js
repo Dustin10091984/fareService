@@ -54,7 +54,10 @@ export const messageList = (data) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${data.nextPage ? `?page=${data.nextPage}` : ''}`,
+            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${
+                data.orderId && data.nextPage ? `?service_request_id=${data.orderId}&page=${data.nextPage}` :
+                data.orderId ? `?service_request_id=${data.orderId}` : ''
+            }`,
         }).then((response) => {
             let data = response.data;
             data?.data?.data.reverse();
