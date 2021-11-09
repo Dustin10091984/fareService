@@ -339,6 +339,14 @@ export const ServicesHistory = (props) => {
                                                             </div>)
                                                     }
                                                 }
+                                                 
+                                                if(payMessage == true){
+                                                    return (
+                                                        <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
+                                                            <i className="fa fa-spinner fa-spin"></i> Processing...
+                                                        </div>
+                                                    )
+                                                }
                                             })()
                                         }
                                         <div className="text-center" style={{fontSize: '2.5rem'}}>
