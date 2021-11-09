@@ -47,20 +47,18 @@ export const Chat = (props) => {
                setNewMsg(data.message);
             });
         }
-        useEffect(() => {
-            if(newMsg){
-                dispatch(addMessage(newMsg));
-            }
-    }, [newMsg])
+    useEffect(() => {
+        if(newMsg){
+            dispatch(addMessage(newMsg));
+        }
+    }, [newMsg]);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
       dispatch(chatList())
-    }, [])
+    }, []);
 
-    useEffect(() => {
-        // console.log(active);
-    })
     const loading = useSelector((state) => state?.chatlistReducer?.loading);
     const list = useSelector((state) => state?.chatlistReducer?.data);
     const error = useSelector((state) => state?.chatlistReducer?.error);
@@ -88,7 +86,7 @@ export const Chat = (props) => {
             image:data?.provider?.image
         }));
         if(active?.userId != data?.provider?.id || active.orderId != data?.id){
-            dispatch(messageList({id:data?.provider?.id}));
+            dispatch(messageList({id:data?.provider?.id, orderId:data?.id}));
             dispatch(clearMessages(""));
         }
     }
@@ -101,8 +99,11 @@ export const Chat = (props) => {
 
     const onYReachStart = async () => {
         if(messageLoading == false){
-            if(active?.userId)
-            dispatch(messageList({id: active?.userId, nextPage: messagesdata?.current_page+1}));
+            if(active?.userId, active?.orderId){
+                setLoadingMore(true);
+                dispatch(messageList({id:active?.userId, orderId:active?.orderId, page:messagesdata?.current_page + 1}));
+            }
+            // dispatch(messageList({id: active?.userId, nextPage: messagesdata?.current_page+1, orderId: active?.orderId}));
             // setLoadingMore(true);
         }
         await new Promise(resolve => setTimeout(resolve, 3000)); 
@@ -124,7 +125,7 @@ export const Chat = (props) => {
                                     {list?.map(((serviceRequest, index) => (
                                         serviceRequest?.provider?.id == active?.userId && serviceRequest?.id == active?.orderId ? (
                                             <Conversation key={index}
-                                                name={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name :'NAN'}
+                                                name={serviceRequest?.provider?.first_name ? `${serviceRequest?.provider?.first_name} Order #${serviceRequest.id}` :'NAN'}
                                                 lastSenderName={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name : "NAN"} 
                                                 info={serviceRequest?.message?.message ? serviceRequest?.message?.message : "NAN"}
                                                 onClick={() => handleClickChat(serviceRequest)}
@@ -133,12 +134,12 @@ export const Chat = (props) => {
                                             <Avatar
                                                 src={serviceRequest?.provider?.image ? serviceRequest?.provider?.image : image}
                                                 name="Lilly"
-                                                status="available"
+                                                // status="available"
                                             />
                                             </Conversation>
                                         ) : (
                                             <Conversation key={index}
-                                                name={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name :'NAN'}
+                                                name={serviceRequest?.provider?.first_name ? `${serviceRequest?.provider?.first_name} Order #${serviceRequest.id}` :'NAN'}
                                                 lastSenderName={serviceRequest?.provider?.first_name ? serviceRequest?.provider?.first_name : "NAN"} 
                                                 info={serviceRequest?.message?.message ? serviceRequest?.message?.message : "NAN"}
                                                 onClick={() => handleClickChat(serviceRequest)}
@@ -146,7 +147,7 @@ export const Chat = (props) => {
                                             <Avatar
                                                 src={serviceRequest?.provider?.image ? serviceRequest?.provider?.image : image}
                                                 name="Lilly"
-                                                status="available"
+                                                // status="available"
                                             />
                                             </Conversation>
                                         )
@@ -157,9 +158,9 @@ export const Chat = (props) => {
                                 <ChatContainer>
                                 <ConversationHeader>
                                     <ConversationHeader.Back />
-                                    <Avatar src={active?.image ? active.image : image} name={active?.name ? active?.name : "NAN"} />
+                                    <Avatar src={active?.image ? active.image : image} name={active?.name ? `${active?.name} Order #${active?.orderId}` : "NAN"} />
                                     <ConversationHeader.Content
-                                        userName={active?.name}
+                                        userName={active?.name ? `${active?.name} Order #${active?.orderId}` : 'Please Select a Chat'}
                                         // info="Active 10 mins ago"
                                     />
                                     <ConversationHeader.Actions>
@@ -179,7 +180,7 @@ export const Chat = (props) => {
                                                 loading={messageLoading == true && messagesdata?.data == undefined ? true : false }
                                                 loadingMore={messageLoading || MessageError == true && false} onYReachStart={(messageLoading == false && nextPage == true) && onYReachStart || undefined}
                                             >
-                                                {messagesdata?.current_page == messagesdata?.last_page &&
+                                                {(messagesdata?.current_page == messagesdata?.last_page && messagesdata?.data) &&
                                                     <MessageSeparator content="End" />
                                                 }
                                                 {(messagesdata && localStorage.user_data) && 
