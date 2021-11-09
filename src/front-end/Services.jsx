@@ -5,12 +5,18 @@ export const Services = (props) => {
     const { serviceId, subServiceId } = props.match.params;
     return (
             <>
-                <div className="breadcrumb-sec d-flex align-items-center justify-content-center" style={{ backgroundImage: `url("/assets/img/bread-bg.jpg")` }}>
-                    <div className="container">
+                <div className="align-items-center justify-content-center" style={{
+                    backgroundImage: `url("/assets/img/bread-bg.jpg")`,
+                    // backgroundRepeat: 'no-repeat',
+                    maxWidth: '100%',
+                    backgroundSize: 'cover',
+                    height: 'auto',
+                }}>
+                    <div className="container ">
                         <div className="row">
                             <div className="col-12">
                                 {serviceId && subServiceId ? (
-                                    <div className="moving-search-box house-cleaning-sec">
+                                    <div className="moving-search-box house-cleaning-sec" style={{marginTop: "8rem", marginBottom: "8rem" , }}>
                                     <Question serviceId={serviceId} subServiceId={subServiceId} {...props}/>
                                     </div>
                                     ) : (

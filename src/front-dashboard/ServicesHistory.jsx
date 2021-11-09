@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import { getServiceRequestList } from '../store/Slices/services/RequestServiceSclice';
 import { pay } from '../store/Slices/payments/paymentSlice';
+import { addFeedback, initialFeedback } from '../store/Slices/feedbacks/feedbackSlice';
 import {Loading} from '../front-end/common/Loading';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 // import Echo from "laravel-echo"
@@ -15,7 +16,14 @@ export const ServicesHistory = (props) => {
 
     const [state, setState] = useState({
         payable: '',
-        error: ''
+        error: '',
+    });
+    
+    const [feedback, setFeedback] = useState({
+        service_request_id: '',
+        provider_id: '',
+        comment: '',
+        rating: '',
     });
     const stripe = useStripe();
     const elements = useElements();
@@ -33,6 +41,11 @@ export const ServicesHistory = (props) => {
     const payError = useSelector((state) => state?.paymentReducer?.error);
     const payMessage = useSelector((state) => state?.paymentReducer?.message);
     const payData = useSelector((state) => state?.paymentReducer?.data);
+    
+    const feedbackLoading = useSelector((state) => state?.feedbackReducer?.loading);
+    const feedbackError = useSelector((state) => state?.feedbackReducer?.error);
+    const feedbackMessage = useSelector((state) => state?.feedbackReducer?.message);
+    const feedbackData = useSelector((state) => state?.feedbackReducer?.data);
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
@@ -94,6 +107,19 @@ export const ServicesHistory = (props) => {
      */
     const handleCloseClick = () => {
         setState((state)=>({...state, payable: ''}));
+        if(feedback.rating) {
+            dispatch(initialFeedback([]));
+            setFeedback((state)=>({...state, service_request_id: '', provider_id: '', comment: '', rating: ''}));
+        }
+    }
+
+    /**
+     * handle Feedback click
+     * 
+     * @param {object} data 
+     */
+    const handleFeedbackClick = (service_request_id, provider_id) => {
+        setFeedback((state)=>({...state, service_request_id, provider_id}));
     }
 
     /**
@@ -111,6 +137,9 @@ export const ServicesHistory = (props) => {
         } 
     };
 
+    /**
+     * handle pay click
+     */
     const handlePayClick = async () => {
         const cardElement = elements.getElement('card');
         try {
@@ -126,6 +155,31 @@ export const ServicesHistory = (props) => {
         } catch (error) {
             setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
         }  
+    }
+
+    /**
+     * handle select feedback click
+     * 
+     * @param {int} rating 
+     */
+    const handleSelectFeedbackClick = (rating) => {
+        setFeedback((state)=>({...state, rating}));
+    }
+
+    /**
+     * handle change comment
+     */
+    const handleCommentChange = (event) => {
+        setFeedback((state)=>({...state, comment: event.target.value}));
+    }
+
+    /**
+     * handle feedback submit
+     */
+    const handleFeedbackSubmit = () => {
+        if(feedback.rating !== '' && feedback.provider_id !== '' && feedback.service_request_id !== ''){
+            dispatch(addFeedback({service_request_id: feedback.service_request_id, provider_id: feedback.provider_id, comment: feedback.comment, rating: feedback.rating}));
+        }
     }
 
     return (
@@ -165,21 +219,36 @@ export const ServicesHistory = (props) => {
                                 <div className="order-des-b">
                                     <div className="title">{`${serviceRequest?.provider?.first_name} ${serviceRequest?.provider?.last_name}`}</div>
                                     {serviceRequest?.sub_service && <div className="service-label">{serviceRequest.sub_service}</div>}
-                                    <div className="star-rating-area d-flex align-items-center justify-content-start">
-                                        <div className="rating-static clearfix mr-3" rel={serviceRequest?.user_feeback?.rating}>
-                                            <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-                                            <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-                                            <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-                                            <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-                                            <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-                                            <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-                                            <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-                                            <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-                                            <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-                                            <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-                                        </div>
-                                        {/* <div className="ratilike ng-binding">5</div> */}
-                                    </div>
+                                    {serviceRequest?.user_feeback?.rating ?
+                                        (
+                                            <div className="star-rating-area d-flex align-items-center justify-content-start">
+                                                <div className="rating-static clearfix mr-3" rel={serviceRequest?.user_feeback?.rating} >
+                                                    <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
+                                                    <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
+                                                    <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
+                                                    <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
+                                                    <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
+                                                    <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
+                                                    <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
+                                                    <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
+                                                    <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
+                                                    <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
+                                                </div>
+                                                {/* <div className="ratilike ng-binding">5</div> */}
+                                            </div>
+                                        ) : (
+                                             <div 
+                                                type="button"
+                                                className="service-label"
+                                                style={{backgroundColor: 'blue'}}
+                                                onClick={()=>handleFeedbackClick(serviceRequest.id, serviceRequest.provider.id)}
+                                                data-backdrop="static"
+                                                data-keyboard="false" 
+                                                data-toggle="modal" 
+                                                data-target="#feedback"
+                                            >Give Feedback</div>
+                                        )
+                                    }
                                     <div className="order-time">{moment(serviceRequest?.created_at).fromNow()}</div>
                                 </div>
                                 <div className="order-btn-b">
@@ -308,18 +377,81 @@ export const ServicesHistory = (props) => {
             </div>
 
 
+            <div className="modal fade bd-example-modal-md" id="feedback" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Add Feedback</h5>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row m-2">
+                                <div className="col-12">
+                                    <center className="col-12">
+                                        {
+                                            (()=>{
+                                                if(feedbackLoading == false){
+                                                    if(feedbackMessage){
+                                                        return (
+                                                            <div className={`col-12  alert alert-${feedbackError == false ? 'success' : 'danger'} text-center`} role="alert" style={{fontSize: 15}}>
+                                                                {feedbackMessage}
+                                                            </div>
+                                                        )
+                                                    }
+                                                }
+                                                if(feedbackMessage == true){
+                                                    return (
+                                                        <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
+                                                            <i className="fa fa-spinner fa-spin"></i> Processing...
+                                                        </div>
+                                                    )
+                                                }
+                                            })()
+                                        }
+                                    </center>
+                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Add comment</div>
+                                    <div className="common-input">
+                                        <textarea type="text" onChange={handleCommentChange} name="detail" value={feedback.comment} placeholder="please add some details..." />
+                                    </div>
+                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 15, fontWeight: 'bold'}}>Rating</div>
+                                    <div className="star-rating-area d-flex align-items-center justify-content-start">
+                                        <div className="rating-static clearfix mr-3" rel={feedback.rating} >
+                                            <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(5)}></label>
+                                            <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(5)}></label>
+                                            <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(4)}></label>
+                                            <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(4)}></label>
+                                            <label className="full" title="{{ 'Good - 3 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(3)}></label>
+                                            <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(3)}></label>
+                                            <label className="full" title="{{ 'Fair - 2 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(2)}></label>
+                                            <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(2)}></label>
+                                            <label className="full" title="{{ 'Bad - 1 star' | translate }}" onClick={()=>handleSelectFeedbackClick(1)}></label>
+                                            <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" onClick={()=>handleSelectFeedbackClick(1)}></label>
+                                        </div>
+                                        {/* <div className="ratilike ng-binding">5</div> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button  type="button" className="button-common"data-dismiss="modal" onClick={handleCloseClick}>Close</button>
+                            <button
+                                onClick={handleFeedbackSubmit}
+                                disabled={feedback.rating == '' || feedback.provider_id == '' || feedback.service_request_id == '' || feedbackLoading || feedbackError == false ? true : false}
+                                type="button"
+                                className="button-common-2"
+                            >Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className="modal fade bd-example-modal-md" id="payable" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-md" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title display-4" id="exampleModalLongTitle">Pending Payment</h5>
-                            {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
                         </div>
                         <div className="modal-body">
-                            {/* <div className="row">
-                            </div> */}
                             <div className="row m-2">
                                 <div className="col-12">
                                     <center className="col-12">
@@ -329,17 +461,18 @@ export const ServicesHistory = (props) => {
                                                     return (
                                                         <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
                                                             {checkoutError}
-                                                        </div>)
+                                                        </div>
+                                                    )
                                                 }
                                                 if(payLoading == false){
                                                     if(payMessage){
                                                         return (
                                                             <div className={`col-12  alert alert-${payError == false ? 'success' : 'danger'} text-center`} role="alert" style={{fontSize: 15}}>
                                                                 {payMessage}
-                                                            </div>)
+                                                            </div>
+                                                        )
                                                     }
                                                 }
-                                                 
                                                 if(payMessage == true){
                                                     return (
                                                         <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
@@ -367,7 +500,6 @@ export const ServicesHistory = (props) => {
                             <button
                                 onClick={handlePayClick}
                                 disabled={state?.payable?.amount == null || checkoutError != null}
-                                // data-dismiss="modal"
                                 type="button"
                                 className="button-common-2"
                             >Pay

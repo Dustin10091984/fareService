@@ -503,8 +503,8 @@ export const ServiceProviders = (props) =>{
 
                                         if(serviceRequest.error == false && serviceRequest.loading == true){
                                             return (
-                                                <div className="col-12  alert alert-primary text-center" role="alert" style={{fontSize: 15}}>
-                                                    Please loading 
+                                                <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
+                                                    <i className="fa fa-spinner fa-spin"></i> Processing...
                                                 </div>
                                             )
                                         }
@@ -562,8 +562,8 @@ export const ServiceProviders = (props) =>{
                             <button
                                 data-dismiss={serviceRequest.message == 'success' ? "modal" : ""}
                                 disabled={
-                                    state.addressErr !== '' || state.address === '',
-                                    detailErr  || state.submitting === true ? true : false
+                                    state.addressErr !== '' || state.address === '' ||
+                                    detailErr  || state.submitting === true ? true : false || detail == ''
                                 }
                                 onClick={serviceRequest.message == 'success' ? handleGoToServicesHistory : handleAddPaymentClick}
                                 type="button"

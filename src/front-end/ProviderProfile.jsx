@@ -172,14 +172,14 @@ export const ProviderProfile = (props) => {
                                         const providerProfile = state?.providerProfile;
                                         if (providerProfile && providerProfile.error == false, providerProfile?.data) {
                                             const feedbacks = providerProfile?.data?.feedback;
-                                            if (feedbacks.length > 0) {
+                                            if (feedbacks?.length > 0) {
                                                 return (
                                                     <>
                                                         {feedbacks.map((feedback, index)=>(
-                                                            <div key={index} className="top-reviews-list">
+                                                            feedback.user && <div key={index} className="top-reviews-list">
                                                                 <div className="revie-card">
                                                                     <div className="d-flex align-itmes-center justify-content-between">
-                                                                        <div className="title">{`${feedback.user.first_name} ${feedback.user.last_name[0]}.`}</div>
+                                                                        <div className="title">{`${feedback?.user?.first_name} ${feedback?.user?.last_name[0]}.`}</div>
                                                                         <div className="star-rating-area">
                                                                             <div className="rating-static clearfix mr-3" rel={feedback?.rating}>
                                                                                 <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
