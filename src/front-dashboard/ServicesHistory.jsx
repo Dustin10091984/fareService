@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import { getServiceRequestList } from '../store/Slices/services/RequestServiceSclice';
+import { pay } from '../store/Slices/payments/paymentSlice';
 import {Loading} from '../front-end/common/Loading';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 // import Echo from "laravel-echo"
@@ -12,9 +13,13 @@ export const ServicesHistory = (props) => {
     const {location, history} = props;
     // const location = useLocation();
 
-    const [state, setstate] = useState({
-        payable: ''
+    const [state, setState] = useState({
+        payable: '',
+        error: ''
     });
+    const stripe = useStripe();
+    const elements = useElements();
+    const [checkoutError, setCheckoutError] = useState();
 
     const dispatch = useDispatch();
 
@@ -22,6 +27,12 @@ export const ServicesHistory = (props) => {
     const error = useSelector((state) => state?.serviceRequest?.list?.error);
     const message = useSelector((state) => state?.serviceRequest?.list?.message);
     const serviceRequestList = useSelector((state) => state?.serviceRequest?.list?.data);
+
+
+    const payLoading = useSelector((state) => state?.paymentReducer?.loading);
+    const payError = useSelector((state) => state?.paymentReducer?.error);
+    const payMessage = useSelector((state) => state?.paymentReducer?.message);
+    const payData = useSelector((state) => state?.paymentReducer?.data);
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
@@ -75,14 +86,46 @@ export const ServicesHistory = (props) => {
      * @param {object} payable 
      */
     const handlePaymentClick = (payable) => {
-        setstate((state)=>({...state, payable}));
+        setState((state)=>({...state, payable}));
     }
 
     /**
      * close modal and remove payable state
      */
     const handleCloseClick = () => {
-        setstate((state)=>({...state, payable: ''}));
+        setState((state)=>({...state, payable: ''}));
+    }
+
+    /**
+     * handle card details change
+     * 
+     * @param {object} event 
+     */
+    const handleCardDetailsChange = (event) => {
+        console.log();
+        if(event.error){
+            setCheckoutError(event.error.message)
+        } else {
+            // setState((state) => ({ ...state, error: { ...state.error, stripeErr: undefined } }))
+            setCheckoutError();
+        } 
+    };
+
+    const handlePayClick = async () => {
+        const cardElement = elements.getElement('card');
+        try {
+            const { error, token } = await stripe.createToken(
+                elements.getElement(CardElement)
+            );
+            if(token && state.payable !== undefined){
+                dispatch(pay({token: token.id, payable_id: state.payable.id}));
+            }
+            if(error){
+                setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
+            }
+        } catch (error) {
+            setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
+        }  
     }
 
     return (
@@ -280,14 +323,32 @@ export const ServicesHistory = (props) => {
                             <div className="row m-2">
                                 <div className="col-12">
                                     <center className="col-12">
+                                        {
+                                            (()=>{
+                                                if(checkoutError){
+                                                    return (
+                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
+                                                            {checkoutError}
+                                                        </div>)
+                                                }
+                                                if(payLoading == false){
+                                                    if(payMessage){
+                                                        return (
+                                                            <div className={`col-12  alert alert-${payError == false ? 'success' : 'danger'} text-center`} role="alert" style={{fontSize: 15}}>
+                                                                {payMessage}
+                                                            </div>)
+                                                    }
+                                                }
+                                            })()
+                                        }
                                         <div className="text-center" style={{fontSize: '2.5rem'}}>
                                             {"Please Enter Card details"}
                                         </div>
-                                        <CardElement onChange={"handleCardDetailsChange"} className="m-5"/>
+                                        <CardElement onChange={handleCardDetailsChange} className="m-5"/>
                                         <hr />
                                         <div className="row justify-content-md-between mt-3">
                                             <div className="col-6" style={{fontSize: '2rem'}}>Payable Amount</div>
-                                            <div className="col-6" style={{fontSize: '2rem'}}>${state?.payable?.amount}</div>
+                                            <div className="col-6" style={{fontSize: '2rem'}}>{`$${state?.payable?.amount}`}</div>
                                         </div>
                                     </center>
                                 </div>
@@ -296,8 +357,9 @@ export const ServicesHistory = (props) => {
                         <div className="modal-footer">
                             <button  type="button" className="button-common"data-dismiss="modal" onClick={handleCloseClick}>Close</button>
                             <button
-                                disabled={state?.payable?.amount == null}
-                                data-dismiss="modal"
+                                onClick={handlePayClick}
+                                disabled={state?.payable?.amount == null || checkoutError != null}
+                                // data-dismiss="modal"
                                 type="button"
                                 className="button-common-2"
                             >Pay
