@@ -10,6 +10,7 @@ import messageListSclice from "./Slices/chat/messageListSclice";
 import messageSlice from "./Slices/chat/messageSlice";
 import paymentSlice from "./Slices/payments/paymentSlice";
 import feedbackSlice from "./Slices/feedbacks/feedbackSlice";
+import movingSlice from "./Slices/moving/movingSlice";
 
 export default combineReducers({
     user: userSclice,
@@ -22,5 +23,6 @@ export default combineReducers({
     messageListReducer : messageListSclice,
     messageReducer : messageSlice,
     paymentReducer: paymentSlice,
-    feedbackReducer: feedbackSlice
+    feedbackReducer: feedbackSlice,
+    movingReducer: movingSlice
 });

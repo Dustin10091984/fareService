@@ -10,7 +10,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 export const ServiceProviders = (props) =>{
-
+console.log('====================================');
+console.log(props);
+console.log('====================================');
     const [state, setState] = useState({
         is_loggedin : false,
         loggedinErr: '',
@@ -328,7 +330,7 @@ export const ServiceProviders = (props) =>{
                                                         )
                                                     }
                                                 </div>
-                                                <div className="user-price">{`$${provider?.provider_profile?.hourly_rate}`}</div>
+                                                <div className="user-price">{provider?.provider_profile?.hourly_rate ? `$${provider?.provider_profile?.hourly_rate}` : ''}</div>
                                             </div>
                                         </div>
                                         {

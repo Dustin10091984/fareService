@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { Link, withRouter } from "react-router-dom";
 import axios from 'axios';
+import ServiceType from '../../constants/ServiceType'
 
 const Header = props => {
     const [state, setState] = useState({
@@ -57,10 +58,10 @@ const Header = props => {
                     (menu.sub_services && menu.sub_services.length) ?
                             <ul className="dropdownmenu">
                             {
-                                menu.sub_services.map((sub_menu, idx) => {
+                                menu.sub_services.map((sub_menu, index) => {
                                     return(
-                                        <li className="nav-item" key={`sub-menu-${idx}`}>
-                                            <Link to={`/services/${menu.id}/${sub_menu.id}`} className="nav-link border-bottom">
+                                        <li className="nav-item" key={`sub-menu-${index}`}>
+                                            <Link to={`/services/${menu.id}/${sub_menu.id}${menu.id == 3 ? "?service_type="+ServiceType.MOVING : "" }`}  className="nav-link border-bottom">
                                                 <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> {sub_menu.name}
                                             </Link>
                                         </li>
