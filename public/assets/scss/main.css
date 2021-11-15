@@ -48,6 +48,35 @@ body {
   font-family: Product Sans;
 }
 
+.inputfile {
+	width: 100%;
+	height: auto;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 2em;
+    font-weight: 700;
+    margin: 1rem;
+    padding: 1rem;
+    color: white;
+    background-color: blue;
+    display: inline-block;
+    border-radius: 1rem;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #FEA629;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
 .header-sec {
   padding: 2.2rem 0rem;
 }

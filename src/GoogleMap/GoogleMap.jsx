@@ -49,13 +49,17 @@ export const GoogleMap = (props) => {
               height: '400px',
               width: '100%'
             }}
+            center={{
+              lat: 0,
+              lng: -180
+            }}
             // required
             zoom={7}
            
           >
 
             {
-              state.response !== null && (
+              state?.response !== null && (
                 <DirectionsRenderer
                   // required
                   options={{ 
