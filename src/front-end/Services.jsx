@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Product } from '../front-end/common/product';
+import ServiceType from '../constants/ServiceType';
+import {Moving} from '../front-end/Services/Moving';
 import { Question } from './common/Question';
 export const Services = (props) => {
     const { serviceId, subServiceId } = props.match.params;
+    const search = props.location.search; // could be '?foo=bar'
+    const params = new URLSearchParams(search);
     return (
             <>
                 <div className="align-items-center justify-content-center" style={{
@@ -16,9 +19,17 @@ export const Services = (props) => {
                         <div className="row">
                             <div className="col-12">
                                 {serviceId && subServiceId ? (
-                                    <div className="moving-search-box house-cleaning-sec" style={{marginTop: "8rem", marginBottom: "8rem" , }}>
-                                    <Question serviceId={serviceId} subServiceId={subServiceId} {...props}/>
-                                    </div>
+                                    <>
+                                        {params.get('service_type') === ServiceType.MOVING ? (
+                                            <div className="moving-search-box m-5">
+                                                <Moving {...props}/>
+                                            </div>
+                                        ) : (
+                                            <div className="moving-search-box house-cleaning-sec" style={{marginTop: "8rem", marginBottom: "8rem" , }}>
+                                                <Question serviceId={serviceId} subServiceId={subServiceId} {...props}/>
+                                            </div>
+                                        )}
+                                    </>
                                     ) : (
                                         <div className="shop-search services-serch d-flex align-items-center justify-content-center mx-auto">
                                             <div className="header-search d-flex align-items-center justify-content-center flex-column">
@@ -37,8 +48,7 @@ export const Services = (props) => {
                                                 </form>
                                             </div>
                                         </div>
-                                    
-                                        
+
                                 )}
                             </div>
                         </div>

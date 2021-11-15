@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Product } from './common/product';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { getProviderList } from '../store/Slices/providers/providerListSclice';
 import { getProviderSchedule } from '../store/Slices/providers/providerScheduleSclice';
 import { postRequestService } from '../store/Slices/services/RequestServiceSclice';
 import { getInitialRequestService } from '../store/Slices/services/RequestServiceSclice';
+import { makeMovingRequest } from '../store/Slices/moving/movingSlice';
+import ServiceType from '../constants/ServiceType';
+import {GoogleMap} from '../GoogleMap/GoogleMap';
 import { Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 export const ServiceProviders = (props) =>{
+
+    const { location, history } = props;
+    
+    const [open, setOpen] = useState('');
 
     const [state, setState] = useState({
         is_loggedin : false,
@@ -36,7 +44,12 @@ export const ServiceProviders = (props) =>{
     const providerList = useSelector((state) => state.provider);
     const providerSchedule = useSelector((state) => state.providerSchedule);
     const serviceRequest = useSelector((state) => state.serviceRequest);
-    
+
+    const movingLoading = useSelector((state) => state.movingReducer?.movingRequest?.loading);
+    const movingRequest = useSelector((state) => state.movingReducer?.movingRequest?.data);
+    const movingError = useSelector((state) => state.movingReducer?.movingRequest?.error);
+    const movingMessage = useSelector((state) => state.movingReducer?.movingRequest?.message);
+
     useEffect(() => {
       return () => {
         dispatch(getInitialRequestService());
@@ -80,12 +93,15 @@ export const ServiceProviders = (props) =>{
     ]);
 
     function handleContinueClick(event, type, provider) {
+        setOpen(true);
         const {value} = event.target
         if(state.is_loggedin) {
             if(props.location.state !== undefined){
                 setState(state => ({...state, is_hourly: type, provider_id:value, provider}))
-                if(type == true){
-                    dispatch(getProviderSchedule(value));
+                if(location?.state?.service_type !== ServiceType.MOVING){
+                    if(type == true){
+                        dispatch(getProviderSchedule(value));
+                    }
                 }
             } else {
                 setState(state => ({
@@ -157,18 +173,18 @@ export const ServiceProviders = (props) =>{
     }
 
     const handleAddPaymentClick = (e) => {
-
         e.preventDefault();
-        const {selectedSlot, address, hours, is_hourly, provider_id, detail, provider} = state;
-        if (props.location.state !== undefined){
+        if (location.state !== undefined){
+            const {selectedSlot, address, hours, is_hourly, provider_id, detail, provider} = state;
             // setState((state) => ({ ...state, submitting: true }));
-            if(is_hourly == true){
+            if(is_hourly == true && location.state.service_type != ServiceType.MOVING){
                 props.history.push({
                     pathname: '/payment',
                     state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id, provider }
                 });
-            } else {
-                console.log(props.location.state);
+            } else if(location?.state?.service_type == ServiceType.MOVING){
+                dispatch(makeMovingRequest({...location.state, date: moment(location.state.date).format('YYYY-MM-DD'), provider_id}));
+            } else if(is_hourly == false && location.state.service_type != ServiceType.MOVING) {
                 let formData = new FormData();
                 formData.append('is_hourly', 0);
                 formData.append('address', address);
@@ -177,10 +193,10 @@ export const ServiceProviders = (props) =>{
                 formData.append('provider_id', provider_id);
                 dispatch(postRequestService(formData, true));
             }
-        }
-         else {
+        } else{
             setState((state) => ({ ...state, questionsErr: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category and select questions from header</center> }));
         }
+
     }
 
     const handleGoToServicesHistory = () => {
@@ -191,10 +207,10 @@ export const ServiceProviders = (props) =>{
     }
 
     const handleCloseModalClick = () => {
+        setOpen(false);
         setState((state) => ({ ...state, is_hourly : '',selectedSlot: '', address: '', hours : '', token: '' }));
         dispatch(getInitialRequestService());
     } 
-
 
     return (
             <>
@@ -287,7 +303,7 @@ export const ServiceProviders = (props) =>{
                                     <div key={index} className="job-provider-card">
                                         <div className="user-des d-flex align-items-center justify-content-start w-100">
                                             <div className="user-img d-flex align-items-center justify-content-center">
-                                                <img src={`${process.env.REACT_APP_Media_BASE_URL}${provider.image}`} className="img-fluid" alt="Not Found" />
+                                                <img src={provider.image ? `${process.env.REACT_APP_Media_BASE_URL}${provider.image}` : '/assets/img/user4.jpg'} className="img-fluid" alt="Not Found" />
                                             </div>
                                             <div className="user-detail w-100">
                                                 <div className=" w-100 d-flex align-items-center justify-content-between">
@@ -319,7 +335,8 @@ export const ServiceProviders = (props) =>{
                                                             data-keyboard="false" 
                                                             className="button-common-2" 
                                                             data-toggle="modal" 
-                                                            data-target={provider.account_type === 'BASIC' ? "#hourly" : "#quotation"}
+                                                            data-target={location.state.service_type == ServiceType.MOVING ? '#moving' : provider.account_type === 'BASIC' ? "#hourly" : "#quotation"}
+                                                            disabled={location?.state?.service_type && (location?.state?.service_type == ServiceType.MOVING && provider.service_type == ServiceType.MOVING ? false : true)}
                                                             >
                                                                 {provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}
                                                         </button>
@@ -328,7 +345,7 @@ export const ServiceProviders = (props) =>{
                                                         )
                                                     }
                                                 </div>
-                                                <div className="user-price">{`$${provider?.provider_profile?.hourly_rate}`}</div>
+                                                <div className="user-price">{provider?.provider_profile?.hourly_rate ? `$${provider?.provider_profile?.hourly_rate}` : ''}</div>
                                             </div>
                                         </div>
                                         {
@@ -337,7 +354,7 @@ export const ServiceProviders = (props) =>{
                                         {
                                             provider.bio && (
                                                 <div className="useer-qust">
-                                                    <div className="title">How can i help ?</div>
+                                                    <div className="title">Bio</div>
                                                     <div className="des">{provider.bio}</div>
                                                 </div>
                                             ) 
@@ -350,7 +367,7 @@ export const ServiceProviders = (props) =>{
                                                         <div className="review-title">Top Review</div>
                                                         <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                             <div className="review-img">
-                                                                <img src={process.env.REACT_APP_Media_BASE_URL + provider?.user_feedbacks[0]?.user?.image} className="img-fluid" alt="Not have" />
+                                                                <img src={provider?.user_feedbacks[0]?.user?.image ? process.env.REACT_APP_Media_BASE_URL + provider?.user_feedbacks[0]?.user?.image : '/assets/img/user4.jpg'} className="img-fluid" alt="Not have" />
                                                             </div>
                                                             {
                                                                 provider?.user_feedbacks[0] && <div className="review-detail">
@@ -569,6 +586,95 @@ export const ServiceProviders = (props) =>{
                                 type="button"
                                 className="button-common-2"
                             >{serviceRequest.message == 'success' ? "Go to Services History" : "Get Quotation"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade bd-example-modal-lg" id="moving" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Moving Request</h5>
+                            {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button> */}
+                        </div>
+                        <div className="modal-body">
+                            {/* <div className="row">
+                            </div> */}
+                            <div className="row m-2">
+                                <div className="col-12">
+                                    {movingRequest != undefined && (()=>{
+
+                                        if(movingError == false && movingLoading == true){
+                                            return (
+                                                <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
+                                                    <i className="fa fa-spinner fa-spin"></i> Processing...
+                                                </div>
+                                            )
+                                        }
+
+                                        if (movingError == true && movingLoading == false) {
+                                            console.log(typeof movingMessage);
+                                            switch (typeof movingMessage) {
+                                                case 'string':
+                                                    return (
+                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
+                                                            {movingMessage}
+                                                        </div>
+                                                    )
+                                                    break;
+                                                case 'object':
+                                                    const errorMsg = Object.values(movingMessage);
+                                                    console.log(errorMsg, 'ok');
+                                                    return (
+                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
+                                                            {errorMsg.map((msg, index)=>(<React.Fragment key={index} style={{fontSize: 15}}>{msg}<br/></React.Fragment>))}
+                                                        </div>
+                                                    )
+                                                    break;
+                                            }
+                                        }
+
+                                        if(movingError == false && movingLoading == false){
+                                            switch (typeof movingMessage) {
+                                                case 'string':
+                                                    return (
+                                                        <div className="col-12  alert alert-success text-center" role="alert" style={{fontSize: 15}}>
+                                                            {movingMessage == 'OK' ? "Successfully " : movingMessage}
+                                                        </div>
+                                                    )
+                                                    break;
+                                            }
+                                        }
+                                    })()}
+                                    <GoogleMap {...props} open={open}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
+                            <button
+                                data-dismiss={movingMessage == 'OK' ? "modal" : ""}
+                                disabled={
+                                    (()=>{
+                                        if(ServiceType.MOVING == location?.state?.service_type){
+                                            const {from_address, to_address, date, zip_code, start_lat, start_lng, end_lat, end_lng} = location?.state;
+                                            return (
+                                                from_address === '' || to_address === '' || date === '' || zip_code === '' || start_lat === '' || start_lng === '' || end_lat === '' || end_lng === ''
+                                                || from_address === undefined || to_address === undefined || date === undefined || zip_code === undefined || start_lat === undefined || start_lng === undefined || end_lat === undefined || end_lng === undefined
+                                            )
+                                        }
+                                        return state.submitting === true ? true : false
+                                    })()
+                                }
+                                onClick={movingMessage == 'OK' ? handleGoToServicesHistory : handleAddPaymentClick}
+                                type="button"
+                                className="button-common-2"
+                            >
+                                {movingMessage == 'OK' ? "Go to Services History" : "Get Quotation"}
                             </button>
                         </div>
                     </div>
