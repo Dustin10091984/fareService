@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { getVehicleTypes } from './../../store/Slices/moving/movingSlice'
+import ServiceType from './../../constants/ServiceType'
 import PlacesAutocomplete from 'react-places-autocomplete';
 import moment from 'moment';
 import {
@@ -12,7 +13,7 @@ import {
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-export const Moving = () => {
+export const Moving = (props) => {
 
     const [state, setstate] = useState({
         vehicle_type_id: '',
@@ -22,16 +23,17 @@ export const Moving = () => {
         start_lng: '',
         end_lat: '',
         end_lng: '',
-        date: '',
+        date: new Date(),
         zip_code: '',
+        service_type: ServiceType.MOVING,
     });
 
     const dispatch = useDispatch();
 
-    const loading = useSelector((state) => state.movingReducer.loading);
-    const data = useSelector((state) => state.movingReducer.data);
-    const error = useSelector((state) => state.movingReducer.error);
-    const message = useSelector((state) => state.movingReducer.message);
+    const loading = useSelector((state) => state.movingReducer?.list?.loading);
+    const data = useSelector((state) => state.movingReducer?.list?.data);
+    const error = useSelector((state) => state.movingReducer?.list?.error);
+    const message = useSelector((state) => state.movingReducer?.list?.message);
 
     useEffect(() => {
       dispatch(getVehicleTypes());
@@ -153,7 +155,6 @@ export const Moving = () => {
                                 </div>
                                 <div className='col-md-12 text-dark' style={{fontSize: '2rem'}}>Moving From</div>
                                 <div className="common-input p-1">
-                                    {console.log(state)}
                                     <PlacesAutocomplete
                                         value={state.from_address}
                                         onChange={(from_address) => setstate((state) => ({ ...state, from_address }))}
@@ -243,7 +244,13 @@ export const Moving = () => {
                                     data-toggle="modal" 
                                     data-target="#date"
                                 >
-                                    <input type="text" placeholder="date e.g 2222-12-30" value={state.date ? moment(state.date).format('YYYY-MM-DD') : ''}/>
+                                    <input
+                                        type="text"
+                                        placeholder="date e.g 2222-12-30"
+                                        value={state.date ? moment(state.date).format('YYYY-MM-DD') : ''}
+                                        onChange={(e) => setstate((state) => ({ ...state, date: e.target.value }))}
+                                    
+                                    />
                                 </div>
                                 <div className='col-md-12 text-dark' style={{fontSize: '2rem'}}>Zip Code</div>
                                 <div className="common-input pr-1">
@@ -253,18 +260,17 @@ export const Moving = () => {
                                         placeholder="Zip Code e.g 00000"
                                         onChange={handleChangeZipCode}
                                     />
-                                </div>                                
+                                </div>
                                 <div className="text-center">
                                     {
                                         state.from_address !== '' && state.to_address !== '' && state.date !== '' && state.zip_code !== '' && state.vehicle_type_id !== '' ? (
                                         <Link
                                             type="button"
                                             to={{pathname: "/service-providers",
-                                                state: state
+                                                state: {...state}
                                             }}
                                             
                                             className="button-common mt-4 w-100"
-                                            disabled={true}
                                         >Get Providers</Link>
                                         ) : (
                                             <button disabled type="button" className="button-common mt-4 w-100">Get Providers</button>

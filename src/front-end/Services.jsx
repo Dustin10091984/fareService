@@ -22,7 +22,7 @@ export const Services = (props) => {
                                     <>
                                         {params.get('service_type') === ServiceType.MOVING ? (
                                             <div className="moving-search-box m-5">
-                                                <Moving/>
+                                                <Moving {...props}/>
                                             </div>
                                         ) : (
                                             <div className="moving-search-box house-cleaning-sec" style={{marginTop: "8rem", marginBottom: "8rem" , }}>

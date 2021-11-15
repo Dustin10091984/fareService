@@ -42,7 +42,7 @@ export const ProviderProfile = (props) => {
                                         const data = providerProfile?.data;
                                         return <>
                                             <div className="pro-pic">
-                                                <img src={`${process.env.REACT_APP_Media_BASE_URL}${data?.provider?.image}`} className="img-fluid" alt="" />
+                                                <img src={data?.provider?.image ? `${process.env.REACT_APP_Media_BASE_URL}${data?.provider?.image}` : '/assets/img/user4.jpg'} className="img-fluid" alt="" />
                                             </div>
                                             <div className="pro-title">{`${data?.provider?.first_name} ${data?.provider?.last_name}`}</div>
                                             <div className="pro-price">{data?.provider.account_type == "BASIC" ? `$${data?.provider?.provider_profile.hourly_rate} hourly rate` : "PREMIUM"}</div>
