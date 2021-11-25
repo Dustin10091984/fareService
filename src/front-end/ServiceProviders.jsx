@@ -28,6 +28,8 @@ export const ServiceProviders = (props) =>{
         address : '',
         addressErr : '',
         detail : '',
+        images: [],
+        previewImages: [],
         detailErr : '',
         questionsErr : '',
         submitting : false,
@@ -189,6 +191,7 @@ export const ServiceProviders = (props) =>{
                 formData.append('is_hourly', 0);
                 formData.append('address', address);
                 detail && formData.append('detail', detail);
+                state.images.length > 0 && formData.append('images[]', state?.images);
                 formData.append('questions', JSON.stringify(props.location.state));
                 formData.append('provider_id', provider_id);
                 dispatch(postRequestService(formData, true));
@@ -208,9 +211,33 @@ export const ServiceProviders = (props) =>{
 
     const handleCloseModalClick = () => {
         setOpen(false);
-        setState((state) => ({ ...state, is_hourly : '',selectedSlot: '', address: '', hours : '', token: '' }));
+        setState((state) => ({ ...state, is_hourly : '',selectedSlot: '', address: '', hours : '', token: '', previewImages: [], detail: '' }));
         dispatch(getInitialRequestService());
     } 
+
+    const handleImagesChange = (e) => {
+        let matcher = true;
+        var regExp = new RegExp('image.(jpeg|png|jpg|gif|svg|bmp)', 'i');
+        let images = e.target.files;
+        setState((state) => ({ ...state, previewImages: [] }));
+        let previewImages = [];
+        if ( images.length > 0 && images.length < 11 ) {
+            for (const image of images) {
+                matcher = regExp.test(image.type);
+                previewImages.push(URL.createObjectURL(image));
+                if (!matcher) {
+                    break;
+                }
+            }
+        } else {
+            matcher = false;
+        }
+        if(matcher == true){
+            setState({...state, images, previewImages});
+        } else {
+            setState({...state, images: [], previewImages: []});
+        }
+    }
 
     return (
             <>
@@ -571,6 +598,19 @@ export const ServiceProviders = (props) =>{
                                         <textarea type="text" onChange={handleDetailChange} name="detail" value={detail} placeholder="please add some details..." />
                                     </div>
                                     <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{detailErr}</div>
+                                    <input type="file" accept=".jpeg,.png,.jpg,.svg" name="images[]" id="file" class="inputfile" onChange={handleImagesChange} multiple={true}/>
+                                    <label for="file">Choose Images</label>
+                                    {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
+                                    <div class="text-center">
+                                        <div className="row">
+                                            <div className="col-md-12 d-flex justify-content-around">
+                                                {state?.previewImages.map((image, index)=>(
+                                                    <img  key={index} src={image} class="rounded col-md-4" alt="..."/>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
