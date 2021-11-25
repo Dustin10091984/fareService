@@ -27,6 +27,7 @@ import { Apply } from './front-end/Apply';
 import { ProductDetail } from './front-end/ProductDetail';
 import { Gaurantee } from './front-end/Gaurantee';
 import { FoodGrocery } from './front-end/FoodGrocery';
+import { Restaurants } from './front-end/Restaurants';
 import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
 import { Services } from './front-end/Services';
@@ -58,7 +59,7 @@ function App() {
       broadcaster: 'socket.io',
     };
     if (typeof window.io != 'undefined') {
-      window.Echo = new Echo(localOption);
+      window.Echo = new Echo(liveOption);
       // client: io,
       // auth: {headers: {Authorization: localStorage.userToken }}
 
@@ -92,30 +93,32 @@ function App() {
 
           <ProtectedRoute path='/dashboard' component={ Dashboard }/>
           <ProtectedRoute path='/chat' component={ Chat }/>
+          <ProtectedRoute path='/service-providers' component={ServiceProviders}  />
+          <ProtectedRoute path='/payment' component={Payment}  />
+          <ProtectedRoute path='/services-history' component={ ServicesHistory }  />
 
           
           <Route path='/shop' component={Shop}  />
           <Route path='/shop2' component={ShopTwo}  />
           <Route path='/moving-help' component={MovingHelp}  />
           <Route path='/house-cleaning' component={HouseCleaning}  />
-          <ProtectedRoute path='/service-providers' component={ServiceProviders}  />
           <Route path='/profile/:id' component={ProviderProfile}  />
           <Route path='/latest-news' component={LatestNews}  />
           <Route path='/scolarship' component={Scolarship}  />
           <Route path='/retail' component={Retail}  />
           <Route path='/about-us' component={AboutUs}  />
-          <ProtectedRoute path='/payment' component={Payment}  />
           <Route path='/apply' component={Apply}  />
           <Route path='/product-detail' component={ProductDetail}  />
           <Route path='/gaurantee' component={ Gaurantee }  />
           <Route path='/food-grocery' component={ FoodGrocery }  />
+          <Route path='/restaurants/:id' component={ Restaurants }  />
+          <Route path='/restaurants' component={ Restaurants }  />
           <Route path='/food-details' component={ FoodDetails }  />
           <Route path='/services/:serviceId/:subServiceId' component={ Services }  />
           <Route path='/services' component={ Services }  />
           <Route path='/cart' component={ Cart }  />
           <Route path='/order-history' component={ OrderHistory }  />
           <Route path='/food-delivery' component={ FoodDelivery }  />
-          <ProtectedRoute path='/services-history' component={ ServicesHistory }  />
           <Route path='/order-detail' component={ OrderDetail }  />
           <Route path='/service-detail' component={ ServicesDetail }  />
           <Route path='/change-password' component={ ChangeP }  />
