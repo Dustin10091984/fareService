@@ -127,9 +127,9 @@ const Header = props => {
                   <div className="header-links-login">
                     <ul className="nav-l d-flex">
                       <li className="item-list">
-                        <a href="#" className="link">
-                          Become a Pro
-                        </a>
+                        <Link to="/chat" className="link">
+                          Chat
+                        </Link>
                       </li>
                       <li className="item-list">
                         <a href="#" className="link">
@@ -180,7 +180,6 @@ const Header = props => {
                         <Link to={`/restaurants`} className="nav-link active">
                           {"Restaurants "}
                         </Link>
-                        
                       </li>
                     </ul>
                   </div>
