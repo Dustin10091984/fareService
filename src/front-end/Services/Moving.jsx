@@ -118,26 +118,56 @@ export const Moving = (props) => {
                         <div className="row justify-content-center">
                             {(()=>{
                                     return data?.map((item, index) => (
-                                        <div className="col-md-3 col-sm-6 col-xs-12" key={index}>
-                                            <div className="d-flex bd-highlight m-4 justify-content-center align-items-center" style={{
-                                                width: '17rem',
-                                                height: '17rem',
-                                                // background: '#FFFFFF',
-                                                boxShadow: `.2rem .2rem .6rem .8rem ${item.id === state.vehicle_type_id ? "#fea629" : "#cccccc"}`,
-                                                borderRadius: '.5rem',
-                                            }}
-                                            onClick={()=>handleSelectTypeClick(item.id)}>
-                                                <div className="d-flex flex-column justify-content-center align-items-center m-3" style={{fontSize: 15}}>
-                                                {item.image ? (
-                                                    <img src={item.image} className="img-fluid m-1" alt="..."  style={{height: '12rem', width: '12rem'}}/>
-                                                ) : (
-                                                    <i className="fa fa-car fa-5x" aria-hidden="true"></i>
-                                                )}
-                                                {item.title}
-                                                </div>
-                                            </div>
+                                      <div
+                                        className="col-md-3 col-sm-6 col-xs-12"
+                                        key={index}
+                                      >
+                                        <div
+                                          className="d-flex bd-highlight m-4 justify-content-center align-items-center"
+                                          style={{
+                                            width: "17rem",
+                                            height: "17rem",
+                                            // background: '#FFFFFF',
+                                            boxShadow: `.2rem .2rem .6rem .8rem ${
+                                              item.id === state.vehicle_type_id
+                                                ? "#fea629"
+                                                : "#cccccc"
+                                            }`,
+                                            borderRadius: ".5rem",
+                                          }}
+                                          onClick={() =>
+                                            handleSelectTypeClick(item.id)
+                                          }
+                                        >
+                                          <div
+                                            className="d-flex flex-column justify-content-center align-items-center m-3"
+                                            style={{ fontSize: 15 }}
+                                          >
+                                            {item.image ? (
+                                              <img
+                                                src={
+                                                  process.env
+                                                    .REACT_APP_Media_BASE_URL+item
+                                                    .image
+                                                }
+                                                className="img-fluid m-1"
+                                                alt="..."
+                                                style={{
+                                                  height: "12rem",
+                                                  width: "12rem",
+                                                }}
+                                              />
+                                            ) : (
+                                              <i
+                                                className="fa fa-car fa-5x"
+                                                aria-hidden="true"
+                                              ></i>
+                                            )}
+                                            {item.title}
+                                          </div>
                                         </div>
-                                    ))
+                                      </div>
+                                    ));
                             })()}
                         </div>
                     </div>
