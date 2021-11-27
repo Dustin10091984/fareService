@@ -265,7 +265,7 @@ export const Payment = (props) => {
         try {
             setState((state) => ({ ...state, error: { ...state.error, stripeErr: undefined } }))
             const { error, token } = await stripe.createToken(
-                elements.getElement(CardElement)
+                elements.getElement(cardElement)
             );
             if(token && serviceDetail !== undefined){
                 setState((state) => ({ 
