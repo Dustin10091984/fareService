@@ -56,21 +56,14 @@ export const GoogleMap = (props) => {
           // required
           zoom={7}
         >
-          {
-            (
-              state?.response !== null && 
-              state.origin !== null && state.destination !== null &&
-              state.origin !== undefined && state.destination !== undefined &&
-              state.destination(
-                <DirectionsRenderer
-                  // required
-                  options={{
-                    directions: state?.response,
-                  }}
-                />
-              )
-            )
-          }
+          {state?.response !== null && (
+            <DirectionsRenderer
+              // required
+              options={{
+                directions: state?.response,
+              }}
+            />
+          )}
         </Map>
         <div
           className="row mt-5 mb-5 m-1 pb-5"
