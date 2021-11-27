@@ -126,8 +126,6 @@ export const Question = (props) => {
             selectedZipCode: true
         }));
     };
-
-    console.log(state.zipCodeData, state.zipCodeDataErr, state.selectedZipCode);
     return (
       <div className="row">
         <div className="col-md-12">
