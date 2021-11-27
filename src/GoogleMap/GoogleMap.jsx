@@ -41,84 +41,96 @@ export const GoogleMap = (props) => {
 
     return (
       <>
-          <Map
-            // required
-            id='direction-example'
-            // required
-            mapContainerStyle={{
-              height: '400px',
-              width: '100%'
-            }}
-            center={{
-              lat: 0,
-              lng: -180
-            }}
-            // required
-            zoom={7}
-           
-          >
-
-            {
-              state?.response !== null && (
+        <Map
+          // required
+          id="direction-example"
+          // required
+          mapContainerStyle={{
+            height: "400px",
+            width: "100%",
+          }}
+          center={{
+            lat: 0,
+            lng: -180,
+          }}
+          // required
+          zoom={7}
+        >
+          {
+            (
+              state?.response !== null && 
+              state.origin !== null && state.destination !== null &&
+              state.origin !== undefined && state.destination !== undefined &&
+              state.destination(
                 <DirectionsRenderer
                   // required
-                  options={{ 
-                    directions: state?.response
+                  options={{
+                    directions: state?.response,
                   }}
                 />
               )
-            }
+            )
+          }
         </Map>
-        <div className="row mt-5 mb-5 m-1 pb-5"
+        <div
+          className="row mt-5 mb-5 m-1 pb-5"
           style={{
-            border: '0.5rem solid #ccc',
-            borderRadius: '5px',
-            boxShadow: '0 0.5rem 1rem rgba(0,0,0,.15)',
+            border: "0.5rem solid #ccc",
+            borderRadius: "5px",
+            boxShadow: "0 0.5rem 1rem rgba(0,0,0,.15)",
           }}
         >
           <div className="col-12">
-            <div className="title-move text-center">
-                Moving Details
+            <div className="title-move text-center">Moving Details</div>
+            <div className="col-md-12 text-dark" style={{ fontSize: "2rem" }}>
+              Moving From
             </div>
-            <div className='col-md-12 text-dark' style={{fontSize: '2rem'}}>Moving From</div>
             <div className="common-input pr-1">
-                <input
-                    type="text"
-                    placeholder="date e.g 2222-12-30"
-                    value={state.from_address}
-                    disabled
-                />
+              <input
+                type="text"
+                placeholder="date e.g 2222-12-30"
+                value={state.from_address}
+                disabled
+              />
             </div>
-            <div className='col-md-12 text-dark' style={{fontSize: '2rem'}}>Moving To</div>
-            <div className="common-input pr-1">
-                <input
-                    type="text"
-                    placeholder="date e.g 2222-12-30"
-                    value={state.to_address}
-                    disabled
-                />
+            <div className="col-md-12 text-dark" style={{ fontSize: "2rem" }}>
+              Moving To
             </div>
-            <div className='col-md-12 text-dark' style={{fontSize: '2rem'}}>Moving Date</div>
             <div className="common-input pr-1">
-                <input
-                    type="text"
-                    placeholder="date e.g 2222-12-30"
-                    value={state.date ? moment(state.date).format('YYYY-MM-DD') : ''}
-                    disabled
-                />
+              <input
+                type="text"
+                placeholder="date e.g 2222-12-30"
+                value={state.to_address}
+                disabled
+              />
             </div>
-            <div className='col-md-12 text-dark' style={{fontSize: '2rem'}}>Zip Code</div>
+            <div className="col-md-12 text-dark" style={{ fontSize: "2rem" }}>
+              Moving Date
+            </div>
             <div className="common-input pr-1">
-                <input
-                    type="text"
-                    name="zip_code"
-                    placeholder="Zip Code e.g 00000"
-                    value={state.zip_code}
-                    disabled
-                />
+              <input
+                type="text"
+                placeholder="date e.g 2222-12-30"
+                value={
+                  state.date ? moment(state.date).format("YYYY-MM-DD") : ""
+                }
+                disabled
+              />
+            </div>
+            <div className="col-md-12 text-dark" style={{ fontSize: "2rem" }}>
+              Zip Code
+            </div>
+            <div className="common-input pr-1">
+              <input
+                type="text"
+                name="zip_code"
+                placeholder="Zip Code e.g 00000"
+                value={state.zip_code}
+                disabled
+              />
             </div>
           </div>
         </div>
-    </>
-  );
+      </>
+    );
 }

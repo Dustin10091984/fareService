@@ -45,7 +45,7 @@ export const ProviderProfile = (props) => {
                                                 <img src={data?.provider?.image ? `${process.env.REACT_APP_Media_BASE_URL}${data?.provider?.image}` : '/assets/img/user4.jpg'} className="img-fluid" alt="" />
                                             </div>
                                             <div className="pro-title">{`${data?.provider?.first_name} ${data?.provider?.last_name}`}</div>
-                                            <div className="pro-price">{data?.provider.account_type == "BASIC" ? `$${data?.provider?.provider_profile.hourly_rate} hourly rate` : "PREMIUM"}</div>
+                                            <div className="pro-price">{data?.provider.account_type == "BASIC" && data?.provider?.provider_profile?.hourly_rate ? `$${data?.provider?.provider_profile.hourly_rate} hourly rate` : "PREMIUM"}</div>
                                             <div className="pro-jos-status">{`${data?.provider?.provider_service_requests_count} Jobs Completed`}</div>
                                             <div className="star-rating-area">
                                                 <div className="rating-static clearfix mr-3" rel={data?.provider?.rating}>

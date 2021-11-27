@@ -11,6 +11,7 @@ import ServiceType from '../constants/ServiceType';
 import {GoogleMap} from '../GoogleMap/GoogleMap';
 import { Link } from "react-router-dom";
 import Calendar from 'react-calendar';
+import PlacesAutocomplete from "react-places-autocomplete";
 import 'react-calendar/dist/Calendar.css';
 
 export const ServiceProviders = (props) =>{
@@ -153,13 +154,12 @@ export const ServiceProviders = (props) =>{
         // }
     }
 
-    const handleAddressChange = (e) => {
-       const {name, value} = e.target;
-        if (value.length <= 20 || value.length >= 100 ){
-            setState((state) => ({ ...state, [name]: value }));
-            setState((state) => ({ ...state, addressErr: <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>Address's character should be in between 20 or 100</div> }));
+    const handleAddressChange = (address) => {
+        if (address.length < 5){
+            setState((state) => ({ ...state, address}));
+            setState((state) => ({ ...state, addressErr: <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>Address's character minimum 5</div> }));
         } else {
-            setState((state) => ({ ...state, [name]: value }));
+            setState((state) => ({ ...state, address }));
             setState((state) => ({ ...state, addressErr: '' }));
         }
     }
@@ -512,7 +512,46 @@ export const ServiceProviders = (props) =>{
                                 <div className="col-12 p-5">
                                     <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Address</div>
                                     <div className="common-input">
-                                        <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" />
+                                        <PlacesAutocomplete
+                                        value={state.address}
+                                        onChange={(address) => setState((state) => ({ ...state, address }))}
+                                        onSelect={handleAddressChange}
+                                    >
+                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                            <div>
+                                                <input
+                                                    {...getInputProps({
+                                                        placeholder: 'From ...',
+                                                        className: 'location-search-input m-1',
+                                                    })}
+                                                />
+                                                <div className="autocomplete-dropdown-container">
+                                                    {loading && <div>Loading...</div>}
+                                                    {suggestions.map((suggestion) => {
+                                                        const className = suggestion.active
+                                                            ? 'suggestion-item--active'
+                                                            : 'suggestion-item';
+                                                        // inline style for demonstration purpose
+                                                        const style = suggestion.active
+                                                            ? { backgroundColor: '#fafafa', cursor: 'pointer', fontSize: 15, margin: '5px' }
+                                                            : { backgroundColor: '#ffffff', cursor: 'pointer', fontSize: 15, margin: '5px' };
+                                                        return (
+                                                            <div
+                                                                key={suggestion.index}
+                                                                {...getSuggestionItemProps(suggestion, {
+                                                                    className,
+                                                                    style,
+                                                                })}
+                                                            >
+                                                                <span>{suggestion.description}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
+                                        {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
                                     </div>
                                     {state.addressErr}
                                 </div>
@@ -590,7 +629,46 @@ export const ServiceProviders = (props) =>{
                                     })()}
                                     <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Address</div>
                                     <div className="common-input">
-                                        <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" />
+                                    <PlacesAutocomplete
+                                        value={state.address}
+                                        onChange={(address) => setState((state) => ({ ...state, address }))}
+                                        onSelect={handleAddressChange}
+                                    >
+                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                                            <div>
+                                                <input
+                                                    {...getInputProps({
+                                                        placeholder: 'From ...',
+                                                        className: 'location-search-input m-1',
+                                                    })}
+                                                />
+                                                <div className="autocomplete-dropdown-container">
+                                                    {loading && <div>Loading...</div>}
+                                                    {suggestions.map((suggestion) => {
+                                                        const className = suggestion.active
+                                                            ? 'suggestion-item--active'
+                                                            : 'suggestion-item';
+                                                        // inline style for demonstration purpose
+                                                        const style = suggestion.active
+                                                            ? { backgroundColor: '#fafafa', cursor: 'pointer', fontSize: 15, margin: '5px' }
+                                                            : { backgroundColor: '#ffffff', cursor: 'pointer', fontSize: 15, margin: '5px' };
+                                                        return (
+                                                            <div
+                                                                key={suggestion.index}
+                                                                {...getSuggestionItemProps(suggestion, {
+                                                                    className,
+                                                                    style,
+                                                                })}
+                                                            >
+                                                                <span>{suggestion.description}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
+                                        {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
                                     </div>
                                     {state.addressErr}
                                     <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Details</div>
@@ -598,14 +676,14 @@ export const ServiceProviders = (props) =>{
                                         <textarea type="text" onChange={handleDetailChange} name="detail" value={detail} placeholder="please add some details..." />
                                     </div>
                                     <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{detailErr}</div>
-                                    <input type="file" accept=".jpeg,.png,.jpg,.svg" name="images[]" id="file" class="inputfile" onChange={handleImagesChange} multiple={true}/>
-                                    <label for="file">Choose Images</label>
+                                    <input type="file" accept=".jpeg,.png,.jpg,.svg" name="images[]" id="file" className="inputfile" onChange={handleImagesChange} multiple={true}/>
+                                    <label htmlFor="file">Choose Images</label>
                                     {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
-                                    <div class="text-center">
+                                    <div className="text-center">
                                         <div className="row">
                                             <div className="col-md-12 d-flex justify-content-around">
                                                 {state?.previewImages.map((image, index)=>(
-                                                    <img  key={index} src={image} class="rounded col-md-4" alt="..."/>
+                                                    <img  key={index} src={image} className="rounded col-md-4" alt="..."/>
                                                 ))}
                                             </div>
                                         </div>
@@ -657,7 +735,6 @@ export const ServiceProviders = (props) =>{
                                         }
 
                                         if (movingError == true && movingLoading == false) {
-                                            console.log(typeof movingMessage);
                                             switch (typeof movingMessage) {
                                                 case 'string':
                                                     return (

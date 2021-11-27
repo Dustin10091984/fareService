@@ -186,6 +186,7 @@ export const Moving = (props) => {
                                                                     style,
                                                                 })}
                                                             >
+                                                                {console.log("dskjfhsjdkf")}
                                                                 <span>{suggestion.description}</span>
                                                             </div>
                                                         );
