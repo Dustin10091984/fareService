@@ -24,8 +24,8 @@ export const GoogleMap = (props) => {
     
     useEffect(() => {
         directionsService.route({
-            origin: state?.origin,
-            destination: state?.destination,
+            origin: state?.from_address,
+            destination: state?.to_address,
             travelMode: 'DRIVING',
         }, (result, status) => {
             if (status === 'OK') {
@@ -35,7 +35,7 @@ export const GoogleMap = (props) => {
                 });
             }
         });
-    }, [state.origin, state.destination]);
+    }, [state.from_address, state.to_address]);
 
     
 
@@ -56,14 +56,20 @@ export const GoogleMap = (props) => {
           // required
           zoom={7}
         >
-          {state?.response !== null && (
-            <DirectionsRenderer
-              // required
-              options={{
-                directions: state?.response,
-              }}
-            />
-          )}
+          {
+            (
+              state?.response !== null && state?.response !== undefined && state?.response !== '' &&
+              state?.from_address && state?.to_address &&
+              (
+                <DirectionsRenderer
+                  // required
+                  options={{
+                    directions: state?.response,
+                  }}
+                />
+              )
+            )
+          }
         </Map>
         <div
           className="row mt-5 mb-5 m-1 pb-5"
