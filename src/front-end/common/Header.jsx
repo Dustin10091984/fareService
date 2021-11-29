@@ -2,13 +2,14 @@ import React, { useEffect, useState} from 'react';
 import { Link, withRouter } from "react-router-dom";
 import axios from 'axios';
 import ServiceType from '../../constants/ServiceType'
+import {Chat} from '../Chat/Chat'
 
 const Header = props => {
     const [state, setState] = useState({
         is_loggedin: false,
-        header_menu: []
+        header_menu: [],
+        isChatOpen: false,
     });
-
     useEffect(()=>{
         if (localStorage.getItem('userToken')){
             setState(state => ({
@@ -127,9 +128,24 @@ const Header = props => {
                   <div className="header-links-login">
                     <ul className="nav-l d-flex">
                       <li className="item-list">
-                        <Link to="/chat" className="link">
+                        {state.is_loggedin && (
+                          <span
+                            type="button"
+                            className="link"
+                            data-backdrop="static"
+                            data-keyboard="false"
+                            data-toggle="modal"
+                            data-target="#chat"
+                            onClick={() =>
+                              setState({ ...state, isChatOpen: true })
+                            }
+                          >
+                            Chat
+                          </span>
+                        )}
+                        {/* <Link to="/chat" className="link">
                           Chat
-                        </Link>
+                        </Link> */}
                       </li>
                       <li className="item-list">
                         <a href="#" className="link">
@@ -188,6 +204,47 @@ const Header = props => {
             </div>
           </div>
         </header>
+
+        <div
+          className="modal fade bd-example-modal-xl"
+          id="chat"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div
+            className="modal-dialog modal-dialog-centered modal-xl"
+            role="document"
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5
+                  className="modal-title display-4"
+                  id="exampleModalLongTitle"
+                >
+                  Chat
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setState({ ...state, isChatOpen: true })}
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row m-2">
+                  <div className="col-12">
+                    <Chat isChatOpen={state?.isChatOpen} is_loggedin={state?.is_loggedin} {...props}></Chat>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </>
     );
 }

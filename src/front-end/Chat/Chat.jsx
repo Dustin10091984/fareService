@@ -27,8 +27,7 @@ import {
 import { Loading } from "../common/Loading";
 
     
-export const Chat = (props) => {
-
+export const Chat = ({isChatOpen, ...props}) => {
     
     const image = "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
     
@@ -48,7 +47,7 @@ export const Chat = (props) => {
             });
         }
     useEffect(() => {
-        if(newMsg){
+        if(newMsg, isChatOpen == true){
             dispatch(addMessage(newMsg));
         }
     }, [newMsg]);
@@ -56,8 +55,10 @@ export const Chat = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-      dispatch(chatList())
-    }, []);
+      if (isChatOpen == true) {
+        dispatch(chatList());
+      }
+    }, [isChatOpen]);
 
     const loading = useSelector((state) => state?.chatlistReducer?.loading);
     const list = useSelector((state) => state?.chatlistReducer?.data);
@@ -110,7 +111,7 @@ export const Chat = (props) => {
     };
 
     return (
-        <div className="dashborad-box order-history p-5">
+        <div className="">
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
@@ -180,23 +181,31 @@ export const Chat = (props) => {
                                                 loading={messageLoading == true && messagesdata?.data == undefined ? true : false }
                                                 loadingMore={messageLoading || MessageError == true && false} onYReachStart={(messageLoading == false && nextPage == true) && onYReachStart || undefined}
                                             >
-                                                {(messagesdata?.current_page == messagesdata?.last_page && messagesdata?.data) &&
-                                                    <MessageSeparator content="End" />
-                                                }
-                                                {(messagesdata && localStorage.user_data) && 
-                                                    (messagesdata?.data?.map(((message,index)=>
-                                                        <Message key={index} model={{
-                                                            message: message?.message,
-                                                            // sentTime: "15 mins ago",
-                                                            sender: message?.sender?.first_name,
-                                                            direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
-                                                            // position: "single"
-                                                        }}/>
-                                                    )))
-                                                }
-                                                {sending && msgLoading &&
-                                                    <MessageSeparator content="Sending" />
-                                                }
+                                                {(()=>{
+                                                    if(active?.userId, active?.orderId){
+                                                        return(
+                                                            <>
+                                                                {(messagesdata?.current_page == messagesdata?.last_page && messagesdata?.data) &&
+                                                                    <MessageSeparator content="End" />
+                                                                }
+                                                                {(messagesdata && localStorage.user_data) && 
+                                                                    (messagesdata?.data?.map(((message,index)=>
+                                                                        <Message key={index} model={{
+                                                                            message: message?.message,
+                                                                            // sentTime: "15 mins ago",
+                                                                            sender: message?.sender?.first_name,
+                                                                            direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
+                                                                            // position: "single"
+                                                                        }}/>
+                                                                    )))
+                                                                }
+                                                                {sending && msgLoading &&
+                                                                    <MessageSeparator content="Sending" />
+                                                                }
+                                                            </>
+                                                        )
+                                                    }
+                                                })()}
                                             </MessageList>
                                         )
                                     })()

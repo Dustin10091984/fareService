@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 
 
 const Login = props => {
     const { history } = props;
-
     const [state, setState] = useState({
         isLoading: false,
         values: {
@@ -14,6 +13,12 @@ const Login = props => {
         },
         errors: {}
     });
+
+    useEffect(() => {
+      if (localStorage.userToken) {
+        history.push('/dashboard');
+      }
+    }, [])
 
     const handleChange = event => {
         event.persist();
@@ -46,7 +51,9 @@ const Login = props => {
             const data = response.data.data;
             localStorage.setItem('userToken', data.auth_token);
             localStorage.setItem('user_data', JSON.stringify(data.user));
-            history.push('/dashboard');
+            history.action === "POP"
+              ? history.push("/dashboard")
+              : history.goBack();
         })
         .catch((error) => {
             //handle error

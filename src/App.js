@@ -92,12 +92,12 @@ function App() {
           <Route path='/login' component={ Login }  />
 
           <ProtectedRoute path='/dashboard' component={ Dashboard }/>
-          <ProtectedRoute path='/chat' component={ Chat }/>
-          <ProtectedRoute path='/service-providers' component={ServiceProviders}  />
+          {/* <ProtectedRoute path='/chat' component={ Chat }/> */}
           <ProtectedRoute path='/payment' component={Payment}  />
           <ProtectedRoute path='/services-history' component={ ServicesHistory }  />
 
           
+          <Route path='/service-providers' component={ServiceProviders}  />
           <Route path='/shop' component={Shop}  />
           <Route path='/shop2' component={ShopTwo}  />
           <Route path='/moving-help' component={MovingHelp}  />
