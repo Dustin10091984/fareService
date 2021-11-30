@@ -65,8 +65,16 @@ export const ServiceProviders = (props) =>{
                 ...state, is_loggedin : true
             }));
         }
-        dispatch(getProviderList(props.location.search));
-    }, [props.location.search])
+        if(location?.state?.service_type === ServiceType.MOVING){
+            let searchParams= new URLSearchParams({
+              service_type: location?.state?.service_type,
+              vehicle_type_id: location?.state?.vehicle_type_id,
+            }).toString();
+            dispatch(getProviderList(`${props.location.search !== '' ? props.location.search+searchParams : `?${searchParams}`}`));
+        } else {
+            dispatch(getProviderList(props.location.search));
+        }
+    }, [props.location.search, props.location.state]);
 
     useEffect(() => {
         if (providerList !== undefined && !providerList.length) {
@@ -715,9 +723,9 @@ export const ServiceProviders = (props) =>{
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title display-4" id="exampleModalLongTitle">Moving Request</h5>
-                            {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button> */}
+                            </button>
                         </div>
                         <div className="modal-body">
                             {/* <div className="row">

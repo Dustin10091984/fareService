@@ -49,15 +49,21 @@ const { getMessages } = messageListSlice.actions;
 export const messageList = (data) => async dispatch => {
     try {
         dispatch(getMessages({error: false, loading: true}));
+        let params = (()=>{
+            if (data.orderId && data.page){
+                return `?service_request_id=${data.orderId}&page=${data.page}`;
+            } else if (data.orderId){
+                return `?service_request_id=${data.orderId}`;
+            } else {
+                return '';
+            }
+        })();
         await axios({
             method: 'get',
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${
-                data.orderId && data.nextPage ? `?service_request_id=${data.orderId}&page=${data.nextPage}` :
-                data.orderId ? `?service_request_id=${data.orderId}` : ''
-            }`,
+            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${params}`,
         }).then((response) => {
             let data = response.data;
             data?.data?.data.reverse();
