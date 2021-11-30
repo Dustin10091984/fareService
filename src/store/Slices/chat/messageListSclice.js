@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { act } from 'react-dom/test-utils';
+import { helperAxios } from "../../../helper/axios/index";
 
 const messageListSlice = createSlice({
     name: 'message',
@@ -46,35 +46,21 @@ export default messageListSlice.reducer;
 export const { clearMessages, addMessage } = messageListSlice.actions;
 const { getMessages } = messageListSlice.actions;
 
+const reverseData = (data) => {
+    data.reverse()
+    return data;
+}
+
 export const messageList = (data) => async dispatch => {
-    try {
-        dispatch(getMessages({error: false, loading: true}));
-        let params = (()=>{
-            if (data.orderId && data.page){
-                return `?service_request_id=${data.orderId}&page=${data.page}`;
-            } else if (data.orderId){
-                return `?service_request_id=${data.orderId}`;
-            } else {
-                return '';
-            }
-        })();
-        await axios({
-            method: 'get',
-            headers: {
-                Authorization: `${localStorage.userToken}`
-            },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${params}`,
-        }).then((response) => {
-            let data = response.data;
-            data?.data?.data.reverse();
-            data.loading = false
-            dispatch(getMessages(data));
-        }).catch((error) => {
-            let data = error.response.data;
-            data.loading = false
-            dispatch(getMessages(data));
-        });
-    } catch (error) {
-        dispatch(getMessages({error: true, loading: false, message: "something went wrong!"}));
-    }
+    let params = (()=>{
+        if (data.orderId && data.page){
+            return `?service_request_id=${data.orderId}&page=${data.page}`;
+        } else if (data.orderId){
+            return `?service_request_id=${data.orderId}`;
+        } else {
+            return '';
+        }
+    })();
+    let url = process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${params}`;
+    dispatch(helperAxios("get", url, getMessages, true, null, false, reverseData));
 }
