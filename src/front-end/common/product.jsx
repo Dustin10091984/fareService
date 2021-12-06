@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import Rating from "../../components/Rating";
 export const Product = (props) => {
     console.log(props);
     return (
@@ -13,23 +14,7 @@ export const Product = (props) => {
                         <div className="title">[two or more lines of product title here.]</div>
                         <div className="sub-title">Veg, Non-Vegetarian</div>
                         <div className="price">$100.0</div>
-                        <div className="stars-rating ">
-                            <div className="star-rating-area d-flex align-items-center justify-content-center">
-                                <div className="rating-static clearfix mr-3" rel="4">
-                                    <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-                                    <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-                                    <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-                                    <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-                                    <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-                                    <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-                                    <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-                                    <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-                                    <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-                                    <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-                                </div>
-                                {/* <div className="ratilike ng-binding">5</div> */}
-                            </div>
-                        </div>
+                        <Rating rating={""}/>
                         <div className="text-center">
                         <button
                             // to='/food-detail'

@@ -99,7 +99,7 @@ export const Question = (props) => {
             setState((state) => ({ ...state, zipCodeErr: '' }));
             axios({
               method: "get",
-              url: process.env.REACT_APP_API_BASE_URL + "api/user/services/zip-code?zipCode="+value,
+              url: process.env.REACT_APP_API_BASE_URL + "/api/user/services/zip-code?zipCode="+value,
             })
             .then(function (response) {
                 setState((state) => ({

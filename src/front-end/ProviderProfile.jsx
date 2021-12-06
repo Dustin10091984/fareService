@@ -68,76 +68,76 @@ export const ProviderProfile = (props) => {
                     ) {
                       const data = providerProfile?.data;
                       return (
-                        <>
-                          <div className="pro-pic">
-                            <img
-                              src={
-                                data?.provider?.image
-                                  ? `${process.env.REACT_APP_Media_BASE_URL}${data?.provider?.image}`
-                                  : "/assets/img/user4.jpg"
-                              }
-                              className="img-fluid"
-                              alt=""
-                            />
-                          </div>
-                          <div className="pro-title">{`${data?.provider?.first_name} ${data?.provider?.last_name}`}</div>
-                          <div className="pro-price">
-                            {data?.provider.account_type == "BASIC" &&
-                            data?.provider?.provider_profile?.hourly_rate
-                              ? `$${data?.provider?.provider_profile.hourly_rate} hourly rate`
-                              : "PREMIUM"}
-                          </div>
-                          <div className="pro-jos-status">{`${data?.provider?.provider_service_requests_count} Jobs Completed`}</div>
-                          <div className="star-rating-area">
-                            <div
-                              className="rating-static clearfix mr-3"
-                              rel={data?.provider?.rating}
-                            >
-                              <label
-                                className="full"
-                                title="{{ 'Awesome - 5 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="half"
-                                title="{{ 'Excellent - 4.5 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="full"
-                                title="{{ 'Excellent - 4 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="half"
-                                title="{{ 'Better - 3.5 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="full"
-                                title="{{ 'Good - 3 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="half"
-                                title="{{ 'Good - 2.5 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="full"
-                                title="{{ 'Fair - 2 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="half"
-                                title="{{ 'Fair - 1.5 stars' | translate }}"
-                              ></label>
-                              <label
-                                className="full"
-                                title="{{ 'Bad - 1 star' | translate }}"
-                              ></label>
-                              <label
-                                className="half"
-                                title="{{ 'Bad - 0.5 stars' | translate }}"
-                              ></label>
-                            </div>
-                            {/* <div className="ratilike ng-binding">5</div> */}
-                          </div>
-                          {/* <Link to='/payment' className="button-common">Select & Continue</Link> */}
-                        </>
+                          <>
+                              <div className="pro-pic">
+                                  <img
+                                      src={
+                                          data?.provider?.image
+                                              ? `${process.env.REACT_APP_API_BASE_URL}${data?.provider?.image}`
+                                              : "/assets/img/user4.jpg"
+                                      }
+                                      className="img-fluid"
+                                      alt=""
+                                  />
+                              </div>
+                              <div className="pro-title">{`${data?.provider?.first_name} ${data?.provider?.last_name}`}</div>
+                              <div className="pro-price">
+                                  {data?.provider.account_type == "BASIC" &&
+                                  data?.provider?.provider_profile?.hourly_rate
+                                      ? `$${data?.provider?.provider_profile.hourly_rate} hourly rate`
+                                      : "PREMIUM"}
+                              </div>
+                              <div className="pro-jos-status">{`${data?.provider?.provider_service_requests_count} Jobs Completed`}</div>
+                              <div className="star-rating-area">
+                                  <div
+                                      className="rating-static clearfix mr-3"
+                                      rel={data?.provider?.rating}
+                                  >
+                                      <label
+                                          className="full"
+                                          title="{{ 'Awesome - 5 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="half"
+                                          title="{{ 'Excellent - 4.5 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="full"
+                                          title="{{ 'Excellent - 4 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="half"
+                                          title="{{ 'Better - 3.5 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="full"
+                                          title="{{ 'Good - 3 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="half"
+                                          title="{{ 'Good - 2.5 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="full"
+                                          title="{{ 'Fair - 2 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="half"
+                                          title="{{ 'Fair - 1.5 stars' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="full"
+                                          title="{{ 'Bad - 1 star' | translate }}"
+                                      ></label>
+                                      <label
+                                          className="half"
+                                          title="{{ 'Bad - 0.5 stars' | translate }}"
+                                      ></label>
+                                  </div>
+                                  {/* <div className="ratilike ng-binding">5</div> */}
+                              </div>
+                              {/* <Link to='/payment' className="button-common">Select & Continue</Link> */}
+                          </>
                       );
                     }
                   })()}

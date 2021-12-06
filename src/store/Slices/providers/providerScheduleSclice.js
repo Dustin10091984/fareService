@@ -23,7 +23,7 @@ export const getProviderSchedule = (id) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/services/provider-schedule/${id}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/services/provider-schedule/${id}`,
         }).then((response) => {
             //handle success
             dispatch(getSchedule(response.data));

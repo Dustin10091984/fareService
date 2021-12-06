@@ -176,38 +176,32 @@ export const Chat = ({isChatOpen, ...props}) => {
                                         if(messagesdata?.current_page < messagesdata?.last_page){
                                             nextPage = true;
                                         }
-                                        return (
-                                            <MessageList 
-                                                loading={messageLoading == true && messagesdata?.data == undefined ? true : false }
-                                                loadingMore={messageLoading || MessageError == true && false} onYReachStart={(messageLoading == false && nextPage == true) && onYReachStart || undefined}
-                                            >
-                                                {(()=>{
-                                                    if(active?.userId, active?.orderId){
-                                                        return(
-                                                            <>
-                                                                {(messagesdata?.current_page == messagesdata?.last_page && messagesdata?.data) &&
-                                                                    <MessageSeparator content="End" />
-                                                                }
-                                                                {(messagesdata && localStorage.user_data) && 
-                                                                    (messagesdata?.data?.map(((message,index)=>
-                                                                        <Message key={index} model={{
-                                                                            message: message?.message,
-                                                                            // sentTime: "15 mins ago",
-                                                                            sender: message?.sender?.first_name,
-                                                                            direction: JSON.parse(localStorage.user_data).id == message.sender_id ? "outgoing" : 'incoming',
-                                                                            // position: "single"
-                                                                        }}/>
-                                                                    )))
-                                                                }
-                                                                {sending && msgLoading &&
-                                                                    <MessageSeparator content="Sending" />
-                                                                }
-                                                            </>
-                                                        )
+                                        if(active?.userId && active?.orderId){
+                                            return (
+                                                <MessageList 
+                                                    loading={messageLoading == true && messagesdata?.data == undefined ? true : false }
+                                                    loadingMore={messageLoading || MessageError == true && false} onYReachStart={(messageLoading == false && nextPage == true) && onYReachStart || undefined}
+                                                >
+                                                    {(messagesdata?.current_page == messagesdata?.last_page && messagesdata?.data) &&
+                                                        <MessageSeparator content="End" />
                                                     }
-                                                })()}
-                                            </MessageList>
-                                        )
+                                                    {(messagesdata && localStorage.user_data) && 
+                                                        (messagesdata?.data?.map(((message,index)=>
+                                                            <Message key={index} model={{
+                                                                message: message?.message,
+                                                                // sentTime: "15 mins ago",
+                                                                sender: message?.sender?.first_name,
+                                                                direction: JSON.parse(localStorage?.user_data)?.id == message?.sender_id ? "outgoing" : 'incoming',
+                                                                // position: "single"
+                                                            }}/>
+                                                        )))
+                                                    }
+                                                    {sending && msgLoading &&
+                                                        <MessageSeparator content="Sending" />
+                                                    }
+                                                </MessageList>
+                                            )
+                                        }
                                     })()
                                 }                                
                                 <MessageInput placeholder={sending && msgLoading ? "Sending" : "Type message here"} value={messageInputValue} onChange={val => {setMessageInputValue(val); setTempMsg(val)}} onSend={() => handleSendMessage()} autoFocus disabled={(sending && msgLoading)||(!active?.userId || !active?.orderId)}/>

@@ -25,7 +25,7 @@ export const addFeedback = (data) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/feedback/create`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/feedback/create`,
             data: data
         }).then((response) => {
             let data = response.data;

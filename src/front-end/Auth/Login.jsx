@@ -44,7 +44,7 @@ const Login = props => {
     
         axios({
           method: 'post',
-          url: process.env.REACT_APP_API_BASE_URL+'api/user/login',
+          url: process.env.REACT_APP_API_BASE_URL+'/api/user/login',
           data: state.values,
         })
         .then(function (response) {

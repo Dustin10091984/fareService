@@ -8,21 +8,7 @@ export const GoogleMap = (props) => {
     const directionsService = new window.google.maps.DirectionsService();
 
     useEffect(() => {
-      directionsService.route({
-            origin: state?.from_address,
-            destination: state?.to_address,
-            travelMode: 'DRIVING',
-        }, (result, status) => {
-            if (status === 'OK') {
-                setstate({
-                    ...state,
-                    response: result,
-                });
-            }
-        });
-    }, [props.open]);
-    
-    useEffect(() => {
+      if(state?.from_address && state?.to_address){
         directionsService.route({
             origin: state?.from_address,
             destination: state?.to_address,
@@ -35,7 +21,25 @@ export const GoogleMap = (props) => {
                 });
             }
         });
-    }, [state.from_address, state.to_address]);
+      }
+    }, [props.open]);
+    
+    useEffect(() => {
+      if(state?.from_address && state?.to_address){
+        directionsService.route({
+            origin: state?.from_address,
+            destination: state?.to_address,
+            travelMode: 'DRIVING',
+        }, (result, status) => {
+            if (status === 'OK') {
+                setstate({
+                    ...state,
+                    response: result,
+                });
+            }
+        });
+      }
+    }, [state?.from_address, state?.to_address]);
 
     
 

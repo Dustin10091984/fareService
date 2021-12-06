@@ -25,7 +25,7 @@ export const getVehicleTypes = () => async dispatch => {
         dispatch(vehicleTypes({ error: false, loading: true }));
         await axios({
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/vehicle/types`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/vehicle/types`,
         }).then((response) => {
             let data = response.data;
             data.loading = false
@@ -46,7 +46,7 @@ export const makeMovingRequest = (data) => async dispatch => {
         await axios({
             method: 'post',
             headers: {Authorization: `${localStorage.userToken}`},
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/order/move-request`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/order/move-request`,
             data: data
         }).then((response) => {
             let data = response.data;

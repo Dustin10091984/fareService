@@ -42,7 +42,7 @@ export const postRequestService = (payload, formData) => async dispatch => {
         await axios({
             method: 'post',
             headers: headers,
-            url: `${process.env.REACT_APP_API_BASE_URL}api/user/services/service-request`,
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/services/service-request`,
             data: payload,
         }).then((response) => {
             const data = response.data;
@@ -72,7 +72,7 @@ export const getServiceRequestList = (payload) => async dispatch => {
             headers:{
                 Authorization: `${localStorage.userToken}`
             },
-            url: `${process.env.REACT_APP_API_BASE_URL}api/user/order/list?${payload}`,
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/list?${payload}`,
         }).then((response) => {
             const data = response.data;
             data.loading = false
