@@ -23,7 +23,7 @@ export const chatList = (params) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/active-order-chat`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/message/active-order-chat`,
         }).then((response) => {
             let data = response.data;
             data.loading = false

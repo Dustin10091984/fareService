@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Calendar from 'react-calendar';
 import PlacesAutocomplete from "react-places-autocomplete";
 import 'react-calendar/dist/Calendar.css';
+import Rating from '../components/Rating'
 
 export const ServiceProviders = (props) =>{
 
@@ -334,90 +335,189 @@ export const ServiceProviders = (props) =>{
                             <div className="col-md-8">
                             {state.error}{state.loggedinErr}
                             {providerList !== undefined && providerList !== null && providerList.error !== undefined && providerList.error === false && providerList?.data?.data ? providerList.data.data.map((provider,index)=>{
-                                return(
-                                    <div key={index} className="job-provider-card">
+                                return (
+                                    <div
+                                        key={index}
+                                        className="job-provider-card"
+                                    >
                                         <div className="user-des d-flex align-items-center justify-content-start w-100">
                                             <div className="user-img d-flex align-items-center justify-content-center">
-                                                <img src={provider.image ? `${process.env.REACT_APP_Media_BASE_URL}${provider.image}` : '/assets/img/user4.jpg'} className="img-fluid" alt="Not Found" />
+                                                <img
+                                                    src={
+                                                        provider.image
+                                                            ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
+                                                            : "/assets/img/user4.jpg"
+                                                    }
+                                                    className="img-fluid"
+                                                    alt="Not Found"
+                                                />
                                             </div>
                                             <div className="user-detail w-100">
                                                 <div className=" w-100 d-flex align-items-center justify-content-between">
-                                                    <div className="title">{provider.first_name} {provider.last_name}</div>
-                                                    <Link to={`/profile/${provider.id}`} className="button-common">View Profile</Link>
-                                                </div>
-                                                <div className="job-status">{provider.provider_service_requests_count} Jobs Completed</div>
-                                                <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
-                                                    <div className="star-rating-area">
-                                                        <div className="rating-static clearfix mr-3" rel={provider?.rating}>
-                                                            <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-                                                            <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-                                                            <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-                                                            <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-                                                            <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-                                                            <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-                                                            <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-                                                            <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-                                                            <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-                                                            <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-                                                        </div>
-                                                        {/* <div className="ratilike ng-binding">5</div> */}
+                                                    <div className="title">
+                                                        {provider.first_name}{" "}
+                                                        {provider.last_name}
                                                     </div>
-                                                    {
-                                                        
-                                                        props.location.state !== undefined && state.is_loggedin === true ? (
-                                                            <button onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false, provider)} value={provider.id} type="button"
-                                                            data-backdrop="static"
-                                                            data-keyboard="false" 
-                                                            className="button-common-2" 
-                                                            data-toggle="modal" 
-                                                            data-target={location.state.service_type == ServiceType.MOVING ? '#moving' : provider.account_type === 'BASIC' ? "#hourly" : "#quotation"}
-                                                            disabled={location?.state?.service_type && (location?.state?.service_type == ServiceType.MOVING && provider.service_type == ServiceType.MOVING ? false : true)}
-                                                            >
-                                                                {provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}
-                                                        </button>
-                                                        ) : (
-                                                            <button type="button" className="button-common-2" onClick={(event)=>handleContinueClick(event, provider.account_type === 'BASIC' ? true :  false, provider)}>{provider.account_type === 'BASIC' ? "Make a Request" : "Get a Qoutation"}</button>
-                                                        )
-                                                    }
+                                                    <Link
+                                                        to={`/profile/${provider.id}`}
+                                                        className="button-common"
+                                                    >
+                                                        View Profile
+                                                    </Link>
                                                 </div>
-                                                <div className="user-price">{provider?.provider_profile?.hourly_rate ? `$${provider?.provider_profile?.hourly_rate}` : ''}</div>
+                                                <div className="job-status">
+                                                    {
+                                                        provider.provider_service_requests_count
+                                                    }{" "}
+                                                    Jobs Completed
+                                                </div>
+                                                <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
+                                                    <Rating
+                                                        rating={
+                                                            provider?.rating
+                                                        }
+                                                    />
+
+                                                    {props.location.state !==
+                                                        undefined &&
+                                                    state.is_loggedin ===
+                                                        true ? (
+                                                        <button
+                                                            onClick={(event) =>
+                                                                handleContinueClick(
+                                                                    event,
+                                                                    provider.account_type ===
+                                                                        "BASIC"
+                                                                        ? true
+                                                                        : false,
+                                                                    provider
+                                                                )
+                                                            }
+                                                            value={provider.id}
+                                                            type="button"
+                                                            data-backdrop="static"
+                                                            data-keyboard="false"
+                                                            className="button-common-2"
+                                                            data-toggle="modal"
+                                                            data-target={
+                                                                location.state
+                                                                    .service_type ==
+                                                                ServiceType.MOVING
+                                                                    ? "#moving"
+                                                                    : provider.account_type ===
+                                                                      "BASIC"
+                                                                    ? "#hourly"
+                                                                    : "#quotation"
+                                                            }
+                                                            disabled={
+                                                                location?.state
+                                                                    ?.service_type &&
+                                                                (location?.state
+                                                                    ?.service_type ==
+                                                                    ServiceType.MOVING &&
+                                                                provider.service_type ==
+                                                                    ServiceType.MOVING
+                                                                    ? false
+                                                                    : true)
+                                                            }
+                                                        >
+                                                            {provider.account_type ===
+                                                            "BASIC"
+                                                                ? "Make a Request"
+                                                                : "Get a Qoutation"}
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            type="button"
+                                                            className="button-common-2"
+                                                            onClick={(event) =>
+                                                                handleContinueClick(
+                                                                    event,
+                                                                    provider.account_type ===
+                                                                        "BASIC"
+                                                                        ? true
+                                                                        : false,
+                                                                    provider
+                                                                )
+                                                            }
+                                                        >
+                                                            {provider.account_type ===
+                                                            "BASIC"
+                                                                ? "Make a Request"
+                                                                : "Get a Qoutation"}
+                                                        </button>
+                                                    )}
+                                                </div>
+                                                <div className="user-price">
+                                                    {provider?.provider_profile
+                                                        ?.hourly_rate
+                                                        ? `$${provider?.provider_profile?.hourly_rate}`
+                                                        : ""}
+                                                </div>
                                             </div>
                                         </div>
-                                        {
-                                            provider.bio !== undefined && provider?.user_feedbacks[0] !== undefined && <hr />
-                                        }
-                                        {
-                                            provider.bio && (
-                                                <div className="useer-qust">
-                                                    <div className="title">Bio</div>
-                                                    <div className="des">{provider.bio}</div>
+                                        {provider.bio !== undefined &&
+                                            provider?.user_feedbacks[0] !==
+                                                undefined && <hr />}
+                                        {provider.bio && (
+                                            <div className="useer-qust">
+                                                <div className="title">Bio</div>
+                                                <div className="des">
+                                                    {provider.bio}
                                                 </div>
-                                            ) 
-                                        }
+                                            </div>
+                                        )}
                                         <>
-                                        {
-                                            (()=>{
-                                                if (provider?.user_feedbacks[0] !== undefined){
-                                                    return <div className="top-reviews-list">
-                                                        <div className="review-title">Top Review</div>
-                                                        <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-                                                            <div className="review-img">
-                                                                <img src={provider?.user_feedbacks[0]?.user?.image ? process.env.REACT_APP_Media_BASE_URL + provider?.user_feedbacks[0]?.user?.image : '/assets/img/user4.jpg'} className="img-fluid" alt="Not have" />
+                                            {(() => {
+                                                if (
+                                                    provider
+                                                        ?.user_feedbacks[0] !==
+                                                    undefined
+                                                ) {
+                                                    return (
+                                                        <div className="top-reviews-list">
+                                                            <div className="review-title">
+                                                                Top Review
                                                             </div>
-                                                            {
-                                                                provider?.user_feedbacks[0] && <div className="review-detail">
-                                                                    {provider?.user_feedbacks[0].comment}
+                                                            <div className="review-item d-flex align-itmes-centetr justifu-content-between">
+                                                                <div className="review-img">
+                                                                    <img
+                                                                        src={
+                                                                            provider
+                                                                                ?.user_feedbacks[0]
+                                                                                ?.user
+                                                                                ?.image
+                                                                                ? process
+                                                                                      .env
+                                                                                      .REACT_APP_API_BASE_URL +
+                                                                                  provider
+                                                                                      ?.user_feedbacks[0]
+                                                                                      ?.user
+                                                                                      ?.image
+                                                                                : "/assets/img/user4.jpg"
+                                                                        }
+                                                                        className="img-fluid"
+                                                                        alt="Not have"
+                                                                    />
                                                                 </div>
-                                                            }
-                                                            
+                                                                {provider
+                                                                    ?.user_feedbacks[0] && (
+                                                                    <div className="review-detail">
+                                                                        {
+                                                                            provider
+                                                                                ?.user_feedbacks[0]
+                                                                                .comment
+                                                                        }
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    );
                                                 }
-                                            })()
-                                        }
+                                            })()}
                                         </>
                                     </div>
-                                )
+                                );
                             }) : providerList.error === true ? (
                             <>
                                         <div className="text-center display-4">{providerList.message}</div>

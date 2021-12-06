@@ -21,7 +21,7 @@ export const getUser = () => async dispatch => {
             headers: {
                 Authorization: `Bearer ${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL+`api/public/chat/conversations`,
+            url: process.env.REACT_APP_API_BASE_URL+`/api/public/chat/conversations`,
             // params: {
             //     chat_mark_read_id: chat_mark_read_id
             // }

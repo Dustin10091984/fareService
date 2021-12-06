@@ -22,7 +22,7 @@ export const pay = (data) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/transaction/payable-amount`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/transaction/payable-amount`,
             data: data
         }).then((response) => {
             let data = response.data;

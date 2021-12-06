@@ -12,10 +12,11 @@ import {
 } from 'react-places-autocomplete';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import axios from "axios";
 
 export const Moving = (props) => {
 
-    const [state, setstate] = useState({
+    const [state, setState] = useState({
         vehicle_type_id: '',
         from_address: '',
         to_address: '',
@@ -41,40 +42,77 @@ export const Moving = (props) => {
 
     const handleSelectTypeClick = (vehicle_type_id) => {
         vehicle_type_id === state.vehicle_type_id ? vehicle_type_id='' : vehicle_type_id=vehicle_type_id;
-        setstate((state) => ({
+        setState((state) => ({
             ...state, vehicle_type_id
         }))
     }
 
     const handleChangeZipCode = (e) => {
-        const { name, value } = e.target
-        setstate((state) => ({ ...state, [name]: value }));
-        // let errorMsg = "Zip Code may not be grater than 15"
-        // if(value.length < 15) {
-        //     errorMsg = '';
-        // } 
-        // setstate((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }));
+        const { name, value } = e.target;
+        let re = /^(0|[1-9][0-9]*)$/;
+
+        setState((state) => ({
+          ...state,
+          [name]: value,
+          selectedZipCode: false,
+        }));
+        if (value.length < 3 || value.length > 12 || !re.test(value)) {
+          setState((state) => ({
+            ...state,
+            zipCodeErr: (
+              <div
+                className="col-md-12 text-danger mt-2"
+                style={{ fontSize: 15 }}
+              >
+                Zip Code characher(Number only) should be in between 4 and 12
+              </div>
+            ),
+          }));
+        } else {
+          setState((state) => ({ ...state, zipCodeErr: "" }));
+          axios({
+            method: "get",
+            url:
+              process.env.REACT_APP_API_BASE_URL +
+              "/api/user/services/zip-code?zipCode=" +
+              value,
+          })
+            .then(function (response) {
+              setState((state) => ({
+                ...state,
+                zipCodeData: response?.data?.data?.data,
+                zipCodeDataErr: "",
+              }));
+            })
+            .catch((error) => {
+              setState((state) => ({
+                ...state,
+                zipCodeData: "",
+                zipCodeDataErr: error?.response?.data,
+              }));
+            });
+        }
     }
 
     const handleFromAdessSelect = (from_address) => {
-        setstate((state) => ({
+        setState((state) => ({
             ...state, from_address
         }));
 
         geocodeByAddress(from_address).then(results => getLatLng(results[0])).then(({ lat, lng }) => {
-            setstate((state) => ({
+            setState((state) => ({
                 ...state, start_lat: `${lat}`, start_lng: `${lng}`
             }));
         });
     }
 
     const handleToAdessSelect = (to_address) => {
-        setstate((state) => ({
+        setState((state) => ({
             ...state, to_address
         }));
 
         geocodeByAddress(to_address).then(results => getLatLng(results[0])).then(({ lat, lng }) => {
-            setstate((state) => ({
+            setState((state) => ({
                 ...state, end_lat: `${lat}`, end_lng: `${lng}`
             }));
         });
@@ -83,11 +121,20 @@ export const Moving = (props) => {
     const handleCalendarClick = (selectedDate) => {
         let date = new Date();
         if(new Date(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`) <= new Date(`${selectedDate.getFullYear()}-${selectedDate.getMonth()}-${selectedDate.getDate()}`)){
-            setstate((state) => ({
+            setState((state) => ({
                 ...state, date: selectedDate
             }));
         }
     }
+
+     const handleSelectZipCode = (code) => {
+       setState((state) => ({
+         ...state,
+         zip_code: code,
+         zipCodeErr: "",
+         selectedZipCode: true,
+       }));
+     };
 
     return (
       <div className="row">
@@ -145,7 +192,7 @@ export const Moving = (props) => {
                         {item.image ? (
                           <img
                             src={
-                              process.env.REACT_APP_Media_BASE_URL + item.image
+                              process.env.REACT_APP_API_BASE_URL + item.image
                             }
                             className="img-fluid m-1"
                             alt="..."
@@ -188,7 +235,7 @@ export const Moving = (props) => {
                   <PlacesAutocomplete
                     value={state.from_address}
                     onChange={(from_address) =>
-                      setstate((state) => ({ ...state, from_address }))
+                      setState((state) => ({ ...state, from_address }))
                     }
                     onSelect={handleFromAdessSelect}
                   >
@@ -252,7 +299,7 @@ export const Moving = (props) => {
                   <PlacesAutocomplete
                     value={state.to_address}
                     onChange={(to_address) =>
-                      setstate((state) => ({ ...state, to_address }))
+                      setState((state) => ({ ...state, to_address }))
                     }
                     onSelect={handleToAdessSelect}
                   >
@@ -326,7 +373,7 @@ export const Moving = (props) => {
                       state.date ? moment(state.date).format("YYYY-MM-DD") : ""
                     }
                     onChange={(e) =>
-                      setstate((state) => ({ ...state, date: e.target.value }))
+                      setState((state) => ({ ...state, date: e.target.value }))
                     }
                   />
                 </div>
@@ -341,15 +388,43 @@ export const Moving = (props) => {
                     type="text"
                     name="zip_code"
                     placeholder="Zip Code e.g 00000"
+                    value={state.zip_code}
                     onChange={handleChangeZipCode}
                   />
                 </div>
+                {state.zipCodeData !== "" && state.selectedZipCode == false && (
+                  <>
+                    <center
+                      className="col-md-12 text-dark mb-1 mt-1"
+                      style={{ fontSize: "1.5rem" }}
+                    >
+                      Please Select ZipCode
+                    </center>
+                    {state?.zipCodeData?.map((data, index) => (
+                      <div
+                        key={index}
+                        className="col-md-12 text-dark mb-1 mt-1"
+                        style={{
+                          fontSize: "1.5rem",
+                          border: "1px solid #F1F2F7",
+                          backgroundColor: "#F1F2F7",
+                          borderRadius: "5px",
+                        }}
+                        data-code={data.code}
+                        onClick={() => handleSelectZipCode(data.code)}
+                      >
+                        {data.code}
+                      </div>
+                    ))}
+                  </>
+                )}
                 <div className="text-center">
                   {state.from_address !== "" &&
                   state.to_address !== "" &&
                   state.date !== "" &&
                   state.zip_code !== "" &&
-                  state.vehicle_type_id !== "" ? (
+                  state.vehicle_type_id !== "" &&
+                  state?.selectedZipCode == true ? (
                     <Link
                       type="button"
                       to={{

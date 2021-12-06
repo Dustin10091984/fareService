@@ -24,7 +24,7 @@ export const sendMessage = (msg) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/message/send`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/message/send`,
             data: msg,
         }).then((response) => {
             let data = response.data;

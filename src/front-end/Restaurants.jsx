@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Restaurant } from "../front-end/common/Restaurant";
+import { Restaurant } from "./common/Cards";
 import { useDispatch, useSelector } from "react-redux";
 import { getRestaurants, getRestaurant } from "../store/Slices/restauransts/restaurantsSlice";
+import Rating from "../components/Rating";
 export const Restaurants = (props) => {
 
     /**
      * @location and @history get from props
      */
     const { location, history, match } = props;
-    console.log('====================================');
-    console.log(match);
-    console.log('====================================');
     /**
      * @state is the state of the component
      */
@@ -42,8 +40,77 @@ export const Restaurants = (props) => {
     useEffect(() => {
       if(match?.params?.id){
         dispatch(getRestaurant(match.params.id));
+      } else {
+        dispatch(getRestaurants());
       }
     }, [match?.params?.id]);
+
+    const Worker = () => {
+      return (()=>{
+              if (restaurantLoading == true) {
+                return (
+                  <div
+                    className="col-12  alert alert-info text-center"
+                    role="alert"
+                    style={{ fontSize: 15 }}
+                  >
+                    <i className="fa fa-spinner fa-spin"></i>{" "}
+                    Processing...
+                  </div>
+                );
+              }
+
+              if (restaurantError) {
+                return (
+                  <div
+                    className="col-12  alert alert-danger text-center"
+                    role="alert"
+                    style={{ fontSize: 15 }}
+                  >
+                    {restaurantError}
+                  </div>
+                );
+              }
+              
+              if (restaurantError == false, restaurantData) {
+                return (
+                  <div className="product-detail-card-item">
+                    <div>
+                      <span
+                        className="product-card box-shadow-none d-flex justify-content-center flex-column"
+                      >
+                        <div className="prod-img mx-auto">
+                          <img src="/assets/img/product.png" alt="" />
+                        </div>
+                        <div className="prod-detail">
+                          <div className="title">
+                            {restaurantData.name}
+                          </div>
+                          {restaurantData.restaurant_type && (
+                            <div className="sub-title">
+                              {restaurantData.restaurant_type}
+                            </div>
+                          )}
+                          {/* <div className="price">$100.0</div> */}
+                          <Rating
+                            rating={restaurantData?.user?.rating}
+                          />
+                          {/* <div className="text-center">
+                            <button className="button-common d-none">
+                              View Menu
+                            </button>
+                            <button className="button-common-2 d-none">
+                              Closed
+                            </button>
+                          </div> */}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                );
+              } return "";
+            })()
+    }
     
     return (
       <>
@@ -59,118 +126,7 @@ export const Restaurants = (props) => {
                     {/* <a href="#" className="button-common-2">
                       Go Back
                     </a> */}
-                    {(()=>{
-                      if (restaurantLoading == true) {
-                        return (
-                          <div
-                            className="col-12  alert alert-info text-center"
-                            role="alert"
-                            style={{ fontSize: 15 }}
-                          >
-                            <i className="fa fa-spinner fa-spin"></i>{" "}
-                            Processing...
-                          </div>
-                        );
-                      }
-
-                      if (restaurantError) {
-                        return (
-                          <div
-                            className="col-12  alert alert-danger text-center"
-                            role="alert"
-                            style={{ fontSize: 15 }}
-                          >
-                            {restaurantError}
-                          </div>
-                        );
-                      }
-                      
-                      if (restaurantError == false, restaurantData) {
-                        return (
-                          <div className="product-detail-card-item">
-                            <div>
-                              <Link
-                                to="product-detail"
-                                className="product-card box-shadow-none d-flex justify-content-center flex-column"
-                              >
-                                <div className="prod-img mx-auto">
-                                  <img src="/assets/img/product.png" alt="" />
-                                </div>
-                                <div className="prod-detail">
-                                  <div className="title">
-                                    {restaurantData.name}
-                                  </div>
-                                  {restaurantData.restaurant_type && (
-                                    <div className="sub-title">
-                                      {restaurantData.restaurant_type}
-                                    </div>
-                                  )}
-                                  {/* <div className="price">$100.0</div> */}
-                                  <div className="stars-rating ">
-                                    <div className="star-rating-area d-flex align-items-center justify-content-center">
-                                      <div
-                                        className="rating-static clearfix mr-3"
-                                        rel={restaurantData?.user?.rating}
-                                      >
-                                        <label
-                                          className="full"
-                                          title="{{ 'Awesome - 5 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="half"
-                                          title="{{ 'Excellent - 4.5 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="full"
-                                          title="{{ 'Excellent - 4 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="half"
-                                          title="{{ 'Better - 3.5 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="full"
-                                          title="{{ 'Good - 3 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="half"
-                                          title="{{ 'Good - 2.5 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="full"
-                                          title="{{ 'Fair - 2 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="half"
-                                          title="{{ 'Fair - 1.5 stars' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="full"
-                                          title="{{ 'Bad - 1 star' | translate }}"
-                                        ></label>
-                                        <label
-                                          className="half"
-                                          title="{{ 'Bad - 0.5 stars' | translate }}"
-                                        ></label>
-                                      </div>
-                                      {/* <div className="ratilike ng-binding">5</div> */}
-                                    </div>
-                                  </div>
-                                  {/* <div className="text-center">
-                                    <button className="button-common d-none">
-                                      View Menu
-                                    </button>
-                                    <button className="button-common-2 d-none">
-                                      Closed
-                                    </button>
-                                  </div> */}
-                                </div>
-                              </Link>
-                            </div>
-                          </div>
-                        );
-                      }
-                    })()}
+                    <Worker />
                     {/* <Link to="/product-detail" className="button-common">
                       Open
                     </Link> */}
@@ -286,14 +242,18 @@ export const Restaurants = (props) => {
                 <div className="row">
                   <div className="col-md-12 col-sm-12">
                     <div className="shop-left-box">
-                      <div className="title text-center">Restaurants</div>
+                      <div className="title text-center">
+                        {match?.params?.id ? "Foods" : "Restaurants"}
+                      </div>
                     </div>
                   </div>
-                  {list?.data?.map((restaurant, index) => (
-                    <div key={index} className="col-md-4 col-sm-6">
-                      <Restaurant {...restaurant}></Restaurant>
-                    </div>
-                  ))}
+                  {match?.params?.id == undefined &&
+                    list?.data?.map((restaurant, index) => (
+                      <div key={index} className="col-md-4 col-sm-6">
+                        <Restaurant {...restaurant}></Restaurant>
+                      </div>
+                    ))}
+                  {match?.params?.id}
                 </div>
               </div>
             </div>

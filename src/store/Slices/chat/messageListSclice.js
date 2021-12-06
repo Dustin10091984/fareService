@@ -61,6 +61,6 @@ export const messageList = (data) => async dispatch => {
             return '';
         }
     })();
-    let url = process.env.REACT_APP_API_BASE_URL + `api/user/message/chat/${data.id}${params}`;
+    let url = `/api/user/message/chat/${data.id}${params}`;
     dispatch(helperAxios("get", url, getMessages, true, null, false, reverseData));
 }

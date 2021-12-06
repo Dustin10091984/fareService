@@ -20,7 +20,7 @@ const Header = props => {
 
         axios({
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL+'api/user/get-menu',
+            url: process.env.REACT_APP_API_BASE_URL+'/api/user/get-menu',
         })
         .then(function (response) {
             setState(state => ({

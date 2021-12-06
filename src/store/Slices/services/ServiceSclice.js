@@ -21,7 +21,7 @@ export const getServiceQuestion = (serviceId) => async dispatch => {
             // headers: {
             //     Authorization: `Bearer ${localStorage.userToken}`
             // },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/questions/${serviceId}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/questions/${serviceId}`,
             // params: {
             //     chat_mark_read_id: chat_mark_read_id
             // }

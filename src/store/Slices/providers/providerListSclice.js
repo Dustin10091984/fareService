@@ -23,7 +23,7 @@ export const getProviderList = (params) => async dispatch => {
             // headers: {
             //     Authorization: `Bearer ${localStorage.userToken}`
             // },
-            url: process.env.REACT_APP_API_BASE_URL + `api/user/services/provider-list${params}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/services/provider-list${params}`,
         }).then((response) => {
             //handle success
             dispatch(getProvider(response.data));

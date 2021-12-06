@@ -43,7 +43,7 @@ const Register = props => {
     
         axios({
           method: 'post',
-          url: process.env.REACT_APP_API_BASE_URL+'api/user/signup/phone',
+          url: process.env.REACT_APP_API_BASE_URL+'/api/user/signup/phone',
           data: state.values,
         })
         .then(function (response) {
@@ -83,7 +83,7 @@ const Register = props => {
     
         axios({
           method: 'post',
-          url: process.env.REACT_APP_API_BASE_URL+'api/user/signup/phone/verify',
+          url: process.env.REACT_APP_API_BASE_URL+'/api/user/signup/phone/verify',
           data: state.values,
         })
         .then(function (response) {
@@ -119,7 +119,7 @@ const Register = props => {
     
         axios({
           method: 'post',
-          url: process.env.REACT_APP_API_BASE_URL+'api/user/signup',
+          url: process.env.REACT_APP_API_BASE_URL+'/api/user/signup',
           data: state.values,
         })
         .then(function (response) {

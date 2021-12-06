@@ -1,6 +1,7 @@
 import axios from 'axios';
 export const helperAxios = (method, url, reducer, token = false, data = null, formData = false, fun ) => async dispatch => {
     try {
+        url = process.env.REACT_APP_API_BASE_URL+url;
         dispatch(reducer({error: false, loading: true}));
         let headers = null;
         headers = (()=>{
@@ -9,7 +10,7 @@ export const helperAxios = (method, url, reducer, token = false, data = null, fo
                     Authorization: `${localStorage.userToken}`,
                     'Content-type': 'multipart/form-data'
                 }
-            } 
+            }
             if(token == true && formData == false){
                 return {
                     Authorization: `${localStorage.userToken}`
@@ -36,5 +37,4 @@ export const helperAxios = (method, url, reducer, token = false, data = null, fo
     } catch (error) {
         dispatch(reducer({error: true, loading: false, message: "something went wrong!"}));
     }
-}
-;
+};
