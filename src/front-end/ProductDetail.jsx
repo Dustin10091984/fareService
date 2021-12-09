@@ -23,8 +23,8 @@ const ProductDetail = (props) => {
     useEffect(() => {
         cart?.loading && (loading.current = toast.info("Loading..."));
         cart?.loading == false && toast.dismiss(loading.current);
-        !cart?.loading && !cart?.error && toast.success(cart.message);
-        !cart?.loading && cart?.error && toast.error(cart.message);
+        !cart?.loading && !cart?.error && cart?.message && toast.success(cart.message);
+        !cart?.loading && cart?.error == true && cart?.message && toast.error(cart.message);
     }, [cart?.loading, cart?.error, cart?.message]);
 
     const handleCartClick = () => {

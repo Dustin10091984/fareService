@@ -3,15 +3,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCartList, updateQuantity } from "../store/Slices/cart/cartsSlice";
 import { Product } from '../front-end/common/product';
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 export const Cart = (props) => {
     const dispatch = useDispatch();
     const [state, setState] = useState({wait: false, cart: {id: null, quantity: null}});
     useEffect(() => {
         dispatch(getCartList()); // get cart list
     }, []);
+    
+    const loading = useRef(null);
 
     const {list} = useSelector(state => state.cartsReducer);
     const { updateCart } = useSelector((state) => state.cartsReducer);
+
+    useEffect(() => {
+        updateCart?.loading == false && toast.dismiss(loading.current);
+        !updateCart?.loading &&
+            !updateCart?.error &&
+            updateCart?.message &&
+            toast.success(updateCart.message);
+        !updateCart?.loading &&
+            updateCart?.error == true &&
+            updateCart?.message &&
+            toast.error(updateCart.message);
+    }, [updateCart?.loading, updateCart?.error, updateCart?.message]);
 
     useEffect(() => {
         if(updateCart?.error == false, updateCart?.message){
@@ -19,15 +35,22 @@ export const Cart = (props) => {
         }
     }, [updateCart?.error, updateCart?.message]);
 
-    // const sleep = (ms) => {
-    //     return new Promise((resolve ) => {
-    //         setState((state) => ({ ...state, wait: true }));
-    //         setTimeout(resolve, ms);
-    //     });
-    // }
+    useEffect(() => {
+        if(state.wait == false && state?.cart?.id != null && state?.cart?.quantity != null){
+            dispatch(
+                updateQuantity({ id: state?.cart?.id, quantity: state?.cart?.quantity })
+            );
+        }
+    }, [state.wait])
+
+    const sleep = (ms) => {
+        return new Promise((resolve ) => {
+            setState((state) => ({ ...state, wait: true }));
+            setTimeout(resolve, ms);
+        });
+    }
 
     const handleMinusClick = (data) => {
-        console.log({ id: data.id, quantity: data?.quantity - 1 });
         if(data.quantity > 1)
             setState({
                 ...state,
@@ -37,15 +60,13 @@ export const Cart = (props) => {
                      quantity: data.quantity - 1
                 },
             });
-            dispatch(
-                updateQuantity({id: data.id, quantity: data?.quantity - 1})
-            );
-            // if(state.wait === false) {
-            //     sleep(2000).then(() => {
-            //         setState((state) => ({ ...state, wait: false }));
-            //     });
-            // }
-        
+        if (state.wait === false) {
+            loading.current = toast.info("Loading...");
+            const ONE_SECOND = 1000;
+            sleep(ONE_SECOND).then(() => {
+                setState((state) => ({ ...state, wait: false }));
+            });
+        }
     }
 
     const handlePlusClick = (data) => {
@@ -58,22 +79,12 @@ export const Cart = (props) => {
                     quantity: data.quantity + 1,
                 },
             });
-            dispatch(
-                updateQuantity({ id: data.id, quantity: data?.quantity + 1 })
-            );
-            // if (state.wait === false) {
-            //     if(state?.cart.id != null && state?.cart.quantity != null){
-            //         sleep(2000).then(() => {
-            //             dispatch(updateQuantity({id: data.id, quantity: data?.quantity + 1}));
-            //             setState((state) => ({ ...state, wait: false }));
-            //         });
-            //     } else {
-            //         sleep(2000).then(() => {
-            //             dispatch(updateQuantity({id: state?.cart?.id, quantity: state?.cart?.quantity + 1}));
-            //             setState((state) => ({ ...state, wait: false }));
-            //         });
-            //     }
-            // }
+        if(state.wait === false) {
+            loading.current = toast.info("Loading...");
+            sleep(2000).then(() => {
+                setState((state) => ({ ...state, wait: false }));
+            });
+        }
     }
     return (
         <>
@@ -164,11 +175,9 @@ export const Cart = (props) => {
                                                                                         handleMinusClick(
                                                                                             {
                                                                                                 id: item.id,
-                                                                                                quantity:
-                                                                                                    item?.id ==
-                                                                                                    state?.cart?.id
-                                                                                                        ? state?.cart?.quantity
-                                                                                                        : parseInt(item.quantity),
+                                                                                                quantity: item?.id == state?.cart?.id
+                                                                                                    ? state?.cart?.quantity
+                                                                                                    : parseInt(item.quantity),
                                                                                             }
                                                                                         )
                                                                                     }
@@ -196,13 +205,8 @@ export const Cart = (props) => {
                                                                                 min="1"
                                                                                 max="100"
                                                                                 value={
-                                                                                    (item?.id ==
-                                                                                        state
-                                                                                            ?.cart
-                                                                                            ?.id &&
-                                                                                        state
-                                                                                            ?.cart
-                                                                                            ?.quantity) ||
+                                                                                    (item?.id == state?.cart?.id &&
+                                                                                        state?.cart?.quantity) ||
                                                                                     item?.quantity
                                                                                 }
                                                                                 readOnly
@@ -217,17 +221,9 @@ export const Cart = (props) => {
                                                                                         handlePlusClick(
                                                                                             {
                                                                                                 id: item.id,
-                                                                                                quantity:
-                                                                                                    item?.id ==
-                                                                                                    state
-                                                                                                        ?.cart
-                                                                                                        ?.id
-                                                                                                        ? state
-                                                                                                              ?.cart
-                                                                                                              ?.quantity
-                                                                                                        : parseInt(
-                                                                                                              item.quantity
-                                                                                                          ),
+                                                                                                quantity: item?.id == state?.cart?.id
+                                                                                                    ? state?.cart?.quantity
+                                                                                                    : parseInt(item.quantity),
                                                                                             }
                                                                                         )
                                                                                     }
@@ -265,7 +261,7 @@ export const Cart = (props) => {
                                             </React.Fragment>
                                         );
                                     }
-                                })}
+                                }) || "NOT FOUND"}
 
                                 <div className="check-box w-100 text-right">
                                     <div className="cart-price">

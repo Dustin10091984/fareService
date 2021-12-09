@@ -6,11 +6,12 @@ const cartsSlice = createSlice({
     initialState: {
         list: '',
         cart: '',
+        updateCart: '',
     },
     reducers: {
         cartList: (state, action) => {
             return {
-                ...state.list,
+                ...state,
                 list: action.payload
             };
         },
