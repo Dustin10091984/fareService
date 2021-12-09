@@ -12,6 +12,7 @@ import paymentSlice from "./Slices/payments/paymentSlice";
 import feedbackSlice from "./Slices/feedbacks/feedbackSlice";
 import movingSlice from "./Slices/moving/movingSlice";
 import restaurantsSlice from "./Slices/restauransts/restaurantsSlice";
+import cartsSlice from "./Slices/cart/cartsSlice";
 
 export default combineReducers({
     user: userSclice,
@@ -26,5 +27,6 @@ export default combineReducers({
     paymentReducer: paymentSlice,
     feedbackReducer: feedbackSlice,
     movingReducer: movingSlice,
-    restaurantsReducer: restaurantsSlice
+    restaurantsReducer: restaurantsSlice,
+    cartsReducer: cartsSlice,
 });

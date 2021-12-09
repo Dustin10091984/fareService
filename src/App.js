@@ -44,7 +44,8 @@ import { PaymentCard } from "./front-dashboard/PaymentCard";
 
 import Echo from "laravel-echo";
 import io from "socket.io-client";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
 function App() {
@@ -108,9 +109,10 @@ function App() {
           <Route path='/retail' component={Retail}  />
           <Route path='/about-us' component={AboutUs}  />
           <Route path='/apply' component={Apply}  />
-          <Route path='/product-detail' component={ProductDetail}  />
+          <Route path='/product-detail/:id' component={ProductDetail}  />
           <Route path='/gaurantee' component={ Gaurantee }  />
           <Route path='/food-grocery' component={ FoodGrocery }  />
+          <Route path='/restaurants/:id/foods/:foodId' component={ Restaurants }  />
           <Route path='/restaurants/:id' component={ Restaurants }  />
           <Route path='/restaurants' component={ Restaurants }  />
           <Route path='/food-details' component={ FoodDetails }  />
@@ -128,6 +130,7 @@ function App() {
         </Switch>
       
         <Footer></Footer>
+        <ToastContainer autoClose={5000} position={toast.POSITION.TOP_CENTER}/>
       </div>
     </Elements>
   );

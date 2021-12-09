@@ -2491,6 +2491,7 @@ hr {
   font-weight: normal;
   font-size: 2.0rem;
   line-height: 2.4rem;
+  line-break: auto;
   color: #000000;
 }
 
