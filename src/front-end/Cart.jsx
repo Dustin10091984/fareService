@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 export const Cart = (props) => {
     const dispatch = useDispatch();
-    const [state, setState] = useState({wait: false, cart: {id: null, quantity: null}});
+    const [state, setState] = useState({wait: null, cart: {id: null, quantity: null}});
     useEffect(() => {
         dispatch(getCartList()); // get cart list
     }, []);
@@ -19,21 +19,27 @@ export const Cart = (props) => {
 
     useEffect(() => {
         updateCart?.loading == false && toast.dismiss(loading.current);
-        !updateCart?.loading &&
-            !updateCart?.error &&
-            updateCart?.message &&
-            toast.success(updateCart.message);
-        !updateCart?.loading &&
+    }, [updateCart?.loading]);
+
+    useEffect(() => {
+        updateCart?.loading == false &&
             updateCart?.error == true &&
             updateCart?.message &&
             toast.error(updateCart.message);
-    }, [updateCart?.loading, updateCart?.error, updateCart?.message]);
+    }, [updateCart?.error]);
 
     useEffect(() => {
-        if(updateCart?.error == false, updateCart?.message){
-            dispatch(getCartList());
-        }
-    }, [updateCart?.error, updateCart?.message]);
+        updateCart?.loading == false && updateCart?.error == false &&
+            updateCart?.message && state.wait !== null &&
+            toast.success(updateCart.message);
+        
+    }, [updateCart?.message]);
+
+    // useEffect(() => {
+    //     if(updateCart?.error == false, updateCart?.message){
+    //         dispatch(getCartList());
+    //     }
+    // }, [updateCart?.error, updateCart?.message]);
 
     useEffect(() => {
         if(state.wait == false && state?.cart?.id != null && state?.cart?.quantity != null){
@@ -60,7 +66,7 @@ export const Cart = (props) => {
                      quantity: data.quantity - 1
                 },
             });
-        if (state.wait === false) {
+        if (state.wait === false || state.wait === null) {
             loading.current = toast.info("Loading...");
             const ONE_SECOND = 1000;
             sleep(ONE_SECOND).then(() => {
@@ -79,7 +85,7 @@ export const Cart = (props) => {
                     quantity: data.quantity + 1,
                 },
             });
-        if(state.wait === false) {
+        if(state.wait === false || state.wait === null) {
             loading.current = toast.info("Loading...");
             sleep(2000).then(() => {
                 setState((state) => ({ ...state, wait: false }));
@@ -244,11 +250,7 @@ export const Cart = (props) => {
                                                                 </li>
                                                                 <li>
                                                                     $
-                                                                    {((food?.price &&
-                                                                        food.price) ||
-                                                                        (product?.price &&
-                                                                            product.price)) *
-                                                                            item.quantity}
+                                                                    {item?.price}
                                                                 </li>
                                                             </ul>
                                                         </div>
