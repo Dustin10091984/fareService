@@ -17,14 +17,13 @@ const cartsSlice = createSlice({
             };
         },
         updateCart: (state, action) => {
-            let cartIndex = null;
+            // let cartIndex = null;
             if (action?.payload?.data && state?.list?.cart){
                 // cartIndex = state.list?.cart.findIndex(item => item.id === action.payload?.data?.id);
                 return {
                     ...state,
                     list: {
                         ...state.list, cart: [
-
                             // {...state.list.cart[cartIndex], ...action.payload?.data},
                             ...state.list.cart.map(item => {
                                 if(item.id === action.payload?.data?.id){
@@ -33,7 +32,6 @@ const cartsSlice = createSlice({
                                 return item;
                             }),
                         ],
-                        total_price: action.payload.total_price,
                     },
                     updateCart: action.payload
                 };

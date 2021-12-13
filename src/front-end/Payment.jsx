@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
 // import { Product } from '../front-end/common/product';
-import { postRequestService, getInitialRequestService } from '../store/Slices/services/RequestServiceSclice';
+import {
+    postRequestService,
+    getInitialRequestService,
+} from "../store/Slices/services/RequestServiceSclice";
 import { Link } from "react-router-dom";
 export const Payment = (props) => {
     const stripe = useStripe();
@@ -10,21 +13,23 @@ export const Payment = (props) => {
     const [checkoutError, setCheckoutError] = useState();
 
     const dispatch = useDispatch();
-    
+
     const serviceRequest = useSelector((state) => state.serviceRequest);
     const [state, setState] = useState({
+        type: props.location.state?.type,
+        cart_ids: props?.location?.state?.cart_ids,
         form: {
-            serviceDetail: props.location.state,
+            serviceDetail: props?.location.state,
             // first_name: '',
             // last_name: '',
             // street: '',
             // city: '',
             // zip_code: '',
             // state_name: '',
-            card_number: '',
-            card_exp_date: '',
-            card_cvc: '',
-            card_name: '',
+            card_number: "",
+            card_exp_date: "",
+            card_cvc: "",
+            card_name: "",
             submiting: false,
         },
         error: {
@@ -34,15 +39,15 @@ export const Payment = (props) => {
             // cityErr: '',
             // zip_codeErr: '',
             // state_nameErr: ''
-            card_numberErr: '',
-            card_exp_dateErr: '',
-            card_cvcErr: '',
-            card_nameErr: '',
-            stripeErr: ''
-        }
+            card_numberErr: "",
+            card_exp_dateErr: "",
+            card_cvcErr: "",
+            card_nameErr: "",
+            stripeErr: "",
+        },
     });
-    
-    const { 
+
+    const {
         serviceDetail,
         // first_name,
         // last_name,
@@ -56,8 +61,8 @@ export const Payment = (props) => {
         card_name,
         submiting,
     } = state.form;
-    
-    const { 
+
+    const {
         // first_nameErr,
         // last_nameErr,
         // streetErr,
@@ -72,15 +77,15 @@ export const Payment = (props) => {
     } = state.error;
 
     useEffect(() => {
-      return () => {
-        dispatch(getInitialRequestService())
-      };
+        return () => {
+            dispatch(getInitialRequestService());
+        };
     }, []);
 
     /**
      * Validate first and last name
-     * 
-     * @param {*} e 
+     *
+     * @param {*} e
      */
     // const handleChangeName = (e) => {
     //     const { name, value } = e.target
@@ -90,7 +95,7 @@ export const Payment = (props) => {
     //     let errorMsg = "Name should be srting and length min 1 and max 50"
     //     if(regex.test(value) === true) {
     //         errorMsg = '';
-    //     } 
+    //     }
     //     setState((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }))
     // }
 
@@ -113,7 +118,7 @@ export const Payment = (props) => {
     //     let errorMsg = "City name should be srting and length min 1 and max 50"
     //     if(regex.test(value) === true) {
     //         errorMsg = '';
-    //     } 
+    //     }
     //     setState((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }));
     // }
 
@@ -124,7 +129,7 @@ export const Payment = (props) => {
     //     let errorMsg = "Zip Code may not be grater than 15"
     //     if(value.length < 15) {
     //         errorMsg = '';
-    //     } 
+    //     }
     //     setState((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }));
     // }
 
@@ -136,7 +141,7 @@ export const Payment = (props) => {
     //     let errorMsg = "State name should be srting and length min 1 and max 50"
     //     if(regex.test(value) === true) {
     //         errorMsg = '';
-    //     } 
+    //     }
     //     setState((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }));
     // }
 
@@ -185,7 +190,7 @@ export const Payment = (props) => {
     //     cardType = "dinerclub";
     // } else if (JCBCardnumber(cardNumber)) {
     //     cardType = "jcb";
-    // } 
+    // }
     //     return cardType;
     // }
 
@@ -252,53 +257,70 @@ export const Payment = (props) => {
     // }
 
     const handleCardDetailsChange = (e) => {
-        if(e.error){
-            setCheckoutError(e.error.message)
+        if (e.error) {
+            setCheckoutError(e.error.message);
         } else {
-            setState((state) => ({ ...state, error: { ...state.error, stripeErr: undefined } }))
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: undefined },
+            }));
             setCheckoutError();
-        } 
+        }
     };
 
     const handleClickMakeRequest = async () => {
-        const cardElement = elements.getElement('card');
+        const cardElement = elements.getElement("card");
         try {
-            setState((state) => ({ ...state, error: { ...state.error, stripeErr: undefined } }))
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: undefined },
+            }));
             const { error, token } = await stripe.createToken(
                 elements.getElement(cardElement)
             );
-            if(token && serviceDetail !== undefined){
-                setState((state) => ({ 
-                    ...state, form: { 
-                        ...state.form, serviceDetail:{
-                            ...state.form.serviceDetail, token: token.id
-                        } 
-                    } 
+            if (token && serviceDetail !== undefined) {
+                setState((state) => ({
+                    ...state,
+                    form: {
+                        ...state.form,
+                        serviceDetail: {
+                            ...state.form.serviceDetail,
+                            token: token.id,
+                        },
+                    },
                 }));
                 let withToken = serviceDetail;
-                withToken.token=token.id
+                withToken.token = token.id;
                 // false means this is not form data
                 dispatch(postRequestService(withToken, false));
             }
-            if(error){
-                setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
+            if (error) {
+                setState((state) => ({
+                    ...state,
+                    error: { ...state.error, stripeErr: error.message },
+                }));
             }
         } catch (error) {
-            setState((state) => ({ ...state, error: { ...state.error, stripeErr: error.message } }))
-        }  
-    }
-    
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: error.message },
+            }));
+        }
+    };
+
     const handleGoToServicesHistory = () => {
         dispatch(getInitialRequestService());
-        setState((state)=>({
-            ...state, form: {
-                ...state.form, serviceDetail: ''
-            }
-        }))
+        setState((state) => ({
+            ...state,
+            form: {
+                ...state.form,
+                serviceDetail: "",
+            },
+        }));
         props.history.push({
-            pathname: '/services-history',
+            pathname: "/services-history",
         });
-    }
+    };
 
     return (
         <>
@@ -307,47 +329,110 @@ export const Payment = (props) => {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="moving-search-box">
-                                    {stripeErr ? <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                        {stripeErr }
-                                    </div> : ''}
-                                    {serviceRequest != '' && (()=>{
-
-                                        if(serviceRequest.error == false && serviceRequest.loading == true){
+                                {stripeErr ? (
+                                    <div
+                                        className="col-12  alert alert-danger text-center"
+                                        role="alert"
+                                        style={{ fontSize: 15 }}
+                                    >
+                                        {stripeErr}
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
+                                {serviceRequest != "" &&
+                                    (() => {
+                                        if (
+                                            serviceRequest.error == false &&
+                                            serviceRequest.loading == true
+                                        ) {
                                             return (
-                                                <div className="col-12  alert alert-primary text-center" role="alert" style={{fontSize: 15}}>
-                                                    Please loading 
+                                                <div
+                                                    className="col-12  alert alert-primary text-center"
+                                                    role="alert"
+                                                    style={{ fontSize: 15 }}
+                                                >
+                                                    Please loading
                                                 </div>
-                                            )
+                                            );
                                         }
 
-                                        if (serviceRequest.error == true && serviceRequest.loading == false) {
-                                            switch (typeof serviceRequest.message) {
-                                                case 'string':
+                                        if (
+                                            serviceRequest.error == true &&
+                                            serviceRequest.loading == false
+                                        ) {
+                                            switch (
+                                                typeof serviceRequest.message
+                                            ) {
+                                                case "string":
                                                     return (
-                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                                            {serviceRequest.message}
+                                                        <div
+                                                            className="col-12  alert alert-danger text-center"
+                                                            role="alert"
+                                                            style={{
+                                                                fontSize: 15,
+                                                            }}
+                                                        >
+                                                            {
+                                                                serviceRequest.message
+                                                            }
                                                         </div>
-                                                    )
+                                                    );
                                                     break;
-                                                case 'array':
-                                                    const errorMsg = Object.values(serviceRequest.message);
+                                                case "array":
+                                                    const errorMsg =
+                                                        Object.values(
+                                                            serviceRequest.message
+                                                        );
                                                     return (
-                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                                            {errorMsg.map((msg, index)=>(<React.Fragment key={index}>{msg}</React.Fragment>))}
+                                                        <div
+                                                            className="col-12  alert alert-danger text-center"
+                                                            role="alert"
+                                                            style={{
+                                                                fontSize: 15,
+                                                            }}
+                                                        >
+                                                            {errorMsg.map(
+                                                                (
+                                                                    msg,
+                                                                    index
+                                                                ) => (
+                                                                    <React.Fragment
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                    >
+                                                                        {msg}
+                                                                    </React.Fragment>
+                                                                )
+                                                            )}
                                                         </div>
-                                                    )
+                                                    );
                                                     break;
                                             }
                                         }
 
-                                        if(serviceRequest.error == false && serviceRequest.loading == false){
-                                            switch (typeof serviceRequest.message) {
-                                                case 'string':
+                                        if (
+                                            serviceRequest.error == false &&
+                                            serviceRequest.loading == false
+                                        ) {
+                                            switch (
+                                                typeof serviceRequest.message
+                                            ) {
+                                                case "string":
                                                     return (
-                                                        <div className="col-12  alert alert-success text-center" role="alert" style={{fontSize: 15}}>
-                                                            {serviceRequest.message}
+                                                        <div
+                                                            className="col-12  alert alert-success text-center"
+                                                            role="alert"
+                                                            style={{
+                                                                fontSize: 15,
+                                                            }}
+                                                        >
+                                                            {
+                                                                serviceRequest.message
+                                                            }
                                                         </div>
-                                                    )
+                                                    );
                                                     break;
                                                 // case 'array':
                                                 //     console.log('array');
@@ -403,8 +488,13 @@ export const Payment = (props) => {
                                         <div className="title-move mb-5">
                                             Please fill Card details
                                         </div>
-                                        <CardElement onChange={handleCardDetailsChange} className="m-5"/>
-                                        <p className="text-danger">{checkoutError}</p>
+                                        <CardElement
+                                            onChange={handleCardDetailsChange}
+                                            className="m-5"
+                                        />
+                                        <p className="text-danger">
+                                            {checkoutError}
+                                        </p>
                                         {/* <div className="mb-4 d-flex align-items-center">
                                             <div className="common-input">
                                                 <input type="text" defaultValue={card_number} name="card_number" onChange={handleChangeCardNumber} placeholder="Credit Card Number" />
@@ -429,7 +519,7 @@ export const Payment = (props) => {
                                                 <p className="text-danger">{card_nameErr}</p>
                                             </div>
                                         </div> */}
-{/* 
+                                        {/* 
                                         <div className="card-img">
                                             <img src="/assets/img/card-imgs.png" className="img-fluid" alt="" />
                                         </div> */}
@@ -438,25 +528,42 @@ export const Payment = (props) => {
 
                                 <div className="moving-des mt-5">
                                     <p className="text-center">
-                                        By clicking the button below, I agree to Handy's Terms of <br className="d-none d-md-block" />
-                                    Use and Cancellation Policy and understand that my<br className="d-none d-md-block" />
+                                        By clicking the button below, I agree to
+                                        Handy's Terms of{" "}
+                                        <br className="d-none d-md-block" />
+                                        Use and Cancellation Policy and
+                                        understand that my
+                                        <br className="d-none d-md-block" />
                                         payment method will be charged.
                                     </p>
-
                                 </div>
 
                                 <div className="text-center">
-                                    <button 
+                                    <button
                                         disabled={
-                                            !stripe || !elements || submiting || checkoutError || serviceRequest.loading
+                                            !stripe ||
+                                            !elements ||
+                                            submiting ||
+                                            checkoutError ||
+                                            serviceRequest.loading
                                         }
-                                        onClick={serviceRequest.message == 'success' || serviceRequest.message == 'Order already exist' ? handleGoToServicesHistory : handleClickMakeRequest}
+                                        onClick={
+                                            serviceRequest.message ==
+                                                "success" ||
+                                            serviceRequest.message ==
+                                                "Order already exist"
+                                                ? handleGoToServicesHistory
+                                                : handleClickMakeRequest
+                                        }
                                         className="button-common mt-5 w-50"
                                     >
-                                        {serviceRequest.message == 'success' || serviceRequest.message == 'Order already exist' ? "Go to Services History" : "Make Service Request"}
+                                        {serviceRequest.message == "success" ||
+                                        serviceRequest.message ==
+                                            "Order already exist"
+                                            ? "Go to Services History"
+                                            : "Make Service Request"}
                                     </button>
                                 </div>
-
 
                                 <div className="row pad-t">
                                     <div className="col-md-12 pb-5">
@@ -465,25 +572,53 @@ export const Payment = (props) => {
 
                                     <div className="col-md-12">
                                         <div className="cart-total d-flex align-items-center justify-content-between">
-                                            <div className="cart-title">Service Request</div>
+                                            <div className="cart-title">
+                                                {state.type
+                                                    ? "Product Name"
+                                                    : "Service Request"}
+                                            </div>
                                             <div className="price-qnt-subtotal">
                                                 <ul className="list-heading d-flex align-items-center justify-content-between w-100">
-                                                    <li>Hourly Rate</li>
-                                                    <li>Total Hours</li>
+                                                    <li>
+                                                        {state.type
+                                                            ? "Price"
+                                                            : "Hourly Rate"}
+                                                    </li>
+                                                    <li>
+                                                        {state.type
+                                                            ? "Quantity"
+                                                            : "Total Hours"}
+                                                    </li>
                                                     <li>Total</li>
                                                 </ul>
                                                 <ul className="list-des d-flex align-items-center justify-content-between w-100">
-                                                    {(()=>{
-                                                        if(serviceDetail?.provider?.provider_profile?.hourly_rate && serviceDetail.hours){
-                                                            const hourly_rate = serviceDetail?.provider?.provider_profile?.hourly_rate;
-                                                            const hours = serviceDetail?.hours;
+                                                    {(() => {
+                                                        if (
+                                                            serviceDetail
+                                                                ?.provider
+                                                                ?.provider_profile
+                                                                ?.hourly_rate &&
+                                                            serviceDetail.hours
+                                                        ) {
+                                                            const hourly_rate =
+                                                                serviceDetail
+                                                                    ?.provider
+                                                                    ?.provider_profile
+                                                                    ?.hourly_rate;
+                                                            const hours =
+                                                                serviceDetail?.hours;
                                                             return (
                                                                 <>
                                                                     <li>{`$${hourly_rate}`}</li>
-                                                                    <li>{hours}</li>
-                                                                    <li>{`$${hourly_rate*hours}`}</li>
+                                                                    <li>
+                                                                        {hours}
+                                                                    </li>
+                                                                    <li>{`$${
+                                                                        hourly_rate *
+                                                                        hours
+                                                                    }`}</li>
                                                                 </>
-                                                            )
+                                                            );
                                                         }
                                                     })()}
                                                 </ul>
@@ -502,12 +637,11 @@ export const Payment = (props) => {
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};

@@ -7,39 +7,48 @@ import { toast } from "react-toastify";
 
 export const Cart = (props) => {
     const dispatch = useDispatch();
-    const [state, setState] = useState({wait: null, cart: {id: null, quantity: null}});
+    
+    const [state, setState] = useState({wait: null, cart: {id: null, quantity: null}, cart_ids: props?.location?.state?.cart_ids ? props.location.state.cart_ids : []});
     useEffect(() => {
         dispatch(getCartList()); // get cart list
     }, []);
     
     const loading = useRef(null);
 
-    const {list} = useSelector(state => state.cartsReducer);
-    const { updateCart } = useSelector((state) => state.cartsReducer);
+    const cartList = useSelector(state => state.cartsReducer?.list.cart);
+    const updateCartData = useSelector(
+        (state) => state.cartsReducer?.updateCart?.data
+    );
+    const updateCartError = useSelector(
+        (state) => state.cartsReducer?.updateCart?.error
+    )
+    const updateCartLoading = useSelector(
+        (state) => state.cartsReducer?.updateCart?.loading
+    )
+    const updateCartMessage = useSelector(
+        (state) => state.cartsReducer?.updateCart?.message
+    )
 
     useEffect(() => {
-        updateCart?.loading == false && toast.dismiss(loading.current);
-    }, [updateCart?.loading]);
+        updateCartLoading == false && toast.dismiss(loading.current);
+    }, [updateCartLoading]);
 
     useEffect(() => {
-        updateCart?.loading == false &&
-            updateCart?.error == true &&
-            updateCart?.message &&
-            toast.error(updateCart.message);
-    }, [updateCart?.error]);
+        updateCartLoading == false &&
+            updateCartError == true &&
+            updateCartMessage &&
+            toast.error(updateCartMessage);
+    }, [updateCartError]);
 
     useEffect(() => {
-        updateCart?.loading == false && updateCart?.error == false &&
-            updateCart?.message && state.wait !== null &&
-            toast.success(updateCart.message);
-        
-    }, [updateCart?.message]);
-
-    // useEffect(() => {
-    //     if(updateCart?.error == false, updateCart?.message){
-    //         dispatch(getCartList());
-    //     }
-    // }, [updateCart?.error, updateCart?.message]);
+        if (updateCartMessage) {
+            updateCartLoading == false &&
+                updateCartError == false &&
+                updateCartMessage &&
+                state.wait !== null &&
+                toast.success(updateCartMessage);
+        }
+    }, [updateCartMessage]);
 
     useEffect(() => {
         if(state.wait == false && state?.cart?.id != null && state?.cart?.quantity != null){
@@ -92,6 +101,35 @@ export const Cart = (props) => {
             });
         }
     }
+
+    /**
+     * Select product to checkout
+     * @param {int} id 
+     */
+    const handleRadioClick = (id) => {
+        if(state.cart_ids.includes(id) == false){
+            setState((state) => ({ ...state, ...state.cart_ids?.push(id)  }));
+        } else {
+            setState((state) => ({
+                 ...state, cart_ids: state?.cart_ids?.filter(item => item != id)
+            }));
+        }
+    }
+
+    /**
+     * Checkout
+     * 
+     */
+    const handleCheckoutClick = () => {
+        if(state.cart_ids.length > 0)
+            props.history.push({   
+                pathname: '/payment',
+                state: {cart_ids: state.cart_ids, type: 'cart'}
+            });
+        else
+            toast.error("Please select at least one product to checkout");
+    }
+
     return (
         <>
             <div className="moving-help-sec pad-y m-0">
@@ -109,7 +147,7 @@ export const Cart = (props) => {
                                 <div className="col-md-12">
                                     <hr />
                                 </div>
-                                {list?.cart?.map((item) => {
+                                {cartList?.map((item) => {
                                     const food = item.food;
                                     const product = item.product;
                                     if (food || product) {
@@ -118,7 +156,22 @@ export const Cart = (props) => {
                                                 <div className="col-md-12">
                                                     <div className="cart-total cart-page d-flex align-items-center justify-content-between">
                                                         <div className="d-flex align-items-center justify-content">
-                                                            {/* <input type="radio"  className="m-5"/> */}
+                                                            <input
+                                                                type="radio"
+                                                                className="radio m-5"
+                                                                checked={state?.cart_ids?.includes(
+                                                                    item.id
+                                                                )}
+                                                                defaultValue={
+                                                                    item.id
+                                                                }
+                                                                readOnly
+                                                                onClick={() =>
+                                                                    handleRadioClick(
+                                                                        item.id
+                                                                    )
+                                                                }
+                                                            />
                                                             <div className="cart-img">
                                                                 <img
                                                                     src={
@@ -181,9 +234,17 @@ export const Cart = (props) => {
                                                                                         handleMinusClick(
                                                                                             {
                                                                                                 id: item.id,
-                                                                                                quantity: item?.id == state?.cart?.id
-                                                                                                    ? state?.cart?.quantity
-                                                                                                    : parseInt(item.quantity),
+                                                                                                quantity:
+                                                                                                    item?.id ==
+                                                                                                    state
+                                                                                                        ?.cart
+                                                                                                        ?.id
+                                                                                                        ? state
+                                                                                                              ?.cart
+                                                                                                              ?.quantity
+                                                                                                        : parseInt(
+                                                                                                              item.quantity
+                                                                                                          ),
                                                                                             }
                                                                                         )
                                                                                     }
@@ -211,8 +272,13 @@ export const Cart = (props) => {
                                                                                 min="1"
                                                                                 max="100"
                                                                                 value={
-                                                                                    (item?.id == state?.cart?.id &&
-                                                                                        state?.cart?.quantity) ||
+                                                                                    (item?.id ==
+                                                                                        state
+                                                                                            ?.cart
+                                                                                            ?.id &&
+                                                                                        state
+                                                                                            ?.cart
+                                                                                            ?.quantity) ||
                                                                                     item?.quantity
                                                                                 }
                                                                                 readOnly
@@ -227,9 +293,17 @@ export const Cart = (props) => {
                                                                                         handlePlusClick(
                                                                                             {
                                                                                                 id: item.id,
-                                                                                                quantity: item?.id == state?.cart?.id
-                                                                                                    ? state?.cart?.quantity
-                                                                                                    : parseInt(item.quantity),
+                                                                                                quantity:
+                                                                                                    item?.id ==
+                                                                                                    state
+                                                                                                        ?.cart
+                                                                                                        ?.id
+                                                                                                        ? state
+                                                                                                              ?.cart
+                                                                                                              ?.quantity
+                                                                                                        : parseInt(
+                                                                                                              item.quantity
+                                                                                                          ),
                                                                                             }
                                                                                         )
                                                                                     }
@@ -250,7 +324,9 @@ export const Cart = (props) => {
                                                                 </li>
                                                                 <li>
                                                                     $
-                                                                    {item?.price}
+                                                                    {
+                                                                        item?.price
+                                                                    }
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -267,7 +343,17 @@ export const Cart = (props) => {
 
                                 <div className="check-box w-100 text-right">
                                     <div className="cart-price">
-                                        {`$${list?.total_price || 0.00}`}
+                                        {`$${(() => {
+                                            let total = 0;
+                                            state?.cart_ids?.forEach((item) => {
+                                                total += parseInt(
+                                                    cartList?.find(
+                                                        cart => cart.id == item
+                                                    ).price
+                                                );
+                                            });
+                                            return total;
+                                        })()}`}
                                     </div>
                                     <Link
                                         to="/food-grocery"
@@ -282,12 +368,14 @@ export const Cart = (props) => {
                                                 placeholder="Expiration date"
                                             />
                                         </div> */}
-                                        <Link
-                                            to="/payment"
+                                        <button
+                                            type="button"
+                                            // disabled={state.cart_ids.length == 0}
                                             className="button-common"
+                                            onClick={handleCheckoutClick}
                                         >
                                             Continue to Checkout
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
