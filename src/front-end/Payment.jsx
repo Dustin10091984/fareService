@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { getCartList } from "../store/Slices/cart/cartsSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,25 +8,49 @@ import {
     getInitialRequestService,
 } from "../store/Slices/services/RequestServiceSclice";
 import { addAddress, getAddresses } from "./../store/Slices/UserSlice";
+import { toast } from "react-toastify";
 export const Payment = (props) => {
     const stripe = useStripe();
     const elements = useElements();
     const [checkoutError, setCheckoutError] = useState();
-
+    const loading = useRef(null);
     const dispatch = useDispatch();
 
     const serviceRequest = useSelector((state) => state.serviceRequest);
     const cartList = useSelector((state) => state.cartsReducer?.list.cart);
 
+    const addressesLoading = useSelector(
+        (state) => state.user?.addresses?.loading
+    );
+    const addressList = useSelector((state) => state.user?.addresses?.data);
+    const addressesError = useSelector((state) => state.user?.addresses?.error);
+
+    useEffect(() => {
+        if (addressesLoading) toast.info("Loading addresses...");
+    }, [addressesLoading]);
+
+    useEffect(() => {
+        if (addressesError) {
+            toast.dismiss(loading.current);
+            toast.error("Error loading addresses");
+        }
+    }, [addressesError]);
+
+    useEffect(() => {
+        if (addressList) toast.dismiss(loading.current);
+    }, [addressList]);
+
     const [state, setState] = useState({
         type: props.location.state?.type,
         cart_ids: props?.location?.state?.cart_ids,
-        PaymentMethod: null,
+        paymentMethod: null,
         addressType: "HOME",
         address: "",
         flat_no: "",
         zip_code: "",
         addNewAddress: false,
+        address_id: null,
+        selectedAddress: "",
 
         form: {
             serviceDetail: props?.location.state,
@@ -363,6 +387,39 @@ export const Payment = (props) => {
             })
         );
     };
+
+    const handlePlaceOrder = async () => {
+        // try {
+        const cardElement = elements.getElement("card");
+        if (state.paymentMethod == 1) {
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: undefined },
+            }));
+            const { error, token } = await stripe.createToken(
+                elements.getElement(cardElement)
+            );
+            console.log("====================================");
+            console.log(token);
+            console.log("====================================");
+            if (error) {
+                console.log(error);
+                setState((state) => ({
+                    ...state,
+                    error: { ...state.error, stripeErr: error.message },
+                }));
+            }
+        } else {
+            console.log("hello");
+        }
+        // } catch (error) {
+        //     console.log(error, 2);
+        //     setState((state) => ({
+        //         ...state,
+        //         error: { ...state.error, stripeErr: error.message },
+        //     }));
+        // }
+    };
     return (
         <>
             <div className="moving-help-sec pad-Y m-0">
@@ -539,7 +596,7 @@ export const Payment = (props) => {
                                                     onClick={() => {
                                                         setState({
                                                             ...state,
-                                                            PaymentMethod: 0,
+                                                            paymentMethod: 0,
                                                         });
                                                     }}
                                                 >
@@ -547,7 +604,7 @@ export const Payment = (props) => {
                                                         type="radio"
                                                         className="form-check-input radio"
                                                         checked={
-                                                            state.PaymentMethod ===
+                                                            state.paymentMethod ===
                                                             0
                                                         }
                                                         defaultValue={0}
@@ -555,7 +612,7 @@ export const Payment = (props) => {
                                                         onClick={() => {
                                                             setState({
                                                                 ...state,
-                                                                PaymentMethod: 0,
+                                                                paymentMethod: 0,
                                                             });
                                                         }}
                                                     />
@@ -571,7 +628,7 @@ export const Payment = (props) => {
                                                     onClick={() => {
                                                         setState({
                                                             ...state,
-                                                            PaymentMethod: 1,
+                                                            paymentMethod: 1,
                                                         });
                                                     }}
                                                 >
@@ -579,7 +636,7 @@ export const Payment = (props) => {
                                                         type="radio"
                                                         className="form-check-input radio"
                                                         checked={
-                                                            state.PaymentMethod ===
+                                                            state.paymentMethod ===
                                                             1
                                                         }
                                                         defaultValue={1}
@@ -594,7 +651,8 @@ export const Payment = (props) => {
                                                 </div>
                                             </>
                                         )}
-                                        {(state.PaymentMethod === 1 ||
+                                        {(state.paymentMethod === 1 ||
+                                            state.paymentMethod === undefined ||
                                             state.cart_ids == undefined) && (
                                             <>
                                                 <CardElement
@@ -606,13 +664,21 @@ export const Payment = (props) => {
                                                 <p className="text-danger">
                                                     {checkoutError}
                                                 </p>
-                                                <div className={`common-input`}>
+                                            </>
+                                        )}
+                                        {(state.paymentMethod === 1 ||
+                                            state.paymentMethod === 0) && (
+                                            <>
+                                                <div
+                                                    className={`common-input m-4`}
+                                                >
                                                     <input
                                                         placeholder="Select Address"
                                                         readOnly
-                                                        // type="button"
                                                         name="address"
-                                                        value={state.address}
+                                                        value={
+                                                            state.selectedAddress
+                                                        }
                                                         data-backdrop="static"
                                                         data-keyboard="false"
                                                         data-toggle="modal"
@@ -668,30 +734,59 @@ export const Payment = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    <button
-                                        disabled={
-                                            !stripe ||
-                                            !elements ||
-                                            submiting ||
-                                            checkoutError ||
-                                            serviceRequest.loading
-                                        }
-                                        onClick={
-                                            serviceRequest.message ==
+                                    {state.type == undefined ||
+                                    state.cart_ids == undefined ? (
+                                        <button
+                                            disabled={
+                                                !stripe ||
+                                                !elements ||
+                                                submiting ||
+                                                checkoutError ||
+                                                serviceRequest.loading
+                                            }
+                                            onClick={
+                                                serviceRequest.message ==
+                                                    "success" ||
+                                                serviceRequest.message ==
+                                                    "Order already exist"
+                                                    ? handleGoToServicesHistory
+                                                    : handleClickMakeRequest
+                                            }
+                                            className="button-common mt-5 w-50"
+                                        >
+                                            {serviceRequest.message ==
                                                 "success" ||
                                             serviceRequest.message ==
                                                 "Order already exist"
-                                                ? handleGoToServicesHistory
-                                                : handleClickMakeRequest
-                                        }
-                                        className="button-common mt-5 w-50"
-                                    >
-                                        {serviceRequest.message == "success" ||
-                                        serviceRequest.message ==
-                                            "Order already exist"
-                                            ? "Go to Services History"
-                                            : "Make Service Request"}
-                                    </button>
+                                                ? "Go to Services History"
+                                                : "Make Service Request"}
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="button-common mt-5 w-50"
+                                            disabled={(() => {
+                                                if (
+                                                    state.paymentMethod ==
+                                                        null ||
+                                                    state.address_id == null
+                                                ) {
+                                                    return true;
+                                                }
+                                                if (
+                                                    (state.paymentMethod == 1 &&
+                                                        !stripe) ||
+                                                    !elements ||
+                                                    submiting ||
+                                                    checkoutError
+                                                ) {
+                                                    return true;
+                                                }
+                                            })()}
+                                            onClick={handlePlaceOrder}
+                                        >
+                                            Place Order
+                                        </button>
+                                    )}
                                 </div>
 
                                 <div className="row pad-t">
@@ -908,171 +1003,208 @@ export const Payment = (props) => {
                                     : "Select Address"}
                             </h5>
                             <button
-                                type="button"
+                                onClick={() =>
+                                    setState({
+                                        ...state,
+                                        addNewAddress: false,
+                                        address: "",
+                                    })
+                                }
+                                // type="button"
                                 className="close"
                                 data-dismiss="modal"
                                 aria-label="Close"
-                                onClick={() =>
-                                    setState.addNewAddress &&
-                                    setState({ ...state, addNewAddress: false })
-                                }
                             >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
                             <div className="row m-2">
-                                <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
-                                    <li
-                                        style={
-                                            state.addressType == "HOME"
-                                                ? {
-                                                      backgroundColor:
-                                                          "#2F88E7",
-                                                      color: "white",
-                                                  }
-                                                : {
-                                                      color: "black",
-                                                  }
-                                        }
-                                        onClick={() =>
-                                            setState({
-                                                ...state,
-                                                addressType: "HOME",
-                                            })
-                                        }
-                                        className="d-flex align-items-center justify-content-center m-2"
-                                    >
-                                        {" "}
-                                        Home
-                                    </li>
-                                    <li
-                                        style={
-                                            state.addressType == "OFFICE"
-                                                ? {
-                                                      backgroundColor:
-                                                          "#2F88E7",
-                                                      color: "white",
-                                                  }
-                                                : {
-                                                      color: "black",
-                                                  }
-                                        }
-                                        onClick={() =>
-                                            setState({
-                                                ...state,
-                                                addressType: "OFFICE",
-                                            })
-                                        }
-                                        className="d-flex align-items-center justify-content-center m-2"
-                                    >
-                                        {" "}
-                                        Office
-                                    </li>
-                                    <li
-                                        style={
-                                            state.addressType == "OTHER"
-                                                ? {
-                                                      backgroundColor:
-                                                          "#2F88E7",
-                                                      color: "white",
-                                                  }
-                                                : {
-                                                      color: "black",
-                                                  }
-                                        }
-                                        onClick={() =>
-                                            setState({
-                                                ...state,
-                                                addressType: "OTHER",
-                                            })
-                                        }
-                                        className="d-flex align-items-center justify-content-center m-2"
-                                    >
-                                        {" "}
-                                        Other
-                                    </li>
-                                </ul>
-                                <div className="col-12">
-                                    {state.addNewAddress && (
-                                        <>
-                                            <AutoCompleteInput
-                                                title="Address"
-                                                classes="m-5"
-                                                placeholder="Add Address"
-                                                handleOnChange={(address) => {
-                                                    let mesError =
-                                                        state.address.length < 5
-                                                            ? "Address must be at least 5 characters"
-                                                            : "";
+                                {state.addNewAddress && (
+                                    <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
+                                        <li
+                                            style={
+                                                state.addressType == "HOME"
+                                                    ? {
+                                                          backgroundColor:
+                                                              "#2F88E7",
+                                                          color: "white",
+                                                      }
+                                                    : {
+                                                          color: "black",
+                                                      }
+                                            }
+                                            onClick={() => {
+                                                setState({
+                                                    ...state,
+                                                    addressType: "HOME",
+                                                });
+                                            }}
+                                            className="d-flex align-items-center justify-content-center m-2"
+                                        >
+                                            {" "}
+                                            Home
+                                        </li>
+                                        <li
+                                            style={
+                                                state.addressType == "OFFICE"
+                                                    ? {
+                                                          backgroundColor:
+                                                              "#2F88E7",
+                                                          color: "white",
+                                                      }
+                                                    : {
+                                                          color: "black",
+                                                      }
+                                            }
+                                            onClick={() => {
+                                                setState({
+                                                    ...state,
+                                                    addressType: "OFFICE",
+                                                });
+                                            }}
+                                            className="d-flex align-items-center justify-content-center m-2"
+                                        >
+                                            {" "}
+                                            Office
+                                        </li>
+                                        <li
+                                            style={
+                                                state.addressType == "OTHER"
+                                                    ? {
+                                                          backgroundColor:
+                                                              "#2F88E7",
+                                                          color: "white",
+                                                      }
+                                                    : {
+                                                          color: "black",
+                                                      }
+                                            }
+                                            onClick={() => {
+                                                setState({
+                                                    ...state,
+                                                    addressType: "OTHER",
+                                                });
+                                            }}
+                                            className="d-flex align-items-center justify-content-center m-2"
+                                        >
+                                            {" "}
+                                            Other
+                                        </li>
+                                    </ul>
+                                )}
+                                {state.addNewAddress ? (
+                                    <div className="col-12">
+                                        <AutoCompleteInput
+                                            title="Address"
+                                            classes="m-5"
+                                            placeholder="Add Address"
+                                            handleOnChange={(address) => {
+                                                let mesError =
+                                                    state.address.length < 5
+                                                        ? "Address must be at least 5 characters"
+                                                        : "";
+                                                setState({
+                                                    ...state,
+                                                    address,
+                                                    error: {
+                                                        ...state.error,
+                                                        addressErr: mesError,
+                                                    },
+                                                });
+                                            }}
+                                            value={state.address}
+                                            handleOnSelect={(address) =>
+                                                setState({
+                                                    ...state,
+                                                    address,
+                                                })
+                                            }
+                                        />
+
+                                        <div className="text-danger">
+                                            {state?.error?.addressErr}
+                                        </div>
+                                        <label
+                                            className="col-md-12 text-dark mb-2"
+                                            style={{ fontSize: 20 }}
+                                            htmlFor="flat_no"
+                                        >
+                                            Flat No
+                                        </label>
+                                        <div className="common-input">
+                                            <input
+                                                id="flat_no"
+                                                name="flat_no"
+                                                value={state.flat_no}
+                                                placeholder="Add flat no"
+                                                onChange={(e) =>
                                                     setState({
                                                         ...state,
-                                                        address,
-                                                        error: {
-                                                            ...state.error,
-                                                            addressErr:
-                                                                mesError,
-                                                        },
-                                                    });
-                                                }}
-                                                value={state.address}
-                                                handleOnSelect={(address) =>
-                                                    setState({
-                                                        ...state,
-                                                        address,
+                                                        flat_no: e.target.value,
                                                     })
                                                 }
-                                            />
-
-                                            <div className="text-danger">
-                                                {state?.error?.addressErr}
+                                            ></input>
+                                        </div>
+                                        <label
+                                            className="col-md-12 text-dark mb-2"
+                                            style={{ fontSize: 20 }}
+                                            htmlFor="zip_code"
+                                        >
+                                            Zip Code
+                                        </label>
+                                        <div className="common-input">
+                                            <input
+                                                id="zip_code"
+                                                placeholder="Add flat no"
+                                                name="zip_code"
+                                                value={state.zip_code}
+                                                onChange={handleChangeZipCode}
+                                            ></input>
+                                        </div>
+                                        <div className="text-danger">
+                                            {state?.error?.zip_codeErr}
+                                        </div>
+                                    </div>
+                                ) : addressList?.length > 0 ? (
+                                    addressList?.map((address, index) => (
+                                        <div
+                                            key={index}
+                                            className="address-card ml-4 mr-4"
+                                            style={
+                                                state.address_id == address.id
+                                                    ? {
+                                                          backgroundColor:
+                                                              "#2F88E8",
+                                                          color: "white",
+                                                      }
+                                                    : {}
+                                            }
+                                            onClick={() => {
+                                                setState({
+                                                    ...state,
+                                                    address_id: address.id,
+                                                    selectedAddress:
+                                                        address.address,
+                                                });
+                                            }}
+                                            data-dismiss="modal"
+                                            aria-label="Close"
+                                        >
+                                            <div>{address?.address}</div>
+                                            <div className="address-zip">
+                                                Zip Code: {address?.zip_code}
                                             </div>
-                                            <label
-                                                className="col-md-12 text-dark mb-2"
-                                                style={{ fontSize: 20 }}
-                                                htmlFor="flat_no"
-                                            >
-                                                Flat No
-                                            </label>
-                                            <div className="common-input">
-                                                <input
-                                                    id="flat_no"
-                                                    name="flat_no"
-                                                    value={state.flat_no}
-                                                    placeholder="Add flat no"
-                                                    onChange={(e) =>
-                                                        setState({
-                                                            ...state,
-                                                            flat_no:
-                                                                e.target.value,
-                                                        })
-                                                    }
-                                                ></input>
+                                            <div className="address-type">
+                                                {address.type}
                                             </div>
-                                            <label
-                                                className="col-md-12 text-dark mb-2"
-                                                style={{ fontSize: 20 }}
-                                                htmlFor="zip_code"
-                                            >
-                                                Zip Code
-                                            </label>
-                                            <div className="common-input">
-                                                <input
-                                                    id="zip_code"
-                                                    placeholder="Add flat no"
-                                                    name="zip_code"
-                                                    value={state.zip_code}
-                                                    onChange={
-                                                        handleChangeZipCode
-                                                    }
-                                                ></input>
-                                            </div>
-                                            <div className="text-danger">
-                                                {state?.error?.zip_codeErr}
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    addressesLoading == false && (
+                                        <center>NOT FOUND</center>
+                                    )
+                                )}
                             </div>
                         </div>
                         <div className="modal-footer">
@@ -1086,6 +1218,7 @@ export const Payment = (props) => {
                                         setState({
                                             ...state,
                                             addNewAddress: false,
+                                            address: "",
                                         })
                                     }
                                 >

@@ -48,6 +48,30 @@ body {
     font-family: Product Sans;
 }
 
+.address-card {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin: 5px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.address-zip {
+    font-size: 1.5rem;
+    float: left;
+    margin: 2px;
+}
+
+.address-type {
+    font-size: 1.5rem;
+    float: right;
+    margin: 2px;
+}
+
 .kc_fab_main_btn {
     background-color: #f44336;
     width: 60px;
