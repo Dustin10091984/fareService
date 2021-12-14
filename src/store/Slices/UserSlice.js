@@ -1,38 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios';
+import { helperAxios } from "./../../helper/axios";
+import { StateType } from "./../../constants/index";
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: [],
+    initialState: {
+        address: "",
+        addresses: "",
+    },
     reducers: {
-        updateUser: (state, action) => {
-            return action.payload;
+        address: (state, action) => {
+            return {
+                ...state,
+                address: action.payload
+            };
         },
+        addresses: (state, action) => {
+            return {
+                ...state,
+                addresses: action.payload
+            };
+        }
     },
 });
 export default userSlice.reducer
 
 
-const { updateUser } = userSlice.actions
-export const getUser = () => async dispatch => {
-    try {
-        await axios({
-            method: 'get',
-            headers: {
-                Authorization: `Bearer ${localStorage.userToken}`
-            },
-            url: process.env.REACT_APP_API_BASE_URL+`/api/public/chat/conversations`,
-            // params: {
-            //     chat_mark_read_id: chat_mark_read_id
-            // }
-        }).then((response) => {
-            //handle success
-            dispatch(updateUser(response.data.data));
-        }).catch((error) => {
-            //handle error
-            console.log(error);
-        });
-    } catch (error) {
-        console.log("error", error);
-    }
+const { address, addresses } = userSlice.actions
+
+export const addAddress = (data) => async dispatch => {
+    const url = `/api/user/address/store`;
+    dispatch(helperAxios("post", url, address, true, data, false, null));
+};
+
+export const getAddresses = () => async dispatch => {
+    const url = `/api/user/address`;
+    dispatch(helperAxios("get", url, addresses, true));
 };

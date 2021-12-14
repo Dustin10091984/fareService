@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import Rating from "../../components/Rating";
 export const Product = (props) => {
-    console.log(props);
     return (
         <>
             <div>

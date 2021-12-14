@@ -5,7 +5,10 @@ const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState: {
         list: '',
+        restaurants: '',
         restaurant: '',
+        foods: '',
+        food: '',
     },  
     reducers: {
         restaurants: (state, action) => {
@@ -26,11 +29,17 @@ const restaurantsSlice = createSlice({
                 foods: action.payload
             }
         },
+        food: (state, action) => {
+            return {
+                ...state,
+                food: action.payload
+            }
+        }
     },
 });
 export default restaurantsSlice.reducer;
 
-const { restaurants, restaurant, foods } = restaurantsSlice.actions;
+const { restaurants, restaurant, foods, food } = restaurantsSlice.actions;
 
 export const getRestaurants = () => async dispatch => {
     let url = `/api/restaurant/list`;
@@ -43,6 +52,11 @@ export const getRestaurant = (id) => async dispatch => {
 }
 
 export const getRestaurantFoods = (id) => async dispatch => {
-    let url = `/api/restaurant/show/${id}`;
-    dispatch(helperAxios("get", url, restaurant));
+    let url = `/api/restaurant/food/list/${id}`;
+    dispatch(helperAxios("get", url, foods));
+}
+
+export const getFood = (id) => async dispatch => {
+    let url = `/api/restaurant/food/show/${id}`;
+    dispatch(helperAxios("get", url, food));
 }
