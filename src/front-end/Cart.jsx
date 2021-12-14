@@ -1,33 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { getCartList, updateQuantity } from "../store/Slices/cart/cartsSlice";
-import { Product } from '../front-end/common/product';
+import { Product } from "../front-end/common/product";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const Cart = (props) => {
     const dispatch = useDispatch();
-    
-    const [state, setState] = useState({wait: null, cart: {id: null, quantity: null}, cart_ids: props?.location?.state?.cart_ids ? props.location.state.cart_ids : []});
+
+    const [state, setState] = useState({
+        wait: null,
+        cart: { id: null, quantity: null },
+        cart_ids: props?.location?.state?.cart_ids
+            ? props.location.state.cart_ids
+            : [],
+    });
     useEffect(() => {
         dispatch(getCartList()); // get cart list
     }, []);
-    
+
     const loading = useRef(null);
 
-    const cartList = useSelector(state => state.cartsReducer?.list.cart);
+    const cartList = useSelector((state) => state.cartsReducer?.list.cart);
+
     const updateCartData = useSelector(
         (state) => state.cartsReducer?.updateCart?.data
     );
     const updateCartError = useSelector(
         (state) => state.cartsReducer?.updateCart?.error
-    )
+    );
     const updateCartLoading = useSelector(
         (state) => state.cartsReducer?.updateCart?.loading
-    )
+    );
     const updateCartMessage = useSelector(
         (state) => state.cartsReducer?.updateCart?.message
-    )
+    );
 
     useEffect(() => {
         updateCartLoading == false && toast.dismiss(loading.current);
@@ -51,28 +58,35 @@ export const Cart = (props) => {
     }, [updateCartMessage]);
 
     useEffect(() => {
-        if(state.wait == false && state?.cart?.id != null && state?.cart?.quantity != null){
+        if (
+            state.wait == false &&
+            state?.cart?.id != null &&
+            state?.cart?.quantity != null
+        ) {
             dispatch(
-                updateQuantity({ id: state?.cart?.id, quantity: state?.cart?.quantity })
+                updateQuantity({
+                    id: state?.cart?.id,
+                    quantity: state?.cart?.quantity,
+                })
             );
         }
-    }, [state.wait])
+    }, [state.wait]);
 
     const sleep = (ms) => {
-        return new Promise((resolve ) => {
+        return new Promise((resolve) => {
             setState((state) => ({ ...state, wait: true }));
             setTimeout(resolve, ms);
         });
-    }
+    };
 
     const handleMinusClick = (data) => {
-        if(data.quantity > 1)
+        if (data.quantity > 1)
             setState({
                 ...state,
                 cart: {
                     ...state.cart,
-                     id: data.id,
-                     quantity: data.quantity - 1
+                    id: data.id,
+                    quantity: data.quantity - 1,
                 },
             });
         if (state.wait === false || state.wait === null) {
@@ -82,7 +96,7 @@ export const Cart = (props) => {
                 setState((state) => ({ ...state, wait: false }));
             });
         }
-    }
+    };
 
     const handlePlusClick = (data) => {
         if (data.quantity < 100)
@@ -94,41 +108,41 @@ export const Cart = (props) => {
                     quantity: data.quantity + 1,
                 },
             });
-        if(state.wait === false || state.wait === null) {
+        if (state.wait === false || state.wait === null) {
             loading.current = toast.info("Loading...");
             sleep(2000).then(() => {
                 setState((state) => ({ ...state, wait: false }));
             });
         }
-    }
+    };
 
     /**
      * Select product to checkout
-     * @param {int} id 
+     * @param {int} id
      */
     const handleRadioClick = (id) => {
-        if(state.cart_ids.includes(id) == false){
-            setState((state) => ({ ...state, ...state.cart_ids?.push(id)  }));
+        if (state.cart_ids.includes(id) == false) {
+            setState((state) => ({ ...state, ...state.cart_ids?.push(id) }));
         } else {
             setState((state) => ({
-                 ...state, cart_ids: state?.cart_ids?.filter(item => item != id)
+                ...state,
+                cart_ids: state?.cart_ids?.filter((item) => item != id),
             }));
         }
-    }
+    };
 
     /**
      * Checkout
-     * 
+     *
      */
     const handleCheckoutClick = () => {
-        if(state.cart_ids.length > 0)
-            props.history.push({   
-                pathname: '/payment',
-                state: {cart_ids: state.cart_ids, type: 'cart'}
+        if (state.cart_ids.length > 0)
+            props.history.push({
+                pathname: "/payment",
+                state: { cart_ids: state.cart_ids, type: "cart" },
             });
-        else
-            toast.error("Please select at least one product to checkout");
-    }
+        else toast.error("Please select at least one product to checkout");
+    };
 
     return (
         <>
@@ -348,7 +362,8 @@ export const Cart = (props) => {
                                             state?.cart_ids?.forEach((item) => {
                                                 total += parseInt(
                                                     cartList?.find(
-                                                        cart => cart.id == item
+                                                        (cart) =>
+                                                            cart.id == item
                                                     ).price
                                                 );
                                             });
@@ -385,4 +400,4 @@ export const Cart = (props) => {
             </div>
         </>
     );
-}
+};

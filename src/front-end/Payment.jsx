@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { getCartList } from "../store/Slices/cart/cartsSlice";
 import { useDispatch, useSelector } from "react-redux";
-// import { Product } from '../front-end/common/product';
+import AutoCompleteInput from "../components/AutoCompleteInput";
 import {
     postRequestService,
     getInitialRequestService,
 } from "../store/Slices/services/RequestServiceSclice";
-import { Link } from "react-router-dom";
+import { addAddress, getAddresses } from "./../store/Slices/UserSlice";
 export const Payment = (props) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -15,9 +16,18 @@ export const Payment = (props) => {
     const dispatch = useDispatch();
 
     const serviceRequest = useSelector((state) => state.serviceRequest);
+    const cartList = useSelector((state) => state.cartsReducer?.list.cart);
+
     const [state, setState] = useState({
         type: props.location.state?.type,
         cart_ids: props?.location?.state?.cart_ids,
+        PaymentMethod: null,
+        addressType: "HOME",
+        address: "",
+        flat_no: "",
+        zip_code: "",
+        addNewAddress: false,
+
         form: {
             serviceDetail: props?.location.state,
             // first_name: '',
@@ -44,6 +54,8 @@ export const Payment = (props) => {
             card_cvcErr: "",
             card_nameErr: "",
             stripeErr: "",
+            addressErr: "",
+            zip_codeErr: "",
         },
     });
 
@@ -77,6 +89,12 @@ export const Payment = (props) => {
     } = state.error;
 
     useEffect(() => {
+        if (props.location.state == undefined) {
+            props.history.push("/");
+        }
+        if (cartList == "" || cartList == undefined) {
+            dispatch(getCartList());
+        }
         return () => {
             dispatch(getInitialRequestService());
         };
@@ -122,16 +140,18 @@ export const Payment = (props) => {
     //     setState((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }));
     // }
 
-    // const handleChangeZipCode = (e) => {
-    //     const { name, value } = e.target
-    //     const form = { ...state.form, [name]: value };
-    //     setState((state) => ({ ...state, form: form }));
-    //     let errorMsg = "Zip Code may not be grater than 15"
-    //     if(value.length < 15) {
-    //         errorMsg = '';
-    //     }
-    //     setState((state) => ({ ...state, error: { ...state.error, [`${name}Err`]: errorMsg } }));
-    // }
+    const handleChangeZipCode = (e) => {
+        const { name, value } = e.target;
+        setState((state) => ({ ...state, [name]: value }));
+        let errorMsg = "Zip Code may not be less than 3 grater than 15";
+        if (value.length > 3 && value.length < 15) {
+            errorMsg = "";
+        }
+        setState((state) => ({
+            ...state,
+            error: { ...state.error, [`${name}Err`]: errorMsg },
+        }));
+    };
 
     // const handleChangeStateName = (e) => {
     //     const regex = /^[a-zA-Z ]{0,50}$/;
@@ -322,6 +342,27 @@ export const Payment = (props) => {
         });
     };
 
+    const handleAddressClick = () => {
+        dispatch(getAddresses());
+    };
+
+    const handleAddNewAddressClick = () => {
+        if (state.addNewAddress == false) {
+            setState((state) => ({
+                ...state,
+                addNewAddress: true,
+            }));
+            return;
+        }
+        dispatch(
+            addAddress({
+                type: state.addressType,
+                address: state.address,
+                flat_no: state.flat_no !== "" ? state.flat_no : null,
+                zip_code: state.zip_code,
+            })
+        );
+    };
     return (
         <>
             <div className="moving-help-sec pad-Y m-0">
@@ -335,7 +376,7 @@ export const Payment = (props) => {
                                         role="alert"
                                         style={{ fontSize: 15 }}
                                     >
-                                        {stripeErr}
+                                        please enter valid card details
                                     </div>
                                 ) : (
                                     ""
@@ -403,6 +444,7 @@ export const Payment = (props) => {
                                                                         }
                                                                     >
                                                                         {msg}
+                                                                        <br />
                                                                     </React.Fragment>
                                                                 )
                                                             )}
@@ -486,15 +528,102 @@ export const Payment = (props) => {
                                     {/* right box */}
                                     <div className="m-search-right-box">
                                         <div className="title-move mb-5">
-                                            Please fill Card details
+                                            {state.type && state.cart_ids
+                                                ? "Please Select payment method"
+                                                : "Please fill Card details"}
                                         </div>
-                                        <CardElement
-                                            onChange={handleCardDetailsChange}
-                                            className="m-5"
-                                        />
-                                        <p className="text-danger">
-                                            {checkoutError}
-                                        </p>
+                                        {state.type && state.cart_ids && (
+                                            <>
+                                                <div
+                                                    className="form-check ml-5"
+                                                    onClick={() => {
+                                                        setState({
+                                                            ...state,
+                                                            PaymentMethod: 0,
+                                                        });
+                                                    }}
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        className="form-check-input radio"
+                                                        checked={
+                                                            state.PaymentMethod ===
+                                                            0
+                                                        }
+                                                        defaultValue={0}
+                                                        readOnly
+                                                        onClick={() => {
+                                                            setState({
+                                                                ...state,
+                                                                PaymentMethod: 0,
+                                                            });
+                                                        }}
+                                                    />
+                                                    <label
+                                                        className="form-check-label ml-4 option"
+                                                        htmlFor={`radio`}
+                                                    >
+                                                        Cash on Delivery
+                                                    </label>
+                                                </div>
+                                                <div
+                                                    className="form-check ml-5 mt-2"
+                                                    onClick={() => {
+                                                        setState({
+                                                            ...state,
+                                                            PaymentMethod: 1,
+                                                        });
+                                                    }}
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        className="form-check-input radio"
+                                                        checked={
+                                                            state.PaymentMethod ===
+                                                            1
+                                                        }
+                                                        defaultValue={1}
+                                                        readOnly
+                                                    />
+                                                    <label
+                                                        className="form-check-label ml-4 option"
+                                                        htmlFor={`radio`}
+                                                    >
+                                                        Online pay
+                                                    </label>
+                                                </div>
+                                            </>
+                                        )}
+                                        {(state.PaymentMethod === 1 ||
+                                            state.cart_ids == undefined) && (
+                                            <>
+                                                <CardElement
+                                                    onChange={
+                                                        handleCardDetailsChange
+                                                    }
+                                                    className="m-5"
+                                                />
+                                                <p className="text-danger">
+                                                    {checkoutError}
+                                                </p>
+                                                <div className={`common-input`}>
+                                                    <input
+                                                        placeholder="Select Address"
+                                                        readOnly
+                                                        // type="button"
+                                                        name="address"
+                                                        value={state.address}
+                                                        data-backdrop="static"
+                                                        data-keyboard="false"
+                                                        data-toggle="modal"
+                                                        data-target={`#model`}
+                                                        onClick={
+                                                            handleAddressClick
+                                                        }
+                                                    />
+                                                </div>
+                                            </>
+                                        )}
                                         {/* <div className="mb-4 d-flex align-items-center">
                                             <div className="common-input">
                                                 <input type="text" defaultValue={card_number} name="card_number" onChange={handleChangeCardNumber} placeholder="Credit Card Number" />
@@ -571,29 +700,143 @@ export const Payment = (props) => {
                                     </div>
 
                                     <div className="col-md-12">
-                                        <div className="cart-total d-flex align-items-center justify-content-between">
-                                            <div className="cart-title">
-                                                {state.type
-                                                    ? "Product Name"
-                                                    : "Service Request"}
-                                            </div>
-                                            <div className="price-qnt-subtotal">
-                                                <ul className="list-heading d-flex align-items-center justify-content-between w-100">
-                                                    <li>
-                                                        {state.type
-                                                            ? "Price"
-                                                            : "Hourly Rate"}
-                                                    </li>
-                                                    <li>
-                                                        {state.type
-                                                            ? "Quantity"
-                                                            : "Total Hours"}
-                                                    </li>
-                                                    <li>Total</li>
-                                                </ul>
-                                                <ul className="list-des d-flex align-items-center justify-content-between w-100">
+                                        {state.type &&
+                                        state.cart_ids.length > 0 ? (
+                                            <>
+                                                {state.cart_ids?.map((item) => {
+                                                    const cart = cartList?.find(
+                                                        (cart) =>
+                                                            cart.id == item
+                                                    );
+                                                    const food = cart?.food;
+                                                    const product =
+                                                        cart?.product;
+                                                    if (food || product) {
+                                                        return (
+                                                            <div
+                                                                key={item}
+                                                                className="cart-total cart-page d-flex align-items-center justify-content-between"
+                                                            >
+                                                                <div className="d-flex align-items-center justify-content">
+                                                                    <div className="cart-img">
+                                                                        <img
+                                                                            src={
+                                                                                (food?.image &&
+                                                                                    food.image) ||
+                                                                                "/assets/img/cart-prod.jpg" ||
+                                                                                (product?.image &&
+                                                                                    product.image) ||
+                                                                                "/assets/img/cart-prod.jpg"
+                                                                            }
+                                                                            className="img-fluid"
+                                                                            alt=""
+                                                                            onError={(
+                                                                                e
+                                                                            ) => {
+                                                                                e.target.src =
+                                                                                    "/assets/img/cart-prod.jpg";
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                    <div className="cart-title">
+                                                                        {(food?.name &&
+                                                                            food.name) ||
+                                                                            (product?.name &&
+                                                                                product.name)}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="price-qnt-subtotal d-flex align-items-center justify-content-between flex-column">
+                                                                    <ul className="list-heading d-flex align-items-center justify-content-between w-100">
+                                                                        <li>
+                                                                            Price
+                                                                        </li>
+                                                                        <li>
+                                                                            Quantity
+                                                                        </li>
+                                                                        <li>
+                                                                            Subtotal
+                                                                        </li>
+                                                                    </ul>
+                                                                    <ul className="list-des d-flex align-items-center justify-content-between w-100">
+                                                                        <li>
+                                                                            $
+                                                                            {(food?.price &&
+                                                                                food.price) ||
+                                                                                (product?.price &&
+                                                                                    product.price)}
+                                                                        </li>
+                                                                        <li
+                                                                            className={
+                                                                                "d-flex justify-content-center"
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                cart?.quantity
+                                                                            }
+                                                                        </li>
+                                                                        <li>
+                                                                            $
+                                                                            {
+                                                                                cart?.price
+                                                                            }
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    }
+                                                }) || "NOT FOUND"}
+                                                {state.type && state.cart_ids && (
+                                                    <div className="cart-price">
+                                                        Total
+                                                        {` $${(() => {
+                                                            let total = 0;
+                                                            state?.cart_ids?.forEach(
+                                                                (item) => {
+                                                                    total +=
+                                                                        parseInt(
+                                                                            cartList?.find(
+                                                                                (
+                                                                                    cart
+                                                                                ) =>
+                                                                                    cart.id ==
+                                                                                    item
+                                                                            )
+                                                                                .price
+                                                                        );
+                                                                }
+                                                            );
+                                                            return total;
+                                                        })()}`}
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <div className="cart-total d-flex align-items-center justify-content-between">
+                                                <div className="cart-title">
+                                                    {state.type
+                                                        ? "Product Name"
+                                                        : "Service Request"}
+                                                </div>
+                                                <div className="price-qnt-subtotal">
+                                                    <ul className="list-heading d-flex align-items-center justify-content-between w-100">
+                                                        <li>
+                                                            {state.type
+                                                                ? "Price"
+                                                                : "Hourly Rate"}
+                                                        </li>
+                                                        <li>
+                                                            {state.type
+                                                                ? "Quantity"
+                                                                : "Total Hours"}
+                                                        </li>
+                                                        <li>Total</li>
+                                                    </ul>
+
                                                     {(() => {
                                                         if (
+                                                            state.type ==
+                                                                undefined &&
                                                             serviceDetail
                                                                 ?.provider
                                                                 ?.provider_profile
@@ -608,7 +851,7 @@ export const Payment = (props) => {
                                                             const hours =
                                                                 serviceDetail?.hours;
                                                             return (
-                                                                <>
+                                                                <ul className="list-des d-flex align-items-center justify-content-between w-100">
                                                                     <li>{`$${hourly_rate}`}</li>
                                                                     <li>
                                                                         {hours}
@@ -617,27 +860,250 @@ export const Payment = (props) => {
                                                                         hourly_rate *
                                                                         hours
                                                                     }`}</li>
-                                                                </>
+                                                                </ul>
                                                             );
                                                         }
                                                     })()}
-                                                </ul>
-
-                                                {/* <ul className="list-heading d-flex align-items-center justify-content-between w-100">
-                                                    <li></li>
-                                                    <li>Shipping</li>
-                                                    <li>Total</li>
-                                                </ul>
-                                                <ul className="list-des d-flex align-items-center justify-content-between w-100">
-                                                    <li></li>
-                                                    <li>00</li>
-                                                    <li>$122.00</li>
-                                                </ul> */}
+                                                    {/* <ul className="list-heading d-flex align-items-center justify-content-between w-100">
+                                                        <li></li>
+                                                        <li>Shipping</li>
+                                                        <li>Total</li>
+                                                    </ul>
+                                                    <ul className="list-des d-flex align-items-center justify-content-between w-100">
+                                                        <li></li>
+                                                        <li>00</li>
+                                                        <li>$122.00</li>
+                                                    </ul> */}
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className="modal fade bd-example-modal-lg"
+                id="model"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal-lg"
+                    role="document"
+                >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5
+                                className="modal-title display-4"
+                                id="exampleModalLongTitle"
+                            >
+                                {state.addNewAddress
+                                    ? "Add New Address"
+                                    : "Select Address"}
+                            </h5>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() =>
+                                    setState.addNewAddress &&
+                                    setState({ ...state, addNewAddress: false })
+                                }
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row m-2">
+                                <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
+                                    <li
+                                        style={
+                                            state.addressType == "HOME"
+                                                ? {
+                                                      backgroundColor:
+                                                          "#2F88E7",
+                                                      color: "white",
+                                                  }
+                                                : {
+                                                      color: "black",
+                                                  }
+                                        }
+                                        onClick={() =>
+                                            setState({
+                                                ...state,
+                                                addressType: "HOME",
+                                            })
+                                        }
+                                        className="d-flex align-items-center justify-content-center m-2"
+                                    >
+                                        {" "}
+                                        Home
+                                    </li>
+                                    <li
+                                        style={
+                                            state.addressType == "OFFICE"
+                                                ? {
+                                                      backgroundColor:
+                                                          "#2F88E7",
+                                                      color: "white",
+                                                  }
+                                                : {
+                                                      color: "black",
+                                                  }
+                                        }
+                                        onClick={() =>
+                                            setState({
+                                                ...state,
+                                                addressType: "OFFICE",
+                                            })
+                                        }
+                                        className="d-flex align-items-center justify-content-center m-2"
+                                    >
+                                        {" "}
+                                        Office
+                                    </li>
+                                    <li
+                                        style={
+                                            state.addressType == "OTHER"
+                                                ? {
+                                                      backgroundColor:
+                                                          "#2F88E7",
+                                                      color: "white",
+                                                  }
+                                                : {
+                                                      color: "black",
+                                                  }
+                                        }
+                                        onClick={() =>
+                                            setState({
+                                                ...state,
+                                                addressType: "OTHER",
+                                            })
+                                        }
+                                        className="d-flex align-items-center justify-content-center m-2"
+                                    >
+                                        {" "}
+                                        Other
+                                    </li>
+                                </ul>
+                                <div className="col-12">
+                                    {state.addNewAddress && (
+                                        <>
+                                            <AutoCompleteInput
+                                                title="Address"
+                                                classes="m-5"
+                                                placeholder="Add Address"
+                                                handleOnChange={(address) => {
+                                                    let mesError =
+                                                        state.address.length < 5
+                                                            ? "Address must be at least 5 characters"
+                                                            : "";
+                                                    setState({
+                                                        ...state,
+                                                        address,
+                                                        error: {
+                                                            ...state.error,
+                                                            addressErr:
+                                                                mesError,
+                                                        },
+                                                    });
+                                                }}
+                                                value={state.address}
+                                                handleOnSelect={(address) =>
+                                                    setState({
+                                                        ...state,
+                                                        address,
+                                                    })
+                                                }
+                                            />
+
+                                            <div className="text-danger">
+                                                {state?.error?.addressErr}
+                                            </div>
+                                            <label
+                                                className="col-md-12 text-dark mb-2"
+                                                style={{ fontSize: 20 }}
+                                                htmlFor="flat_no"
+                                            >
+                                                Flat No
+                                            </label>
+                                            <div className="common-input">
+                                                <input
+                                                    id="flat_no"
+                                                    name="flat_no"
+                                                    value={state.flat_no}
+                                                    placeholder="Add flat no"
+                                                    onChange={(e) =>
+                                                        setState({
+                                                            ...state,
+                                                            flat_no:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                ></input>
+                                            </div>
+                                            <label
+                                                className="col-md-12 text-dark mb-2"
+                                                style={{ fontSize: 20 }}
+                                                htmlFor="zip_code"
+                                            >
+                                                Zip Code
+                                            </label>
+                                            <div className="common-input">
+                                                <input
+                                                    id="zip_code"
+                                                    placeholder="Add flat no"
+                                                    name="zip_code"
+                                                    value={state.zip_code}
+                                                    onChange={
+                                                        handleChangeZipCode
+                                                    }
+                                                ></input>
+                                            </div>
+                                            <div className="text-danger">
+                                                {state?.error?.zip_codeErr}
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            {state.addNewAddress == true && (
+                                <button
+                                    className="button-common"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() =>
+                                        state.addNewAddress &&
+                                        setState({
+                                            ...state,
+                                            addNewAddress: false,
+                                        })
+                                    }
+                                >
+                                    Cancel
+                                </button>
+                            )}
+
+                            <button
+                                className="button-common-2"
+                                onClick={handleAddNewAddressClick}
+                                disabled={
+                                    (state.error?.addressErr ||
+                                        state.error?.zip_codeErr) &&
+                                    state.addNewAddress !== false
+                                }
+                            >
+                                New Address
+                            </button>
                         </div>
                     </div>
                 </div>

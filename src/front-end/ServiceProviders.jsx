@@ -1,46 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Product } from './common/product';
-import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import { getProviderList } from '../store/Slices/providers/providerListSclice';
-import { getProviderSchedule } from '../store/Slices/providers/providerScheduleSclice';
-import { postRequestService } from '../store/Slices/services/RequestServiceSclice';
-import { getInitialRequestService } from '../store/Slices/services/RequestServiceSclice';
-import { makeMovingRequest } from '../store/Slices/moving/movingSlice';
-import ServiceType from '../constants/ServiceType';
-import {GoogleMap} from '../GoogleMap/GoogleMap';
+import React, { useState, useEffect } from "react";
+import { Product } from "./common/product";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { getProviderList } from "../store/Slices/providers/providerListSclice";
+import { getProviderSchedule } from "../store/Slices/providers/providerScheduleSclice";
+import { postRequestService } from "../store/Slices/services/RequestServiceSclice";
+import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
+import { makeMovingRequest } from "../store/Slices/moving/movingSlice";
+import ServiceType from "../constants/ServiceType";
+import { GoogleMap } from "../GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
-import Calendar from 'react-calendar';
+import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-import 'react-calendar/dist/Calendar.css';
-import Rating from '../components/Rating'
+import "react-calendar/dist/Calendar.css";
+import Rating from "../components/Rating";
 
-export const ServiceProviders = (props) =>{
-
+export const ServiceProviders = (props) => {
     const { location, history } = props;
-    
-    const [open, setOpen] = useState('');
+
+    const [open, setOpen] = useState("");
 
     const [state, setState] = useState({
-        is_loggedin : false,
-        loggedinErr: '',
-        selectedSlot : '',
-        is_hourly : '',
-        hours : '',
-        address : '',
-        addressErr : '',
-        detail : '',
+        is_loggedin: false,
+        loggedinErr: "",
+        selectedSlot: "",
+        is_hourly: "",
+        hours: "",
+        address: "",
+        addressErr: "",
+        detail: "",
         images: [],
         previewImages: [],
-        detailErr : '',
-        questionsErr : '',
-        submitting : false,
-        error : '',
-        serviceRequest: ''
+        detailErr: "",
+        questionsErr: "",
+        submitting: false,
+        error: "",
+        serviceRequest: "",
     });
 
-    const {detail, detailErr} = state
-    
+    const { detail, detailErr } = state;
+
     const [value, setValue] = useState(new Date());
 
     const dispatch = useDispatch();
@@ -49,29 +48,46 @@ export const ServiceProviders = (props) =>{
     const providerSchedule = useSelector((state) => state.providerSchedule);
     const serviceRequest = useSelector((state) => state.serviceRequest);
 
-    const movingLoading = useSelector((state) => state.movingReducer?.movingRequest?.loading);
-    const movingRequest = useSelector((state) => state.movingReducer?.movingRequest?.data);
-    const movingError = useSelector((state) => state.movingReducer?.movingRequest?.error);
-    const movingMessage = useSelector((state) => state.movingReducer?.movingRequest?.message);
+    const movingLoading = useSelector(
+        (state) => state.movingReducer?.movingRequest?.loading
+    );
+    const movingRequest = useSelector(
+        (state) => state.movingReducer?.movingRequest?.data
+    );
+    const movingError = useSelector(
+        (state) => state.movingReducer?.movingRequest?.error
+    );
+    const movingMessage = useSelector(
+        (state) => state.movingReducer?.movingRequest?.message
+    );
 
     useEffect(() => {
-      return () => {
-        dispatch(getInitialRequestService());
-      };
+        return () => {
+            dispatch(getInitialRequestService());
+        };
     }, []);
 
     useEffect(() => {
-        if(localStorage.getItem('userToken')){
-            setState((state)=> ({
-                ...state, is_loggedin : true
+        if (localStorage.getItem("userToken")) {
+            setState((state) => ({
+                ...state,
+                is_loggedin: true,
             }));
         }
-        if(location?.state?.service_type === ServiceType.MOVING){
-            let searchParams= new URLSearchParams({
-              service_type: location?.state?.service_type,
-              vehicle_type_id: location?.state?.vehicle_type_id,
+        if (location?.state?.service_type === ServiceType.MOVING) {
+            let searchParams = new URLSearchParams({
+                service_type: location?.state?.service_type,
+                vehicle_type_id: location?.state?.vehicle_type_id,
             }).toString();
-            dispatch(getProviderList(`${props.location.search !== '' ? props.location.search+searchParams : `?${searchParams}`}`));
+            dispatch(
+                getProviderList(
+                    `${
+                        props.location.search !== ""
+                            ? props.location.search + searchParams
+                            : `?${searchParams}`
+                    }`
+                )
+            );
         } else {
             dispatch(getProviderList(props.location.search));
         }
@@ -79,15 +95,15 @@ export const ServiceProviders = (props) =>{
 
     useEffect(() => {
         if (providerList !== undefined && !providerList.length) {
-            setState(state => ({
+            setState((state) => ({
                 ...state,
-                providerList: providerList
+                providerList: providerList,
             }));
         }
         if (providerSchedule !== undefined && !providerSchedule.length) {
-            setState(state => ({
+            setState((state) => ({
                 ...state,
-                providerSchedule: providerSchedule
+                providerSchedule: providerSchedule,
             }));
             handleCalendarClick(new Date());
         }
@@ -106,131 +122,231 @@ export const ServiceProviders = (props) =>{
 
     function handleContinueClick(event, type, provider) {
         setOpen(true);
-        const {value} = event.target
-        if(state.is_loggedin) {
-            if(props.location.state !== undefined){
-                setState(state => ({...state, is_hourly: type, provider_id:value, provider}))
-                if(location?.state?.service_type !== ServiceType.MOVING){
-                    if(type == true){
+        const { value } = event.target;
+        if (state.is_loggedin) {
+            if (props.location.state !== undefined) {
+                setState((state) => ({
+                    ...state,
+                    is_hourly: type,
+                    provider_id: value,
+                    provider,
+                }));
+                if (location?.state?.service_type !== ServiceType.MOVING) {
+                    if (type == true) {
                         dispatch(getProviderSchedule(value));
                     }
                 }
             } else {
-                setState(state => ({
-                    ...state, error: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category from header</center>
-                }))
+                setState((state) => ({
+                    ...state,
+                    error: (
+                        <center
+                            className="col-md-12 alert alert-danger"
+                            role="alert"
+                            style={{ fontSize: 15 }}
+                        >
+                            please select category from header
+                        </center>
+                    ),
+                }));
             }
         } else {
-            setState(state => ({
-                ...state, error: <center className="col-md-12 alert alert-primary" role="alert" style={{fontSize: 15}}>please login</center>
-            }))
+            setState((state) => ({
+                ...state,
+                error: (
+                    <center
+                        className="col-md-12 alert alert-primary"
+                        role="alert"
+                        style={{ fontSize: 15 }}
+                    >
+                        please login
+                    </center>
+                ),
+            }));
         }
     }
 
     const handleCalendarClick = (selectedDate) => {
         let date = new Date();
-        
-        if (new Date(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`) <= new Date(`${selectedDate.getFullYear()}-${selectedDate.getMonth()}-${selectedDate.getDate()}`)){
+
+        if (
+            new Date(
+                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+            ) <=
+            new Date(
+                `${selectedDate.getFullYear()}-${selectedDate.getMonth()}-${selectedDate.getDate()}`
+            )
+        ) {
             setValue(selectedDate);
-            let timeSlots = providerSchedule?.data?.data.filter((slot) =>
-                +slot.provider_schedule.year === selectedDate.getFullYear() && +slot.provider_schedule.month === selectedDate.getMonth() + 1 && +slot.provider_schedule.date === selectedDate.getDate()
+            let timeSlots = providerSchedule?.data?.data.filter(
+                (slot) =>
+                    +slot.provider_schedule.year ===
+                        selectedDate.getFullYear() &&
+                    +slot.provider_schedule.month ===
+                        selectedDate.getMonth() + 1 &&
+                    +slot.provider_schedule.date === selectedDate.getDate()
             );
-            if (timeSlots){ 
+            if (timeSlots) {
                 setState((state) => ({ ...state, timeSlots: timeSlots }));
             } else {
                 setState((state) => ({ ...state, timeSlots: undefined }));
             }
         }
-    }
-
+    };
 
     const handleHoursClick = (e) => {
         const { value } = e.target;
         setState((state) => ({ ...state, hours: value }));
-    }
+    };
 
     const handleSlotClick = (e) => {
         const { value } = e.target;
-        
-        setState((state) => ({ ...state, selectedSlot : state.selectedSlot == value ? '' : value }));
-        
+
+        setState((state) => ({
+            ...state,
+            selectedSlot: state.selectedSlot == value ? "" : value,
+        }));
+
         // if (!selectedSlot.includes(value)){
-            //     selectedSlot.push(value);
-            //     setState((state) => ({ ...state, selectedSlot }));
+        //     selectedSlot.push(value);
+        //     setState((state) => ({ ...state, selectedSlot }));
         // } else {
         //     selectedSlot = selectedSlot.filter((selected)=> selected !== value);
         //     setState((state) => ({ ...state, selectedSlot }));
         // }
-    }
+    };
 
     const handleAddressChange = (address) => {
-        if (address.length < 5){
-            setState((state) => ({ ...state, address}));
-            setState((state) => ({ ...state, addressErr: <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>Address's character minimum 5</div> }));
+        if (address.length < 5) {
+            setState((state) => ({ ...state, address }));
+            setState((state) => ({
+                ...state,
+                addressErr: (
+                    <div
+                        className="col-md-12 text-danger mt-2"
+                        style={{ fontSize: 15 }}
+                    >
+                        Address's character minimum 5
+                    </div>
+                ),
+            }));
         } else {
             setState((state) => ({ ...state, address }));
-            setState((state) => ({ ...state, addressErr: '' }));
+            setState((state) => ({ ...state, addressErr: "" }));
         }
-    }
+    };
 
     const handleDetailChange = (e) => {
-        const {name, value} = e.target;
-        setState((state) => ({ ...state, [name]:value }));
-        let errorMsg = "Detail may not be less than 20 and greater than 200 characters"
-        if(value == '' || (value.length > 20 && value.length < 200)){
-            errorMsg = ''
+        const { name, value } = e.target;
+        setState((state) => ({ ...state, [name]: value }));
+        let errorMsg =
+            "Detail may not be less than 20 and greater than 200 characters";
+        if (value == "" || (value.length > 20 && value.length < 200)) {
+            errorMsg = "";
         }
         setState((state) => ({ ...state, [`${name}Err`]: errorMsg }));
-    }
+    };
 
     const handleAddPaymentClick = (e) => {
         e.preventDefault();
-        if (location.state !== undefined){
-            const {selectedSlot, address, hours, is_hourly, provider_id, detail, provider} = state;
+        if (location.state !== undefined) {
+            const {
+                selectedSlot,
+                address,
+                hours,
+                is_hourly,
+                provider_id,
+                detail,
+                provider,
+            } = state;
             // setState((state) => ({ ...state, submitting: true }));
-            if(is_hourly == true && location.state.service_type != ServiceType.MOVING){
+            if (
+                is_hourly == true &&
+                location.state.service_type != ServiceType.MOVING
+            ) {
                 props.history.push({
-                    pathname: '/payment',
-                    state: { slots: [selectedSlot], is_hourly : is_hourly, hours: hours != '' ?  hours : 1, address, questions: props.location.state, token: '', provider_id, provider }
+                    pathname: "/payment",
+                    state: {
+                        slots: [selectedSlot],
+                        is_hourly: is_hourly,
+                        hours: hours != "" ? hours : 1,
+                        address,
+                        questions: props.location.state,
+                        token: "",
+                        provider_id,
+                        provider,
+                    },
                 });
-            } else if(location?.state?.service_type == ServiceType.MOVING){
-                dispatch(makeMovingRequest({...location.state, date: moment(location.state.date).format('YYYY-MM-DD'), provider_id}));
-            } else if(is_hourly == false && location.state.service_type != ServiceType.MOVING) {
+            } else if (location?.state?.service_type == ServiceType.MOVING) {
+                dispatch(
+                    makeMovingRequest({
+                        ...location.state,
+                        date: moment(location.state.date).format("YYYY-MM-DD"),
+                        provider_id,
+                    })
+                );
+            } else if (
+                is_hourly == false &&
+                location.state.service_type != ServiceType.MOVING
+            ) {
                 let formData = new FormData();
-                formData.append('is_hourly', 0);
-                formData.append('address', address);
-                detail && formData.append('detail', detail);
-                state.images.length > 0 && formData.append('images[]', state?.images);
-                formData.append('questions', JSON.stringify(props.location.state));
-                formData.append('provider_id', provider_id);
+                formData.append("is_hourly", 0);
+                formData.append("address", address);
+                detail && formData.append("detail", detail);
+                state.images.length > 0 &&
+                    formData.append("images[]", state?.images);
+                formData.append(
+                    "questions",
+                    JSON.stringify(props.location.state)
+                );
+                formData.append("provider_id", provider_id);
                 dispatch(postRequestService(formData, true));
             }
-        } else{
-            setState((state) => ({ ...state, questionsErr: <center className="col-md-12 alert alert-danger" role="alert" style={{ fontSize: 15 }}>please select category and select questions from header</center> }));
+        } else {
+            setState((state) => ({
+                ...state,
+                questionsErr: (
+                    <center
+                        className="col-md-12 alert alert-danger"
+                        role="alert"
+                        style={{ fontSize: 15 }}
+                    >
+                        please select category and select questions from header
+                    </center>
+                ),
+            }));
         }
-
-    }
+    };
 
     const handleGoToServicesHistory = () => {
         dispatch(getInitialRequestService());
         props.history.push({
-            pathname: '/services-history',
+            pathname: "/services-history",
         });
-    }
+    };
 
     const handleCloseModalClick = () => {
         setOpen(false);
-        setState((state) => ({ ...state, is_hourly : '',selectedSlot: '', address: '', hours : '', token: '', previewImages: [], detail: '' }));
+        setState((state) => ({
+            ...state,
+            is_hourly: "",
+            selectedSlot: "",
+            address: "",
+            hours: "",
+            token: "",
+            previewImages: [],
+            detail: "",
+        }));
         dispatch(getInitialRequestService());
-    } 
+    };
 
     const handleImagesChange = (e) => {
         let matcher = true;
-        var regExp = new RegExp('image.(jpeg|png|jpg|gif|svg|bmp)', 'i');
+        var regExp = new RegExp("image.(jpeg|png|jpg|gif|svg|bmp)", "i");
         let images = e.target.files;
         setState((state) => ({ ...state, previewImages: [] }));
         let previewImages = [];
-        if ( images.length > 0 && images.length < 11 ) {
+        if (images.length > 0 && images.length < 11) {
             for (const image of images) {
                 matcher = regExp.test(image.type);
                 previewImages.push(URL.createObjectURL(image));
@@ -241,299 +357,375 @@ export const ServiceProviders = (props) =>{
         } else {
             matcher = false;
         }
-        if(matcher == true){
-            setState({...state, images, previewImages});
+        if (matcher == true) {
+            setState({ ...state, images, previewImages });
         } else {
-            setState({...state, images: [], previewImages: []});
+            setState({ ...state, images: [], previewImages: [] });
         }
-    }
+    };
 
     return (
-            <>
-                {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
+        <>
+            {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
                     <div className="title">Our Home Cleaning Service Providers</div>
                     <div className="detail">
                         Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat<br /> duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                     </div>
                 </div> */}
 
-                <section className="service-provider-sec">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-4" style={{zIndex : 0}}>
-                                <div className="sticky-top">
-                                    <div className="service-time-box">
-                                        <div className="date-ser mb-4">
-                                            <div className="title-servic px-2">Date</div>
-
-                                            <div className="time-list-pro">
-                                                <div className="mx-2 select-time">
-                                                    Today
-                                                </div>
-                                                <div className="mx-2 select-time">
-                                                    Within 3 days
-                                                </div>
-                                                <div className="mx-2 select-time">
-                                                    Within a week
-                                                </div>
-                                                <div className="mx-2 select-time">
-                                                    Chose Dates
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div className="title-servic px-2 mt-4">Timming</div>
-                                        <ul className="time-list mt-4 d-flex align-items-center justify-content-between flex-wrap">
-                                            <li className="d-flex align-items-center justify-content-center">Morning (8AM - 12PM)</li>
-                                            <li className="d-flex align-items-center justify-content-center">Afternoon (12PM - 5PM)</li>
-                                            <li className="d-flex align-items-center justify-content-center">Afternoon (12PM - 5PM)</li>
-                                        </ul>
-
-                                        <div className="common-input mb-4 ml-3 w-auto">
-                                            <select name="" id="">
-                                                <option value="">Choose specific time</option>
-                                                <option value="">Choose specific time</option>
-                                                <option value="">Choose specific time</option>
-                                                <option value="">Choose specific time</option>
-                                                <option value="">Choose specific time</option>
-                                            </select>
+            <section className="service-provider-sec">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-4" style={{ zIndex: 0 }}>
+                            <div className="sticky-top">
+                                <div className="service-time-box">
+                                    <div className="date-ser mb-4">
+                                        <div className="title-servic px-2">
+                                            Date
                                         </div>
 
-                                        <hr />
-
-                                        <div className="title-servic px-2 mt-4">How often</div>
                                         <div className="time-list-pro">
                                             <div className="mx-2 select-time">
-                                                Weekly
+                                                Today
                                             </div>
                                             <div className="mx-2 select-time">
-                                                Every 2 Weeks
+                                                Within 3 days
                                             </div>
                                             <div className="mx-2 select-time">
-                                                Every 4 Weeks
+                                                Within a week
                                             </div>
                                             <div className="mx-2 select-time">
-                                                Just Once
+                                                Chose Dates
                                             </div>
                                         </div>
-                                        <div className="ser-des">
-                                            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-                                            Velit officia consequat duis enim velit mollit.
-                                            Exercitation veniam consequat sunt nostrud amet.
-                                        </div>
-
-                                        <hr />
-
-                                        <ul className="time-list mt-4 d-flex align-items-start flex-column">
-                                            <li className="d-flex align-items-center justify-content-center">Elite Tasker</li>
-                                            <li className="d-flex align-items-center justify-content-center">Great Value</li>
-                                        </ul>
                                     </div>
+                                    <hr />
+                                    <div className="title-servic px-2 mt-4">
+                                        Timming
+                                    </div>
+                                    <ul className="time-list mt-4 d-flex align-items-center justify-content-between flex-wrap">
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            Morning (8AM - 12PM)
+                                        </li>
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            Afternoon (12PM - 5PM)
+                                        </li>
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            Afternoon (12PM - 5PM)
+                                        </li>
+                                    </ul>
+
+                                    <div className="common-input mb-4 ml-3 w-auto">
+                                        <select name="" id="">
+                                            <option value="">
+                                                Choose specific time
+                                            </option>
+                                            <option value="">
+                                                Choose specific time
+                                            </option>
+                                            <option value="">
+                                                Choose specific time
+                                            </option>
+                                            <option value="">
+                                                Choose specific time
+                                            </option>
+                                            <option value="">
+                                                Choose specific time
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <hr />
+
+                                    <div className="title-servic px-2 mt-4">
+                                        How often
+                                    </div>
+                                    <div className="time-list-pro">
+                                        <div className="mx-2 select-time">
+                                            Weekly
+                                        </div>
+                                        <div className="mx-2 select-time">
+                                            Every 2 Weeks
+                                        </div>
+                                        <div className="mx-2 select-time">
+                                            Every 4 Weeks
+                                        </div>
+                                        <div className="mx-2 select-time">
+                                            Just Once
+                                        </div>
+                                    </div>
+                                    <div className="ser-des">
+                                        Amet minim mollit non deserunt ullamco
+                                        est sit aliqua dolor do amet sint. Velit
+                                        officia consequat duis enim velit
+                                        mollit. Exercitation veniam consequat
+                                        sunt nostrud amet.
+                                    </div>
+
+                                    <hr />
+
+                                    <ul className="time-list mt-4 d-flex align-items-start flex-column">
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            Elite Tasker
+                                        </li>
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            Great Value
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                        
-                            <div className="col-md-8">
-                            {state.error}{state.loggedinErr}
-                            {providerList !== undefined && providerList !== null && providerList.error !== undefined && providerList.error === false && providerList?.data?.data ? providerList.data.data.map((provider,index)=>{
-                                return (
-                                    <div
-                                        key={index}
-                                        className="job-provider-card"
-                                    >
-                                        <div className="user-des d-flex align-items-center justify-content-start w-100">
-                                            <div className="user-img d-flex align-items-center justify-content-center">
-                                                <img
-                                                    src={
-                                                        provider.image
-                                                            ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
-                                                            : "/assets/img/user4.jpg"
-                                                    }
-                                                    className="img-fluid"
-                                                    alt="Not Found"
-                                                />
-                                            </div>
-                                            <div className="user-detail w-100">
-                                                <div className=" w-100 d-flex align-items-center justify-content-between">
-                                                    <div className="title">
-                                                        {provider.first_name}{" "}
-                                                        {provider.last_name}
-                                                    </div>
-                                                    <Link
-                                                        to={`/profile/${provider.id}`}
-                                                        className="button-common"
-                                                    >
-                                                        View Profile
-                                                    </Link>
-                                                </div>
-                                                <div className="job-status">
-                                                    {
-                                                        provider.provider_service_requests_count
-                                                    }{" "}
-                                                    Jobs Completed
-                                                </div>
-                                                <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
-                                                    <Rating
-                                                        rating={
-                                                            provider?.rating
-                                                        }
-                                                    />
+                        </div>
 
-                                                    {props.location.state !==
-                                                        undefined &&
-                                                    state.is_loggedin ===
-                                                        true ? (
-                                                        <button
-                                                            onClick={(event) =>
-                                                                handleContinueClick(
-                                                                    event,
-                                                                    provider.account_type ===
-                                                                        "BASIC"
-                                                                        ? true
-                                                                        : false,
-                                                                    provider
-                                                                )
+                        <div className="col-md-8">
+                            {state.error}
+                            {state.loggedinErr}
+                            {providerList !== undefined &&
+                            providerList !== null &&
+                            providerList.error !== undefined &&
+                            providerList.error === false &&
+                            providerList?.data?.data ? (
+                                providerList.data.data.map(
+                                    (provider, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="job-provider-card"
+                                            >
+                                                <div className="user-des d-flex align-items-center justify-content-start w-100">
+                                                    <div className="user-img d-flex align-items-center justify-content-center">
+                                                        <img
+                                                            src={
+                                                                provider.image
+                                                                    ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
+                                                                    : "/assets/img/user4.jpg"
                                                             }
-                                                            value={provider.id}
-                                                            type="button"
-                                                            data-backdrop="static"
-                                                            data-keyboard="false"
-                                                            className="button-common-2"
-                                                            data-toggle="modal"
-                                                            data-target={
-                                                                location.state
-                                                                    .service_type ==
-                                                                ServiceType.MOVING
-                                                                    ? "#moving"
-                                                                    : provider.account_type ===
-                                                                      "BASIC"
-                                                                    ? "#hourly"
-                                                                    : "#quotation"
-                                                            }
-                                                            disabled={
-                                                                location?.state
-                                                                    ?.service_type &&
-                                                                (location?.state
-                                                                    ?.service_type ==
-                                                                    ServiceType.MOVING &&
-                                                                provider.service_type ==
-                                                                    ServiceType.MOVING
-                                                                    ? false
-                                                                    : true)
-                                                            }
-                                                        >
-                                                            {provider.account_type ===
-                                                            "BASIC"
-                                                                ? "Make a Request"
-                                                                : "Get a Qoutation"}
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            type="button"
-                                                            className="button-common-2"
-                                                            onClick={(event) =>
-                                                                handleContinueClick(
-                                                                    event,
-                                                                    provider.account_type ===
-                                                                        "BASIC"
-                                                                        ? true
-                                                                        : false,
-                                                                    provider
-                                                                )
-                                                            }
-                                                        >
-                                                            {provider.account_type ===
-                                                            "BASIC"
-                                                                ? "Make a Request"
-                                                                : "Get a Qoutation"}
-                                                        </button>
-                                                    )}
+                                                            className="img-fluid"
+                                                            alt="Not Found"
+                                                        />
+                                                    </div>
+                                                    <div className="user-detail w-100">
+                                                        <div className=" w-100 d-flex align-items-center justify-content-between">
+                                                            <div className="title">
+                                                                {
+                                                                    provider.first_name
+                                                                }{" "}
+                                                                {
+                                                                    provider.last_name
+                                                                }
+                                                            </div>
+                                                            <Link
+                                                                to={`/profile/${provider.id}`}
+                                                                className="button-common"
+                                                            >
+                                                                View Profile
+                                                            </Link>
+                                                        </div>
+                                                        <div className="job-status">
+                                                            {
+                                                                provider.provider_service_requests_count
+                                                            }{" "}
+                                                            Jobs Completed
+                                                        </div>
+                                                        <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
+                                                            <Rating
+                                                                rating={
+                                                                    provider?.rating
+                                                                }
+                                                            />
+
+                                                            {props.location
+                                                                .state !==
+                                                                undefined &&
+                                                            state.is_loggedin ===
+                                                                true ? (
+                                                                <button
+                                                                    onClick={(
+                                                                        event
+                                                                    ) =>
+                                                                        handleContinueClick(
+                                                                            event,
+                                                                            provider.account_type ===
+                                                                                "BASIC"
+                                                                                ? true
+                                                                                : false,
+                                                                            provider
+                                                                        )
+                                                                    }
+                                                                    value={
+                                                                        provider.id
+                                                                    }
+                                                                    type="button"
+                                                                    data-backdrop="static"
+                                                                    data-keyboard="false"
+                                                                    className="button-common-2"
+                                                                    data-toggle="modal"
+                                                                    data-target={
+                                                                        location
+                                                                            .state
+                                                                            .service_type ==
+                                                                        ServiceType.MOVING
+                                                                            ? "#moving"
+                                                                            : provider.account_type ===
+                                                                              "BASIC"
+                                                                            ? "#hourly"
+                                                                            : "#quotation"
+                                                                    }
+                                                                    disabled={
+                                                                        location
+                                                                            ?.state
+                                                                            ?.service_type &&
+                                                                        (location
+                                                                            ?.state
+                                                                            ?.service_type ==
+                                                                            ServiceType.MOVING &&
+                                                                        provider.service_type ==
+                                                                            ServiceType.MOVING
+                                                                            ? false
+                                                                            : true)
+                                                                    }
+                                                                >
+                                                                    {provider.account_type ===
+                                                                    "BASIC"
+                                                                        ? "Make a Request"
+                                                                        : "Get a Qoutation"}
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    type="button"
+                                                                    className="button-common-2"
+                                                                    onClick={(
+                                                                        event
+                                                                    ) =>
+                                                                        handleContinueClick(
+                                                                            event,
+                                                                            provider.account_type ===
+                                                                                "BASIC"
+                                                                                ? true
+                                                                                : false,
+                                                                            provider
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    {provider.account_type ===
+                                                                    "BASIC"
+                                                                        ? "Make a Request"
+                                                                        : "Get a Qoutation"}
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                        <div className="user-price">
+                                                            {provider
+                                                                ?.provider_profile
+                                                                ?.hourly_rate
+                                                                ? `$${provider?.provider_profile?.hourly_rate}`
+                                                                : ""}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="user-price">
-                                                    {provider?.provider_profile
-                                                        ?.hourly_rate
-                                                        ? `$${provider?.provider_profile?.hourly_rate}`
-                                                        : ""}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {provider.bio !== undefined &&
-                                            provider?.user_feedbacks[0] !==
-                                                undefined && <hr />}
-                                        {provider.bio && (
-                                            <div className="useer-qust">
-                                                <div className="title">Bio</div>
-                                                <div className="des">
-                                                    {provider.bio}
-                                                </div>
-                                            </div>
-                                        )}
-                                        <>
-                                            {(() => {
-                                                if (
+                                                {provider.bio !== undefined &&
                                                     provider
                                                         ?.user_feedbacks[0] !==
-                                                    undefined
-                                                ) {
-                                                    return (
-                                                        <div className="top-reviews-list">
-                                                            <div className="review-title">
-                                                                Top Review
-                                                            </div>
-                                                            <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-                                                                <div className="review-img">
-                                                                    <img
-                                                                        src={
-                                                                            provider
-                                                                                ?.user_feedbacks[0]
-                                                                                ?.user
-                                                                                ?.image
-                                                                                ? process
-                                                                                      .env
-                                                                                      .REACT_APP_API_BASE_URL +
-                                                                                  provider
-                                                                                      ?.user_feedbacks[0]
-                                                                                      ?.user
-                                                                                      ?.image
-                                                                                : "/assets/img/user4.jpg"
-                                                                        }
-                                                                        className="img-fluid"
-                                                                        alt="Not have"
-                                                                    />
-                                                                </div>
-                                                                {provider
-                                                                    ?.user_feedbacks[0] && (
-                                                                    <div className="review-detail">
-                                                                        {
-                                                                            provider
-                                                                                ?.user_feedbacks[0]
-                                                                                .comment
-                                                                        }
-                                                                    </div>
-                                                                )}
-                                                            </div>
+                                                        undefined && <hr />}
+                                                {provider.bio && (
+                                                    <div className="useer-qust">
+                                                        <div className="title">
+                                                            Bio
                                                         </div>
-                                                    );
-                                                }
-                                            })()}
-                                        </>
+                                                        <div className="des">
+                                                            {provider.bio}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <>
+                                                    {(() => {
+                                                        if (
+                                                            provider
+                                                                ?.user_feedbacks[0] !==
+                                                            undefined
+                                                        ) {
+                                                            return (
+                                                                <div className="top-reviews-list">
+                                                                    <div className="review-title">
+                                                                        Top
+                                                                        Review
+                                                                    </div>
+                                                                    <div className="review-item d-flex align-itmes-centetr justifu-content-between">
+                                                                        <div className="review-img">
+                                                                            <img
+                                                                                src={
+                                                                                    provider
+                                                                                        ?.user_feedbacks[0]
+                                                                                        ?.user
+                                                                                        ?.image
+                                                                                        ? process
+                                                                                              .env
+                                                                                              .REACT_APP_API_BASE_URL +
+                                                                                          provider
+                                                                                              ?.user_feedbacks[0]
+                                                                                              ?.user
+                                                                                              ?.image
+                                                                                        : "/assets/img/user4.jpg"
+                                                                                }
+                                                                                className="img-fluid"
+                                                                                alt="Not have"
+                                                                            />
+                                                                        </div>
+                                                                        {provider
+                                                                            ?.user_feedbacks[0] && (
+                                                                            <div className="review-detail">
+                                                                                {
+                                                                                    provider
+                                                                                        ?.user_feedbacks[0]
+                                                                                        .comment
+                                                                                }
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    })()}
+                                                </>
+                                            </div>
+                                        );
+                                    }
+                                )
+                            ) : providerList.error === true ? (
+                                <>
+                                    <div className="text-center display-4">
+                                        {providerList.message}
                                     </div>
-                                );
-                            }) : providerList.error === true ? (
-                            <>
-                                        <div className="text-center display-4">{providerList.message}</div>
-                            </>) : (
-                                <div className="text-center display-4">Please Wait we are working on it . . .</div>
+                                </>
+                            ) : (
+                                <div className="text-center display-4">
+                                    Please Wait we are working on it . . .
+                                </div>
                             )}
-                            </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-            <div className="modal fade bd-example-modal-lg" id="hourly" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div
+                className="modal fade bd-example-modal-lg"
+                id="hourly"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal-lg"
+                    role="document"
+                >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Service Request</h5>
+                            <h5
+                                className="modal-title display-4"
+                                id="exampleModalLongTitle"
+                            >
+                                Service Request
+                            </h5>
                             {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button> */}
@@ -571,22 +763,42 @@ export const ServiceProviders = (props) =>{
                                         />
                                     </div>
                                 </div>
-                                <div className="col-md-6 justify-center" style={{ marginLeft: -20 }}>
+                                <div
+                                    className="col-md-6 justify-center"
+                                    style={{ marginLeft: -20 }}
+                                >
                                     <div className="common-input ml-3 w-auto">
-                                        <select className="hours" id="" onChange={handleHoursClick}>
-                                            <option defaultValue>please select hours</option>
-                                            {[...Array(12).keys()].map((index)=>(
-                                                <option 
-                                                    key={index+1}
-                                                    value={index+1}
-                                                >
-                                                    {`${index+1} hours`}
-                                                </option>
-                                                ))}
-                                        </select> 
+                                        <select
+                                            className="hours"
+                                            id=""
+                                            onChange={handleHoursClick}
+                                        >
+                                            <option defaultValue>
+                                                please select hours
+                                            </option>
+                                            {[...Array(12).keys()].map(
+                                                (index) => (
+                                                    <option
+                                                        key={index + 1}
+                                                        value={index + 1}
+                                                    >
+                                                        {`${index + 1} hours`}
+                                                    </option>
+                                                )
+                                            )}
+                                        </select>
                                     </div>
                                     <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
-                                        <li style={{ backgroundColor: "#2F88E7", color: 'white' }}  className="d-flex align-items-center justify-content-center col-8 m-4"> Available time Slots</li>
+                                        <li
+                                            style={{
+                                                backgroundColor: "#2F88E7",
+                                                color: "white",
+                                            }}
+                                            className="d-flex align-items-center justify-content-center col-8 m-4"
+                                        >
+                                            {" "}
+                                            Available time Slots
+                                        </li>
                                         {/* {slots.map((time, index) =>{
                                             let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
                                             return(
@@ -600,65 +812,158 @@ export const ServiceProviders = (props) =>{
 
                                             )}
                                         )} */}
-                                            {state !== undefined && state.timeSlots !== undefined ? state.timeSlots.map((slot, index) =>{ 
-                                                return(
-                                                    <React.Fragment key={index}>
-                                                        {state.selectedSlot == slot.id ? (
-                                                            <li key={index} style={{ backgroundColor:"#2F88E7", color: 'white' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
-                                                        ):(
-                                                            <li key={index} style={{ color: 'black' }} onClick={handleSlotClick} value={slot.id} className="d-flex align-items-center justify-content-center m-2 col-5">{slot.start + " - " + slot.end}</li>
-                                                        )}
-                                                    </React.Fragment>
-                                                )
-                                            }): (
-                                                <center className="col-12 text-dark" style={{ fontSize: 20 }}>Not Available</center>
-                                            )}
+                                        {state !== undefined &&
+                                        state.timeSlots !== undefined ? (
+                                            state.timeSlots.map(
+                                                (slot, index) => {
+                                                    return (
+                                                        <React.Fragment
+                                                            key={index}
+                                                        >
+                                                            {state.selectedSlot ==
+                                                            slot.id ? (
+                                                                <li
+                                                                    key={index}
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            "#2F88E7",
+                                                                        color: "white",
+                                                                    }}
+                                                                    onClick={
+                                                                        handleSlotClick
+                                                                    }
+                                                                    value={
+                                                                        slot.id
+                                                                    }
+                                                                    className="d-flex align-items-center justify-content-center m-2 col-5"
+                                                                >
+                                                                    {slot.start +
+                                                                        " - " +
+                                                                        slot.end}
+                                                                </li>
+                                                            ) : (
+                                                                <li
+                                                                    key={index}
+                                                                    style={{
+                                                                        color: "black",
+                                                                    }}
+                                                                    onClick={
+                                                                        handleSlotClick
+                                                                    }
+                                                                    value={
+                                                                        slot.id
+                                                                    }
+                                                                    className="d-flex align-items-center justify-content-center m-2 col-5"
+                                                                >
+                                                                    {slot.start +
+                                                                        " - " +
+                                                                        slot.end}
+                                                                </li>
+                                                            )}
+                                                        </React.Fragment>
+                                                    );
+                                                }
+                                            )
+                                        ) : (
+                                            <center
+                                                className="col-12 text-dark"
+                                                style={{ fontSize: 20 }}
+                                            >
+                                                Not Available
+                                            </center>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-12 p-5">
-                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Address</div>
+                                    <div
+                                        className="col-md-12 text-dark mb-2"
+                                        style={{ fontSize: 20 }}
+                                    >
+                                        Address
+                                    </div>
                                     <div className="common-input">
                                         <PlacesAutocomplete
-                                        value={state.address}
-                                        onChange={(address) => setState((state) => ({ ...state, address }))}
-                                        onSelect={handleAddressChange}
-                                    >
-                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                            <div>
-                                                <input
-                                                    {...getInputProps({
-                                                        placeholder: 'From ...',
-                                                        className: 'location-search-input m-1',
-                                                    })}
-                                                />
-                                                <div className="autocomplete-dropdown-container">
-                                                    {loading && <div>Loading...</div>}
-                                                    {suggestions.map((suggestion) => {
-                                                        const className = suggestion.active
-                                                            ? 'suggestion-item--active'
-                                                            : 'suggestion-item';
-                                                        // inline style for demonstration purpose
-                                                        const style = suggestion.active
-                                                            ? { backgroundColor: '#fafafa', cursor: 'pointer', fontSize: 15, margin: '5px' }
-                                                            : { backgroundColor: '#ffffff', cursor: 'pointer', fontSize: 15, margin: '5px' };
-                                                        return (
-                                                            <div
-                                                                key={suggestion.index}
-                                                                {...getSuggestionItemProps(suggestion, {
-                                                                    className,
-                                                                    style,
-                                                                })}
-                                                            >
-                                                                <span>{suggestion.description}</span>
+                                            value={state.address}
+                                            onChange={(address) =>
+                                                setState((state) => ({
+                                                    ...state,
+                                                    address,
+                                                }))
+                                            }
+                                            onSelect={handleAddressChange}
+                                        >
+                                            {({
+                                                getInputProps,
+                                                suggestions,
+                                                getSuggestionItemProps,
+                                                loading,
+                                            }) => (
+                                                <div>
+                                                    <input
+                                                        {...getInputProps({
+                                                            placeholder:
+                                                                "From ...",
+                                                            className:
+                                                                "location-search-input m-1",
+                                                        })}
+                                                    />
+                                                    <div className="autocomplete-dropdown-container">
+                                                        {loading && (
+                                                            <div>
+                                                                Loading...
                                                             </div>
-                                                        );
-                                                    })}
+                                                        )}
+                                                        {suggestions.map(
+                                                            (suggestion) => {
+                                                                const className =
+                                                                    suggestion.active
+                                                                        ? "suggestion-item--active"
+                                                                        : "suggestion-item";
+                                                                // inline style for demonstration purpose
+                                                                const style =
+                                                                    suggestion.active
+                                                                        ? {
+                                                                              backgroundColor:
+                                                                                  "#fafafa",
+                                                                              cursor: "pointer",
+                                                                              fontSize: 15,
+                                                                              margin: "5px",
+                                                                          }
+                                                                        : {
+                                                                              backgroundColor:
+                                                                                  "#ffffff",
+                                                                              cursor: "pointer",
+                                                                              fontSize: 15,
+                                                                              margin: "5px",
+                                                                          };
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            suggestion.index
+                                                                        }
+                                                                        {...getSuggestionItemProps(
+                                                                            suggestion,
+                                                                            {
+                                                                                className,
+                                                                                style,
+                                                                            }
+                                                                        )}
+                                                                    >
+                                                                        <span>
+                                                                            {
+                                                                                suggestion.description
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                    </PlacesAutocomplete>
+                                            )}
+                                        </PlacesAutocomplete>
                                         {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
                                     </div>
                                     {state.addressErr}
@@ -666,18 +971,55 @@ export const ServiceProviders = (props) =>{
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
-                            <button data-dismiss="modal" disabled={!state.selectedSlot || state.addressErr !== '' || state.address === '' || state.submitting === true ? true : false} onClick={handleAddPaymentClick} type="button" className="button-common-2">Add payment detail</button>
+                            <button
+                                type="button"
+                                className="button-common"
+                                onClick={handleCloseModalClick}
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                data-dismiss="modal"
+                                disabled={
+                                    !state.selectedSlot ||
+                                    state.addressErr !== "" ||
+                                    state.address === "" ||
+                                    state.submitting === true
+                                        ? true
+                                        : false
+                                }
+                                onClick={handleAddPaymentClick}
+                                type="button"
+                                className="button-common-2"
+                            >
+                                Add payment detail
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div className="modal fade bd-example-modal-lg" id="quotation" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+
+            <div
+                className="modal fade bd-example-modal-lg"
+                id="quotation"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal-lg"
+                    role="document"
+                >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Service Request</h5>
+                            <h5
+                                className="modal-title display-4"
+                                id="exampleModalLongTitle"
+                            >
+                                Service Request
+                            </h5>
                             {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button> */}
@@ -690,140 +1032,316 @@ export const ServiceProviders = (props) =>{
                                     <center className="col-12">
                                         {state.questionsErr}
                                     </center>
-                                    {serviceRequest != '' && (()=>{
-
-                                        if(serviceRequest.error == false && serviceRequest.loading == true){
-                                            return (
-                                                <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
-                                                    <i className="fa fa-spinner fa-spin"></i> Processing...
-                                                </div>
-                                            )
-                                        }
-
-                                        if (serviceRequest.error == true && serviceRequest.loading == false) {
-                                            switch (typeof serviceRequest.message) {
-                                                case 'string':
-                                                    return (
-                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                                            {serviceRequest.message}
-                                                        </div>
-                                                    )
-                                                    break;
-                                                case 'array':
-                                                    const errorMsg = Object.values(serviceRequest.message);
-                                                    return (
-                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                                            {errorMsg.map((msg, index)=>(<React.Fragment key={index}>{msg}</React.Fragment>))}
-                                                        </div>
-                                                    )
-                                                    break;
+                                    {serviceRequest != "" &&
+                                        (() => {
+                                            if (
+                                                serviceRequest.error == false &&
+                                                serviceRequest.loading == true
+                                            ) {
+                                                return (
+                                                    <div
+                                                        className="col-12  alert alert-info text-center"
+                                                        role="alert"
+                                                        style={{ fontSize: 15 }}
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"></i>{" "}
+                                                        Processing...
+                                                    </div>
+                                                );
                                             }
-                                        }
 
-                                        if(serviceRequest.error == false && serviceRequest.loading == false){
-                                            switch (typeof serviceRequest.message) {
-                                                case 'string':
-                                                    return (
-                                                        <div className="col-12  alert alert-success text-center" role="alert" style={{fontSize: 15}}>
-                                                            {serviceRequest.message}
-                                                        </div>
-                                                    )
-                                                    break;
-                                                // case 'array':
-                                                //     console.log('array');
-                                                //     break;
-                                            }
-                                        }
-                                    })()}
-                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Address</div>
-                                    <div className="common-input">
-                                    <PlacesAutocomplete
-                                        value={state.address}
-                                        onChange={(address) => setState((state) => ({ ...state, address }))}
-                                        onSelect={handleAddressChange}
-                                    >
-                                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                            <div>
-                                                <input
-                                                    {...getInputProps({
-                                                        placeholder: 'From ...',
-                                                        className: 'location-search-input m-1',
-                                                    })}
-                                                />
-                                                <div className="autocomplete-dropdown-container">
-                                                    {loading && <div>Loading...</div>}
-                                                    {suggestions.map((suggestion) => {
-                                                        const className = suggestion.active
-                                                            ? 'suggestion-item--active'
-                                                            : 'suggestion-item';
-                                                        // inline style for demonstration purpose
-                                                        const style = suggestion.active
-                                                            ? { backgroundColor: '#fafafa', cursor: 'pointer', fontSize: 15, margin: '5px' }
-                                                            : { backgroundColor: '#ffffff', cursor: 'pointer', fontSize: 15, margin: '5px' };
+                                            if (
+                                                serviceRequest.error == true &&
+                                                serviceRequest.loading == false
+                                            ) {
+                                                switch (
+                                                    typeof serviceRequest.message
+                                                ) {
+                                                    case "string":
                                                         return (
                                                             <div
-                                                                key={suggestion.index}
-                                                                {...getSuggestionItemProps(suggestion, {
-                                                                    className,
-                                                                    style,
-                                                                })}
+                                                                className="col-12  alert alert-danger text-center"
+                                                                role="alert"
+                                                                style={{
+                                                                    fontSize: 15,
+                                                                }}
                                                             >
-                                                                <span>{suggestion.description}</span>
+                                                                {
+                                                                    serviceRequest.message
+                                                                }
                                                             </div>
                                                         );
-                                                    })}
+                                                        break;
+                                                    case "array":
+                                                        const errorMsg =
+                                                            Object.values(
+                                                                serviceRequest.message
+                                                            );
+                                                        return (
+                                                            <div
+                                                                className="col-12  alert alert-danger text-center"
+                                                                role="alert"
+                                                                style={{
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                {errorMsg.map(
+                                                                    (
+                                                                        msg,
+                                                                        index
+                                                                    ) => (
+                                                                        <React.Fragment
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                msg
+                                                                            }
+                                                                        </React.Fragment>
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                        );
+                                                        break;
+                                                }
+                                            }
+
+                                            if (
+                                                serviceRequest.error == false &&
+                                                serviceRequest.loading == false
+                                            ) {
+                                                switch (
+                                                    typeof serviceRequest.message
+                                                ) {
+                                                    case "string":
+                                                        return (
+                                                            <div
+                                                                className="col-12  alert alert-success text-center"
+                                                                role="alert"
+                                                                style={{
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                {
+                                                                    serviceRequest.message
+                                                                }
+                                                            </div>
+                                                        );
+                                                        break;
+                                                    // case 'array':
+                                                    //     console.log('array');
+                                                    //     break;
+                                                }
+                                            }
+                                        })()}
+                                    <div
+                                        className="col-md-12 text-dark mb-2"
+                                        style={{ fontSize: 20 }}
+                                    >
+                                        Address
+                                    </div>
+                                    <div className="common-input">
+                                        <PlacesAutocomplete
+                                            value={state.address}
+                                            onChange={(address) =>
+                                                setState((state) => ({
+                                                    ...state,
+                                                    address,
+                                                }))
+                                            }
+                                            onSelect={handleAddressChange}
+                                        >
+                                            {({
+                                                getInputProps,
+                                                suggestions,
+                                                getSuggestionItemProps,
+                                                loading,
+                                            }) => (
+                                                <div>
+                                                    <input
+                                                        {...getInputProps({
+                                                            placeholder:
+                                                                "From ...",
+                                                            className:
+                                                                "location-search-input m-1",
+                                                        })}
+                                                    />
+                                                    <div className="autocomplete-dropdown-container">
+                                                        {loading && (
+                                                            <div>
+                                                                Loading...
+                                                            </div>
+                                                        )}
+                                                        {suggestions.map(
+                                                            (suggestion) => {
+                                                                const className =
+                                                                    suggestion.active
+                                                                        ? "suggestion-item--active"
+                                                                        : "suggestion-item";
+                                                                // inline style for demonstration purpose
+                                                                const style =
+                                                                    suggestion.active
+                                                                        ? {
+                                                                              backgroundColor:
+                                                                                  "#fafafa",
+                                                                              cursor: "pointer",
+                                                                              fontSize: 15,
+                                                                              margin: "5px",
+                                                                          }
+                                                                        : {
+                                                                              backgroundColor:
+                                                                                  "#ffffff",
+                                                                              cursor: "pointer",
+                                                                              fontSize: 15,
+                                                                              margin: "5px",
+                                                                          };
+                                                                return (
+                                                                    <div
+                                                                        key={
+                                                                            suggestion.index
+                                                                        }
+                                                                        {...getSuggestionItemProps(
+                                                                            suggestion,
+                                                                            {
+                                                                                className,
+                                                                                style,
+                                                                            }
+                                                                        )}
+                                                                    >
+                                                                        <span>
+                                                                            {
+                                                                                suggestion.description
+                                                                            }
+                                                                        </span>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                    </PlacesAutocomplete>
+                                            )}
+                                        </PlacesAutocomplete>
                                         {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
                                     </div>
                                     {state.addressErr}
-                                    <div className='col-md-12 text-dark mb-2' style={{fontSize: 20}}>Details</div>
-                                    <div className="common-input">
-                                        <textarea type="text" onChange={handleDetailChange} name="detail" value={detail} placeholder="please add some details..." />
+                                    <div
+                                        className="col-md-12 text-dark mb-2"
+                                        style={{ fontSize: 20 }}
+                                    >
+                                        Details
                                     </div>
-                                    <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{detailErr}</div>
-                                    <input type="file" accept=".jpeg,.png,.jpg,.svg" name="images[]" id="file" className="inputfile" onChange={handleImagesChange} multiple={true}/>
+                                    <div className="common-input">
+                                        <textarea
+                                            type="text"
+                                            onChange={handleDetailChange}
+                                            name="detail"
+                                            value={detail}
+                                            placeholder="please add some details..."
+                                        />
+                                    </div>
+                                    <div
+                                        className="col-md-12 text-danger mt-2"
+                                        style={{ fontSize: 15 }}
+                                    >
+                                        {detailErr}
+                                    </div>
+                                    <input
+                                        type="file"
+                                        accept=".jpeg,.png,.jpg,.svg"
+                                        name="images[]"
+                                        id="file"
+                                        className="inputfile"
+                                        onChange={handleImagesChange}
+                                        multiple={true}
+                                    />
                                     <label htmlFor="file">Choose Images</label>
                                     {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
                                     <div className="text-center">
                                         <div className="row">
                                             <div className="col-md-12 d-flex justify-content-around">
-                                                {state?.previewImages.map((image, index)=>(
-                                                    <img  key={index} src={image} className="rounded col-md-4" alt="..."/>
-                                                ))}
+                                                {state?.previewImages.map(
+                                                    (image, index) => (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            className="rounded col-md-4"
+                                                            alt="..."
+                                                        />
+                                                    )
+                                                )}
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
                             <button
-                                data-dismiss={serviceRequest.message == 'success' ? "modal" : ""}
-                                disabled={
-                                    state.addressErr !== '' || state.address === '' ||
-                                    detailErr  || state.submitting === true ? true : false || detail == ''
+                                type="button"
+                                className="button-common"
+                                onClick={handleCloseModalClick}
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                data-dismiss={
+                                    serviceRequest.message == "success"
+                                        ? "modal"
+                                        : ""
                                 }
-                                onClick={serviceRequest.message == 'success' ? handleGoToServicesHistory : handleAddPaymentClick}
+                                disabled={
+                                    state.addressErr !== "" ||
+                                    state.address === "" ||
+                                    detailErr ||
+                                    state.submitting === true
+                                        ? true
+                                        : false || detail == ""
+                                }
+                                onClick={
+                                    serviceRequest.message == "success"
+                                        ? handleGoToServicesHistory
+                                        : handleAddPaymentClick
+                                }
                                 type="button"
                                 className="button-common-2"
-                            >{serviceRequest.message == 'success' ? "Go to Services History" : "Get Quotation"}
+                            >
+                                {serviceRequest.message == "success"
+                                    ? "Go to Services History"
+                                    : "Get Quotation"}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="modal fade bd-example-modal-lg" id="moving" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div
+                className="modal fade bd-example-modal-lg"
+                id="moving"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal-lg"
+                    role="document"
+                >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title display-4" id="exampleModalLongTitle">Moving Request</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <h5
+                                className="modal-title display-4"
+                                id="exampleModalLongTitle"
+                            >
+                                Moving Request
+                            </h5>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -832,201 +1350,301 @@ export const ServiceProviders = (props) =>{
                             </div> */}
                             <div className="row m-2">
                                 <div className="col-12">
-                                    {movingRequest != undefined && (()=>{
-
-                                        if(movingError == false && movingLoading == true){
-                                            return (
-                                                <div className="col-12  alert alert-info text-center" role="alert" style={{fontSize: 15}}>
-                                                    <i className="fa fa-spinner fa-spin"></i> Processing...
-                                                </div>
-                                            )
-                                        }
-
-                                        if (movingError == true && movingLoading == false) {
-                                            switch (typeof movingMessage) {
-                                                case 'string':
-                                                    return (
-                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                                            {movingMessage}
-                                                        </div>
-                                                    )
-                                                    break;
-                                                case 'object':
-                                                    const errorMsg = Object.values(movingMessage);
-                                                    console.log(errorMsg, 'ok');
-                                                    return (
-                                                        <div className="col-12  alert alert-danger text-center" role="alert" style={{fontSize: 15}}>
-                                                            {errorMsg.map((msg, index)=>(<React.Fragment key={index} style={{fontSize: 15}}>{msg}<br/></React.Fragment>))}
-                                                        </div>
-                                                    )
-                                                    break;
+                                    {movingRequest != undefined &&
+                                        (() => {
+                                            if (
+                                                movingError == false &&
+                                                movingLoading == true
+                                            ) {
+                                                return (
+                                                    <div
+                                                        className="col-12  alert alert-info text-center"
+                                                        role="alert"
+                                                        style={{ fontSize: 15 }}
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"></i>{" "}
+                                                        Processing...
+                                                    </div>
+                                                );
                                             }
-                                        }
 
-                                        if(movingError == false && movingLoading == false){
-                                            switch (typeof movingMessage) {
-                                                case 'string':
-                                                    return (
-                                                        <div className="col-12  alert alert-success text-center" role="alert" style={{fontSize: 15}}>
-                                                            {movingMessage == 'OK' ? "Successfully " : movingMessage}
-                                                        </div>
-                                                    )
-                                                    break;
+                                            if (
+                                                movingError == true &&
+                                                movingLoading == false
+                                            ) {
+                                                switch (typeof movingMessage) {
+                                                    case "string":
+                                                        return (
+                                                            <div
+                                                                className="col-12  alert alert-danger text-center"
+                                                                role="alert"
+                                                                style={{
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                {movingMessage}
+                                                            </div>
+                                                        );
+                                                        break;
+                                                    case "object":
+                                                        const errorMsg =
+                                                            Object.values(
+                                                                movingMessage
+                                                            );
+                                                        console.log(
+                                                            errorMsg,
+                                                            "ok"
+                                                        );
+                                                        return (
+                                                            <div
+                                                                className="col-12  alert alert-danger text-center"
+                                                                role="alert"
+                                                                style={{
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                {errorMsg.map(
+                                                                    (
+                                                                        msg,
+                                                                        index
+                                                                    ) => (
+                                                                        <React.Fragment
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            style={{
+                                                                                fontSize: 15,
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                msg
+                                                                            }
+                                                                            <br />
+                                                                        </React.Fragment>
+                                                                    )
+                                                                )}
+                                                            </div>
+                                                        );
+                                                        break;
+                                                }
                                             }
-                                        }
-                                    })()}
-                                    <GoogleMap {...props} open={open}/>
+
+                                            if (
+                                                movingError == false &&
+                                                movingLoading == false
+                                            ) {
+                                                switch (typeof movingMessage) {
+                                                    case "string":
+                                                        return (
+                                                            <div
+                                                                className="col-12  alert alert-success text-center"
+                                                                role="alert"
+                                                                style={{
+                                                                    fontSize: 15,
+                                                                }}
+                                                            >
+                                                                {movingMessage ==
+                                                                "OK"
+                                                                    ? "Successfully "
+                                                                    : movingMessage}
+                                                            </div>
+                                                        );
+                                                        break;
+                                                }
+                                            }
+                                        })()}
+                                    <GoogleMap {...props} open={open} />
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="button-common" onClick={handleCloseModalClick} data-dismiss="modal">Close</button>
                             <button
-                                data-dismiss={movingMessage == 'OK' ? "modal" : ""}
-                                disabled={
-                                    (()=>{
-                                        if(ServiceType.MOVING == location?.state?.service_type){
-                                            const {from_address, to_address, date, zip_code, start_lat, start_lng, end_lat, end_lng} = location?.state;
-                                            return (
-                                                from_address === '' || to_address === '' || date === '' || zip_code === '' || start_lat === '' || start_lng === '' || end_lat === '' || end_lng === ''
-                                                || from_address === undefined || to_address === undefined || date === undefined || zip_code === undefined || start_lat === undefined || start_lng === undefined || end_lat === undefined || end_lng === undefined
-                                            )
-                                        }
-                                        return state.submitting === true ? true : false
-                                    })()
+                                type="button"
+                                className="button-common"
+                                onClick={handleCloseModalClick}
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                data-dismiss={
+                                    movingMessage == "OK" ? "modal" : ""
                                 }
-                                onClick={movingMessage == 'OK' ? handleGoToServicesHistory : handleAddPaymentClick}
+                                disabled={(() => {
+                                    if (
+                                        ServiceType.MOVING ==
+                                        location?.state?.service_type
+                                    ) {
+                                        const {
+                                            from_address,
+                                            to_address,
+                                            date,
+                                            zip_code,
+                                            start_lat,
+                                            start_lng,
+                                            end_lat,
+                                            end_lng,
+                                        } = location?.state;
+                                        return (
+                                            from_address === "" ||
+                                            to_address === "" ||
+                                            date === "" ||
+                                            zip_code === "" ||
+                                            start_lat === "" ||
+                                            start_lng === "" ||
+                                            end_lat === "" ||
+                                            end_lng === "" ||
+                                            from_address === undefined ||
+                                            to_address === undefined ||
+                                            date === undefined ||
+                                            zip_code === undefined ||
+                                            start_lat === undefined ||
+                                            start_lng === undefined ||
+                                            end_lat === undefined ||
+                                            end_lng === undefined
+                                        );
+                                    }
+                                    return state.submitting === true
+                                        ? true
+                                        : false;
+                                })()}
+                                onClick={
+                                    movingMessage == "OK"
+                                        ? handleGoToServicesHistory
+                                        : handleAddPaymentClick
+                                }
                                 type="button"
                                 className="button-common-2"
                             >
-                                {movingMessage == 'OK' ? "Go to Services History" : "Get Quotation"}
+                                {movingMessage == "OK"
+                                    ? "Go to Services History"
+                                    : "Get Quotation"}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
+// <div className="job-provider-card">
+//                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
+//                                     <div className="user-img d-flex align-items-center justify-content-center">
+//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                     </div>
+//                                     <div className="user-detail w-100">
+//                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
+//                                             <div className="title">Ekstrom Bothman</div>
+//                                             <Link to='/profile'  className="button-common">View Profile</Link>
+//                                         </div>
+//                                         <div className="job-status">179 Jobs Completed</div>
+//                                         <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
+//                                             <div className="star-rating-area">
+//                                                 <div className="rating-static clearfix mr-3" rel="4">
+//                                                     <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
+//                                                 </div>
+//                                                 {/* <div className="ratilike ng-binding">5</div> */}
+//                                             </div>
 
-    // <div className="job-provider-card">
-    //                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
-    //                                     <div className="user-img d-flex align-items-center justify-content-center">
-    //                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
-    //                                     </div>
-    //                                     <div className="user-detail w-100">
-    //                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
-    //                                             <div className="title">Ekstrom Bothman</div>
-    //                                             <Link to='/profile'  className="button-common">View Profile</Link>
-    //                                         </div>
-    //                                         <div className="job-status">179 Jobs Completed</div>
-    //                                         <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
-    //                                             <div className="star-rating-area">
-    //                                                 <div className="rating-static clearfix mr-3" rel="4">
-    //                                                     <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-    //                                                 </div>
-    //                                                 {/* <div className="ratilike ng-binding">5</div> */}
-    //                                             </div>
+//                                             <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
+//                                         </div>
+//                                         <div className="user-price">$20.00</div>
+//                                     </div>
+//                                 </div>
+//                                 <hr/>
+//                                 <div className="useer-qust">
+//                                     <div className="title">How can i help ?</div>
+//                                     <div className="des">I'm Sharonda! I have over 8 years of
+//                                      experience in housekeeping. My goal is to delight my customers
+//                                      by providing a deep, thorough cleaning. Dusted surfaces, baseboards,
+//                                       ceiling fans, and polished appliances are a big deal to me. I pay
+//                                      close detail to all the nooks and cranies!</div>
+//                                 </div>
 
-    //                                             <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
-    //                                         </div>
-    //                                         <div className="user-price">$20.00</div>
-    //                                     </div>
-    //                                 </div>
-    //                                 <hr/>
-    //                                 <div className="useer-qust">
-    //                                     <div className="title">How can i help ?</div>
-    //                                     <div className="des">I'm Sharonda! I have over 8 years of
-    //                                      experience in housekeeping. My goal is to delight my customers 
-    //                                      by providing a deep, thorough cleaning. Dusted surfaces, baseboards,
-    //                                       ceiling fans, and polished appliances are a big deal to me. I pay 
-    //                                      close detail to all the nooks and cranies!</div>
-    //                                 </div>
+//                                 <div className="top-reviews-list">
+//                                     <div className="review-title">Top Review</div>
 
-    //                                 <div className="top-reviews-list">
-    //                                     <div className="review-title">Top Review</div>
+//                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
+//                                         <div className="review-img">
+//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         </div>
 
-    //                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-    //                                         <div className="review-img">
-    //                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
-    //                                         </div>
+//                                         <div className="review-detail">
+//                                         I'm Sharonda! I have over 8 years of experience in housekeeping.
+//                                         My goal is to delight my customers by providing a deep, thorough cleaning.
+//                                          Dusted surfaces, baseboards, ceiling fans, and polished appliances
+//                                          are a big deal to me. I pay close detail to all the nooks and cranies.
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                             <div className="job-provider-card">
+//                                 <div className="user-des d-flex align-items-centet justify-content-start w-100">
+//                                     <div className="user-img d-flex align-items-center justify-content-center">
+//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                     </div>
+//                                     <div className="user-detail w-100">
+//                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
+//                                             <div className="title">Ekstrom Bothman</div>
+//                                             <Link to='/profile'  className="button-common">View Profile</Link>
+//                                         </div>
+//                                         <div className="job-status">179 Jobs Completed</div>
+//                                         <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
+//                                             <div className="star-rating-area">
+//                                                 <div className="rating-static clearfix mr-3" rel="4">
+//                                                     <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
+//                                                     <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
+//                                                     <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
+//                                                 </div>
+//                                                 {/* <div className="ratilike ng-binding">5</div> */}
+//                                             </div>
 
-    //                                         <div className="review-detail">
-    //                                         I'm Sharonda! I have over 8 years of experience in housekeeping. 
-    //                                         My goal is to delight my customers by providing a deep, thorough cleaning.
-    //                                          Dusted surfaces, baseboards, ceiling fans, and polished appliances 
-    //                                          are a big deal to me. I pay close detail to all the nooks and cranies.
-    //                                         </div>
-    //                                     </div>
-    //                                 </div>
-    //                             </div>
-    //                             <div className="job-provider-card">
-    //                                 <div className="user-des d-flex align-items-centet justify-content-start w-100">
-    //                                     <div className="user-img d-flex align-items-center justify-content-center">
-    //                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
-    //                                     </div>
-    //                                     <div className="user-detail w-100">
-    //                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
-    //                                             <div className="title">Ekstrom Bothman</div>
-    //                                             <Link to='/profile'  className="button-common">View Profile</Link>
-    //                                         </div>
-    //                                         <div className="job-status">179 Jobs Completed</div>
-    //                                         <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
-    //                                             <div className="star-rating-area">
-    //                                                 <div className="rating-static clearfix mr-3" rel="4">
-    //                                                     <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-    //                                                     <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-    //                                                     <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-    //                                                 </div>
-    //                                                 {/* <div className="ratilike ng-binding">5</div> */}
-    //                                             </div>
+//                                             <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
+//                                         </div>
+//                                         <div className="user-price">$20.00</div>
+//                                     </div>
+//                                 </div>
+//                                 <hr/>
+//                                 <div className="useer-qust">
+//                                     <div className="title">How can i help ?</div>
+//                                     <div className="des">I'm Sharonda! I have over 8 years of
+//                                      experience in housekeeping. My goal is to delight my customers
+//                                      by providing a deep, thorough cleaning. Dusted surfaces, baseboards,
+//                                       ceiling fans, and polished appliances are a big deal to me. I pay
+//                                      close detail to all the nooks and cranies!</div>
+//                                 </div>
 
-    //                                             <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
-    //                                         </div>
-    //                                         <div className="user-price">$20.00</div>
-    //                                     </div>
-    //                                 </div>
-    //                                 <hr/>
-    //                                 <div className="useer-qust">
-    //                                     <div className="title">How can i help ?</div>
-    //                                     <div className="des">I'm Sharonda! I have over 8 years of
-    //                                      experience in housekeeping. My goal is to delight my customers 
-    //                                      by providing a deep, thorough cleaning. Dusted surfaces, baseboards,
-    //                                       ceiling fans, and polished appliances are a big deal to me. I pay 
-    //                                      close detail to all the nooks and cranies!</div>
-    //                                 </div>
+//                                 <div className="top-reviews-list">
+//                                     <div className="review-title">Top Review</div>
 
-    //                                 <div className="top-reviews-list">
-    //                                     <div className="review-title">Top Review</div>
+//                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
+//                                         <div className="review-img">
+//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         </div>
 
-    //                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-    //                                         <div className="review-img">
-    //                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
-    //                                         </div>
-
-    //                                         <div className="review-detail">
-    //                                         I'm Sharonda! I have over 8 years of experience in housekeeping. 
-    //                                         My goal is to delight my customers by providing a deep, thorough cleaning.
-    //                                          Dusted surfaces, baseboards, ceiling fans, and polished appliances 
-    //                                          are a big deal to me. I pay close detail to all the nooks and cranies.
-    //                                         </div>
-    //                                     </div>
-    //                                 </div>
-    //                             </div>
+//                                         <div className="review-detail">
+//                                         I'm Sharonda! I have over 8 years of experience in housekeeping.
+//                                         My goal is to delight my customers by providing a deep, thorough cleaning.
+//                                          Dusted surfaces, baseboards, ceiling fans, and polished appliances
+//                                          are a big deal to me. I pay close detail to all the nooks and cranies.
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             </div>

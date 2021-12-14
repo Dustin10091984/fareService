@@ -1,6 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 import { helperAxios } from "../../../helper/axios/index";
-import {  } from "lodash";
 
 const cartsSlice = createSlice({
     name: 'carts',
@@ -18,7 +17,7 @@ const cartsSlice = createSlice({
         },
         updateCart: (state, action) => {
             // let cartIndex = null;
-            if (action?.payload?.data && state?.list?.cart){
+            if (action?.payload?.data && state?.list?.cart) {
                 // cartIndex = state.list?.cart.findIndex(item => item.id === action.payload?.data?.id);
                 return {
                     ...state,
@@ -26,8 +25,8 @@ const cartsSlice = createSlice({
                         ...state.list, cart: [
                             // {...state.list.cart[cartIndex], ...action.payload?.data},
                             ...state.list.cart.map(item => {
-                                if(item.id === action.payload?.data?.id){
-                                   return action.payload?.data;
+                                if (item.id === action.payload?.data?.id) {
+                                    return action.payload?.data;
                                 }
                                 return item;
                             }),
@@ -64,7 +63,7 @@ export const addToCart = (data) => async dispatch => {
 }
 
 export const updateQuantity = (data) => async dispatch => {
-    if(data.id && data.quantity) {
+    if (data.id && data.quantity) {
         dispatch(helperAxios("PUT", `${url}/${data.id}`, updateCart, true, { quantity: data.quantity }));
     }
 }
