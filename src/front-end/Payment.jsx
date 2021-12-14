@@ -8,6 +8,10 @@ import {
     getInitialRequestService,
 } from "../store/Slices/services/RequestServiceSclice";
 import { addAddress, getAddresses } from "./../store/Slices/UserSlice";
+import {
+    createNewOrder,
+    getOrderList,
+} from "./../store/Slices/order/orderSlice";
 import { toast } from "react-toastify";
 export const Payment = (props) => {
     const stripe = useStripe();
@@ -313,14 +317,13 @@ export const Payment = (props) => {
     };
 
     const handleClickMakeRequest = async () => {
-        const cardElement = elements.getElement("card");
         try {
             setState((state) => ({
                 ...state,
                 error: { ...state.error, stripeErr: undefined },
             }));
             const { error, token } = await stripe.createToken(
-                elements.getElement(cardElement)
+                elements.getElement(CardElement)
             );
             if (token && serviceDetail !== undefined) {
                 setState((state) => ({
@@ -389,36 +392,42 @@ export const Payment = (props) => {
     };
 
     const handlePlaceOrder = async () => {
-        // try {
-        const cardElement = elements.getElement("card");
-        if (state.paymentMethod == 1) {
-            setState((state) => ({
-                ...state,
-                error: { ...state.error, stripeErr: undefined },
-            }));
-            const { error, token } = await stripe.createToken(
-                elements.getElement(cardElement)
-            );
-            console.log("====================================");
-            console.log(token);
-            console.log("====================================");
-            if (error) {
-                console.log(error);
+        try {
+            if (state.paymentMethod == 1) {
                 setState((state) => ({
                     ...state,
-                    error: { ...state.error, stripeErr: error.message },
+                    error: { ...state.error, stripeErr: undefined },
                 }));
+                const { error, token } = await stripe.createToken(
+                    elements.getElement(CardElement)
+                );
+                if (error) {
+                    setState((state) => ({
+                        ...state,
+                        error: { ...state.error, stripeErr: error.message },
+                    }));
+                    return;
+                }
+                if (token) {
+                    let data = {};
+                    data.token = token.id;
+                    data.cart_ids = state.cart_ids;
+                    data.address_id = state.address_id;
+                    dispatch(createNewOrder(data));
+                }
+            } else {
+                let data = {};
+                data.type = "CASH_ON_DELIVERY";
+                data.cart_ids = state.cart_ids;
+                data.address_id = state.address_id;
+                dispatch(createNewOrder(data));
             }
-        } else {
-            console.log("hello");
+        } catch (error) {
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: error.message },
+            }));
         }
-        // } catch (error) {
-        //     console.log(error, 2);
-        //     setState((state) => ({
-        //         ...state,
-        //         error: { ...state.error, stripeErr: error.message },
-        //     }));
-        // }
     };
     return (
         <>

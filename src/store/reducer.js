@@ -13,6 +13,7 @@ import feedbackSlice from "./Slices/feedbacks/feedbackSlice";
 import movingSlice from "./Slices/moving/movingSlice";
 import restaurantsSlice from "./Slices/restauransts/restaurantsSlice";
 import cartsSlice from "./Slices/cart/cartsSlice";
+import orderSlice from "./Slices/order/orderSlice";
 
 export default combineReducers({
     user: userSclice,
@@ -21,12 +22,13 @@ export default combineReducers({
     provider: providerSclice,
     providerProfile: providerProfileSclice,
     providerSchedule: providerSchedule,
-    chatlistReducer : chatlistSclice,
-    messageListReducer : messageListSclice,
-    messageReducer : messageSlice,
+    chatlistReducer: chatlistSclice,
+    messageListReducer: messageListSclice,
+    messageReducer: messageSlice,
     paymentReducer: paymentSlice,
     feedbackReducer: feedbackSlice,
     movingReducer: movingSlice,
     restaurantsReducer: restaurantsSlice,
     cartsReducer: cartsSlice,
+    orderReducer: orderSlice,
 });
