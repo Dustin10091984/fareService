@@ -11,6 +11,7 @@ import { addAddress, getAddresses } from "./../store/Slices/UserSlice";
 import {
     createNewOrder,
     getOrderList,
+    initial,
 } from "./../store/Slices/order/orderSlice";
 import { toast } from "react-toastify";
 export const Payment = (props) => {
@@ -28,6 +29,15 @@ export const Payment = (props) => {
     );
     const addressList = useSelector((state) => state.user?.addresses?.data);
     const addressesError = useSelector((state) => state.user?.addresses?.error);
+
+    const orderLoading = useSelector(
+        (state) => state.orderReducer?.order?.loading
+    );
+    const orderError = useSelector((state) => state.orderReducer?.order?.error);
+    const orderData = useSelector((state) => state.orderReducer?.order?.data);
+    const orderMessage = useSelector(
+        (state) => state.orderReducer?.order?.message
+    );
 
     useEffect(() => {
         if (addressesLoading) toast.info("Loading addresses...");
@@ -125,9 +135,28 @@ export const Payment = (props) => {
         }
         return () => {
             dispatch(getInitialRequestService());
+            dispatch(initial({ order: "" }));
         };
     }, []);
 
+    useEffect(() => {
+        if (orderLoading) toast.info("Order Creating...");
+    }, [orderLoading]);
+
+    useEffect(() => {
+        if (orderError) {
+            toast.dismiss(loading.current);
+            toast.error(orderMessage || "Error creating order");
+        }
+    }, [orderError]);
+
+    useEffect(() => {
+        if (orderData && orderLoading == false && orderError == false) {
+            toast.dismiss(loading.current);
+            toast.success(orderMessage || "Order Created");
+            props.history.push("/food-delivery");
+        }
+    }, [orderData]);
     /**
      * Validate first and last name
      *

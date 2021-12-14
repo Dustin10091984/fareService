@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { helperAxios } from "../../../helper/axios/index";
+import { StateType } from "./../../../constants";
 
 const orderSlice = createSlice({
     name: 'order',
@@ -14,17 +15,26 @@ const orderSlice = createSlice({
                 list: action.payload
             };
         },
-        createOrder: (state, action) => {
+        order: (state, action) => {
             return {
                 ...state,
                 order: action.payload
             }
         },
+        initial: (state, action) => {
+            return {
+                ...state,
+                ...action.payload
+            }
+
+        },
     },
 });
 export default orderSlice.reducer;
 
-const { orderList, createOrder } = orderSlice.actions;
+export const { orderList, order, initial } = orderSlice.actions;
+
+
 
 export const getOrderList = () => async dispatch => {
     let url = `/api/user/order`;
@@ -33,7 +43,7 @@ export const getOrderList = () => async dispatch => {
 
 export const createNewOrder = (data) => async dispatch => {
     let url = `/api/user/order/create`;
-    dispatch(helperAxios("post", url, createOrder, true, data));
+    dispatch(helperAxios("post", url, order, true, data, false, null, { type: StateType.ADD }));
 }
 
 
