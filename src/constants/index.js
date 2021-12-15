@@ -5,3 +5,8 @@ export const StateType = {
     REMOVE: 'REMOVE',
     UPDATE: 'UPDATE',
 }
+
+export const ProductType = {
+    GROCERY: 'GROCERY',
+    FOOD: 'FOOD',
+}

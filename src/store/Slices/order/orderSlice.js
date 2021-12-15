@@ -36,8 +36,8 @@ export const { orderList, order, initial } = orderSlice.actions;
 
 
 
-export const getOrderList = () => async dispatch => {
-    let url = `/api/user/order`;
+export const getOrderList = (data) => async dispatch => {
+    let url = `/api/user/order${data.type ? `?type=${data.type}` : ''}`;
     dispatch(helperAxios("get", url, orderList, true));
 }
 
