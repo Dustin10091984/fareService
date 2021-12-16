@@ -37,6 +37,7 @@ const ProductDetail = (props) => {
 
     const { food } = useSelector((state) => state.restaurantsReducer);
     const { cart } = useSelector((state) => state.cartsReducer);
+    const { list } = useSelector((state) => state.cartsReducer);
 
     const { product } = useSelector((state) => state.groceryStoreReducer);
 
@@ -153,31 +154,46 @@ const ProductDetail = (props) => {
                                             </p>
                                         </div>
                                     </div>
-                                    {(cart?.data?.food_id == food?.data?.id &&
-                                        cart?.data?.food_id !== undefined &&
-                                        food?.data?.id !== undefined) ||
-                                    (cart?.data?.product_id ==
-                                        product?.data?.id &&
-                                        cart?.data?.product_id !== undefined &&
-                                        product?.data?.id !== undefined) ? (
-                                        <>
-                                            <Link
-                                                to="/cart"
-                                                className="button-common w-100 mt-5"
-                                            >
-                                                Go to cart
-                                            </Link>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button
-                                                className="button-common w-100 mt-5"
-                                                onClick={handleCartClick}
-                                            >
-                                                Add to Cart
-                                            </button>
-                                        </>
-                                    )}
+                                    {(() => {
+                                        let check =
+                                            (cart?.data?.food_id ==
+                                                food?.data?.id &&
+                                                cart?.data?.food_id !==
+                                                    undefined &&
+                                                food?.data?.id !== undefined) ||
+                                            (cart?.data?.product_id ==
+                                                product?.data?.id &&
+                                                cart?.data?.product_id !==
+                                                    undefined &&
+                                                product?.data?.id !==
+                                                    undefined) ||
+                                            list?.cart?.find(
+                                                (item) =>
+                                                    item?.food_id ==
+                                                        match?.params?.id ||
+                                                    item?.product_id ==
+                                                        match?.params?.id
+                                            );
+                                        if (check) {
+                                            return (
+                                                <Link
+                                                    to="/cart"
+                                                    className="button-common w-100 mt-5"
+                                                >
+                                                    Go to cart
+                                                </Link>
+                                            );
+                                        } else {
+                                            return (
+                                                <button
+                                                    className="button-common w-100 mt-5"
+                                                    onClick={handleCartClick}
+                                                >
+                                                    Add to Cart
+                                                </button>
+                                            );
+                                        }
+                                    })()}
                                 </div>
                                 <div className="col-md-3 mt-5">
                                     <div className="add-box"></div>

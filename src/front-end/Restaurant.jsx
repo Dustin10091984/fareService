@@ -9,6 +9,7 @@ import {
 } from "../store/Slices/restauransts/restaurantsSlice";
 import Rating from "../components/Rating";
 import { HOST, ProductType } from "../constants";
+import Paginate from "./../components/Paginate";
 export const Restaurant = (props) => {
     /**
      * @location and @history get from props
@@ -28,6 +29,9 @@ export const Restaurant = (props) => {
      * @Restaurants get from redux store
      */
     const list = useSelector((state) => state.restaurantsReducer?.list);
+    const listMeta = useSelector(
+        (state) => state.restaurantsReducer?.list?.meta
+    );
     const restaurantLoading = useSelector(
         (state) => state.restaurantsReducer?.restaurant?.loading
     );
@@ -41,19 +45,19 @@ export const Restaurant = (props) => {
         (state) => state.restaurantsReducer?.restaurant?.message
     );
 
-    const foodLoading = useSelector(
+    const foodsLoading = useSelector(
         (state) => state.restaurantsReducer?.foods?.loading
     );
-    const foodData = useSelector(
+    const foodsData = useSelector(
         (state) => state.restaurantsReducer?.foods?.data
     );
-    const foodLinks = useSelector(
+    const foodsLinks = useSelector(
         (state) => state.restaurantsReducer?.foods?.links
     );
-    const foodMeta = useSelector(
+    const foodsMeta = useSelector(
         (state) => state.restaurantsReducer?.foods?.meta
     );
-    const foodError = useSelector(
+    const foodsError = useSelector(
         (state) => state.restaurantsReducer?.foods?.error
     );
 
@@ -61,15 +65,14 @@ export const Restaurant = (props) => {
      * @useEffect is used to call the action
      */
     useEffect(() => {
-        dispatch(getRestaurants());
+        dispatch(getRestaurants({ params: "" }));
+        console.log("====================================");
     }, []);
 
     useEffect(() => {
         if (match?.params?.id) {
             dispatch(getRestaurant(match.params.id));
-            dispatch(getRestaurantFoods(match.params.id));
-        } else {
-            dispatch(getRestaurants());
+            dispatch(getRestaurantFoods({ id: match.params.id }));
         }
     }, [match?.params?.id]);
 
@@ -102,7 +105,7 @@ export const Restaurant = (props) => {
 
             if ((restaurantError == false && restaurantData) || foodId) {
                 const food =
-                    foodId && foodData?.find((food) => food.id == foodId);
+                    foodId && foodsData?.find((food) => food.id == foodId);
                 return (
                     <>
                         {food && (
@@ -156,13 +159,13 @@ export const Restaurant = (props) => {
                                             }
                                         />
                                         {/* <div className="text-center">
-                                <button className="button-common d-none">
-                                View Menu
-                                </button>
-                                <button className="button-common-2 d-none">
-                                Closed
-                                </button>
-                            </div> */}
+                                            <button className="button-common d-none">
+                                            View Menu
+                                            </button>
+                                            <button className="button-common-2 d-none">
+                                            Closed
+                                            </button>
+                                        </div> */}
                                     </div>
                                 </span>
                             </div>
@@ -329,7 +332,7 @@ export const Restaurant = (props) => {
                                         </div>
                                     ))}
                                 {match?.params?.id &&
-                                    foodData?.map((food, index) => (
+                                    foodsData?.map((food, index) => (
                                         <div
                                             key={index}
                                             className="col-md-4 col-sm-6"
@@ -340,6 +343,33 @@ export const Restaurant = (props) => {
                                             ></Food>
                                         </div>
                                     ))}
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    {(() => {
+                                        let data = {
+                                            current_page: 0,
+                                            total: 0,
+                                        };
+                                        if (match?.params?.id && foodsMeta) {
+                                            data.id = match?.params?.id;
+                                            data.last_page =
+                                                foodsMeta?.last_page;
+                                            data.current_page =
+                                                foodsMeta?.current_page;
+                                            data.func = getRestaurantFoods;
+                                            return <Paginate {...data} />;
+                                        }
+                                        if (!match?.params?.id && listMeta) {
+                                            data.last_page =
+                                                listMeta?.last_page;
+                                            data.current_page =
+                                                listMeta?.current_page;
+                                            data.func = getRestaurants;
+                                            return <Paginate {...data} />;
+                                        }
+                                    })()}
+                                </div>
                             </div>
                         </div>
                     </div>

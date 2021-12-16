@@ -72,6 +72,39 @@ body {
     margin: 2px;
 }
 
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    cursor: pointer;
+}
+
+.pagination a {
+    padding: 1.5rem;
+    margin: 1.5rem;
+    border-radius: 5px;
+    border: 1px solid #fea629;
+    color: #fea629;
+    font-size: 1.5rem;
+}
+
+.pagination__link {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.pagination__link--active a {
+    color: #fff;
+    background: #fea629;
+    font-size: 1.5rem;
+}
+
+.pagination__link--disabled a {
+    color: rgb(198, 197, 202);
+    border: 1px solid rgb(198, 197, 202);
+    font-size: 1.5rem;
+}
+
 .kc_fab_main_btn {
     background-color: #f44336;
     width: 60px;

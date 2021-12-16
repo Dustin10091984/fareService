@@ -50,8 +50,8 @@ export const getGroceryStore = (id) => async dispatch => {
     dispatch(helperAxios("get", url, groceryStore));
 }
 
-export const getProducts = (id) => async dispatch => {
-    let url = `/api/grocery/product/list/${id}`;
+export const getProducts = ({ id, params }) => async dispatch => {
+    let url = `/api/grocery/product/list/${id}${params ? params : ''}`;
     dispatch(helperAxios("get", url, products));
 }
 

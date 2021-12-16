@@ -40,8 +40,8 @@ export default restaurantsSlice.reducer;
 
 export const { restaurants, restaurant, foods, food } = restaurantsSlice.actions;
 
-export const getRestaurants = () => async dispatch => {
-    let url = `/api/restaurant/list`;
+export const getRestaurants = (data) => async dispatch => {
+    let url = `/api/restaurant/list${data?.params ? data.params : ''}`;
     dispatch(helperAxios("get", url, restaurants));
 }
 
@@ -50,8 +50,8 @@ export const getRestaurant = (id) => async dispatch => {
     dispatch(helperAxios("get", url, restaurant));
 }
 
-export const getRestaurantFoods = (id) => async dispatch => {
-    let url = `/api/restaurant/food/list/${id}`;
+export const getRestaurantFoods = ({ id, params }) => async dispatch => {
+    let url = `/api/restaurant/food/list/${id}${params ? params : ''}`;
     dispatch(helperAxios("get", url, foods));
 }
 

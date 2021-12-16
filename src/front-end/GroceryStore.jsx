@@ -10,6 +10,7 @@ import {
 } from "./../store/Slices/grocery/groceryStoreSlice";
 import { HOST, ProductType } from "../constants";
 import Rating from "./../components/Rating";
+import Paginate from "./../components/Paginate";
 
 export const GroceryStore = (props) => {
     const { match, history, location } = props;
@@ -26,6 +27,12 @@ export const GroceryStore = (props) => {
     );
     const groceryStoreData = useSelector(
         (state) => state.groceryStoreReducer?.groceryStore?.data
+    );
+    const groceryStoreLinks = useSelector(
+        (state) => state.groceryStoreReducer?.groceryStore?.links
+    );
+    const groceryStoreMeta = useSelector(
+        (state) => state.groceryStoreReducer?.groceryStore?.meta
     );
     const groceryStoreError = useSelector(
         (state) => state.groceryStoreReducer?.groceryStore?.error
@@ -49,9 +56,6 @@ export const GroceryStore = (props) => {
     const productsError = useSelector(
         (state) => state.groceryStoreReducer?.products?.error
     );
-    // console.log("====================================");
-    // console.log(productsData, productsLinks, productsMeta);
-    // console.log("====================================");
     /**
      * @useEffect is used to call the action
      */
@@ -62,7 +66,7 @@ export const GroceryStore = (props) => {
     useEffect(() => {
         if (match?.params?.id) {
             dispatch(getGroceryStore(match.params.id));
-            dispatch(getProducts(match.params.id));
+            dispatch(getProducts({ id: match.params.id }));
         } else {
             dispatch(getGroceryStores());
         }
@@ -251,38 +255,38 @@ export const GroceryStore = (props) => {
                                         North Indian products
                                         <input
                                             type="checkbox"
-                                            checked="checked"
+                                            // checked="checked"
                                         />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         South Indian products
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         American products
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Arabian products
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Bakers
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Asian
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         African products
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
@@ -295,18 +299,18 @@ export const GroceryStore = (props) => {
                                         Non Veg
                                         <input
                                             type="checkbox"
-                                            checked="checked"
+                                            // checked="checked"
                                         />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Pure Veg
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Free Delivery
-                                        <input type="checkbox" checked="" />
+                                        <input type="checkbox" />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
@@ -349,6 +353,34 @@ export const GroceryStore = (props) => {
                                 {/* <div className="col-md-4"> */}
                                 {/* <Product></Product> */}
                                 {/* </div> */}
+                            </div>
+                            <div className="row">
+                                <div className="col-12 m-5 d-flex justify-content-center">
+                                    {(() => {
+                                        let data = {
+                                            current_page: 0,
+                                            total: 0,
+                                        };
+                                        if (match?.params?.id) {
+                                            data.id = match?.params?.id;
+                                            data.last_page =
+                                                productsMeta?.last_page;
+                                            data.current_page =
+                                                productsMeta?.current_page;
+                                            data.func = getProducts;
+                                            return <Paginate {...data} />;
+                                        }
+                                        // if (match?.params?.id) {
+                                        //     data.total =
+                                        //         groceryStoreMeta?.total || null;
+                                        //     data.current_page =
+                                        //         groceryStoreMeta?.current_page ||
+                                        //         null;
+                                        //     console.log(,data);
+                                        //     return <Paginate {...data} />;
+                                        // }
+                                    })()}
+                                </div>
                             </div>
                         </div>
                     </div>
