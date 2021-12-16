@@ -1,66 +1,76 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Restaurant, Food } from "./common/Cards";
+import { GroceryStoreCard, ProductCard } from "./common/Cards";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    getRestaurants,
-    getRestaurant,
-    getRestaurantFoods,
-} from "../store/Slices/restauransts/restaurantsSlice";
-import Rating from "../components/Rating";
-import { HOST } from "../constants";
-export const Restaurants = (props) => {
+    getGroceryStores,
+    getGroceryStore,
+    getProducts,
+    getProduct,
+} from "./../store/Slices/grocery/groceryStoreSlice";
+import { HOST, ProductType } from "../constants";
+import Rating from "./../components/Rating";
 
-    /**
-     * @location and @history get from props
-     */
-    const { location, history, match } = props;
-    /**
-     * @state is the state of the component
-     */
-    const [state, setState] = useState();
-    
-    /**
-     * @dispatch is used to dispatch actions
-     */
+export const GroceryStore = (props) => {
+    const { match, history, location } = props;
+
     const dispatch = useDispatch();
-    
-    /**
-     * @Restaurants get from redux store
-     */
-    const list = useSelector((state) => state.restaurantsReducer?.list);
-    const restaurantLoading = useSelector((state) => state.restaurantsReducer?.restaurant?.loading);
-    const restaurantData = useSelector((state) => state.restaurantsReducer?.restaurant?.data);
-    const restaurantError = useSelector((state) => state.restaurantsReducer?.restaurant?.error);
-    const restaurantMessage = useSelector((state) => state.restaurantsReducer?.restaurant?.message);
-
-    const foodLoading = useSelector((state) => state.restaurantsReducer?.foods?.loading);
-    const foodData = useSelector((state) => state.restaurantsReducer?.foods?.data);
-    const foodLinks = useSelector((state) => state.restaurantsReducer?.foods?.links);
-    const foodMeta = useSelector((state) => state.restaurantsReducer?.foods?.meta);
-    const foodError = useSelector((state) => state.restaurantsReducer?.foods?.error);
 
     /**
-     * @useEffect is used to call the action 
+     * @GroceryStore get from redux store
+     */
+    const list = useSelector((state) => state.groceryStoreReducer?.list);
+
+    const groceryStoreLoading = useSelector(
+        (state) => state.groceryStoreReducer?.groceryStore?.loading
+    );
+    const groceryStoreData = useSelector(
+        (state) => state.groceryStoreReducer?.groceryStore?.data
+    );
+    const groceryStoreError = useSelector(
+        (state) => state.groceryStoreReducer?.groceryStore?.error
+    );
+    const groceryStoreMessage = useSelector(
+        (state) => state.groceryStoreReducer?.groceryStore?.message
+    );
+
+    const productsLoading = useSelector(
+        (state) => state.groceryStoreReducer?.products?.loading
+    );
+    const productsData = useSelector(
+        (state) => state.groceryStoreReducer?.products?.data
+    );
+    const productsLinks = useSelector(
+        (state) => state.groceryStoreReducer?.products?.links
+    );
+    const productsMeta = useSelector(
+        (state) => state.groceryStoreReducer?.products?.meta
+    );
+    const productsError = useSelector(
+        (state) => state.groceryStoreReducer?.products?.error
+    );
+    // console.log("====================================");
+    // console.log(productsData, productsLinks, productsMeta);
+    // console.log("====================================");
+    /**
+     * @useEffect is used to call the action
      */
     useEffect(() => {
-        dispatch(getRestaurants());
-    }, [])
-
+        dispatch(getGroceryStores());
+    }, []);
 
     useEffect(() => {
-      if(match?.params?.id){
-        dispatch(getRestaurant(match.params.id));
-        dispatch(getRestaurantFoods(match.params.id));
-      } else {
-        dispatch(getRestaurants());
-      }
+        if (match?.params?.id) {
+            dispatch(getGroceryStore(match.params.id));
+            dispatch(getProducts(match.params.id));
+        } else {
+            dispatch(getGroceryStores());
+        }
     }, [match?.params?.id]);
 
-
-    const Worker = ({ foodId }) => {
+    const Worker = ({ productId }) => {
         return (() => {
-            if (restaurantLoading == true) {
+            if (groceryStoreLoading == true) {
                 return (
                     <div
                         className="col-12  alert alert-info text-center"
@@ -72,30 +82,28 @@ export const Restaurants = (props) => {
                     </div>
                 );
             }
-
-            if (restaurantError) {
+            if (groceryStoreError) {
                 return (
                     <div
                         className="col-12  alert alert-danger text-center"
                         role="alert"
                         style={{ fontSize: 15 }}
                     >
-                        {restaurantMessage}
+                        {groceryStoreMessage}
                     </div>
                 );
             }
-
-            if ((restaurantError == false && restaurantData) || foodId) {
-                const food = foodId && foodData?.find(
-                    (food) => food.id == foodId
-                );
+            if ((groceryStoreError == false && groceryStoreData) || productId) {
+                const product =
+                    productId &&
+                    productsData?.find((product) => product.id == productId);
                 return (
                     <>
-                        {food && (
+                        {product && (
                             <button
                                 onClick={() => {
                                     history.push(
-                                        `/restaurants/${food.restaurant_id}`
+                                        `/grocery-stores/${product.grocer_id}`
                                     );
                                 }}
                                 className="button-common-2"
@@ -108,36 +116,38 @@ export const Restaurants = (props) => {
                                 <span className="product-card box-shadow-none d-flex justify-content-center flex-column">
                                     <div className="prod-img mx-auto">
                                         <img
+                                            className="img-fluid"
                                             src={
-                                                (foodId &&
-                                                    HOST + food?.image) ||
-                                                HOST + restaurantData?.image ||
-                                                "/assets/img/product.png"
+                                                (productId &&
+                                                    HOST + product?.image) ||
+                                                HOST +
+                                                    groceryStoreData?.image ||
+                                                "/assets/img/food.svg"
                                             }
                                             alt=""
                                             onError={(e) => {
-                                                (e.target.src =
-                                                    "/assets/img/product.png")
+                                                e.target.src =
+                                                    "/assets/img/food.svg";
                                             }}
                                         />
                                     </div>
                                     <div className="prod-detail">
                                         <div className="title">
-                                            {(foodId && food?.name) ||
-                                                restaurantData?.name}
+                                            {(productId && product?.name) ||
+                                                groceryStoreData?.name}
                                         </div>
-                                        <div className="sub-title col-md-12 text-truncate">
-                                            {(foodId && food?.name) ||
+                                        {/* <div className="sub-title col-md-12 text-truncate">
+                                            {(productId && product?.name) ||
                                                 restaurantData?.restaurant_type}
-                                        </div>
-                                        {foodId && food?.price && (
+                                        </div> */}
+                                        {productId && product?.price && (
                                             <div className="price">
-                                                {`$${food?.price}`}
+                                                {`$${product?.price}`}
                                             </div>
                                         )}
                                         <Rating
                                             rating={
-                                                restaurantData?.user?.rating
+                                                groceryStoreData?.user?.rating
                                             }
                                         />
                                         {/* <div className="text-center">
@@ -152,9 +162,9 @@ export const Restaurants = (props) => {
                                 </span>
                             </div>
                         </div>
-                        {food && (
+                        {product && (
                             <Link
-                                to={`/product-detail/${food.id}`}
+                                to={`/product-detail/${product.id}?type=${ProductType.GROCERY}`}
                                 className="button-common"
                             >
                                 Open
@@ -166,33 +176,32 @@ export const Restaurants = (props) => {
             return "";
         })();
     };
-    
     return (
         <>
             <div
-                className="breadcrumb-sec product-detail-bread d-flex align-items-center justify-content-center"
-                style={{ backgroundImage: `url("/assets/img/bread-bg.jpg")` }}
+                className="breadcrumb-sec d-flex align-items-center justify-content-center"
+                style={{
+                    backgroundImage: `url("/assets/img/bread-bg.jpg")`,
+                }}
             >
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            {match?.params?.id ? (
-                                <div className="shop-search prod-des-card d-flex align-items-center justify-content-center mx-auto">
-                                    {/* <a href="#" className="button-common-2">
-                                        Go Back
-                                    </a> */}
-                                    <Worker foodId={match?.params?.foodId}/>
-                                    {/* <Link to="/product-detail" className="button-common">
-                                        Open
-                                    </Link> */}
-                                </div>
-                            ) : (
-                                <div className="shop-search d-flex align-items-center justify-content-center mx-auto">
-                                    <div className="header-search d-flex align-items-center justify-content-center flex-column">
-                                        <div className="shop-serch-title mb-5">
-                                            Search Restaurant
+                            <div className="shop-search d-flex align-items-center justify-content-center mx-auto">
+                                <div className="header-search d-flex align-items-center justify-content-center flex-column">
+                                    {match?.params?.id ? (
+                                        <div className="shop-search prod-des-card d-flex align-items-center justify-content-center mx-auto">
+                                            <Worker
+                                                productId={
+                                                    match?.params?.productId
+                                                }
+                                            />
                                         </div>
-                                        <form action="">
+                                    ) : (
+                                        <>
+                                            <div className="shop-serch-title mb-5">
+                                                Search Store
+                                            </div>
                                             <div className="input-box d-flex align-items-center">
                                                 <div className="icon-div">
                                                     <svg
@@ -221,10 +230,10 @@ export const Restaurants = (props) => {
                                                     Search
                                                 </button>
                                             </div>
-                                        </form>
-                                    </div>
+                                        </>
+                                    )}
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -239,38 +248,41 @@ export const Restaurants = (props) => {
 
                                 <div className="filters-list">
                                     <label className="filter-check">
-                                        North Indian
-                                        <input type="checkbox" />
+                                        North Indian products
+                                        <input
+                                            type="checkbox"
+                                            checked="checked"
+                                        />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
-                                        South Indian
-                                        <input type="checkbox" />
+                                        South Indian products
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
-                                        American
-                                        <input type="checkbox" />
+                                        American products
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
-                                        Arabian
-                                        <input type="checkbox" />
+                                        Arabian products
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Bakers
-                                        <input type="checkbox" />
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Asian
-                                        <input type="checkbox" />
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
-                                        African
-                                        <input type="checkbox" />
+                                        African products
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
@@ -281,57 +293,62 @@ export const Restaurants = (props) => {
                                 <div className="filters-list">
                                     <label className="filter-check">
                                         Non Veg
-                                        <input type="checkbox" />
+                                        <input
+                                            type="checkbox"
+                                            checked="checked"
+                                        />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Pure Veg
-                                        <input type="checkbox" />
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                     <label className="filter-check">
                                         Free Delivery
-                                        <input type="checkbox" />
+                                        <input type="checkbox" checked="" />
                                         <span className="checkmark"></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-9 col-sm-9">
+                        <div className="col-md-9">
                             <div className="row">
-                                <div className="col-md-12 col-sm-12">
+                                <div className="col-12">
                                     <div className="shop-left-box">
                                         <div className="title text-center">
                                             {match?.params?.id
-                                                ? "Foods"
-                                                : "Restaurants"}
+                                                ? "Products"
+                                                : "Grocery Stores"}
                                         </div>
                                     </div>
                                 </div>
                                 {match?.params?.id == undefined &&
-                                    list?.data?.map((restaurant, index) => (
+                                    list?.data?.map((store, index) => (
                                         <div
                                             key={index}
                                             className="col-md-4 col-sm-6"
                                         >
-                                            <Restaurant
-                                                restaurant={restaurant}
-                                                props={props}
-                                            ></Restaurant>
+                                            <GroceryStoreCard
+                                                groceryStore={store}
+                                            ></GroceryStoreCard>
                                         </div>
                                     ))}
                                 {match?.params?.id &&
-                                    foodData?.map((food, index) => (
+                                    productsData?.map((product, index) => (
                                         <div
                                             key={index}
                                             className="col-md-4 col-sm-6"
                                         >
-                                            <Food
+                                            <ProductCard
                                                 props={props}
-                                                food={food}
-                                            ></Food>
+                                                product={product}
+                                            ></ProductCard>
                                         </div>
                                     ))}
+                                {/* <div className="col-md-4"> */}
+                                {/* <Product></Product> */}
+                                {/* </div> */}
                             </div>
                         </div>
                     </div>
@@ -339,4 +356,4 @@ export const Restaurants = (props) => {
             </div>
         </>
     );
-}
+};

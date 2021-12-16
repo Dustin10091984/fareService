@@ -5,22 +5,21 @@ const restaurantsSlice = createSlice({
     name: 'restaurants',
     initialState: {
         list: '',
-        restaurants: '',
         restaurant: '',
         foods: '',
         food: '',
-    },  
+    },
     reducers: {
         restaurants: (state, action) => {
-            return { 
+            return {
                 ...state,
-                list: action.payload 
+                list: action.payload
             };
         },
         restaurant: (state, action) => {
-            return { 
+            return {
                 ...state,
-                restaurant: action.payload 
+                restaurant: action.payload
             };
         },
         foods: (state, action) => {
@@ -39,7 +38,7 @@ const restaurantsSlice = createSlice({
 });
 export default restaurantsSlice.reducer;
 
-const { restaurants, restaurant, foods, food } = restaurantsSlice.actions;
+export const { restaurants, restaurant, foods, food } = restaurantsSlice.actions;
 
 export const getRestaurants = () => async dispatch => {
     let url = `/api/restaurant/list`;
