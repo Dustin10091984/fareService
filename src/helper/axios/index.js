@@ -25,6 +25,7 @@ export const helperAxios = (method, url, reducer, token = false, data = null, fo
                 url,
                 data
             }).then((response) => {
+                console.log(response);
                 let data = response.data;
                 fun !== undefined && fun !== null && fun(data?.data?.data)
                 data.loading = false

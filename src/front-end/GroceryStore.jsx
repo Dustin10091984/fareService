@@ -21,7 +21,9 @@ export const GroceryStore = (props) => {
      * @GroceryStore get from redux store
      */
     const list = useSelector((state) => state.groceryStoreReducer?.list);
-
+    const listMeta = useSelector(
+        (state) => state.groceryStoreReducer?.list?.meta
+    );
     const groceryStoreLoading = useSelector(
         (state) => state.groceryStoreReducer?.groceryStore?.loading
     );
@@ -67,8 +69,6 @@ export const GroceryStore = (props) => {
         if (match?.params?.id) {
             dispatch(getGroceryStore(match.params.id));
             dispatch(getProducts({ id: match.params.id }));
-        } else {
-            dispatch(getGroceryStores());
         }
     }, [match?.params?.id]);
 
@@ -370,15 +370,14 @@ export const GroceryStore = (props) => {
                                             data.func = getProducts;
                                             return <Paginate {...data} />;
                                         }
-                                        // if (match?.params?.id) {
-                                        //     data.total =
-                                        //         groceryStoreMeta?.total || null;
-                                        //     data.current_page =
-                                        //         groceryStoreMeta?.current_page ||
-                                        //         null;
-                                        //     console.log(,data);
-                                        //     return <Paginate {...data} />;
-                                        // }
+                                        if (!match?.params?.id && listMeta) {
+                                            data.last_page =
+                                                listMeta?.last_page;
+                                            data.current_page =
+                                                listMeta?.current_page;
+                                            data.func = getGroceryStores;
+                                            return <Paginate {...data} />;
+                                        }
                                     })()}
                                 </div>
                             </div>
