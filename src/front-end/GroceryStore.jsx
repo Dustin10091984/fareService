@@ -58,17 +58,16 @@ export const GroceryStore = (props) => {
     const productsError = useSelector(
         (state) => state.groceryStoreReducer?.products?.error
     );
-    /**
-     * @useEffect is used to call the action
-     */
-    useEffect(() => {
-        dispatch(getGroceryStores());
-    }, []);
+    const productsMsg = useSelector(
+        (state) => state.groceryStoreReducer?.products?.message
+    );
 
     useEffect(() => {
         if (match?.params?.id) {
             dispatch(getGroceryStore(match.params.id));
             dispatch(getProducts({ id: match.params.id }));
+        } else {
+            dispatch(getGroceryStores());
         }
     }, [match?.params?.id]);
 
@@ -327,32 +326,43 @@ export const GroceryStore = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                                {match?.params?.id == undefined &&
-                                    list?.data?.map((store, index) => (
-                                        <div
-                                            key={index}
-                                            className="col-md-4 col-sm-6"
-                                        >
-                                            <GroceryStoreCard
-                                                groceryStore={store}
-                                            ></GroceryStoreCard>
-                                        </div>
-                                    ))}
-                                {match?.params?.id &&
-                                    productsData?.map((product, index) => (
-                                        <div
-                                            key={index}
-                                            className="col-md-4 col-sm-6"
-                                        >
-                                            <ProductCard
-                                                props={props}
-                                                product={product}
-                                            ></ProductCard>
-                                        </div>
-                                    ))}
-                                {/* <div className="col-md-4"> */}
-                                {/* <Product></Product> */}
-                                {/* </div> */}
+                                {productsError ? (
+                                    <div
+                                        className="col-12  alert alert-danger text-center"
+                                        role="alert"
+                                        style={{ fontSize: 15 }}
+                                    >
+                                        {productsMsg}
+                                    </div>
+                                ) : (
+                                    <>
+                                        {match?.params?.id == undefined &&
+                                            list?.data?.map((store, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="col-md-4 col-sm-6"
+                                                >
+                                                    <GroceryStoreCard
+                                                        groceryStore={store}
+                                                    ></GroceryStoreCard>
+                                                </div>
+                                            ))}
+                                        {match?.params?.id &&
+                                            productsData?.map(
+                                                (product, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="col-md-4 col-sm-6"
+                                                    >
+                                                        <ProductCard
+                                                            props={props}
+                                                            product={product}
+                                                        ></ProductCard>
+                                                    </div>
+                                                )
+                                            )}
+                                    </>
+                                )}
                             </div>
                             <div className="row">
                                 <div className="col-12 m-5 d-flex justify-content-center">

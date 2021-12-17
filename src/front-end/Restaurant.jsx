@@ -60,19 +60,19 @@ export const Restaurant = (props) => {
     const foodsError = useSelector(
         (state) => state.restaurantsReducer?.foods?.error
     );
+    const foodsMsg = useSelector(
+        (state) => state.restaurantsReducer?.foods?.message
+    );
 
     /**
      * @useEffect is used to call the action
      */
     useEffect(() => {
-        dispatch(getRestaurants({ params: "" }));
-        console.log("====================================");
-    }, []);
-
-    useEffect(() => {
         if (match?.params?.id) {
             dispatch(getRestaurant(match.params.id));
             dispatch(getRestaurantFoods({ id: match.params.id }));
+        } else {
+            dispatch(getRestaurants());
         }
     }, [match?.params?.id]);
 
@@ -320,29 +320,45 @@ export const Restaurant = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                                {match?.params?.id == undefined &&
-                                    list?.data?.map((restaurant, index) => (
-                                        <div
-                                            key={index}
-                                            className="col-md-4 col-sm-6"
-                                        >
-                                            <RestaurantCard
-                                                restaurant={restaurant}
-                                            ></RestaurantCard>
-                                        </div>
-                                    ))}
-                                {match?.params?.id &&
-                                    foodsData?.map((food, index) => (
-                                        <div
-                                            key={index}
-                                            className="col-md-4 col-sm-6"
-                                        >
-                                            <Food
-                                                props={props}
-                                                food={food}
-                                            ></Food>
-                                        </div>
-                                    ))}
+                                {foodsError ? (
+                                    <div
+                                        className="col-12  alert alert-danger text-center"
+                                        role="alert"
+                                        style={{ fontSize: 15 }}
+                                    >
+                                        {foodsMsg}
+                                    </div>
+                                ) : (
+                                    <>
+                                        {match?.params?.id == undefined &&
+                                            list?.data?.map(
+                                                (restaurant, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="col-md-4 col-sm-6"
+                                                    >
+                                                        <RestaurantCard
+                                                            restaurant={
+                                                                restaurant
+                                                            }
+                                                        ></RestaurantCard>
+                                                    </div>
+                                                )
+                                            )}
+                                        {match?.params?.id &&
+                                            foodsData?.map((food, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="col-md-4 col-sm-6"
+                                                >
+                                                    <Food
+                                                        props={props}
+                                                        food={food}
+                                                    ></Food>
+                                                </div>
+                                            ))}
+                                    </>
+                                )}
                             </div>
                             <div className="row">
                                 <div className="col-12">
