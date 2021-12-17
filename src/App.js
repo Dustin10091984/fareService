@@ -70,13 +70,13 @@ function App() {
     // client: io,
     // auth: {headers: {Authorization: localStorage.userToken }}
 
-    window.Echo.connector.socket.on('connect', function () {
-      console.log("connect");
-    });
+    // window.Echo.connector.socket.on('connect', function () {
+    //   console.log("connect");
+    // });
 
-    window.Echo.connector.socket.on('disconnect', function () {
-      console.log("disconnect");
-    });
+    // window.Echo.connector.socket.on('disconnect', function () {
+    //   console.log("disconnect");
+    // });
   }
 
 
@@ -138,7 +138,11 @@ function App() {
         </Switch>
 
         <Footer></Footer>
-        <ToastContainer autoClose={5000} position={toast.POSITION.TOP_CENTER} />
+        <div style={{
+          fontSize: '1.5rem',
+        }}>
+          <ToastContainer autoClose={5000} position={toast.POSITION.TOP_CENTER} />
+        </div>
       </div>
     </Elements>
   );

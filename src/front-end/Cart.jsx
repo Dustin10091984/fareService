@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCartList, updateQuantity } from "../store/Slices/cart/cartsSlice";
+import {
+    getCartList,
+    updateQuantity,
+    deleteCart,
+} from "../store/Slices/cart/cartsSlice";
 import { Product } from "../front-end/common/product";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,18 +18,25 @@ export const Cart = (props) => {
         cart_ids: props?.location?.state?.cart_ids
             ? props.location.state.cart_ids
             : [],
+        cartId: null,
     });
     useEffect(() => {
         dispatch(getCartList()); // get cart list
     }, []);
 
     const loading = useRef(null);
+    const successRef = useRef(null);
 
-    const cartList = useSelector((state) => state.cartsReducer?.list.cart);
-
-    const updateCartData = useSelector(
-        (state) => state.cartsReducer?.updateCart?.data
+    const cartLoading = useSelector(
+        (state) => state.cartsReducer?.list.loading
     );
+    const cartList = useSelector((state) => state.cartsReducer?.list.cart);
+    const cartError = useSelector((state) => state.cartsReducer?.list.error);
+    const cartmsg = useSelector((state) => state.cartsReducer?.list.message);
+
+    // const updateCartData = useSelector(
+    //     (state) => state.cartsReducer?.updateCart?.data
+    // );
     const updateCartError = useSelector(
         (state) => state.cartsReducer?.updateCart?.error
     );
@@ -36,9 +47,37 @@ export const Cart = (props) => {
         (state) => state.cartsReducer?.updateCart?.message
     );
 
+    const deleteCartLoading = useSelector(
+        (state) => state.cartsReducer?.deleteCart?.loading
+    );
+    const deleteCartMessage = useSelector(
+        (state) => state.cartsReducer?.deleteCart?.message
+    );
+    const deleteCartError = useSelector(
+        (state) => state.cartsReducer?.deleteCart?.error
+    );
+
     useEffect(() => {
         updateCartLoading == false && toast.dismiss(loading.current);
     }, [updateCartLoading]);
+
+    useEffect(() => {
+        deleteCartLoading &&
+            (loading.current = toast.info("Removing from cart...", {
+                autoClose: false,
+            }));
+        deleteCartLoading == false && toast.dismiss(loading.current);
+        deleteCartError && toast.error(deleteCartMessage);
+        deleteCartError == false && toast.success(deleteCartMessage);
+    }, [deleteCartLoading]);
+
+    useEffect(() => {
+        cartLoading &&
+            (loading.current = toast.info("Loading...", {
+                autoClose: false,
+            }));
+        cartLoading == false && toast.dismiss(loading.current);
+    }, [cartLoading]);
 
     useEffect(() => {
         updateCartLoading == false &&
@@ -53,7 +92,7 @@ export const Cart = (props) => {
                 updateCartError == false &&
                 updateCartMessage &&
                 state.wait !== null &&
-                toast.success(updateCartMessage);
+                (successRef.current = toast.success(updateCartMessage));
         }
     }, [updateCartMessage]);
 
@@ -90,7 +129,9 @@ export const Cart = (props) => {
                 },
             });
         if (state.wait === false || state.wait === null) {
-            loading.current = toast.info("Loading...");
+            loading.current = toast.info("Loading...", {
+                autoClose: false,
+            });
             const ONE_SECOND = 1000;
             sleep(ONE_SECOND).then(() => {
                 setState((state) => ({ ...state, wait: false }));
@@ -109,7 +150,9 @@ export const Cart = (props) => {
                 },
             });
         if (state.wait === false || state.wait === null) {
-            loading.current = toast.info("Loading...");
+            loading.current = toast.info("Loading...", {
+                autoClose: false,
+            });
             sleep(2000).then(() => {
                 setState((state) => ({ ...state, wait: false }));
             });
@@ -161,6 +204,15 @@ export const Cart = (props) => {
                                 <div className="col-md-12">
                                     <hr />
                                 </div>
+                                {cartError && cartmsg && (
+                                    <div
+                                        className="col-12  alert alert-danger text-center"
+                                        role="alert"
+                                        style={{ fontSize: 15 }}
+                                    >
+                                        {cartmsg}
+                                    </div>
+                                )}
                                 {cartList?.map((item) => {
                                     const food = item.food;
                                     const product = item.product;
@@ -345,15 +397,46 @@ export const Cart = (props) => {
                                                             </ul>
                                                         </div>
                                                     </div>
+                                                    <span
+                                                        data-backdrop="static"
+                                                        data-keyboard="false"
+                                                        data-toggle="modal"
+                                                        data-target="#date"
+                                                        style={{
+                                                            color: "#ff0000",
+                                                            float: "right",
+                                                            cursor: "pointer",
+                                                        }}
+                                                        onClick={() =>
+                                                            setState({
+                                                                ...state,
+                                                                cartId: item.id,
+                                                            })
+                                                        }
+                                                    >
+                                                        <span
+                                                            className="m-3"
+                                                            style={{
+                                                                fontSize:
+                                                                    "1.8rem",
+                                                            }}
+                                                        >
+                                                            Delete
+                                                        </span>
+                                                        <i
+                                                            className="fa fa-trash fa-2x mb-3"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                    </span>
                                                 </div>
 
-                                                <div className="col-md-12 pb-5">
+                                                <div className="col-md-12">
                                                     <hr />
                                                 </div>
                                             </React.Fragment>
                                         );
                                     }
-                                }) || "NOT FOUND"}
+                                })}
 
                                 <div className="check-box w-100 text-right">
                                     <div className="cart-price">
@@ -392,6 +475,76 @@ export const Cart = (props) => {
                                             Continue to Checkout
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className="modal fade bd-example-modal-md"
+                id="date"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal-md"
+                    role="document"
+                >
+                    <div className="modal-content">
+                        <div
+                            className="modal-header"
+                            style={{
+                                fontSize: "1.5rem",
+                            }}
+                        >
+                            <h4
+                                className="modal-title mt-2"
+                                id="exampleModalLongTitle"
+                            >
+                                Are you sure you want to remove this item?
+                            </h4>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    style={{
+                                        fontSize: "3rem",
+                                    }}
+                                >
+                                    &times;
+                                </span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row m-2">
+                                <div className="col-12">
+                                    <center>
+                                        <button
+                                            className="button-common m-3"
+                                            data-dismiss="modal"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                dispatch(
+                                                    deleteCart(state?.cartId)
+                                                )
+                                            }
+                                            className="button-common-2 m-3"
+                                            data-dismiss="modal"
+                                        >
+                                            Delete
+                                        </button>
+                                    </center>
                                 </div>
                             </div>
                         </div>
