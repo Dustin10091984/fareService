@@ -26,8 +26,8 @@ import { Payment } from './front-end/Payment';
 import { Apply } from './front-end/Apply';
 import { ProductDetail } from './front-end/ProductDetail';
 import { Gaurantee } from './front-end/Gaurantee';
-import { FoodGrocery } from './front-end/FoodGrocery';
-import { Restaurants } from './front-end/Restaurants';
+import { GroceryStore } from './front-end/GroceryStore';
+import { Restaurant } from './front-end/Restaurant';
 import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
 import { Services } from './front-end/Services';
@@ -35,7 +35,6 @@ import { Dashboard } from './front-dashboard/Dashboard';
 import { Chat } from './front-end/Chat/Chat'
 import { OrderHistory } from './front-dashboard/OrderHistory';
 import { FoodDelivery } from './front-dashboard/FoodDelivery';
-import { ProductDelivery } from './front-dashboard/ProductDelivery';
 import { ServicesHistory } from './front-dashboard/ServicesHistory';
 import { OrderDetail } from './front-dashboard/OrderDetail';
 import { ServicesDetail } from './front-dashboard/ServicesDetail';
@@ -43,14 +42,20 @@ import { ChangeP } from "./front-dashboard/ChangeP";
 import { AddCard } from "./front-dashboard/AddCard";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
 
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getCartList } from './store/Slices/cart/cartsSlice';
 import Echo from "laravel-echo";
 import io from "socket.io-client";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
 function App() {
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCartList());
+  }, [])
   window.io = io;
   const liveOption = {
     host: "http://api.farenow.com:6001",
@@ -112,17 +117,18 @@ function App() {
           <Route path='/apply' component={Apply} />
           <Route path='/product-detail/:id' component={ProductDetail} />
           <Route path='/gaurantee' component={Gaurantee} />
-          <Route path='/food-grocery' component={FoodGrocery} />
-          <Route path='/restaurants/:id/foods/:foodId' component={Restaurants} />
-          <Route path='/restaurants/:id' component={Restaurants} />
-          <Route path='/restaurants' component={Restaurants} />
+          <Route path='/grocery-stores/:id/product/:productId' component={GroceryStore} />
+          <Route path='/grocery-stores/:id' component={GroceryStore} />
+          <Route path='/grocery-stores' component={GroceryStore} />
+          <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} />
+          <Route path='/restaurants/:id' component={Restaurant} />
+          <Route path='/restaurants' component={Restaurant} />
           <Route path='/food-details' component={FoodDetails} />
           <Route path='/services/:serviceId/:subServiceId' component={Services} />
           <Route path='/services' component={Services} />
           <Route path='/cart' component={Cart} />
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
-          <Route path='/product-delivery' component={ProductDelivery} />
           <Route path='/order-detail' component={OrderDetail} />
           <Route path='/service-detail' component={ServicesDetail} />
           <Route path='/change-password' component={ChangeP} />

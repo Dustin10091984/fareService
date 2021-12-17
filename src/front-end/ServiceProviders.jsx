@@ -756,7 +756,12 @@ export const ServiceProviders = (props) => {
                             </div>
                             <div className="row">
                                 <div className="col-md-6 align-items-center justify-content-center">
-                                    <div style={{ marginLeft: 25 }}>
+                                    <div
+                                        style={{
+                                            marginLeft: 25,
+                                            fontSize: "1.5rem",
+                                        }}
+                                    >
                                         <Calendar
                                             onChange={handleCalendarClick}
                                             value={value}

@@ -1,82 +1,99 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import axios from 'axios';
-import ServiceType from '../../constants/ServiceType'
-import {Chat} from '../Chat/Chat'
+import axios from "axios";
+import ServiceType from "../../constants/ServiceType";
+import { Chat } from "../Chat/Chat";
 
-const Header = props => {
+const Header = (props) => {
     const [state, setState] = useState({
         is_loggedin: false,
         header_menu: [],
         isChatOpen: false,
     });
-    useEffect(()=>{
-        if (localStorage.getItem('userToken')){
-            setState(state => ({
+    useEffect(() => {
+        if (localStorage.getItem("userToken")) {
+            setState((state) => ({
                 ...state,
-                is_loggedin: true
+                is_loggedin: true,
             }));
         }
 
         axios({
-            method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL+'/api/user/get-menu',
+            method: "get",
+            url: process.env.REACT_APP_API_BASE_URL + "/api/user/get-menu",
         })
-        .then(function (response) {
-            setState(state => ({
-                ...state,
-                header_menu: response.data.data
-            }));
-        })
-        .catch((error) => {
-            //handle error
-            console.log(error.response);
-        });
+            .then(function (response) {
+                setState((state) => ({
+                    ...state,
+                    header_menu: response.data.data,
+                }));
+            })
+            .catch((error) => {
+                //handle error
+                console.log(error.response);
+            });
     }, []);
 
     useEffect(() => {
-        if (localStorage.getItem('userToken')) {
-            setState(state => ({
+        if (localStorage.getItem("userToken")) {
+            setState((state) => ({
                 ...state,
-                is_loggedin: true
+                is_loggedin: true,
             }));
         }
-    }, [localStorage.getItem('userToken')])
+    }, [localStorage.getItem("userToken")]);
 
     const handleLogout = () => {
         localStorage.clear();
-        setState(state => ({
+        setState((state) => ({
             ...state,
-            is_loggedin: false
+            is_loggedin: false,
         }));
-    }
+    };
 
     const header_menu = state.header_menu.map((menu, idx) => {
-        return(
-            <li className="nav-item" key={`menu-${idx}`} style={{zIndex: 10}}>
-                <a className="nav-link active" href="#">{menu.name} <i className="fa fa-angle-down pl-1" aria-hidden="true"></i></a>
-                {
-                    (menu.sub_services && menu.sub_services.length) ?
-                            <ul className="dropdownmenu">
-                            {
-                                menu.sub_services.map((sub_menu, index) => {
-                                    return(
-                                        <li className="nav-item" key={`sub-menu-${index}`}>
-                                            <Link to={`/services/${menu.id}/${sub_menu.id}${menu.id == 3 ? "?service_type="+ServiceType.MOVING : "" }`}  className="nav-link border-bottom">
-                                                <i className="fa fa-angle-right pr-2" aria-hidden="true"></i> {sub_menu.name}
-                                            </Link>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
-                    : ''
-                }
+        return (
+            <li className="nav-item" key={`menu-${idx}`} style={{ zIndex: 10 }}>
+                <a className="nav-link active" href="#">
+                    {menu.name}{" "}
+                    <i className="fa fa-angle-down pl-1" aria-hidden="true"></i>
+                </a>
+                {menu.sub_services && menu.sub_services.length ? (
+                    <ul className="dropdownmenu">
+                        {menu.sub_services.map((sub_menu, index) => {
+                            return (
+                                <li
+                                    className="nav-item"
+                                    key={`sub-menu-${index}`}
+                                >
+                                    <Link
+                                        to={`/services/${menu.id}/${
+                                            sub_menu.id
+                                        }${
+                                            menu.id == 3
+                                                ? "?service_type=" +
+                                                  ServiceType.MOVING
+                                                : ""
+                                        }`}
+                                        className="nav-link border-bottom"
+                                    >
+                                        <i
+                                            className="fa fa-angle-right pr-2"
+                                            aria-hidden="true"
+                                        ></i>{" "}
+                                        {sub_menu.name}
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                ) : (
+                    ""
+                )}
             </li>
-        )
-    })
+        );
+    });
 
-    
     return (
         <>
             <header className="header-sec">
@@ -131,7 +148,7 @@ const Header = props => {
                                     <ul className="nav-l d-flex">
                                         <li className="item-list">
                                             <Link to="/cart" className="link">
-                                              Cart
+                                                Cart
                                             </Link>
                                             {/* <a href="#" className="link">
                                                 Help
@@ -223,6 +240,17 @@ const Header = props => {
                                                 {"Restaurants "}
                                             </Link>
                                         </li>
+                                        <li
+                                            className="nav-item"
+                                            style={{ zIndex: 10 }}
+                                        >
+                                            <Link
+                                                to={`/grocery-stores`}
+                                                className="nav-link active"
+                                            >
+                                                {"Grocery Stores "}
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </nav>
@@ -279,6 +307,6 @@ const Header = props => {
             </div>
         </>
     );
-}
+};
 
 export default withRouter(Header);
