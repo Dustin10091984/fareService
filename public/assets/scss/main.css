@@ -48,63 +48,6 @@ body {
     font-family: Product Sans;
 }
 
-.address-card {
-    width: 100%;
-    height: auto;
-    border-radius: 1rem;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin: 5px;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.address-zip {
-    font-size: 1.5rem;
-    float: left;
-    margin: 2px;
-}
-
-.address-type {
-    font-size: 1.5rem;
-    float: right;
-    margin: 2px;
-}
-
-.pagination {
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-    cursor: pointer;
-}
-
-.pagination a {
-    padding: 1.5rem;
-    margin: 1.5rem;
-    border-radius: 5px;
-    border: 1px solid #fea629;
-    color: #fea629;
-    font-size: 1.5rem;
-}
-
-.pagination__link {
-    font-weight: bold;
-    font-size: 1.5rem;
-}
-
-.pagination__link--active a {
-    color: #fff;
-    background: #fea629;
-    font-size: 1.5rem;
-}
-
-.pagination__link--disabled a {
-    color: rgb(198, 197, 202);
-    border: 1px solid rgb(198, 197, 202);
-    font-size: 1.5rem;
-}
-
 .kc_fab_main_btn {
     background-color: #f44336;
     width: 60px;
@@ -2605,11 +2548,11 @@ hr {
 }
 
 .cart-img {
-    margin-right: 3rem;
+    margin-right: 2rem;
 }
 
 .cart-page {
-    padding: 4rem 0rem;
+    padding: 1rem 0rem;
 }
 
 .email-check-out {

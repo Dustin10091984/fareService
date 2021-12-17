@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { StateType } from '../../../constants';
 import { helperAxios } from "../../../helper/axios/index";
 
 const cartsSlice = createSlice({
@@ -7,12 +8,19 @@ const cartsSlice = createSlice({
         list: '',
         cart: '',
         updateCart: '',
+        deleteCart: '',
     },
     reducers: {
         cartList: (state, action) => {
             return {
                 ...state,
                 list: action.payload
+            };
+        },
+        cart: (state, action) => {
+            return {
+                ...state,
+                cart: action.payload
             };
         },
         updateCart: (state, action) => {
@@ -40,17 +48,17 @@ const cartsSlice = createSlice({
                 updateCart: action.payload
             }
         },
-        cart: (state, action) => {
+        remove: (state, action) => {
             return {
                 ...state,
-                cart: action.payload
-            };
-        },
+                deleteCart: action.payload
+            }
+        }
     },
 });
 export default cartsSlice.reducer;
 
-const { cartList, updateCart, cart } = cartsSlice.actions;
+const { cartList, updateCart, cart, remove } = cartsSlice.actions;
 
 const url = `/api/user/cart`;
 
@@ -68,8 +76,7 @@ export const updateQuantity = (data) => async dispatch => {
     }
 }
 
-export const removeCart = (id) => async dispatch => {
-    url = `/api/restaurant/food/list/${id}`;
-    // dispatch(helperAxios("get", url, foods));
+export const deleteCart = (id) => async dispatch => {
+    dispatch(helperAxios("delete", `${url}/${id}`, remove, true, null, false, null));
 }
 
