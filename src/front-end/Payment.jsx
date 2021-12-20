@@ -40,7 +40,10 @@ export const Payment = (props) => {
     );
 
     useEffect(() => {
-        if (addressesLoading) toast.info("Loading addresses...");
+        if (addressesLoading)
+            toast.info("Loading addresses...", {
+                autoClose: false,
+            });
     }, [addressesLoading]);
 
     useEffect(() => {
@@ -140,7 +143,9 @@ export const Payment = (props) => {
     }, []);
 
     useEffect(() => {
-        if (orderLoading) toast.info("Order Creating...");
+        if (orderLoading) toast.info("Order Creating...", {
+            autoClose: false,
+        });
     }, [orderLoading]);
 
     useEffect(() => {

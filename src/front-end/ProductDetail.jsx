@@ -44,7 +44,10 @@ const ProductDetail = (props) => {
     const loading = useRef(null);
 
     useEffect(() => {
-        cart?.loading && (loading.current = toast.info("Loading..."));
+        cart?.loading &&
+            (loading.current = toast.info("Loading...", {
+                autoClose: false,
+            }));
         cart?.loading == false && toast.dismiss(loading.current);
         !cart?.loading &&
             !cart?.error &&

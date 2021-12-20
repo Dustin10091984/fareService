@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import Paginate from "./../../components/Paginate";
 
-const OrderHistory = ({ title, list }) => {
+const OrderHistory = ({ title, list, pagination }) => {
     return (
         <div
             className="dashborad-box order-history"
@@ -49,6 +49,23 @@ const OrderHistory = ({ title, list }) => {
                             </div>
                         );
                     })}
+                    <div
+                        className="col-md-12"
+                        style={{
+                            backgroundColor: "#fff",
+                            padding: "4rem",
+                            borderRadius: "1.5rem",
+                            margin: "2rem",
+                            marginLeft: "0rem",
+                        }}
+                    >
+                        {pagination && (
+                            <Paginate
+                                last_page={pagination.last_page}
+                                current_page={pagination.current_page}
+                            ></Paginate>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

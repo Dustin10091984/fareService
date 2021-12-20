@@ -32,9 +32,9 @@ import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
 import { Services } from './front-end/Services';
 import { Dashboard } from './front-dashboard/Dashboard';
-import { Chat } from './front-end/Chat/Chat'
 import { OrderHistory } from './front-dashboard/OrderHistory';
 import { FoodDelivery } from './front-dashboard/FoodDelivery';
+import { ProductDelivery } from './front-dashboard/ProductDelivery';
 import { ServicesHistory } from './front-dashboard/ServicesHistory';
 import { OrderDetail } from './front-dashboard/OrderDetail';
 import { ServicesDetail } from './front-dashboard/ServicesDetail';
@@ -129,6 +129,7 @@ function App() {
           <Route path='/cart' component={Cart} />
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
+          <Route path='/product-delivery' component={ProductDelivery} />
           <Route path='/order-detail' component={OrderDetail} />
           <Route path='/service-detail' component={ServicesDetail} />
           <Route path='/change-password' component={ChangeP} />
