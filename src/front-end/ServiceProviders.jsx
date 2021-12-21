@@ -1396,10 +1396,6 @@ export const ServiceProviders = (props) => {
                                                             Object.values(
                                                                 movingMessage
                                                             );
-                                                        console.log(
-                                                            errorMsg,
-                                                            "ok"
-                                                        );
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-danger text-center"

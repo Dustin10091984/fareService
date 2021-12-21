@@ -25,10 +25,14 @@ export const Payment = (props) => {
     const cartList = useSelector((state) => state.cartsReducer?.list.cart);
 
     const addressesLoading = useSelector(
-        (state) => state.user?.addresses?.loading
+        (state) => state.userReducer?.addresses?.loading
     );
-    const addressList = useSelector((state) => state.user?.addresses?.data);
-    const addressesError = useSelector((state) => state.user?.addresses?.error);
+    const addressList = useSelector(
+        (state) => state.userReducer?.addresses?.data
+    );
+    const addressesError = useSelector(
+        (state) => state.userReducer?.addresses?.error
+    );
 
     const orderLoading = useSelector(
         (state) => state.orderReducer?.order?.loading
@@ -143,9 +147,10 @@ export const Payment = (props) => {
     }, []);
 
     useEffect(() => {
-        if (orderLoading) toast.info("Order Creating...", {
-            autoClose: false,
-        });
+        if (orderLoading)
+            toast.info("Order Creating...", {
+                autoClose: false,
+            });
     }, [orderLoading]);
 
     useEffect(() => {

@@ -173,33 +173,70 @@ const Header = (props) => {
                                                     Chat
                                                 </span>
                                             )}
-                                            {/* <Link to="/chat" className="link">
-                          Chat
-                        </Link> */}
                                         </li>
-                                        <li className="item-list">
-                                            <a href="#" className="link">
-                                                Help
-                                            </a>
-                                        </li>
-                                        <li className="item-list">
-                                            {state.is_loggedin ? (
-                                                <Link
-                                                    to=""
-                                                    onClick={handleLogout}
+                                        {state.is_loggedin ? (
+                                            <li className="dropdown show item-list">
+                                                <div
+                                                    // className="btn btn-secondary dropdown-toggle"
                                                     className="link"
+                                                    id="dropdownMenuLink"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
                                                 >
-                                                    Logout
-                                                </Link>
-                                            ) : (
+                                                    <i
+                                                        className="fa fa-user fa-lg"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    <i
+                                                        className="fa fa-sort-desc ml-2"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                </div>
+
+                                                <div
+                                                    className="dropdown-menu dropdown-menu-right mt-2"
+                                                    aria-labelledby="dropdownMenuLink"
+                                                    style={{
+                                                        fontSize: "1.5rem",
+                                                    }}
+                                                >
+                                                    <Link
+                                                        to="my-account"
+                                                        className=" dropdown-item"
+                                                    >
+                                                        <i
+                                                            className="fa fa-user mr-2"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                        My Account
+                                                    </Link>
+                                                    <Link
+                                                        to=""
+                                                        onClick={handleLogout}
+                                                        className="dropdown-item"
+                                                    >
+                                                        <i
+                                                            className="fa fa-sign-out mr-2"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                        Logout
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                        ) : (
+                                            <li className="item-list">
                                                 <Link
                                                     to="/login"
                                                     className="link"
                                                 >
                                                     Login
                                                 </Link>
-                                            )}
-                                        </li>
+                                            </li>
+                                        )}
                                     </ul>
                                 </div>
                             </div>

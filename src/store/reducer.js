@@ -17,7 +17,7 @@ import orderSlice from "./Slices/order/orderSlice";
 import groceryStoreSlice from "./Slices/grocery/groceryStoreSlice";
 
 export default combineReducers({
-    user: userSclice,
+    userReducer: userSclice,
     service: serviceSclice,
     serviceRequest: requestServiceSlice,
     provider: providerSclice,
