@@ -39,7 +39,7 @@ import { ServicesHistory } from './front-dashboard/ServicesHistory';
 import { OrderDetail } from './front-dashboard/OrderDetail';
 import { ServicesDetail } from './front-dashboard/ServicesDetail';
 import { ChangeP } from "./front-dashboard/ChangeP";
-import { AddCard } from "./front-dashboard/AddCard";
+import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
 
 import { useEffect } from 'react';
@@ -133,7 +133,7 @@ function App() {
           <Route path='/order-detail' component={OrderDetail} />
           <Route path='/service-detail' component={ServicesDetail} />
           <Route path='/change-password' component={ChangeP} />
-          <Route path='/add-card' component={AddCard} />
+          <Route path='/my-account' component={MyAccount} />
           <Route path='/payment-card' component={PaymentCard} />
           <Redirect to="/not-found" />
         </Switch>
