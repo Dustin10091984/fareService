@@ -23,6 +23,24 @@ const userSlice = createSlice({
                 updateProfile: action.payload
             }
         },
+        imageUpdate: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    profile: {
+                        ...state.profile, data: {
+                            ...state.profile.data,
+                            image: action.payload?.data
+                        }
+                    },
+                    imageUpdate: action.payload
+                }
+            }
+            return {
+                ...state,
+                imageUpdate: action.payload
+            }
+        },
         address: (state, action) => {
             return {
                 ...state,
@@ -46,7 +64,7 @@ const userSlice = createSlice({
 export default userSlice.reducer
 
 
-export const { address, addresses, profile, updateProfile, initialState } = userSlice.actions
+export const { address, addresses, profile, updateProfile, imageUpdate, initialState } = userSlice.actions
 
 export const getProfile = (id) => async dispatch => {
     const url = `/api/user/profile/${id}`;
@@ -58,7 +76,10 @@ export const patchupdateProfile = (data) => async dispatch => {
     dispatch(helperAxios("patch", url, updateProfile, true, data));
 };
 
-
+export const changeImage = (data) => async dispatch => {
+    const url = `/api/user/profile-image`;
+    dispatch(helperAxios("post", url, imageUpdate, true, data));
+};
 
 export const addAddress = (data) => async dispatch => {
     const url = `/api/user/address/store`;

@@ -31,7 +31,7 @@ export const MyAccount = (props) => {
                                     profile?.data?.first_name +
                                     " " +
                                     profile?.data?.last_name;
-                                data.sub_title = profile?.data?.account_type;
+                                data.sub_title = profile?.data?.email;
                                 data.image = profile?.data?.image;
                                 data.rating = profile?.data?.rating;
                             }
