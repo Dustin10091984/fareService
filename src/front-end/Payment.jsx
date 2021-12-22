@@ -220,6 +220,15 @@ export const Payment = (props) => {
         }));
     };
 
+    const handleFlatNoChange = (e) => {
+        if (e.target.value.length <= 5) {
+            setState({
+                ...state,
+                [e.target.name]: e.target.value,
+            });
+        }
+    };
+
     // const handleChangeStateName = (e) => {
     //     const regex = /^[a-zA-Z ]{0,50}$/;
     //     const { name, value } = e.target
@@ -1186,12 +1195,7 @@ export const Payment = (props) => {
                                                 name="flat_no"
                                                 value={state.flat_no}
                                                 placeholder="Add flat no"
-                                                onChange={(e) =>
-                                                    setState({
-                                                        ...state,
-                                                        flat_no: e.target.value,
-                                                    })
-                                                }
+                                                onChange={handleFlatNoChange}
                                             ></input>
                                         </div>
                                         <label

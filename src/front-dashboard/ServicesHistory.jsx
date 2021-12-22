@@ -8,7 +8,7 @@ import {
     addFeedback,
     initialFeedback,
 } from "../store/Slices/feedbacks/feedbackSlice";
-import { Loading } from "../front-end/common/Loading";
+import Loading from "../front-end/common/Loading";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Rating from "../components/Rating";
 

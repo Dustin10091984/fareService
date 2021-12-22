@@ -17,9 +17,6 @@ const ProfileCard = ({ profile }) => {
     }, []);
 
     useEffect(() => {
-        console.log("====================================");
-        console.log(imageUpdate);
-        console.log("====================================");
         if (imageUpdate?.loading) {
             imgLoading.current = toast.info("updating profile Image", {
                 autoClose: false,
@@ -49,7 +46,7 @@ const ProfileCard = ({ profile }) => {
         }
     };
     return (
-        <div className="profile-info service-time-box text-center mt-5 mb-5 h-auto mx-auto">
+        <div className="profile-info service-time-box text-center mt-5 mb-5 h-auto">
             {profile?.loading ? (
                 <>
                     <i className="fa fa-spinner fa-pulse fa-5x fa-fw m-5"></i>
@@ -72,7 +69,7 @@ const ProfileCard = ({ profile }) => {
                             onChange={handleImageChange}
                         ></input>
                         <label
-                            className="fa fa-camera-retro fa-3x"
+                            className="fa fa-camera-retro fa-2x"
                             style={{
                                 backgroundColor: "white",
                                 border: "3px solid #000000000",

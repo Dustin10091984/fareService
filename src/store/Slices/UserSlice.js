@@ -9,6 +9,7 @@ const userSlice = createSlice({
         updateProfile: "",
         address: "",
         addresses: "",
+        delAddress: "",
     },
     reducers: {
         profile: (state, action) => {
@@ -42,10 +43,34 @@ const userSlice = createSlice({
             }
         },
         address: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    addresses: {
+                        ...state.addresses, data: [action.payload?.data, ...state.addresses.data]
+                    },
+                    address: action.payload
+                }
+            }
             return {
                 ...state,
                 address: action.payload
             };
+        },
+        delAddress: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    delAddress: action.payload,
+                    addresses: {
+                        ...state.addresses, data: state.addresses.data.filter(item => item.id !== action.payload.data.id)
+                    }
+                };
+            }
+            return {
+                ...state,
+                delAddress: action.payload
+            }
         },
         addresses: (state, action) => {
             return {
@@ -64,7 +89,7 @@ const userSlice = createSlice({
 export default userSlice.reducer
 
 
-export const { address, addresses, profile, updateProfile, imageUpdate, initialState } = userSlice.actions
+export const { address, addresses, profile, updateProfile, imageUpdate, delAddress, initialState } = userSlice.actions
 
 export const getProfile = (id) => async dispatch => {
     const url = `/api/user/profile/${id}`;
@@ -84,6 +109,11 @@ export const changeImage = (data) => async dispatch => {
 export const addAddress = (data) => async dispatch => {
     const url = `/api/user/address/store`;
     dispatch(helperAxios("post", url, address, true, data, false, null));
+};
+
+export const deleteAddress = (id) => async dispatch => {
+    const url = `/api/user/address/delete/${id}`;
+    dispatch(helperAxios("delete", url, delAddress, true));
 };
 
 export const getAddresses = () => async dispatch => {
