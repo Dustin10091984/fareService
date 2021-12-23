@@ -5,7 +5,6 @@ export const GoogleMap = (props) => {
     const [state, setstate] = useState(props.location.state);
 
     const directionsService = new window.google.maps.DirectionsService();
-
     useEffect(() => {
         if (state?.from_address && state?.to_address) {
             directionsService.route(
@@ -146,6 +145,66 @@ export const GoogleMap = (props) => {
                             value={state?.zip_code}
                             disabled
                         />
+                    </div>
+                    <div className="common-input pr-1">
+                        <div
+                            className="col-md-12 text-dark"
+                            style={{ fontSize: "2rem" }}
+                        >
+                            Name
+                        </div>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            defaultValue={props.moreDetails?.name}
+                            onChange={props?.handleMoreDetailChange}
+                        />
+                    </div>
+                    <div className="common-input pr-1">
+                        <div
+                            className="col-md-12 text-dark"
+                            style={{ fontSize: "2rem" }}
+                        >
+                            Email
+                        </div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            defaultValue={props.moreDetails?.email}
+                            onChange={props?.handleMoreDetailChange}
+                        />
+                    </div>
+                    <div className="common-input pr-1">
+                        <div
+                            className="col-md-12 text-dark"
+                            style={{ fontSize: "2rem" }}
+                        >
+                            Phone
+                        </div>
+                        <input
+                            type="phone"
+                            name="phone"
+                            placeholder="PHone No"
+                            defaultValue={props.moreDetails?.phone}
+                            onChange={props?.handleMoreDetailChange}
+                        />
+                    </div>
+                    <div className="common-input pr-1">
+                        <div
+                            className="col-md-12 text-dark"
+                            style={{ fontSize: "2rem" }}
+                        >
+                            Details
+                        </div>
+                        <textarea
+                            type="text"
+                            name="detail"
+                            placeholder="Add more details"
+                            defaultValue={props.moreDetails?.detail}
+                            onChange={props?.handleMoreDetailChange}
+                        ></textarea>
                     </div>
                 </div>
             </div>
