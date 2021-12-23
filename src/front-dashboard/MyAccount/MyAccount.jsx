@@ -13,6 +13,7 @@ import {
     getPaymentCards,
     addPaymentCard,
     deleteCard,
+    paymentInitialState,
 } from "./../../store/Slices/payments/paymentSlice";
 import { toast } from "react-toastify";
 import AddPaymentCard from "./AddPaymentCard";
@@ -314,7 +315,7 @@ export const MyAccount = (props) => {
                                                 )}
                                                 {item.brand == "MasterCard" && (
                                                     <i
-                                                        className="fa fa-cc-mastercard fa-5x "
+                                                        className="fa fa-cc-mastercard fa-5x"
                                                         // "text-primary"
                                                         aria-hidden="true"
                                                     ></i>
@@ -486,9 +487,8 @@ export const MyAccount = (props) => {
                                 onClick={() => {
                                     setState({
                                         ...state,
-                                        delete_card_id: null,
-                                        delete_address_id: null,
                                     });
+                                    dispatch(paymentInitialState("addCard"));
                                 }}
                             >
                                 <span aria-hidden="true">&times;</span>
@@ -518,6 +518,9 @@ export const MyAccount = (props) => {
                                 type="button"
                                 className="button-common"
                                 data-dismiss="modal"
+                                onClick={() => {
+                                    dispatch(paymentInitialState("addCard"));
+                                }}
                             >
                                 <i className="fa fa-close"></i> Cancel
                             </button>
@@ -576,6 +579,12 @@ export const MyAccount = (props) => {
                                         delete_card_id: null,
                                         delete_address_id: null,
                                     });
+                                    state?.delete_card_id &&
+                                        dispatch(
+                                            paymentInitialState("removeCard")
+                                        );
+                                    state?.delete_address_id &&
+                                        dispatch(initialState("delAddress"));
                                 }}
                             >
                                 <span aria-hidden="true">&times;</span>
@@ -607,6 +616,12 @@ export const MyAccount = (props) => {
                                         delete_card_id: null,
                                         delete_address_id: null,
                                     });
+                                    state?.delete_card_id &&
+                                        dispatch(
+                                            paymentInitialState("removeCard")
+                                        );
+                                    state?.delete_address_id &&
+                                        dispatch(initialState("delAddress"));
                                 }}
                             >
                                 <i className="fa fa-close"></i> Cancel
