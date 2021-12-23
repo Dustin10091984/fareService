@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import ProfileCard from "../../components/ProfileCard";
 import {
     addAddress,
@@ -8,6 +9,11 @@ import {
     getProfile,
     initialState,
 } from "../../store/Slices/UserSlice";
+import {
+    getPaymentCards,
+    addPaymentCard,
+    deleteCard,
+} from "./../../store/Slices/payments/paymentSlice";
 import { toast } from "react-toastify";
 import AddPaymentCard from "./AddPaymentCard";
 import Profile from "./Profile";
@@ -15,19 +21,29 @@ import Loading from "../../front-end/common/Loading";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
 
 export const MyAccount = (props) => {
-    const [state, setState] = useState({ type: "HOME" });
+    const stripe = useStripe();
+    const elements = useElements();
+    const [state, setState] = useState({ type: "HOME", addCardError: true });
+    const [checkoutError, setCheckoutError] = useState();
     const dispatch = useDispatch();
     const loading = useRef(null);
-    const profile = useSelector((state) => state.userReducer.profile);
+    const profile = useSelector((state) => state.userReducer?.profile);
     const address = useSelector((state) => state.userReducer?.address);
     const addressList = useSelector((state) => state.userReducer?.addresses);
     const delAddress = useSelector((state) => state.userReducer?.delAddress);
+
+    const paymentCard = useSelector((state) => state.paymentReducer?.list);
+
+    const removeCard = useSelector((state) => state.paymentReducer?.removeCard);
+
+    const addCard = useSelector((state) => state.paymentReducer?.addCard);
 
     useEffect(() => {
         if (localStorage.getItem("user_data")) {
             let user = JSON.parse(localStorage.getItem("user_data"));
             dispatch(getProfile(user.id));
             dispatch(getAddresses());
+            dispatch(getPaymentCards());
         } else {
             localStorage.clear();
         }
@@ -75,6 +91,49 @@ export const MyAccount = (props) => {
         }
     }, [address]);
 
+    useEffect(() => {
+        if (removeCard?.loading) {
+            loading.current = toast.info("Card deleting...", {
+                autoClose: false,
+            });
+            return true;
+        }
+
+        if (removeCard?.error == false && removeCard?.data) {
+            toast.dismiss(loading.current);
+            toast.success("Card deleted successfully");
+            return true;
+        }
+
+        if (removeCard?.error) {
+            toast.dismiss(loading.current);
+            toast.error(removeCard?.message || "Card deleting failed");
+            return true;
+        }
+    }, [removeCard]);
+
+    useEffect(() => {
+        if (addCard?.loading) {
+            toast.dismiss(loading.current);
+            loading.current = toast.info("Card adding...", {
+                autoClose: false,
+            });
+            return true;
+        }
+
+        if (addCard?.error == false && addCard?.data) {
+            toast.dismiss(loading.current);
+            toast.success("Card added successfully");
+            return true;
+        }
+
+        if (addCard?.error) {
+            toast.dismiss(loading.current);
+            toast.error(addCard?.message || "Card adding failed");
+            return true;
+        }
+    }, [addCard]);
+
     const handleChangeZipCode = (e) => {
         const { name, value } = e.target;
         setState((state) => ({ ...state, [name]: value }));
@@ -107,9 +166,61 @@ export const MyAccount = (props) => {
             })
         );
     };
+
+    const handleCardDetailsChange = (e) => {
+        if (e.error) {
+            setCheckoutError(e.error.message);
+            setState((state) => ({
+                ...state,
+                addCardError: true,
+            }));
+        } else {
+            setState((state) => ({
+                ...state,
+                addCardError: false,
+            }));
+            setCheckoutError();
+        }
+    };
+
+    const handleAddCardClick = async () => {
+        try {
+            loading.current = toast.info("Card adding...", {
+                autoClose: false,
+            });
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: undefined },
+            }));
+            const { error, token } = await stripe.createToken(
+                elements.getElement(CardElement)
+            );
+            if (token) {
+                dispatch(addPaymentCard({ token: token.id }));
+            }
+            if (error) {
+                setState((state) => ({
+                    ...state,
+                    error: { ...state.error, stripeErr: error.message },
+                }));
+            }
+        } catch (error) {
+            setState((state) => ({
+                ...state,
+                error: { ...state.error, stripeErr: error.message },
+            }));
+        }
+    };
+
     return (
         <>
-            <Loading loading={addressList?.loading || profile?.loading} />
+            <Loading
+                loading={
+                    addressList?.loading ||
+                    profile?.loading ||
+                    paymentCard?.loading
+                }
+            />
             <div
                 className="container"
                 style={{
@@ -164,7 +275,7 @@ export const MyAccount = (props) => {
                         </div>
                         <Profile profile={profile} />
                     </div>
-                    <div className="col-md-12 mb-5 service-time-box time-list d-flex align-items-center justify-content-center flex-wrap">
+                    <div className="col-md-12 mb-5 service-time-box time-list d-flex align-items-center justify-content-between flex-wrap">
                         <div
                             className="text-center col-md-12"
                             style={{
@@ -180,74 +291,81 @@ export const MyAccount = (props) => {
                                 data-backdrop="static"
                                 data-keyboard="false"
                                 data-toggle="modal"
-                                data-target={`#model`}
+                                data-target={`#addCard`}
                                 className="button-common mb-4"
                             >
                                 <i className="fa fa-plus"></i> Add Card
                             </button>
                         </div>
-                        <div className="col-md-6 d-flex">
-                            <div className="order-card d-flex align-items-center justify-content-between">
-                                <div>
-                                    <img
-                                        src="/assets/img/master-card.svg"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="d-flex align-items-center justify-content-between">
-                                    <div className="order-des-b ml-4">
-                                        <div className="title">
-                                            mastercar****2232
-                                        </div>
-                                        <div className="order-time">
-                                            primary
-                                        </div>
-                                        <div className="order-time">
-                                            Expires 11/3
+                        {paymentCard?.data?.data?.length > 0 ? (
+                            paymentCard?.data?.data?.map((item, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="col-md-6 d-flex"
+                                    >
+                                        <div className="order-card d-flex align-items-center justify-content-between">
+                                            <div>
+                                                {item.brand == "Visa" && (
+                                                    <i
+                                                        className="fa fa-cc-visa fa-5x text-primary"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                )}
+                                                {item.brand == "MasterCard" && (
+                                                    <i
+                                                        className="fa fa-cc-mastercard fa-5x "
+                                                        // "text-primary"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                )}
+                                                {/* <img
+                                                    src="/assets/img/master-card.svg"
+                                                    alt=""
+                                                /> */}
+                                            </div>
+                                            <div className="d-flex align-items-center justify-content-between">
+                                                <div className="order-des-b ml-4">
+                                                    <div className="title">
+                                                        {`${item?.brand}****${item?.last4}`}
+                                                    </div>
+                                                    {/* <div className="order-time">
+                                                        primary
+                                                    </div> */}
+                                                    <div className="order-time">
+                                                        Expires{" "}
+                                                        {`${item?.exp_month}/${item?.exp_year}`}
+                                                    </div>
+                                                </div>
+                                                <div className="order-btn-b m-3 align-baseline">
+                                                    <button
+                                                        className="btn-view-profile"
+                                                        data-backdrop="static"
+                                                        data-keyboard="false"
+                                                        data-toggle="modal"
+                                                        data-target="#delete"
+                                                        onClick={() => {
+                                                            setState({
+                                                                ...state,
+                                                                delete_card_id:
+                                                                    item.id,
+                                                            });
+                                                        }}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                    {/* <div className="btn-price-serv">
+                                                        edit
+                                                    </div> */}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="order-btn-b">
-                                        <button className="btn-view-profile">
-                                            Remove
-                                        </button>
-                                        <div className="btn-price-serv">
-                                            edit
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-6 d-flex">
-                            <div className="order-card d-flex align-items-center justify-content-between">
-                                <div>
-                                    <img
-                                        src="/assets/img/master-card.svg"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="d-flex align-items-center justify-content-between">
-                                    <div className="order-des-b ml-4">
-                                        <div className="title">
-                                            mastercar****2232
-                                        </div>
-                                        <div className="order-time">
-                                            primary
-                                        </div>
-                                        <div className="order-time">
-                                            Expires 11/3
-                                        </div>
-                                    </div>
-                                    <div className="order-btn-b">
-                                        <button className="btn-view-profile">
-                                            Remove
-                                        </button>
-                                        <div className="btn-price-serv">
-                                            edit
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                );
+                            })
+                        ) : (
+                            <div className="col-md-12 d-flex">Not Found</div>
+                        )}
                     </div>
                     <div className="col-md-12 service-time-box time-list d-flex align-items-center justify-content-center flex-wrap">
                         <div
@@ -281,25 +399,28 @@ export const MyAccount = (props) => {
                                             }}
                                             key={index}
                                             className="address-card row"
-                                            data-dismiss="modal"
-                                            aria-label="Close"
                                         >
                                             <div className="col-md-9">
                                                 {address?.address}
                                             </div>
                                             <div className="col-md-3">
                                                 <span
+                                                    data-backdrop="static"
+                                                    data-keyboard="false"
+                                                    data-toggle="modal"
+                                                    data-target="#delete"
                                                     style={{
                                                         fontSize: "1.5rem",
                                                         float: "right",
                                                         color: "#ff0000",
+                                                        cursor: "pointer",
                                                     }}
                                                     onClick={() => {
-                                                        dispatch(
-                                                            deleteAddress(
-                                                                address.id
-                                                            )
-                                                        );
+                                                        setState({
+                                                            ...state,
+                                                            delete_address_id:
+                                                                address.id,
+                                                        });
                                                     }}
                                                 >
                                                     Delete{" "}
@@ -327,6 +448,199 @@ export const MyAccount = (props) => {
                                 );
                             }
                         })()}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className="modal fade bd-example-modal"
+                id="addCard"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal"
+                    role="document"
+                >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5
+                                className="modal-title "
+                                style={{
+                                    fontSize: "1.5rem",
+                                }}
+                                id="exampleModalLongTitle"
+                            >
+                                Add new card
+                            </h5>
+                            <button
+                                // type="button"
+                                style={{
+                                    fontSize: "2rem",
+                                }}
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => {
+                                    setState({
+                                        ...state,
+                                        delete_card_id: null,
+                                        delete_address_id: null,
+                                    });
+                                }}
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div
+                                    className="col-md-12 text-center"
+                                    style={{
+                                        fontSize: "1.5rem",
+                                    }}
+                                >
+                                    Please add your card
+                                    <CardElement
+                                        onChange={handleCardDetailsChange}
+                                        className="m-5"
+                                    />
+                                    <p className="text-danger">
+                                        {checkoutError}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="button-common"
+                                data-dismiss="modal"
+                            >
+                                <i className="fa fa-close"></i> Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="button-common-2"
+                                onClick={handleAddCardClick}
+                                disabled={
+                                    !stripe ||
+                                    !elements ||
+                                    checkoutError ||
+                                    state?.addCardError
+                                }
+                            >
+                                <i className="fa fa-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                className="modal fade bd-example-modal"
+                id="delete"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal"
+                    role="document"
+                >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5
+                                className="modal-title "
+                                style={{
+                                    fontSize: "1.5rem",
+                                }}
+                                id="exampleModalLongTitle"
+                            >
+                                Delete
+                            </h5>
+                            <button
+                                // type="button"
+                                style={{
+                                    fontSize: "2rem",
+                                }}
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => {
+                                    setState({
+                                        ...state,
+                                        delete_card_id: null,
+                                        delete_address_id: null,
+                                    });
+                                }}
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div
+                                    className="col-md-12"
+                                    style={{
+                                        fontSize: "2rem",
+                                    }}
+                                >
+                                    {state?.delete_card_id &&
+                                        "Are you sure you want to delete card?"}
+                                    {state?.delete_address_id &&
+                                        "Are you sure you want to delete address?"}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                className="button-common"
+                                data-dismiss="modal"
+                                onClick={() => {
+                                    setState({
+                                        ...state,
+                                        delete_card_id: null,
+                                        delete_address_id: null,
+                                    });
+                                }}
+                            >
+                                <i className="fa fa-close"></i> Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="button-common-2"
+                                style={{
+                                    backgroundColor: "#ff0000",
+                                }}
+                                onClick={() => {
+                                    if (state?.delete_card_id) {
+                                        dispatch(
+                                            deleteCard(state?.delete_card_id)
+                                        );
+                                    }
+                                    if (state?.delete_address_id) {
+                                        dispatch(
+                                            deleteAddress(
+                                                state?.delete_address_id
+                                            )
+                                        );
+                                    }
+                                    setState({
+                                        ...state,
+                                        delete_card_id: null,
+                                        delete_address_id: null,
+                                    });
+                                }}
+                                data-dismiss="modal"
+                            >
+                                <i className="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
