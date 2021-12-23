@@ -223,11 +223,11 @@ export const OrderDetail = (props) => {
                                                 </div>
                                             </div> */}
 
-                                                    <div className="text-right mt-5 pt-5">
+                                                    {/* <div className="text-right mt-5 pt-5">
                                                         <button className="button-common">
                                                             Reorder
                                                         </button>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         </>
