@@ -99,10 +99,9 @@ function App() {
           <Route path='/login' component={Login} />
 
           <ProtectedRoute path='/dashboard' component={Dashboard} />
-          {/* <ProtectedRoute path='/chat' component={ Chat }/> */}
           <ProtectedRoute path='/payment' component={Payment} />
           <ProtectedRoute path='/services-history' component={ServicesHistory} />
-
+          <ProtectedRoute path='/my-account' component={MyAccount} />
 
           <Route path='/service-providers' component={ServiceProviders} />
           <Route path='/shop' component={Shop} />
@@ -133,7 +132,6 @@ function App() {
           <Route path='/order-detail' component={OrderDetail} />
           <Route path='/service-detail' component={ServicesDetail} />
           <Route path='/change-password' component={ChangeP} />
-          <Route path='/my-account' component={MyAccount} />
           <Route path='/payment-card' component={PaymentCard} />
           <Redirect to="/not-found" />
         </Switch>

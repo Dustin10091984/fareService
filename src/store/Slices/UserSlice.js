@@ -9,6 +9,7 @@ const userSlice = createSlice({
         updateProfile: "",
         address: "",
         addresses: "",
+        delAddress: "",
     },
     reducers: {
         profile: (state, action) => {
@@ -23,11 +24,53 @@ const userSlice = createSlice({
                 updateProfile: action.payload
             }
         },
+        imageUpdate: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    profile: {
+                        ...state.profile, data: {
+                            ...state.profile.data,
+                            image: action.payload?.data
+                        }
+                    },
+                    imageUpdate: action.payload
+                }
+            }
+            return {
+                ...state,
+                imageUpdate: action.payload
+            }
+        },
         address: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    addresses: {
+                        ...state.addresses, data: [action.payload?.data, ...state.addresses.data]
+                    },
+                    address: action.payload
+                }
+            }
             return {
                 ...state,
                 address: action.payload
             };
+        },
+        delAddress: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    delAddress: action.payload,
+                    addresses: {
+                        ...state.addresses, data: state.addresses.data.filter(item => item.id !== action.payload.data.id)
+                    }
+                };
+            }
+            return {
+                ...state,
+                delAddress: action.payload
+            }
         },
         addresses: (state, action) => {
             return {
@@ -46,7 +89,7 @@ const userSlice = createSlice({
 export default userSlice.reducer
 
 
-export const { address, addresses, profile, updateProfile, initialState } = userSlice.actions
+export const { address, addresses, profile, updateProfile, imageUpdate, delAddress, initialState } = userSlice.actions
 
 export const getProfile = (id) => async dispatch => {
     const url = `/api/user/profile/${id}`;
@@ -58,11 +101,19 @@ export const patchupdateProfile = (data) => async dispatch => {
     dispatch(helperAxios("patch", url, updateProfile, true, data));
 };
 
-
+export const changeImage = (data) => async dispatch => {
+    const url = `/api/user/profile-image`;
+    dispatch(helperAxios("post", url, imageUpdate, true, data));
+};
 
 export const addAddress = (data) => async dispatch => {
     const url = `/api/user/address/store`;
     dispatch(helperAxios("post", url, address, true, data, false, null));
+};
+
+export const deleteAddress = (id) => async dispatch => {
+    const url = `/api/user/address/delete/${id}`;
+    dispatch(helperAxios("delete", url, delAddress, true));
 };
 
 export const getAddresses = () => async dispatch => {
