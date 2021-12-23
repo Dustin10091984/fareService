@@ -21,6 +21,12 @@ const orderSlice = createSlice({
                 order: action.payload
             }
         },
+        showOrder: (state, action) => {
+            return {
+                ...state,
+                showOrder: action.payload
+            }
+        },
         initial: (state, action) => {
             return {
                 ...state,
@@ -32,7 +38,7 @@ const orderSlice = createSlice({
 });
 export default orderSlice.reducer;
 
-export const { orderList, order, initial } = orderSlice.actions;
+export const { orderList, order, showOrder, initial } = orderSlice.actions;
 
 
 
@@ -44,6 +50,11 @@ export const getOrderList = (data) => async dispatch => {
 export const createNewOrder = (data) => async dispatch => {
     let url = `/api/user/order/create`;
     dispatch(helperAxios("post", url, order, true, data, false, null, { type: StateType.ADD }));
+}
+
+export const getOrder = (id) => async dispatch => {
+    let url = `/api/user/order/${id}`;
+    dispatch(helperAxios("get", url, showOrder, true,));
 }
 
 

@@ -53,7 +53,7 @@ const paymentSlice = createSlice({
                 removeCard: action.payload
             }
         },
-        initialState: (state, action) => {
+        paymentInitialState: (state, action) => {
             return {
                 ...state,
                 [action.payload]: ""
@@ -63,6 +63,7 @@ const paymentSlice = createSlice({
 });
 export default paymentSlice.reducer;
 
+export const { paymentInitialState } = paymentSlice.actions;
 const { list, removeCard, addCard, payment } = paymentSlice.actions;
 
 export const pay = (data) => async dispatch => {

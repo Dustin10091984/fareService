@@ -102,6 +102,7 @@ function App() {
           <ProtectedRoute path='/payment' component={Payment} />
           <ProtectedRoute path='/services-history' component={ServicesHistory} />
           <ProtectedRoute path='/my-account' component={MyAccount} />
+          <ProtectedRoute path='/order-detail/:id' component={OrderDetail} />
 
           <Route path='/service-providers' component={ServiceProviders} />
           <Route path='/shop' component={Shop} />
@@ -129,7 +130,6 @@ function App() {
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
           <Route path='/product-delivery' component={ProductDelivery} />
-          <Route path='/order-detail' component={OrderDetail} />
           <Route path='/service-detail' component={ServicesDetail} />
           <Route path='/change-password' component={ChangeP} />
           <Route path='/payment-card' component={PaymentCard} />

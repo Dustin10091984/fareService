@@ -278,8 +278,15 @@ export const ServiceProviders = (props) => {
                     },
                 });
             } else if (location?.state?.service_type == ServiceType.MOVING) {
+                let moreDetails = {
+                    name: state?.name || null,
+                    phone: state?.phone || null,
+                    email: state?.email || null,
+                    detail: state?.detail || null,
+                };
                 dispatch(
                     makeMovingRequest({
+                        ...moreDetails,
                         ...location.state,
                         date: moment(location.state.date).format("YYYY-MM-DD"),
                         provider_id,
@@ -335,7 +342,6 @@ export const ServiceProviders = (props) => {
             hours: "",
             token: "",
             previewImages: [],
-            detail: "",
         }));
         dispatch(getInitialRequestService());
     };
@@ -362,6 +368,11 @@ export const ServiceProviders = (props) => {
         } else {
             setState({ ...state, images: [], previewImages: [] });
         }
+    };
+
+    const handleMoreDetailChange = (e) => {
+        const { name, value } = e.target;
+        setState((state) => ({ ...state, [name]: value }));
     };
 
     return (
@@ -1446,7 +1457,7 @@ export const ServiceProviders = (props) => {
                                                             >
                                                                 {movingMessage ==
                                                                 "OK"
-                                                                    ? "Successfully "
+                                                                    ? "Request Successfully Sent"
                                                                     : movingMessage}
                                                             </div>
                                                         );
@@ -1454,7 +1465,22 @@ export const ServiceProviders = (props) => {
                                                 }
                                             }
                                         })()}
-                                    <GoogleMap {...props} open={open} />
+                                    {!movingError ||
+                                        (!movingMessage && (
+                                            <GoogleMap
+                                                {...props}
+                                                open={open}
+                                                moreDetails={{
+                                                    name: state?.name,
+                                                    email: state?.email,
+                                                    phone: state?.phone,
+                                                    detail: state?.detail,
+                                                }}
+                                                handleMoreDetailChange={
+                                                    handleMoreDetailChange
+                                                }
+                                            />
+                                        ))}
                                 </div>
                             </div>
                         </div>
