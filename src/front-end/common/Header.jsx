@@ -205,6 +205,16 @@ const Header = (props) => {
                                                     }}
                                                 >
                                                     <Link
+                                                        to="dashboard"
+                                                        className=" dropdown-item"
+                                                    >
+                                                        <i
+                                                            className="fa fa-tachometer mr-2"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                        Dashboard
+                                                    </Link>
+                                                    <Link
                                                         to="my-account"
                                                         className=" dropdown-item"
                                                     >
