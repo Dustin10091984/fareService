@@ -32,6 +32,10 @@ export const ProductDelivery = (props) => {
                     current_page: orderMeta?.current_page,
                     last_page: orderMeta?.last_page,
                 }}
+                data={{
+                    type: ProductType.GROCERY,
+                    func: getOrderList,
+                }}
             />
         </>
     );
