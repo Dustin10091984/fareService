@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import Paginate from "./../../components/Paginate";
 
-const OrderHistory = ({ title, list, pagination }) => {
+const OrderHistory = ({ title, list, pagination, data }) => {
     return (
         <div
             className="dashborad-box order-history"
@@ -63,6 +63,8 @@ const OrderHistory = ({ title, list, pagination }) => {
                             <Paginate
                                 last_page={pagination.last_page}
                                 current_page={pagination.current_page}
+                                func={data?.func}
+                                params={{ type: data?.type }}
                             ></Paginate>
                         )}
                     </div>
