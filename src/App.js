@@ -42,20 +42,33 @@ import { ChangeP } from "./front-dashboard/ChangeP";
 import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCartList } from './store/Slices/cart/cartsSlice';
 import Echo from "laravel-echo";
 import io from "socket.io-client";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { onMessageListener, getToken } from './firebaseInit';
+import Notifications from './components/notification/Notifications';
+import ReactNotificationComponent from './components/notification/ReactNotification';
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
 function App() {
+  const [notification, setNotification] = useState({ title: "", body: "" });
+  onMessageListener()
+    .then((payload) => {
+      setNotification({
+        title: payload.data.title,
+        body: payload.data.body,
+      });
+    });
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCartList());
-  }, [])
+  }, []);
+
   window.io = io;
   const liveOption = {
     host: "http://api.farenow.com:6001",
@@ -83,7 +96,11 @@ function App() {
   return (
     <Elements stripe={stripePromise} >
       <div className="App">
-
+        {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null}
+        <ReactNotificationComponent
+          title={notification.title}
+          body={notification.body}
+        />
         <Header></Header>
 
         <Switch>
