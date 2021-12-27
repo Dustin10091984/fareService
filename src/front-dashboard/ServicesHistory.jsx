@@ -11,6 +11,7 @@ import {
 import Loading from "../front-end/common/Loading";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Rating from "../components/Rating";
+import Paginate from "./../components/Paginate";
 
 export const ServicesHistory = (props) => {
     const { location, history } = props;
@@ -271,90 +272,63 @@ export const ServicesHistory = (props) => {
                                                         }
                                                     </div>
                                                 )}
-                                                {serviceRequest?.user_feeback
-                                                    ?.rating ? (
-                                                    <Rating
-                                                        rating={
+                                                {
+                                                    (() => {
+                                                        if (
                                                             serviceRequest
                                                                 ?.user_feeback
                                                                 ?.rating
+                                                        ) {
+                                                            return (
+                                                                <Rating
+                                                                    rating={
+                                                                        serviceRequest
+                                                                            ?.user_feeback
+                                                                            ?.rating
+                                                                    }
+                                                                />
+                                                            );
                                                         }
-                                                    />
-                                                ) : (
-                                                    // <div className="star-rating-area d-flex align-items-center justify-content-start">
-                                                    //     <div
-                                                    //         className="rating-static clearfix mr-3"
-                                                    //         rel={
-                                                    //             serviceRequest
-                                                    //                 ?.user_feeback
-                                                    //                 ?.rating
-                                                    //         }
-                                                    //     >
-                                                    //         <label
-                                                    //             className="full"
-                                                    //             title="{{ 'Awesome - 5 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="half"
-                                                    //             title="{{ 'Excellent - 4.5 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="full"
-                                                    //             title="{{ 'Excellent - 4 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="half"
-                                                    //             title="{{ 'Better - 3.5 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="full"
-                                                    //             title="{{ 'Good - 3 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="half"
-                                                    //             title="{{ 'Good - 2.5 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="full"
-                                                    //             title="{{ 'Fair - 2 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="half"
-                                                    //             title="{{ 'Fair - 1.5 stars' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="full"
-                                                    //             title="{{ 'Bad - 1 star' | translate }}"
-                                                    //         ></label>
-                                                    //         <label
-                                                    //             className="half"
-                                                    //             title="{{ 'Bad - 0.5 stars' | translate }}"
-                                                    //         ></label>
-                                                    //     </div>
-                                                    //     {/* <div className="ratilike ng-binding">5</div> */}
-                                                    // </div>
-                                                    <div
-                                                        type="button"
-                                                        className="service-label"
-                                                        style={{
-                                                            backgroundColor:
-                                                                "blue",
-                                                        }}
-                                                        onClick={() =>
-                                                            handleFeedbackClick(
-                                                                serviceRequest.id,
-                                                                serviceRequest
-                                                                    .provider.id
-                                                            )
+
+                                                        if (
+                                                            serviceRequest?.is_completed
+                                                            // &&
+                                                            // serviceRequest?.status ===
+                                                            //     "ENDED"
+                                                        ) {
+                                                            return (
+                                                                <div
+                                                                    type="button"
+                                                                    className="service-label"
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            "blue",
+                                                                    }}
+                                                                    onClick={() =>
+                                                                        handleFeedbackClick(
+                                                                            serviceRequest.id,
+                                                                            serviceRequest
+                                                                                .provider
+                                                                                .id
+                                                                        )
+                                                                    }
+                                                                    data-backdrop="static"
+                                                                    data-keyboard="false"
+                                                                    data-toggle="modal"
+                                                                    data-target="#feedback"
+                                                                >
+                                                                    Give
+                                                                    Feedback
+                                                                </div>
+                                                            );
                                                         }
-                                                        data-backdrop="static"
-                                                        data-keyboard="false"
-                                                        data-toggle="modal"
-                                                        data-target="#feedback"
-                                                    >
-                                                        Give Feedback
-                                                    </div>
-                                                )}
+                                                    })()
+                                                    // ? (
+                                                    //     <></>
+                                                    // ) : (
+                                                    //
+                                                    // )
+                                                }
                                                 <div className="order-time">
                                                     {moment(
                                                         serviceRequest?.created_at

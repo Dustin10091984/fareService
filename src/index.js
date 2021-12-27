@@ -5,8 +5,7 @@ import App from './App';
 import './index.css';
 import { Provider } from 'react-redux';
 import store from './store'
-// import { initializeFirebase } from './Fcm/push-notification'
-
+import "./firebaseInit";
 require('dotenv').config();
 
 ReactDOM.render(
@@ -17,5 +16,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-// initializeFirebase();
+
 

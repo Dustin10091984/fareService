@@ -46,18 +46,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM06VJYrW1xHW4F4zvL1Bt4lgcF7YgZ7U&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM06VJYrW1xHW4F4zvL1Bt4lgcF7YgZ7U&libraries=places" ></script>
     <script src="/assets/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/assets/js/popper.min.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin="anonymous"></script>
     <script>
-      // if ('serviceWorker' in navigator) {
-      //   window.addEventListener('load', () => {
-      //     navigator.serviceWorker.register('firebase-messaging-sw.js');
-      //   });
-      // }
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./firebase-messaging-sw.js');
+        });
+      }
     </script>
   </body>
 </html>

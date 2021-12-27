@@ -1,57 +1,36 @@
-/*
 
-Give the service worker access to Firebase Messaging.
+// Scripts for firebase and firebase messaging
+// eslint-disable-next-line no-undef
+importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
+// eslint-disable-next-line no-undef
+importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 
-Note that you can only use Firebase Messaging here, other Firebase libraries are not available in the service worker.
+// Initialize the Firebase app in the service worker by passing the generated config
+const firebaseConfig = {
+    apiKey: "AIzaSyBwl7MkF5KrDREPzDKIQSxH0sBE93JNSpw",
+    authDomain: "farenow-e023a.firebaseapp.com",
+    projectId: "farenow-e023a",
+    storageBucket: "farenow-e023a.appspot.com",
+    messagingSenderId: "604353431757",
+    appId: "1:604353431757:web:5dbf862d8c308c80e28184",
+    measurementId: "G-1X3ZF9YVWE"
+};
 
-*/
-
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js');
-
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js');
-
-/*
-
-Initialize the Firebase app in the service worker by passing in the messagingSenderId.
-
-* New configuration for app@pulseservice.com
-
-*/
-
-firebase.initializeApp({ 
-    apiKey: "AIzaSyAQreO3lk_Yap6T8s7o2RVt0tRuEq6dEq4",
-    authDomain: "test-push-notification-c2f7e.firebaseapp.com",
-    projectId: "test-push-notification-c2f7e",
-    storageBucket: "test-push-notification-c2f7e.appspot.com",
-    messagingSenderId: "986329488596",
-    appId: "1:986329488596:web:ba43f729441da577bd2f41",
-    measurementId: "G-5S3WVMW2QW"
-    });
-
-/*
-
-Retrieve an instance of Firebase Messaging so that it can handle background messages.
-
-*/
+// eslint-disable-next-line no-undef
+firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function(payload) {
-    console.log(
-        "[firebase-messaging-sw.js] Received background message ",
-        payload,
-    );
 
-    /* Customize notification here */
+messaging.onBackgroundMessage(function (payload) {
 
-    const notificationTitle = "Background";
+    const notificationTitle = payload?.data.title;
     const notificationOptions = {
-        body: "Background Message .",
-        icon: "/itwonders-.png",
+        body: payload?.data.body,
+        icon: "/logo192.png",
     };
-
+    // eslint-disable-next-line no-restricted-globals
     return self.registration.showNotification(
         notificationTitle,
-        notificationOptions,
+        notificationOptions
     );
-
 });
