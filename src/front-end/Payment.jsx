@@ -14,6 +14,8 @@ import {
     initial,
 } from "./../store/Slices/order/orderSlice";
 import { toast } from "react-toastify";
+import { getPaymentCards } from "../store/Slices/payments/paymentSlice";
+import Loading from "./common/Loading";
 export const Payment = (props) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -42,24 +44,7 @@ export const Payment = (props) => {
     const orderMessage = useSelector(
         (state) => state.orderReducer?.order?.message
     );
-
-    useEffect(() => {
-        if (addressesLoading)
-            toast.info("Loading addresses...", {
-                autoClose: false,
-            });
-    }, [addressesLoading]);
-
-    useEffect(() => {
-        if (addressesError) {
-            toast.dismiss(loading.current);
-            toast.error("Error loading addresses");
-        }
-    }, [addressesError]);
-
-    useEffect(() => {
-        if (addressList) toast.dismiss(loading.current);
-    }, [addressList]);
+    const paymentCard = useSelector((state) => state.paymentReducer?.list);
 
     const [state, setState] = useState({
         type: props.location.state?.type,
@@ -134,12 +119,31 @@ export const Payment = (props) => {
     } = state.error;
 
     useEffect(() => {
+        if (addressesLoading)
+            toast.info("Loading addresses...", {
+                autoClose: false,
+            });
+    }, [addressesLoading]);
+
+    useEffect(() => {
+        if (addressesError) {
+            toast.dismiss(loading.current);
+            toast.error("Error loading addresses");
+        }
+    }, [addressesError]);
+
+    useEffect(() => {
+        if (addressList) toast.dismiss(loading.current);
+    }, [addressList]);
+
+    useEffect(() => {
         if (props.location.state == undefined) {
             props.history.push("/");
         }
         if (cartList == "" || cartList == undefined) {
             dispatch(getCartList());
         }
+        dispatch(getPaymentCards());
         return () => {
             dispatch(getInitialRequestService());
             dispatch(initial({ order: "" }));
@@ -446,19 +450,28 @@ export const Payment = (props) => {
                     ...state,
                     error: { ...state.error, stripeErr: undefined },
                 }));
-                const { error, token } = await stripe.createToken(
-                    elements.getElement(CardElement)
-                );
-                if (error) {
-                    setState((state) => ({
-                        ...state,
-                        error: { ...state.error, stripeErr: error.message },
-                    }));
-                    return;
+                if (state?.card_id == undefined) {
+                    const { error, token } = await stripe.createToken(
+                        elements.getElement(CardElement)
+                    );
+                    if (error) {
+                        setState((state) => ({
+                            ...state,
+                            error: { ...state.error, stripeErr: error.message },
+                        }));
+                        return;
+                    }
+                    if (token) {
+                        let data = {};
+                        data.token = token.id;
+                        data.cart_ids = state.cart_ids;
+                        data.address_id = state.address_id;
+                        dispatch(createNewOrder(data));
+                    }
                 }
-                if (token) {
+                if (state?.card_id) {
                     let data = {};
-                    data.token = token.id;
+                    data.card_id = state?.card_id;
                     data.cart_ids = state.cart_ids;
                     data.address_id = state.address_id;
                     dispatch(createNewOrder(data));
@@ -477,9 +490,19 @@ export const Payment = (props) => {
             }));
         }
     };
+
+    const handlepayemntCard = (id) => {
+        setState((state) => ({
+            ...state,
+            card_id: id == state.card_id ? undefined : id,
+        }));
+    };
     return (
         <>
             <div className="moving-help-sec pad-Y m-0">
+                <Loading
+                    loading={serviceRequest.loading || paymentCard.loading}
+                />
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
@@ -712,6 +735,79 @@ export const Payment = (props) => {
                                             state.paymentMethod === undefined ||
                                             state.cart_ids == undefined) && (
                                             <>
+                                                {state.paymentMethod === 1 &&
+                                                    paymentCard?.data?.data?.map(
+                                                        (item, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="order-card d-flex align-items-center justify-content-between mt-2"
+                                                                style={
+                                                                    state.card_id ==
+                                                                    item.id
+                                                                        ? {
+                                                                              cursor: "pointer",
+                                                                              backgroundColor:
+                                                                                  "blue",
+                                                                          }
+                                                                        : {
+                                                                              cursor: "pointer",
+                                                                          }
+                                                                }
+                                                                onClick={() =>
+                                                                    handlepayemntCard(
+                                                                        item.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <div>
+                                                                    {item.brand ==
+                                                                        "Visa" && (
+                                                                        <i
+                                                                            className="fa fa-cc-visa fa-5x text-primary"
+                                                                            aria-hidden="true"
+                                                                        ></i>
+                                                                    )}
+                                                                    {item.brand ==
+                                                                        "MasterCard" && (
+                                                                        <i
+                                                                            className="fa fa-cc-mastercard fa-5x "
+                                                                            aria-hidden="true"
+                                                                        ></i>
+                                                                    )}
+                                                                    {/* <img
+                                                    src="/assets/img/master-card.svg"
+                                                    alt=""
+                                                /> */}
+                                                                </div>
+                                                                <div className="d-flex align-items-center justify-content-between">
+                                                                    <div className="order-des-b ml-4">
+                                                                        <div
+                                                                            className="title"
+                                                                            style={
+                                                                                state.card_id ==
+                                                                                item.id
+                                                                                    ? {
+                                                                                          color: "white",
+                                                                                      }
+                                                                                    : {
+                                                                                          color: "black",
+                                                                                      }
+                                                                            }
+                                                                        >
+                                                                            {`${item?.brand}****${item?.last4}`}
+                                                                        </div>
+                                                                        {/* <div className="order-time">
+                                                        primary
+                                                    </div> */}
+                                                                        <div className="order-time">
+                                                                            Expires{" "}
+                                                                            {`${item?.exp_month}/${item?.exp_year}`}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    )}
                                                 <CardElement
                                                     onChange={
                                                         handleCardDetailsChange
