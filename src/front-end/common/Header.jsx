@@ -335,7 +335,14 @@ const Header = (props) => {
                                     setState({ ...state, isChatOpen: true })
                                 }
                             >
-                                <span aria-hidden="true">&times;</span>
+                                <span
+                                    aria-hidden="true"
+                                    style={{
+                                        fontSize: "3rem",
+                                    }}
+                                >
+                                    &times;
+                                </span>
                             </button>
                         </div>
                         <div className="modal-body">

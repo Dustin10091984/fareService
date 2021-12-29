@@ -377,6 +377,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                             !active?.orderId ||
                                             active?.is_completed == true
                                         }
+                                        attachButton={false}
                                     />
                                 </ChatContainer>
 

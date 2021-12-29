@@ -13,6 +13,7 @@ import {
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "axios";
+import Loading from "../common/Loading";
 
 export const Moving = (props) => {
     const [state, setState] = useState({
@@ -159,6 +160,7 @@ export const Moving = (props) => {
 
     return (
         <div className="row">
+            <Loading loading={loading} />
             <div className="col-md-12">
                 <div className="title-move">
                     Please select your vehicle type.

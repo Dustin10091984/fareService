@@ -16,6 +16,7 @@ export default serviceSlice.reducer
 const { serviceQuestion } = serviceSlice.actions
 export const getServiceQuestion = (serviceId) => async dispatch => {
     try {
+        dispatch(serviceQuestion({ error: false, loading: true }))
         await axios({
             method: 'get',
             // headers: {
@@ -27,11 +28,16 @@ export const getServiceQuestion = (serviceId) => async dispatch => {
             // }
         }).then((response) => {
             //handle success
-            dispatch(serviceQuestion(response.data));
+            let data = response.data;
+            data.loading = false;
+            dispatch(serviceQuestion(data));
         }).catch((error) => {
-            dispatch(serviceQuestion(error.response.data))
+            //handle error
+            let data = error?.response?.data;
+            data.loading = false;
+            dispatch(serviceQuestion(data))
         });
     } catch (error) {
-        dispatch(serviceQuestion({error: true, message: "Something went wrong!"}))
+        dispatch(serviceQuestion({ error: true, loading: true, message: "Something went wrong!" }))
     }
 };

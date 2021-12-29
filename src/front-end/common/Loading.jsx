@@ -10,6 +10,7 @@ const Loading = ({ loading = false }) => {
                 left: 0,
                 backgroundColor: "rgb(0, 0, 0)",
                 backgroundColor: "rgba(0, 0, 0, 0.7)",
+                cursor: "wait",
             }}
         >
             {loading && (

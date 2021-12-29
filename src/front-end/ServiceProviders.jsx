@@ -14,6 +14,7 @@ import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
 import "react-calendar/dist/Calendar.css";
 import Rating from "../components/Rating";
+import Loading from "./common/Loading";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
@@ -384,6 +385,12 @@ export const ServiceProviders = (props) => {
                     </div>
                 </div> */}
 
+            <Loading
+                loading={
+                    movingLoading == true ||
+                    (providerList?.error == false && providerList == undefined)
+                }
+            />
             <section className="service-provider-sec">
                 <div className="container">
                     <div className="row">

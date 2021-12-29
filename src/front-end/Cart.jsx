@@ -8,6 +8,7 @@ import {
 import { Product } from "../front-end/common/product";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loading from "./common/Loading";
 
 export const Cart = (props) => {
     const dispatch = useDispatch();
@@ -189,6 +190,7 @@ export const Cart = (props) => {
 
     return (
         <>
+            <Loading loading={cartLoading} />
             <div className="moving-help-sec pad-y m-0">
                 <div className="container">
                     <div className="row">
