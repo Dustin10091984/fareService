@@ -6,8 +6,9 @@ import './index.css';
 import { Provider } from 'react-redux';
 import store from './store'
 import "./firebaseInit";
+import LocalServiceWorkerRegister from './sw-register';
 require('dotenv').config();
-
+LocalServiceWorkerRegister();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

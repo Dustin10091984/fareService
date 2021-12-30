@@ -203,9 +203,9 @@ export const GroceryStore = (props) => {
                                     ) : (
                                         <>
                                             <div className="shop-serch-title mb-5">
-                                                Search Store
+                                                Popular Store
                                             </div>
-                                            <div className="input-box d-flex align-items-center">
+                                            {/* <div className="input-box d-flex align-items-center">
                                                 <div className="icon-div">
                                                     <svg
                                                         width="18"
@@ -232,7 +232,7 @@ export const GroceryStore = (props) => {
                                                 <button type="button">
                                                     Search
                                                 </button>
-                                            </div>
+                                            </div> */}
                                         </>
                                     )}
                                 </div>

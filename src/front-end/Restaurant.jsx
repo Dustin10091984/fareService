@@ -202,9 +202,9 @@ export const Restaurant = (props) => {
                                 <div className="shop-search d-flex align-items-center justify-content-center mx-auto">
                                     <div className="header-search d-flex align-items-center justify-content-center flex-column">
                                         <div className="shop-serch-title mb-5">
-                                            Search Restaurant
+                                            Popular Restaurants
                                         </div>
-                                        <form action="">
+                                        {/* <form action="">
                                             <div className="input-box d-flex align-items-center">
                                                 <div className="icon-div">
                                                     <svg
@@ -233,7 +233,7 @@ export const Restaurant = (props) => {
                                                     Search
                                                 </button>
                                             </div>
-                                        </form>
+                                        </form> */}
                                     </div>
                                 </div>
                             )}

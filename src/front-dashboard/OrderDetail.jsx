@@ -150,7 +150,11 @@ export const OrderDetail = (props) => {
                                                             Payment Method
                                                         </div>
                                                         <div className="order-title">
-                                                            {order?.data?.type}
+                                                            {order?.data
+                                                                ?.payment_type ==
+                                                            "CARD"
+                                                                ? "Card"
+                                                                : "Cash"}
                                                         </div>
                                                     </div>
                                                 </div>

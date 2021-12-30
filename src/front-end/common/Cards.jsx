@@ -41,8 +41,8 @@ const Card = ({
                             <div className="sub-title">{sub_title}</div>
                         )}
                         {price && <div className="price">{`$${price}`}</div>}
-                        {rating && <Rating rating={rating} />}
-                        {viewMenu && (
+                        {rating ? <Rating rating={rating} /> : ""}
+                        {viewMenu ? (
                             <div className="text-center">
                                 <button className="button-common">
                                     View Menu
@@ -51,6 +51,8 @@ const Card = ({
                                     Closed
                                 </button>
                             </div>
+                        ) : (
+                            ""
                         )}
                     </div>
                 </Link>
