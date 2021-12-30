@@ -148,6 +148,10 @@ const Header = (props) => {
                                     <ul className="nav-l d-flex">
                                         <li className="item-list">
                                             <Link to="/cart" className="link">
+                                                <i
+                                                    className="fa fa-shopping-cart"
+                                                    aria-hidden="true"
+                                                ></i>{" "}
                                                 Cart
                                             </Link>
                                             {/* <a href="#" className="link">
@@ -170,6 +174,10 @@ const Header = (props) => {
                                                         })
                                                     }
                                                 >
+                                                    <i
+                                                        className="fa fa-comments-o"
+                                                        aria-hidden="true"
+                                                    ></i>{" "}
                                                     Chat
                                                 </span>
                                             )}
