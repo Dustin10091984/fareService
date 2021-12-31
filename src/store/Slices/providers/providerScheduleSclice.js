@@ -18,7 +18,7 @@ const { getSchedule } = providerScheduleSlice.actions;
 
 export const getProviderSchedule = (id) => async dispatch => {
     try {
-        getSchedule({ error: false, loading: true });
+        dispatch(getSchedule({ error: false, loading: true }));
         await axios({
             method: 'get',
             headers: {

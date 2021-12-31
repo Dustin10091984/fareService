@@ -14,6 +14,7 @@ import { HOST, ProductType } from "../constants";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { addToCart } from "../store/Slices/cart/cartsSlice";
+import Loading from "./common/Loading";
 
 const ProductDetail = (props) => {
     const { location, match } = props;
@@ -69,6 +70,7 @@ const ProductDetail = (props) => {
     return (
         <>
             <section className="product-detail-sec">
+                <Loading loading={food?.loading || product?.loading} />
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 mx-auto">

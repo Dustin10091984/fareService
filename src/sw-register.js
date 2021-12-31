@@ -3,7 +3,7 @@ export default function LocalServiceWorkerRegister() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
             navigator.serviceWorker.register(swPath).then(registration => {
-                console.log('Service worker registered', registration);
+                // console.log('Service worker registered', registration);
             });
         });
     }

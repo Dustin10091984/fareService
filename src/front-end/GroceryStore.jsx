@@ -11,6 +11,7 @@ import {
 import { HOST, ProductType } from "../constants";
 import Rating from "./../components/Rating";
 import Paginate from "./../components/Paginate";
+import Loading from "./common/Loading";
 
 export const GroceryStore = (props) => {
     const { match, history, location } = props;
@@ -187,6 +188,11 @@ export const GroceryStore = (props) => {
                     backgroundImage: `url("/assets/img/bread-bg.jpg")`,
                 }}
             >
+                <Loading
+                    loading={
+                        groceryStoreLoading || productsLoading || list?.loading
+                    }
+                />
                 <div className="container">
                     <div className="row">
                         <div className="col-12">

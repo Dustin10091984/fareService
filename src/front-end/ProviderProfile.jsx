@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProviderProfile } from "../store/Slices/providers/ProviderProfileSclice";
 import { Link } from "react-router-dom";
 import Rating from "./../components/Rating";
+import Loading from "./common/Loading";
 export const ProviderProfile = (props) => {
     const { id } = props.match.params;
 
@@ -24,9 +25,13 @@ export const ProviderProfile = (props) => {
             }));
         }
     }, [providerProfile]);
+    console.log("====================================");
+    console.log(providerProfile?.loading);
+    console.log("====================================");
 
     return (
         <>
+            <Loading loading={providerProfile?.loading} />
             <section className="service-provider-sec ">
                 <div className="container">
                     <div className="row">

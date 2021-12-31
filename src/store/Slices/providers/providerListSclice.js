@@ -18,7 +18,7 @@ const { getProvider } = providerSlice.actions;
 
 export const getProviderList = (params) => async dispatch => {
     try {
-        getProvider({ error: false, loading: true });
+        dispatch(getProvider({ error: false, loading: true }));
         await axios({
             method: 'get',
             // headers: {

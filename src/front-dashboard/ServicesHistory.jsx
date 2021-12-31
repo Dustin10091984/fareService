@@ -215,6 +215,7 @@ export const ServicesHistory = (props) => {
     return (
         <>
             <div className="breadcrumb-dash">
+                <Loading loading={loading} />
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -247,7 +248,6 @@ export const ServicesHistory = (props) => {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="page-title">Services History</div>
-                            {loading && <Loading />}
                             {loading == false && error == true && message && (
                                 <div
                                     className="col-12  alert alert-danger text-center"
