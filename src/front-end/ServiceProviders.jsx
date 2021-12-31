@@ -301,8 +301,11 @@ export const ServiceProviders = (props) => {
                 formData.append("is_hourly", 0);
                 formData.append("address", address);
                 detail && formData.append("detail", detail);
-                state.images.length > 0 &&
-                    formData.append("images[]", state?.images);
+                if (state.images.length > 0) {
+                    for (const file of state?.images) {
+                        formData.append("images[]", file);
+                    }
+                }
                 formData.append(
                     "questions",
                     JSON.stringify(props.location.state)
@@ -1147,7 +1150,7 @@ export const ServiceProviders = (props) => {
                                                                 }}
                                                             >
                                                                 {
-                                                                    serviceRequest.message
+                                                                    "Service request sent successfully"
                                                                 }
                                                             </div>
                                                         );
@@ -1158,144 +1161,165 @@ export const ServiceProviders = (props) => {
                                                 }
                                             }
                                         })()}
-                                    <div
-                                        className="col-md-12 text-dark mb-2"
-                                        style={{ fontSize: 20 }}
-                                    >
-                                        Address
-                                    </div>
-                                    <div className="common-input">
-                                        <PlacesAutocomplete
-                                            value={state.address}
-                                            onChange={(address) =>
-                                                setState((state) => ({
-                                                    ...state,
-                                                    address,
-                                                }))
-                                            }
-                                            onSelect={handleAddressChange}
-                                        >
-                                            {({
-                                                getInputProps,
-                                                suggestions,
-                                                getSuggestionItemProps,
-                                                loading,
-                                            }) => (
-                                                <div>
-                                                    <input
-                                                        {...getInputProps({
-                                                            placeholder:
-                                                                "From ...",
-                                                            className:
-                                                                "location-search-input m-1",
-                                                        })}
-                                                    />
-                                                    <div className="autocomplete-dropdown-container">
-                                                        {loading && (
-                                                            <div>
-                                                                Loading...
-                                                            </div>
-                                                        )}
-                                                        {suggestions.map(
-                                                            (suggestion) => {
-                                                                const className =
-                                                                    suggestion.active
-                                                                        ? "suggestion-item--active"
-                                                                        : "suggestion-item";
-                                                                // inline style for demonstration purpose
-                                                                const style =
-                                                                    suggestion.active
-                                                                        ? {
-                                                                              backgroundColor:
-                                                                                  "#fafafa",
-                                                                              cursor: "pointer",
-                                                                              fontSize: 15,
-                                                                              margin: "5px",
-                                                                          }
-                                                                        : {
-                                                                              backgroundColor:
-                                                                                  "#ffffff",
-                                                                              cursor: "pointer",
-                                                                              fontSize: 15,
-                                                                              margin: "5px",
-                                                                          };
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            suggestion.index
-                                                                        }
-                                                                        {...getSuggestionItemProps(
-                                                                            suggestion,
-                                                                            {
-                                                                                className,
-                                                                                style,
-                                                                            }
-                                                                        )}
-                                                                    >
-                                                                        <span>
-                                                                            {
-                                                                                suggestion.description
-                                                                            }
-                                                                        </span>
+                                    {serviceRequest?.error == false &&
+                                    serviceRequest?.loading == false &&
+                                    serviceRequest.message ? (
+                                        ""
+                                    ) : (
+                                        <>
+                                            <div
+                                                className="col-md-12 text-dark mb-2"
+                                                style={{ fontSize: 20 }}
+                                            >
+                                                Address
+                                            </div>
+                                            <div className="common-input">
+                                                <PlacesAutocomplete
+                                                    value={state.address}
+                                                    onChange={(address) =>
+                                                        setState((state) => ({
+                                                            ...state,
+                                                            address,
+                                                        }))
+                                                    }
+                                                    onSelect={
+                                                        handleAddressChange
+                                                    }
+                                                >
+                                                    {({
+                                                        getInputProps,
+                                                        suggestions,
+                                                        getSuggestionItemProps,
+                                                        loading,
+                                                    }) => (
+                                                        <div>
+                                                            <input
+                                                                {...getInputProps(
+                                                                    {
+                                                                        placeholder:
+                                                                            "From ...",
+                                                                        className:
+                                                                            "location-search-input m-1",
+                                                                    }
+                                                                )}
+                                                            />
+                                                            <div className="autocomplete-dropdown-container">
+                                                                {loading && (
+                                                                    <div>
+                                                                        Loading...
                                                                     </div>
-                                                                );
-                                                            }
+                                                                )}
+                                                                {suggestions.map(
+                                                                    (
+                                                                        suggestion
+                                                                    ) => {
+                                                                        const className =
+                                                                            suggestion.active
+                                                                                ? "suggestion-item--active"
+                                                                                : "suggestion-item";
+                                                                        // inline style for demonstration purpose
+                                                                        const style =
+                                                                            suggestion.active
+                                                                                ? {
+                                                                                      backgroundColor:
+                                                                                          "#fafafa",
+                                                                                      cursor: "pointer",
+                                                                                      fontSize: 15,
+                                                                                      margin: "5px",
+                                                                                  }
+                                                                                : {
+                                                                                      backgroundColor:
+                                                                                          "#ffffff",
+                                                                                      cursor: "pointer",
+                                                                                      fontSize: 15,
+                                                                                      margin: "5px",
+                                                                                  };
+                                                                        return (
+                                                                            <div
+                                                                                key={
+                                                                                    suggestion.index
+                                                                                }
+                                                                                {...getSuggestionItemProps(
+                                                                                    suggestion,
+                                                                                    {
+                                                                                        className,
+                                                                                        style,
+                                                                                    }
+                                                                                )}
+                                                                            >
+                                                                                <span>
+                                                                                    {
+                                                                                        suggestion.description
+                                                                                    }
+                                                                                </span>
+                                                                            </div>
+                                                                        );
+                                                                    }
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </PlacesAutocomplete>
+                                                {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
+                                            </div>
+                                            {state.addressErr}
+                                            <div
+                                                className="col-md-12 text-dark mb-2"
+                                                style={{ fontSize: 20 }}
+                                            >
+                                                Details
+                                            </div>
+                                            <div className="common-input">
+                                                <textarea
+                                                    type="text"
+                                                    onChange={
+                                                        handleDetailChange
+                                                    }
+                                                    name="detail"
+                                                    value={detail}
+                                                    placeholder="please add some details..."
+                                                />
+                                            </div>
+                                            <div
+                                                className="col-md-12 text-danger mt-2"
+                                                style={{ fontSize: 15 }}
+                                            >
+                                                {detailErr}
+                                            </div>
+                                            <input
+                                                type="file"
+                                                accept=".jpeg,.png,.jpg,.svg"
+                                                name="images"
+                                                id="file"
+                                                className="inputfile"
+                                                onChange={handleImagesChange}
+                                                multiple={true}
+                                            />
+                                            <label htmlFor="file">
+                                                Choose Images
+                                            </label>
+                                            {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
+                                            <div className="text-center">
+                                                <div className="row">
+                                                    <div className="col-md-12 d-flex justify-content-around">
+                                                        {state?.previewImages.map(
+                                                            (image, index) => (
+                                                                <img
+                                                                    key={index}
+                                                                    src={image}
+                                                                    className="rounded col-md-4"
+                                                                    alt="..."
+                                                                    style={{
+                                                                        height: "27.5rem",
+                                                                    }}
+                                                                />
+                                                            )
                                                         )}
                                                     </div>
                                                 </div>
-                                            )}
-                                        </PlacesAutocomplete>
-                                        {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
-                                    </div>
-                                    {state.addressErr}
-                                    <div
-                                        className="col-md-12 text-dark mb-2"
-                                        style={{ fontSize: 20 }}
-                                    >
-                                        Details
-                                    </div>
-                                    <div className="common-input">
-                                        <textarea
-                                            type="text"
-                                            onChange={handleDetailChange}
-                                            name="detail"
-                                            value={detail}
-                                            placeholder="please add some details..."
-                                        />
-                                    </div>
-                                    <div
-                                        className="col-md-12 text-danger mt-2"
-                                        style={{ fontSize: 15 }}
-                                    >
-                                        {detailErr}
-                                    </div>
-                                    <input
-                                        type="file"
-                                        accept=".jpeg,.png,.jpg,.svg"
-                                        name="images[]"
-                                        id="file"
-                                        className="inputfile"
-                                        onChange={handleImagesChange}
-                                        multiple={true}
-                                    />
-                                    <label htmlFor="file">Choose Images</label>
-                                    {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
-                                    <div className="text-center">
-                                        <div className="row">
-                                            <div className="col-md-12 d-flex justify-content-around">
-                                                {state?.previewImages.map(
-                                                    (image, index) => (
-                                                        <img
-                                                            key={index}
-                                                            src={image}
-                                                            className="rounded col-md-4"
-                                                            alt="..."
-                                                        />
-                                                    )
-                                                )}
                                             </div>
-                                        </div>
-                                    </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
