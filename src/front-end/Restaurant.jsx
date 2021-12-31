@@ -10,6 +10,7 @@ import {
 import Rating from "../components/Rating";
 import { HOST, ProductType } from "../constants";
 import Paginate from "./../components/Paginate";
+import Loading from "./common/Loading";
 export const Restaurant = (props) => {
     /**
      * @location and @history get from props
@@ -189,8 +190,11 @@ export const Restaurant = (props) => {
         <>
             <div
                 className="breadcrumb-sec product-detail-bread d-flex align-items-center justify-content-center"
-                style={{ backgroundImage: `url("/assets/img/bread-bg.jpg")` }}
+                style={{ backgroundImage: `url("/assets/img/restaurant.jpg")` }}
             >
+                <Loading
+                    loading={restaurantLoading || foodsLoading || list?.loading}
+                />
                 <div className="container">
                     <div className="row">
                         <div className="col-12">

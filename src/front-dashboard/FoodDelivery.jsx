@@ -4,6 +4,7 @@ import { getOrderList } from "./../store/Slices/order/orderSlice";
 import Breadcrumb from "./../components/Breadcrumb";
 import OrderHistory from "./components/OrderHistory";
 import { ProductType } from "../constants";
+import Loading from "../front-end/common/Loading";
 
 export const FoodDelivery = (props) => {
     const [state, setState] = useState({});
@@ -24,6 +25,7 @@ export const FoodDelivery = (props) => {
     ];
     return (
         <>
+            <Loading loading={orderLoading} />
             {data && <Breadcrumb data={data} />}
             <OrderHistory
                 title={"Food Delivery"}
