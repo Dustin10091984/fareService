@@ -289,12 +289,15 @@ export const ServicesHistory = (props) => {
                                                                 />
                                                             );
                                                         }
-
+                                                        console.log(
+                                                            serviceRequest?.is_completed &&
+                                                                serviceRequest?.working_status ===
+                                                                    "ENDED"
+                                                        );
                                                         if (
-                                                            serviceRequest?.is_completed
-                                                            // &&
-                                                            // serviceRequest?.status ===
-                                                            //     "ENDED"
+                                                            serviceRequest?.is_completed &&
+                                                            serviceRequest?.working_status ===
+                                                                "ENDED"
                                                         ) {
                                                             return (
                                                                 <div

@@ -168,16 +168,7 @@ export const ServiceProviders = (props) => {
     }
 
     const handleCalendarClick = (selectedDate) => {
-        let date = new Date();
-
-        if (
-            new Date(
-                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-            ) <=
-            new Date(
-                `${selectedDate.getFullYear()}-${selectedDate.getMonth()}-${selectedDate.getDate()}`
-            )
-        ) {
+        if (selectedDate <= new Date(selectedDate)) {
             setValue(selectedDate);
             let timeSlots = providerSchedule?.data?.data.filter(
                 (slot) =>
@@ -1496,7 +1487,7 @@ export const ServiceProviders = (props) => {
                                                 }
                                             }
                                         })()}
-                                    {!movingError ||
+                                    {movingError == false ||
                                         (!movingMessage && (
                                             <GoogleMap
                                                 {...props}

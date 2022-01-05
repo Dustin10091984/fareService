@@ -147,7 +147,7 @@ function App() {
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
           <Route path='/product-delivery' component={ProductDelivery} />
-          <Route path='/service-detail' component={ServicesDetail} />
+          <Route path='/service-detail/:id' component={ServicesDetail} />
           <Route path='/change-password' component={ChangeP} />
           <Route path='/payment-card' component={PaymentCard} />
           <Redirect to="/not-found" />

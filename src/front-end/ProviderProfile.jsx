@@ -25,10 +25,6 @@ export const ProviderProfile = (props) => {
             }));
         }
     }, [providerProfile]);
-    console.log("====================================");
-    console.log(providerProfile?.loading);
-    console.log("====================================");
-
     return (
         <>
             <Loading loading={providerProfile?.loading} />
