@@ -19,6 +19,8 @@ import {
     Search,
     Conversation,
     ConversationHeader,
+    ArrowButton,
+    Button,
     VoiceCallButton,
     VideoCallButton,
     InfoButton,
@@ -33,6 +35,11 @@ export const Chat = ({ isChatOpen, ...props }) => {
     const image =
         "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
 
+    const [state, setState] = useState({
+        providers: null,
+        orders: null,
+        provider_id: null,
+    });
     const [messageInputValue, setMessageInputValue] = useState("");
     const [loadingMore, setLoadingMore] = useState(false);
     const [sending, setSending] = useState(false);
@@ -87,10 +94,21 @@ export const Chat = ({ isChatOpen, ...props }) => {
     const msgdata = useSelector((state) => state?.messageReducer?.data);
     const msgError = useSelector((state) => state?.messageReducer?.error);
     const msg = useSelector((state) => state?.messageReducer?.message);
-    // console.log(msgLoading,
-    // msgdata,
-    // msgError,
-    // msg, tempMsg);
+
+    useEffect(() => {
+        var resArr = [];
+        list?.filter((item) => {
+            var i = resArr.findIndex((x) => x.provider_id == item.provider_id);
+            if (i <= -1) {
+                resArr.push(item);
+            }
+            return null;
+        });
+        setState({ ...state, providers: resArr });
+    }, [list]);
+
+    // console.log(state);
+
     const handleClickChat = (data) => {
         setActive((active) => ({
             ...active,
@@ -154,105 +172,200 @@ export const Chat = ({ isChatOpen, ...props }) => {
                         >
                             <MainContainer responsive>
                                 <Sidebar position="left" scrollable={true}>
-                                    <Search placeholder="Search..." />
+                                    <div
+                                        className="text-center font-weight-bold"
+                                        style={{
+                                            backgroundColor: "#f6fbff",
+                                            borderBottom: "1px solid #e6e6e6",
+                                        }}
+                                    >
+                                        List
+                                    </div>
+                                    {/* <Search placeholder="Search..." /> */}
+                                    {state?.provider_id != null && (
+                                        <Button
+                                            className="mt-1 mb-2"
+                                            border
+                                            icon={
+                                                <i
+                                                    className="fa fa-arrow-left mr-1"
+                                                    aria-hidden="true"
+                                                >
+                                                    {" "}
+                                                </i>
+                                            }
+                                            labelPosition="right"
+                                            onClick={() => {
+                                                setState({
+                                                    ...state,
+                                                    provider_id: null,
+                                                });
+                                            }}
+                                        >
+                                            {" "}
+                                            Go Back
+                                        </Button>
+                                    )}
                                     <ConversationList loading={loading}>
-                                        {list?.map((serviceRequest, index) =>
-                                            serviceRequest?.provider?.id ==
-                                                active?.userId &&
-                                            serviceRequest?.id ==
-                                                active?.orderId ? (
-                                                <Conversation
-                                                    key={index}
-                                                    name={
+                                        {(() => {
+                                            if (state?.provider_id == null) {
+                                                return state?.providers?.map(
+                                                    (data, index) => (
+                                                        <Conversation
+                                                            key={index}
+                                                            name={`${data?.provider?.first_name} ${data?.provider?.last_name}`}
+                                                            // lastSenderName={
+                                                            //     data?.provider
+                                                            //         ?.last_name
+                                                            // }
+                                                            // info={"NAN"}
+                                                            onClick={() =>
+                                                                setState({
+                                                                    ...state,
+                                                                    provider_id:
+                                                                        data
+                                                                            ?.provider
+                                                                            ?.id,
+                                                                })
+                                                            }
+                                                        >
+                                                            <Avatar
+                                                                src={image}
+                                                                name="Lilly"
+                                                                // status="available"
+                                                            />
+                                                        </Conversation>
+                                                    )
+                                                );
+                                            }
+
+                                            return list?.map(
+                                                (serviceRequest, index) => {
+                                                    if (
                                                         serviceRequest?.provider
-                                                            ?.first_name
-                                                            ? `${serviceRequest?.provider?.first_name} Order #${serviceRequest.id}`
-                                                            : "NAN"
+                                                            ?.id ==
+                                                        state?.provider_id
+                                                    ) {
+                                                        return serviceRequest
+                                                            ?.provider?.id ==
+                                                            active?.userId &&
+                                                            serviceRequest?.id ==
+                                                                active?.orderId ? (
+                                                            <Conversation
+                                                                key={index}
+                                                                name={
+                                                                    serviceRequest
+                                                                        ?.provider
+                                                                        ?.first_name
+                                                                        ? `${
+                                                                              serviceRequest
+                                                                                  ?.provider
+                                                                                  ?.first_name ||
+                                                                              serviceRequest?.type
+                                                                          } Order #${
+                                                                              serviceRequest.id
+                                                                          }`
+                                                                        : "NAN"
+                                                                }
+                                                                lastSenderName={
+                                                                    serviceRequest
+                                                                        ?.provider
+                                                                        ?.first_name
+                                                                        ? serviceRequest
+                                                                              ?.provider
+                                                                              ?.first_name
+                                                                        : "NAN"
+                                                                }
+                                                                info={
+                                                                    serviceRequest
+                                                                        ?.message
+                                                                        ?.message
+                                                                        ? serviceRequest
+                                                                              ?.message
+                                                                              ?.message
+                                                                        : "NAN"
+                                                                }
+                                                                onClick={() =>
+                                                                    handleClickChat(
+                                                                        serviceRequest
+                                                                    )
+                                                                }
+                                                                active
+                                                            >
+                                                                <Avatar
+                                                                    src={
+                                                                        serviceRequest
+                                                                            ?.provider
+                                                                            ?.image
+                                                                            ? serviceRequest
+                                                                                  ?.provider
+                                                                                  ?.image
+                                                                            : image
+                                                                    }
+                                                                    name="Lilly"
+                                                                    // status="available"
+                                                                />
+                                                            </Conversation>
+                                                        ) : (
+                                                            <Conversation
+                                                                key={index}
+                                                                name={
+                                                                    serviceRequest
+                                                                        ?.provider
+                                                                        ?.first_name
+                                                                        ? `${
+                                                                              serviceRequest
+                                                                                  ?.provider
+                                                                                  ?.first_name ||
+                                                                              serviceRequest?.type
+                                                                          } Order #${
+                                                                              serviceRequest.id
+                                                                          }`
+                                                                        : "NAN"
+                                                                }
+                                                                lastSenderName={
+                                                                    serviceRequest
+                                                                        ?.provider
+                                                                        ?.first_name
+                                                                        ? serviceRequest
+                                                                              ?.provider
+                                                                              ?.first_name
+                                                                        : "NAN"
+                                                                }
+                                                                info={
+                                                                    serviceRequest
+                                                                        ?.message
+                                                                        ?.message
+                                                                        ? serviceRequest
+                                                                              ?.message
+                                                                              ?.message
+                                                                        : "NAN"
+                                                                }
+                                                                onClick={() =>
+                                                                    handleClickChat(
+                                                                        serviceRequest
+                                                                    )
+                                                                }
+                                                            >
+                                                                <Avatar
+                                                                    src={
+                                                                        serviceRequest
+                                                                            ?.provider
+                                                                            ?.image
+                                                                            ? serviceRequest
+                                                                                  ?.provider
+                                                                                  ?.image
+                                                                            : image
+                                                                    }
+                                                                    name="Lilly"
+                                                                    // status="available"
+                                                                />
+                                                            </Conversation>
+                                                        );
                                                     }
-                                                    lastSenderName={
-                                                        serviceRequest?.provider
-                                                            ?.first_name
-                                                            ? serviceRequest
-                                                                  ?.provider
-                                                                  ?.first_name
-                                                            : "NAN"
-                                                    }
-                                                    info={
-                                                        serviceRequest?.message
-                                                            ?.message
-                                                            ? serviceRequest
-                                                                  ?.message
-                                                                  ?.message
-                                                            : "NAN"
-                                                    }
-                                                    onClick={() =>
-                                                        handleClickChat(
-                                                            serviceRequest
-                                                        )
-                                                    }
-                                                    active
-                                                >
-                                                    <Avatar
-                                                        src={
-                                                            serviceRequest
-                                                                ?.provider
-                                                                ?.image
-                                                                ? serviceRequest
-                                                                      ?.provider
-                                                                      ?.image
-                                                                : image
-                                                        }
-                                                        name="Lilly"
-                                                        // status="available"
-                                                    />
-                                                </Conversation>
-                                            ) : (
-                                                <Conversation
-                                                    key={index}
-                                                    name={
-                                                        serviceRequest?.provider
-                                                            ?.first_name
-                                                            ? `${serviceRequest?.provider?.first_name} Order #${serviceRequest.id}`
-                                                            : "NAN"
-                                                    }
-                                                    lastSenderName={
-                                                        serviceRequest?.provider
-                                                            ?.first_name
-                                                            ? serviceRequest
-                                                                  ?.provider
-                                                                  ?.first_name
-                                                            : "NAN"
-                                                    }
-                                                    info={
-                                                        serviceRequest?.message
-                                                            ?.message
-                                                            ? serviceRequest
-                                                                  ?.message
-                                                                  ?.message
-                                                            : "NAN"
-                                                    }
-                                                    onClick={() =>
-                                                        handleClickChat(
-                                                            serviceRequest
-                                                        )
-                                                    }
-                                                >
-                                                    <Avatar
-                                                        src={
-                                                            serviceRequest
-                                                                ?.provider
-                                                                ?.image
-                                                                ? serviceRequest
-                                                                      ?.provider
-                                                                      ?.image
-                                                                : image
-                                                        }
-                                                        name="Lilly"
-                                                        // status="available"
-                                                    />
-                                                </Conversation>
-                                            )
-                                        )}
+                                                }
+                                            );
+                                        })()}
                                     </ConversationList>
                                 </Sidebar>
 
@@ -360,7 +473,9 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                     })()}
                                     <MessageInput
                                         placeholder={
-                                            sending && msgLoading
+                                            active?.is_completed == true
+                                                ? "Order Completed"
+                                                : sending && msgLoading
                                                 ? "Sending"
                                                 : "Type message here"
                                         }
