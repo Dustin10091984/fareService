@@ -103,7 +103,7 @@ const Header = (props) => {
                             <div className="header-logo">
                                 <Link to="/">
                                     {/* <img src="" alt=""/> */}
-                                    placelogo
+                                    FareNow
                                 </Link>
                             </div>
 
@@ -213,7 +213,7 @@ const Header = (props) => {
                                                     }}
                                                 >
                                                     <Link
-                                                        to="dashboard"
+                                                        to="/dashboard"
                                                         className=" dropdown-item"
                                                     >
                                                         <i
@@ -223,7 +223,7 @@ const Header = (props) => {
                                                         Dashboard
                                                     </Link>
                                                     <Link
-                                                        to="my-account"
+                                                        to="/my-account"
                                                         className=" dropdown-item"
                                                     >
                                                         <i

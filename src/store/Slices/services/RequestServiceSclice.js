@@ -10,13 +10,24 @@ const requestServiceSlice = createSlice({
         },
         serviceRequestList: (state, action) => {
             return action.payload
+        },
+        serviceRequestDetail: (state, action) => {
+            return {
+                ...state,
+                serviceRequestDetail: action.payload
+            }
         }
     },
 });
 export default requestServiceSlice.reducer
 
 
-const { requestService, serviceRequestList } = requestServiceSlice.actions
+const { requestService, serviceRequestList, serviceRequestDetail } = requestServiceSlice.actions
+
+const request = axios.create({
+    baseURL: process.env.REACT_APP_API_BASE_URL,
+    timeout: 30 * 1000,
+});
 
 /**
  * Create service request or get quotation
@@ -27,18 +38,18 @@ const { requestService, serviceRequestList } = requestServiceSlice.actions
  */
 export const postRequestService = (payload, formData) => async dispatch => {
     let headers = null
-    if(formData == true){
+    if (formData == true) {
         headers = {
             Authorization: `${localStorage.userToken}`,
             'Content-type': 'multipart/form-data',
         }
-    } else{
+    } else {
         headers = {
             Authorization: `${localStorage.userToken}`
         }
     }
     try {
-        dispatch(requestService({error: false, loading: true}));
+        dispatch(requestService({ error: false, loading: true }));
         await axios({
             method: 'post',
             headers: headers,
@@ -66,26 +77,54 @@ export const postRequestService = (payload, formData) => async dispatch => {
  */
 export const getServiceRequestList = (payload) => async dispatch => {
     try {
-        dispatch(serviceRequestList({list:{error: false, loading: true}}));
+        dispatch(serviceRequestList({ list: { error: false, loading: true } }));
         await axios({
             method: 'get',
-            headers:{
+            headers: {
                 Authorization: `${localStorage.userToken}`
             },
             url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/list?${payload}`,
         }).then((response) => {
             const data = response.data;
             data.loading = false
-            dispatch(requestService({list:data}));
+            dispatch(requestService({ list: data }));
         }).catch((error) => {
             const data = error.response.data;
             data.loading = false
-            dispatch(requestService({list:data}))
+            dispatch(requestService({ list: data }))
         });
     } catch (error) {
-        dispatch(requestService({list: { error: true, message: "Something went wrong!", loading: false }}))
+        dispatch(requestService({ list: { error: true, message: "Something went wrong!", loading: false } }));
     }
 };
+
+/**
+ * get service request
+ * @param {id} id
+ * @returns
+ */
+export const getServiceRequest = (id) => async dispatch => {
+    try {
+        dispatch(serviceRequestDetail({ error: false, loading: true }));
+        await axios({
+            method: 'get',
+            headers: {
+                Authorization: `${localStorage.userToken}`
+            },
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/service-request/${id}`,
+        }).then((response) => {
+            const data = response.data;
+            data.loading = false
+            dispatch(serviceRequestDetail(data));
+        }).catch((error) => {
+            const data = error.response.data;
+            data.loading = false
+            dispatch(serviceRequestDetail(data))
+        });
+    } catch (error) {
+        dispatch(requestService({ error: true, message: "Something went wrong!", loading: false }));
+    }
+}
 
 /**
  * Set initial state or requestservice
