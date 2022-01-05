@@ -73,7 +73,7 @@ export const Restaurant = (props) => {
             dispatch(getRestaurant(match.params.id));
             dispatch(getRestaurantFoods({ id: match.params.id }));
         } else {
-            dispatch(getRestaurants());
+            dispatch(getRestaurants({ params: "" }));
         }
     }, [match?.params?.id]);
 
@@ -208,7 +208,7 @@ export const Restaurant = (props) => {
                                         <div className="shop-serch-title mb-5">
                                             Popular Restaurants
                                         </div>
-                                        {/* <form action="">
+                                        <form action="">
                                             <div className="input-box d-flex align-items-center">
                                                 <div className="icon-div">
                                                     <svg
@@ -231,13 +231,29 @@ export const Restaurant = (props) => {
                                                 <input
                                                     type="text"
                                                     className="form-control"
-                                                    placeholder="Search for Products"
+                                                    placeholder="Search for Restaurants"
+                                                    onChange={(e) => {
+                                                        setState({
+                                                            ...state,
+                                                            search: `?${e.target.value}`,
+                                                        });
+                                                    }}
                                                 />
-                                                <button type="button">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        if (state?.search)
+                                                            dispatch(
+                                                                getRestaurants({
+                                                                    params: state?.search,
+                                                                })
+                                                            );
+                                                    }}
+                                                >
                                                     Search
                                                 </button>
                                             </div>
-                                        </form> */}
+                                        </form>
                                     </div>
                                 </div>
                             )}
