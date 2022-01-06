@@ -15,7 +15,7 @@ import Loading from "./common/Loading";
 
 export const GroceryStore = (props) => {
     const { match, history, location } = props;
-
+    const [state, setState] = useState({ search: "" });
     const dispatch = useDispatch();
 
     /**
@@ -68,9 +68,15 @@ export const GroceryStore = (props) => {
             dispatch(getGroceryStore(match.params.id));
             dispatch(getProducts({ id: match.params.id }));
         } else {
-            dispatch(getGroceryStores());
+            dispatch(getGroceryStores(""));
         }
     }, [match?.params?.id]);
+
+    const handleSearchClick = () => {
+        if (state.search) {
+            dispatch(getGroceryStores({ params: state.search }));
+        }
+    };
 
     const Worker = ({ productId }) => {
         return (() => {
@@ -211,7 +217,7 @@ export const GroceryStore = (props) => {
                                             <div className="shop-serch-title mb-5">
                                                 Popular Store
                                             </div>
-                                            {/* <div className="input-box d-flex align-items-center">
+                                            <div className="input-box d-flex align-items-center">
                                                 <div className="icon-div">
                                                     <svg
                                                         width="18"
@@ -233,12 +239,21 @@ export const GroceryStore = (props) => {
                                                 <input
                                                     type="text"
                                                     className="form-control"
-                                                    placeholder="Search for Products"
+                                                    placeholder="Search for grocery store"
+                                                    onChange={(e) => {
+                                                        setState({
+                                                            ...state,
+                                                            search: `?${e.target.value}`,
+                                                        });
+                                                    }}
                                                 />
-                                                <button type="button">
+                                                <button
+                                                    type="button"
+                                                    onClick={handleSearchClick}
+                                                >
                                                     Search
                                                 </button>
-                                            </div> */}
+                                            </div>
                                         </>
                                     )}
                                 </div>
@@ -362,7 +377,10 @@ export const GroceryStore = (props) => {
                                                     >
                                                         <ProductCard
                                                             props={props}
-                                                            product={product}
+                                                            product={{
+                                                                ...product,
+                                                                link: `/product-detail/${product.id}?type=${ProductType.GROCERY}`,
+                                                            }}
                                                         ></ProductCard>
                                                     </div>
                                                 )

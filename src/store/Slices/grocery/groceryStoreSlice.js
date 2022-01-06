@@ -40,8 +40,8 @@ export default groceryStoreSlice.reducer;
 
 export const { groceryStores, groceryStore, products, product } = groceryStoreSlice.actions;
 
-export const getGroceryStores = () => async dispatch => {
-    let url = `/api/grocery/list`;
+export const getGroceryStores = (payload) => async dispatch => {
+    let url = `/api/grocery/list?${payload}`;
     dispatch(helperAxios("get", url, groceryStores));
 }
 
