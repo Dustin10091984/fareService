@@ -19,9 +19,9 @@ export const Question = (props) => {
     });
     const [select, setSelect] = useState({});
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getServiceQuestion(subServiceId));
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getServiceQuestion(subServiceId));
+    // }, []);
 
     useEffect(() => {
         dispatch(getServiceQuestion(subServiceId));

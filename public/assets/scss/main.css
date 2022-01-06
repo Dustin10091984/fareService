@@ -953,13 +953,20 @@ body {
 }
 
 .product-card .prod-img {
-    width: 22.2rem;
-    height: 22rem;
+    width: 100%;
+    min-height: 13rem;
+    max-height: 13rem;
+    height: auto;
     overflow: hidden;
     border-radius: 2rem;
 }
 
 .product-card .prod-img img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
 }
@@ -1000,6 +1007,11 @@ body {
 }
 
 .product-card:hover .prod-img img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    max-width: 100%;
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
 }

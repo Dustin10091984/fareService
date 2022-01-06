@@ -156,7 +156,10 @@ export const Restaurant = (props) => {
                                         )}
                                         <Rating
                                             rating={
-                                                restaurantData?.user?.rating
+                                                foodId
+                                                    ? food?.rating
+                                                    : restaurantData?.user
+                                                          ?.rating
                                             }
                                         />
                                         {/* <div className="text-center">
@@ -373,7 +376,10 @@ export const Restaurant = (props) => {
                                                 >
                                                     <Food
                                                         props={props}
-                                                        food={food}
+                                                        food={{
+                                                            ...food,
+                                                            link: `/product-detail/${food.id}?type=${ProductType.FOOD}`,
+                                                        }}
                                                     ></Food>
                                                 </div>
                                             ))}

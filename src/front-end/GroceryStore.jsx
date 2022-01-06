@@ -377,7 +377,10 @@ export const GroceryStore = (props) => {
                                                     >
                                                         <ProductCard
                                                             props={props}
-                                                            product={product}
+                                                            product={{
+                                                                ...product,
+                                                                link: `/product-detail/${product.id}?type=${ProductType.GROCERY}`,
+                                                            }}
                                                         ></ProductCard>
                                                     </div>
                                                 )

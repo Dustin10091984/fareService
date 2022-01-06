@@ -37,11 +37,11 @@ const Card = ({
                     </div>
                     <div className="prod-detail">
                         <div className="title">{title}</div>
-                        {sub_title && (
-                            <div className="sub-title">{sub_title}</div>
-                        )}
+                        {/* {sub_title && ( */}
+                        <div className="sub-title">{sub_title}</div>
+                        {/* )} */}
                         {price && <div className="price">{`$${price}`}</div>}
-                        {rating ? <Rating rating={rating} /> : ""}
+                        {rating !== null ? <Rating rating={rating} /> : ""}
                         {viewMenu ? (
                             <div className="text-center">
                                 <button className="button-common">
@@ -64,13 +64,13 @@ const Card = ({
 export const Restaurant = ({ restaurant }) => {
     let data = {};
     data.link = `/restaurants/${restaurant.id}`;
-    data.image = restaurant?.image
-        ? HOST + restaurant?.image
+    data.image = restaurant?.profile_image
+        ? HOST + restaurant?.profile_image
         : "/assets/img/food.svg";
     data.errorImage = "/assets/img/food.svg";
     data.title = restaurant?.name !== null && restaurant?.name;
-    data.sub_title =
-        restaurant?.restaurant_type !== null && restaurant?.restaurant_type;
+    data.sub_title = (restaurant?.restaurant_type !== null &&
+        restaurant?.restaurant_type) || <span>&nbsp;</span>;
     data.rating = restaurant?.rating !== null && restaurant?.rating;
     data.viewMenu = true;
     return <Card {...data} />;
@@ -78,11 +78,13 @@ export const Restaurant = ({ restaurant }) => {
 
 export const Food = ({ food, props }) => {
     let data = {};
-    data.link = `/restaurants/${props?.match?.params?.id}/foods/${food.id}`;
+    data.link = food.link;
     data.image = food?.image ? HOST + food?.image : "/assets/img/food.svg";
     data.errorImage = "/assets/img/food.svg";
     data.title = food?.name !== null && food?.name;
-    data.sub_title = food !== null && food?.restaurant_type;
+    data.sub_title = (food !== null && food?.restaurant_type) || (
+        <span>&nbsp;</span>
+    );
     data.price = food?.price !== null && food?.price;
     data.rating = food?.rating !== null && food?.rating;
     return <Card {...data} />;
@@ -102,7 +104,7 @@ export const GroceryStoreCard = ({ groceryStore }) => {
 
 export const ProductCard = ({ product, props }) => {
     let data = {};
-    data.link = `/grocery-stores/${props?.match?.params?.id}/product/${product.id}`;
+    data.link = product.link;
     data.image = product?.image
         ? HOST + product?.image
         : "/assets/img/food.svg";
