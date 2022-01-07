@@ -11,6 +11,7 @@ import Rating from "../components/Rating";
 import { HOST, ProductType } from "../constants";
 import Paginate from "./../components/Paginate";
 import Loading from "./common/Loading";
+import { getCategoryList } from "../store/Slices/category";
 export const Restaurant = (props) => {
     /**
      * @location and @history get from props
@@ -19,7 +20,10 @@ export const Restaurant = (props) => {
     /**
      * @state is the state of the component
      */
-    const [state, setState] = useState();
+    const [state, setState] = useState({
+        search: "",
+        selectedCategory: ["10", "11"],
+    });
 
     /**
      * @dispatch is used to dispatch actions
@@ -64,18 +68,37 @@ export const Restaurant = (props) => {
     const foodsMsg = useSelector(
         (state) => state.restaurantsReducer?.foods?.message
     );
-
+    const categoryList = useSelector((state) => state.categoryReducer?.list);
     /**
      * @useEffect is used to call the action
      */
     useEffect(() => {
         if (match?.params?.id) {
             dispatch(getRestaurant(match.params.id));
-            dispatch(getRestaurantFoods({ id: match.params.id }));
+            dispatch(
+                getRestaurantFoods({
+                    id: match.params.id,
+                })
+            );
+            dispatch(getCategoryList("type=FOOD"));
         } else {
             dispatch(getRestaurants({ params: "" }));
         }
     }, [match?.params?.id]);
+
+    useEffect(() => {
+        if (state?.selectedCategory) {
+            dispatch(
+                getRestaurantFoods({
+                    id: match.params.id,
+                    params: `?${new URLSearchParams({
+                        category: state?.selectedCategory,
+                    }).toString()}`,
+                })
+            );
+            return;
+        }
+    }, [state?.selectedCategory]);
 
     const Worker = ({ foodId }) => {
         return (() => {
@@ -270,49 +293,119 @@ export const Restaurant = (props) => {
                     <div className="row">
                         <div className="col-md-3">
                             <div className="shop-left-box">
-                                <div className="title">Search Filters</div>
-
-                                <div className="filters-list">
-                                    <label className="filter-check">
-                                        North Indian
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        South Indian
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        American
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        Arabian
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        Bakers
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        Asian
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        African
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                </div>
+                                {match?.params?.id && (
+                                    <>
+                                        <div className="title">
+                                            Search Filters
+                                        </div>
+                                        <div className="filters-list">
+                                            {(() => {
+                                                if (
+                                                    categoryList?.data?.length >
+                                                    0
+                                                ) {
+                                                    return categoryList?.data?.map(
+                                                        (item, index) => (
+                                                            <label
+                                                                key={index}
+                                                                className="filter-check"
+                                                            >
+                                                                {item.name}
+                                                                <input
+                                                                    type="checkbox"
+                                                                    value={
+                                                                        item?.id
+                                                                    }
+                                                                    onChange={(
+                                                                        e
+                                                                    ) => {
+                                                                        const is_exsit =
+                                                                            state?.selectedCategory?.includes(
+                                                                                e
+                                                                                    .target
+                                                                                    .value
+                                                                            );
+                                                                        if (
+                                                                            is_exsit ==
+                                                                            false
+                                                                        ) {
+                                                                            setState(
+                                                                                {
+                                                                                    ...state,
+                                                                                    selectedCategory:
+                                                                                        [
+                                                                                            ...state?.selectedCategory,
+                                                                                            e
+                                                                                                .target
+                                                                                                .value,
+                                                                                        ],
+                                                                                }
+                                                                            );
+                                                                        } else {
+                                                                            setState(
+                                                                                {
+                                                                                    ...state,
+                                                                                    selectedCategory:
+                                                                                        state?.selectedCategory?.filter(
+                                                                                            (
+                                                                                                data
+                                                                                            ) =>
+                                                                                                data !=
+                                                                                                e
+                                                                                                    .target
+                                                                                                    .value
+                                                                                        ),
+                                                                                }
+                                                                            );
+                                                                        }
+                                                                    }}
+                                                                    checked={state?.selectedCategory?.includes(
+                                                                        "" +
+                                                                            item?.id
+                                                                    )}
+                                                                />
+                                                                <span className="checkmark"></span>
+                                                            </label>
+                                                        )
+                                                    );
+                                                }
+                                            })()}
+                                            {/* <label className="filter-check">
+                                                South Indian
+                                                <input type="checkbox" />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                            <label className="filter-check">
+                                                American
+                                                <input type="checkbox" />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                            <label className="filter-check">
+                                                Arabian
+                                                <input type="checkbox" />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                            <label className="filter-check">
+                                                Bakers
+                                                <input type="checkbox" />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                            <label className="filter-check">
+                                                Asian
+                                                <input type="checkbox" />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                            <label className="filter-check">
+                                                African
+                                                <input type="checkbox" />
+                                                <span className="checkmark"></span>
+                                            </label> */}
+                                        </div>
+                                    </>
+                                )}
                                 <div className="title mt-5 pt-5">
                                     Quick Filters
                                 </div>
-
                                 <div className="filters-list">
                                     <label className="filter-check">
                                         Non Veg
@@ -358,7 +451,7 @@ export const Restaurant = (props) => {
                                                 (restaurant, index) => (
                                                     <div
                                                         key={index}
-                                                        className="col-md-4 col-sm-6"
+                                                        className="col-md-6 col-sm-6"
                                                     >
                                                         <RestaurantCard
                                                             restaurant={
@@ -372,7 +465,7 @@ export const Restaurant = (props) => {
                                             foodsData?.map((food, index) => (
                                                 <div
                                                     key={index}
-                                                    className="col-md-4 col-sm-6"
+                                                    className="col-md-6 col-sm-6"
                                                 >
                                                     <Food
                                                         props={props}
