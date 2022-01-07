@@ -22,7 +22,8 @@ export const Restaurant = (props) => {
      */
     const [state, setState] = useState({
         search: "",
-        selectedCategory: ["10", "11"],
+        selectedCategory: [],
+        selectedType: [],
     });
 
     /**
@@ -87,18 +88,28 @@ export const Restaurant = (props) => {
     }, [match?.params?.id]);
 
     useEffect(() => {
-        if (state?.selectedCategory) {
+        if (match?.params?.id && state?.selectedCategory) {
             dispatch(
                 getRestaurantFoods({
                     id: match.params.id,
                     params: `?${new URLSearchParams({
-                        category: state?.selectedCategory,
+                        categories: state?.selectedCategory,
+                        restaurant_type: state?.selectedType,
                     }).toString()}`,
                 })
             );
             return;
         }
-    }, [state?.selectedCategory]);
+        if (match?.params?.id == undefined) {
+            dispatch(
+                getRestaurants({
+                    params: `?${new URLSearchParams({
+                        restaurant_type: state?.selectedType || "",
+                    }).toString()}`,
+                })
+            );
+        }
+    }, [state?.selectedCategory, state?.selectedType]);
 
     const Worker = ({ foodId }) => {
         return (() => {
@@ -370,36 +381,6 @@ export const Restaurant = (props) => {
                                                     );
                                                 }
                                             })()}
-                                            {/* <label className="filter-check">
-                                                South Indian
-                                                <input type="checkbox" />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                            <label className="filter-check">
-                                                American
-                                                <input type="checkbox" />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                            <label className="filter-check">
-                                                Arabian
-                                                <input type="checkbox" />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                            <label className="filter-check">
-                                                Bakers
-                                                <input type="checkbox" />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                            <label className="filter-check">
-                                                Asian
-                                                <input type="checkbox" />
-                                                <span className="checkmark"></span>
-                                            </label>
-                                            <label className="filter-check">
-                                                African
-                                                <input type="checkbox" />
-                                                <span className="checkmark"></span>
-                                            </label> */}
                                         </div>
                                     </>
                                 )}
@@ -407,21 +388,57 @@ export const Restaurant = (props) => {
                                     Quick Filters
                                 </div>
                                 <div className="filters-list">
-                                    <label className="filter-check">
-                                        Non Veg
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        Pure Veg
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
-                                    <label className="filter-check">
-                                        Free Delivery
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                    </label>
+                                    {(() => {
+                                        const type = [
+                                            { value: "VEG", title: "Pure Veg" },
+                                            {
+                                                value: "NON_VEG",
+                                                title: "Non Veg",
+                                            },
+                                            { value: "ALL", title: "All" },
+                                        ];
+
+                                        const handleChangeType = ({
+                                            target: { value },
+                                        }) => {
+                                            if (
+                                                !state?.selectedType?.includes(
+                                                    value
+                                                )
+                                            ) {
+                                                setState({
+                                                    ...state,
+                                                    selectedType: [
+                                                        ...state?.selectedType,
+                                                        value,
+                                                    ],
+                                                });
+                                            } else {
+                                                setState({
+                                                    ...state,
+                                                    selectedType:
+                                                        state?.selectedType?.filter(
+                                                            (data) =>
+                                                                data != value
+                                                        ),
+                                                });
+                                            }
+                                        };
+                                        return type.map((checkBox, index) => (
+                                            <label
+                                                className="filter-check"
+                                                key={index}
+                                            >
+                                                {checkBox.title}
+                                                <input
+                                                    type="checkbox"
+                                                    value={checkBox.value}
+                                                    onChange={handleChangeType}
+                                                />
+                                                <span className="checkmark"></span>
+                                            </label>
+                                        ));
+                                    })()}
                                 </div>
                             </div>
                         </div>
