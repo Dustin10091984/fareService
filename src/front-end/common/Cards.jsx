@@ -10,7 +10,7 @@ const Card = ({
     sub_title,
     price,
     rating,
-    viewMenu,
+    description,
 }) => {
     return (
         <>
@@ -25,39 +25,155 @@ const Card = ({
                         });
                     }}
                 >
-                    <div className="prod-img mx-auto">
+                    <div className="prod-img ">
                         <img
-                            className="col-12"
                             src={image}
                             alt=""
                             onError={(e) => {
                                 e.target.src = errorImage;
                             }}
-                        />
+                        ></img>
                     </div>
+                    <div className="prod-tag">{sub_title}</div>
                     <div className="prod-detail">
-                        <div className="title">{title}</div>
-                        {/* {sub_title && ( */}
-                        <div className="sub-title">{sub_title}</div>
-                        {/* )} */}
+                        <div className="title">
+                            {title}{" "}
+                            <i
+                                className="fa fa-star"
+                                aria-hidden="true"
+                                style={{
+                                    float: "right",
+                                    color: "gold",
+                                }}
+                            >
+                                <span className="text-dark">&nbsp;4.6/5</span>
+                            </i>
+                        </div>
+                        <div className="desc text-truncate">{description}</div>
                         {price && <div className="price">{`$${price}`}</div>}
-                        {rating !== null ? <Rating rating={rating} /> : ""}
-                        {viewMenu ? (
-                            <div className="text-center">
-                                <button className="button-common">
-                                    View Menu
-                                </button>
-                                <button className="button-common-2 d-none">
-                                    Closed
-                                </button>
-                            </div>
-                        ) : (
-                            ""
-                        )}
                     </div>
                 </Link>
             </div>
         </>
+    );
+};
+
+export const CheckOutCard = ({ id, image, title, price, quantity }) => {
+    return (
+        <div className="col-md-12 col-sm-12 col-xs-12 mb-4">
+            <div className="food-card d-flex">
+                <div className="col-md-4 col-sm-3 col-xs-3 food-img">
+                    <img
+                        style={{
+                            zIndex: "0",
+                        }}
+                        src={image}
+                        className="food-img align-self-center img-fluid"
+                    ></img>
+                </div>
+                <div className="col-md-8 col-sm-9 col-xs-9 d-flex justify-content-between">
+                    <i
+                        className="fa fa-times-circle-o"
+                        aria-hidden="true"
+                        style={{
+                            color: "#474747",
+                            cursor: "default",
+                            position: "absolute",
+                            fontSize: "2.5rem",
+                            top: "-1rem",
+                            right: "-1rem",
+                        }}
+                    ></i>
+                    <div className="align-self-start mt-3">
+                        <div className="align-self-start card-name">
+                            <div
+                                className="text-truncate"
+                                style={{
+                                    width: "19rem",
+                                }}
+                            >
+                                {title}
+                            </div>
+                        </div>
+                        <div className="">{price}</div>
+                        <div className="float-right">
+                            <span className="font-weight-bold">{quantity}</span>
+                            &nbsp;&nbsp;
+                            <i
+                                className="fa fa-minus"
+                                aria-hidden="true"
+                                style={{
+                                    cursor: "default",
+                                    color: "white",
+                                    backgroundColor: "blue",
+                                    borderRadius: "100%",
+                                    padding: ".4rem",
+                                    paddingLeft: ".5rem",
+                                    paddingRight: ".5rem",
+                                }}
+                            ></i>
+                            &nbsp;
+                            <i
+                                className="fa fa-plus"
+                                aria-hidden="true"
+                                style={{
+                                    cursor: "default",
+                                    color: "white",
+                                    backgroundColor: "#fea629",
+                                    borderRadius: "100%",
+                                    padding: ".4rem",
+                                    paddingLeft: ".5rem",
+                                    paddingRight: ".5rem",
+                                }}
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export const FoodCard = ({ food }) => {
+    return (
+        <div className="col-md-6 mb-4">
+            <div className="food-card d-flex">
+                <div className="col-md-8 d-flex justify-content-between">
+                    <div className="align-self-center">
+                        <div className="align-self-start card-name">Pizza</div>
+                        <div className="align-self-end card-description">
+                            kjsdhfjksdh
+                        </div>
+                        <div className="">$12</div>
+                    </div>
+                    <div className="align-self-end mb-3">
+                        <i
+                            className="fa fa-star"
+                            aria-hidden="true"
+                            style={{
+                                float: "right",
+                                color: "gold",
+                            }}
+                        >
+                            <span className="text-dark">&nbsp;4.6/5</span>
+                        </i>
+                    </div>
+                </div>
+                <div className="col-md-4 food-img">
+                    <img
+                        style={{
+                            zIndex: "0",
+                        }}
+                        src={"assets/img/shop-home.jpg"}
+                        className="food-img align-self-center img-fluid"
+                    ></img>
+                    {/* <i
+                        className="fa fa-plus-square fa-2x food-add-cart"
+                        aria-hidden="true"
+                    ></i> */}
+                </div>
+            </div>
+        </div>
     );
 };
 
@@ -72,7 +188,8 @@ export const Restaurant = ({ restaurant }) => {
     data.sub_title = (restaurant?.restaurant_type !== null &&
         restaurant?.restaurant_type) || <span>&nbsp;</span>;
     data.rating = restaurant?.rating !== null && restaurant?.rating;
-    data.viewMenu = true;
+    data.description = restaurant?.about || "";
+    data.viewMenu = false;
     return <Card {...data} />;
 };
 
