@@ -161,7 +161,7 @@ export const ProductCard = ({
 }) => {
     return (
         <div className="food-card d-flex">
-            <Link to={link}>
+            <Link to={link || ""}>
                 <div className="col-md-8 d-flex justify-content-between">
                     <div className="align-self-center">
                         <div
@@ -197,7 +197,7 @@ export const ProductCard = ({
                 </div>
             </Link>
             <div className="col-md-4 food-img">
-                <Link to={link}>
+                <Link to={link || ""}>
                     <img
                         style={{
                             zIndex: "0",

@@ -46,20 +46,20 @@ export const RestaurantPage = (props) => {
         }
         if (cart?.error && cart?.loading == false) {
             toast.dismiss(loading.current);
-            toast.error(cart?.message || "something went wrong");
+            toast.error(cart?.message || "Something went wrong");
         }
     }, [cart]);
 
     const handleAddToCart = (id) => {
         toast.dismiss(loading.current);
-        loading.current = toast.info("adding to cart", {
+        loading.current = toast.info("Adding to cart", {
             autoClose: false,
         });
         dispatch(addToCart({ food_id: id, quantity: 1 }));
     };
 
     return (
-        <div className="container-fluid ">
+        <div className="container-fluid">
             <Loading
                 loading={
                     restaurant?.loading || cartList?.loading || foods?.loading
