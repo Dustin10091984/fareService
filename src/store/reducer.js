@@ -15,6 +15,7 @@ import restaurantsSlice from "./Slices/restauransts/restaurantsSlice";
 import cartsSlice from "./Slices/cart/cartsSlice";
 import orderSlice from "./Slices/order/orderSlice";
 import groceryStoreSlice from "./Slices/grocery/groceryStoreSlice";
+import categorySlice from "./Slices/category/index";
 
 export default combineReducers({
     userReducer: userSclice,
@@ -33,4 +34,5 @@ export default combineReducers({
     groceryStoreReducer: groceryStoreSlice,
     cartsReducer: cartsSlice,
     orderReducer: orderSlice,
+    categoryReducer: categorySlice,
 });

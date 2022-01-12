@@ -18,6 +18,18 @@ const cartsSlice = createSlice({
             };
         },
         cart: (state, action) => {
+            if (action.payload.data) {
+                if (state?.list?.cart) {
+                    return {
+                        ...state,
+                        list: {
+                            ...state.list, cart: [action.payload.data, ...state.list.cart],
+                        },
+                        cart: action.payload
+                    }
+                }
+                getCartList();
+            }
             return {
                 ...state,
                 cart: action.payload

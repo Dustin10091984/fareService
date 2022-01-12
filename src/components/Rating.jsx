@@ -1,11 +1,12 @@
-const Rating = (props) => {
+const Rating = ({ isCenter, rating }) => {
     return (
         <div className="star-rating-area">
-            <div className={props?.isCenter !== false ? "star-rating-area d-flex align-items-center justify-content-center" : ""}>
-                <div
-                    className="rating-static clearfix mr-3"
-                    rel={props?.rating}
-                >
+            <div
+                className={`star-rating-area d-flex align-items-center justify-content-${
+                    isCenter !== false ? "center" : "start"
+                }`}
+            >
+                <div className="rating-static clearfix mr-3" rel={rating}>
                     <label
                         className="full"
                         title="{{ 'Awesome - 5 stars' | translate }}"
@@ -51,5 +52,5 @@ const Rating = (props) => {
             </div>
         </div>
     );
-}
+};
 export default Rating;

@@ -28,6 +28,8 @@ import { ProductDetail } from './front-end/ProductDetail';
 import { Gaurantee } from './front-end/Gaurantee';
 import { GroceryStore } from './front-end/GroceryStore';
 import { Restaurant } from './front-end/Restaurant';
+import { RestaurantPage } from './front-end/RestaurantPage';
+import { GroceryStorePage } from './front-end/GroceryStorePage';
 import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
 import { Services } from './front-end/Services';
@@ -134,12 +136,14 @@ function App() {
           <Route path='/apply' component={Apply} />
           <Route path='/product-detail/:id' component={ProductDetail} />
           <Route path='/gaurantee' component={Gaurantee} />
-          <Route path='/grocery-stores/:id/product/:productId' component={GroceryStore} />
+          {/* <Route path='/grocery-stores/:id/product/:productId' component={GroceryStore} /> */}
           <Route path='/grocery-stores/:id' component={GroceryStore} />
           <Route path='/grocery-stores' component={GroceryStore} />
-          <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} />
+          <Route path='/grocery-stores-page' component={GroceryStorePage} />
+          {/* <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} /> */}
           <Route path='/restaurants/:id' component={Restaurant} />
           <Route path='/restaurants' component={Restaurant} />
+          <Route path='/restaurant-page/:id' component={RestaurantPage} />
           <Route path='/food-details' component={FoodDetails} />
           <Route path='/services/:serviceId/:subServiceId' component={Services} />
           <Route path='/services' component={Services} />

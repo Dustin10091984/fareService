@@ -29,7 +29,7 @@ import {
     ExpansionPanel,
     Loader,
 } from "@chatscope/chat-ui-kit-react";
-import { Loading } from "../common/Loading";
+import moment from "moment";
 
 export const Chat = ({ isChatOpen, ...props }) => {
     const image =
@@ -218,7 +218,9 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                             //     data?.provider
                                                             //         ?.last_name
                                                             // }
-                                                            // info={"NAN"}
+                                                            info={moment(
+                                                                data?.create_at
+                                                            ).format("LLL")}
                                                             onClick={() =>
                                                                 setState({
                                                                     ...state,
