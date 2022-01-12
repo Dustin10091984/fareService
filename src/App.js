@@ -143,7 +143,7 @@ function App() {
           {/* <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} /> */}
           <Route path='/restaurants/:id' component={Restaurant} />
           <Route path='/restaurants' component={Restaurant} />
-          <Route path='/restaurant-page' component={RestaurantPage} />
+          <Route path='/restaurant-page/:id' component={RestaurantPage} />
           <Route path='/food-details' component={FoodDetails} />
           <Route path='/services/:serviceId/:subServiceId' component={Services} />
           <Route path='/services' component={Services} />

@@ -58,7 +58,16 @@ const Card = ({
     );
 };
 
-export const CheckOutCard = ({ id, image, title, price, quantity }) => {
+export const CheckOutCard = ({
+    id,
+    image,
+    title,
+    price,
+    quantity,
+    handlePlusClick,
+    handleMinusClick,
+    handleRemoveCartClick,
+}) => {
     return (
         <div className="col-md-12 col-sm-12 col-xs-12 mb-4">
             <div className="food-card d-flex">
@@ -69,6 +78,9 @@ export const CheckOutCard = ({ id, image, title, price, quantity }) => {
                         }}
                         src={image}
                         className="food-img align-self-center img-fluid"
+                        onError={(e) => {
+                            e.target.src = "/assets/img/food.svg";
+                        }}
                     ></img>
                 </div>
                 <div className="col-md-8 col-sm-9 col-xs-9 d-flex justify-content-between">
@@ -83,6 +95,7 @@ export const CheckOutCard = ({ id, image, title, price, quantity }) => {
                             top: "-1rem",
                             right: "-1rem",
                         }}
+                        onClick={handleRemoveCartClick}
                     ></i>
                     <div className="align-self-start mt-3">
                         <div className="align-self-start card-name">
@@ -111,6 +124,7 @@ export const CheckOutCard = ({ id, image, title, price, quantity }) => {
                                     paddingLeft: ".5rem",
                                     paddingRight: ".5rem",
                                 }}
+                                onClick={handleMinusClick}
                             ></i>
                             &nbsp;
                             <i
@@ -125,6 +139,7 @@ export const CheckOutCard = ({ id, image, title, price, quantity }) => {
                                     paddingLeft: ".5rem",
                                     paddingRight: ".5rem",
                                 }}
+                                onClick={handlePlusClick}
                             ></i>
                         </div>
                     </div>
@@ -134,17 +149,38 @@ export const CheckOutCard = ({ id, image, title, price, quantity }) => {
     );
 };
 
-export const FoodCard = ({ food }) => {
+export const ProductCard = ({
+    id,
+    title,
+    description,
+    price,
+    rating,
+    image,
+    link,
+    handleAddToCart,
+}) => {
     return (
-        <div className="col-md-6 mb-4">
-            <div className="food-card d-flex">
+        <div className="food-card d-flex">
+            <Link to={link}>
                 <div className="col-md-8 d-flex justify-content-between">
                     <div className="align-self-center">
-                        <div className="align-self-start card-name">Pizza</div>
-                        <div className="align-self-end card-description">
-                            kjsdhfjksdh
+                        <div
+                            className="align-self-start card-name d-inline-block text-truncate"
+                            style={{
+                                width: "15rem",
+                            }}
+                        >
+                            {title}
                         </div>
-                        <div className="">$12</div>
+                        <div
+                            className="align-self-end card-description d-inline-block text-truncate"
+                            style={{
+                                width: "11rem",
+                            }}
+                        >
+                            {description}
+                        </div>
+                        <div className="text-dark">{price}</div>
                     </div>
                     <div className="align-self-end mb-3">
                         <i
@@ -155,23 +191,32 @@ export const FoodCard = ({ food }) => {
                                 color: "gold",
                             }}
                         >
-                            <span className="text-dark">&nbsp;4.6/5</span>
+                            <span className="text-dark">&nbsp;{rating}/5</span>
                         </i>
                     </div>
                 </div>
-                <div className="col-md-4 food-img">
+            </Link>
+            <div className="col-md-4 food-img">
+                <Link to={link}>
                     <img
                         style={{
                             zIndex: "0",
                         }}
-                        src={"assets/img/shop-home.jpg"}
+                        src={`${HOST}${image}` || "/assets/img/shop-home.jpg"}
                         className="food-img align-self-center img-fluid"
+                        onError={(e) => {
+                            e.target.src = "/assets/img/shop-home.jpg";
+                        }}
                     ></img>
-                    {/* <i
-                        className="fa fa-plus-square fa-2x food-add-cart"
-                        aria-hidden="true"
-                    ></i> */}
-                </div>
+                </Link>
+                <i
+                    className="fa fa-plus-square fa-2x food-add-cart"
+                    aria-hidden="true"
+                    style={{
+                        cursor: "default",
+                    }}
+                    onClick={handleAddToCart}
+                ></i>
             </div>
         </div>
     );
@@ -179,7 +224,7 @@ export const FoodCard = ({ food }) => {
 
 export const Restaurant = ({ restaurant }) => {
     let data = {};
-    data.link = `/restaurants/${restaurant.id}`;
+    data.link = `/restaurant-page/${restaurant.id}`;
     data.image = restaurant?.profile_image
         ? HOST + restaurant?.profile_image
         : "/assets/img/food.svg";
@@ -219,16 +264,16 @@ export const GroceryStoreCard = ({ groceryStore }) => {
     return <Card {...data} />;
 };
 
-export const ProductCard = ({ product, props }) => {
-    let data = {};
-    data.link = product.link;
-    data.image = product?.image
-        ? HOST + product?.image
-        : "/assets/img/food.svg";
-    data.errorImage = "/assets/img/food.svg";
-    data.title = product?.name !== null && product?.name;
-    data.sub_title = product !== null && product?.restaurant_type;
-    data.price = product?.price !== null && product?.price;
-    data.rating = product?.rating !== null && product?.rating;
-    return <Card {...data} />;
-};
+// export const ProductCard = ({ product, props }) => {
+//     let data = {};
+//     data.link = product.link;
+//     data.image = product?.image
+//         ? HOST + product?.image
+//         : "/assets/img/food.svg";
+//     data.errorImage = "/assets/img/food.svg";
+//     data.title = product?.name !== null && product?.name;
+//     data.sub_title = product !== null && product?.restaurant_type;
+//     data.price = product?.price !== null && product?.price;
+//     data.rating = product?.rating !== null && product?.rating;
+//     return <Card {...data} />;
+// };

@@ -1,5 +1,5 @@
 import Rating from "./../components/Rating";
-import { FoodCard } from "./common/Cards";
+import { ProductCard } from "./common/Cards";
 import { Cart } from "./common/Cart";
 export const GroceryStorePage = (props) => {
     return (
@@ -34,8 +34,8 @@ export const GroceryStorePage = (props) => {
                                 </div>
                                 <div className="col-md-12 ">
                                     <div className="row mt-4">
-                                        <FoodCard />
-                                        <FoodCard />
+                                        <ProductCard />
+                                        <ProductCard />
                                     </div>
                                 </div>
                             </div>
