@@ -166,7 +166,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                     <div className="col-md-12">
                         <div
                             style={{
-                                height: "600px",
+                                height: "60vh",
                                 position: "relative",
                             }}
                         >

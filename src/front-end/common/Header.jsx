@@ -315,7 +315,7 @@ const Header = (props) => {
             </header>
 
             <div
-                className="modal fade bd-example-modal-xl"
+                className="modal fade bd-example-modal-lg"
                 id="chat"
                 tabIndex="-1"
                 role="dialog"
@@ -323,17 +323,17 @@ const Header = (props) => {
                 aria-hidden="true"
             >
                 <div
-                    className="modal-dialog modal-dialog-centered modal-xl"
+                    className="modal-dialog modal-dialog-centered modal-lg"
                     role="document"
                 >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5
-                                className="modal-title display-4"
+                            <h2
+                                className="modal-title"
                                 id="exampleModalLongTitle"
                             >
                                 Chat
-                            </h5>
+                            </h2>
                             <button
                                 type="button"
                                 className="close"
