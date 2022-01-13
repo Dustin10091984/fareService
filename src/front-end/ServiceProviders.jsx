@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Product } from "./common/product";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getProviderList } from "../store/Slices/providers/providerListSclice";
@@ -19,7 +18,7 @@ import Loading from "./common/Loading";
 export const ServiceProviders = (props) => {
     const { location, history } = props;
 
-    const [open, setOpen] = useState("");
+    const [open, setOpen] = useState(false);
 
     const [state, setState] = useState({
         is_loggedin: false,
@@ -29,6 +28,7 @@ export const ServiceProviders = (props) => {
         hours: "",
         address: "",
         addressErr: "",
+        phone: "",
         detail: "",
         images: [],
         previewImages: [],
@@ -367,9 +367,26 @@ export const ServiceProviders = (props) => {
 
     const handleMoreDetailChange = (e) => {
         const { name, value } = e.target;
+        if (name == "phone") {
+            let regex =
+                /^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$/;
+            if (regex.test(value)) {
+                setState({
+                    ...state,
+                    [`${name}Err`]: "",
+                });
+            } else {
+                setState({
+                    ...state,
+                    [`${name}Err`]:
+                        value == "" ? "Required" : "e.g. +923331234567",
+                });
+            }
+        }
         setState((state) => ({ ...state, [name]: value }));
     };
 
+    console.log(state.phone);
     return (
         <>
             {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
@@ -1363,22 +1380,23 @@ export const ServiceProviders = (props) => {
                 aria-hidden="true"
             >
                 <div
-                    className="modal-dialog modal-dialog-centered modal-lg"
+                    className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable"
                     role="document"
                 >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5
+                            <h3
                                 className="modal-title display-4"
                                 id="exampleModalLongTitle"
                             >
                                 Moving Request
-                            </h5>
+                            </h3>
                             <button
                                 type="button"
                                 className="close"
                                 data-dismiss="modal"
                                 aria-label="Close"
+                                onClick={handleCloseModalClick}
                             >
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -1496,6 +1514,7 @@ export const ServiceProviders = (props) => {
                                                     name: state?.name,
                                                     email: state?.email,
                                                     phone: state?.phone,
+                                                    phoneErr: state?.phoneErr,
                                                     detail: state?.detail,
                                                 }}
                                                 handleMoreDetailChange={
@@ -1543,6 +1562,8 @@ export const ServiceProviders = (props) => {
                                             start_lng === "" ||
                                             end_lat === "" ||
                                             end_lng === "" ||
+                                            state?.phone === "" ||
+                                            state?.phoneErr !== "" ||
                                             from_address === undefined ||
                                             to_address === undefined ||
                                             date === undefined ||
