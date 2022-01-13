@@ -1,12 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
 import moment from "moment";
 export const GoogleMap = (props) => {
     const [state, setstate] = useState(props.location.state);
+    const ref = useRef(null);
+    const [directionsService, setDirectionsService] = useState(null);
+    const [count, setCount] = useState(0);
 
-    const directionsService = new window.google.maps.DirectionsService();
     useEffect(() => {
-        if (state?.from_address && state?.to_address) {
+        return new Promise((resolve) => {
+            setDirectionsService(new window.google.maps.DirectionsService());
+            resolve();
+        });
+    }, []);
+
+    useEffect(async () => {
+        if ((count <= 1, props.open)) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    scrollToBottom();
+                    setCount(count + 1);
+                    if (count > 0) {
+                        resolve();
+                    }
+                }, 500);
+            });
+        }
+    }, [props.open]);
+
+    // useEffect(() => {
+    //     if (props.open == true) {
+    //         if (count <= 3) {
+    //             return new Promise((resolve) => {
+    //                 setTimeout(() => {
+    //                     console.log("count", count);
+    //                     scrollToBottom();
+    //                     setCount(count + 1);
+    //                     if (count > 3) {
+    //                         resolve();
+    //                     }
+    //                 }, 250);
+    //             });
+    //         }
+    //     }
+    // }, [props.open]);
+
+    useEffect(() => {
+        if (props.open == true) {
+            setCount(0);
+        }
+        if (state?.from_address && state?.to_address && directionsService) {
             directionsService.route(
                 {
                     origin: state?.from_address,
@@ -26,7 +69,7 @@ export const GoogleMap = (props) => {
     }, [props.open]);
 
     useEffect(() => {
-        if (state?.from_address && state?.to_address) {
+        if (state?.from_address && state?.to_address && directionsService) {
             directionsService.route(
                 {
                     origin: state?.from_address,
@@ -45,36 +88,52 @@ export const GoogleMap = (props) => {
         }
     }, [state?.from_address, state?.to_address]);
 
+    const scrollToBottom = async () => {
+        await ref.current?.scrollIntoView({
+            behavior: "smooth",
+            bottom: ref.current.scrollHeight,
+        });
+    };
+
     return (
         <>
-            <Map
-                // required
-                id="direction-example"
-                // required
-                mapContainerStyle={{
-                    height: "400px",
-                    width: "100%",
+            <div
+                className="row"
+                style={{
+                    height: "40rem",
                 }}
-                center={{
-                    lat: 0,
-                    lng: -180,
-                }}
-                // required
-                zoom={7}
             >
-                {state?.response !== null &&
-                    state?.response !== undefined &&
-                    state?.response !== "" &&
-                    state?.from_address &&
-                    state?.to_address && (
-                        <DirectionsRenderer
-                            // required
-                            options={{
-                                directions: state?.response,
-                            }}
-                        />
-                    )}
-            </Map>
+                <div className="col-md-12">
+                    <Map
+                        // required
+                        id="direction-example"
+                        // required
+                        mapContainerStyle={{
+                            height: "40rem",
+                            width: "100%",
+                        }}
+                        center={{
+                            lat: 0,
+                            lng: -180,
+                        }}
+                        // required
+                        zoom={7}
+                    >
+                        {state?.response !== null &&
+                            state?.response !== undefined &&
+                            state?.response !== "" &&
+                            state?.from_address &&
+                            state?.to_address && (
+                                <DirectionsRenderer
+                                    // required
+                                    options={{
+                                        directions: state?.response,
+                                    }}
+                                />
+                            )}
+                    </Map>
+                </div>
+            </div>
             <div
                 className="row mt-5 mb-5 m-1 pb-5"
                 style={{
@@ -181,15 +240,18 @@ export const GoogleMap = (props) => {
                             className="col-md-12 text-dark"
                             style={{ fontSize: "2rem" }}
                         >
-                            Phone
+                            Phone<strong className="text-danger">*</strong>
                         </div>
                         <input
-                            type="phone"
+                            type="tel"
                             name="phone"
-                            placeholder="PHone No"
+                            placeholder="Phone No e.g. +3211234567"
                             defaultValue={props.moreDetails?.phone}
                             onChange={props?.handleMoreDetailChange}
                         />
+                        <div className="text-danger">
+                            {props.moreDetails?.phoneErr}
+                        </div>
                     </div>
                     <div className="common-input pr-1">
                         <div
@@ -208,6 +270,7 @@ export const GoogleMap = (props) => {
                     </div>
                 </div>
             </div>
+            <div ref={ref} />
         </>
     );
 };

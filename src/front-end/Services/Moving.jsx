@@ -59,7 +59,7 @@ export const Moving = (props) => {
             [name]: value,
             selectedZipCode: false,
         }));
-        if (value.length < 3 || value.length > 12 || !re.test(value)) {
+        if (value.length < 2 || value.length > 12 || !re.test(value)) {
             setState((state) => ({
                 ...state,
                 zipCodeErr: (
@@ -267,6 +267,7 @@ export const Moving = (props) => {
                                 style={{ fontSize: "2rem" }}
                             >
                                 Moving From
+                                <strong className="text-danger">*</strong>
                             </div>
                             <div className="common-input p-1">
                                 <PlacesAutocomplete
@@ -352,6 +353,7 @@ export const Moving = (props) => {
                                 style={{ fontSize: "2rem" }}
                             >
                                 Moving To
+                                <strong className="text-danger">*</strong>
                             </div>
                             <div className="common-input pr-1">
                                 <PlacesAutocomplete
@@ -437,6 +439,7 @@ export const Moving = (props) => {
                                 style={{ fontSize: "2rem" }}
                             >
                                 Moving Date
+                                <strong className="text-danger">*</strong>
                             </div>
                             <div
                                 className="common-input pr-1"
@@ -468,6 +471,7 @@ export const Moving = (props) => {
                                 style={{ fontSize: "2rem" }}
                             >
                                 Zip Code
+                                <strong className="text-danger">*</strong>
                             </div>
                             <div className="common-input pr-1">
                                 <input

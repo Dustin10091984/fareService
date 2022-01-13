@@ -16,20 +16,14 @@ import {
     Avatar,
     ConversationList,
     Sidebar,
-    Search,
     Conversation,
     ConversationHeader,
-    ArrowButton,
     Button,
-    VoiceCallButton,
-    VideoCallButton,
     InfoButton,
-    TypingIndicator,
     MessageSeparator,
-    ExpansionPanel,
-    Loader,
 } from "@chatscope/chat-ui-kit-react";
 import moment from "moment";
+import { HOST } from "./../../constants";
 
 export const Chat = ({ isChatOpen, ...props }) => {
     const image =
@@ -166,7 +160,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                     <div className="col-md-12">
                         <div
                             style={{
-                                height: "600px",
+                                height: "60vh",
                                 position: "relative",
                             }}
                         >
@@ -299,9 +293,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                                         serviceRequest
                                                                             ?.provider
                                                                             ?.image
-                                                                            ? serviceRequest
-                                                                                  ?.provider
-                                                                                  ?.image
+                                                                            ? `${HOST}${serviceRequest?.provider?.image}`
                                                                             : image
                                                                     }
                                                                     name="Lilly"
@@ -354,9 +346,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                                         serviceRequest
                                                                             ?.provider
                                                                             ?.image
-                                                                            ? serviceRequest
-                                                                                  ?.provider
-                                                                                  ?.image
+                                                                            ? `${HOST}${serviceRequest?.provider?.image}`
                                                                             : image
                                                                     }
                                                                     name="Lilly"
@@ -377,7 +367,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                         <Avatar
                                             src={
                                                 active?.image
-                                                    ? active.image
+                                                    ? `${HOST}${active.image}`
                                                     : image
                                             }
                                             name={
