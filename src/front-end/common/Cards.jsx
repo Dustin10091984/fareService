@@ -34,7 +34,7 @@ const Card = ({
                             }}
                         ></img>
                     </div>
-                    <div className="prod-tag">{sub_title}</div>
+                    {sub_title && <div className="prod-tag">{sub_title}</div>}
                     <div className="prod-detail">
                         <div className="title">
                             {title}{" "}
@@ -254,13 +254,14 @@ export const Food = ({ food, props }) => {
 
 export const GroceryStoreCard = ({ groceryStore }) => {
     let data = {};
-    data.link = `/grocery-stores/${groceryStore.id}`;
+    data.link = `/grocery-stores-page/${groceryStore.id}`;
     data.image = groceryStore?.image
         ? HOST + groceryStore?.image
         : "/assets/img/food.svg";
     data.errorImage = "/assets/img/food.svg";
     data.title = groceryStore?.name !== null && groceryStore?.name;
     data.rating = groceryStore?.rating !== null && groceryStore?.rating;
+    data.description = groceryStore?.about || "";
     return <Card {...data} />;
 };
 

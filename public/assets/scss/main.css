@@ -2764,3 +2764,21 @@ hr {
 .swal2-popup.swal2-modal.swal2-show {
     font-size: 1.5rem;
 }
+
+.cart-card {
+    font-size: 1.5rem;
+    padding: 1rem;
+    cursor: pointer;
+    background: #ffffff;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.09);
+    border-radius: 0.8rem;
+    /* margin: 2rem 2rem 2rem 0; */
+}
+
+.cart-card:hover {
+    -webkit-box-shadow: 0 4px 8px rgba(254, 165, 41, 0.2);
+    box-shadow: 0 4px 8px rgba(254, 165, 41, 0.2);
+}

@@ -9,6 +9,7 @@ import { Product } from "../front-end/common/product";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "./common/Loading";
+import { HOST } from "../constants";
 
 export const Cart = (props) => {
     const dispatch = useDispatch();
@@ -202,6 +203,51 @@ export const Cart = (props) => {
                                 </div>
                             </div>
 
+                            {/* <div className="col-md-12 cart-card">
+                                    <div className="row">
+                                        <div className="col-md-4 col-sm-6 col-xs-6">
+                                            <div className="row">
+                                                <div className="col-md-12 text-center">
+                                                    <img
+                                                        src={
+                                                            "/assets/img/shop-home.jpg"
+                                                        }
+                                                        class="img-fluid"
+                                                        alt="..."
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-8 col-sm-6 col-xs-6">
+                                            <div className="row">
+                                                <div
+                                                    className="col-md-12 text-truncate"
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                        fontSize: "2rem",
+                                                    }}
+                                                >
+                                                    ksdjhfkjsdhfjksdhjkfsd
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12 text-truncate">
+                                                    ksdjhfkjsdhfjksdhjkfsd
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12 align-content-end">
+                                                    <div className=" float-right ">
+                                                        <span className="align-text-bottom">
+                                                            ksdjhfkjsdhfjksdhjkfsd
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> */}
+
                             <div className="row">
                                 <div className="col-md-12">
                                     <hr />
@@ -242,12 +288,16 @@ export const Cart = (props) => {
                                                             />
                                                             <div className="cart-img">
                                                                 <img
+                                                                    style={{
+                                                                        width: "16rem",
+                                                                        height: "16rem",
+                                                                    }}
                                                                     src={
                                                                         (food?.image &&
-                                                                            food.image) ||
+                                                                            `${HOST}${food.image}`) ||
                                                                         "/assets/img/cart-prod.jpg" ||
                                                                         (product?.image &&
-                                                                            product.image) ||
+                                                                            `${HOST}${product.image}`) ||
                                                                         "/assets/img/cart-prod.jpg"
                                                                     }
                                                                     className="img-fluid"
@@ -290,7 +340,95 @@ export const Cart = (props) => {
                                                                         "d-flex justify-content-center"
                                                                     }
                                                                 >
-                                                                    <div className="col-6">
+                                                                    <span className="font-weight-bold">
+                                                                        {(item?.id ==
+                                                                            state
+                                                                                ?.cart
+                                                                                ?.id &&
+                                                                            state
+                                                                                ?.cart
+                                                                                ?.quantity) ||
+                                                                            item?.quantity}
+                                                                    </span>
+                                                                    &nbsp;&nbsp;
+                                                                    <i
+                                                                        className="fa fa-minus"
+                                                                        aria-hidden="true"
+                                                                        style={{
+                                                                            cursor: "default",
+                                                                            color: "white",
+                                                                            backgroundColor:
+                                                                                "blue",
+                                                                            borderRadius:
+                                                                                "100%",
+                                                                            padding:
+                                                                                ".4rem",
+                                                                            paddingLeft:
+                                                                                ".6rem",
+                                                                            paddingRight:
+                                                                                ".6rem",
+                                                                            paddingTop:
+                                                                                ".6rem",
+                                                                        }}
+                                                                        onClick={() =>
+                                                                            handleMinusClick(
+                                                                                {
+                                                                                    id: item.id,
+                                                                                    quantity:
+                                                                                        item?.id ==
+                                                                                        state
+                                                                                            ?.cart
+                                                                                            ?.id
+                                                                                            ? state
+                                                                                                  ?.cart
+                                                                                                  ?.quantity
+                                                                                            : parseInt(
+                                                                                                  item.quantity
+                                                                                              ),
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    ></i>
+                                                                    &nbsp;
+                                                                    <i
+                                                                        className="fa fa-plus"
+                                                                        aria-hidden="true"
+                                                                        style={{
+                                                                            cursor: "default",
+                                                                            color: "white",
+                                                                            backgroundColor:
+                                                                                "#fea629",
+                                                                            borderRadius:
+                                                                                "100%",
+                                                                            padding:
+                                                                                ".4rem",
+                                                                            paddingLeft:
+                                                                                ".5rem",
+                                                                            paddingRight:
+                                                                                ".5rem",
+                                                                            paddingTop:
+                                                                                ".6rem",
+                                                                        }}
+                                                                        onClick={() =>
+                                                                            handlePlusClick(
+                                                                                {
+                                                                                    id: item.id,
+                                                                                    quantity:
+                                                                                        item?.id ==
+                                                                                        state
+                                                                                            ?.cart
+                                                                                            ?.id
+                                                                                            ? state
+                                                                                                  ?.cart
+                                                                                                  ?.quantity
+                                                                                            : parseInt(
+                                                                                                  item.quantity
+                                                                                              ),
+                                                                                }
+                                                                            )
+                                                                        }
+                                                                    ></i>
+                                                                    {/* <div className="col-6">
                                                                         <div className="input-group">
                                                                             <span className="input-group-btn">
                                                                                 <button
@@ -388,7 +526,7 @@ export const Cart = (props) => {
                                                                                 </button>
                                                                             </span>
                                                                         </div>
-                                                                    </div>
+                                                                    </div> */}
                                                                 </li>
                                                                 <li>
                                                                     $
@@ -417,7 +555,7 @@ export const Cart = (props) => {
                                                         }
                                                     >
                                                         <span
-                                                            className="m-3"
+                                                            className="mr-3"
                                                             style={{
                                                                 fontSize:
                                                                     "1.8rem",
@@ -457,11 +595,17 @@ export const Cart = (props) => {
                                     </div>
                                     <Link
                                         to="/food-grocery"
-                                        className="update-cart"
+                                        className="update-cart m-1"
                                     >
                                         Add More Product
                                     </Link>
-                                    <div className="email-check-out ml-auto d-flex align-items-center justify-content-end">
+                                    <Link
+                                        to="/food-grocery"
+                                        className="update-cart m-1"
+                                    >
+                                        Add More Product
+                                    </Link>
+                                    <div className="email-check-out ml-auto d-flex align-items-center justify-content-end mt-3">
                                         {/* <div className="common-input pr-5">
                                             <input
                                                 type="text"

@@ -24,6 +24,7 @@ const cartsSlice = createSlice({
                         ...state,
                         list: {
                             ...state.list, cart: [action.payload.data, ...state.list.cart],
+                            total_price: action.payload.total_price
                         },
                         cart: action.payload
                     }
@@ -51,6 +52,7 @@ const cartsSlice = createSlice({
                                 return item;
                             }),
                         ],
+                        total_price: action.payload.total_price
                     },
                     updateCart: action.payload
                 };
@@ -68,6 +70,7 @@ const cartsSlice = createSlice({
                         ...state.list, cart: [
                             ...state.list.cart.filter(item => item.id !== action.payload?.data?.id),
                         ],
+                        total_price: action.payload.total_price
                     },
                     deleteCart: action.payload
                 }
