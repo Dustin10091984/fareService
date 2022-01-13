@@ -188,21 +188,21 @@ export const GroceryStore = (props) => {
     };
     return (
         <>
-            <div
+            {/* <div
                 className="breadcrumb-sec d-flex align-items-center justify-content-center"
                 style={{
                     backgroundImage: `url("/assets/img/bread-bg.jpg")`,
                 }}
-            >
-                <Loading
-                    loading={
-                        groceryStoreLoading || productsLoading || list?.loading
-                    }
-                />
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="shop-search d-flex align-items-center justify-content-center mx-auto">
+            > */}
+            <Loading
+                loading={
+                    groceryStoreLoading || productsLoading || list?.loading
+                }
+            />
+            <div className="container">
+                <div className="row">
+                    <div className="col-12">
+                        {/* <div className="shop-search d-flex align-items-center justify-content-center mx-auto">
                                 <div className="header-search d-flex align-items-center justify-content-center flex-column">
                                     {match?.params?.id ? (
                                         <div className="shop-search prod-des-card d-flex align-items-center justify-content-center mx-auto">
@@ -257,11 +257,11 @@ export const GroceryStore = (props) => {
                                         </>
                                     )}
                                 </div>
-                            </div>
-                        </div>
+                            </div> */}
                     </div>
                 </div>
             </div>
+            {/* </div> */}
 
             <div className="shop-page pad-y">
                 <div className="container">

@@ -137,11 +137,11 @@ function App() {
           <Route path='/product-detail/:id' component={ProductDetail} />
           <Route path='/gaurantee' component={Gaurantee} />
           {/* <Route path='/grocery-stores/:id/product/:productId' component={GroceryStore} /> */}
-          <Route path='/grocery-stores/:id' component={GroceryStore} />
+          {/* <Route path='/grocery-stores/:id' component={GroceryStore} /> */}
           <Route path='/grocery-stores' component={GroceryStore} />
-          <Route path='/grocery-stores-page' component={GroceryStorePage} />
+          <Route path='/grocery-stores-page/:id' component={GroceryStorePage} />
           {/* <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} /> */}
-          <Route path='/restaurants/:id' component={Restaurant} />
+          {/* <Route path='/restaurants/:id' component={Restaurant} /> */}
           <Route path='/restaurants' component={Restaurant} />
           <Route path='/restaurant-page/:id' component={RestaurantPage} />
           <Route path='/food-details' component={FoodDetails} />

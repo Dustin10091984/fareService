@@ -6,6 +6,7 @@ import { deleteCart, updateQuantity } from "../../store/Slices/cart/cartsSlice";
 import { CheckOutCard } from "./Cards";
 import Swal from "sweetalert2";
 import Loading from "./Loading";
+import { Link } from "react-router-dom";
 
 export const Cart = ({ data }) => {
     const [state, setState] = useState({
@@ -234,17 +235,19 @@ export const Cart = ({ data }) => {
                         </div>
                         <hr className="mt-4" />
                     </div>
-                    <div className="col-8">Subtotal</div>
+                    {/* <div className="col-8">Subtotal</div>
                     <div className="col-4">
                         <span className=" float-right">35374</span>
-                    </div>
+                    </div> */}
                     <div className="col-8">Total</div>
                     <div className="col-4">
-                        <span className=" float-right">35374</span>
+                        <span className=" float-right">
+                            {`$${data?.total_price || "0"}`}
+                        </span>
                     </div>
                     <div className="col-md-12">
-                        <button
-                            disabled={true}
+                        <Link
+                            to="/payment"
                             className="btn-block"
                             style={{
                                 border: "none",
@@ -258,7 +261,7 @@ export const Cart = ({ data }) => {
                             }}
                         >
                             GO TO CHECKOUT
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
