@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Paginate from "../components/Paginate";
 import { ProductType } from "../constants";
 import { addToCart, getCartList } from "../store/Slices/cart/cartsSlice";
 import {
@@ -34,6 +35,12 @@ export const RestaurantPage = (props) => {
     );
 
     const foods = useSelector((state) => state.restaurantsReducer?.foods);
+
+    const foodsMeta = useSelector(
+        (state) => state.restaurantsReducer?.foods?.meta
+    );
+
+    console.log(foodsMeta);
 
     const cartList = useSelector((state) => state.cartsReducer?.list);
 
@@ -134,6 +141,23 @@ export const RestaurantPage = (props) => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className="row mt-5">
+                        <div className="col-12">
+                            {(() => {
+                                let data = {
+                                    current_page: 0,
+                                    total: 0,
+                                };
+                                if (match?.params?.id && foodsMeta) {
+                                    data.id = match?.params?.id;
+                                    data.last_page = foodsMeta?.last_page;
+                                    data.current_page = foodsMeta?.current_page;
+                                    data.func = getRestaurantFoods;
+                                    return <Paginate {...data} />;
+                                }
+                            })()}
                         </div>
                     </div>
                 </div>
