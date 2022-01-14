@@ -266,7 +266,7 @@ export const GroceryStore = (props) => {
             <div className="shop-page pad-y">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                             <div className="shop-left-box">
                                 <div className="title">Search Filters</div>
 
@@ -335,8 +335,8 @@ export const GroceryStore = (props) => {
                                     </label>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-9">
+                        </div> */}
+                        <div className="col-md-12">
                             <div className="row">
                                 <div className="col-12">
                                     <div className="shop-left-box">
@@ -388,8 +388,8 @@ export const GroceryStore = (props) => {
                                     </>
                                 )}
                             </div>
-                            <div className="row">
-                                <div className="col-12 m-5 d-flex justify-content-center">
+                            <div className="row mt-5 mb-5">
+                                <div className="col-12">
                                     {(() => {
                                         let data = {
                                             current_page: 0,

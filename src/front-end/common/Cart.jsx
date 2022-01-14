@@ -247,8 +247,8 @@ export const Cart = ({ data }) => {
                     </div>
                     <div className="col-md-12">
                         <Link
-                            to="/payment"
-                            className="btn-block"
+                            to="/cart"
+                            className=" btn btn-block"
                             style={{
                                 border: "none",
                                 padding: "1.5rem",
