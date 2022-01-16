@@ -276,12 +276,18 @@ export const ServicesHistory = (props) => {
                                                 >
                                                     <div className="row">
                                                         <div className="col-md-8 order-des-b">
-                                                            <div className="font-weight-bold">
+                                                            <Link
+                                                                to={`service-detail/${serviceRequest.id}`}
+                                                                className="font-weight-bold"
+                                                                style={{
+                                                                    color: "#000",
+                                                                }}
+                                                            >
                                                                 Service#
                                                                 {
                                                                     serviceRequest.id
                                                                 }
-                                                            </div>
+                                                            </Link>
                                                             <div className="order-time">
                                                                 {moment().format(
                                                                     "ddd, MM Do YYYY, h:mm:ss a"
