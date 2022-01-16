@@ -75,7 +75,7 @@ export const postRequestService = (payload, formData) => async dispatch => {
  * @param {search query} payload 
  * @returns 
  */
-export const getServiceRequestList = (payload) => async dispatch => {
+export const getServiceRequestList = ({ params }) => async dispatch => {
     try {
         dispatch(serviceRequestList({ list: { error: false, loading: true } }));
         await axios({
@@ -83,7 +83,7 @@ export const getServiceRequestList = (payload) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/list?${payload}`,
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/list?${params}`,
         }).then((response) => {
             const data = response.data;
             data.loading = false

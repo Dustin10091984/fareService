@@ -35,7 +35,7 @@ const Paginate = ({ current_page, last_page, id, func, params }) => {
             <ReactPaginate
                 previousLabel={"← Previous"}
                 nextLabel={"Next →"}
-                onClick={handlePageClick}
+                // onClick={handlePageClick}
                 onPageChange={handlePageClick}
                 pageCount={state.last_page}
                 pageRangeDisplayed={1}
