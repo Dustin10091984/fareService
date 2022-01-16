@@ -2,7 +2,11 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Paginate from "../components/Paginate";
-import { addToCart, getCartList } from "../store/Slices/cart/cartsSlice";
+import {
+    addToCart,
+    clearCartState,
+    getCartList,
+} from "../store/Slices/cart/cartsSlice";
 import {
     getGroceryStore,
     getProducts,
@@ -13,7 +17,17 @@ import { Cart } from "./common/Cart";
 export const GroceryStorePage = (props) => {
     const { match, location } = props;
     const dispatch = useDispatch();
-    const loading = useRef(null);
+    const loading = useRef("loading");
+    const success = useRef("success");
+    const error = useRef("error");
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearCartState("updateCart"));
+            dispatch(clearCartState("cart"));
+            dispatch(clearCartState("deleteCart"));
+        };
+    }, []);
 
     useEffect(() => {
         if (match?.params?.id) {
@@ -44,11 +58,15 @@ export const GroceryStorePage = (props) => {
     useEffect(() => {
         if (cart?.error == false && cart?.data) {
             toast.dismiss(loading.current);
-            toast.success(cart?.message || "Added to cart");
+            toast.success(cart?.message || "Added to cart", {
+                toastId: success.current,
+            });
         }
         if (cart?.error && cart?.loading == false) {
             toast.dismiss(loading.current);
-            toast.error(cart?.message || "Something went wrong");
+            toast.error(cart?.message || "Something went wrong", {
+                toastId: error.current,
+            });
         }
     }, [cart]);
 
@@ -56,6 +74,7 @@ export const GroceryStorePage = (props) => {
         toast.dismiss(loading.current);
         loading.current = toast.info("Adding to cart", {
             autoClose: false,
+            toastId: loading.current,
         });
         dispatch(addToCart({ product_id: id, quantity: 1 }));
     };
@@ -133,8 +152,8 @@ export const GroceryStorePage = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-12 mt-5">
+                    <div className="row mt-5">
+                        <div className="col-12 ">
                             {(() => {
                                 let data = {
                                     current_page: 0,

@@ -79,12 +79,19 @@ const cartsSlice = createSlice({
                 ...state,
                 deleteCart: action.payload
             }
+        },
+        clearCartState: (state, action) => {
+            return {
+                ...state,
+                [action.payload]: ''
+            }
         }
     },
 });
 export default cartsSlice.reducer;
 
 const { cartList, updateCart, cart, remove } = cartsSlice.actions;
+export const { clearCartState } = cartsSlice.actions;
 
 const url = `/api/user/cart`;
 

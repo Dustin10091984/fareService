@@ -340,7 +340,7 @@ const Header = (props) => {
                                 data-dismiss="modal"
                                 aria-label="Close"
                                 onClick={() =>
-                                    setState({ ...state, isChatOpen: true })
+                                    setState({ ...state, isChatOpen: false })
                                 }
                             >
                                 <span

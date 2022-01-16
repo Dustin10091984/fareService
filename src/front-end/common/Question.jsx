@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getServiceQuestion } from "../../store/Slices/services/ServiceSclice";
 import axios from "axios";
 import Loading from "./Loading";
+import { HOST } from "../../constants";
 
 export const Question = (props) => {
     const { serviceId, subServiceId } = props;
@@ -155,10 +156,7 @@ export const Question = (props) => {
             setState((state) => ({ ...state, zipCodeErr: "" }));
             axios({
                 method: "get",
-                url:
-                    process.env.REACT_APP_API_BASE_URL +
-                    "/api/user/services/zip-code?zipCode=" +
-                    value,
+                url: HOST + "/api/user/services/zip-code?zipCode=" + value,
             })
                 .then(function (response) {
                     setState((state) => ({

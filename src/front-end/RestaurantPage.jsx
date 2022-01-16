@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Paginate from "../components/Paginate";
 import { ProductType } from "../constants";
-import { addToCart, getCartList } from "../store/Slices/cart/cartsSlice";
+import {
+    addToCart,
+    getCartList,
+    clearCartState,
+} from "../store/Slices/cart/cartsSlice";
 import {
     getRestaurant,
     getRestaurantFoods,
@@ -16,7 +20,17 @@ import Loading from "./common/Loading";
 export const RestaurantPage = (props) => {
     const { match, location } = props;
     const dispatch = useDispatch();
-    const loading = useRef(null);
+    const loading = useRef("loading");
+    const success = useRef("success");
+    const error = useRef("error");
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearCartState("updateCart"));
+            dispatch(clearCartState("cart"));
+            dispatch(clearCartState("deleteCart"));
+        };
+    }, []);
 
     useEffect(() => {
         if (match?.params?.id) {
@@ -40,8 +54,6 @@ export const RestaurantPage = (props) => {
         (state) => state.restaurantsReducer?.foods?.meta
     );
 
-    console.log(foodsMeta);
-
     const cartList = useSelector((state) => state.cartsReducer?.list);
 
     const cart = useSelector((state) => state.cartsReducer?.cart);
@@ -49,17 +61,25 @@ export const RestaurantPage = (props) => {
     useEffect(() => {
         if (cart?.error == false && cart?.data) {
             toast.dismiss(loading.current);
-            toast.success(cart?.message || "Added to cart");
+            success.current = toast.success(cart?.message || "Added to cart", {
+                toastId: success.current,
+            });
         }
         if (cart?.error && cart?.loading == false) {
             toast.dismiss(loading.current);
-            toast.error(cart?.message || "Something went wrong");
+            error.current = toast.error(
+                cart?.message || "Something went wrong",
+                {
+                    toastId: error.current,
+                }
+            );
         }
     }, [cart]);
 
     const handleAddToCart = (id) => {
         toast.dismiss(loading.current);
         loading.current = toast.info("Adding to cart", {
+            toastId: loading.current,
             autoClose: false,
         });
         dispatch(addToCart({ food_id: id, quantity: 1 }));

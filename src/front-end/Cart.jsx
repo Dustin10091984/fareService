@@ -4,12 +4,14 @@ import {
     getCartList,
     updateQuantity,
     deleteCart,
+    clearCartState,
 } from "../store/Slices/cart/cartsSlice";
 import { Product } from "../front-end/common/product";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "./common/Loading";
 import { HOST } from "../constants";
+import Swal from "sweetalert2";
 
 export const Cart = (props) => {
     const dispatch = useDispatch();
@@ -24,6 +26,10 @@ export const Cart = (props) => {
     });
     useEffect(() => {
         dispatch(getCartList()); // get cart list
+        return () => {
+            dispatch(clearCartState("deleteCart"));
+            dispatch(clearCartState("updateCart"));
+        };
     }, []);
 
     const loading = useRef(null);
@@ -67,16 +73,22 @@ export const Cart = (props) => {
         deleteCartLoading &&
             (loading.current = toast.info("Removing from cart...", {
                 autoClose: false,
+                toastId: loading.current,
             }));
         deleteCartLoading == false && toast.dismiss(loading.current);
-        deleteCartError && toast.error(deleteCartMessage);
-        deleteCartError == false && toast.success(deleteCartMessage);
+        deleteCartError && Swal.fire("Deleted!", deleteCartMessage, "error");
+        deleteCartError == false &&
+            Swal.fire("Deleted!", deleteCartMessage, "success");
+        return () => {
+            dispatch(clearCartState("deleteCart"));
+        };
     }, [deleteCartLoading]);
 
     useEffect(() => {
         cartLoading &&
             (loading.current = toast.info("Loading...", {
                 autoClose: false,
+                toastId: loading.current,
             }));
         cartLoading == false && toast.dismiss(loading.current);
     }, [cartLoading]);
@@ -94,7 +106,9 @@ export const Cart = (props) => {
                 updateCartError == false &&
                 updateCartMessage &&
                 state.wait !== null &&
-                (successRef.current = toast.success(updateCartMessage));
+                (successRef.current = toast.success(updateCartMessage, {
+                    toastId: successRef.current,
+                }));
         }
     }, [updateCartMessage]);
 
@@ -121,7 +135,7 @@ export const Cart = (props) => {
     };
 
     const handleMinusClick = (data) => {
-        if (data.quantity > 1)
+        if (data.quantity > 1) {
             setState({
                 ...state,
                 cart: {
@@ -130,19 +144,21 @@ export const Cart = (props) => {
                     quantity: data.quantity - 1,
                 },
             });
-        if (state.wait === false || state.wait === null) {
-            loading.current = toast.info("Loading...", {
-                autoClose: false,
-            });
-            const ONE_SECOND = 1000;
-            sleep(ONE_SECOND).then(() => {
-                setState((state) => ({ ...state, wait: false }));
-            });
+            if (state.wait === false || state.wait === null) {
+                loading.current = toast.info("Loading...", {
+                    autoClose: false,
+                    toastId: loading.current,
+                });
+                const ONE_SECOND = 1000;
+                sleep(ONE_SECOND).then(() => {
+                    setState((state) => ({ ...state, wait: false }));
+                });
+            }
         }
     };
 
     const handlePlusClick = (data) => {
-        if (data.quantity < 100)
+        if (data.quantity < 100) {
             setState({
                 ...state,
                 cart: {
@@ -151,13 +167,15 @@ export const Cart = (props) => {
                     quantity: data.quantity + 1,
                 },
             });
-        if (state.wait === false || state.wait === null) {
-            loading.current = toast.info("Loading...", {
-                autoClose: false,
-            });
-            sleep(2000).then(() => {
-                setState((state) => ({ ...state, wait: false }));
-            });
+            if (state.wait === false || state.wait === null) {
+                loading.current = toast.info("Loading...", {
+                    autoClose: false,
+                    toastId: loading.current,
+                });
+                sleep(2000).then(() => {
+                    setState((state) => ({ ...state, wait: false }));
+                });
+            }
         }
     };
 
@@ -538,20 +556,40 @@ export const Cart = (props) => {
                                                         </div>
                                                     </div>
                                                     <span
-                                                        data-backdrop="static"
-                                                        data-keyboard="false"
-                                                        data-toggle="modal"
-                                                        data-target="#date"
+                                                        // data-backdrop="static"
+                                                        // data-keyboard="false"
+                                                        // data-toggle="modal"
+                                                        // data-target="#date"
                                                         style={{
                                                             color: "#ff0000",
                                                             float: "right",
                                                             cursor: "pointer",
                                                         }}
                                                         onClick={() =>
-                                                            setState({
-                                                                ...state,
-                                                                cartId: item.id,
-                                                            })
+                                                            Swal.fire({
+                                                                title: "Are you sure?",
+                                                                text: "You won't be able to revert this!",
+                                                                icon: "warning",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor:
+                                                                    "#3085d6",
+                                                                cancelButtonColor:
+                                                                    "#d33",
+                                                                confirmButtonText:
+                                                                    "Yes, delete it!",
+                                                            }).then(
+                                                                (result) => {
+                                                                    if (
+                                                                        result.isConfirmed
+                                                                    ) {
+                                                                        dispatch(
+                                                                            deleteCart(
+                                                                                item.id
+                                                                            )
+                                                                        );
+                                                                    }
+                                                                }
+                                                            )
                                                         }
                                                     >
                                                         <span
@@ -594,13 +632,13 @@ export const Cart = (props) => {
                                         })()}`}
                                     </div>
                                     <Link
-                                        to="/food-grocery"
+                                        to="/restaurants"
                                         className="update-cart m-1"
                                     >
-                                        Add More Product
+                                        Add More Foods
                                     </Link>
                                     <Link
-                                        to="/food-grocery"
+                                        to="/grocery-stores"
                                         className="update-cart m-1"
                                     >
                                         Add More Product

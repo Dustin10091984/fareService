@@ -62,6 +62,12 @@ export const Chat = ({ isChatOpen, ...props }) => {
 
     useEffect(() => {
         if (isChatOpen == true) {
+            setState({
+                providers: null,
+                orders: null,
+                provider_id: null,
+            });
+            setActive();
             dispatch(chatList());
         }
     }, [isChatOpen]);
@@ -194,6 +200,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                     ...state,
                                                     provider_id: null,
                                                 });
+                                                setActive();
                                             }}
                                         >
                                             {" "}
@@ -226,7 +233,19 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                             }
                                                         >
                                                             <Avatar
-                                                                src={image}
+                                                                src={
+                                                                    (data
+                                                                        ?.provider
+                                                                        ?.image &&
+                                                                        `${HOST}${data?.provider?.image}`) ||
+                                                                    image
+                                                                }
+                                                                onError={(
+                                                                    e
+                                                                ) => {
+                                                                    e.target.src =
+                                                                        image;
+                                                                }}
                                                                 name="Lilly"
                                                                 // status="available"
                                                             />
@@ -296,6 +315,12 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                                             ? `${HOST}${serviceRequest?.provider?.image}`
                                                                             : image
                                                                     }
+                                                                    onError={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.target.src =
+                                                                            image;
+                                                                    }}
                                                                     name="Lilly"
                                                                     // status="available"
                                                                 />
@@ -350,6 +375,12 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                                             : image
                                                                     }
                                                                     name="Lilly"
+                                                                    onError={(
+                                                                        e
+                                                                    ) => {
+                                                                        e.target.src =
+                                                                            image;
+                                                                    }}
                                                                     // status="available"
                                                                 />
                                                             </Conversation>
@@ -375,6 +406,9 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                                     ? `${active?.name} Order #${active?.orderId}`
                                                     : "NAN"
                                             }
+                                            onError={(e) => {
+                                                e.target.src = image;
+                                            }}
                                         />
                                         <ConversationHeader.Content
                                             userName={
@@ -487,39 +521,6 @@ export const Chat = ({ isChatOpen, ...props }) => {
                                         attachButton={false}
                                     />
                                 </ChatContainer>
-
-                                {/* <Sidebar position="right">
-                                    <ExpansionPanel open title="INFO">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="LOCALIZATION">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="MEDIA">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="SURVEY">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                    <ExpansionPanel title="OPTIONS">
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    <p>Lorem ipsum</p>
-                                    </ExpansionPanel>
-                                </Sidebar> */}
                             </MainContainer>
                         </div>
                     </div>
@@ -528,133 +529,3 @@ export const Chat = ({ isChatOpen, ...props }) => {
         </div>
     );
 };
-
-{
-    /* <Conversation name="Joe" lastSenderName="Joe" info="Yes i can do it for you">
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Joe" status="dnd" />
-                                    </Conversation> */
-}
-
-{
-    /* <Conversation name="Emily" lastSenderName="Emily" info="Yes i can do it for you" unreadCnt={3}>
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Emily" status="available" />
-                                    </Conversation>
-                                    
-                                    <Conversation name="Kai" lastSenderName="Kai" info="Yes i can do it for you" unreadDot>
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Kai" status="unavailable" />
-                                    </Conversation>
-
-                                    <Conversation name="Akane" lastSenderName="Akane" info="Yes i can do it for you">
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Akane" status="eager" />
-                                    </Conversation>
-
-                                    <Conversation name="Eliot" lastSenderName="Eliot" info="Yes i can do it for you">
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Eliot" status="away" />
-                                    </Conversation>
-
-                                    <Conversation name="Zoe" lastSenderName="Zoe" info="Yes i can do it for you" active>
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Zoe" status="dnd" />
-                                    </Conversation>
-                                    
-                                    <Conversation name="Patrik" lastSenderName="Patrik" info="Yes i can do it for you">
-                                    <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpghttps://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Patrik" status="invisible" />
-                                    </Conversation> */
-}
-
-{
-    /* <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "single"
-                                        }}>
-                                        <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Zoe" />
-                                        </Message>
-                                        
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Patrik",
-                                            direction: "outgoing",
-                                            position: "single"
-                                        }} /> */
-}
-{
-    /* <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "first"
-                                        }} avatarSpacer />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "normal"
-                                        }} avatarSpacer />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "normal"
-                                        }} avatarSpacer />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "last"
-                                        }}>
-                                        <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Zoe" />
-                                        </Message>
-                                        
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Patrik",
-                                            direction: "outgoing",
-                                            position: "first"
-                                        }} />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Patrik",
-                                            direction: "outgoing",
-                                            position: "normal"
-                                        }} />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Patrik",
-                                            direction: "outgoing",
-                                            position: "normal"
-                                        }} />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Patrik",
-                                            direction: "outgoing",
-                                            position: "last"
-                                        }} />
-                                        
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "first"
-                                        }} avatarSpacer />
-                                        <Message model={{
-                                            message: "Hello my friend",
-                                            sentTime: "15 mins ago",
-                                            sender: "Zoe",
-                                            direction: "incoming",
-                                            position: "last"
-                                        }}>
-                                            <Avatar src={"https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"} name="Zoe" />
-                                        </Message> */
-}
