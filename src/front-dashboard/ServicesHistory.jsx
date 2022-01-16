@@ -242,7 +242,11 @@ export const ServicesHistory = (props) => {
 
             <div
                 className="dashborad-box order-history pb-5"
-                style={{ backgroundImage: `url("/assets/img/apply-bg.jpg")` }}
+                // style={{
+                //     backgroundImage: `url("/assets/img/apply-bg.jpg")`,
+                //     backgroundSize: "cover",
+                //     backgroundAttachment: "fixed",
+                // }}
             >
                 <div className="container">
                     <div className="row">
@@ -258,11 +262,260 @@ export const ServicesHistory = (props) => {
                                 </div>
                             )}
                         </div>
-                        {serviceRequestList?.data &&
+                        <>
+                            {serviceRequestList?.data?.length > 0 &&
+                                serviceRequestList?.data?.map(
+                                    (serviceRequest, index) => (
+                                        <div className="col-md-4 col-sm-6">
+                                            <div className="col-md-12">
+                                                <div
+                                                    className=" row order-card d-flex"
+                                                    style={{
+                                                        minHeight: "34vh",
+                                                    }}
+                                                >
+                                                    <div className="row">
+                                                        <div className="col-md-8 order-des-b">
+                                                            <div className="font-weight-bold">
+                                                                Service#
+                                                                {
+                                                                    serviceRequest.id
+                                                                }
+                                                            </div>
+                                                            <div className="order-time">
+                                                                {moment().format(
+                                                                    "ddd, MM Do YYYY, h:mm:ss a"
+                                                                )}
+                                                            </div>
+                                                            <div className="order-btn-b">
+                                                                <div className="btn-price-serv mb-3 mt-3">
+                                                                    {
+                                                                        (() => {
+                                                                            if (
+                                                                                serviceRequest.working_status ==
+                                                                                null
+                                                                            ) {
+                                                                                return "Not Started yet!";
+                                                                            }
+
+                                                                            if (
+                                                                                serviceRequest.working_status ==
+                                                                                "STARTED"
+                                                                            ) {
+                                                                                return "Started";
+                                                                            }
+
+                                                                            if (
+                                                                                serviceRequest.working_status ==
+                                                                                "PAUSED"
+                                                                            ) {
+                                                                                return "Paused";
+                                                                            }
+
+                                                                            if (
+                                                                                serviceRequest.working_status ==
+                                                                                    "ENDED" &&
+                                                                                serviceRequest.is_completed ==
+                                                                                    true
+                                                                            ) {
+                                                                                return "Completed";
+                                                                            }
+                                                                        })()
+                                                                        // serviceRequest?.payable_amount != null ? "$"+(parseInt(serviceRequest?.payable_amount) + parseInt(serviceRequest?.paid_amount)) : "$"+serviceRequest?.paid_amount
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            <div className="order-btn-b">
+                                                                {serviceRequest.paid_amount &&
+                                                                    (() => {
+                                                                        if (
+                                                                            serviceRequest?.payment_status ==
+                                                                                false &&
+                                                                            serviceRequest?.payable
+                                                                        ) {
+                                                                            return (
+                                                                                <div
+                                                                                    type="button"
+                                                                                    className="btn-price-serv mb-3 mt-3"
+                                                                                    style={{
+                                                                                        backgroundColor:
+                                                                                            "red",
+                                                                                    }}
+                                                                                    onClick={() =>
+                                                                                        handlePaymentClick(
+                                                                                            serviceRequest?.payable
+                                                                                        )
+                                                                                    }
+                                                                                    data-backdrop="static"
+                                                                                    data-keyboard="false"
+                                                                                    data-toggle="modal"
+                                                                                    data-target="#payable"
+                                                                                >
+                                                                                    {serviceRequest?.payable_amount !=
+                                                                                    null
+                                                                                        ? "$" +
+                                                                                          (parseInt(
+                                                                                              serviceRequest?.payable_amount
+                                                                                          ) +
+                                                                                              parseInt(
+                                                                                                  serviceRequest?.paid_amount
+                                                                                              ))
+                                                                                        : "$" +
+                                                                                          serviceRequest?.paid_amount}
+                                                                                </div>
+                                                                            );
+                                                                        } else {
+                                                                            return (
+                                                                                <>
+                                                                                    {(() => {
+                                                                                        if (
+                                                                                            serviceRequest?.payable_amount !=
+                                                                                            null
+                                                                                        ) {
+                                                                                            return (
+                                                                                                <div className="btn-price-serv mb-3 mt-3">
+                                                                                                    {"$" +
+                                                                                                        (parseInt(
+                                                                                                            serviceRequest?.payable_amount
+                                                                                                        ) +
+                                                                                                            parseInt(
+                                                                                                                serviceRequest?.paid_amount
+                                                                                                            ))}
+                                                                                                </div>
+                                                                                            );
+                                                                                        } else if (
+                                                                                            serviceRequest?.paid_amount !=
+                                                                                            null
+                                                                                        ) {
+                                                                                            return (
+                                                                                                <div className="btn-price-serv mb-3 mt-3">
+                                                                                                    {"$" +
+                                                                                                        serviceRequest?.paid_amount}
+                                                                                                </div>
+                                                                                            );
+                                                                                        } else {
+                                                                                            return (
+                                                                                                <div className="btn-price-serv mb-3 mt-3">
+                                                                                                    {
+                                                                                                        "Not Paid"
+                                                                                                    }
+                                                                                                </div>
+                                                                                            );
+                                                                                        }
+                                                                                    })()}
+                                                                                </>
+                                                                            );
+                                                                        }
+                                                                    })()}
+                                                                {/* <div className="btn-price-serv mb-3 mt-3">
+                                                                    price
+                                                                </div> */}
+                                                            </div>
+                                                            <div className="font-weight-bold">
+                                                                Service:{" "}
+                                                                {serviceRequest.sub_service ||
+                                                                    "N/A"}
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-4">
+                                                            <img
+                                                                className="img-fluid"
+                                                                src={
+                                                                    serviceRequest
+                                                                        ?.provider
+                                                                        ?.image ||
+                                                                    "/assets/img/user4.jpg"
+                                                                }
+                                                                alt=""
+                                                                onError={(
+                                                                    e
+                                                                ) => {
+                                                                    e.target.src =
+                                                                        "/assets/img/user4.jpg";
+                                                                }}
+                                                            />
+                                                            <div className="order-btn-b mt-2">
+                                                                <Link
+                                                                    style={{
+                                                                        marginLeft:
+                                                                            "-.8rem",
+                                                                    }}
+                                                                    to={`/profile/${serviceRequest?.provider?.id}`}
+                                                                    className="btn-view-profile"
+                                                                >
+                                                                    View Profile
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                        {(() => {
+                                                            if (
+                                                                serviceRequest
+                                                                    ?.user_feeback
+                                                                    ?.rating
+                                                            ) {
+                                                                return (
+                                                                    <div className="col-12">
+                                                                        <div className="float-right">
+                                                                            <Rating
+                                                                                rating={
+                                                                                    serviceRequest
+                                                                                        ?.user_feeback
+                                                                                        ?.rating
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            }
+                                                            if (
+                                                                serviceRequest?.is_completed &&
+                                                                serviceRequest?.working_status ===
+                                                                    "ENDED"
+                                                            ) {
+                                                                return (
+                                                                    <div
+                                                                        type="button"
+                                                                        className="service-label"
+                                                                        style={{
+                                                                            backgroundColor:
+                                                                                "blue",
+                                                                        }}
+                                                                        onClick={() =>
+                                                                            handleFeedbackClick(
+                                                                                serviceRequest.id,
+                                                                                serviceRequest
+                                                                                    .provider
+                                                                                    .id
+                                                                            )
+                                                                        }
+                                                                        data-backdrop="static"
+                                                                        data-keyboard="false"
+                                                                        data-toggle="modal"
+                                                                        data-target="#feedback"
+                                                                    >
+                                                                        Give
+                                                                        Feedback
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        })()}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                )}
+                        </>
+                        {/* {serviceRequestList?.data?.length > 0 &&
                             serviceRequestList?.data?.map(
                                 (serviceRequest, index) => (
-                                    <div className="col-md-6" key={index}>
-                                        <div className="order-card d-flex align-items-center justify-content-between">
+                                    <div className="col-md-4" key={index}>
+                                        <div
+                                            className="order-card d-flex align-items-center justify-content-between"
+                                            style={{
+                                                minHeight: "23vh",
+                                            }}
+                                        >
                                             <div className="order-des-b">
                                                 <div className="title">{`${serviceRequest?.provider?.first_name} ${serviceRequest?.provider?.last_name}`}</div>
                                                 {serviceRequest?.sub_service && (
@@ -272,66 +525,53 @@ export const ServicesHistory = (props) => {
                                                         }
                                                     </div>
                                                 )}
-                                                {
-                                                    (() => {
-                                                        if (
-                                                            serviceRequest
-                                                                ?.user_feeback
-                                                                ?.rating
-                                                        ) {
-                                                            return (
-                                                                <Rating
-                                                                    rating={
-                                                                        serviceRequest
-                                                                            ?.user_feeback
-                                                                            ?.rating
-                                                                    }
-                                                                />
-                                                            );
-                                                        }
-                                                        console.log(
-                                                            serviceRequest?.is_completed &&
-                                                                serviceRequest?.working_status ===
-                                                                    "ENDED"
+                                                {(() => {
+                                                    if (
+                                                        serviceRequest
+                                                            ?.user_feeback
+                                                            ?.rating
+                                                    ) {
+                                                        return (
+                                                            <Rating
+                                                                rating={
+                                                                    serviceRequest
+                                                                        ?.user_feeback
+                                                                        ?.rating
+                                                                }
+                                                            />
                                                         );
-                                                        if (
-                                                            serviceRequest?.is_completed &&
-                                                            serviceRequest?.working_status ===
-                                                                "ENDED"
-                                                        ) {
-                                                            return (
-                                                                <div
-                                                                    type="button"
-                                                                    className="service-label"
-                                                                    style={{
-                                                                        backgroundColor:
-                                                                            "blue",
-                                                                    }}
-                                                                    onClick={() =>
-                                                                        handleFeedbackClick(
-                                                                            serviceRequest.id,
-                                                                            serviceRequest
-                                                                                .provider
-                                                                                .id
-                                                                        )
-                                                                    }
-                                                                    data-backdrop="static"
-                                                                    data-keyboard="false"
-                                                                    data-toggle="modal"
-                                                                    data-target="#feedback"
-                                                                >
-                                                                    Give
-                                                                    Feedback
-                                                                </div>
-                                                            );
-                                                        }
-                                                    })()
-                                                    // ? (
-                                                    //     <></>
-                                                    // ) : (
-                                                    //
-                                                    // )
-                                                }
+                                                    }
+                                                    if (
+                                                        serviceRequest?.is_completed &&
+                                                        serviceRequest?.working_status ===
+                                                            "ENDED"
+                                                    ) {
+                                                        return (
+                                                            <div
+                                                                type="button"
+                                                                className="service-label"
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        "blue",
+                                                                }}
+                                                                onClick={() =>
+                                                                    handleFeedbackClick(
+                                                                        serviceRequest.id,
+                                                                        serviceRequest
+                                                                            .provider
+                                                                            .id
+                                                                    )
+                                                                }
+                                                                data-backdrop="static"
+                                                                data-keyboard="false"
+                                                                data-toggle="modal"
+                                                                data-target="#feedback"
+                                                            >
+                                                                Give Feedback
+                                                            </div>
+                                                        );
+                                                    }
+                                                })()}
                                                 <div className="order-time">
                                                     {moment(
                                                         serviceRequest?.created_at
@@ -441,120 +681,23 @@ export const ServicesHistory = (props) => {
                                         </div>
                                     </div>
                                 )
-                            )}
-                    </div>
-                    <nav aria-label="...">
-                        {serviceRequestList?.last_page && (
-                            <center className="display-4 m-2">
-                                There are total pages{" "}
-                                {serviceRequestList?.last_page}
-                            </center>
-                        )}
-                        <ul className="pagination pagination-lg justify-content-center">
-                            {
-                                <li
-                                    className={`page-item ${
-                                        serviceRequestList?.prev_page_url ==
-                                            null && "disabled"
-                                    }`}
-                                >
-                                    {location.search ==
-                                    serviceRequestList?.prev_page_url ? (
-                                        <span
-                                            className="page-link"
-                                            style={{ cursor: "pointer" }}
-                                        >
-                                            Previous
-                                        </span>
-                                    ) : (
-                                        <Link
-                                            className="page-link"
-                                            to={(location) =>
-                                                `${location.pathname}${serviceRequestList?.prev_page_url}`
-                                            }
-                                        >
-                                            Previous
-                                        </Link>
-                                    )}
-                                </li>
-                            }
-                            {serviceRequestList?.current_page ? (
-                                <li className={`page-item active`}>
-                                    <span
-                                        className={`page-link`}
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        {serviceRequestList?.current_page}
-                                    </span>
-                                </li>
-                            ) : (
-                                ""
-                            )}
-                            {(() => {
-                                // const { current_page, last_page } = serviceRequestList !== null && serviceRequestList !== undefined;
-                                // if(last_page - current_page > 5){
-                                //     return [...Array(5).keys()].map(((pageNo, num)=>(
-                                //         <li key={num} className={`page-item ${num == 0 ? 'active' : ""}`}>
-                                //             <span className={`page-link`} style={{cursor: "pointer"}}>{num}</span>
-                                //         </li>
-                                //     )));
-                                // }
-                                // if(current_page !== undefined && last_page !== undefined && last_page == current_page ){
-                                //     return(
-                                //         <li className={`page-item active`}>
-                                //             <span className={`page-link`} style={{cursor: "pointer"}}>{last_page}</span>
-                                //         </li>
-                                //     )
-                                // }
-                            })()}
-                            {/* {serviceRequestList?.current_page == 1 ? (
-                                <li className={`page-item ${serviceRequestList?.current_page == 1 ? 'active': ''}`}>
-                                    <span className={`page-link`} style={{cursor: "pointer"}}>1</span>
-                                </li>
-                            ) : (
-                                <li className={`page-item ${serviceRequestList?.current_page == 1 ? 'active': ''}`}>
-                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >1</Link>
-                                </li>
-                            )}
-                            {serviceRequestList?.current_page == serviceRequestList?.last_page ? (
-                                <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page ? 'active': ''}`}>
-                                    <span className={`page-link`} style={{cursor: "pointer"}}>{serviceRequestList?.last_page}</span>
-                                </li>
-                            ) : (
-                                <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page ? 'active': ''}`}>
-                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >{serviceRequestList?.last_page}</Link>
-                                </li>
                             )} */}
-
-                            {/* <li className="page-item"><a className="page-link" href="#">3</a></li> */}
-                            <li
-                                className={`page-item ${
-                                    serviceRequestList?.current_page ==
-                                        serviceRequestList?.last_page &&
-                                    "disabled active"
-                                }`}
-                            >
-                                {location.search ==
-                                serviceRequestList?.next_page_url ? (
-                                    <span
-                                        className="page-link"
-                                        style={{ cursor: "pointer" }}
-                                    >
-                                        Next
-                                    </span>
-                                ) : (
-                                    <Link
-                                        className="page-link"
-                                        to={(location) =>
-                                            `${location.pathname}${serviceRequestList?.next_page_url}`
-                                        }
-                                    >
-                                        Next
-                                    </Link>
-                                )}
-                            </li>
-                        </ul>
-                    </nav>
+                    </div>
+                    <div
+                        style={{
+                            backgroundColor: "white",
+                            padding: "3rem",
+                            borderRadius: "1rem",
+                        }}
+                    >
+                        <Paginate
+                            {...{
+                                last_page: serviceRequestList?.last_page,
+                                current_page: serviceRequestList?.current_page,
+                                func: getServiceRequestList,
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -877,6 +1020,129 @@ export const ServicesHistory = (props) => {
         </>
     );
 };
+
+{
+    /* <nav aria-label="...">
+                        {serviceRequestList?.last_page && (
+                            <center className="display-4 m-2">
+                                There are total pages{" "}
+                                {serviceRequestList?.last_page}
+                            </center>
+                        )}
+                        <ul className="pagination pagination-lg justify-content-center">
+                            {
+                                <li
+                                    className={`page-item ${
+                                        serviceRequestList?.prev_page_url ==
+                                            null && "disabled"
+                                    }`}
+                                >
+                                    {location.search ==
+                                    serviceRequestList?.prev_page_url ? (
+                                        <span
+                                            className="page-link"
+                                            style={{ cursor: "pointer" }}
+                                        >
+                                            Previous
+                                        </span>
+                                    ) : (
+                                        <Link
+                                            className="page-link"
+                                            to={(location) =>
+                                                `${location.pathname}${serviceRequestList?.prev_page_url}`
+                                            }
+                                        >
+                                            Previous
+                                        </Link>
+                                    )}
+                                </li>
+                            }
+                            {serviceRequestList?.current_page ? (
+                                <li className={`page-item active`}>
+                                    <span
+                                        className={`page-link`}
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        {serviceRequestList?.current_page}
+                                    </span>
+                                </li>
+                            ) : (
+                                ""
+                            )} */
+}
+{
+    (() => {
+        // const { current_page, last_page } = serviceRequestList !== null && serviceRequestList !== undefined;
+        // if(last_page - current_page > 5){
+        //     return [...Array(5).keys()].map(((pageNo, num)=>(
+        //         <li key={num} className={`page-item ${num == 0 ? 'active' : ""}`}>
+        //             <span className={`page-link`} style={{cursor: "pointer"}}>{num}</span>
+        //         </li>
+        //     )));
+        // }
+        // if(current_page !== undefined && last_page !== undefined && last_page == current_page ){
+        //     return(
+        //         <li className={`page-item active`}>
+        //             <span className={`page-link`} style={{cursor: "pointer"}}>{last_page}</span>
+        //         </li>
+        //     )
+        // }
+    })();
+}
+{
+    /* {serviceRequestList?.current_page == 1 ? (
+                                <li className={`page-item ${serviceRequestList?.current_page == 1 ? 'active': ''}`}>
+                                    <span className={`page-link`} style={{cursor: "pointer"}}>1</span>
+                                </li>
+                            ) : (
+                                <li className={`page-item ${serviceRequestList?.current_page == 1 ? 'active': ''}`}>
+                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >1</Link>
+                                </li>
+                            )}
+                            {serviceRequestList?.current_page == serviceRequestList?.last_page ? (
+                                <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page ? 'active': ''}`}>
+                                    <span className={`page-link`} style={{cursor: "pointer"}}>{serviceRequestList?.last_page}</span>
+                                </li>
+                            ) : (
+                                <li className={`page-item ${serviceRequestList?.current_page == serviceRequestList?.last_page ? 'active': ''}`}>
+                                    <Link className="page-link" to={location => `${location.pathname}${serviceRequestList?.next_page_url}`} >{serviceRequestList?.last_page}</Link>
+                                </li>
+                            )} */
+}
+
+{
+    /* <li className="page-item"><a className="page-link" href="#">3</a></li> */
+}
+{
+    /* <li
+                                className={`page-item ${
+                                    serviceRequestList?.current_page ==
+                                        serviceRequestList?.last_page &&
+                                    "disabled active"
+                                }`}
+                            >
+                                {location.search ==
+                                serviceRequestList?.next_page_url ? (
+                                    <span
+                                        className="page-link"
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        Next
+                                    </span>
+                                ) : (
+                                    <Link
+                                        className="page-link"
+                                        to={(location) =>
+                                            `${location.pathname}${serviceRequestList?.next_page_url}`
+                                        }
+                                    >
+                                        Next
+                                    </Link>
+                                )}
+                            </li>
+                        </ul>
+                    </nav> */
+}
 
 {
     /* <div className="col-md-6">

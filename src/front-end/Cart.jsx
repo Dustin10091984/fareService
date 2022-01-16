@@ -73,6 +73,7 @@ export const Cart = (props) => {
         deleteCartLoading &&
             (loading.current = toast.info("Removing from cart...", {
                 autoClose: false,
+                toastId: loading.current,
             }));
         deleteCartLoading == false && toast.dismiss(loading.current);
         deleteCartError && Swal.fire("Deleted!", deleteCartMessage, "error");
@@ -87,6 +88,7 @@ export const Cart = (props) => {
         cartLoading &&
             (loading.current = toast.info("Loading...", {
                 autoClose: false,
+                toastId: loading.current,
             }));
         cartLoading == false && toast.dismiss(loading.current);
     }, [cartLoading]);
@@ -104,7 +106,9 @@ export const Cart = (props) => {
                 updateCartError == false &&
                 updateCartMessage &&
                 state.wait !== null &&
-                (successRef.current = toast.success(updateCartMessage));
+                (successRef.current = toast.success(updateCartMessage, {
+                    toastId: successRef.current,
+                }));
         }
     }, [updateCartMessage]);
 
@@ -143,6 +147,7 @@ export const Cart = (props) => {
             if (state.wait === false || state.wait === null) {
                 loading.current = toast.info("Loading...", {
                     autoClose: false,
+                    toastId: loading.current,
                 });
                 const ONE_SECOND = 1000;
                 sleep(ONE_SECOND).then(() => {
@@ -165,6 +170,7 @@ export const Cart = (props) => {
             if (state.wait === false || state.wait === null) {
                 loading.current = toast.info("Loading...", {
                     autoClose: false,
+                    toastId: loading.current,
                 });
                 sleep(2000).then(() => {
                     setState((state) => ({ ...state, wait: false }));

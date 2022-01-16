@@ -1,9 +1,9 @@
-const Rating = ({ isCenter, rating }) => {
+const Rating = ({ isCenter, rating, justify }) => {
     return (
         <div className="star-rating-area">
             <div
                 className={`star-rating-area d-flex align-items-center justify-content-${
-                    isCenter !== false ? "center" : "start"
+                    justify ? justify : isCenter !== false ? "center" : "start"
                 }`}
             >
                 <div className="rating-static clearfix mr-3" rel={rating}>
