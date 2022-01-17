@@ -128,7 +128,7 @@ function App() {
           <Route path='/shop2' component={ShopTwo} />
           <Route path='/moving-help' component={MovingHelp} />
           <Route path='/house-cleaning' component={HouseCleaning} />
-          <Route path='/profile/:id' component={ProviderProfile} />
+          <Route path='/provider/profile/:id' component={ProviderProfile} />
           <Route path='/latest-news' component={LatestNews} />
           <Route path='/scolarship' component={Scolarship} />
           <Route path='/retail' component={Retail} />

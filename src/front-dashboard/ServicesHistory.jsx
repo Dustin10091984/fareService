@@ -449,7 +449,7 @@ export const ServicesHistory = (props) => {
                                                                         marginLeft:
                                                                             "-.8rem",
                                                                     }}
-                                                                    to={`/profile/${serviceRequest?.provider?.id}`}
+                                                                    to={`/provider/profile/${serviceRequest?.provider?.id}`}
                                                                     className="btn-view-profile"
                                                                 >
                                                                     View Profile
@@ -625,7 +625,7 @@ export const ServicesHistory = (props) => {
                                                     }
                                                 </div>
                                                 <Link
-                                                    to={`/profile/${serviceRequest?.provider?.id}`}
+                                                    to={`/provider/profile/${serviceRequest?.provider?.id}`}
                                                     className="btn-view-profile"
                                                 >
                                                     View Profile
