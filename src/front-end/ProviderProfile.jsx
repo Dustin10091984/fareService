@@ -4,6 +4,7 @@ import { getProviderProfile } from "../store/Slices/providers/ProviderProfileScl
 import { Link } from "react-router-dom";
 import Rating from "./../components/Rating";
 import Loading from "./common/Loading";
+import { HOST } from "./../constants";
 export const ProviderProfile = (props) => {
     const { id } = props.match.params;
 
@@ -15,16 +16,8 @@ export const ProviderProfile = (props) => {
 
     useEffect(() => {
         dispatch(getProviderProfile(id));
-    }, []);
+    }, [id]);
 
-    useEffect(() => {
-        if (providerProfile !== undefined) {
-            setState((state) => ({
-                ...state,
-                providerProfile: providerProfile,
-            }));
-        }
-    }, [providerProfile]);
     return (
         <>
             <Loading loading={providerProfile?.loading} />
@@ -34,8 +27,6 @@ export const ProviderProfile = (props) => {
                         <div className="col-md-4">
                             <div className="profile-info service-time-box text-center mt-5 ">
                                 {(() => {
-                                    const providerProfile =
-                                        state?.providerProfile;
                                     if (providerProfile == undefined) {
                                         return (
                                             <center
@@ -53,7 +44,7 @@ export const ProviderProfile = (props) => {
                                                 role="alert"
                                                 style={{ fontSize: 20 }}
                                             >
-                                                {state?.providerProfile.message}
+                                                {providerProfile?.message}
                                             </center>
                                         );
                                     } else if (
@@ -69,7 +60,7 @@ export const ProviderProfile = (props) => {
                                                         src={
                                                             data?.provider
                                                                 ?.image
-                                                                ? `${process.env.REACT_APP_API_BASE_URL}${data?.provider?.image}`
+                                                                ? `${HOST}${data?.provider?.image}`
                                                                 : "/assets/img/user4.jpg"
                                                         }
                                                         className="img-fluid"
@@ -140,7 +131,7 @@ export const ProviderProfile = (props) => {
                                 <hr />
 
                                 <ul className="profile-links-left">
-                                    {state?.providerProfile?.data?.provider?.provider_services?.map(
+                                    {providerProfile?.data?.provider?.provider_services?.map(
                                         (service, index) => {
                                             return (
                                                 <li
@@ -174,10 +165,105 @@ export const ProviderProfile = (props) => {
                         </div>
 
                         <div className="col-md-8 mt-5">
+                            <div className="job-provider-card p-5">
+                                <div
+                                    style={{
+                                        height: "42vh",
+                                    }}
+                                    id="carouselExampleIndicators"
+                                    className="carousel slide"
+                                    data-ride="carousel"
+                                >
+                                    <ol className="carousel-indicators">
+                                        {providerProfile?.data?.provider?.portfolio?.images?.map(
+                                            (img, index) => (
+                                                <li
+                                                    data-target="#carouselExampleIndicators"
+                                                    data-slide-to={index}
+                                                    className={
+                                                        index == 0
+                                                            ? "active"
+                                                            : ""
+                                                    }
+                                                ></li>
+                                            )
+                                        )}
+                                    </ol>
+                                    <div className="carousel-inner">
+                                        {providerProfile?.data?.provider?.portfolio?.images?.map(
+                                            (img, index) => (
+                                                <div
+                                                    className={`carousel-item${
+                                                        index == 0
+                                                            ? " active"
+                                                            : ""
+                                                    }`}
+                                                    key={index}
+                                                >
+                                                    <img
+                                                        src={HOST + img?.url}
+                                                        className="d-block w-100"
+                                                        alt="..."
+                                                        style={{
+                                                            height: "42vh",
+                                                            borderRadius:
+                                                                ".5rem",
+                                                            border: "1px solid #e6e6e6",
+                                                        }}
+                                                    />
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
+                                    <button
+                                        className="carousel-control-prev"
+                                        type="button"
+                                        data-target="#carouselExampleIndicators"
+                                        data-slide="prev"
+                                        style={{
+                                            background: "transparent",
+                                            border: "none",
+                                        }}
+                                    >
+                                        <span
+                                            className="carousel-control-prev-icon"
+                                            aria-hidden="true"
+                                        ></span>
+                                        <span className="sr-only">
+                                            Previous
+                                        </span>
+                                    </button>
+                                    <button
+                                        className="carousel-control-next"
+                                        type="button"
+                                        data-target="#carouselExampleIndicators"
+                                        data-slide="next"
+                                        style={{
+                                            background: "transparent",
+                                            border: "none",
+                                        }}
+                                    >
+                                        <span
+                                            className="carousel-control-next-icon"
+                                            aria-hidden="true"
+                                        ></span>
+                                        <span className="sr-only">Next</span>
+                                    </button>
+                                </div>
+                                <div className="useer-qust mt-0 mb-3 mt-5">
+                                    <div className="title">
+                                        Portfolio Details
+                                    </div>
+                                    <div className="des">
+                                        {
+                                            providerProfile?.data?.provider
+                                                ?.portfolio?.description
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                             <div className="job-provider-card">
                                 {(() => {
-                                    const providerProfile =
-                                        state?.providerProfile;
                                     if (
                                         (providerProfile &&
                                             providerProfile.error == false,
@@ -200,8 +286,6 @@ export const ProviderProfile = (props) => {
                                     }
                                 })()}
                                 {(() => {
-                                    const providerProfile =
-                                        state?.providerProfile;
                                     if (
                                         (providerProfile &&
                                             providerProfile.error == false,
@@ -265,42 +349,6 @@ export const ProviderProfile = (props) => {
                                         </center>
                                     );
                                 })()}
-                                {/* <div className="top-reviews-list">
-                                    <div className="revie-card">
-                                        <div className="d-flex align-itmes-center justify-content-between">
-                                        <div className="title">Justin Donin</div>
-                                        <div className="star-rating-area">
-                                            <div className="rating-static clearfix mr-3" rel="4">
-                                                <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-                                                <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-                                                <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-                                                <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-                                                <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-                                                <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-                                                <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-                                                <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-                                                <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-                                                <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-                                            </div> */}
-                                {/* <div className="ratilike ng-binding">5</div> */}
-                                {/* </div>
-                                        </div>
-
-                                        <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-                                            <div className="review-img">
-                                                <img src="/assets/img/user4.jpg" className="img-fluid" alt="" />
-                                            </div>
-
-                                            <div className="review-detail">
-                                                I'm Sharonda! I have over 8 years of experience in housekeeping.
-                                                My goal is to delight my customers by providing a deep, thorough cleaning.
-                                                Dusted surfaces, baseboards, ceiling fans, and polished appliances
-                                                are a big deal to me. I pay close detail to all the nooks and cranies.
-                                        </div>
-                                        </div>
-                                    </div> */}
-
-                                {/* </div> */}
                             </div>
                         </div>
                     </div>
