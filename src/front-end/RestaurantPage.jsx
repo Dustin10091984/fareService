@@ -64,6 +64,9 @@ export const RestaurantPage = (props) => {
             success.current = toast.success(cart?.message || "Added to cart", {
                 toastId: success.current,
             });
+            if (cartList?.cart == undefined) {
+                dispatch(getCartList());
+            }
         }
         if (cart?.error && cart?.loading == false) {
             toast.dismiss(loading.current);
