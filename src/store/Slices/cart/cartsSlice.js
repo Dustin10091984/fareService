@@ -29,7 +29,6 @@ const cartsSlice = createSlice({
                         cart: action.payload
                     }
                 }
-                getCartList();
             }
             return {
                 ...state,

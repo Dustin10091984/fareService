@@ -266,7 +266,10 @@ export const ServicesHistory = (props) => {
                             {serviceRequestList?.data?.length > 0 &&
                                 serviceRequestList?.data?.map(
                                     (serviceRequest, index) => (
-                                        <div className="col-md-4 col-sm-6">
+                                        <div
+                                            className="col-md-4 col-sm-6"
+                                            key={index}
+                                        >
                                             <div className="col-md-12">
                                                 <div
                                                     className=" row order-card d-flex"
