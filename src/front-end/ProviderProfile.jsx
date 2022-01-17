@@ -91,10 +91,10 @@ export const ProviderProfile = (props) => {
                             </div>
                             <div className="service-time-box mt-5 mb-5">
                                 <div className="title-servic px-2 mb-4">
-                                    How offten
+                                    Serrvices
                                 </div>
 
-                                <div className="ser-des text-left mb-4">
+                                {/* <div className="ser-des text-left mb-4">
                                     Amet minim mollit non deserunt ullamco est
                                     sit aliqua dolor do amet sint. Velit officia
                                     consequat duis enim velit mollit.
@@ -106,28 +106,44 @@ export const ProviderProfile = (props) => {
 
                                 <div className="amet-minim d-flex align-items-center py-3">
                                     <div className="amet-img mr-3">
-                                        {/* <img src="" className="img-fluid" alt=""/> */}
+                                        <img
+                                            src=""
+                                            className="img-fluid"
+                                            alt=""
+                                        />
                                     </div>
                                     <h5>Amet minim mollit non deserunt.</h5>
                                 </div>
                                 <div className="amet-minim d-flex align-items-center py-3">
                                     <div className="amet-img mr-3">
-                                        {/* <img src="" className="img-fluid" alt=""/> */}
+                                        <img
+                                            src=""
+                                            className="img-fluid"
+                                            alt=""
+                                        />
                                     </div>
                                     <h5>Amet minim mollit non deserunt.</h5>
                                 </div>
                                 <div className="amet-minim d-flex align-items-center py-3">
                                     <div className="amet-img mr-3">
-                                        {/* <img src="" className="img-fluid" alt=""/> */}
+                                        <img
+                                            src=""
+                                            className="img-fluid"
+                                            alt=""
+                                        />
                                     </div>
                                     <h5>Amet minim mollit non deserunt.</h5>
                                 </div>
                                 <div className="amet-minim d-flex align-items-center py-3">
                                     <div className="amet-img mr-3">
-                                        {/* <img src="" className="img-fluid" alt=""/> */}
+                                        <img
+                                            src=""
+                                            className="img-fluid"
+                                            alt=""
+                                        />
                                     </div>
                                     <h5>Amet minim mollit non deserunt.</h5>
-                                </div>
+                                </div> */}
                                 <hr />
 
                                 <ul className="profile-links-left">
@@ -165,103 +181,109 @@ export const ProviderProfile = (props) => {
                         </div>
 
                         <div className="col-md-8 mt-5">
-                            <div className="job-provider-card p-5">
-                                <div
-                                    style={{
-                                        height: "42vh",
-                                    }}
-                                    id="carouselExampleIndicators"
-                                    className="carousel slide"
-                                    data-ride="carousel"
-                                >
-                                    <ol className="carousel-indicators">
-                                        {providerProfile?.data?.provider?.portfolio?.images?.map(
-                                            (img, index) => (
-                                                <li
-                                                    data-target="#carouselExampleIndicators"
-                                                    data-slide-to={index}
-                                                    className={
-                                                        index == 0
-                                                            ? "active"
-                                                            : ""
-                                                    }
-                                                ></li>
-                                            )
-                                        )}
-                                    </ol>
-                                    <div className="carousel-inner">
-                                        {providerProfile?.data?.provider?.portfolio?.images?.map(
-                                            (img, index) => (
-                                                <div
-                                                    className={`carousel-item${
-                                                        index == 0
-                                                            ? " active"
-                                                            : ""
-                                                    }`}
-                                                    key={index}
-                                                >
-                                                    <img
-                                                        src={HOST + img?.url}
-                                                        className="d-block w-100"
-                                                        alt="..."
-                                                        style={{
-                                                            height: "42vh",
-                                                            borderRadius:
-                                                                ".5rem",
-                                                            border: "1px solid #e6e6e6",
-                                                        }}
-                                                    />
-                                                </div>
-                                            )
-                                        )}
-                                    </div>
-                                    <button
-                                        className="carousel-control-prev"
-                                        type="button"
-                                        data-target="#carouselExampleIndicators"
-                                        data-slide="prev"
+                            {providerProfile?.data?.provider?.portfolio && (
+                                <div className="job-provider-card p-5">
+                                    <div
                                         style={{
-                                            background: "transparent",
-                                            border: "none",
+                                            height: "42vh",
                                         }}
+                                        id="carouselExampleIndicators"
+                                        className="carousel slide"
+                                        data-ride="carousel"
                                     >
-                                        <span
-                                            className="carousel-control-prev-icon"
-                                            aria-hidden="true"
-                                        ></span>
-                                        <span className="sr-only">
-                                            Previous
-                                        </span>
-                                    </button>
-                                    <button
-                                        className="carousel-control-next"
-                                        type="button"
-                                        data-target="#carouselExampleIndicators"
-                                        data-slide="next"
-                                        style={{
-                                            background: "transparent",
-                                            border: "none",
-                                        }}
-                                    >
-                                        <span
-                                            className="carousel-control-next-icon"
-                                            aria-hidden="true"
-                                        ></span>
-                                        <span className="sr-only">Next</span>
-                                    </button>
-                                </div>
-                                <div className="useer-qust mt-0 mb-3 mt-5">
-                                    <div className="title">
-                                        Portfolio Details
+                                        <ol className="carousel-indicators">
+                                            {providerProfile?.data?.provider?.portfolio?.images?.map(
+                                                (img, index) => (
+                                                    <li
+                                                        data-target="#carouselExampleIndicators"
+                                                        data-slide-to={index}
+                                                        className={
+                                                            index == 0
+                                                                ? "active"
+                                                                : ""
+                                                        }
+                                                    ></li>
+                                                )
+                                            )}
+                                        </ol>
+                                        <div className="carousel-inner">
+                                            {providerProfile?.data?.provider?.portfolio?.images?.map(
+                                                (img, index) => (
+                                                    <div
+                                                        className={`carousel-item${
+                                                            index == 0
+                                                                ? " active"
+                                                                : ""
+                                                        }`}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={
+                                                                HOST + img?.url
+                                                            }
+                                                            className="d-block w-100"
+                                                            alt="..."
+                                                            style={{
+                                                                height: "42vh",
+                                                                borderRadius:
+                                                                    ".5rem",
+                                                                border: "1px solid #e6e6e6",
+                                                            }}
+                                                        />
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                        <button
+                                            className="carousel-control-prev"
+                                            type="button"
+                                            data-target="#carouselExampleIndicators"
+                                            data-slide="prev"
+                                            style={{
+                                                background: "transparent",
+                                                border: "none",
+                                            }}
+                                        >
+                                            <span
+                                                className="carousel-control-prev-icon"
+                                                aria-hidden="true"
+                                            ></span>
+                                            <span className="sr-only">
+                                                Previous
+                                            </span>
+                                        </button>
+                                        <button
+                                            className="carousel-control-next"
+                                            type="button"
+                                            data-target="#carouselExampleIndicators"
+                                            data-slide="next"
+                                            style={{
+                                                background: "transparent",
+                                                border: "none",
+                                            }}
+                                        >
+                                            <span
+                                                className="carousel-control-next-icon"
+                                                aria-hidden="true"
+                                            ></span>
+                                            <span className="sr-only">
+                                                Next
+                                            </span>
+                                        </button>
                                     </div>
-                                    <div className="des">
-                                        {
-                                            providerProfile?.data?.provider
-                                                ?.portfolio?.description
-                                        }
+                                    <div className="useer-qust mt-0 mb-3 mt-5">
+                                        <div className="title">
+                                            Portfolio Details
+                                        </div>
+                                        <div className="des">
+                                            {
+                                                providerProfile?.data?.provider
+                                                    ?.portfolio?.description
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
                             <div className="job-provider-card">
                                 {(() => {
                                     if (
