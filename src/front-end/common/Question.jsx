@@ -132,14 +132,14 @@ export const Question = (props) => {
 
     const handleZipCodeChange = (e) => {
         const { name, value } = e.target;
-        let re = /^(0|[1-9][0-9]*)$/;
+        // let re = /^(0|[1-9][0-9]*)$/;
 
         setState((state) => ({
             ...state,
             [name]: value,
             selectedZipCode: false,
         }));
-        if (value.length < 3 || value.length > 12 || !re.test(value)) {
+        if (value.length < 2 || value.length > 12) {
             setState((state) => ({
                 ...state,
                 zipCodeErr: (
@@ -147,7 +147,7 @@ export const Question = (props) => {
                         className="col-md-12 text-danger mt-2"
                         style={{ fontSize: 15 }}
                     >
-                        Zip Code characher(Number only) should be in between 4
+                        Zip Code characher(Number only) should be in between 2
                         and 12
                     </div>
                 ),

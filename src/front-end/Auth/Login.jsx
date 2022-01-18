@@ -96,7 +96,7 @@ const Login = (props) => {
                                         <input
                                             type="text"
                                             name="user_name"
-                                            placeholder="Email/Phone"
+                                            placeholder="Email/Phone +923001234567"
                                             required
                                             value={state.values.user_name}
                                             onChange={handleChange}
