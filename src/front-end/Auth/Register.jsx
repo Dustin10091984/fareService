@@ -213,16 +213,16 @@ const Register = (props) => {
                                                     </button>
                                                 </form>
 
-                                                <div className="other-login text-center">
+                                                {/* <div className="other-login text-center">
                                                     OR
-                                                </div>
+                                                </div> */}
 
-                                                <button className="login-gmail mt-5">
+                                                {/* <button className="login-gmail mt-5">
                                                     Login with Google
                                                 </button>
                                                 <button className="login-facebook mt-5">
                                                     Login with Facebook
-                                                </button>
+                                                </button> */}
 
                                                 <div className="login-detail mt-5 text-center">
                                                     Already have account?

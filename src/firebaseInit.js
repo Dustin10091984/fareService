@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/messaging";
+import axios from 'axios';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -21,9 +22,7 @@ export const getToken = async () => {
 
     try {
         currentToken = await messaging.getToken({ vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" });
-        if (currentToken) {
-            return currentToken;
-        }
+
     } catch (error) {
         console.log("An error occurred while retrieving token. ", error);
     }
