@@ -32,7 +32,7 @@ messaging.onBackgroundMessage(function (payload) {
     self.addEventListener("notificationclick", function (event) {
         event.notification.close();
         event.waitUntil(
-            clients.openWindow("https://farenow.com")
+            clients.openWindow("https://master.d1vfvqwww9zfmg.amplifyapp.com/")
         );
     });
 
