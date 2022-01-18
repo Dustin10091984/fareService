@@ -16,6 +16,8 @@ import {
 import { toast } from "react-toastify";
 import { getPaymentCards } from "../store/Slices/payments/paymentSlice";
 import Loading from "./common/Loading";
+import Swal from "sweetalert2";
+
 export const Payment = (props) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -374,20 +376,26 @@ export const Payment = (props) => {
                 ...state,
                 error: { ...state.error, stripeErr: undefined },
             }));
+            setState((state) => ({
+                ...state,
+                form: {
+                    ...state.form,
+                    serviceDetail: {
+                        ...state.form.serviceDetail,
+                    },
+                },
+            }));
+            if (state?.card_id) {
+                let data = serviceDetail;
+                data.card_id = state.card_id;
+                // false means this is not form data
+                dispatch(postRequestService(data, false));
+                return;
+            }
             const { error, token } = await stripe.createToken(
                 elements.getElement(CardElement)
             );
             if (token && serviceDetail !== undefined) {
-                setState((state) => ({
-                    ...state,
-                    form: {
-                        ...state.form,
-                        serviceDetail: {
-                            ...state.form.serviceDetail,
-                            token: token.id,
-                        },
-                    },
-                }));
                 let withToken = serviceDetail;
                 withToken.token = token.id;
                 // false means this is not form data
@@ -543,6 +551,13 @@ export const Payment = (props) => {
                                                 typeof serviceRequest.message
                                             ) {
                                                 case "string":
+                                                    Swal.fire({
+                                                        title: "Error",
+                                                        text: serviceRequest.message,
+                                                        confirmButtonText:
+                                                            "Close",
+                                                        icon: "error",
+                                                    });
                                                     return (
                                                         <div
                                                             className="col-12  alert alert-danger text-center"
@@ -599,6 +614,19 @@ export const Payment = (props) => {
                                                 typeof serviceRequest.message
                                             ) {
                                                 case "string":
+                                                    Swal.fire({
+                                                        title: "Success!",
+                                                        text: "Successfully created request service",
+                                                        confirmButtonText:
+                                                            "Save",
+                                                        icon: "success",
+                                                    }).then((result) => {
+                                                        if (
+                                                            result.isConfirmed
+                                                        ) {
+                                                            handleGoToServicesHistory();
+                                                        }
+                                                    });
                                                     return (
                                                         <div
                                                             className="col-12  alert alert-success text-center"
@@ -608,7 +636,7 @@ export const Payment = (props) => {
                                                             }}
                                                         >
                                                             {
-                                                                serviceRequest.message
+                                                                "Successfully Requested sent to provider"
                                                             }
                                                         </div>
                                                     );
@@ -733,9 +761,13 @@ export const Payment = (props) => {
                                         )}
                                         {(state.paymentMethod === 1 ||
                                             state.paymentMethod === undefined ||
-                                            state.cart_ids == undefined) && (
+                                            state.cart_ids == undefined ||
+                                            state?.form?.serviceDetail
+                                                ?.is_hourly == true) && (
                                             <>
-                                                {state.paymentMethod === 1 &&
+                                                {(state.paymentMethod === 1 ||
+                                                    state?.form?.serviceDetail
+                                                        ?.is_hourly) &&
                                                     paymentCard?.data?.data?.map(
                                                         (item, index) => (
                                                             <div
