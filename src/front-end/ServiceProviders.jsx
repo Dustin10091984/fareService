@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getProviderList } from "../store/Slices/providers/providerListSclice";
@@ -14,11 +14,15 @@ import PlacesAutocomplete from "react-places-autocomplete";
 import "react-calendar/dist/Calendar.css";
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
+import Swal from "sweetalert2";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
 
     const [open, setOpen] = useState(false);
+
+    const movingRef = useRef("movingModal");
+    const qautationRef = useRef("qaotationModal");
 
     const [state, setState] = useState({
         is_loggedin: false,
@@ -528,6 +532,12 @@ export const ServiceProviders = (props) => {
                                                                     ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
                                                                     : "/assets/img/user4.jpg"
                                                             }
+                                                            onError={(e) => {
+                                                                e.target.onerror =
+                                                                    null;
+                                                                e.target.src =
+                                                                    "/assets/img/user4.jpg";
+                                                            }}
                                                             className="img-fluid"
                                                             alt="Not Found"
                                                         />
@@ -697,6 +707,14 @@ export const ServiceProviders = (props) => {
                                                                                 }
                                                                                 className="img-fluid"
                                                                                 alt="Not have"
+                                                                                onError={(
+                                                                                    e
+                                                                                ) => {
+                                                                                    e.target.onerror =
+                                                                                        null;
+                                                                                    e.target.src =
+                                                                                        "/assets/img/user4.jpg";
+                                                                                }}
                                                                             />
                                                                         </div>
                                                                         {provider
@@ -721,6 +739,12 @@ export const ServiceProviders = (props) => {
                                 )
                             ) : providerList.error === true ? (
                                 <>
+                                    {Swal.fire({
+                                        title: "Error",
+                                        text: serviceRequest.message,
+                                        confirmButtonText: "Close",
+                                        icon: "error",
+                                    })}
                                     <div className="text-center display-4">
                                         {providerList.message}
                                     </div>
@@ -1092,6 +1116,13 @@ export const ServiceProviders = (props) => {
                                                     typeof serviceRequest.message
                                                 ) {
                                                     case "string":
+                                                        Swal.fire({
+                                                            title: "Error",
+                                                            text: serviceRequest.message,
+                                                            confirmButtonText:
+                                                                "Close",
+                                                            icon: "error",
+                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-danger text-center"
@@ -1149,6 +1180,20 @@ export const ServiceProviders = (props) => {
                                                     typeof serviceRequest.message
                                                 ) {
                                                     case "string":
+                                                        Swal.fire({
+                                                            title: "Success!",
+                                                            text: "Successfully created request service",
+                                                            confirmButtonText:
+                                                                "Go To Service History",
+                                                            icon: "success",
+                                                        }).then((result) => {
+                                                            if (
+                                                                result.isConfirmed
+                                                            ) {
+                                                                qautationRef.current.click();
+                                                                handleGoToServicesHistory();
+                                                            }
+                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-success text-center"
@@ -1337,6 +1382,7 @@ export const ServiceProviders = (props) => {
                                 className="button-common"
                                 onClick={handleCloseModalClick}
                                 data-dismiss="modal"
+                                ref={qautationRef}
                             >
                                 Close
                             </button>
@@ -1396,6 +1442,7 @@ export const ServiceProviders = (props) => {
                                 className="close"
                                 data-dismiss="modal"
                                 aria-label="Close"
+                                ref={movingRef}
                                 onClick={handleCloseModalClick}
                             >
                                 <span aria-hidden="true">&times;</span>
@@ -1430,6 +1477,13 @@ export const ServiceProviders = (props) => {
                                             ) {
                                                 switch (typeof movingMessage) {
                                                     case "string":
+                                                        Swal.fire({
+                                                            title: "Error",
+                                                            text: movingMessage,
+                                                            confirmButtonText:
+                                                                "Close",
+                                                            icon: "error",
+                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-danger text-center"
@@ -1487,6 +1541,20 @@ export const ServiceProviders = (props) => {
                                             ) {
                                                 switch (typeof movingMessage) {
                                                     case "string":
+                                                        Swal.fire({
+                                                            title: "Success!",
+                                                            text: "Request Successfully Sent",
+                                                            confirmButtonText:
+                                                                "Go To Services History",
+                                                            icon: "success",
+                                                        }).then((result) => {
+                                                            if (
+                                                                result.isConfirmed
+                                                            ) {
+                                                                movingRef.current.click();
+                                                                handleGoToServicesHistory();
+                                                            }
+                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-success text-center"

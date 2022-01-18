@@ -292,8 +292,10 @@ export const ServicesHistory = (props) => {
                                                                 }
                                                             </Link>
                                                             <div className="order-time">
-                                                                {moment().format(
-                                                                    "ddd, MM Do YYYY, h:mm:ss a"
+                                                                {moment(
+                                                                    serviceRequest.created_at
+                                                                ).format(
+                                                                    "ddd, MM Do YYYY, h:mm:ss A"
                                                                 )}
                                                             </div>
                                                             <div className="order-btn-b">
