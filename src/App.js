@@ -54,9 +54,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { onMessageListener, getToken } from './firebaseInit';
 import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
+import axios from 'axios'
+
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
 function App() {
+  console.log(window.location.hostname);
   const [notification, setNotification] = useState({ title: "", body: "" });
   onMessageListener()
     .then((payload) => {
@@ -67,7 +70,24 @@ function App() {
     });
 
   const dispatch = useDispatch();
-  useEffect(() => {
+  useEffect(async () => {
+    if (localStorage.userToken) {
+      const token = await getToken();
+      axios({
+        method: "post",
+        headers: {
+          Authorization: `${localStorage.userToken}`
+        },
+        url: process.env.REACT_APP_API_BASE_URL + "/api/user/device-token",
+        data: { device_token: token },
+      })
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.response.data.message);
+        });
+    }
     dispatch(getCartList());
   }, []);
 

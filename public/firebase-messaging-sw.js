@@ -29,8 +29,16 @@ messaging.onBackgroundMessage(function (payload) {
         icon: "/logo192.png",
     };
     // eslint-disable-next-line no-restricted-globals
+    self.addEventListener("notificationclick", function (event) {
+        event.notification.close();
+        event.waitUntil(
+            clients.openWindow("https://farenow.com")
+        );
+    });
+
     return self.registration.showNotification(
         notificationTitle,
         notificationOptions
     );
+
 });

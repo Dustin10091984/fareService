@@ -167,7 +167,7 @@ export const RestaurantPage = (props) => {
                         </div>
                     </div>
                     <div className="row mt-5">
-                        <div className="col-12">
+                        <div className="col-12 mt-5">
                             {(() => {
                                 let data = {
                                     current_page: 0,
