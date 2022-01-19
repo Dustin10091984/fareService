@@ -390,7 +390,7 @@ export const ServiceProviders = (props) => {
         setState((state) => ({ ...state, [name]: value }));
     };
 
-    console.log(state.phone);
+    debugger;
     return (
         <>
             {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
@@ -739,12 +739,14 @@ export const ServiceProviders = (props) => {
                                 )
                             ) : providerList.error === true ? (
                                 <>
-                                    {Swal.fire({
-                                        title: "Error",
-                                        text: serviceRequest.message,
-                                        confirmButtonText: "Close",
-                                        icon: "error",
-                                    })}
+                                    {(() => {
+                                        Swal.fire({
+                                            title: "Error",
+                                            text: serviceRequest.message,
+                                            confirmButtonText: "Close",
+                                            icon: "error",
+                                        });
+                                    })()}
                                     <div className="text-center display-4">
                                         {providerList.message}
                                     </div>
