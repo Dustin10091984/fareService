@@ -742,7 +742,9 @@ export const ServiceProviders = (props) => {
                                     {(() => {
                                         Swal.fire({
                                             title: "Error",
-                                            text: serviceRequest.message,
+                                            text:
+                                                serviceRequest?.message ||
+                                                "Not found provider",
                                             confirmButtonText: "Close",
                                             icon: "error",
                                         });
@@ -1120,7 +1122,9 @@ export const ServiceProviders = (props) => {
                                                     case "string":
                                                         Swal.fire({
                                                             title: "Error",
-                                                            text: serviceRequest.message,
+                                                            text:
+                                                                serviceRequest.message ||
+                                                                "something went wrong",
                                                             confirmButtonText:
                                                                 "Close",
                                                             icon: "error",
