@@ -46,7 +46,9 @@ const Card = ({
                                     color: "gold",
                                 }}
                             >
-                                <span className="text-dark">&nbsp;4.6/5</span>
+                                <span className="text-dark">
+                                    &nbsp;{rating || 0}/5
+                                </span>
                             </i>
                         </div>
                         <div className="desc text-truncate">{description}</div>
