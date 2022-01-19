@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router-dom";
 
-const ReactNotificationComponent = ({ title, body }) => {
+const ReactNotificationComponent = ({ title, body, type }) => {
+    const location = useLocation();
     if (title !== "" && !body !== "") {
         toast.info(<Display />, {
             hideProgressBar: true,
@@ -17,9 +19,18 @@ const ReactNotificationComponent = ({ title, body }) => {
         });
     }
 
+    const handleNotificationClick = (type) => {
+        toast.dismiss();
+        if (type == "MOVING" || type == "SERVICE_REQUEST") {
+            location.push({
+                pathname: "/services-history",
+            });
+        }
+    };
+
     function Display() {
         return (
-            <div>
+            <div onClick={type && handleNotificationClick(type)}>
                 <h4>{title}</h4>
                 <p>{body}</p>
             </div>

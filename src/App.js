@@ -120,6 +120,7 @@ function App() {
         <ReactNotificationComponent
           title={notification.title}
           body={notification.body}
+          type={notification.type}
         />
         <Header></Header>
 

@@ -484,28 +484,30 @@ export const ServicesHistory = (props) => {
                                                                     "ENDED"
                                                             ) {
                                                                 return (
-                                                                    <div
-                                                                        type="button"
-                                                                        className="service-label"
-                                                                        style={{
-                                                                            backgroundColor:
-                                                                                "blue",
-                                                                        }}
-                                                                        onClick={() =>
-                                                                            handleFeedbackClick(
-                                                                                serviceRequest.id,
-                                                                                serviceRequest
-                                                                                    .provider
-                                                                                    .id
-                                                                            )
-                                                                        }
-                                                                        data-backdrop="static"
-                                                                        data-keyboard="false"
-                                                                        data-toggle="modal"
-                                                                        data-target="#feedback"
-                                                                    >
-                                                                        Give
-                                                                        Feedback
+                                                                    <div className="order-des-b">
+                                                                        <div
+                                                                            type="button"
+                                                                            className="service-label"
+                                                                            style={{
+                                                                                backgroundColor:
+                                                                                    "blue",
+                                                                            }}
+                                                                            onClick={() =>
+                                                                                handleFeedbackClick(
+                                                                                    serviceRequest.id,
+                                                                                    serviceRequest
+                                                                                        .provider
+                                                                                        .id
+                                                                                )
+                                                                            }
+                                                                            data-backdrop="static"
+                                                                            data-keyboard="false"
+                                                                            data-toggle="modal"
+                                                                            data-target="#feedback"
+                                                                        >
+                                                                            Give
+                                                                            Feedback
+                                                                        </div>
                                                                     </div>
                                                                 );
                                                             }
