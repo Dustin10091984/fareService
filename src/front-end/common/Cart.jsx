@@ -10,9 +10,23 @@ import { Link } from "react-router-dom";
 
 export const Cart = ({ data }) => {
     const [state, setState] = useState({
+        is_loggedin: false,
         wait: null,
     });
 
+    useEffect(() => {
+        if (localStorage.getItem("userToken")) {
+            setState((state) => ({
+                ...state,
+                is_loggedin: true,
+            }));
+        } else {
+            setState((state) => ({
+                ...state,
+                is_loggedin: false,
+            }));
+        }
+    }, []);
     const loading = useRef(null);
 
     const dispatch = useDispatch();
@@ -25,7 +39,8 @@ export const Cart = ({ data }) => {
         if (
             state.wait == false &&
             state?.cart?.id != null &&
-            state?.cart?.quantity != null
+            state?.cart?.quantity != null &&
+            state.is_logedin == true
         ) {
             dispatch(
                 updateQuantity({
@@ -167,71 +182,103 @@ export const Cart = ({ data }) => {
                                 paddingTop: "1rem",
                             }}
                         >
-                            {data?.error == false
-                                ? data?.cart?.map((item, index) => {
-                                      const { food, product } = item;
-                                      if (food || product) {
-                                          let cartData = food || product;
-                                          return (
-                                              <CheckOutCard
-                                                  key={index}
-                                                  {...{
-                                                      id: item.id,
-                                                      image: `${HOST}${cartData?.image}`,
-                                                      title: cartData?.name,
-                                                      price: `$${cartData?.price}`,
-                                                      quantity:
-                                                          (item?.id ==
-                                                              state?.cart?.id &&
-                                                              state?.cart
-                                                                  ?.quantity) ||
-                                                          item?.quantity,
-                                                      handlePlusClick: () =>
-                                                          handlePlusClick({
-                                                              id: item.id,
-                                                              quantity:
-                                                                  item?.id ==
-                                                                  state?.cart
-                                                                      ?.id
-                                                                      ? state
+                            {(() => {
+                                if (state?.is_loggedin == true) {
+                                    if (data?.error) {
+                                        return (
+                                            <div className="text-center">
+                                                <h5>
+                                                    {data?.message ||
+                                                        "No items in your cart"}
+                                                </h5>
+                                            </div>
+                                        );
+                                    }
+                                    if (
+                                        data?.error == false &&
+                                        data?.cart?.length > 0
+                                    ) {
+                                        return data?.cart?.map(
+                                            (item, index) => {
+                                                const { food, product } = item;
+                                                if (food || product) {
+                                                    let cartData =
+                                                        food || product;
+                                                    return (
+                                                        <CheckOutCard
+                                                            key={index}
+                                                            {...{
+                                                                id: item.id,
+                                                                image: `${HOST}${cartData?.image}`,
+                                                                title: cartData?.name,
+                                                                price: `$${cartData?.price}`,
+                                                                quantity:
+                                                                    (item?.id ==
+                                                                        state
                                                                             ?.cart
-                                                                            ?.quantity
-                                                                      : parseInt(
-                                                                            item.quantity
-                                                                        ),
-                                                          }),
-                                                      handleMinusClick: () =>
-                                                          handleMinusClick({
-                                                              id: item.id,
-                                                              quantity:
-                                                                  item?.id ==
-                                                                  state?.cart
-                                                                      ?.id
-                                                                      ? state
+                                                                            ?.id &&
+                                                                        state
                                                                             ?.cart
-                                                                            ?.quantity
-                                                                      : parseInt(
-                                                                            item.quantity
+                                                                            ?.quantity) ||
+                                                                    item?.quantity,
+                                                                handlePlusClick:
+                                                                    () =>
+                                                                        handlePlusClick(
+                                                                            {
+                                                                                id: item.id,
+                                                                                quantity:
+                                                                                    item?.id ==
+                                                                                    state
+                                                                                        ?.cart
+                                                                                        ?.id
+                                                                                        ? state
+                                                                                              ?.cart
+                                                                                              ?.quantity
+                                                                                        : parseInt(
+                                                                                              item.quantity
+                                                                                          ),
+                                                                            }
                                                                         ),
-                                                          }),
-                                                      handleRemoveCartClick:
-                                                          () =>
-                                                              handleRemoveCartClick(
-                                                                  item.id
-                                                              ),
-                                                  }}
-                                              />
-                                          );
-                                      }
-                                  })
-                                : data?.error && (
-                                      <div className="text-center">
-                                          <h5>
-                                              {data?.message ||
-                                                  "No items in your cart"}
-                                          </h5>
-                                      </div>
-                                  )}
+                                                                handleMinusClick:
+                                                                    () =>
+                                                                        handleMinusClick(
+                                                                            {
+                                                                                id: item.id,
+                                                                                quantity:
+                                                                                    item?.id ==
+                                                                                    state
+                                                                                        ?.cart
+                                                                                        ?.id
+                                                                                        ? state
+                                                                                              ?.cart
+                                                                                              ?.quantity
+                                                                                        : parseInt(
+                                                                                              item.quantity
+                                                                                          ),
+                                                                            }
+                                                                        ),
+                                                                handleRemoveCartClick:
+                                                                    () =>
+                                                                        handleRemoveCartClick(
+                                                                            item.id
+                                                                        ),
+                                                            }}
+                                                        />
+                                                    );
+                                                }
+                                            }
+                                        );
+                                    }
+                                } else {
+                                    return (
+                                        <div className="text-center">
+                                            <h5>
+                                                Please login to view your cart
+                                            </h5>
+                                        </div>
+                                    );
+                                }
+                            })()}
                         </div>
                         <hr className="mt-4" />
                     </div>

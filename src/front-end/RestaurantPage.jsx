@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Paginate from "../components/Paginate";
-import { ProductType } from "../constants";
+import { HOST, ProductType } from "../constants";
 import {
     addToCart,
     getCartList,
@@ -106,10 +106,15 @@ export const RestaurantPage = (props) => {
                         <div className="col-md-12">
                             <img
                                 src={
-                                    restaurant?.data?.cover_image ||
-                                    "/assets/img/restaurant.jpg"
+                                    restaurant?.data?.cover_image
+                                        ? `${HOST}${restaurant?.data?.cover_image}`
+                                        : "/assets/img/restaurant.jpg"
                                 }
                                 className="restaurant-banner"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = "/assets/img/restaurant.jpg";
+                                }}
                             ></img>
                             <div className="col-md-12">
                                 <div className="row d-flex align-items-center">
@@ -117,7 +122,11 @@ export const RestaurantPage = (props) => {
                                         {restaurant?.data?.name}
                                     </div>
                                     <div className="col-md-4 restaurant-rating d-flex justify-content-end">
-                                        <Rating rating={3}></Rating>
+                                        <Rating
+                                            rating={
+                                                restaurant?.data?.rating || 0
+                                            }
+                                        ></Rating>
                                     </div>
                                     <div className="col-md-12 restaurant-address">
                                         {restaurant?.data?.address}
@@ -167,7 +176,13 @@ export const RestaurantPage = (props) => {
                         </div>
                     </div>
                     <div className="row mt-5">
-                        <div className="col-12 mt-5">
+                        <div
+                            className="col-12 mt-5"
+                            style={{
+                                marginTop: "10vh",
+                                marginBottom: "2vh",
+                            }}
+                        >
                             {(() => {
                                 let data = {
                                     current_page: 0,

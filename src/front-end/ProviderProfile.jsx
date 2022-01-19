@@ -63,6 +63,12 @@ export const ProviderProfile = (props) => {
                                                                 ? `${HOST}${data?.provider?.image}`
                                                                 : "/assets/img/user4.jpg"
                                                         }
+                                                        onError={(e) => {
+                                                            e.target.onerror =
+                                                                null;
+                                                            e.target.src =
+                                                                "/assets/img/user4.jpg";
+                                                        }}
                                                         className="img-fluid"
                                                         alt=""
                                                     />
@@ -181,18 +187,18 @@ export const ProviderProfile = (props) => {
                         </div>
 
                         <div className="col-md-8 mt-5">
-                            {providerProfile?.data?.provider?.portfolio && (
+                            {providerProfile?.data?.provider?.portfolios && (
                                 <div className="job-provider-card p-5">
                                     <div
                                         style={{
-                                            height: "42vh",
+                                            height: "45vh",
                                         }}
                                         id="carouselExampleIndicators"
                                         className="carousel slide"
                                         data-ride="carousel"
                                     >
                                         <ol className="carousel-indicators">
-                                            {providerProfile?.data?.provider?.portfolio?.images?.map(
+                                            {providerProfile?.data?.provider?.portfolios?.map(
                                                 (img, index) => (
                                                     <li
                                                         data-target="#carouselExampleIndicators"
@@ -207,8 +213,8 @@ export const ProviderProfile = (props) => {
                                             )}
                                         </ol>
                                         <div className="carousel-inner">
-                                            {providerProfile?.data?.provider?.portfolio?.images?.map(
-                                                (img, index) => (
+                                            {providerProfile?.data?.provider?.portfolios?.map(
+                                                (data, index) => (
                                                     <div
                                                         className={`carousel-item${
                                                             index == 0
@@ -219,17 +225,30 @@ export const ProviderProfile = (props) => {
                                                     >
                                                         <img
                                                             src={
-                                                                HOST + img?.url
+                                                                HOST +
+                                                                data?.image
                                                             }
                                                             className="d-block w-100"
                                                             alt="..."
                                                             style={{
-                                                                height: "42vh",
+                                                                height: "45vh",
                                                                 borderRadius:
                                                                     ".5rem",
                                                                 border: "1px solid #e6e6e6",
                                                             }}
                                                         />
+                                                        <div className="carousel-caption d-none d-md-block">
+                                                            <p
+                                                                style={{
+                                                                    fontSize:
+                                                                        "1.5rem",
+                                                                }}
+                                                            >
+                                                                {
+                                                                    data?.description
+                                                                }
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 )
                                             )}
@@ -271,7 +290,7 @@ export const ProviderProfile = (props) => {
                                             </span>
                                         </button>
                                     </div>
-                                    <div className="useer-qust mt-0 mb-3 mt-5">
+                                    {/* <div className="useer-qust mt-0 mb-3 mt-5">
                                         <div className="title">
                                             Portfolio Details
                                         </div>
@@ -281,7 +300,7 @@ export const ProviderProfile = (props) => {
                                                     ?.portfolio?.description
                                             }
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             )}
                             <div className="job-provider-card">
