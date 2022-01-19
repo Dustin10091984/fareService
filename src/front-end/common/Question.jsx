@@ -139,7 +139,7 @@ export const Question = (props) => {
             [name]: value,
             selectedZipCode: false,
         }));
-        if (value.length < 2 || value.length > 12) {
+        if (value.length < 1 || value.length > 12) {
             setState((state) => ({
                 ...state,
                 zipCodeErr: (
@@ -169,12 +169,13 @@ export const Question = (props) => {
                     setState((state) => ({
                         ...state,
                         zipCodeData: "",
-                        zipCodeDataErr: error?.response?.data,
+                        zipCodeDataErr: error?.response?.data?.message,
                     }));
                 });
         }
     };
 
+    console.log(state.zipCodeDataErr);
     const handleSelectZipCode = (code) => {
         setState((state) => ({
             ...state,
@@ -334,6 +335,9 @@ export const Question = (props) => {
                                                 )}
                                             </>
                                         )}
+                                    <div className="col-md-12 text-danger">
+                                        {state?.zipCodeDataErr}
+                                    </div>
                                     {state?.zipCodeErr}
                                 </>
                             )}
