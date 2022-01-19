@@ -81,7 +81,6 @@ function App() {
         data: { device_token: token },
       })
         .then(function (response) {
-          console.log(response.data);
         })
         .catch((error) => {
           console.log(error.response.data.message);
@@ -141,6 +140,7 @@ function App() {
           <ProtectedRoute path='/services-history' component={ServicesHistory} />
           <ProtectedRoute path='/my-account' component={MyAccount} />
           <ProtectedRoute path='/order-detail/:id' component={OrderDetail} />
+          <ProtectedRoute path='/cart' component={Cart} />
 
           <Route path='/service-providers' component={ServiceProviders} />
           <Route path='/shop' component={Shop} />
@@ -166,7 +166,6 @@ function App() {
           <Route path='/food-details' component={FoodDetails} />
           <Route path='/services/:serviceId/:subServiceId' component={Services} />
           <Route path='/services' component={Services} />
-          <Route path='/cart' component={Cart} />
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
           <Route path='/product-delivery' component={ProductDelivery} />

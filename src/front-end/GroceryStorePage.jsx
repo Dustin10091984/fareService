@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Paginate from "../components/Paginate";
+import { HOST } from "../constants";
 import {
     addToCart,
     clearCartState,
@@ -95,10 +96,15 @@ export const GroceryStorePage = (props) => {
                         <div className="col-md-12">
                             <img
                                 src={
-                                    groceryStore?.data?.cover_image ||
-                                    "/assets/img/restaurant.jpg"
+                                    groceryStore?.data?.cover_image
+                                        ? `${HOST}${groceryStore?.data?.cover_image}`
+                                        : "/assets/img/restaurant.jpg"
                                 }
                                 className="restaurant-banner"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = "/assets/img/restaurant.jpg";
+                                }}
                             ></img>
                             <div className="col-md-12">
                                 <div className="row d-flex align-items-center">
@@ -106,7 +112,11 @@ export const GroceryStorePage = (props) => {
                                         {groceryStore?.data?.name}
                                     </div>
                                     <div className="col-md-4 restaurant-rating d-flex justify-content-end">
-                                        <Rating rating={3}></Rating>
+                                        <Rating
+                                            rating={
+                                                groceryStore?.data?.rating || 0
+                                            }
+                                        ></Rating>
                                     </div>
                                     <div className="col-md-12 restaurant-address">
                                         {groceryStore?.data?.address}
@@ -156,7 +166,13 @@ export const GroceryStorePage = (props) => {
                         </div>
                     </div>
                     <div className="row mt-5">
-                        <div className="col-12 ">
+                        <div
+                            className="col-12 "
+                            style={{
+                                marginTop: "10vh",
+                                marginBottom: "2vh",
+                            }}
+                        >
                             {(() => {
                                 let data = {
                                     current_page: 0,
