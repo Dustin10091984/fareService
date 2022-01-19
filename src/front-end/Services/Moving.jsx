@@ -133,15 +133,7 @@ export const Moving = (props) => {
     };
 
     const handleCalendarClick = (selectedDate) => {
-        let date = new Date();
-        if (
-            new Date(
-                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-            ) <=
-            new Date(
-                `${selectedDate.getFullYear()}-${selectedDate.getMonth()}-${selectedDate.getDate()}`
-            )
-        ) {
+        if (new Date() <= new Date(selectedDate)) {
             setState((state) => ({
                 ...state,
                 date: selectedDate,
