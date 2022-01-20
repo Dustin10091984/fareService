@@ -389,8 +389,6 @@ export const ServiceProviders = (props) => {
         }
         setState((state) => ({ ...state, [name]: value }));
     };
-
-    debugger;
     return (
         <>
             {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">

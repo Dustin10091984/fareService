@@ -257,8 +257,8 @@ export const Food = ({ food, props }) => {
 export const GroceryStoreCard = ({ groceryStore }) => {
     let data = {};
     data.link = `/grocery-stores-page/${groceryStore.id}`;
-    data.image = groceryStore?.image
-        ? HOST + groceryStore?.image
+    data.image = groceryStore?.profile_image
+        ? HOST + groceryStore?.profile_image
         : "/assets/img/food.svg";
     data.errorImage = "/assets/img/food.svg";
     data.title = groceryStore?.name !== null && groceryStore?.name;
