@@ -27,6 +27,7 @@ const Card = ({
                 >
                     <div className="prod-img ">
                         <img
+                            className="img-fluid"
                             src={image}
                             alt=""
                             onError={(e) => {
