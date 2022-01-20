@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getVehicleTypes } from "./../../store/Slices/moving/movingSlice";
@@ -28,6 +28,8 @@ export const Moving = (props) => {
         zip_code: "",
         service_type: ServiceType.MOVING,
     });
+
+    const closeRef = useRef(null);
 
     const dispatch = useDispatch();
 
@@ -133,7 +135,9 @@ export const Moving = (props) => {
     };
 
     const handleCalendarClick = (selectedDate) => {
-        if (new Date() <= new Date(selectedDate)) {
+        let newDate = new Date();
+        if (moment(selectedDate).isSameOrAfter(newDate.setHours(0, 0, 0, 0))) {
+            closeRef.current.click();
             setState((state) => ({
                 ...state,
                 date: selectedDate,
@@ -616,6 +620,7 @@ export const Moving = (props) => {
                                 className="close"
                                 data-dismiss="modal"
                                 aria-label="Close"
+                                ref={closeRef}
                             >
                                 <span
                                     aria-hidden="true"
@@ -646,14 +651,14 @@ export const Moving = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="modal-footer">
+                        {/* <div className="modal-footer">
                             <button
                                 className="button-common-2"
                                 data-dismiss="modal"
                             >
                                 OK
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
