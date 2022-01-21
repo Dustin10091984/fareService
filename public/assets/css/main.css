@@ -19,6 +19,7 @@
     display: table;
     width: 100%;
     height: auto;
+    min-height: 100vh;
     padding-bottom: 4vh;
 }
 
