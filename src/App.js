@@ -43,7 +43,7 @@ import { ServicesDetail } from './front-dashboard/ServicesDetail';
 import { ChangeP } from "./front-dashboard/ChangeP";
 import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
-import Registration from "./ProviderRegistration";
+import { Registration } from "./views/Provider/Registration";
 
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
