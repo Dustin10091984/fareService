@@ -1,0 +1,300 @@
+@font-face {
+    font-family: toolkit-entypo;
+    src: url("../fonts/toolkit-entypo.woff2");
+}
+$primary: #c1272d;
+$secondary: #1b1464;
+$white: #fff;
+
+.btn-primary {
+    background: $primary !important;
+    border-color: $primary !important;
+    &:hover {
+        background: $secondary !important;
+        border-color: $secondary !important;
+    }
+}
+.main-header {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    @media (min-width: 768px) {
+        padding-bottom: 120px;
+    }
+}
+
+.logo-main {
+    max-width: 150px;
+}
+.login-now {
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    &:hover {
+        text-decoration: none;
+        color: $primary !important;
+    }
+}
+
+.login-from {
+    background: $white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+}
+
+.form-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: #222;
+}
+
+.form-term {
+    font-size: 14px;
+    font-weight: 400;
+    a {
+        color: $primary;
+    }
+}
+
+.form-group {
+    label {
+        font-weight: 500;
+    }
+}
+.select2-container--default .select2-selection--single {
+    border: none !important;
+    padding: 0.375rem 0 !important;
+    font-size: 1rem !important;
+    height: 38px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+    position: absolute;
+    top: 14px !important;
+}
+
+.select2-selection__rendered {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 38px;
+    height: 38px !important;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.banner-title {
+    color: $white;
+    font-weight: 700;
+    padding-top: 60px !important;
+}
+
+.banner-des {
+    font-size: 21px;
+    color: $white;
+    font-weight: 400;
+}
+
+.phone-input {
+    .select2-container--default .select2-selection--single {
+        padding: 0 !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        top: 7px !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 28px;
+        background: #f5f5f5;
+    }
+}
+
+.arrow-down-banner {
+    margin-top: 120px !important;
+}
+
+.arrow-down-banner {
+    color: $primary;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.box-why {
+    i {
+        font-size: 56px;
+        color: $primary;
+    }
+    p {
+        font-weight: 14px;
+        font-weight: 300;
+    }
+}
+
+.why-title {
+    font-weight: 700;
+}
+
+.why-farerun {
+    padding-top: 100px;
+}
+
+.copy-right {
+}
+
+/* The container */
+.custom-check {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* Hide the browser's default checkbox */
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+        &:checked ~ .checkmark {
+            background-color: $primary;
+        }
+        &:checked ~ .checkmark:after {
+            display: block;
+        }
+    }
+    //   &:hover input ~ .checkmark {
+    //     background-color: #ccc;
+    //   }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    }
+}
+
+//   radio button
+/* The container */
+.custom-radio {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+        border-radius: 50%;
+        &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+    }
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        &:checked ~ .checkmark {
+            background-color: $primary;
+        }
+    }
+    input:checked ~ .checkmark:after {
+        display: block;
+    }
+}
+
+.badge-ctm {
+    background: #ccc;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    .fa {
+        height: 15px;
+        width: 15px;
+        background: #222;
+        color: $white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        cursor: pointer;
+    }
+}
+
+#step-compnay,
+#step-individual {
+    display: none !important;
+}
+#step-individual {
+    display: none !important;
+    &.user-active {
+        display: inline-block !important;
+    }
+}
+#step-compnay {
+    display: none !important;
+    &.company-active {
+        display: inline-block !important;
+    }
+}
+
+
+.user-profile{
+    
+    .user-image{
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+}
