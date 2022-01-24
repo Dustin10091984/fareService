@@ -277,37 +277,48 @@ const Registration = (props) => {
                             </div>
                             <div className="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
                                 {/* <!-- step 1 --> */}
-                                {step == 1 && (
-                                    <Basic
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                        handleBasic={(e) => handleBasic(e)}
-                                        basic={basic}
-                                        handleProviderSignup={
-                                            handleProviderSignup
-                                        }
-                                        providerSignup={providerSignup}
-                                    />
-                                )}
+                                {step == 1 &&
+                                    localStorage.getItem("providerToken") ==
+                                        undefined && (
+                                        <Basic
+                                            handleStep={(step) =>
+                                                handleStep(step)
+                                            }
+                                            step={step}
+                                            handleBasic={(e) => handleBasic(e)}
+                                            basic={basic}
+                                            handleProviderSignup={
+                                                handleProviderSignup
+                                            }
+                                            providerSignup={providerSignup}
+                                        />
+                                    )}
                                 {/* <!-- step 2 --> */}
-                                {step == 2 && (
-                                    <Otp
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                        handleOtp={(e) => handleOtp(e)}
-                                        otpData={otpData}
-                                        handleverifyPhoneNo={
-                                            handleverifyPhoneNo
-                                        }
-                                    />
-                                )}
+                                {step == 2 &&
+                                    localStorage.getItem("providerToken") ==
+                                        undefined && (
+                                        <Otp
+                                            handleStep={(step) =>
+                                                handleStep(step)
+                                            }
+                                            step={step}
+                                            handleOtp={(e) => handleOtp(e)}
+                                            otpData={otpData}
+                                            handleverifyPhoneNo={
+                                                handleverifyPhoneNo
+                                            }
+                                        />
+                                    )}
                                 {/* <!-- step 3 --> */}
-                                {step == 3 && (
-                                    <BasicInfo
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                    />
-                                )}
+                                {step == 3 ||
+                                    (localStorage.getItem("providerToken") && (
+                                        <BasicInfo
+                                            handleStep={(step) =>
+                                                handleStep(step)
+                                            }
+                                            step={step}
+                                        />
+                                    ))}
                                 {/* <!-- step 4 --> */}
                                 {step == 4 && (
                                     <SelectZipCode
