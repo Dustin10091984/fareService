@@ -1,7 +1,34 @@
 import React, { useState, useEffect } from "react";
 
-const Basic = ({ step, basic, handleStep, handleBasic }) => {
+const Basic = ({
+    step,
+    basic,
+    handleStep,
+    handleBasic,
+    handleProviderSignup,
+    providerSignup,
+}) => {
     const isError = (name) => (basic.error[name] ? basic.error[name] : null);
+    const isServerError = (name) => {
+        if (
+            providerSignup?.message != undefined &&
+            typeof (providerSignup?.message == "object")
+        ) {
+            return providerSignup?.message[name] !== undefined
+                ? providerSignup?.message[name]
+                : null;
+        }
+    };
+
+    const handleNextClick = () => {
+        handleProviderSignup({
+            email: basic.email,
+            phone: `${basic.code}${basic.phone}`,
+            password: basic.password,
+        });
+        // handleStep(step + 1);
+    };
+
     return (
         <div className="login-from step-1">
             <div className="form-title mb-3">Set Up Your Business Profile.</div>
@@ -17,9 +44,13 @@ const Basic = ({ step, basic, handleStep, handleBasic }) => {
                     className="form-control"
                     name="email"
                     placeholder="john.doe@gmail.com"
+                    defaultValue={basic?.email || ""}
                     onChange={handleBasic}
                 />
-                <div className="text-danger">{isError("email")}</div>
+                <div className="text-danger">
+                    {isError("email")}
+                    {isServerError("email")}
+                </div>
             </div>
             <div className="row">
                 <div className="form-group col-12">
@@ -29,22 +60,25 @@ const Basic = ({ step, basic, handleStep, handleBasic }) => {
                         <select
                             className="js-example-basic-single form-control col-3"
                             name="code"
+                            defaultValue={basic?.code}
                             onChange={handleBasic}
                         >
-                            <option value="+1">+1 </option>
-                            <option defaultValue value="+92">
-                                +92
-                            </option>
+                            <option value={"+1"}>+1 </option>
+                            <option value={"+92"}>+92</option>
                         </select>
                         <input
-                            type="text"
+                            type="tel"
                             name="phone"
                             className="form-control col-9"
                             placeholder="51112345"
+                            defaultValue={basic?.phone || ""}
                             onChange={handleBasic}
                         />
                     </div>
-                    <div className="text-danger">{isError("phone")}</div>
+                    <div className="text-danger">
+                        {isError("phone")}
+                        {isServerError("phone")}
+                    </div>
                 </div>
             </div>
             {/* <label className="custom-check">
@@ -67,11 +101,15 @@ const Basic = ({ step, basic, handleStep, handleBasic }) => {
                     className="form-control"
                     name="password"
                     placeholder="password"
+                    defaultValue={basic?.password || ""}
                     onChange={handleBasic}
                 />
-                <div className="text-danger">{isError("password")}</div>
+                <div className="text-danger">
+                    {isError("password")}
+                    {isServerError("password")}
+                </div>
             </div>
-            <div className="form-group d-none">
+            {/* <div className="form-group d-none">
                 <label className="mb-0">Citis</label>
                 <select
                     className="js-example-basic-single form-control"
@@ -82,7 +120,7 @@ const Basic = ({ step, basic, handleStep, handleBasic }) => {
                     <option value="WY">Warri</option>
                     <option value="WY">Benin</option>
                 </select>
-            </div>
+            </div> */}
             <div className="form-term my-2">
                 By tapping continue with Facebook or Continue with Google. you
                 adree to the <br /> <a href="#">Terms of Service</a> and{" "}
@@ -91,23 +129,23 @@ const Basic = ({ step, basic, handleStep, handleBasic }) => {
 
             <button
                 disabled={(() => {
-                    let error = false;
-                    Object.keys(basic.error).map((key) => {
-                        if (basic.error[key] !== "") {
-                            error = true;
-                        }
-                    });
                     return (
-                        error ||
+                        providerSignup?.loading ||
+                        isError("email") ||
+                        isError("phone") ||
+                        isError("password") ||
                         basic?.email == "" ||
+                        basic?.email == undefined ||
                         basic?.password == "" ||
-                        basic?.phone == ""
+                        basic?.password == undefined ||
+                        basic?.phone == "" ||
+                        basic?.phone == undefined
                     );
                 })()}
                 className="btn btn-primary w-100 mt-3"
                 id="step-1"
                 type="button"
-                onClick={() => handleStep(step + 1)}
+                onClick={handleNextClick}
             >
                 Next
             </button>

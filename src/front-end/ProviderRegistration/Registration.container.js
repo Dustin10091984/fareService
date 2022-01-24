@@ -1,18 +1,16 @@
 import { connect } from 'react-redux';
 import Registration from './Registration';
+import { providerSignup } from "./../../store/Slices/providers/registration";
 
 const mapStateToProps = (state) => ({
-    // deliveries: state.deliveryReducer.deliveries,
-    // pharmacy: state.pharmacyReducer.pharmacy,
+    providerSignup: state.registrationReducer?.signupProvider,
 });
-// console.log(state);
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//       handlePostProperty: (propertyStore) => {
-//         dispatch(propertyActions.createProperty.request(propertyStore), propertyStore);
-//       },
-//     };
-//   };
-//   export default connect(mapDispatchToProps, mapStateToProps)(PropertyForm);
-export default connect(mapStateToProps, null)(Registration);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleProviderSignup: (signupData) => {
+            dispatch(providerSignup(signupData));
+        },
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

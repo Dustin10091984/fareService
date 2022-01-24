@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { toast } from "react-toastify";
 import {
     Basic,
     Otp,
@@ -10,6 +11,7 @@ import {
 } from "./Steps";
 
 const Registration = (props) => {
+    const { handleProviderSignup, providerSignup } = props;
     const [step, setStep] = useState(1);
     const [basic, setBasic] = useState({
         code: "+92",
@@ -25,6 +27,31 @@ const Registration = (props) => {
     const [providerType, setProviderType] = useState();
     const [individual, setIndividual] = useState({});
     const [company, setCompany] = useState({});
+
+    const loading = useRef(null);
+    const error = useRef(null);
+
+    useEffect(() => {
+        if (providerSignup.loading) {
+            loading.current = toast.info("please wait", {
+                toastId: loading.current,
+                autoClose: false,
+            });
+            return;
+        }
+        if (providerSignup.error) {
+            toast.dismiss(loading.current);
+            if (typeof providerSignup.message != "object")
+                error.current = toast.error(providerSignup.message, {
+                    toastId: error.current,
+                });
+            return;
+        }
+        if (providerSignup.error == false && providerSignup.data) {
+            toast.dismiss(loading.current);
+            setStep(2);
+        }
+    }, [providerSignup]);
 
     const handleStep = (step) => {
         setStep(step);
@@ -181,7 +208,7 @@ const Registration = (props) => {
                             <div className="col-sm-10 col-md-6 col-lg-6 offset-lg-1 p-b-md">
                                 <div className="banner-content">
                                     <h1 className="banner-title">
-                                        Drive with Farerun
+                                        Drive with FareNow
                                     </h1>
                                     <div className="banner-des">
                                         Earn good money with your vehicle.
@@ -196,6 +223,10 @@ const Registration = (props) => {
                                         step={step}
                                         handleBasic={(e) => handleBasic(e)}
                                         basic={basic}
+                                        handleProviderSignup={
+                                            handleProviderSignup
+                                        }
+                                        providerSignup={providerSignup}
                                     />
                                 )}
                                 {/* <!-- step 2 --> */}
