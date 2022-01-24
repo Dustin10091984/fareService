@@ -134,7 +134,7 @@ function App() {
             to="/"
           />
 
-          <Route path='/provider/registration' component={Registration} />
+          {/* <Route path='/provider/registration' component={Registration} /> */}
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
 
