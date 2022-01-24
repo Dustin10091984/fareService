@@ -7,7 +7,7 @@ import { postRequestService } from "../store/Slices/services/RequestServiceSclic
 import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
 import { makeMovingRequest } from "../store/Slices/moving/movingSlice";
 import ServiceType from "../constants/ServiceType";
-import { GoogleMap } from "../GoogleMap/GoogleMap";
+import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";

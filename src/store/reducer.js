@@ -3,6 +3,7 @@ import userSclice from "./Slices/UserSlice";
 import serviceSclice from "./Slices/services/ServiceSclice";
 import requestServiceSlice from "./Slices/services/RequestServiceSclice";
 import providerSclice from "./Slices/providers/providerListSclice";
+import registrationSlice from "./Slices/providers/registration";
 import providerProfileSclice from "./Slices/providers/ProviderProfileSclice";
 import providerSchedule from "./Slices/providers/providerScheduleSclice";
 import chatlistSclice from "./Slices/chat/chatlistSclice";
@@ -35,4 +36,5 @@ export default combineReducers({
     cartsReducer: cartsSlice,
     orderReducer: orderSlice,
     categoryReducer: categorySlice,
+    registrationReducer: registrationSlice
 });
