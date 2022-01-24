@@ -11,7 +11,9 @@ import {
 } from "./Steps";
 
 const Registration = (props) => {
-    const { handleProviderSignup, providerSignup } = props;
+    // dispatch actions
+    const { handleProviderSignup, handleverifyPhoneNo } = props;
+    const { providerSignup, verifyOpt } = props;
     const [step, setStep] = useState(1);
     const [basic, setBasic] = useState({
         code: "+92",
@@ -21,7 +23,7 @@ const Registration = (props) => {
             password: "",
         },
     });
-    const [otp, setOtp] = useState({});
+    const [otpData, setOtpData] = useState({});
     const [basicInfo, setBasicInfo] = useState({});
     const [zipCode, setZipCode] = useState({});
     const [providerType, setProviderType] = useState();
@@ -32,26 +34,59 @@ const Registration = (props) => {
     const error = useRef(null);
 
     useEffect(() => {
-        if (providerSignup.loading) {
+        if (providerSignup?.loading) {
             loading.current = toast.info("please wait", {
                 toastId: loading.current,
                 autoClose: false,
             });
             return;
         }
-        if (providerSignup.error) {
+        if (providerSignup?.error) {
             toast.dismiss(loading.current);
-            if (typeof providerSignup.message != "object")
+            if (typeof providerSignup?.message != "object") {
                 error.current = toast.error(providerSignup.message, {
                     toastId: error.current,
                 });
-            return;
+            }
+            if (typeof providerSignup?.message == "object") {
+                setBasic({ ...basic, error: providerSignup.message });
+            }
         }
-        if (providerSignup.error == false && providerSignup.data) {
+        if (providerSignup?.error == false && providerSignup?.data) {
             toast.dismiss(loading.current);
+            setOtpData({
+                ...otpData,
+                phone: `${basic.code}${basic.phone}`,
+            });
             setStep(2);
         }
     }, [providerSignup]);
+
+    useEffect(() => {
+        if (verifyOpt?.loading) {
+            loading.current = toast.info("please wait", {
+                toastId: loading.current,
+                autoClose: false,
+            });
+            return;
+        }
+        if (verifyOpt?.error) {
+            if (typeof verifyOpt?.message != "object") {
+                toast.dismiss(loading.current);
+                error.current = toast.error(verifyOpt.message, {
+                    toastId: error.current,
+                });
+            }
+            if (typeof verifyOpt?.message == "object") {
+                setOtpData({ ...otpData, error: verifyOpt.message });
+            }
+        }
+        if (verifyOpt?.error == false && verifyOpt?.data) {
+            toast.dismiss(loading.current);
+            localStorage.setItem("providerToken", verifyOpt?.data?.auth_token);
+            setStep(3);
+        }
+    }, [verifyOpt]);
 
     const handleStep = (step) => {
         setStep(step);
@@ -170,6 +205,31 @@ const Registration = (props) => {
         }
     };
 
+    const handleOtp = (e) => {
+        const { name, value } = e.target;
+        let regx = /^[0-9]{4,4}$/;
+        if (regx.test(value)) {
+            setOtpData({
+                ...otpData,
+                [name]: value,
+                error: {
+                    ...otpData.error,
+                    [name]: "",
+                },
+            });
+            return;
+        } else {
+            setOtpData({
+                ...otpData,
+                error: {
+                    ...otpData.error,
+                    [name]: "Please enter a valid OTP (min 4 digits, max 4 digits)",
+                },
+            });
+            return;
+        }
+    };
+
     return (
         <>
             <div
@@ -234,6 +294,11 @@ const Registration = (props) => {
                                     <Otp
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
+                                        handleOtp={(e) => handleOtp(e)}
+                                        otpData={otpData}
+                                        handleverifyPhoneNo={
+                                            handleverifyPhoneNo
+                                        }
                                     />
                                 )}
                                 {/* <!-- step 3 --> */}

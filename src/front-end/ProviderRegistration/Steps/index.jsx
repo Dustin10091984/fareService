@@ -49,7 +49,7 @@ const Basic = ({
                 />
                 <div className="text-danger">
                     {isError("email")}
-                    {isServerError("email")}
+                    {/* {isServerError("email")} */}
                 </div>
             </div>
             <div className="row">
@@ -77,7 +77,7 @@ const Basic = ({
                     </div>
                     <div className="text-danger">
                         {isError("phone")}
-                        {isServerError("phone")}
+                        {/* {isServerError("phone")} */}
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@ const Basic = ({
                 />
                 <div className="text-danger">
                     {isError("password")}
-                    {isServerError("password")}
+                    {/* {isServerError("password")} */}
                 </div>
             </div>
             {/* <div className="form-group d-none">
@@ -153,23 +153,26 @@ const Basic = ({
     );
 };
 
-const Otp = ({ step, handleStep }) => {
+const Otp = ({ step, handleStep, otpData, handleOtp, handleverifyPhoneNo }) => {
     return (
         <div className="login-from step-2">
             <div className="form-title mb-3">Please enter OTP Code.</div>
             <div className="form-term mb-2">
                 How Whould you like customer to contact you?
             </div>
+            <div className="form-term mb-2">Phone: {otpData?.phone}</div>
 
             <div className="form-group">
                 <label htmlFor="name">Code.</label>
                 <input
                     type="text"
                     className="form-control"
-                    id="name"
+                    name="otp"
+                    onChange={handleOtp}
                     placeholder="0 0 0 0"
                 />
             </div>
+            <div className="text-danger">{otpData?.error?.otp}</div>
             <div className="form-term my-2">
                 Didn't you receive any code? <br />{" "}
                 <a href="#">Resend New Code</a>{" "}
@@ -188,7 +191,12 @@ const Otp = ({ step, handleStep }) => {
                     className="btn btn-primary w-100 mt-3"
                     id="step-2"
                     type="button"
-                    onClick={() => handleStep(step + 1)}
+                    onClick={() =>
+                        handleverifyPhoneNo({
+                            phone: otpData?.phone,
+                            otp: otpData?.otp,
+                        })
+                    }
                 >
                     Next
                 </button>
