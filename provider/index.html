@@ -634,6 +634,7 @@
           dataType: "json"
         }).done(function (response) {
           // $(this).find('button').prop("disabled", false);
+          localStorage.setItem('provider_token', response.data.auth_token);
           $(".step-2").addClass("d-none");
           $(".step-3").removeClass("d-none");
           phone = `${code}${phone}`;
@@ -710,6 +711,18 @@
           phone = `${code}${phone}`;
           $("#otpPhone").text(phone);
         }).fail(function (jqXHR) {
+          if(jqXHR.status === 400){
+            let errors = jqXHR.responseJSON.message;
+            if (errors.email) {
+              $('#emailErr').text(errors.email);
+            }
+            if (errors.phone) {
+              $('#phoneErr').text(errors.phone);
+            }
+            if (errors.password) {
+              $('#passwordErr').text(errors.password);
+            }
+          }
           if (jqXHR.status === 422) {
             let errors = jqXHR.responseJSON.errors;
             if (errors.email) {
