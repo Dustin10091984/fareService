@@ -53,6 +53,7 @@
               <div class="form-group">
                 <label for="email">Email</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="john.doe@gmail.com" required />
+                <span id="emailErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
               <div class="form-group">
                 <label for="code">Phone</label>
@@ -63,6 +64,7 @@
                   </select>
                   <input type="text" name="phone" class="form-control" placeholder="51112345" required />
                 </div>
+                <span id="phoneErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
               <label class="custom-check">Enable text messages
                 <input type="checkbox" checked="checked" />
@@ -76,6 +78,7 @@
               <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="password" required/>
+                <span id="passwordErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
               <!-- <div class="form-group d-none">
                                     <label class="mb-0">Citis</label>
@@ -530,7 +533,7 @@
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script>
-const API = 'http://127.0.0.1:8000/api/'
+  const API = 'http://127.0.0.1:8000/api/'
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function () {
       $(".js-example-basic-single").select2();
@@ -539,9 +542,55 @@ const API = 'http://127.0.0.1:8000/api/'
     // add  class
     $(document).ready(function () {
 
-      handleEmailChange = () => {
+      const handleEmailChange = (email) => {
+        let regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        let result = regex.test(email);
+        if (result) {
+          $('#emailErr').text('');
+          return true
+        } else {
+          $('#emailErr').text('please enter vaild email');
+          return false
+        }
+      };
+
+      const handlePhoneChange = (phone) => {
+        let regex = /^[0-9]{10,11}$/
+        let result = regex.test(phone);
+        if ((result && ($(this).find('#code').val() == "+1" && phone.length == 11 || (result && ($(this).find('#code').val() == "+92" && phone.length == 10))))) {
+          $('#phoneErr').text('');
+          return true;
+        } else {
+          $('#phoneErr').text(`please enter vaild phone number, ${$(this).find('#code').val() == '+1' ? 11 : 10} digits`);
+          return false;
+        }
+      };
+
+      const handlePasswordChange = (password) => {
         
+        let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        if (!regex.test(password)) {
+              $('#passwordErr').text('Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character');
+              return false;
+        }
+        $('#passwordErr').text('');
+        return true
       }
+      $('input[name=password]').on('input', function () {
+        handlePasswordChange($(this).val())
+      });
+
+      $('input#email').on('input', function () {
+        handleEmailChange($(this).val());
+      });
+
+      $("input[name=phone]").on('input', function () {
+        handlePhoneChange($(this).val());
+      });
+
+
+
+      
 
       $('#signupProvider').on('submit', function (event) {
         event.preventDefault();
@@ -550,11 +599,28 @@ const API = 'http://127.0.0.1:8000/api/'
         if (request) {
           request.abort();
         }
+
+        let error = false;
         
         let email = $(this).find('input#email').val();
         let code = $(this).find('#code').val();
         let phone =   `${$("input[name=phone]").val()}`;
         let password =  $(this).find('input#password').val();
+        
+        if (handleEmailChange(email) == false) {
+          error = true;
+        }
+        if (handlePhoneChange(phone) == false) {
+          error = true;
+        }
+        if (handlePasswordChange(password) == false) {
+          error = true;
+        }
+
+        if (error) {
+          return;
+        }
+
         const data = {
           email,
           phone: `${code}${phone}`,
@@ -572,13 +638,13 @@ const API = 'http://127.0.0.1:8000/api/'
 
         // Fire off the request to /form.php
         request = $.ajax({
-          url: `${API}user/signup/phone`,
+          url: `${API}provider/signup`,
           type: "post",
           data: data,
           dataType: "json"
         }).done(function (response) {
-        $(".step-1").addClass("d-none");
-        $(".step-2").removeClass("d-none");
+          $(".step-1").addClass("d-none");
+          $(".step-2").removeClass("d-none");
         }).fail(function (jqXHR) {
           console.log(jqXHR);
         }).always(function (e) {
