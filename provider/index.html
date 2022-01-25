@@ -113,6 +113,7 @@
               <div class="form-group">
                 <label for="otp">Code.</label>
                 <input type="text" class="form-control" id="otp" name="otp" placeholder="0 0 0 0" />
+                <span id="otpErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
               <div class="form-term my-2">
                 Didn't you receive any code? <br />
@@ -123,7 +124,7 @@
                   Back
                 </button>
                 <div class="px-3"></div>
-                <button class="btn btn-primary w-100 mt-3" id="step-2" type="button">
+                <button class="btn btn-primary w-100 mt-3" id="step-2" type="button" disabled>
                   Next
                 </button>
               </div>
@@ -557,6 +558,7 @@
         }
       };
 
+
       const handlePhoneChange = (phone) => {
         let regex = /^[0-9]{10,11}$/
         let result = regex.test(phone);
@@ -569,6 +571,7 @@
         }
       };
 
+
       const handlePasswordChange = (password) => {
         
         let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
@@ -580,20 +583,83 @@
         return true
       }
       
+
+      const handleOtpChange =(otp)=> {
+        let regex = /^[0-9]{4,4}$/
+        if (regex.test(otp)) {
+          $('#step-2').prop('disabled', false);
+          $('#otpErr').text('');
+          return true;
+        } else {
+          $('#otpErr').text('please enter 4 digit otp');
+          $('#step-2').prop('disabled', true);
+          return false;
+        }
+      }
+
+
       $('input#email').on('input', function () {
         handleEmailChange($(this).val());
       });
       
+
       $("input[name=phone]").on('input', function () {
         handlePhoneChange($(this).val());
       });
       
+
       $('input[name=password]').on('input', function () {
         handlePasswordChange($(this).val())
       });
 
 
-      
+      $('#otp').on('input', function () {
+        handleOtpChange($(this).val())
+      });
+
+
+      $('#step-2').on('click', function () {
+
+        if(handleOtpChange($('#otp').val()) == false){
+          return false
+        }
+        let data = {
+          otp: $('#otp').val(),
+          phone: $("#otpPhone").text()
+        }
+        $.ajax({
+          url: `${API}provider/signup/phone/verify`,
+          type: "post",
+          data: data,
+          dataType: "json"
+        }).done(function (response) {
+          // $(this).find('button').prop("disabled", false);
+          $(".step-2").addClass("d-none");
+          $(".step-3").removeClass("d-none");
+          phone = `${code}${phone}`;
+          $("#otpPhone").text(phone);
+        }).fail(function (jqXHR) {
+          if (jqXHR.status === 401) {
+            let message = jqXHR.responseJSON.message;
+            if (errors.otp) {
+              $('#otpErr').text(message);
+            }
+          }
+          if (jqXHR.status === 422) {
+            let errors = jqXHR.responseJSON.errors;
+            if (errors.otp) {
+              $('#otpErr').text(errors.otp[0]);
+            }
+          }
+          if (jqXHR.status === 500) {
+            $('.serverEr').removeClass('d-none');
+            $('.serverEr').text(jqXHR.responseJSON.message);
+          }
+        }).always(function (e) {
+          $(this).find('button').prop("disabled", false);
+        })
+      })
+
 
       $('#signupProvider').on('submit', function (event) {
         event.preventDefault();
@@ -623,7 +689,7 @@
         }
 
         if (error) {
-          return;
+          return false;
         }
 
         const data = {
@@ -638,7 +704,7 @@
           data: data,
           dataType: "json"
         }).done(function (response) {
-          // $(this).find('button').prop("disabled", false);
+          $(this).find('button').prop("disabled", false);
           $(".step-1").addClass("d-none");
           $(".step-2").removeClass("d-none");
           phone = `${code}${phone}`;
@@ -666,18 +732,16 @@
       });
 
 
-
-
       //  remove class
       $("#step-2-back").click(function () {
         $(".step-1").removeClass("d-none");
         $(".step-2").addClass("d-none");
       });
       // add class
-      $("#step-2").click(function () {
-        $(".step-2").addClass("d-none");
-        $(".step-3").removeClass("d-none");
-      });
+      // $("#step-2").click(function () {
+      //   $(".step-2").addClass("d-none");
+      //   $(".step-3").removeClass("d-none");
+      // });
       // remove class
       $("#step-3-back").click(function () {
         $(".step-2").removeClass("d-none");
