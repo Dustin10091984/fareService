@@ -46,6 +46,7 @@
               <div class="form-title mb-3">
                 Set Up Your Business Profile.
               </div>
+              <div class="alert alert-danger text-center serverEr d-none"></div>
               <div class="form-term mb-2">
                 How Whould you like customer to contact you?
               </div>
@@ -578,24 +579,26 @@
         $('#passwordErr').text('');
         return true
       }
-      $('input[name=password]').on('input', function () {
-        handlePasswordChange($(this).val())
-      });
-
+      
       $('input#email').on('input', function () {
         handleEmailChange($(this).val());
       });
-
+      
       $("input[name=phone]").on('input', function () {
         handlePhoneChange($(this).val());
       });
-
+      
+      $('input[name=password]').on('input', function () {
+        handlePasswordChange($(this).val())
+      });
 
 
       
 
       $('#signupProvider').on('submit', function (event) {
         event.preventDefault();
+        $('.serverEr').addClass('d-none');
+        $('.serverEr').text('');
         var request;
         // Abort any pending request
         if (request) {
@@ -628,17 +631,7 @@
           phone: `${code}${phone}`,
           password
         }
-        // Serialize the data in the form
-        // var serializedData = $form.serialize();
 
-        // console.log(serializedData);
-
-        // Let's disable the inputs for the duration of the Ajax request.
-        // Note: we disable elements AFTER the form data has been serialized.
-        // Disabled form elements will not be serialized.
-        // $(this).find('button').prop("disabled", true);
-
-        // Fire off the request to /form.php
         request = $.ajax({
           url: `${API}provider/signup`,
           type: "post",
@@ -651,11 +644,29 @@
           phone = `${code}${phone}`;
           $("#otpPhone").text(phone);
         }).fail(function (jqXHR) {
-          console.log(jqXHR);
+          if (jqXHR.status === 422) {
+            let errors = jqXHR.responseJSON.errors;
+            if (errors.email) {
+              $('#emailErr').text(errors.email[0]);
+            }
+            if (errors.phone) {
+              $('#phoneErr').text(errors.phone[0]);
+            }
+            if (errors.password) {
+              $('#passwordErr').text(errors.password[0]);
+            }
+          }
+          if (jqXHR.status === 500) {
+            $('.serverEr').removeClass('d-none');
+            $('.serverEr').text(jqXHR.responseJSON.message);
+          }
         }).always(function (e) {
           $(this).find('button').prop("disabled", false);
         })
       });
+
+
+
 
       //  remove class
       $("#step-2-back").click(function () {
