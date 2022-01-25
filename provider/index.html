@@ -135,6 +135,7 @@
                 To start , help us get to know you and your
                 business
               </div>
+              <div class="alert alert-danger text-center serverEr3 d-none"></div>
               <div class="form-term mb-2">
                 This info helps our team provide customized
                 support -- it won't be public.
@@ -144,13 +145,15 @@
                 <div class="form-title mb-3">
                   What is your name?
                 </div>
-                <label for="first_name">First Name</label>
-                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" />
+                <label for="provider_first_name">First Name</label>
+                <input type="text" class="form-control" id="provider_first_name" name="provider_first_name" placeholder="First Name" />
+                <span id="provider_first_nameErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
 
               <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" />
+                <label for="provider_last_name">Last Name</label>
+                <input type="text" class="form-control" id="provider_last_name" name="provider_last_name" placeholder="Last Name" />
+                <span id="provider_last_nameErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
 
               <div class="form-title mb-3">
@@ -159,17 +162,17 @@
               </div>
 
               <label class="custom-radio">$1-$100
-                <input type="radio" checked="checked" name="online-marketing" />
+                <input type="radio" class="online-marketing" checked="checked" name="online-marketing" value="$1-$100" />
                 <span class="checkmark"></span>
               </label>
 
               <label class="custom-radio">$100-$400
-                <input type="radio" name="online-marketing" />
+                <input type="radio" class="online-marketing" name="online-marketing" value="$100-$400"/>
                 <span class="checkmark"></span>
               </label>
 
               <label class="custom-radio">$400-$600
-                <input type="radio" name="online-marketing" />
+                <input type="radio" class="online-marketing" name="online-marketing" value="$400-$600"/>
                 <span class="checkmark"></span>
               </label>
 
@@ -541,6 +544,11 @@
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function () {
       $(".js-example-basic-single").select2();
+      if(localStorage.getItem('provider_token')){
+        $('.step-1').addClass('d-none');
+        $('.step-3').removeClass('d-none');
+        $('#step-3-back').prop("disabled", true);
+      }
     });
 
     // add  class
@@ -558,7 +566,6 @@
         }
       };
 
-
       const handlePhoneChange = (phone) => {
         let regex = /^[0-9]{10,11}$/
         let result = regex.test(phone);
@@ -571,7 +578,6 @@
         }
       };
 
-
       const handlePasswordChange = (password) => {
         
         let regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
@@ -582,7 +588,6 @@
         $('#passwordErr').text('');
         return true
       }
-      
 
       const handleOtpChange =(otp)=> {
         let regex = /^[0-9]{4,4}$/
@@ -597,70 +602,29 @@
         }
       }
 
+      const handleNameChange = ({name, value}) => {
+        let regex = /^[a-zA-Z ]{1,30}$/;
+        if (regex.test(value)) {
+          name && $(`#${name}Err`).text('');
+          return true;
+        } else {
+          name && $(`#${name}Err`).text('please enter vaild name');
+          return false;
+        }
+        return false
+      }
 
       $('input#email').on('input', function () {
         handleEmailChange($(this).val());
       });
-      
 
       $("input[name=phone]").on('input', function () {
         handlePhoneChange($(this).val());
       });
       
-
       $('input[name=password]').on('input', function () {
         handlePasswordChange($(this).val())
       });
-
-
-      $('#otp').on('input', function () {
-        handleOtpChange($(this).val())
-      });
-
-
-      $('#step-2').on('click', function () {
-
-        if(handleOtpChange($('#otp').val()) == false){
-          return false
-        }
-        let data = {
-          otp: $('#otp').val(),
-          phone: $("#otpPhone").text()
-        }
-        $.ajax({
-          url: `${API}provider/signup/phone/verify`,
-          type: "post",
-          data: data,
-          dataType: "json"
-        }).done(function (response) {
-          // $(this).find('button').prop("disabled", false);
-          localStorage.setItem('provider_token', response.data.auth_token);
-          $(".step-2").addClass("d-none");
-          $(".step-3").removeClass("d-none");
-          phone = `${code}${phone}`;
-          $("#otpPhone").text(phone);
-        }).fail(function (jqXHR) {
-          if (jqXHR.status === 401) {
-            let message = jqXHR.responseJSON.message;
-            if (errors.otp) {
-              $('#otpErr').text(message);
-            }
-          }
-          if (jqXHR.status === 422) {
-            let errors = jqXHR.responseJSON.errors;
-            if (errors.otp) {
-              $('#otpErr').text(errors.otp[0]);
-            }
-          }
-          if (jqXHR.status === 500) {
-            $('.serverEr').removeClass('d-none');
-            $('.serverEr').text(jqXHR.responseJSON.message);
-          }
-        }).always(function (e) {
-          $(this).find('button').prop("disabled", false);
-        })
-      })
-
 
       $('#signupProvider').on('submit', function (event) {
         event.preventDefault();
@@ -744,6 +708,145 @@
         })
       });
 
+      $('#otp').on('input', function () {
+        handleOtpChange($(this).val())
+      });
+
+      $('#step-2').on('click', function () {
+        if (handleOtpChange($('#otp').val()) == false) {
+          return false
+        }
+        let data = {
+          otp: $('#otp').val(),
+          phone: $("#otpPhone").text()
+        }
+        $.ajax({
+          url: `${API}provider/signup/phone/verify`,
+          type: "post",
+          data: data,
+          dataType: "json"
+        }).done(function (response) {
+          // $(this).find('button').prop("disabled", false);
+          localStorage.setItem('provider_token', response.data.auth_token);
+          $(".step-2").addClass("d-none");
+          $(".step-3").removeClass("d-none");
+          phone = `${code}${phone}`;
+          $("#otpPhone").text(phone);
+        }).fail(function (jqXHR) {
+          if (jqXHR.status === 401) {
+            let message = jqXHR.responseJSON.message;
+            if (errors.otp) {
+              $('#otpErr').text(message);
+            }
+          }
+          if (jqXHR.status === 422) {
+            let errors = jqXHR.responseJSON.errors;
+            if (errors.otp) {
+              $('#otpErr').text(errors.otp[0]);
+            }
+          }
+          if (jqXHR.status === 500) {
+            $('.serverEr').removeClass('d-none');
+            $('.serverEr').text(jqXHR.responseJSON.message);
+          }
+        }).always(function (e) {
+          $(this).find('button').prop("disabled", false);
+        });
+      })
+
+      $('#provider_first_name').on('input', function (e) {
+        const {name, value} = e.target;
+        handleNameChange({name, value});
+      });
+
+      $('#provider_last_name').on('input', function (e) {
+        const {name, value} = e.target;
+        handleNameChange({name, value});
+      });
+
+      // $('.online-marketing').on('click', function (e) {
+      //   const {value} = e.currentTarget;
+      //   // handleNameChange({name, value});
+      // });
+
+
+      $('#step-3').click(function () {
+
+        let error = false;
+        first_name = $('#provider_first_name').val();
+        last_name = $('#provider_last_name').val();
+
+        if (handleNameChange({ value:first_name }) == false) {
+          console.log('first name error');
+          error = true;
+        }
+        if (handleNameChange({ value:last_name }) == false) {
+          console.log('last name error');
+          error = true;
+        }
+
+        let spend_each_month  = null;
+
+        $('.online-marketing').each(function () {
+          if ($(this).is(':checked')) {
+            spend_each_month = $(this).val();
+          }
+        });
+        
+
+        if(error || localStorage.getItem('provider_token') == null || localStorage.getItem('provider_token') == undefined){
+          return false;
+        }
+
+        let data = {
+          first_name,
+          last_name,
+          spend_each_month
+        }
+        console.log(data);
+        $.ajax({
+          url: `${API}provider/signup/name`,
+          headers: {
+            Authorization: localStorage.getItem('provider_token')
+          },
+          type: "post",
+          data: data,
+          dataType: "json"
+        }).done(function (response) {
+          $(".step-3").addClass("d-none");
+          $(".step-4").removeClass("d-none");
+        }).fail(function (jqXHR) {
+          if (jqXHR.status === 400) {
+            let errors = jqXHR.responseJSON.message;
+            if (errors.email) {
+              $('#provider_first_nameErr').text(errors.first_name);
+            }
+            if (errors.phone) {
+              $('#provider_last_nameErr').text(errors.last_name);
+            }
+          }
+          if (jqXHR.status === 401) {
+            let message = jqXHR.responseJSON.message;
+            if (message) {
+              $('.serverEr3').removeClass('d-none');
+              $('.serverEr3').text(jqXHR.responseJSON.message);
+            }
+          }
+          if (jqXHR.status === 422) {
+            let errors = jqXHR.responseJSON.errors;
+            if (errors.email) {
+              $('#provider_first_nameErr').text(errors.first_name);
+            }
+            if (errors.phone) {
+              $('#provider_last_nameErr').text(errors.last_name);
+            }
+          }
+          if (jqXHR.status === 500) {
+            $('.serverEr3').removeClass('d-none');
+            $('.serverEr3').text(jqXHR.responseJSON.message);
+          }
+        });
+      })
 
       //  remove class
       $("#step-2-back").click(function () {
@@ -756,16 +859,16 @@
       //   $(".step-3").removeClass("d-none");
       // });
       // remove class
-      $("#step-3-back").click(function () {
-        $(".step-2").removeClass("d-none");
-        $(".step-3").addClass("d-none");
-      });
+      // $("#step-3-back").click(function () {
+      //   $(".step-2").removeClass("d-none");
+      //   $(".step-3").addClass("d-none");
+      // });
 
       // add class
-      $("#step-3").click(function () {
-        $(".step-3").addClass("d-none");
-        $(".step-4").removeClass("d-none");
-      });
+      // $("#step-3").click(function () {
+      //   $(".step-3").addClass("d-none");
+      //   $(".step-4").removeClass("d-none");
+      // });
 
       // remove class
       $("#step-4-back").click(function () {
