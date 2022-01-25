@@ -764,24 +764,16 @@
         handleNameChange({name, value});
       });
 
-      // $('.online-marketing').on('click', function (e) {
-      //   const {value} = e.currentTarget;
-      //   // handleNameChange({name, value});
-      // });
-
-
       $('#step-3').click(function () {
 
         let error = false;
         first_name = $('#provider_first_name').val();
         last_name = $('#provider_last_name').val();
 
-        if (handleNameChange({ value:first_name }) == false) {
-          console.log('first name error');
+        if (handleNameChange({ name: "provider_first_name", value:first_name }) == false) {
           error = true;
         }
-        if (handleNameChange({ value:last_name }) == false) {
-          console.log('last name error');
+        if (handleNameChange({ name: "provider_last_name", value:last_name }) == false) {
           error = true;
         }
 
@@ -792,6 +784,11 @@
             spend_each_month = $(this).val();
           }
         });
+
+        if(spend_each_month == null){
+          $('#spendErr').text('Please select at least one option');
+          error = true;
+        }
         
 
         if(error || localStorage.getItem('provider_token') == null || localStorage.getItem('provider_token') == undefined){
@@ -847,6 +844,7 @@
           }
         });
       })
+
 
       //  remove class
       $("#step-2-back").click(function () {
