@@ -107,7 +107,8 @@
                 Please enter OTP Code.
               </div>
               <!-- <div class="form-term mb-2">How Whould you like customer to contact you?</div> -->
-
+              <div id="otpPhone" class="form-term my-2">
+              </div>
               <div class="form-group">
                 <label for="otp">Code.</label>
                 <input type="text" class="form-control" id="otp" name="otp" placeholder="0 0 0 0" />
@@ -533,7 +534,8 @@
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script>
-  const API = 'http://127.0.0.1:8000/api/'
+  const API = 'http://127.0.0.1:8000/api/';
+  let phone = '';
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function () {
       $(".js-example-basic-single").select2();
@@ -634,7 +636,7 @@
         // Let's disable the inputs for the duration of the Ajax request.
         // Note: we disable elements AFTER the form data has been serialized.
         // Disabled form elements will not be serialized.
-        $(this).find('button').prop("disabled", true);
+        // $(this).find('button').prop("disabled", true);
 
         // Fire off the request to /form.php
         request = $.ajax({
@@ -643,8 +645,11 @@
           data: data,
           dataType: "json"
         }).done(function (response) {
+          // $(this).find('button').prop("disabled", false);
           $(".step-1").addClass("d-none");
           $(".step-2").removeClass("d-none");
+          phone = `${code}${phone}`;
+          $("#otpPhone").text(phone);
         }).fail(function (jqXHR) {
           console.log(jqXHR);
         }).always(function (e) {
