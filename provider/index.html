@@ -194,35 +194,30 @@
               <div class="form-title mb-3">
                 <select id="service_id" class="js-example-basic-single form-control" style="width: 100%;" name="service_id" required>
                 </select>
+                <span id="serviceErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
             </div>
             <div class="d-flex flex-wrap" id="subService">
             </div>
+            <span id="subServiceErr" class="text-danger" style="font-size: .8rem;"></span>
               <div class="form-group">
                 <div class="form-title mb-3">
                   Where do you work?
                 </div>
                 <label for="zipCode">Enter location</label>
                 <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Enter location" />
-                <input type="text" class="d-none" id="hiddenZipCode" name="hiddenZipCode" placeholder="Enter location" value="" />
+                <span id="zipCodeErr" class="text-danger" style="font-size: .8rem;"></span>
               </div>
 
               <div class="zip-code d-flex flex-wrap">
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <!-- <span class="fa fa-times ml-1"></span> -->
-                </div>
               </div>
-              <button class="btn btn-primary w-100 mt-3" id="addZipCode" type="button" disabled>
-                Add Zip Code
-              </button>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-primary w-100 mt-3" id="step-4-back" type="button">
                   Back
                 </button>
                 <div class="px-3"></div>
                 <button class="btn btn-primary w-100 mt-3" id="step-4" type="button">
-                  Skip/Next
+                  Next
                 </button>
               </div>
             </div>
@@ -509,7 +504,7 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -528,20 +523,20 @@
   
 
 
-  const API = 'http://127.0.0.1:8000/api/';
-  let phone = '';
     // In your Javascript (external .js resource or <script> tag)
-    $(document).ready(function () {
-      $(".js-example-basic-single").select2();
+      $(document).ready(function () {
+        $(".js-example-basic-single").select2();
       if(localStorage.getItem('provider_token')){
         $('.step-1').addClass('d-none');
         $(`.step-${localStorage.getItem('step') || 3}`).removeClass('d-none');
         $('#step-3-back').prop("disabled", true);
       }
     });
-
+    
     // add  class
     $(document).ready(function () {
+      const API = 'http://127.0.0.1:8000/api/';
+      let phone = '';
 
       const getServices = () => {
         $.ajax({
@@ -834,75 +829,94 @@
       })
 
       $('#service_id').change(function (evt) {
+        $('#serviceErr').text('');
         let services = localStorage.getItem('services');
         let serviceHtml = '';
         if(services){
           services = JSON.parse(services);
           let service = services.find(service => service.id == evt.target.value);
           if(service && service.sub_services){
-            service.sub_services.forEach(service => {
-              serviceHtml += `<label class="custom-check mr-2">${service.name}
-                <input type="checkbox" value=${service.id}/>
+            serviceHtml = service.sub_services.map((service) => 
+             `<label class="custom-check mr-2">${service.name}
+                <input class="checkbox" type="checkbox" value=${service.id}></input>
                 <span class="checkmark"></span>
-              </label>`;
-            });
+              </label>`
+            );
             $('#subService').html(serviceHtml);
           }
         }
       })
+      
+      
+      // $('.custom-check').click(function(e){
+      //   console.log(e.target.value);
+      //   $('.checkbox').each(function () {
+      //     if ($(this).is(':checked')) {
+      //       $('#subServiceErr').text('');
+      //     }
+      //   });
+      // })
       // on click on add zip code button
-      $('#addZipCode').click(function () {
-        if(localStorage.getItem('provider_token')){
-          $.ajax({
-            url: `${API}provider/signup/my-services`,
-            headers: {
-              Authorization: localStorage.getItem('provider_token')
-            },
-            type: "post",
-            data: {zip_code: [$('#hiddenZipCode').val()]},
-            dataType: "json"
-          }).done(function (response) {
-            console.log(response);
-            // $(".step-3").addClass("d-none");
-            // $(".step-4").removeClass("d-none");
-            // localStorage.setItem('step', 4);
-          }).fail(function (jqXHR) {
-            console.log(jqXHR);
-            // if (jqXHR.status === 401) {
-            //   let message = jqXHR.responseJSON.message;
-            //   if (message) {
-            //     $('.serverEr3').removeClass('d-none');
-            //     $('.serverEr3').text(jqXHR.responseJSON.message);
-            //   }
-            // }
-            // if (jqXHR.status === 422) {
-            //   let errors = jqXHR.responseJSON.message;
-            //   if (errors.email) {
-            //     $('#provider_first_nameErr').text(errors.first_name);
-            //   }
-            //   if (errors.phone) {
-            //     $('#provider_last_nameErr').text(errors.last_name);
-            //   }
-            // }
-            // if (jqXHR.status === 500) {
-            //   $('.serverEr3').removeClass('d-none');
-            //   $('.serverEr3').text(jqXHR.responseJSON.message);
-            // }
-          });
+      $('#step-4').click(function () {
+        if($('#service_id').val() == null){
+          $('#serviceErr').text('Please select at least one service');
+          return false;
         }
-      })
+        let isChecked = false;
+        $('.checkbox').each(function () {
+          if ($(this).is(':checked')) {
+            isChecked = true;
+          }
+        });
+        if(isChecked == false){
+          $('#subServiceErr').text('Please select at least one service');
+          return false;
+        }
+        // if()
+
+        // if(localStorage.getItem('provider_token')){
+        //   $.ajax({
+        //     url: `${API}provider/signup/my-services`,
+        //     headers: {
+        //       Authorization: localStorage.getItem('provider_token')
+        //     },
+        //     type: "post",
+        //     data: {zip_code: [$('#hiddenZipCode').val()]},
+        //     dataType: "json"
+        //   }).done(function (response) {
+        //     $(".step-4").addClass("d-none");
+        //     $(".step-5").removeClass("d-none");
+        //     localStorage.setItem('step', 5);
+        //   }).fail(function (jqXHR) {
+        //     if (jqXHR.status === 401) {
+        //       let message = jqXHR.responseJSON.message;
+        //       if (message) {
+        //         $('.serverEr3').removeClass('d-none');
+        //         $('.serverEr3').text(jqXHR.responseJSON.message);
+        //       }
+        //     }
+        //     if (jqXHR.status === 422) {
+        //       let errors = jqXHR.responseJSON.message;
+        //       if (errors.email) {
+        //         $('#provider_first_nameErr').text(errors.first_name);
+        //       }
+        //       if (errors.phone) {
+        //         $('#provider_last_nameErr').text(errors.last_name);
+        //       }
+        //     }
+        //     if (jqXHR.status === 500) {
+        //       $('.serverEr3').removeClass('d-none');
+        //       $('.serverEr3').text(jqXHR.responseJSON.message);
+        //     }
+        //   });
+        // }
+      });
       //  remove class
       $("#step-2-back").click(function () {
         $(".step-1").removeClass("d-none");
         $(".step-2").addClass("d-none");
       });
       
-      // add zip code
-      $("#step-4").click(function () {
-        $(".step-4").addClass("d-none");
-        $(".step-5").removeClass("d-none");
-        localStorage.setItem('step', 5);
-      });
       // add class
       // $("#step-2").click(function () {
       //   $(".step-2").addClass("d-none");

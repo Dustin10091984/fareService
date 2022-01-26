@@ -13,13 +13,21 @@ $(window).ready(function () {
                 }
             }
             if (zipcode != '') {
-                $("#hiddenZipCode").val(zipcode);
                 $('#addZipCode').prop('disabled', false);
+                $('.zip-code').append(
+                    `<div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1 selectedZipCode">${zipcode}
+                    <span class="fa fa-times ml-1"></span></div>`
+                ).click(function (evt) {
+                    evt.preventDefault();
+                    $(this).remove();
+                });
+                $("#zipCode").val('');
+                $('#zipCodeErr').text('');
             } else {
+                $('#zipCodeErr').text('please choose another location');
                 $('#addZipCode').prop('disabled', true);
                 $("#zipCode").val('');
             }
-            console.log(zipcode);
         });
     }
 });
