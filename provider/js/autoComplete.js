@@ -17,6 +17,7 @@ $(window).ready(function () {
                 $('#addZipCode').prop('disabled', false);
             } else {
                 $('#addZipCode').prop('disabled', true);
+                $("#zipCode").val('');
             }
             console.log(zipcode);
         });

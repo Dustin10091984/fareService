@@ -188,6 +188,16 @@
             </div>
             <!-- step 4 -->
             <div class="login-from step-4 d-none">
+
+            <div class="form-group">
+              <label for="service_id">Services</label>
+              <div class="form-title mb-3">
+                <select id="service_id" class="js-example-basic-single form-control" style="width: 100%;" name="service_id" required>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap" id="subService">
+            </div>
               <div class="form-group">
                 <div class="form-title mb-3">
                   Where do you work?
@@ -533,6 +543,25 @@
     // add  class
     $(document).ready(function () {
 
+      const getServices = () => {
+        $.ajax({
+          url: `${API}user/get-menu`,
+          type: 'GET',
+          success: (response) => {
+            localStorage.setItem('services', JSON.stringify(response.data));
+              let services = response.data;
+              let html = '<option selected value="" disabled>Select Service</option>';
+              services.forEach(service => {
+                html += `<option value=${service.id}>${service.name}</option>`
+              });
+              $('#service_id').html(html);
+          }
+        });
+      }
+       if (localStorage.getItem('step') == 4) {
+        getServices();
+      }
+
       const handleEmailChange = (email) => {
         let regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         let result = regex.test(email);
@@ -655,7 +684,7 @@
           $("#otpPhone").text(phone);
         }).fail(function (jqXHR) {
           if (jqXHR.status === 422) {
-            let errors = jqXHR.responseJSON.errors;
+            let errors = jqXHR.responseJSON.message;
             if (errors.email) {
               $('#emailErr').text(errors.email[0]);
             }
@@ -707,7 +736,7 @@
             }
           }
           if (jqXHR.status === 422) {
-            let errors = jqXHR.responseJSON.errors;
+            let errors = jqXHR.responseJSON.message;
             if (errors.otp) {
               $('#otpErr').text(errors.otp[0]);
             }
@@ -779,6 +808,7 @@
           $(".step-3").addClass("d-none");
           $(".step-4").removeClass("d-none");
           localStorage.setItem('step', 4);
+          getServices();
         }).fail(function (jqXHR) {
           if (jqXHR.status === 401) {
             let message = jqXHR.responseJSON.message;
@@ -788,7 +818,7 @@
             }
           }
           if (jqXHR.status === 422) {
-            let errors = jqXHR.responseJSON.errors;
+            let errors = jqXHR.responseJSON.message;
             if (errors.email) {
               $('#provider_first_nameErr').text(errors.first_name);
             }
@@ -803,6 +833,23 @@
         });
       })
 
+      $('#service_id').change(function (evt) {
+        let services = localStorage.getItem('services');
+        let serviceHtml = '';
+        if(services){
+          services = JSON.parse(services);
+          let service = services.find(service => service.id == evt.target.value);
+          if(service && service.sub_services){
+            service.sub_services.forEach(service => {
+              serviceHtml += `<label class="custom-check mr-2">${service.name}
+                <input type="checkbox" value=${service.id}/>
+                <span class="checkmark"></span>
+              </label>`;
+            });
+            $('#subService').html(serviceHtml);
+          }
+        }
+      })
       // on click on add zip code button
       $('#addZipCode').click(function () {
         if(localStorage.getItem('provider_token')){
@@ -829,7 +876,7 @@
             //   }
             // }
             // if (jqXHR.status === 422) {
-            //   let errors = jqXHR.responseJSON.errors;
+            //   let errors = jqXHR.responseJSON.message;
             //   if (errors.email) {
             //     $('#provider_first_nameErr').text(errors.first_name);
             //   }
