@@ -194,6 +194,7 @@
                 </div>
                 <label for="zipCode">Enter location</label>
                 <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="Enter location" />
+                <input type="text" class="d-none" id="hiddenZipCode" name="hiddenZipCode" placeholder="Enter location" value="" />
               </div>
 
               <div class="zip-code d-flex flex-wrap">
@@ -201,40 +202,10 @@
                   1078 GZ
                   <span class="fa fa-times ml-1"></span>
                 </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
-                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                  1078 GZ
-                  <span class="fa fa-times ml-1"></span>
-                </div>
               </div>
-
+              <button class="btn btn-primary w-100 mt-3" id="addZipCode" type="button" disabled>
+                Add Zip Code
+              </button>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-primary w-100 mt-3" id="step-4-back" type="button">
                   Back
@@ -538,7 +509,15 @@
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM06VJYrW1xHW4F4zvL1Bt4lgcF7YgZ7U&libraries=places">
+  </script>
+  <script src="./js/autoComplete.js"> 
+  </script>
   <script>
+
+  
+
+
   const API = 'http://127.0.0.1:8000/api/';
   let phone = '';
     // In your Javascript (external .js resource or <script> tag)
@@ -546,7 +525,7 @@
       $(".js-example-basic-single").select2();
       if(localStorage.getItem('provider_token')){
         $('.step-1').addClass('d-none');
-        $('.step-3').removeClass('d-none');
+        $(`.step-${localStorage.getItem('step') || 3}`).removeClass('d-none');
         $('#step-3-back').prop("disabled", true);
       }
     });
@@ -812,6 +791,7 @@
         }).done(function (response) {
           $(".step-3").addClass("d-none");
           $(".step-4").removeClass("d-none");
+          localStorage.setItem('step', 4);
         }).fail(function (jqXHR) {
           if (jqXHR.status === 400) {
             let errors = jqXHR.responseJSON.message;
@@ -845,11 +825,16 @@
         });
       })
 
-
       //  remove class
       $("#step-2-back").click(function () {
         $(".step-1").removeClass("d-none");
         $(".step-2").addClass("d-none");
+      });
+      
+      // add zip code
+      $("#step-4").click(function () {
+        $(".step-4").addClass("d-none");
+        $(".step-5").removeClass("d-none");
       });
       // add class
       // $("#step-2").click(function () {
@@ -872,13 +857,9 @@
       $("#step-4-back").click(function () {
         $(".step-3").removeClass("d-none");
         $(".step-4").addClass("d-none");
+        localStorage.setItem('step', 3);
       });
 
-      // add class
-      $("#step-4").click(function () {
-        $(".step-4").addClass("d-none");
-        $(".step-5").removeClass("d-none");
-      });
       // remove class
       $("#step-5-back").click(function () {
         $(".step-4").removeClass("d-none");
