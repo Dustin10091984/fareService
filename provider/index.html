@@ -42,7 +42,7 @@
           </div>
           <div class="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
             <!-- step 1 -->
-            <div class="login-from step-1">
+            <div class="login-from step-1 d-none">
               <div class="form-title mb-3">
                 Set Up Your Business Profile.
               </div>
@@ -256,83 +256,84 @@
             </div>
 
             <!-- step 6 user -->
-            <div class="login-from step-6-user d-none">
-              <div class="form-group">
-                <div class="form-title mb-3">
-                  Profile Setting
-                </div>
-
-                <div class="user-profile">
-                  <div class="user-image d-flex align-items-center justify-content-center">
-                    <img src="img/images.png" class="img-fluid" alt="" />
+            <div class="login-from step-6 d-none">
+              <form action="" id="profile">
+                <input id="type" type="text" value="" name="type" hidden></input>
+                <div class="form-group">
+                  <div class="form-title mb-3">
+                    Profile Setting
                   </div>
-                  <label for="file-upload1" class="upload-image">
-                    <i class="fas fa-pencil-alt"></i>
-                    <input type="file" class="d-none" id="file-upload1" name="upload-image" />
-                  </label>
+
+                  <div class="user-profile">
+                    <div class="user-image d-flex align-items-center justify-content-center">
+                      <img src="img/images.png" class="img-fluid" alt="" />
+                    </div>
+                    <label for="file-upload1" class="upload-image">
+                      <i class="fas fa-pencil-alt"></i>
+                      <input type="file" class="d-none" id="file-upload1" name="image" />
+                    </label>
+                  </div>
                 </div>
-              </div>
-
-              <div class="form-group">
-                <div class="form-title mb-3">
-                  Legal Name
+                <div class="form-group">
+                  <div class="form-title mb-3">
+                    Legal Name
+                  </div>
+                  <label for="first_name">First Name</label>
+                  <input type="text" class="form-control" id="first_name" placeholder="First name" name="first_name" required/>
                 </div>
-                <label for="first_name">First Name</label>
-                <input type="text" class="form-control" id="first_name" placeholder="First name" name="first_name" />
-              </div>
-              <div class="form-group">
-                <label for="last_name">Last Name</label>
-                <input type="text" class="form-control" id="last_name" placeholder="last name" name="last_name" />
-              </div>
-              <div class="form-group">
-                <label for="dob">Date of birth</label>
-                <input type="text" class="form-control" id="dob" name="dob" placeholder="select Date" />
-              </div>
-              <div class="form-group">
-                <label for="hourly_rate">Hourly rate</label>
-                <input type="text" class="form-control" id="hourly_rate" name="hourly_rate"
-                  placeholder="$10 per hour" />
-              </div>
-              <div class="form-group">
-                <label for="street_address">Home Address</label>
-                <input type="text" class="form-control" id="street_address" placeholder="street address"
-                  name="street_address" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="suit or #" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="utrecht" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="utrecht" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz" />
-              </div>
-
-              <div class="form-group">
-                <label for="name">Bio</label>
-                <textarea type="text" class="form-control" id="name" placeholder="Enter you bio"></textarea>
-              </div>
-              <div class="form-term mb-2">
-                Please make sure all information you submit
-                is accurate before submit.
-              </div>
-
-              <div class="d-flex justify-content-between">
-                <button class="btn btn-primary w-100 mt-3" id="step-6-back" type="button">
-                  Back
-                </button>
-                <div class="px-3"></div>
-                <button class="btn btn-primary w-100 mt-3" id="submit" type="button">
-                  submit
-                </button>
-              </div>
+                <div class="form-group">
+                  <label for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" placeholder="last name" name="last_name" required/>
+                </div>
+                <div class="form-group">
+                  <label for="dob">Date of birth</label>
+                  <input type="text" class="form-control" id="dob" name="dob" placeholder="select Date" required/>
+                </div>
+                <div class="form-group">
+                  <label for="hourly_rate">Hourly rate</label>
+                  <input type="text" class="form-control" id="hourly_rate" name="hourly_rate"
+                    placeholder="$10 per hour" required/>
+                </div>
+                <div class="form-group">
+                  <label for="street_address">Home Address</label>
+                  <input type="text" class="form-control" id="street_address" placeholder="street address"
+                    name="street_address" required/>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="suit or #" required/>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="utrecht" required/>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="utrecht" required/>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz" required/>
+                </div>
+                <div class="form-group">
+                  <label for="name">Bio</label>
+                  <textarea type="text" class="form-control" id="bio" name="bio" placeholder="Enter you bio" required></textarea>
+                </div>
+                <div class="form-term mb-2">
+                  Please make sure all information you submit
+                  is accurate before submit.
+                </div>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-primary w-100 mt-3" id="step-6-back" type="button">
+                    Back
+                  </button>
+                  <div class="px-3"></div>
+                  <button class="btn btn-primary w-100 mt-3" id="submit" type="button">
+                    submit
+                  </button>
+                </div>
+              </form>
             </div>
+          </div>
 
             <!-- step 6 company-->
-            <div class="login-from step-6-company d-none">
+            <!-- <div class="login-from step-6-company ">
               <div class="form-group">
                 <div class="form-title mb-3">
                   Company Profile Setting
@@ -403,7 +404,7 @@
                   submit
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -520,16 +521,15 @@
   </script>
   <script>
 
-  
-
-
     // In your Javascript (external .js resource or <script> tag)
-      $(document).ready(function () {
+    $(document).ready(function () {
         $(".js-example-basic-single").select2();
       if(localStorage.getItem('provider_token')){
         $('.step-1').addClass('d-none');
         $(`.step-${localStorage.getItem('step') || 3}`).removeClass('d-none');
         $('#step-3-back').prop("disabled", true);
+      } else {
+        $('.step-1').removeClass('d-none');
       }
     });
     
@@ -846,16 +846,7 @@
           }
         }
       })
-      
-      
-      // $('.custom-check').click(function(e){
-      //   console.log(e.target.value);
-      //   $('.checkbox').each(function () {
-      //     if ($(this).is(':checked')) {
-      //       $('#subServiceErr').text('');
-      //     }
-      //   });
-      // })
+
       // on click on add zip code button
       $('#step-4').click(function () {
         let isError = false;
@@ -957,28 +948,36 @@
         $(".step-4").removeClass("d-none");
         $(".step-5").addClass("d-none");
         localStorage.setItem('step', 4);
+        getServices();
       });
+
+      const handleForProfile = (type) => {
+        $(".step-5").addClass("d-none");
+        $(".step-6").removeClass("d-none");
+        localStorage.setItem('step', 6);
+        $('#type').val(type);
+        console.log($('#type').val());
+      }
       // add class
       $("#step-individual").click(function () {
-        $(".step-5").addClass("d-none");
-        $(".step-6-user").removeClass("d-none");
+        handleForProfile('Individual');
       });
-      // add class
+      // // add class
       $("#step-compnay").click(function () {
-        $(".step-5").addClass("d-none");
-        $(".step-6-company").removeClass("d-none");
+        handleForProfile('Business');
       });
 
       // remove class
       $("#step-6-back").click(function () {
         $(".step-5").removeClass("d-none");
-        $(".step-6-user").addClass("d-none");
+        $(".step-6").addClass("d-none");
+        localStorage.setItem('step', 5);
       });
-      // remove class
-      $("#step-6-back-c").click(function () {
-        $(".step-5").removeClass("d-none");
-        $(".step-6-company").addClass("d-none");
-      });
+      // // remove class
+      // $("#step-6-back-c").click(function () {
+      //   $(".step-5").removeClass("d-none");
+      //   $(".step-6-company").addClass("d-none");
+      // });
     });
 
     $(document).ready(function () {
