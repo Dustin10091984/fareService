@@ -14,8 +14,11 @@ $(window).ready(function () {
             }
             if (zipcode != '') {
                 $("#hiddenZipCode").val(zipcode);
-                console.log($("#hiddenZipCode").val());
+                $('#addZipCode').prop('disabled', false);
+            } else {
+                $('#addZipCode').prop('disabled', true);
             }
+            console.log(zipcode);
         });
     }
 });

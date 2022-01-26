@@ -200,7 +200,7 @@
               <div class="zip-code d-flex flex-wrap">
                 <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
                   1078 GZ
-                  <span class="fa fa-times ml-1"></span>
+                  <!-- <span class="fa fa-times ml-1"></span> -->
                 </div>
               </div>
               <button class="btn btn-primary w-100 mt-3" id="addZipCode" type="button" disabled>
@@ -212,7 +212,7 @@
                 </button>
                 <div class="px-3"></div>
                 <button class="btn btn-primary w-100 mt-3" id="step-4" type="button">
-                  Next
+                  Skip/Next
                 </button>
               </div>
             </div>
@@ -654,18 +654,6 @@
           phone = `${code}${phone}`;
           $("#otpPhone").text(phone);
         }).fail(function (jqXHR) {
-          if(jqXHR.status === 400){
-            let errors = jqXHR.responseJSON.message;
-            if (errors.email) {
-              $('#emailErr').text(errors.email);
-            }
-            if (errors.phone) {
-              $('#phoneErr').text(errors.phone);
-            }
-            if (errors.password) {
-              $('#passwordErr').text(errors.password);
-            }
-          }
           if (jqXHR.status === 422) {
             let errors = jqXHR.responseJSON.errors;
             if (errors.email) {
@@ -779,7 +767,6 @@
           last_name,
           spend_each_month
         }
-        console.log(data);
         $.ajax({
           url: `${API}provider/signup/name`,
           headers: {
@@ -793,15 +780,6 @@
           $(".step-4").removeClass("d-none");
           localStorage.setItem('step', 4);
         }).fail(function (jqXHR) {
-          if (jqXHR.status === 400) {
-            let errors = jqXHR.responseJSON.message;
-            if (errors.email) {
-              $('#provider_first_nameErr').text(errors.first_name);
-            }
-            if (errors.phone) {
-              $('#provider_last_nameErr').text(errors.last_name);
-            }
-          }
           if (jqXHR.status === 401) {
             let message = jqXHR.responseJSON.message;
             if (message) {
@@ -825,6 +803,47 @@
         });
       })
 
+      // on click on add zip code button
+      $('#addZipCode').click(function () {
+        if(localStorage.getItem('provider_token')){
+          $.ajax({
+            url: `${API}provider/signup/my-services`,
+            headers: {
+              Authorization: localStorage.getItem('provider_token')
+            },
+            type: "post",
+            data: {zip_code: [$('#hiddenZipCode').val()]},
+            dataType: "json"
+          }).done(function (response) {
+            console.log(response);
+            // $(".step-3").addClass("d-none");
+            // $(".step-4").removeClass("d-none");
+            // localStorage.setItem('step', 4);
+          }).fail(function (jqXHR) {
+            console.log(jqXHR);
+            // if (jqXHR.status === 401) {
+            //   let message = jqXHR.responseJSON.message;
+            //   if (message) {
+            //     $('.serverEr3').removeClass('d-none');
+            //     $('.serverEr3').text(jqXHR.responseJSON.message);
+            //   }
+            // }
+            // if (jqXHR.status === 422) {
+            //   let errors = jqXHR.responseJSON.errors;
+            //   if (errors.email) {
+            //     $('#provider_first_nameErr').text(errors.first_name);
+            //   }
+            //   if (errors.phone) {
+            //     $('#provider_last_nameErr').text(errors.last_name);
+            //   }
+            // }
+            // if (jqXHR.status === 500) {
+            //   $('.serverEr3').removeClass('d-none');
+            //   $('.serverEr3').text(jqXHR.responseJSON.message);
+            // }
+          });
+        }
+      })
       //  remove class
       $("#step-2-back").click(function () {
         $(".step-1").removeClass("d-none");
@@ -835,6 +854,7 @@
       $("#step-4").click(function () {
         $(".step-4").addClass("d-none");
         $(".step-5").removeClass("d-none");
+        localStorage.setItem('step', 5);
       });
       // add class
       // $("#step-2").click(function () {
@@ -864,6 +884,7 @@
       $("#step-5-back").click(function () {
         $(".step-4").removeClass("d-none");
         $(".step-5").addClass("d-none");
+        localStorage.setItem('step', 4);
       });
       // add class
       $("#step-individual").click(function () {
