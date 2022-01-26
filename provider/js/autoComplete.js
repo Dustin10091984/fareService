@@ -15,7 +15,7 @@ $(window).ready(function () {
             if (zipcode != '') {
                 $('#addZipCode').prop('disabled', false);
                 $('.zip-code').append(
-                    `<div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1 selectedZipCode">${zipcode}
+                    `<div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1 selectedZipCode" data-value=${zipcode}>${zipcode}
                     <span class="fa fa-times ml-1"></span></div>`
                 ).click(function (evt) {
                     evt.preventDefault();
