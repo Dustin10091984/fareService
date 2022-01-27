@@ -262,6 +262,7 @@
 
             <!-- step 6 user -->
             <div class="login-from step-6-user d-none">
+              <div class="alert alert-danger text-center serverEr6 d-none"></div>
               <form action="" id="profile">
                 <div class="form-group">
                   <div class="form-title mb-3">
@@ -292,7 +293,7 @@
                 <div class="form-group">
                   <label for="datepicker">Date of birth</label>
                   <input data-date-format="dd/mm/yyyy" name="dob" id="datepicker" class="form-control"/>
-                  <!-- <input type="text" class="form-control" id="dob" name="dob" placeholder="select Date" required/> -->
+                  <span id="dobErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <label for="hourly_rate">Hourly rate</label>
@@ -304,12 +305,15 @@
                   <label for="street_address">Address</label>
                   <input type="text" class="form-control" id="street_address" placeholder="street address"
                     name="street_address" required/>
+                  <span id="street_addressErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="suite_number" name="suite_number" placeholder="suit or #" required/>
+                  <span id="suite_numberErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="zip code" required/>
+                  <span id="zip_codeErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="city" name="city" placeholder="City" required/>
@@ -997,7 +1001,7 @@
         let isError = false;
         let first_name = $('#first_name');
         let last_name = $('#last_name');
-        let dob = $('#dob');
+        let dob = $('#datepicker').data('date');
         let street_address = $('#street_address');
         let suite_number = $('#suite_number');
         let zip_code = $('#zip_code');
@@ -1005,6 +1009,32 @@
         let city = $('#city');
         let state = $('#state');
         let bio = $('textarea#bio');
+
+        if (handleNameChange({ name: 'first_name', value: first_name.val(), arg: "Last Name" }) == false) {
+          isError = true;
+        }
+        if (handleNameChange({ name: 'last_name', value: last_name.val(), arg: "First Name" }) == false) {
+          isError = true;
+        }
+        if (handleHourlyRateChange({ name: 'hourly_rate', value: hourly_rate.val() }) == false) {
+          isError = true;
+        }
+        if (handleNameChange({ name: 'city', value: city.val(), arg: "city" }) == false) {
+          isError = true;
+        }
+        if (handleNameChange({ name: 'state', value: city.val(), arg: "state" }) == false) {
+          isError = true;
+        }
+        if ((bio.val().length < 20 || bio.val().length > 100) && bio.val().length != 0) {
+          $('#bioErr').text('bio should be less than 100 and more than 20 characters');
+          isError = true;
+        }
+        if (isError) {
+          return false;
+        }
+        if (localStorage.getItem('provider_token') == undefined || localStorage.getItem('provider_token') == null) {
+          return false
+        }
 
         var data = new FormData();
         data.append('type', 'Individual');
@@ -1017,7 +1047,9 @@
         data.append('hourly_rate', hourly_rate.val());
         data.append('city', city.val());
         data.append('state', state.val());
-        data.append('bio', bio.val());
+        if(bio.val().length != 0){
+          data.append('bio', bio.val());
+        }
         if($('#file-upload1').prop('files')[0] !== undefined){
           data.append('image', $('#file-upload1').prop('files')[0]);
         }
@@ -1034,58 +1066,47 @@
           data,
           enctype: 'multipart/form-data',
         }).done(function (response) {
-          console.log(response);
+          $('.serverEr6').addClass('d-none');
+          localStorage.clear();
         }).fail(function (jqXHR) {
-          console.log(jqXHR);
-          // if (jqXHR.status === 422) {
-          //   let errors = jqXHR.responseJSON.message;
-          //   if (errors?.service_id) {
-          //     $('#serviceErr').text(errors.service_id);
-          //   }
-          //   if (errors?.sub_services) {
-          //     $('#subServiceErr').text(errors.sub_services);
-          //   }
-          //   if (errors?.zip_code) {
-          //     $('#zipCodeErr').text(errors.zip_code);
-          //   }
-          // }
-          // if (jqXHR.status === 500) {
-          //   $('.serverEr4').removeClass('d-none');
-          //   $('.serverEr4').text(jqXHR.responseJSON.message);
-          // }
+          if (jqXHR.status === 422) {
+            let errors = jqXHR.responseJSON.message;
+            if (errors?.first_name) {
+              $('#first_nameErr').text(errors.first_name);
+            }
+            if (errors?.last_name) {
+              $('#last_nameErr').text(errors.last_name);
+            }
+            if (errors?.zip_code) {
+              $('#zip_codeErr').text(errors.zip_code);
+            }
+            if(errors?.dob){
+              $('#dobErr').text(errors.dob);
+            }
+            if(errors?.street_address){
+              $('#street_addressErr').text(errors.street_address);
+            }
+            if(errors?.suite_number){
+              $('#suite_numberErr').text(errors.suite_number);
+            }
+            if(errors?.hourly_rate){
+              $('#hourly_rateErr').text(errors.hourly_rate);
+            }
+            if(errors?.city){
+              $('#cityErr').text(errors.city);
+            }
+            if(errors?.state){
+              $('#stateErr').text(errors.state);
+            }
+            if(errors?.bio){
+              $('#bioErr').text(errors.bio);
+            }
+          }
+          if (jqXHR.status === 500) {
+            $('.serverEr6').removeClass('d-none');
+            $('.serverEr6').text(jqXHR.responseJSON.message);
+          }
         });
-        console.log(bio.val());
-return false;
-
-        if (handleNameChange({ name: 'first_name', value: first_name.val(), arg: "Last Name" }) == false) {
-          isError = true;
-        }
-        if(handleNameChange({ name: 'last_name', value: last_name.val(), arg: "First Name" }) == false){
-          isError = true;
-        }
-        if(handleHourlyRateChange({ name: 'hourly_rate', value: hourly_rate.val() }) == false){
-          isError = true;
-        }
-        if (handleNameChange({ name: 'city', value: city.val(), arg: "city" }) == false) {
-          isError = true;
-        }
-        if (handleNameChange({ name: 'state', value: city.val(), arg: "state" }) == false) {
-          isError = true;
-        }
-        if(bio.val().length < 20 || bio.val().length > 100){
-          $('#bioErr').text('bio should be less than 100 and more than 20 characters');
-          isError = true;
-        }
-        if(isError){
-          return false;
-        }
-
-        if(localStorage.getItem('provider_token') == undefined){
-          return false
-        }
-
-        
-
       })
       
       $('#companyProfile').on('submit', function (evt) {
