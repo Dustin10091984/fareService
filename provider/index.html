@@ -12,6 +12,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
+    rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
   <title>Farerun</title>
 </head>
 
@@ -256,9 +261,8 @@
             </div>
 
             <!-- step 6 user -->
-            <div class="login-from step-6 d-none">
+            <div class="login-from step-6-user d-none">
               <form action="" id="profile">
-                <input id="type" type="text" value="" name="type" hidden></input>
                 <div class="form-group">
                   <div class="form-title mb-3">
                     Profile Setting
@@ -274,10 +278,8 @@
                     </label>
                   </div>
                 </div>
+                <input type="hidden" name="type" value="individual">
                 <div class="form-group">
-                  <div class="form-title mb-3">
-                    Legal Name
-                  </div>
                   <label for="first_name">First Name</label>
                   <input type="text" class="form-control" id="first_name" placeholder="First name" name="first_name" required/>
                 </div>
@@ -286,8 +288,9 @@
                   <input type="text" class="form-control" id="last_name" placeholder="last name" name="last_name" required/>
                 </div>
                 <div class="form-group">
-                  <label for="dob">Date of birth</label>
-                  <input type="text" class="form-control" id="dob" name="dob" placeholder="select Date" required/>
+                  <label for="datepicker">Date of birth</label>
+                  <input data-date-format="dd/mm/yyyy" name="dob" id="datepicker" class="form-control"/>
+                  <!-- <input type="text" class="form-control" id="dob" name="dob" placeholder="select Date" required/> -->
                 </div>
                 <div class="form-group">
                   <label for="hourly_rate">Hourly rate</label>
@@ -295,21 +298,21 @@
                     placeholder="$10 per hour" required/>
                 </div>
                 <div class="form-group">
-                  <label for="street_address">Home Address</label>
+                  <label for="street_address">Address</label>
                   <input type="text" class="form-control" id="street_address" placeholder="street address"
                     name="street_address" required/>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="suit or #" required/>
+                  <input type="text" class="form-control" id="suite_number" name="suite_number" placeholder="suit or #" required/>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="utrecht" required/>
+                  <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="zip code" required/>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="utrecht" required/>
+                  <input type="text" class="form-control" id="city" name="city" placeholder="City" required/>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz" required/>
+                  <input type="text" class="form-control" id="state" name="state" placeholder="State" required/>
                 </div>
                 <div class="form-group">
                   <label for="name">Bio</label>
@@ -324,7 +327,79 @@
                     Back
                   </button>
                   <div class="px-3"></div>
-                  <button class="btn btn-primary w-100 mt-3" id="submit" type="button">
+                  <button type="submit" class="btn btn-primary w-100 mt-3" id="submit" type="button">
+                    submit
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- step 6 company-->
+            <div class="login-from step-6-company d-none">
+              <form action="" id="companyProfile">
+                <div class="form-group">
+                  <div class="form-title mb-3">
+                    Company Profile Setting
+                  </div>
+    
+                  <div class="user-profile">
+                    <div class="user-image d-flex align-items-center justify-content-center">
+                      <img src="img/images.png" class="img-fluid" alt="" />
+                    </div>
+                    <label for="file-upload" class="upload-image">
+                      <i class="fas fa-pencil-alt"></i>
+                      <input type="file" name="image" id="file-upload" class="d-none" />
+                    </label>
+                  </div>
+                </div>
+                <input type="file" name="type" hidden value="Company"/>
+                <div class="form-group">
+                  <label for="business_name">Business Name</label>
+                  <input type="text" class="form-control" id="business_name" placeholder="First name" name="business_name" required />
+                </div>
+                <div class="form-group">
+                  <label for="last_name">Founded</label>
+                  <input type="text" class="form-control" id="founded" placeholder="founded" name="founded" required />
+                </div>
+                <div class="form-group">
+                  <label for="name">Date of birth</label>
+                  <input type="text" class="form-control" id="name" placeholder="select Date" />
+                </div>
+                <div class="form-group">
+                  <label for="name">Hourly rate</label>
+                  <input type="text" class="form-control" id="name" placeholder="$10 per hour" />
+                </div>
+                <div class="form-group">
+                  <label for="name">Home Address</label>
+                  <input type="text" class="form-control" id="name" placeholder="street address" />
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="suit or #" />
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="utrecht" />
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="utrecht" />
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz" />
+                </div>
+    
+                <div class="form-group">
+                  <label for="name">Bio</label>
+                  <textarea type="text" class="form-control" id="name" placeholder="Enter you bio"></textarea>
+                </div>
+                <div class="form-term mb-2">
+                  Please make sure all information you submit
+                  is accurate before submit.
+                </div>
+    
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-primary w-100 mt-3" id="step-6-back-c" type="button">
+                    Back
+                  </button>
+                  <div class="px-3"></div>
+                  <button type="submit" class="btn btn-primary w-100 mt-3" id="submit-company" type="button">
                     submit
                   </button>
                 </div>
@@ -332,79 +407,6 @@
             </div>
           </div>
 
-            <!-- step 6 company-->
-            <!-- <div class="login-from step-6-company ">
-              <div class="form-group">
-                <div class="form-title mb-3">
-                  Company Profile Setting
-                </div>
-
-                <div class="user-profile">
-                  <div class="user-image d-flex align-items-center justify-content-center">
-                    <img src="img/images.png" class="img-fluid" alt="" />
-                  </div>
-                  <label for="file-upload" class="upload-image">
-                    <i class="fas fa-pencil-alt"></i>
-                    <input type="file" id="file-upload1" class="d-none" />
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div class="form-title mb-3">
-                  Legal Name
-                </div>
-                <label for="name">First Name</label>
-                <input type="text" class="form-control" id="name" placeholder="First name" />
-              </div>
-              <div class="form-group">
-                <label for="name">Last Name</label>
-                <input type="text" class="form-control" id="name" placeholder="last name" />
-              </div>
-              <div class="form-group">
-                <label for="name">Date of birth</label>
-                <input type="text" class="form-control" id="name" placeholder="select Date" />
-              </div>
-              <div class="form-group">
-                <label for="name">Hourly rate</label>
-                <input type="text" class="form-control" id="name" placeholder="$10 per hour" />
-              </div>
-              <div class="form-group">
-                <label for="name">Home Address</label>
-                <input type="text" class="form-control" id="name" placeholder="street address" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="suit or #" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="utrecht" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="utrecht" />
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz" />
-              </div>
-
-              <div class="form-group">
-                <label for="name">Bio</label>
-                <textarea type="text" class="form-control" id="name" placeholder="Enter you bio"></textarea>
-              </div>
-              <div class="form-term mb-2">
-                Please make sure all information you submit
-                is accurate before submit.
-              </div>
-
-              <div class="d-flex justify-content-between">
-                <button class="btn btn-primary w-100 mt-3" id="step-6-back-c" type="button">
-                  Back
-                </button>
-                <div class="px-3"></div>
-                <button class="btn btn-primary w-100 mt-3" id="submit-company" type="button">
-                  submit
-                </button>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -519,6 +521,21 @@
   </script>
   <script src="./js/autoComplete.js"> 
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+       $('#datepicker').datepicker({
+            weekStart: 1,
+            endDate: '+1d',
+            autoclose: true,
+            todayHighlight: true,
+          });
+        $('#datepicker').datepicker("setDate", new Date());
+      </script>
   <script>
 
     // In your Javascript (external .js resource or <script> tag)
@@ -526,7 +543,7 @@
         $(".js-example-basic-single").select2();
       if(localStorage.getItem('provider_token')){
         $('.step-1').addClass('d-none');
-        $(`.step-${localStorage.getItem('step') || 3}`).removeClass('d-none');
+        $(`.step-${localStorage.getItem('step') == 6 ? 5 : localStorage.getItem('step') }`).removeClass('d-none');
         $('#step-3-back').prop("disabled", true);
       } else {
         $('.step-1').removeClass('d-none');
@@ -913,6 +930,25 @@
           });
         }
       });
+
+      $('#file-upload').on('change', function (e) {
+        var file = e.target.files[0];
+        e.target.src = URL.createObjectURL(file);
+      });
+      $('#file-upload1').on('change', function (e) {
+        var file = e.target.files[0];
+        e.target.src = URL.createObjectURL(file);
+      });
+
+      $('#profile').on('submit', function (evt) {
+        evt.preventDefault();
+        console.log('submit');
+      })
+      $('#companyProfile').on('submit', function (evt) {
+        evt.preventDefault();
+        console.log('submit');
+      })
+
       //  remove class
       $("#step-2-back").click(function () {
         $(".step-1").removeClass("d-none");
@@ -951,27 +987,39 @@
         getServices();
       });
 
-      const handleForProfile = (type) => {
-        $(".step-5").addClass("d-none");
-        $(".step-6").removeClass("d-none");
-        localStorage.setItem('step', 6);
-        $('#type').val(type);
-        console.log($('#type').val());
-      }
+      // const handleForProfile = (type) => {
+      //   $(".step-5").addClass("d-none");
+      //   $(".step-6").removeClass("d-none");
+      //   localStorage.setItem('step', 6);
+      //   $('#type').val(type);
+      //   console.log($('#type').val());
+      // }
       // add class
       $("#step-individual").click(function () {
-        handleForProfile('Individual');
+        $(".step-5").addClass("d-none");
+        $(".step-6-user").removeClass("d-none");
       });
       // // add class
       $("#step-compnay").click(function () {
-        handleForProfile('Business');
+        $(".step-5").addClass("d-none");
+        $(".step-6-company").removeClass("d-none");
       });
 
       // remove class
       $("#step-6-back").click(function () {
         $(".step-5").removeClass("d-none");
-        $(".step-6").addClass("d-none");
-        localStorage.setItem('step', 5);
+        $(".step-6-user").addClass("d-none");
+      });
+
+      $("#step-6-back-c").click(function () {
+        $(".step-5").removeClass("d-none");
+        $(".step-6-company").addClass("d-none");
+      });
+      
+      $('#profile').on('submit', function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        console.log(formData);
       });
       // // remove class
       // $("#step-6-back-c").click(function () {
