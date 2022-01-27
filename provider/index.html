@@ -1072,7 +1072,7 @@
         data.append('type', 'Individual');
         data.append('first_name', first_name.val());
         data.append('last_name', last_name.val());
-        data.append('dob', dob.data('date'));
+        data.append('dob', dob.val());
         data.append('street_address', street_address.val());
         data.append('suite_number', suite_number.val());
         data.append('zip_code', zip_code.val());
@@ -1082,8 +1082,8 @@
         if(bio.val().length != 0){
           data.append('bio', bio.val());
         }
-        if($('#profile #file-upload1').prop('files')[0] !== undefined){
-          data.append('image', $('#profile #file-upload1').prop('files')[0]);
+        if($('#file-upload1').prop('files')[0] !== undefined){
+          data.append('image', $('#file-upload1').prop('files')[0]);
         }
 
         $.ajax({
@@ -1188,10 +1188,11 @@
         $('#companyProfile #bioErr').text('');
       });
 
-      $('#founded').on('submit', function (evt) {
+      $('#companyProfile').on('submit', function (evt) {
         evt.preventDefault();
         let isError = false;
-        let business_name = $('##business_name');
+        let business_name = $('#business_name');
+        let number_of_employees = $('#number_of_employees');
         let founded = $('#founded');
         let street_address = $('#companyProfile #street_address');
         let suite_number = $('#companyProfile #suite_number');
@@ -1201,16 +1202,19 @@
         let state = $('#companyProfile #state');
         let bio = $('#companyProfile textarea#bio');
 
-        if (handleNameChange({ name: 'business_name', value: business_name, arg: 'business_name' }) == false) {
+        if (handleNameChange({ name: 'business_name', value: business_name.val(), arg: 'business_name' }) == false) {
           isError = true;
         }
-        if (handleHourlyRateChange({value: hourly_rateErr, selector: '#companyProfile #hourly_rateErr' }) == false) {
+        if (handleHourlyRateChange({value: hourly_rate.val(), selector: '#companyProfile #hourly_rateErr' }) == false) {
           isError = true;
         }
         if (handleNameChange({ name: 'city', value: city.val(), arg: "city" }) == false) {
           isError = true;
         }
         if (handleNameChange({ name: 'state', value: city.val(), arg: "state" }) == false) {
+          isError = true;
+        }
+        if(handleNumber_of_employeesChange({ name: 'number_of_employees', value: number_of_employees.val() }) == false){
           isError = true;
         }
         if ((bio.val().length < 20 || bio.val().length > 100) && bio.val().length != 0) {
@@ -1225,8 +1229,10 @@
         }
 
         var data = new FormData();
-        data.append('type', 'Individual');
-        data.append('founded', founded.data('date'));
+        data.append('type', 'Business');
+        data.append('number_of_employees', number_of_employees.val());
+        data.append('business_name', business_name.val());
+        data.append('founded', founded.val());
         data.append('street_address', street_address.val());
         data.append('suite_number', suite_number.val());
         data.append('zip_code', zip_code.val());
@@ -1236,8 +1242,8 @@
         if (bio.val().length != 0) {
           data.append('bio', bio.val());
         }
-        if ($('#companyProfile #file-upload1').prop('files')[0] !== undefined) {
-          data.append('image', $('#companyProfile #file-upload1').prop('files')[0]);
+        if ($('#file-upload').prop('files')[0] !== undefined) {
+          data.append('image', $('#file-upload').prop('files')[0]);
         }
 
         $.ajax({
@@ -1256,7 +1262,7 @@
           $('.step-6-company').addClass('d-none');
           $('.step-1').removeClass('d-none');
           $('#signupProvider').trigger("reset");
-          // localStorage.clear();
+          localStorage.clear();
         }).fail(function (jqXHR) {
           if (jqXHR.status === 422) {
             let errors = jqXHR.responseJSON.message;
