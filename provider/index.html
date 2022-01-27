@@ -708,13 +708,13 @@
           if (jqXHR.status === 422) {
             let errors = jqXHR.responseJSON.message;
             if (errors.email) {
-              $('#emailErr').text(errors.email[0]);
+              $('#emailErr').text(errors.email);
             }
             if (errors.phone) {
-              $('#phoneErr').text(errors.phone[0]);
+              $('#phoneErr').text(errors.phone);
             }
             if (errors.password) {
-              $('#passwordErr').text(errors.password[0]);
+              $('#passwordErr').text(errors.password);
             }
           }
           if (jqXHR.status === 500) {
@@ -1001,7 +1001,7 @@
         let isError = false;
         let first_name = $('#first_name');
         let last_name = $('#last_name');
-        let dob = $('#datepicker').data('date');
+        let dob = $('#datepicker');
         let street_address = $('#street_address');
         let suite_number = $('#suite_number');
         let zip_code = $('#zip_code');
@@ -1040,7 +1040,7 @@
         data.append('type', 'Individual');
         data.append('first_name', first_name.val());
         data.append('last_name', last_name.val());
-        data.append('dob', dob.val());
+        data.append('dob', dob.data('date'));
         data.append('street_address', street_address.val());
         data.append('suite_number', suite_number.val());
         data.append('zip_code', zip_code.val());
@@ -1067,6 +1067,9 @@
           enctype: 'multipart/form-data',
         }).done(function (response) {
           $('.serverEr6').addClass('d-none');
+          $('.step-6-user').addClass('d-none');
+          $('.step-1').removeClass('d-none');
+          $('#signupProvider').trigger("reset");
           localStorage.clear();
         }).fail(function (jqXHR) {
           if (jqXHR.status === 422) {
