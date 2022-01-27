@@ -365,39 +365,49 @@
                 <div class="form-group">
                   <label for="business_name">Business Name</label>
                   <input type="text" class="form-control" id="business_name" placeholder="First name" name="business_name" required />
+                  <span id="business_nameErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <label for="last_name">Founded</label>
-                  <input type="text" class="form-control" id="founded" placeholder="founded" name="founded" required />
+                  <label for="founded">Founded</label>
+                  <input data-date-format="dd/mm/yyyy" name="founded" id="founded" class="form-control" required/>
+                  <span id="foundedErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <label for="name">Date of birth</label>
-                  <input type="text" class="form-control" id="name" placeholder="select Date" />
+                  <label for="number_of_employees">Number of Employees</label>
+                  <input type="text" class="form-control" id="number_of_employees" name="number_of_employees" placeholder="Number of Employees" required/>
+                  <span id="number_of_employeesErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <label for="name">Hourly rate</label>
-                  <input type="text" class="form-control" id="name" placeholder="$10 per hour" />
+                  <label for="hourly_rate">Hourly rate</label>
+                  <input type="text" class="form-control" id="hourly_rate" name="hourly_rate" placeholder="$10 per hour" required/>
+                  <span id="hourly_rateErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <label for="name">Home Address</label>
-                  <input type="text" class="form-control" id="name" placeholder="street address" />
+                  <label for="street_address">Home Address</label>
+                  <input type="text" class="form-control" id="street_address" name="street_address" placeholder="street address" required/>
+                  <span id="street_addressErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="suit or #" />
+                  <input type="text" class="form-control" id="suite_number" name="suite_number" placeholder="suit or #" required/>
+                  <span id="suite_numberErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="utrecht" />
+                  <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="Zip Code" required/>
+                  <span id="zip_codeErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="utrecht" />
+                  <input type="text" class="form-control" id="city" name="city" placeholder="city" required/>
+                  <span id="cityErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz" />
+                  <input type="text" class="form-control" id="state" name="state" placeholder="state" required/>
+                  <span id="stateErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
     
                 <div class="form-group">
-                  <label for="name">Bio</label>
-                  <textarea type="text" class="form-control" id="name" placeholder="Enter you bio"></textarea>
+                  <label for="bio">Bio</label>
+                  <textarea type="text" class="form-control" id="bio" name="bio" placeholder="Enter you bio"></textarea>
+                  <span id="bioErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-term mb-2">
                   Please make sure all information you submit
@@ -519,33 +529,42 @@
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous">
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous">
+  </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM06VJYrW1xHW4F4zvL1Bt4lgcF7YgZ7U&libraries=places">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM06VJYrW1xHW4F4zvL1Bt4lgcF7YgZ7U&libraries=places"></script>
+  <script src="./js/autoComplete.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
   </script>
-  <script src="./js/autoComplete.js"> 
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-       $('#datepicker').datepicker({
-            weekStart: 1,
-            endDate: '+1d',
-            autoclose: true,
-            todayHighlight: true,
-          });
-        $('#datepicker').datepicker("setDate", new Date());
-      </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+      $('#datepicker').datepicker({
+          weekStart: 1,
+          endDate: '+1d',
+          autoclose: true,
+          todayHighlight: true,
+        });
+      $('#datepicker').datepicker("setDate", new Date());
+      $('#founded').datepicker({
+          weekStart: 1,
+          endDate: '+1d',
+          autoclose: true,
+          todayHighlight: true,
+        });
+      $('#founded').datepicker("setDate", new Date());
+    </script>
   <script>
 
     // In your Javascript (external .js resource or <script> tag)
@@ -632,13 +651,13 @@
         }
       }
 
-      const handleNameChange = ({name, value}) => {
+      const handleNameChange = ({name, value, arg}) => {
         let regex = /^[a-zA-Z ]{1,30}$/;
         if (regex.test(value)) {
           name && $(`#${name}Err`).text('');
           return true;
         } else {
-          name && $(`#${name}Err`).text('please enter vaild name');
+          name && $(`#${name}Err`).text(`please enter vaild ${arg ? arg : name}`);
           return false;
         }
         return false
@@ -951,13 +970,21 @@
         e.target.src = URL.createObjectURL(file);
       });
 
-      const handleHourlyRateChange = ({ name, value }) => {
+      const handleHourlyRateChange = ({ name, value, selector }) => {
         let regex = /^[0-9]{1,3}$/;
+        select = null
+        if(name){
+          select = `#${name}Err`;
+        } else if(selector){
+          select = selector;
+        } else {
+          return false
+        }
         if (regex.test(value)) {
-          name && $(`#${name}Err`).text('');
+          $(select).text('');
           return true;
         } else {
-          name && $(`#${name}Err`).text('please enter vaild hourly rate');
+          $(select).text('please enter vaild hourly rate');
           return false;
         }
         return false
@@ -995,7 +1022,6 @@
         }
         $('#profile #bioErr').text('');
       });
-
 
       $('#profile').on('submit', function (evt) {
         evt.preventDefault();
@@ -1112,9 +1138,45 @@
           }
         });
       })
-      
 
-      
+      const handleNumber_of_employeesChange = ({name, value}) => {
+        let regex = /^[0-9]{1,5}$/;
+        if (regex.test(value)) {
+          name && $(`#${name}Err`).text('');
+          return true;
+        } else {
+          name && $(`#${name}Err`).text('please enter vaild number');
+          return false;
+        }
+        return false
+      }
+
+      $('#companyProfile #business_name').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({ name, value, arg: 'business_name' });
+      });
+
+      $('#companyProfile #number_of_employees').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNumber_of_employeesChange({ name, value });
+      });
+
+      $('#companyProfile #hourly_rate').on('input', function (e) {
+        const { name, value } = e.target;
+        handleHourlyRateChange({value, selector: '#companyProfile #hourly_rateErr'});
+      });
+
+      $('#companyProfile #street_address').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({name, value, selector: '#companyProfile' });
+      });
+
+
+      $('#companyProfile').on('submit', function (evt) {
+        evt.preventDefault();
+        
+      })
+
       $('#companyProfile').on('submit', function (evt) {
         evt.preventDefault();
         console.log('submit');
