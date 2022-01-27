@@ -48,6 +48,7 @@
           <div class="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
             <!-- step 1 -->
             <div class="login-from step-1 d-none">
+              <div id="success" class="alert alert-success text-center d-none"></div>
               <div class="form-title mb-3">
                 Set Up Your Business Profile.
               </div>
@@ -109,6 +110,7 @@
             </div>
             <!-- step 2 -->
             <div class="login-from step-2 d-none">
+              <div id="resendSuccess" class="alert alert-success text-center d-none"></div>
               <div class="form-title mb-3">
                 Please enter OTP Code.
               </div>
@@ -122,7 +124,7 @@
               </div>
               <div class="form-term my-2">
                 Didn't you receive any code? <br />
-                <a href="#">Resend New Code</a>
+                <a id="resend" href="javascript:void(0)">Resend New Code</a>
               </div>
               <div class="d-flex justify-content-between">
                 <button class="btn btn-primary w-100 mt-3" id="step-2-back" type="button">
@@ -754,6 +756,24 @@
         handleOtpChange($(this).val())
       });
 
+      $('#resend').on('click', function (){
+        let phone= $("#otpPhone").text();
+        $.ajax({
+          url: `${API}provider/signup/phone/verify/resend`,
+          type: "post",
+          data: {phone},
+          dataType: "json"
+        }).done(function (response) {
+            $('#resendSuccess').removeClass('d-none');
+            $('#resendSuccess').text('otp sent successfully');
+        }).fail(function (jqXHR) {
+          if (jqXHR.status === 500) {
+            $('.serverEr').removeClass('d-none');
+            $('.serverEr').text(jqXHR.responseJSON.message);
+          }
+        })
+      });
+
       $('#step-2').on('click', function () {
         if (handleOtpChange($('#otp').val()) == false) {
           return false
@@ -794,7 +814,7 @@
         }).always(function (e) {
           $(this).find('button').prop("disabled", false);
         });
-      })
+      });
 
       $('#provider_first_name').on('input', function (e) {
         const {name, value} = e.target;
@@ -1261,6 +1281,8 @@
           $('#companyProfile .serverEr6').addClass('d-none');
           $('.step-6-company').addClass('d-none');
           $('.step-1').removeClass('d-none');
+          $('#success').removeClass('d-none');
+          $('#success').text('Registered Successfully');
           $('#signupProvider').trigger("reset");
           localStorage.clear();
         }).fail(function (jqXHR) {
