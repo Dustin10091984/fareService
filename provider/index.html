@@ -963,52 +963,53 @@
         return false
       }
 
-      $('#first_name').on('input', function (e) {
+      $('#profile #first_name').on('input', function (e) {
         const { name, value } = e.target;
+        console.log(value);
         handleNameChange({ name, value, arg: 'first_name' });
       });
 
-      $('#last_name').on('input', function (e) {
+      $('#profile #last_name').on('input', function (e) {
         const { name, value } = e.target;
         handleNameChange({ name, value, arg: 'last_name' })
       });
 
-      $('#hourly_rate').on('input', function (e) {
+      $('#profile #hourly_rate').on('input', function (e) {
         const { name, value } = e.target;
         handleHourlyRateChange({ name, value })
       });
 
-      $('#city').on('input', function (e) {
+      $('#profile #city').on('input', function (e) {
         const { name, value } = e.target;
         handleNameChange({ name, value, arg: 'city' })
       });
 
-      $('#state').on('input', function (e) {
+      $('#profile #state').on('input', function (e) {
         const { name, value } = e.target;
         handleNameChange({ name, value, arg: 'state' })
       });
 
-      $('textarea#bio').on('input', function (e) {
+      $('#profile textarea#bio').on('input', function (e) {
         if ($(this).val().length < 20 || $(this).val().length > 100) {
-          $('#bioErr').text('bio should be less than 100 and more than 20 characters');
+          $('#profile #bioErr').text('bio should be less than 100 and more than 20 characters');
         }
-        $('#bioErr').text('');
+        $('#profile #bioErr').text('');
       });
 
 
       $('#profile').on('submit', function (evt) {
         evt.preventDefault();
         let isError = false;
-        let first_name = $('#first_name');
-        let last_name = $('#last_name');
-        let dob = $('#datepicker');
-        let street_address = $('#street_address');
-        let suite_number = $('#suite_number');
-        let zip_code = $('#zip_code');
-        let hourly_rate = $('#hourly_rate');
-        let city = $('#city');
-        let state = $('#state');
-        let bio = $('textarea#bio');
+        let first_name = $('#profile #first_name');
+        let last_name = $('#profile #last_name');
+        let dob = $('#profile #datepicker');
+        let street_address = $('#profile #street_address');
+        let suite_number = $('#profile #suite_number');
+        let zip_code = $('#profile #zip_code');
+        let hourly_rate = $('#profile #hourly_rate');
+        let city = $('#profile #city');
+        let state = $('#profile #state');
+        let bio = $('#profile textarea#bio');
 
         if (handleNameChange({ name: 'first_name', value: first_name.val(), arg: "Last Name" }) == false) {
           isError = true;
@@ -1026,7 +1027,7 @@
           isError = true;
         }
         if ((bio.val().length < 20 || bio.val().length > 100) && bio.val().length != 0) {
-          $('#bioErr').text('bio should be less than 100 and more than 20 characters');
+          $('#profile #bioErr').text('bio should be less than 100 and more than 20 characters');
           isError = true;
         }
         if (isError) {
@@ -1050,8 +1051,8 @@
         if(bio.val().length != 0){
           data.append('bio', bio.val());
         }
-        if($('#file-upload1').prop('files')[0] !== undefined){
-          data.append('image', $('#file-upload1').prop('files')[0]);
+        if($('#profile #file-upload1').prop('files')[0] !== undefined){
+          data.append('image', $('#profile #file-upload1').prop('files')[0]);
         }
 
         $.ajax({
@@ -1066,43 +1067,43 @@
           data,
           enctype: 'multipart/form-data',
         }).done(function (response) {
-          $('.serverEr6').addClass('d-none');
+          $('#profile .serverEr6').addClass('d-none');
           $('.step-6-user').addClass('d-none');
           $('.step-1').removeClass('d-none');
           $('#signupProvider').trigger("reset");
-          localStorage.clear();
+          // localStorage.clear();
         }).fail(function (jqXHR) {
           if (jqXHR.status === 422) {
             let errors = jqXHR.responseJSON.message;
             if (errors?.first_name) {
-              $('#first_nameErr').text(errors.first_name);
+              $('#profile #first_nameErr').text(errors.first_name);
             }
             if (errors?.last_name) {
-              $('#last_nameErr').text(errors.last_name);
+              $('#profile #last_nameErr').text(errors.last_name);
             }
             if (errors?.zip_code) {
-              $('#zip_codeErr').text(errors.zip_code);
+              $('#profile #zip_codeErr').text(errors.zip_code);
             }
             if(errors?.dob){
-              $('#dobErr').text(errors.dob);
+              $('#profile #dobErr').text(errors.dob);
             }
             if(errors?.street_address){
-              $('#street_addressErr').text(errors.street_address);
+              $('#profile #street_addressErr').text(errors.street_address);
             }
             if(errors?.suite_number){
-              $('#suite_numberErr').text(errors.suite_number);
+              $('#profile #suite_numberErr').text(errors.suite_number);
             }
             if(errors?.hourly_rate){
-              $('#hourly_rateErr').text(errors.hourly_rate);
+              $('#profile #hourly_rateErr').text(errors.hourly_rate);
             }
             if(errors?.city){
-              $('#cityErr').text(errors.city);
+              $('#profile #cityErr').text(errors.city);
             }
             if(errors?.state){
-              $('#stateErr').text(errors.state);
+              $('#profile #stateErr').text(errors.state);
             }
             if(errors?.bio){
-              $('#bioErr').text(errors.bio);
+              $('#profile #bioErr').text(errors.bio);
             }
           }
           if (jqXHR.status === 500) {
@@ -1111,6 +1112,8 @@
           }
         });
       })
+      
+
       
       $('#companyProfile').on('submit', function (evt) {
         evt.preventDefault();
