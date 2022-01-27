@@ -282,10 +282,12 @@
                 <div class="form-group">
                   <label for="first_name">First Name</label>
                   <input type="text" class="form-control" id="first_name" placeholder="First name" name="first_name" required/>
+                  <span id="first_nameErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <label for="last_name">Last Name</label>
                   <input type="text" class="form-control" id="last_name" placeholder="last name" name="last_name" required/>
+                  <span id="last_nameErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <label for="datepicker">Date of birth</label>
@@ -296,6 +298,7 @@
                   <label for="hourly_rate">Hourly rate</label>
                   <input type="text" class="form-control" id="hourly_rate" name="hourly_rate"
                     placeholder="$10 per hour" required/>
+                  <span id="hourly_rateErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <label for="street_address">Address</label>
@@ -310,13 +313,16 @@
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="city" name="city" placeholder="City" required/>
+                  <span id="cityErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" id="state" name="state" placeholder="State" required/>
+                  <span id="stateErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-group">
                   <label for="name">Bio</label>
-                  <textarea type="text" class="form-control" id="bio" name="bio" placeholder="Enter you bio" required></textarea>
+                  <textarea type="text" class="form-control" id="bio" name="bio" placeholder="Enter you bio"></textarea>
+                  <span id="bioErr" class="text-danger" style="font-size: .8rem;"></span>
                 </div>
                 <div class="form-term mb-2">
                   Please make sure all information you submit
@@ -935,15 +941,153 @@
         var file = e.target.files[0];
         e.target.src = URL.createObjectURL(file);
       });
+      
       $('#file-upload1').on('change', function (e) {
         var file = e.target.files[0];
         e.target.src = URL.createObjectURL(file);
       });
 
+      const handleHourlyRateChange = ({ name, value }) => {
+        let regex = /^[0-9]{1,3}$/;
+        if (regex.test(value)) {
+          name && $(`#${name}Err`).text('');
+          return true;
+        } else {
+          name && $(`#${name}Err`).text('please enter vaild hourly rate');
+          return false;
+        }
+        return false
+      }
+
+      $('#first_name').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({ name, value, arg: 'first_name' });
+      });
+
+      $('#last_name').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({ name, value, arg: 'last_name' })
+      });
+
+      $('#hourly_rate').on('input', function (e) {
+        const { name, value } = e.target;
+        handleHourlyRateChange({ name, value })
+      });
+
+      $('#city').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({ name, value, arg: 'city' })
+      });
+
+      $('#state').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({ name, value, arg: 'state' })
+      });
+
+      $('textarea#bio').on('input', function (e) {
+        if ($(this).val().length < 20 || $(this).val().length > 100) {
+          $('#bioErr').text('bio should be less than 100 and more than 20 characters');
+        }
+        $('#bioErr').text('');
+      });
+
+
       $('#profile').on('submit', function (evt) {
         evt.preventDefault();
-        console.log('submit');
+        let isError = false;
+        let first_name = $('#first_name');
+        let last_name = $('#last_name');
+        let dob = $('#dob');
+        let street_address = $('#street_address');
+        let suite_number = $('#suite_number');
+        let zip_code = $('#zip_code');
+        let hourly_rate = $('#hourly_rate');
+        let city = $('#city');
+        let state = $('#state');
+        let bio = $('textarea#bio');
+
+        var data = new FormData();
+        data.append('type', 'Individual');
+        data.append('first_name', first_name.val());
+        data.append('last_name', last_name.val());
+        data.append('dob', dob.val());
+        data.append('street_address', street_address.val());
+        data.append('suite_number', suite_number.val());
+        data.append('zip_code', zip_code.val());
+        data.append('hourly_rate', hourly_rate.val());
+        data.append('city', city.val());
+        data.append('state', state.val());
+        data.append('bio', bio.val());
+        if($('#file-upload1').prop('files')[0] !== undefined){
+          data.append('image', $('#file-upload1').prop('files')[0]);
+        }
+
+        $.ajax({
+          url: `${API}provider/signup/profile`,
+          headers: {
+            Authorization: localStorage.getItem('provider_token'),
+          },
+          type: "post",
+          processData: false,
+          contentType: false,
+          cache: false,
+          data,
+          enctype: 'multipart/form-data',
+        }).done(function (response) {
+          console.log(response);
+        }).fail(function (jqXHR) {
+          console.log(jqXHR);
+          // if (jqXHR.status === 422) {
+          //   let errors = jqXHR.responseJSON.message;
+          //   if (errors?.service_id) {
+          //     $('#serviceErr').text(errors.service_id);
+          //   }
+          //   if (errors?.sub_services) {
+          //     $('#subServiceErr').text(errors.sub_services);
+          //   }
+          //   if (errors?.zip_code) {
+          //     $('#zipCodeErr').text(errors.zip_code);
+          //   }
+          // }
+          // if (jqXHR.status === 500) {
+          //   $('.serverEr4').removeClass('d-none');
+          //   $('.serverEr4').text(jqXHR.responseJSON.message);
+          // }
+        });
+        console.log(bio.val());
+return false;
+
+        if (handleNameChange({ name: 'first_name', value: first_name.val(), arg: "Last Name" }) == false) {
+          isError = true;
+        }
+        if(handleNameChange({ name: 'last_name', value: last_name.val(), arg: "First Name" }) == false){
+          isError = true;
+        }
+        if(handleHourlyRateChange({ name: 'hourly_rate', value: hourly_rate.val() }) == false){
+          isError = true;
+        }
+        if (handleNameChange({ name: 'city', value: city.val(), arg: "city" }) == false) {
+          isError = true;
+        }
+        if (handleNameChange({ name: 'state', value: city.val(), arg: "state" }) == false) {
+          isError = true;
+        }
+        if(bio.val().length < 20 || bio.val().length > 100){
+          $('#bioErr').text('bio should be less than 100 and more than 20 characters');
+          isError = true;
+        }
+        if(isError){
+          return false;
+        }
+
+        if(localStorage.getItem('provider_token') == undefined){
+          return false
+        }
+
+        
+
       })
+      
       $('#companyProfile').on('submit', function (evt) {
         evt.preventDefault();
         console.log('submit');
