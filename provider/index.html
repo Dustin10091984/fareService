@@ -345,6 +345,7 @@
             </div>
             <!-- step 6 company-->
             <div class="login-from step-6-company d-none">
+              <div class="alert alert-danger text-center serverEr6 d-none"></div>
               <form action="" id="companyProfile">
                 <div class="form-group">
                   <div class="form-title mb-3">
@@ -651,13 +652,17 @@
         }
       }
 
-      const handleNameChange = ({name, value, arg}) => {
+      const handleNameChange = ({name, value, arg, selector}) => {
         let regex = /^[a-zA-Z ]{1,30}$/;
+        let select = `#${name}Err`; 
+        if(selector){
+          select = `${selector} #${name}Err`;
+        }
         if (regex.test(value)) {
-          name && $(`#${name}Err`).text('');
+          $(select).text('');
           return true;
         } else {
-          name && $(`#${name}Err`).text(`please enter vaild ${arg ? arg : name}`);
+          $(select).text(`please enter vaild ${arg ? arg : name}`);
           return false;
         }
         return false
@@ -1166,21 +1171,132 @@
         handleHourlyRateChange({value, selector: '#companyProfile #hourly_rateErr'});
       });
 
-      $('#companyProfile #street_address').on('input', function (e) {
+      $('#companyProfile #city').on('input', function (e) {
         const { name, value } = e.target;
         handleNameChange({name, value, selector: '#companyProfile' });
       });
 
+      $('#companyProfile #state').on('input', function (e) {
+        const { name, value } = e.target;
+        handleNameChange({name, value, selector: '#companyProfile' });
+      });
 
-      $('#companyProfile').on('submit', function (evt) {
-        evt.preventDefault();
-        
-      })
+      $('#companyProfile textarea#bio').on('input', function (e) {
+        if ($(this).val().length < 20 || $(this).val().length > 100) {
+          $('#companyProfile #bioErr').text('bio should be less than 100 and more than 20 characters');
+        }
+        $('#companyProfile #bioErr').text('');
+      });
 
-      $('#companyProfile').on('submit', function (evt) {
+      $('#founded').on('submit', function (evt) {
         evt.preventDefault();
-        console.log('submit');
-      })
+        let isError = false;
+        let business_name = $('##business_name');
+        let founded = $('#founded');
+        let street_address = $('#companyProfile #street_address');
+        let suite_number = $('#companyProfile #suite_number');
+        let zip_code = $('#companyProfile #zip_code');
+        let hourly_rate = $('#companyProfile #hourly_rate');
+        let city = $('#companyProfile #city');
+        let state = $('#companyProfile #state');
+        let bio = $('#companyProfile textarea#bio');
+
+        if (handleNameChange({ name: 'business_name', value: business_name, arg: 'business_name' }) == false) {
+          isError = true;
+        }
+        if (handleHourlyRateChange({value: hourly_rateErr, selector: '#companyProfile #hourly_rateErr' }) == false) {
+          isError = true;
+        }
+        if (handleNameChange({ name: 'city', value: city.val(), arg: "city" }) == false) {
+          isError = true;
+        }
+        if (handleNameChange({ name: 'state', value: city.val(), arg: "state" }) == false) {
+          isError = true;
+        }
+        if ((bio.val().length < 20 || bio.val().length > 100) && bio.val().length != 0) {
+          $('#companyProfile #bioErr').text('bio should be less than 100 and more than 20 characters');
+          isError = true;
+        }
+        if (isError) {
+          return false;
+        }
+        if (localStorage.getItem('provider_token') == undefined || localStorage.getItem('provider_token') == null) {
+          return false
+        }
+
+        var data = new FormData();
+        data.append('type', 'Individual');
+        data.append('founded', founded.data('date'));
+        data.append('street_address', street_address.val());
+        data.append('suite_number', suite_number.val());
+        data.append('zip_code', zip_code.val());
+        data.append('hourly_rate', hourly_rate.val());
+        data.append('city', city.val());
+        data.append('state', state.val());
+        if (bio.val().length != 0) {
+          data.append('bio', bio.val());
+        }
+        if ($('#companyProfile #file-upload1').prop('files')[0] !== undefined) {
+          data.append('image', $('#companyProfile #file-upload1').prop('files')[0]);
+        }
+
+        $.ajax({
+          url: `${API}provider/signup/profile`,
+          headers: {
+            Authorization: localStorage.getItem('provider_token'),
+          },
+          type: "post",
+          processData: false,
+          contentType: false,
+          cache: false,
+          data,
+          enctype: 'multipart/form-data',
+        }).done(function (response) {
+          $('#companyProfile .serverEr6').addClass('d-none');
+          $('.step-6-company').addClass('d-none');
+          $('.step-1').removeClass('d-none');
+          $('#signupProvider').trigger("reset");
+          // localStorage.clear();
+        }).fail(function (jqXHR) {
+          if (jqXHR.status === 422) {
+            let errors = jqXHR.responseJSON.message;
+            if (errors?.first_name) {
+              $('#companyProfile #first_nameErr').text(errors.first_name);
+            }
+            if (errors?.last_name) {
+              $('#companyProfile #last_nameErr').text(errors.last_name);
+            }
+            if (errors?.zip_code) {
+              $('#companyProfile #zip_codeErr').text(errors.zip_code);
+            }
+            if (errors?.dob) {
+              $('#companyProfile #dobErr').text(errors.dob);
+            }
+            if (errors?.street_address) {
+              $('#companyProfile #street_addressErr').text(errors.street_address);
+            }
+            if (errors?.suite_number) {
+              $('#companyProfile #suite_numberErr').text(errors.suite_number);
+            }
+            if (errors?.hourly_rate) {
+              $('#companyProfile #hourly_rateErr').text(errors.hourly_rate);
+            }
+            if (errors?.city) {
+              $('#companyProfile #cityErr').text(errors.city);
+            }
+            if (errors?.state) {
+              $('#companyProfile #stateErr').text(errors.state);
+            }
+            if (errors?.bio) {
+              $('#companyProfile #bioErr').text(errors.bio);
+            }
+          }
+          if (jqXHR.status === 500) {
+            $('.serverEr6').removeClass('d-none');
+            $('.serverEr6').text(jqXHR.responseJSON.message);
+          }
+        });
+      });
 
       //  remove class
       $("#step-2-back").click(function () {
