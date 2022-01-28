@@ -29,7 +29,10 @@
             <!-- <img src="img/logo.png" class="img-fluid" alt=""> -->
           </div>
           <div class="login-btn">
-            <a href="#" class="login-now text-capitalize text-white">login</a>
+            <a href="#" id="register-provider-btn" class="login-now text-capitalize text-white">Provider Registered</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
+            <a href="#" id="register-user-btn" class="login-now text-capitalize text-white">User Register</a>
+          
           </div>
         </div>
       </div>
@@ -46,6 +49,9 @@
             </div>
           </div>
           <div class="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
+            <div id="responsemessage">
+            
+            </div>
             <!-- step 1 -->
             <div class="login-from step-1 d-none">
               <div id="success" class="alert alert-success text-center d-none"></div>
@@ -428,6 +434,140 @@
                 </div>
               </form>
             </div>
+
+            <div class="login-from step-1-user  " id="user-phone-signup">
+              <div class="form-title mb-3">
+                Set Up Your User Profile.
+              </div>
+              <div class="form-term mb-2">
+                How Whould you like customer to contact you?
+              </div>
+            
+              <form action="" method="post" id="signupUser">
+            
+                <div class="form-group">
+                  <label for="code">Phone</label>
+                  <div class="d-flex phone-input">
+            
+                    <input type="text" name="phone" id="userphone" class="form-control" placeholder="+923367713621" required />
+                  </div>
+                </div>
+            
+                <div class="form-term mb-2">
+                  Lorem ipsum dolor sit amet consectetur
+                  adipisicing elit. Rem facere suscipit earum
+                  voluptatibus doloremque quia?
+                </div>
+            
+            
+                <button type="submit" class="btn btn-primary w-100 mt-3" id="step-user-1" type="button">
+                  Get OTP
+                </button>
+              </form>
+            </div>
+            
+            <div class="login-from step-2-user d-none" id="user-otp">
+              <div class="form-title mb-3">
+                Please enter OTP Code.
+            
+              </div>
+              <!-- <div class="form-term mb-2">How Whould you like customer to contact you?</div> -->
+              <form action="" method="post" id="otpVerify">
+                <div class="form-group">
+                  <label for="otp">Code.</label>
+                  <input type="hidden" name="phone" id="userphone_">
+                  <input type="hidden" name="temp_code" id="temp_code">
+            
+                  <input type="text" class="form-control" id="user-otp" name="otp" placeholder="0 0 0 0" />
+                </div>
+            
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-primary w-100 mt-3" id="step-2-user-back" type="button">
+                    Back
+                  </button>
+                  <div class="px-3"></div>
+                  <button class="btn btn-primary w-100 mt-3" id="step-2" type="submit">
+                    Next
+                  </button>
+                </div>
+            
+              </form>
+            </div>
+            
+            
+            <form action="" method="post" id="registerUser">
+              <div class="login-from step-3-user d-none" id="user-step3">
+                <div class="form-title mb-3">
+                  To start , help us get to know you
+                </div>
+                <div class="form-term mb-2">
+                  This info helps our team provide customized
+                  support -- it won't be public.
+                </div>
+            
+                <div class="form-group">
+                  <div class="form-title mb-3">
+                    What is your name?
+                  </div>
+                  <label for="first_name">First Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="first_name"
+                    name="first_name"
+                    placeholder="First Name"
+                  />
+                  <span id="user_first_nameErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="form-group">
+                  <label for="last_name">Last Name</label>
+                  <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" />
+                  <span id="user_last_nameErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="form-group">
+                  <label for="last_name">Email</label>
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Email" />
+                  <span id="user_emailErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="form-group">
+                  <label for="last_name">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                  <span id="user_passwordErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="form-group">
+                  <label for="last_name">Confirm Password</label>
+                  <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                    placeholder="Confirm Password" />
+                  <span id="user_password_confirmationErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="form-group">
+                  <label for="last_name">Phone</label>
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" />
+                  <span id="user_phoneErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="form-group">
+                  <label for="last_name">Zipcode</label>
+                  <input type="number" class="form-control" id="zip_code" name="zip_code" placeholder="Zip Code" />
+                  <span id="user_zip_codeErr" class="text-danger" style="font-size: .8rem;"></span>
+                </div>
+            
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-primary w-100 mt-3" id="step-3-user-back" type="button">
+                    Back
+                  </button>
+                  <div class="px-3"></div>
+                  <button class="btn btn-primary w-100 mt-3" id="step-3" type="submit">
+                    Next
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
 
           </div>
@@ -544,7 +684,7 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM06VJYrW1xHW4F4zvL1Bt4lgcF7YgZ7U&libraries=places"></script>
-  <script src="./js/autoComplete.js"></script>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -552,6 +692,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="./js/autoComplete.js"></script>
+  <script src="./js/index.js"></script>
   <script type="text/javascript">
       $('#datepicker').datepicker({
           weekStart: 1,
@@ -654,9 +796,9 @@
         }
       }
 
-      const handleNameChange = ({name, value, arg, selector}) => {
+      const handleNameChange = ({name, value, arg, selector, error}) => {
         let regex = /^[a-zA-Z ]{1,30}$/;
-        let select = `#${name}Err`; 
+        let select = error || `#${name}Err`; 
         if(selector){
           select = `${selector} #${name}Err`;
         }
