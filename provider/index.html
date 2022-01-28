@@ -1332,23 +1332,6 @@
         $(".step-2").addClass("d-none");
       });
       
-      // add class
-      // $("#step-2").click(function () {
-      //   $(".step-2").addClass("d-none");
-      //   $(".step-3").removeClass("d-none");
-      // });
-      // remove class
-      // $("#step-3-back").click(function () {
-      //   $(".step-2").removeClass("d-none");
-      //   $(".step-3").addClass("d-none");
-      // });
-
-      // add class
-      // $("#step-3").click(function () {
-      //   $(".step-3").addClass("d-none");
-      //   $(".step-4").removeClass("d-none");
-      // });
-
       // remove class
       $("#step-4-back").click(function () {
         $(".step-3").removeClass("d-none");
@@ -1364,13 +1347,6 @@
         getServices();
       });
 
-      // const handleForProfile = (type) => {
-      //   $(".step-5").addClass("d-none");
-      //   $(".step-6").removeClass("d-none");
-      //   localStorage.setItem('step', 6);
-      //   $('#type').val(type);
-      //   console.log($('#type').val());
-      // }
       // add class
       $("#step-individual").click(function () {
         $(".step-5").addClass("d-none");
@@ -1398,11 +1374,7 @@
         let formData = new FormData(this);
         console.log(formData);
       });
-      // // remove class
-      // $("#step-6-back-c").click(function () {
-      //   $(".step-5").removeClass("d-none");
-      //   $(".step-6-company").addClass("d-none");
-      // });
+      
     });
 
     $(document).ready(function () {
