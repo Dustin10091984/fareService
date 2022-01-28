@@ -273,7 +273,7 @@
 
                   <div class="user-profile">
                     <div class="user-image d-flex align-items-center justify-content-center">
-                      <img src="img/images.png" class="img-fluid" alt="" />
+                      <img src="img/images.png" id="provider_image" class="img-fluid" alt="" />
                     </div>
                     <label for="file-upload1" class="upload-image">
                       <i class="fas fa-pencil-alt"></i>
@@ -356,7 +356,7 @@
     
                   <div class="user-profile">
                     <div class="user-image d-flex align-items-center justify-content-center">
-                      <img src="img/images.png" class="img-fluid" alt="" />
+                      <img src="img/images.png" id="company_image" class="img-fluid" alt="" />
                     </div>
                     <label for="file-upload" class="upload-image">
                       <i class="fas fa-pencil-alt"></i>
@@ -987,12 +987,12 @@
 
       $('#file-upload').on('change', function (e) {
         var file = e.target.files[0];
-        e.target.src = URL.createObjectURL(file);
+        $('#company_image').src = URL.createObjectURL(file);
       });
       
       $('#file-upload1').on('change', function (e) {
         var file = e.target.files[0];
-        e.target.src = URL.createObjectURL(file);
+        $('#provider_image').src = URL.createObjectURL(file);
       });
 
       const handleHourlyRateChange = ({ name, value, selector }) => {
@@ -1368,13 +1368,6 @@
         $(".step-5").removeClass("d-none");
         $(".step-6-company").addClass("d-none");
       });
-      
-      $('#profile').on('submit', function (e) {
-        e.preventDefault();
-        let formData = new FormData(this);
-        console.log(formData);
-      });
-      
     });
 
     $(document).ready(function () {
