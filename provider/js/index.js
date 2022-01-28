@@ -3,6 +3,8 @@ $(document).ready(function () {
     $("#user-phone-signup").addClass("d-none");
 });
 
+const API = 'https://api.farenow.com/api/';
+
 const handleNameChange = ({ name, value, error, arg }) => {
     let regex = /^[a-zA-Z ]{1,30}$/;
     if (regex.test(value)) {
@@ -39,7 +41,7 @@ const handlePasswordChange = ({ value, error }) => {
 
 const handlePhoneChange = ({ value, error }) => {
     let regex = /^[0-9]{12,13}$/
-    let result = regex.test(Number(value));
+    let result = regex.test(value);
     if (result) {
         $(error).text('');
         return true;
@@ -115,7 +117,7 @@ $('#signupUser').on('submit', function (e) {
     var formData = new FormData(this);
     var phone_ = $('#userphone').val();
     $.ajax({
-        url: 'https://api.farenow.com/api/user/signup/phone',
+        url: `${API}user/signup/phone`,
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -150,7 +152,7 @@ $('#otpVerify').on('submit', function (e) {
     var formData = new FormData(this);
 
     $.ajax({
-        url: 'https://api.farenow.com/api/user/signup/phone/verify',
+        url: `${API}user/signup/phone/verify`,
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -220,7 +222,7 @@ $('#registerUser').on('submit', function (e) {
     var formData = new FormData(this);
 
     $.ajax({
-        url: 'https://api.farenow.com/api/user/signup',
+        url: `${API}user/signup`,
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -232,13 +234,11 @@ $('#registerUser').on('submit', function (e) {
         beforeSend: function () { },
         success: function (response) {
             $(this).trigger('reset');
-            console.log(response);
             alert('Register successfully');
 
 
 
         }, error: function (request, status, error) {
-            console.log(request, status, error);
             if (request?.status == 422) {
                 const { message } = request.responseJSON;
                 if (message.first_name) {
