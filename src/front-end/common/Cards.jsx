@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Rating from "../../components/Rating";
 import { HOST } from "./../../constants";
+
 const Card = ({
     link,
     image,
@@ -39,9 +40,11 @@ const Card = ({
                     <div className="prod-detail">
                         <div className="title">
                             {title}{" "}
-                            <i className="fa fa-star" aria-hidden="true"
+                            <i
+                                className="fa fa-star"
+                                aria-hidden="true"
                                 style={{
-                                    fontSize:"1.5rem",
+                                    fontSize: "1.5rem",
                                     float: "right",
                                     color: "gold",
                                 }}
@@ -73,8 +76,8 @@ export const CheckOutCard = ({
     return (
         <div className="col-md-12 col-sm-12 col-xs-12 mb-4">
             <div className="food-card">
-               <div className="row">
-               {/* <div className="col-md-4 col-sm-3 col-xs-3 food-img">
+                <div className="row">
+                    {/* <div className="col-md-4 col-sm-3 col-xs-3 food-img">
                     <img
                         style={{
                             zIndex: "0",
@@ -86,56 +89,58 @@ export const CheckOutCard = ({
                         }}
                     ></img>
                 </div> */}
-                <div className="col-md-12 d-flex justify-content-between">
-                    <div className="cart-right-box w-100 position-relative">
-                    <div className="cart-remove-btn">
-                    <i className="fa fa-times m-0 " onClick={handleRemoveCartClick}
-                    ></i>
-                    </div>
-                    <div className="w-100 mt-3">
-                        <div className="card-name pr-5">
-                            <div className="text-truncate">
-                                {title}
+                    <div className="col-md-12 d-flex justify-content-between">
+                        <div className="cart-right-box w-100 position-relative">
+                            <div className="cart-remove-btn">
+                                <i
+                                    className="fa fa-times m-0 "
+                                    onClick={handleRemoveCartClick}
+                                ></i>
+                            </div>
+                            <div className="w-100 mt-3">
+                                <div className="card-name pr-5">
+                                    <div className="text-truncate">{title}</div>
+                                </div>
+                                <div className="">{price}</div>
+                                <div className="float-right product-counter">
+                                    <span className="font-weight-bold">
+                                        {quantity}
+                                    </span>
+                                    &nbsp;&nbsp;
+                                    <i
+                                        className="fa fa-minus"
+                                        aria-hidden="true"
+                                        style={{
+                                            cursor: "pointer",
+                                            color: "white",
+                                            backgroundColor: "blue",
+                                            borderRadius: "100%",
+                                            padding: ".4rem",
+                                            paddingLeft: ".5rem",
+                                            paddingRight: ".5rem",
+                                        }}
+                                        onClick={handleMinusClick}
+                                    ></i>
+                                    &nbsp;
+                                    <i
+                                        className="fa fa-plus"
+                                        aria-hidden="true"
+                                        style={{
+                                            cursor: "pointer",
+                                            color: "white",
+                                            backgroundColor: "#fea629",
+                                            borderRadius: "100%",
+                                            padding: ".4rem",
+                                            paddingLeft: ".5rem",
+                                            paddingRight: ".5rem",
+                                        }}
+                                        onClick={handlePlusClick}
+                                    ></i>
+                                </div>
                             </div>
                         </div>
-                        <div className="">{price}</div>
-                        <div className="float-right product-counter">
-                            <span className="font-weight-bold">{quantity}</span>
-                            &nbsp;&nbsp;
-                            <i
-                                className="fa fa-minus"
-                                aria-hidden="true"
-                                style={{
-                                    cursor: "pointer",
-                                    color: "white",
-                                    backgroundColor: "blue",
-                                    borderRadius: "100%",
-                                    padding: ".4rem",
-                                    paddingLeft: ".5rem",
-                                    paddingRight: ".5rem",
-                                }}
-                                onClick={handleMinusClick}
-                            ></i>
-                            &nbsp;
-                            <i
-                                className="fa fa-plus"
-                                aria-hidden="true"
-                                style={{
-                                    cursor: "pointer",
-                                    color: "white",
-                                    backgroundColor: "#fea629",
-                                    borderRadius: "100%",
-                                    padding: ".4rem",
-                                    paddingLeft: ".5rem",
-                                    paddingRight: ".5rem",
-                                }}
-                                onClick={handlePlusClick}
-                            ></i>
-                        </div>
-                    </div>
                     </div>
                 </div>
-               </div>
             </div>
         </div>
     );
@@ -151,32 +156,35 @@ export const ProductCard = ({
     link,
     handleAddToCart,
 }) => {
+    const history = useHistory();
     return (
         <div className="food-card d-flex ">
-                <div className="col-md-8 pl-0 d-flex justify-content-between">
+            <div className="col-md-8 pl-0 d-flex justify-content-between">
                 <Link to={link || ""} className="w-100">
                     <div className="w-100 d-flex flex-column justify-content-between h-100">
                         <div className="d-flex align-items-center justify-content-between">
-                        <div
-                            className="card-name  text-truncate w-100 pr-3"
-                            style={{
-                                width: "15rem",
-                            }}
-                        >
-                            {title}
-                        </div>
-                        <div className="">
-                        <i
-                            className="fa fa-star"
-                            aria-hidden="true"
-                            style={{
-                                float: "right",
-                                color: "gold",
-                            }}
-                        >
-                            <span className="text-dark">&nbsp;{rating}/5</span>
-                        </i>
-                    </div>
+                            <div
+                                className="card-name  text-truncate w-100 pr-3"
+                                style={{
+                                    width: "15rem",
+                                }}
+                            >
+                                {title}
+                            </div>
+                            <div className="">
+                                <i
+                                    className="fa fa-star"
+                                    aria-hidden="true"
+                                    style={{
+                                        float: "right",
+                                        color: "gold",
+                                    }}
+                                >
+                                    <span className="text-dark">
+                                        &nbsp;{rating}/5
+                                    </span>
+                                </i>
+                            </div>
                         </div>
                         <div
                             className="card-description text-truncate w-100"
@@ -188,26 +196,30 @@ export const ProductCard = ({
                         </div>
                         <div className="text-dark price-card-food">{price}</div>
                     </div>
-                    
                 </Link>
-                </div>
-                <div className="col-md-4 food-img">
-                    <Link to={link || ""}>
-                        <img
-                            style={{
-                                zIndex: "0",
-                            }}
-                            src={`${HOST}${image}` || "/assets/img/shop-home.jpg"}
-                            className="food-img align-self-center img-fluid"
-                            onError={(e) => {
-                                e.target.src = "/assets/img/shop-home.jpg";
-                            }}
-                        ></img>
-                    </Link>
-                    <i
-                        className="fa fa-plus  food-add-cart"  onClick={handleAddToCart}
-                    ></i>
-                </div>
+            </div>
+            <div className="col-md-4 food-img">
+                <Link to={link || ""}>
+                    <img
+                        style={{
+                            zIndex: "0",
+                        }}
+                        src={`${HOST}${image}` || "/assets/img/shop-home.jpg"}
+                        className="food-img align-self-center img-fluid"
+                        onError={(e) => {
+                            e.target.src = "/assets/img/shop-home.jpg";
+                        }}
+                    ></img>
+                </Link>
+                <i
+                    className="fa fa-plus  food-add-cart"
+                    onClick={
+                        localStorage.getItem("userToken")
+                            ? handleAddToCart
+                            : () => history?.push("/login")
+                    }
+                ></i>
+            </div>
         </div>
     );
 };

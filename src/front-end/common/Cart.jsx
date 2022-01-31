@@ -40,7 +40,7 @@ export const Cart = ({ data }) => {
             state.wait == false &&
             state?.cart?.id != null &&
             state?.cart?.quantity != null &&
-            state.is_logedin == true
+            state.is_loggedin == true
         ) {
             dispatch(
                 updateQuantity({
@@ -150,156 +150,141 @@ export const Cart = ({ data }) => {
         <>
             {/* <Loading loading={updateCart?.loading} /> */}
             <div className="row m-0">
+                <div
+                    className="col-md-12 mb-3"
+                    style={{
+                        paddingLeft: "0px",
+                        paddingRight: "0px",
+                    }}
+                >
+                    <div className="text-center">
+                        <h3>Your Order</h3>
+                    </div>
+                    <div className="text-center mb-5">
+                        <h5>Add item to your cart</h5>
+                    </div>
                     <div
-                        className="col-md-12 mb-3"
                         style={{
-                            paddingLeft: "0px",
-                            paddingRight: "0px",
+                            overflow: "auto",
+                            width: "100%",
+                            height: "80vh",
+                            paddingTop: "1rem",
                         }}
                     >
-                        <div className="text-center">
-                            <h3>Your Order</h3>
-                        </div>
-                        <div className="text-center mb-5">
-                            <h5>Add item to your cart</h5>
-                        </div>
-                        <div
-                            style={{
-                                overflow: "auto",
-                                width: "100%",
-                                height: "80vh",
-                                paddingTop: "1rem",
-                            }}
-                        >
-                            {(() => {
-                                if (state?.is_loggedin == true) {
-                                    if (data?.error) {
-                                        return (
-                                            <div className="text-center">
-                                                <h5>
-                                                    {data?.message ||
-                                                        "No items in your cart"}
-                                                </h5>
-                                            </div>
-                                        );
-                                    }
-                                    if (
-                                        data?.error == false &&
-                                        data?.cart?.length > 0
-                                    ) {
-                                        return data?.cart?.map(
-                                            (item, index) => {
-                                                const { food, product } = item;
-                                                if (food || product) {
-                                                    let cartData =
-                                                        food || product;
-                                                    return (
-                                                        <CheckOutCard
-                                                            key={index}
-                                                            {...{
-                                                                id: item.id,
-                                                                image: `${HOST}${cartData?.image}`,
-                                                                title: cartData?.name,
-                                                                price: `$${cartData?.price}`,
-                                                                quantity:
-                                                                    (item?.id ==
-                                                                        state
-                                                                            ?.cart
-                                                                            ?.id &&
-                                                                        state
-                                                                            ?.cart
-                                                                            ?.quantity) ||
-                                                                    item?.quantity,
-                                                                handlePlusClick:
-                                                                    () =>
-                                                                        handlePlusClick(
-                                                                            {
-                                                                                id: item.id,
-                                                                                quantity:
-                                                                                    item?.id ==
-                                                                                    state
-                                                                                        ?.cart
-                                                                                        ?.id
-                                                                                        ? state
-                                                                                              ?.cart
-                                                                                              ?.quantity
-                                                                                        : parseInt(
-                                                                                              item.quantity
-                                                                                          ),
-                                                                            }
-                                                                        ),
-                                                                handleMinusClick:
-                                                                    () =>
-                                                                        handleMinusClick(
-                                                                            {
-                                                                                id: item.id,
-                                                                                quantity:
-                                                                                    item?.id ==
-                                                                                    state
-                                                                                        ?.cart
-                                                                                        ?.id
-                                                                                        ? state
-                                                                                              ?.cart
-                                                                                              ?.quantity
-                                                                                        : parseInt(
-                                                                                              item.quantity
-                                                                                          ),
-                                                                            }
-                                                                        ),
-                                                                handleRemoveCartClick:
-                                                                    () =>
-                                                                        handleRemoveCartClick(
-                                                                            item.id
-                                                                        ),
-                                                            }}
-                                                        />
-                                                    );
-                                                }
-                                            }
-                                        );
-                                    }
-                                } else {
+                        {(() => {
+                            if (state?.is_loggedin == true) {
+                                if (data?.error) {
                                     return (
                                         <div className="text-center">
                                             <h5>
-                                                Please login to view your cart
+                                                {data?.message ||
+                                                    "No items in your cart"}
                                             </h5>
                                         </div>
                                     );
                                 }
-                            })()}
-                        </div>
-                        <hr className="mt-4" />
+                                if (
+                                    data?.error == false &&
+                                    data?.cart?.length > 0
+                                ) {
+                                    return data?.cart?.map((item, index) => {
+                                        const { food, product } = item;
+                                        if (food || product) {
+                                            let cartData = food || product;
+                                            return (
+                                                <CheckOutCard
+                                                    key={index}
+                                                    {...{
+                                                        id: item.id,
+                                                        image: `${HOST}${cartData?.image}`,
+                                                        title: cartData?.name,
+                                                        price: `$${cartData?.price}`,
+                                                        quantity:
+                                                            (item?.id ==
+                                                                state?.cart
+                                                                    ?.id &&
+                                                                state?.cart
+                                                                    ?.quantity) ||
+                                                            item?.quantity,
+                                                        handlePlusClick: () =>
+                                                            handlePlusClick({
+                                                                id: item.id,
+                                                                quantity:
+                                                                    item?.id ==
+                                                                    state?.cart
+                                                                        ?.id
+                                                                        ? state
+                                                                              ?.cart
+                                                                              ?.quantity
+                                                                        : parseInt(
+                                                                              item.quantity
+                                                                          ),
+                                                            }),
+                                                        handleMinusClick: () =>
+                                                            handleMinusClick({
+                                                                id: item.id,
+                                                                quantity:
+                                                                    item?.id ==
+                                                                    state?.cart
+                                                                        ?.id
+                                                                        ? state
+                                                                              ?.cart
+                                                                              ?.quantity
+                                                                        : parseInt(
+                                                                              item.quantity
+                                                                          ),
+                                                            }),
+                                                        handleRemoveCartClick:
+                                                            () =>
+                                                                handleRemoveCartClick(
+                                                                    item.id
+                                                                ),
+                                                    }}
+                                                />
+                                            );
+                                        }
+                                    });
+                                }
+                            } else {
+                                return (
+                                    <div className="text-center">
+                                        <h5>Please login to view your cart</h5>
+                                    </div>
+                                );
+                            }
+                        })()}
                     </div>
-                    {/* <div className="col-8">Subtotal</div>
+                    <hr className="mt-4" />
+                </div>
+                {/* <div className="col-8">Subtotal</div>
                     <div className="col-4">
                         <span className=" float-right">35374</span>
                     </div> */}
-                    <div className="col-8">Total</div>
-                    <div className="col-4">
-                        <span className=" float-right">
-                            {`$${data?.total_price || "0"}`}
-                        </span>
-                    </div>
-                    <div className="col-md-12">
-                        <Link
-                            to="/cart"
-                            className=" btn btn-block"
-                            style={{
-                                border: "none",
-                                padding: "1.5rem",
-                                marginBottom: "1rem",
-                                marginTop: "1rem",
-                                backgroundColor: "#c5c4c4",
-                                color: "white",
-                                fontSize: "2rem",
-                                fontWeight: "bold",
-                            }}
-                        >
-                            GO TO CHECKOUT
-                        </Link>
-                    </div>
+                <div className="col-8">Total</div>
+                <div className="col-4">
+                    <span className=" float-right">
+                        {`$${data?.total_price || "0"}`}
+                    </span>
                 </div>
+                <div className="col-md-12">
+                    <Link
+                        to="/cart"
+                        className=" btn btn-block"
+                        style={{
+                            border: "none",
+                            padding: "1.5rem",
+                            marginBottom: "1rem",
+                            marginTop: "1rem",
+                            backgroundColor: "#c5c4c4",
+                            color: "white",
+                            fontSize: "2rem",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        GO TO CHECKOUT
+                    </Link>
+                </div>
+            </div>
         </>
     );
 };
