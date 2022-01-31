@@ -496,7 +496,8 @@ export const Restaurant = (props) => {
                                     </>
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="ctm-pagination">
+                                <div className="row">
                                 <div className="col-12">
                                     {(() => {
                                         let data = {
@@ -523,6 +524,8 @@ export const Restaurant = (props) => {
                                     })()}
                                 </div>
                             </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

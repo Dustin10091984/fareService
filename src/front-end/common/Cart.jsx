@@ -149,18 +149,7 @@ export const Cart = ({ data }) => {
     return (
         <>
             {/* <Loading loading={updateCart?.loading} /> */}
-            <div
-                className="container-fluid sticky-top"
-                style={{
-                    borderTop: ".1rem solid #e6e6e6",
-                    borderLeft: ".1rem solid #e6e6e6",
-                    borderRadius: "0.5rem",
-                    paddingTop: "1rem",
-                    paddingBottom: "1rem",
-                    marginBottom: "1rem",
-                }}
-            >
-                <div className="row cart-sec">
+            <div className="row m-0">
                     <div
                         className="col-md-12 mb-3"
                         style={{
@@ -311,7 +300,6 @@ export const Cart = ({ data }) => {
                         </Link>
                     </div>
                 </div>
-            </div>
         </>
     );
 };

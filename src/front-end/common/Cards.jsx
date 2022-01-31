@@ -17,7 +17,7 @@ const Card = ({
             <div>
                 <Link
                     to={link}
-                    className="product-card d-flex justify-content-center flex-column"
+                    className="product-card restaurant-card box-shadow-none d-flex justify-content-center flex-column"
                     onClick={() => {
                         window?.scrollTo({
                             top: 0,
@@ -39,10 +39,9 @@ const Card = ({
                     <div className="prod-detail">
                         <div className="title">
                             {title}{" "}
-                            <i
-                                className="fa fa-star"
-                                aria-hidden="true"
+                            <i className="fa fa-star" aria-hidden="true"
                                 style={{
+                                    fontSize:"1.5rem",
                                     float: "right",
                                     color: "gold",
                                 }}
@@ -73,8 +72,9 @@ export const CheckOutCard = ({
 }) => {
     return (
         <div className="col-md-12 col-sm-12 col-xs-12 mb-4">
-            <div className="food-card d-flex">
-                <div className="col-md-4 col-sm-3 col-xs-3 food-img">
+            <div className="food-card">
+               <div className="row">
+               {/* <div className="col-md-4 col-sm-3 col-xs-3 food-img">
                     <img
                         style={{
                             zIndex: "0",
@@ -85,41 +85,28 @@ export const CheckOutCard = ({
                             e.target.src = "/assets/img/food.svg";
                         }}
                     ></img>
-                </div>
-                <div className="col-md-8 col-sm-9 col-xs-9 d-flex justify-content-between">
-                    <i
-                        className="fa fa-times-circle-o"
-                        aria-hidden="true"
-                        style={{
-                            color: "#474747",
-                            cursor: "default",
-                            position: "absolute",
-                            fontSize: "2.5rem",
-                            top: "-1rem",
-                            right: "-1rem",
-                        }}
-                        onClick={handleRemoveCartClick}
+                </div> */}
+                <div className="col-md-12 d-flex justify-content-between">
+                    <div className="cart-right-box w-100 position-relative">
+                    <div className="cart-remove-btn">
+                    <i className="fa fa-times m-0 " onClick={handleRemoveCartClick}
                     ></i>
-                    <div className="align-self-start mt-3">
-                        <div className="align-self-start card-name">
-                            <div
-                                className="text-truncate"
-                                style={{
-                                    width: "19rem",
-                                }}
-                            >
+                    </div>
+                    <div className="w-100 mt-3">
+                        <div className="card-name pr-5">
+                            <div className="text-truncate">
                                 {title}
                             </div>
                         </div>
                         <div className="">{price}</div>
-                        <div className="float-right">
+                        <div className="float-right product-counter">
                             <span className="font-weight-bold">{quantity}</span>
                             &nbsp;&nbsp;
                             <i
                                 className="fa fa-minus"
                                 aria-hidden="true"
                                 style={{
-                                    cursor: "default",
+                                    cursor: "pointer",
                                     color: "white",
                                     backgroundColor: "blue",
                                     borderRadius: "100%",
@@ -134,7 +121,7 @@ export const CheckOutCard = ({
                                 className="fa fa-plus"
                                 aria-hidden="true"
                                 style={{
-                                    cursor: "default",
+                                    cursor: "pointer",
                                     color: "white",
                                     backgroundColor: "#fea629",
                                     borderRadius: "100%",
@@ -146,7 +133,9 @@ export const CheckOutCard = ({
                             ></i>
                         </div>
                     </div>
+                    </div>
                 </div>
+               </div>
             </div>
         </div>
     );
@@ -163,29 +152,20 @@ export const ProductCard = ({
     handleAddToCart,
 }) => {
     return (
-        <div className="food-card d-flex">
-            <Link to={link || ""}>
-                <div className="col-md-8 d-flex justify-content-between">
-                    <div className="align-self-center">
+        <div className="food-card d-flex ">
+                <div className="col-md-8 pl-0 d-flex justify-content-between">
+                <Link to={link || ""} className="w-100">
+                    <div className="w-100 d-flex flex-column justify-content-between h-100">
+                        <div className="d-flex align-items-center justify-content-between">
                         <div
-                            className="align-self-start card-name d-inline-block text-truncate"
+                            className="card-name  text-truncate w-100 pr-3"
                             style={{
                                 width: "15rem",
                             }}
                         >
                             {title}
                         </div>
-                        <div
-                            className="align-self-end card-description d-inline-block text-truncate"
-                            style={{
-                                width: "11rem",
-                            }}
-                        >
-                            {description}
-                        </div>
-                        <div className="text-dark">{price}</div>
-                    </div>
-                    <div className="align-self-end mb-3">
+                        <div className="">
                         <i
                             className="fa fa-star"
                             aria-hidden="true"
@@ -197,30 +177,37 @@ export const ProductCard = ({
                             <span className="text-dark">&nbsp;{rating}/5</span>
                         </i>
                     </div>
-                </div>
-            </Link>
-            <div className="col-md-4 food-img">
-                <Link to={link || ""}>
-                    <img
-                        style={{
-                            zIndex: "0",
-                        }}
-                        src={`${HOST}${image}` || "/assets/img/shop-home.jpg"}
-                        className="food-img align-self-center img-fluid"
-                        onError={(e) => {
-                            e.target.src = "/assets/img/shop-home.jpg";
-                        }}
-                    ></img>
+                        </div>
+                        <div
+                            className="card-description text-truncate w-100"
+                            style={{
+                                width: "11rem",
+                            }}
+                        >
+                            {description}
+                        </div>
+                        <div className="text-dark price-card-food">{price}</div>
+                    </div>
+                    
                 </Link>
-                <i
-                    className="fa fa-plus-square fa-2x food-add-cart"
-                    aria-hidden="true"
-                    style={{
-                        cursor: "default",
-                    }}
-                    onClick={handleAddToCart}
-                ></i>
-            </div>
+                </div>
+                <div className="col-md-4 food-img">
+                    <Link to={link || ""}>
+                        <img
+                            style={{
+                                zIndex: "0",
+                            }}
+                            src={`${HOST}${image}` || "/assets/img/shop-home.jpg"}
+                            className="food-img align-self-center img-fluid"
+                            onError={(e) => {
+                                e.target.src = "/assets/img/shop-home.jpg";
+                            }}
+                        ></img>
+                    </Link>
+                    <i
+                        className="fa fa-plus  food-add-cart"  onClick={handleAddToCart}
+                    ></i>
+                </div>
         </div>
     );
 };

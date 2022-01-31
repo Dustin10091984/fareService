@@ -103,8 +103,9 @@ export const RestaurantPage = (props) => {
                     }}
                 >
                     <div className="row">
-                        <div className="col-md-12">
-                            <img
+                        <div className="col-md-12 pl-0">
+                           <div className="restaurant-page-image">
+                           <img
                                 src={
                                     restaurant?.data?.cover_image
                                         ? `${HOST}${restaurant?.data?.cover_image}`
@@ -116,8 +117,9 @@ export const RestaurantPage = (props) => {
                                     e.target.src = "/assets/img/restaurant.jpg";
                                 }}
                             ></img>
+                           </div>
                             <div className="col-md-12">
-                                <div className="row d-flex align-items-center">
+                                <div className="row d-flex align-items-center mt-4 mb-5">
                                     <div className="col-md-8  restaurant-name">
                                         {restaurant?.data?.name}
                                     </div>
@@ -175,9 +177,11 @@ export const RestaurantPage = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="row mt-5">
+
+                    <div className="ctm-pagination mb-5">
+                    <div className="row">
                         <div
-                            className="col-12 mt-5"
+                            className="col-12"
                             style={{
                                 marginTop: "10vh",
                                 marginBottom: "2vh",
@@ -198,9 +202,12 @@ export const RestaurantPage = (props) => {
                             })()}
                         </div>
                     </div>
+                    </div>
                 </div>
-                <div className="col-md-3">
-                    <Cart data={cartList}></Cart>;
+                <div className="col-md-3 p-0">
+                   <div className="restaurant-page-right-sec bs-3 pt-5">
+                   <Cart data={cartList}></Cart>;
+                   </div>
                 </div>
             </div>
         </div>
