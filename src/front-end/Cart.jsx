@@ -369,45 +369,89 @@ export const Cart = (props) => {
                                                                             item?.quantity}
                                                                     </span>
                                                                     &nbsp;&nbsp;
-                                                                    <i
-                                                                        className="fa fa-minus"
-                                                                        aria-hidden="true"
-                                                                        style={{
-                                                                            cursor: "default",
-                                                                            color: "white",
-                                                                            backgroundColor:
-                                                                                "blue",
-                                                                            borderRadius:
-                                                                                "100%",
-                                                                            padding:
-                                                                                ".4rem",
-                                                                            paddingLeft:
-                                                                                ".6rem",
-                                                                            paddingRight:
-                                                                                ".6rem",
-                                                                            paddingTop:
-                                                                                ".6rem",
-                                                                        }}
-                                                                        onClick={() =>
-                                                                            handleMinusClick(
-                                                                                {
-                                                                                    id: item.id,
-                                                                                    quantity:
-                                                                                        item?.id ==
-                                                                                        state
-                                                                                            ?.cart
-                                                                                            ?.id
-                                                                                            ? state
-                                                                                                  ?.cart
-                                                                                                  ?.quantity
-                                                                                            : parseInt(
-                                                                                                  item.quantity
-                                                                                              ),
-                                                                                }
-                                                                            )
-                                                                        }
-                                                                    ></i>
-                                                                    &nbsp;
+                                                                    {((item?.id ==
+                                                                        state
+                                                                            ?.cart
+                                                                            ?.id &&
+                                                                        state
+                                                                            ?.cart
+                                                                            ?.quantity) ||
+                                                                        item?.quantity) >
+                                                                    1 ? (
+                                                                        <i
+                                                                            className="fa fa-minus"
+                                                                            aria-hidden="true"
+                                                                            style={{
+                                                                                cursor: "default",
+                                                                                color: "white",
+                                                                                backgroundColor:
+                                                                                    "blue",
+                                                                                borderRadius:
+                                                                                    "100%",
+                                                                                padding:
+                                                                                    ".4rem",
+                                                                                paddingLeft:
+                                                                                    ".6rem",
+                                                                                paddingRight:
+                                                                                    ".6rem",
+                                                                                paddingTop:
+                                                                                    ".6rem",
+                                                                            }}
+                                                                            onClick={() =>
+                                                                                handleMinusClick(
+                                                                                    {
+                                                                                        id: item.id,
+                                                                                        quantity:
+                                                                                            item?.id ==
+                                                                                            state
+                                                                                                ?.cart
+                                                                                                ?.id
+                                                                                                ? state
+                                                                                                      ?.cart
+                                                                                                      ?.quantity
+                                                                                                : parseInt(
+                                                                                                      item.quantity
+                                                                                                  ),
+                                                                                    }
+                                                                                )
+                                                                            }
+                                                                        ></i>
+                                                                    ) : (
+                                                                        <i
+                                                                            className="fa fa-times mt-2 cart-remove-btn"
+                                                                            onClick={() => {
+                                                                                Swal.fire(
+                                                                                    {
+                                                                                        title: "Are you sure?",
+                                                                                        text: "You won't be able to revert this!",
+                                                                                        icon: "warning",
+                                                                                        showCancelButton: true,
+                                                                                        confirmButtonColor:
+                                                                                            "#3085d6",
+                                                                                        cancelButtonColor:
+                                                                                            "#d33",
+                                                                                        confirmButtonText:
+                                                                                            "Yes, delete it!",
+                                                                                    }
+                                                                                ).then(
+                                                                                    (
+                                                                                        result
+                                                                                    ) => {
+                                                                                        if (
+                                                                                            result.isConfirmed
+                                                                                        ) {
+                                                                                            dispatch(
+                                                                                                deleteCart(
+                                                                                                    item.id
+                                                                                                )
+                                                                                            );
+                                                                                        }
+                                                                                    }
+                                                                                );
+                                                                            }}
+                                                                        ></i>
+                                                                    )}
+                                                                    &nbsp;&nbsp;
                                                                     <i
                                                                         className="fa fa-plus"
                                                                         aria-hidden="true"

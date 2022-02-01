@@ -283,34 +283,12 @@ export const Cart = ({ data }) => {
                     {state?.is_loggedin == true ? (
                         <Link
                             to="/cart"
-                            className=" btn btn-block"
-                            style={{
-                                border: "none",
-                                padding: "1.5rem",
-                                marginBottom: "1rem",
-                                marginTop: "1rem",
-                                backgroundColor: "#c5c4c4",
-                                color: "white",
-                                fontSize: "2rem",
-                                fontWeight: "bold",
-                            }}
+                            className="check-out-btn btn btn-block"
                         >
                             GO TO CHECKOUT
                         </Link>
                     ) : (
-                        <button
-                            className="btn btn-block"
-                            style={{
-                                border: "none",
-                                padding: "1.5rem",
-                                marginBottom: "1rem",
-                                marginTop: "1rem",
-                                backgroundColor: "#c5c4c4",
-                                color: "white",
-                                fontSize: "2rem",
-                                fontWeight: "bold",
-                            }}
-                        ></button>
+                        <button className="btn btn-block check-out-btn"></button>
                     )}
                 </div>
             </div>
