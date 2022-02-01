@@ -21,7 +21,6 @@ const ProfileCard = ({ profile }) => {
             imgLoading.current = toast.info("updating profile Image", {
                 autoClose: false,
             });
-            console.log(imgLoading.current);
             return true;
         }
 

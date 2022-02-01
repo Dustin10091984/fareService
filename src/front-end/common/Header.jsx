@@ -30,7 +30,7 @@ const Header = (props) => {
             })
             .catch((error) => {
                 //handle error
-                console.log(error.response);
+                // console.log(error.response);
             });
     }, []);
 

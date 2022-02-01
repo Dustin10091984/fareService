@@ -177,7 +177,6 @@ export const Question = (props) => {
         }
     };
 
-    console.log(state.zipCodeDataErr);
     const handleSelectZipCode = (code) => {
         setState((state) => ({
             ...state,
