@@ -991,7 +991,7 @@ body {
     font-style: normal;
     font-weight: 600;
     font-size: 1.8rem;
-    line-height: 2.0rem;
+    line-height: 2rem;
     text-align: left;
     color: #000000;
     margin: 0.5rem 0;
@@ -2652,7 +2652,6 @@ hr {
     font-size: 1.5rem;
 }
 
-
 .restaurant-page .restaurant-name {
     font-size: 2em;
     font-weight: bold;
@@ -2676,11 +2675,10 @@ hr {
     margin-top: 2rem;
 }
 
-.restaurant-page-image img{
+.restaurant-page-image img {
     height: 27.7rem;
     width: 100%;
     object-fit: cover;
-
 }
 
 .food-card {
@@ -2719,7 +2717,7 @@ hr {
     padding: 0;
     transition: all 0.4s;
 }
-.food-card .food-img a{
+.food-card .food-img a {
     cursor: pointer;
 }
 .food-card .food-img .food-add-cart {
@@ -2736,12 +2734,11 @@ hr {
     justify-content: center;
     background: #fea629;
     cursor: pointer;
-    
 }
 .food-card .food-img .food-add-cart:hover {
-    background:#fea529e3 ;
+    background: #fea529e3;
 }
-.price-card-food{
+.price-card-food {
     margin-top: 1rem;
     font-size: 1.6rem;
     font-weight: 500;
@@ -2770,7 +2767,8 @@ hr {
     height: 100%;
     width: 100%;
     -webkit-transform: scale(1.1);
-    transform: scale(1.1);    transition: all 0.4s;
+    transform: scale(1.1);
+    transition: all 0.4s;
 }
 
 .product {
@@ -2811,15 +2809,15 @@ hr {
 .bs-3 {
     box-shadow: 0 2px 28px 0 rgb(0 0 0 / 12%);
 }
-.ctm-pagination{
+.ctm-pagination {
     padding-top: 5rem;
 }
 
-.restaurant-page-right-sec{
+.restaurant-page-right-sec {
     background: #fff;
 }
 
-.cart-remove-btn{
+.cart-remove-btn {
     background: #fea629;
     color: #fff;
     width: 2rem;
@@ -2829,14 +2827,23 @@ hr {
     justify-content: center;
     cursor: pointer;
     font-size: 1.2rem;
+}
+
+.remove-btn-absolute {
     position: absolute;
     top: 0;
     right: 0;
-    
 }
-.cart-remove-btn i{
+
+.card-update-quantity {
+    position: relative;
+    bottom: 0;
+    right: 0;
+}
+
+.cart-remove-btn i {
     padding-top: 0.2rem;
 }
-.cart-remove-btn:hover{
+.cart-remove-btn:hover {
     background: #444;
 }

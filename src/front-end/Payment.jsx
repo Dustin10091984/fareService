@@ -152,6 +152,7 @@ export const Payment = (props) => {
             return; // return to avoid multiple toast
         }
         if (addAddressData.error == false) {
+            setState({ ...state, addNewAddress: false });
             toast.dismiss(loading.current);
             success.current = toast.success("Address added successfully", {
                 toastId: success.current,
@@ -202,7 +203,7 @@ export const Payment = (props) => {
         if (orderData && orderLoading == false && orderError == false) {
             toast.dismiss(loading.current);
             toast.success(orderMessage || "Order Created");
-            props.history.push("/food-delivery");
+            props.history.replace("/food-delivery");
         }
     }, [orderData]);
     /**
@@ -1114,7 +1115,7 @@ export const Payment = (props) => {
                                                                                     cart.id ==
                                                                                     item
                                                                             )
-                                                                                .price
+                                                                                ?.price
                                                                         );
                                                                 }
                                                             );
