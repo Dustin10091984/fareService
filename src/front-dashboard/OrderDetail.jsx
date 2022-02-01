@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOrder } from "./../store/Slices/order/orderSlice";
 import { Link } from "react-router-dom";
 import Loading from "../front-end/common/Loading";
+import { HOST } from "../constants";
 
 export const OrderDetail = (props) => {
     const { match } = props;
@@ -55,8 +56,21 @@ export const OrderDetail = (props) => {
                                                     >
                                                         <div className="prod-img mx-auto">
                                                             <img
-                                                                src="/assets/img/product.png"
+                                                                className="img-fluid"
+                                                                src={
+                                                                    (orderItem?.image &&
+                                                                        `${HOST}${orderItem?.image}`) ||
+                                                                    "/assets/img/product.png"
+                                                                }
                                                                 alt=""
+                                                                onError={(
+                                                                    e
+                                                                ) => {
+                                                                    e.target.onerror =
+                                                                        null;
+                                                                    e.target.src =
+                                                                        "/assets/img/product.png";
+                                                                }}
                                                             />
                                                         </div>
                                                         <div className="prod-detail">
@@ -73,11 +87,14 @@ export const OrderDetail = (props) => {
                                                             <div className="price">
                                                                 {`$${orderItem?.price}`}
                                                             </div>
-                                                            {orderItem?.rating && (
+                                                            {(orderItem?.rating && (
                                                                 <Rating
-                                                                    rating={3}
+                                                                    rating={
+                                                                        orderItem?.rating
+                                                                    }
                                                                 />
-                                                            )}
+                                                            )) ||
+                                                                ""}
                                                             <div className="text-center">
                                                                 <button className="button-common d-none">
                                                                     View Menu
