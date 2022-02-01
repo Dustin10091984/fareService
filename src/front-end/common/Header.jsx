@@ -30,7 +30,7 @@ const Header = (props) => {
             })
             .catch((error) => {
                 //handle error
-                console.log(error.response);
+                // console.log(error.response);
             });
     }, []);
 
@@ -102,8 +102,15 @@ const Header = (props) => {
                         <div className="col-md-12 d-flex align-items-center justify-content-between">
                             <div className="header-logo">
                                 <Link to="/">
-                                    {/* <img src="" alt=""/> */}
-                                    FareNow
+                                    <img
+                                        src="/assets/img/logo.png"
+                                        alt=""
+                                        // className="img-fluid"
+                                        style={{
+                                            height: "15vh",
+                                            width: "auto",
+                                        }}
+                                    />
                                 </Link>
                             </div>
 

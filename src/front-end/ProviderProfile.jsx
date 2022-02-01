@@ -200,15 +200,20 @@ export const ProviderProfile = (props) => {
                                         <ol className="carousel-indicators">
                                             {providerProfile?.data?.provider?.portfolios?.map(
                                                 (img, index) => (
-                                                    <li
-                                                        data-target="#carouselExampleIndicators"
-                                                        data-slide-to={index}
-                                                        className={
-                                                            index == 0
-                                                                ? "active"
-                                                                : ""
-                                                        }
-                                                    ></li>
+                                                    <React.Fragment key={index}>
+                                                        <li
+                                                            index={index}
+                                                            data-target="#carouselExampleIndicators"
+                                                            data-slide-to={
+                                                                index
+                                                            }
+                                                            className={
+                                                                index == 0
+                                                                    ? "active"
+                                                                    : ""
+                                                            }
+                                                        ></li>
+                                                    </React.Fragment>
                                                 )
                                             )}
                                         </ol>
@@ -235,6 +240,12 @@ export const ProviderProfile = (props) => {
                                                                 borderRadius:
                                                                     ".5rem",
                                                                 border: "1px solid #e6e6e6",
+                                                            }}
+                                                            onError={(e) => {
+                                                                e.target.onerror =
+                                                                    null;
+                                                                e.target.src =
+                                                                    "/assets/img/layer-2.jpg";
                                                             }}
                                                         />
                                                         <div className="carousel-caption d-none d-md-block">
@@ -357,9 +368,21 @@ export const ProviderProfile = (props) => {
                                                                         <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                                             <div className="review-img">
                                                                                 <img
-                                                                                    src="/assets/img/user4.jpg"
+                                                                                    src={
+                                                                                        (feedback
+                                                                                            ?.user
+                                                                                            ?.image &&
+                                                                                            `${HOST}${feedback?.user?.image}`) ||
+                                                                                        "/assets/img/user4.jpg"
+                                                                                    }
                                                                                     className="img-fluid"
                                                                                     alt=""
+                                                                                    onError={(
+                                                                                        e
+                                                                                    ) => {
+                                                                                        e.target.src =
+                                                                                            "/assets/img/user4.jpg";
+                                                                                    }}
                                                                                 />
                                                                             </div>
                                                                             {feedback?.comment ? (

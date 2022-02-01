@@ -54,7 +54,6 @@ export const providerSignup = (data) => async dispatch => {
 }
 
 export const verifyPhoneNo = (data) => async dispatch => {
-    console.log(data);
     try {
         dispatch(verifyCode({ error: false, loading: true }));
         await axios({

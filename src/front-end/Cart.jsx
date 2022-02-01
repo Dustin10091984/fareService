@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     getCartList,
@@ -131,6 +131,22 @@ export const Cart = (props) => {
         return new Promise((resolve) => {
             setState((state) => ({ ...state, wait: true }));
             setTimeout(resolve, ms);
+        });
+    };
+
+    const handleDeleteClick = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteCart(id));
+            }
         });
     };
 
@@ -284,7 +300,7 @@ export const Cart = (props) => {
                                     const product = item.product;
                                     if (food || product) {
                                         return (
-                                            <React.Fragment key={item.id}>
+                                            <Fragment key={item.id}>
                                                 <div className="col-md-12">
                                                     <div className="cart-total cart-page d-flex align-items-center justify-content-between">
                                                         <div className="d-flex align-items-center justify-content">
@@ -419,36 +435,11 @@ export const Cart = (props) => {
                                                                     ) : (
                                                                         <i
                                                                             className="fa fa-times mt-2 cart-remove-btn"
-                                                                            onClick={() => {
-                                                                                Swal.fire(
-                                                                                    {
-                                                                                        title: "Are you sure?",
-                                                                                        text: "You won't be able to revert this!",
-                                                                                        icon: "warning",
-                                                                                        showCancelButton: true,
-                                                                                        confirmButtonColor:
-                                                                                            "#3085d6",
-                                                                                        cancelButtonColor:
-                                                                                            "#d33",
-                                                                                        confirmButtonText:
-                                                                                            "Yes, delete it!",
-                                                                                    }
-                                                                                ).then(
-                                                                                    (
-                                                                                        result
-                                                                                    ) => {
-                                                                                        if (
-                                                                                            result.isConfirmed
-                                                                                        ) {
-                                                                                            dispatch(
-                                                                                                deleteCart(
-                                                                                                    item.id
-                                                                                                )
-                                                                                            );
-                                                                                        }
-                                                                                    }
-                                                                                );
-                                                                            }}
+                                                                            onClick={() =>
+                                                                                handleDeleteClick(
+                                                                                    item.id
+                                                                                )
+                                                                            }
                                                                         ></i>
                                                                     )}
                                                                     &nbsp;&nbsp;
@@ -609,32 +600,11 @@ export const Cart = (props) => {
                                                             float: "right",
                                                             cursor: "pointer",
                                                         }}
-                                                        onClick={() => {
-                                                            Swal.fire({
-                                                                title: "Are you sure?",
-                                                                text: "You won't be able to revert this!",
-                                                                icon: "warning",
-                                                                showCancelButton: true,
-                                                                confirmButtonColor:
-                                                                    "#3085d6",
-                                                                cancelButtonColor:
-                                                                    "#d33",
-                                                                confirmButtonText:
-                                                                    "Yes, delete it!",
-                                                            }).then(
-                                                                (result) => {
-                                                                    if (
-                                                                        result.isConfirmed
-                                                                    ) {
-                                                                        dispatch(
-                                                                            deleteCart(
-                                                                                item.id
-                                                                            )
-                                                                        );
-                                                                    }
-                                                                }
-                                                            );
-                                                        }}
+                                                        onClick={() =>
+                                                            handleDeleteClick(
+                                                                item.id
+                                                            )
+                                                        }
                                                     >
                                                         <span
                                                             className="mr-3"
@@ -655,7 +625,7 @@ export const Cart = (props) => {
                                                 <div className="col-md-12">
                                                     <hr />
                                                 </div>
-                                            </React.Fragment>
+                                            </Fragment>
                                         );
                                     }
                                 })}
