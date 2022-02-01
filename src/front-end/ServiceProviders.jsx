@@ -551,7 +551,7 @@ export const ServiceProviders = (props) => {
                                                                 }
                                                             </div>
                                                             <Link
-                                                                to={`/provider/${provider.id}`}
+                                                                to={`/provider/profile/${provider.id}`}
                                                                 className="button-common"
                                                             >
                                                                 View Profile
