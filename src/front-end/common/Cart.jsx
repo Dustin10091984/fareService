@@ -28,6 +28,8 @@ export const Cart = ({ data }) => {
         }
     }, []);
     const loading = useRef(null);
+    const success = useRef(null);
+    const error = useRef(null);
 
     const dispatch = useDispatch();
 
@@ -54,22 +56,30 @@ export const Cart = ({ data }) => {
     useEffect(() => {
         if (delCart?.loading == false && delCart?.error == false) {
             toast.dismiss(loading.current);
-            toast.success(delCart?.message || "Cart Removed successfully");
+            toast.success(delCart?.message || "Cart Removed successfully", {
+                toastId: success.current,
+            });
         }
         if (delCart?.error == true) {
             toast.dismiss(loading.current);
-            toast.error(delCart?.message || "Something went wrong");
+            toast.error(delCart?.message || "Something went wrong", {
+                toastId: error.current,
+            });
         }
     }, [delCart]);
 
     useEffect(() => {
         if (updateCart?.loading == false && updateCart?.error == false) {
             toast.dismiss(loading.current);
-            toast.success("Cart updated successfully");
+            toast.success("Cart updated successfully", {
+                toastId: success.current,
+            });
         }
         if (updateCart?.error == true) {
             toast.dismiss(loading.current);
-            toast.error(updateCart?.message || "Something went wrong");
+            toast.error(updateCart?.message || "Something went wrong", {
+                toastId: error.current,
+            });
         }
     }, [updateCart]);
 
@@ -93,6 +103,7 @@ export const Cart = ({ data }) => {
             if (state.wait === false || state.wait === null) {
                 toast.dismiss(loading.current);
                 loading.current = toast.info("Loading...", {
+                    toastId: loading.current,
                     autoClose: false,
                 });
                 const ONE_SECOND = 1000;
@@ -116,6 +127,7 @@ export const Cart = ({ data }) => {
             if (state.wait === false || state.wait === null) {
                 toast.dismiss(loading.current);
                 loading.current = toast.info("Loading...", {
+                    toastId: loading.current,
                     autoClose: false,
                 });
                 const ONE_SECOND = 1000;
@@ -138,6 +150,7 @@ export const Cart = ({ data }) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 loading.current = toast.info("Loading...", {
+                    toastId: loading.current,
                     autoClose: false,
                 });
                 dispatch(deleteCart(id));
@@ -267,22 +280,38 @@ export const Cart = ({ data }) => {
                     </span>
                 </div>
                 <div className="col-md-12">
-                    <Link
-                        to="/cart"
-                        className=" btn btn-block"
-                        style={{
-                            border: "none",
-                            padding: "1.5rem",
-                            marginBottom: "1rem",
-                            marginTop: "1rem",
-                            backgroundColor: "#c5c4c4",
-                            color: "white",
-                            fontSize: "2rem",
-                            fontWeight: "bold",
-                        }}
-                    >
-                        GO TO CHECKOUT
-                    </Link>
+                    {state?.is_loggedin == true ? (
+                        <Link
+                            to="/cart"
+                            className=" btn btn-block"
+                            style={{
+                                border: "none",
+                                padding: "1.5rem",
+                                marginBottom: "1rem",
+                                marginTop: "1rem",
+                                backgroundColor: "#c5c4c4",
+                                color: "white",
+                                fontSize: "2rem",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            GO TO CHECKOUT
+                        </Link>
+                    ) : (
+                        <button
+                            className="btn btn-block"
+                            style={{
+                                border: "none",
+                                padding: "1.5rem",
+                                marginBottom: "1rem",
+                                marginTop: "1rem",
+                                backgroundColor: "#c5c4c4",
+                                color: "white",
+                                fontSize: "2rem",
+                                fontWeight: "bold",
+                            }}
+                        ></button>
+                    )}
                 </div>
             </div>
         </>

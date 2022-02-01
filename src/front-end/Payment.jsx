@@ -23,6 +23,8 @@ export const Payment = (props) => {
     const elements = useElements();
     const [checkoutError, setCheckoutError] = useState();
     const loading = useRef(null);
+    const success = useRef(null);
+    const error = useRef(null);
     const dispatch = useDispatch();
 
     const serviceRequest = useSelector((state) => state.serviceRequest);
@@ -37,6 +39,8 @@ export const Payment = (props) => {
     const addressesError = useSelector(
         (state) => state.userReducer?.addresses?.error
     );
+
+    const addAddressData = useSelector((state) => state.userReducer?.address);
 
     const orderLoading = useSelector(
         (state) => state.orderReducer?.order?.loading
@@ -123,6 +127,7 @@ export const Payment = (props) => {
     useEffect(() => {
         if (addressesLoading)
             toast.info("Loading addresses...", {
+                toastId: loading.current,
                 autoClose: false,
             });
     }, [addressesLoading]);
@@ -130,13 +135,37 @@ export const Payment = (props) => {
     useEffect(() => {
         if (addressesError) {
             toast.dismiss(loading.current);
-            toast.error("Error loading addresses");
+            toast.error("Error loading addresses", { toastId: error.current });
         }
     }, [addressesError]);
 
     useEffect(() => {
         if (addressList) toast.dismiss(loading.current);
     }, [addressList]);
+
+    useEffect(() => {
+        if (addAddressData.loading) {
+            loading.current = toast.info("Loading...", {
+                toastId: loading.current,
+                autoClose: false,
+            });
+            return; // return to avoid multiple toast
+        }
+        if (addAddressData.error == false) {
+            toast.dismiss(loading.current);
+            success.current = toast.success("Address added successfully", {
+                toastId: success.current,
+            });
+            return;
+        }
+        if (addAddressData.error) {
+            toast.dismiss(loading.current);
+            error.current = toast.error("Error adding address", {
+                toastId: error.current,
+            });
+            return;
+        }
+    }, [addAddressData]);
 
     useEffect(() => {
         if (props.location.state == undefined) {
@@ -155,6 +184,7 @@ export const Payment = (props) => {
     useEffect(() => {
         if (orderLoading)
             toast.info("Order Creating...", {
+                toastId: loading.current,
                 autoClose: false,
             });
     }, [orderLoading]);
@@ -162,7 +192,9 @@ export const Payment = (props) => {
     useEffect(() => {
         if (orderError) {
             toast.dismiss(loading.current);
-            toast.error(orderMessage || "Error creating order");
+            toast.error(orderMessage || "Error creating order", {
+                toastId: error.current,
+            });
         }
     }, [orderError]);
 
@@ -1382,7 +1414,9 @@ export const Payment = (props) => {
                                     ))
                                 ) : (
                                     addressesLoading == false && (
-                                        <center>NOT FOUND</center>
+                                        <center className="text-center text-danger">
+                                            NOT FOUND
+                                        </center>
                                     )
                                 )}
                             </div>
@@ -1411,7 +1445,8 @@ export const Payment = (props) => {
                                 onClick={handleAddNewAddressClick}
                                 disabled={
                                     (state.error?.addressErr ||
-                                        state.error?.zip_codeErr) &&
+                                        state.error?.zip_codeErr ||
+                                        state.address.length == 0) &&
                                     state.addNewAddress !== false
                                 }
                             >
