@@ -156,7 +156,9 @@ export const Question = (props) => {
             setState((state) => ({ ...state, zipCodeErr: "" }));
             axios({
                 method: "get",
-                url: HOST + "/api/user/services/zip-code?zipCode=" + value,
+                url:
+                    HOST +
+                    `/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}`,
             })
                 .then(function (response) {
                     setState((state) => ({

@@ -5,12 +5,20 @@ import axios from 'axios';
 const registrationSlice = createSlice({
     name: 'registration',
     initialState: {
-        signupProvider: ""
+        signupProvider: "",
+        verify: "",
     },
     reducers: {
         signupProvider: (state, action) => {
             return {
+                ...state,
                 signupProvider: action.payload
+            }
+        },
+        verifyCode: (state, action) => {
+            return {
+                ...state,
+                verify: action.payload
             }
         }
     }
@@ -18,7 +26,9 @@ const registrationSlice = createSlice({
 
 export default registrationSlice.reducer;
 
-const { signupProvider } = registrationSlice.actions;
+const { signupProvider, verifyCode } = registrationSlice.actions;
+
+
 
 export const providerSignup = (data) => async dispatch => {
     try {
@@ -40,5 +50,29 @@ export const providerSignup = (data) => async dispatch => {
         });
     } catch (error) {
         dispatch(signupProvider({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+
+export const verifyPhoneNo = (data) => async dispatch => {
+    console.log(data);
+    try {
+        dispatch(verifyCode({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            data,
+            url: HOST + `/api/provider/signup/phone/verify`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(verifyCode(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(verifyCode(error.response.data));
+        });
+    } catch (error) {
+        dispatch(verifyCode({ error: true, loading: false, message: "something went wrong!" }));
     }
 }

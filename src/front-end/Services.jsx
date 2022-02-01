@@ -26,7 +26,11 @@ export const Services = (props) => {
                                     {params.get("service_type") ===
                                     ServiceType.MOVING ? (
                                         <div className="moving-search-box m-5">
-                                            <Moving {...props} />
+                                            <Moving
+                                                {...props}
+                                                serviceId={serviceId}
+                                                subServiceId={subServiceId}
+                                            />
                                         </div>
                                     ) : (
                                         <div

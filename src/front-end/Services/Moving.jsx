@@ -80,8 +80,7 @@ export const Moving = (props) => {
                 method: "get",
                 url:
                     process.env.REACT_APP_API_BASE_URL +
-                    "/api/user/services/zip-code?zipCode=" +
-                    value,
+                    `/api/user/services/zip-code?zipCode=${value}&sub_service_id=${state?.subServiceId}`,
             })
                 .then(function (response) {
                     setState((state) => ({
