@@ -189,13 +189,22 @@ const ProductDetail = (props) => {
                                                 </Link>
                                             );
                                         } else {
-                                            return (
+                                            return localStorage.getItem(
+                                                "userToken"
+                                            ) ? (
                                                 <button
                                                     className="button-common w-100 mt-5"
                                                     onClick={handleCartClick}
                                                 >
                                                     Add to Cart
                                                 </button>
+                                            ) : (
+                                                <Link
+                                                    to="/login"
+                                                    className="button-common w-100 mt-5"
+                                                >
+                                                    Login for add to cart
+                                                </Link>
                                             );
                                         }
                                     })()}
