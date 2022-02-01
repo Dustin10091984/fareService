@@ -91,7 +91,7 @@ export const CheckOutCard = ({
                 </div> */}
                     <div className="col-md-12 d-flex justify-content-between">
                         <div className="cart-right-box w-100 position-relative">
-                            <div className="cart-remove-btn">
+                            <div className="cart-remove-btn remove-btn-absolute">
                                 <i
                                     className="fa fa-times m-0 "
                                     onClick={handleRemoveCartClick}
@@ -102,26 +102,33 @@ export const CheckOutCard = ({
                                     <div className="text-truncate">{title}</div>
                                 </div>
                                 <div className="">{price}</div>
-                                <div className="float-right product-counter">
+                                <div className="float-right d-flex flex-row justify-content-between align-items-center">
                                     <span className="font-weight-bold">
                                         {quantity}
                                     </span>
                                     &nbsp;&nbsp;
-                                    <i
-                                        className="fa fa-minus"
-                                        aria-hidden="true"
-                                        style={{
-                                            cursor: "pointer",
-                                            color: "white",
-                                            backgroundColor: "blue",
-                                            borderRadius: "100%",
-                                            padding: ".4rem",
-                                            paddingLeft: ".5rem",
-                                            paddingRight: ".5rem",
-                                        }}
-                                        onClick={handleMinusClick}
-                                    ></i>
-                                    &nbsp;
+                                    {quantity == 1 ? (
+                                        <i
+                                            className="fa fa-times m-0 cart-remove-btn"
+                                            onClick={handleRemoveCartClick}
+                                        ></i>
+                                    ) : (
+                                        <i
+                                            className="fa fa-minus"
+                                            aria-hidden="true"
+                                            style={{
+                                                cursor: "pointer",
+                                                color: "white",
+                                                backgroundColor: "blue",
+                                                borderRadius: "100%",
+                                                padding: ".4rem",
+                                                paddingLeft: ".5rem",
+                                                paddingRight: ".5rem",
+                                            }}
+                                            onClick={handleMinusClick}
+                                        ></i>
+                                    )}
+                                    &nbsp;&nbsp;
                                     <i
                                         className="fa fa-plus"
                                         aria-hidden="true"
