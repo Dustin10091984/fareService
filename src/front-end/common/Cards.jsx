@@ -91,12 +91,14 @@ export const CheckOutCard = ({
                 </div> */}
                     <div className="col-md-12 d-flex justify-content-between">
                         <div className="cart-right-box w-100 position-relative">
-                            <div className="cart-remove-btn remove-btn-absolute">
-                                <i
-                                    className="fa fa-times m-0 "
-                                    onClick={handleRemoveCartClick}
-                                ></i>
-                            </div>
+                            {quantity > 1 && (
+                                <div className="cart-remove-btn remove-btn-absolute">
+                                    <i
+                                        className="fa fa-times m-0 "
+                                        onClick={handleRemoveCartClick}
+                                    ></i>
+                                </div>
+                            )}
                             <div className="w-100 mt-3">
                                 <div className="card-name pr-5">
                                     <div className="text-truncate">{title}</div>
