@@ -94,18 +94,21 @@ export const GroceryStorePage = (props) => {
                 >
                     <div className="row">
                         <div className="col-md-12">
-                            <img
-                                src={
-                                    groceryStore?.data?.cover_image
-                                        ? `${HOST}${groceryStore?.data?.cover_image}`
-                                        : "/assets/img/restaurant.jpg"
-                                }
-                                className="restaurant-banner"
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = "/assets/img/restaurant.jpg";
-                                }}
-                            ></img>
+                            <div className="restaurant-page-image">
+                                <img
+                                    src={
+                                        groceryStore?.data?.cover_image
+                                            ? `${HOST}${groceryStore?.data?.cover_image}`
+                                            : "/assets/img/restaurant.jpg"
+                                    }
+                                    className="restaurant-banner"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src =
+                                            "/assets/img/restaurant.jpg";
+                                    }}
+                                ></img>
+                            </div>
                             <div className="col-md-12">
                                 <div className="row d-flex align-items-center">
                                     <div className="col-md-8  restaurant-name">

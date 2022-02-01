@@ -90,7 +90,7 @@ export const CheckOutCard = ({
                     ></img>
                 </div> */}
                     <div className="col-md-12 d-flex justify-content-between">
-                        <div className="cart-right-box w-100 position-relative">
+                        <div className="cart-right-box w-100 position-relative ">
                             {quantity > 1 && (
                                 <div className="cart-remove-btn remove-btn-absolute">
                                     <i
@@ -104,7 +104,7 @@ export const CheckOutCard = ({
                                     <div className="text-truncate">{title}</div>
                                 </div>
                                 <div className="">{price}</div>
-                                <div className="float-right d-flex flex-row justify-content-between align-items-center">
+                                <div className="float-right d-flex flex-row justify-content-between align-items-center flex-wrap">
                                     <span className="font-weight-bold">
                                         {quantity}
                                     </span>

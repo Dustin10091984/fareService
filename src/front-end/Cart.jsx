@@ -609,7 +609,7 @@ export const Cart = (props) => {
                                                             float: "right",
                                                             cursor: "pointer",
                                                         }}
-                                                        onClick={() =>
+                                                        onClick={() => {
                                                             Swal.fire({
                                                                 title: "Are you sure?",
                                                                 text: "You won't be able to revert this!",
@@ -633,8 +633,8 @@ export const Cart = (props) => {
                                                                         );
                                                                     }
                                                                 }
-                                                            )
-                                                        }
+                                                            );
+                                                        }}
                                                     >
                                                         <span
                                                             className="mr-3"
