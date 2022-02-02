@@ -197,22 +197,24 @@ export const ServiceProviders = (props) => {
     }
 
     const handleCalendarClick = (selectedDate) => {
-        if (selectedDate <= new Date(selectedDate)) {
-            setValue(selectedDate);
-            let timeSlots = providerSchedule?.data?.data.filter(
-                (slot) =>
-                    +slot.provider_schedule.year ===
+        setValue(selectedDate);
+        let timeSlots = providerSchedule?.data?.data.filter((slot) => {
+            if (slot?.provider_schedule) {
+                return (
+                    +slot.provider_schedule?.year ===
                         selectedDate.getFullYear() &&
                     +slot.provider_schedule.month ===
                         selectedDate.getMonth() + 1 &&
                     +slot.provider_schedule.date === selectedDate.getDate()
-            );
-            if (timeSlots) {
-                setState((state) => ({ ...state, timeSlots: timeSlots }));
-            } else {
-                setState((state) => ({ ...state, timeSlots: undefined }));
+                );
             }
+        });
+        if (timeSlots) {
+            setState((state) => ({ ...state, timeSlots: timeSlots }));
+        } else {
+            setState((state) => ({ ...state, timeSlots: undefined }));
         }
+        return;
     };
 
     const handleHoursClick = (e) => {
@@ -844,6 +846,7 @@ export const ServiceProviders = (props) => {
                                     >
                                         <Calendar
                                             onChange={handleCalendarClick}
+                                            minDate={new Date()}
                                             value={value}
                                         />
                                     </div>
