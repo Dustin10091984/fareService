@@ -125,6 +125,31 @@ export const ServiceProviders = (props) => {
         // serviceRequest
     ]);
 
+    useEffect(() => {
+        if (movingError == true) {
+            Swal.fire({
+                title: "Error",
+                text: movingMessage,
+                confirmButtonText: "Close",
+                icon: "error",
+            });
+            return;
+        }
+        if (movingError == false && movingMessage) {
+            movingRef.current.click();
+            Swal.fire({
+                title: "Success!",
+                text: "Request Successfully Sent",
+                confirmButtonText: "Go To Services History",
+                icon: "success",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    handleGoToServicesHistory();
+                }
+            });
+        }
+    }, [movingError, movingMessage]);
+
     function handleContinueClick(event, type, provider) {
         setOpen(true);
         const { value } = event.target;
@@ -172,22 +197,24 @@ export const ServiceProviders = (props) => {
     }
 
     const handleCalendarClick = (selectedDate) => {
-        if (selectedDate <= new Date(selectedDate)) {
-            setValue(selectedDate);
-            let timeSlots = providerSchedule?.data?.data.filter(
-                (slot) =>
-                    +slot.provider_schedule.year ===
+        setValue(selectedDate);
+        let timeSlots = providerSchedule?.data?.data.filter((slot) => {
+            if (slot?.provider_schedule) {
+                return (
+                    +slot.provider_schedule?.year ===
                         selectedDate.getFullYear() &&
                     +slot.provider_schedule.month ===
                         selectedDate.getMonth() + 1 &&
                     +slot.provider_schedule.date === selectedDate.getDate()
-            );
-            if (timeSlots) {
-                setState((state) => ({ ...state, timeSlots: timeSlots }));
-            } else {
-                setState((state) => ({ ...state, timeSlots: undefined }));
+                );
             }
+        });
+        if (timeSlots) {
+            setState((state) => ({ ...state, timeSlots: timeSlots }));
+        } else {
+            setState((state) => ({ ...state, timeSlots: undefined }));
         }
+        return;
     };
 
     const handleHoursClick = (e) => {
@@ -326,7 +353,7 @@ export const ServiceProviders = (props) => {
 
     const handleGoToServicesHistory = () => {
         dispatch(getInitialRequestService());
-        props.history.push({
+        props.history.replace({
             pathname: "/services-history",
         });
     };
@@ -819,6 +846,7 @@ export const ServiceProviders = (props) => {
                                     >
                                         <Calendar
                                             onChange={handleCalendarClick}
+                                            minDate={new Date()}
                                             value={value}
                                         />
                                     </div>
@@ -1184,6 +1212,7 @@ export const ServiceProviders = (props) => {
                                                     typeof serviceRequest.message
                                                 ) {
                                                     case "string":
+                                                        qautationRef.current.click();
                                                         Swal.fire({
                                                             title: "Success!",
                                                             text: "Successfully created request service",
@@ -1194,7 +1223,6 @@ export const ServiceProviders = (props) => {
                                                             if (
                                                                 result.isConfirmed
                                                             ) {
-                                                                qautationRef.current.click();
                                                                 handleGoToServicesHistory();
                                                             }
                                                         });
@@ -1481,13 +1509,6 @@ export const ServiceProviders = (props) => {
                                             ) {
                                                 switch (typeof movingMessage) {
                                                     case "string":
-                                                        Swal.fire({
-                                                            title: "Error",
-                                                            text: movingMessage,
-                                                            confirmButtonText:
-                                                                "Close",
-                                                            icon: "error",
-                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-danger text-center"
@@ -1545,20 +1566,6 @@ export const ServiceProviders = (props) => {
                                             ) {
                                                 switch (typeof movingMessage) {
                                                     case "string":
-                                                        Swal.fire({
-                                                            title: "Success!",
-                                                            text: "Request Successfully Sent",
-                                                            confirmButtonText:
-                                                                "Go To Services History",
-                                                            icon: "success",
-                                                        }).then((result) => {
-                                                            if (
-                                                                result.isConfirmed
-                                                            ) {
-                                                                movingRef.current.click();
-                                                                handleGoToServicesHistory();
-                                                            }
-                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-success text-center"

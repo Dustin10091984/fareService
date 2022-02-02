@@ -425,7 +425,7 @@ export const ServicesHistory = (props) => {
                                                             <div className="font-weight-bold">
                                                                 Service:{" "}
                                                                 {serviceRequest.sub_service ||
-                                                                    "N/A"}
+                                                                    serviceRequest.type}
                                                             </div>
                                                         </div>
                                                         <div className="col-md-4">

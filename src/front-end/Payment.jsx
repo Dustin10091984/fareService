@@ -457,7 +457,7 @@ export const Payment = (props) => {
                 serviceDetail: "",
             },
         }));
-        props.history.push({
+        props.history.replace({
             pathname: "/services-history",
         });
     };
@@ -571,7 +571,7 @@ export const Payment = (props) => {
                                                     role="alert"
                                                     style={{ fontSize: 15 }}
                                                 >
-                                                    Please loading
+                                                    please wait! loading...
                                                 </div>
                                             );
                                         }
@@ -651,7 +651,7 @@ export const Payment = (props) => {
                                                         title: "Success!",
                                                         text: "Successfully created request service",
                                                         confirmButtonText:
-                                                            "Save",
+                                                            "Go services history",
                                                         icon: "success",
                                                     }).then((result) => {
                                                         if (
