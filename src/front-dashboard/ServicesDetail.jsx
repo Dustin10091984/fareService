@@ -5,7 +5,7 @@ import Rating from "../components/Rating";
 import Loading from "../front-end/common/Loading";
 import { getServiceRequest } from "../store/Slices/services/RequestServiceSclice";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
-
+import { HOST } from "../constants";
 export const ServicesDetail = (props) => {
     const [state, setState] = useState({});
     const dispatch = useDispatch();
@@ -81,8 +81,9 @@ export const ServicesDetail = (props) => {
                                                                 src={
                                                                     data
                                                                         ?.provider
-                                                                        ?.image ||
-                                                                    `/assets/img/user4.jpg`
+                                                                        ?.image
+                                                                        ? `${HOST}${data?.provider?.image}`
+                                                                        : `/assets/img/user4.jpg`
                                                                 }
                                                                 className="img-fluid"
                                                                 alt=""

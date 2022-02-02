@@ -16,6 +16,7 @@ import axios from "axios";
 import Loading from "../common/Loading";
 
 export const Moving = (props) => {
+    const { subServiceId } = props;
     const [state, setState] = useState({
         vehicle_type_id: "",
         from_address: "",
@@ -532,7 +533,10 @@ export const Moving = (props) => {
                                         type="button"
                                         to={{
                                             pathname: "/service-providers",
-                                            state: { ...state },
+                                            state: {
+                                                ...state,
+                                                sub_service_id: subServiceId,
+                                            },
                                         }}
                                         className="button-common mt-4 w-100"
                                     >
