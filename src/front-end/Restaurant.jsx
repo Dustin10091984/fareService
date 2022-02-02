@@ -12,6 +12,7 @@ import { HOST, ProductType } from "../constants";
 import Paginate from "./../components/Paginate";
 import Loading from "./common/Loading";
 import { getCategoryList } from "../store/Slices/category";
+import Swal from "sweetalert2";
 export const Restaurant = (props) => {
     /**
      * @location and @history get from props
@@ -88,6 +89,17 @@ export const Restaurant = (props) => {
     }, [match?.params?.id]);
 
     useEffect(() => {
+        if (list?.error && list?.message) {
+            Swal.fire({
+                title: "Error",
+                text: list?.message || "Something went wrong",
+                confirmButtonText: "Close",
+                icon: "error",
+            });
+        }
+    }, [list.error]);
+
+    useEffect(() => {
         if (match?.params?.id && state?.selectedCategory) {
             dispatch(
                 getRestaurantFoods({
@@ -103,9 +115,13 @@ export const Restaurant = (props) => {
         if (match?.params?.id == undefined) {
             dispatch(
                 getRestaurants({
-                    params: `?${new URLSearchParams({
-                        restaurant_type: state?.selectedType || "",
-                    }).toString()}`,
+                    params:
+                        state.selectedType.length > 0
+                            ? `?${new URLSearchParams({
+                                  restaurant_type:
+                                      JSON.stringify(state.selectedType) || "",
+                              }).toString()}`
+                            : "",
                 })
             );
         }
@@ -498,34 +514,39 @@ export const Restaurant = (props) => {
                             </div>
                             <div className="ctm-pagination">
                                 <div className="row">
-                                <div className="col-12">
-                                    {(() => {
-                                        let data = {
-                                            current_page: 0,
-                                            total: 0,
-                                        };
-                                        if (match?.params?.id && foodsMeta) {
-                                            data.id = match?.params?.id;
-                                            data.last_page =
-                                                foodsMeta?.last_page;
-                                            data.current_page =
-                                                foodsMeta?.current_page;
-                                            data.func = getRestaurantFoods;
-                                            return <Paginate {...data} />;
-                                        }
-                                        if (!match?.params?.id && listMeta) {
-                                            data.last_page =
-                                                listMeta?.last_page;
-                                            data.current_page =
-                                                listMeta?.current_page;
-                                            data.func = getRestaurants;
-                                            return <Paginate {...data} />;
-                                        }
-                                    })()}
+                                    <div className="col-12">
+                                        {(() => {
+                                            let data = {
+                                                current_page: 0,
+                                                total: 0,
+                                            };
+                                            if (
+                                                match?.params?.id &&
+                                                foodsMeta
+                                            ) {
+                                                data.id = match?.params?.id;
+                                                data.last_page =
+                                                    foodsMeta?.last_page;
+                                                data.current_page =
+                                                    foodsMeta?.current_page;
+                                                data.func = getRestaurantFoods;
+                                                return <Paginate {...data} />;
+                                            }
+                                            if (
+                                                !match?.params?.id &&
+                                                listMeta
+                                            ) {
+                                                data.last_page =
+                                                    listMeta?.last_page;
+                                                data.current_page =
+                                                    listMeta?.current_page;
+                                                data.func = getRestaurants;
+                                                return <Paginate {...data} />;
+                                            }
+                                        })()}
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
