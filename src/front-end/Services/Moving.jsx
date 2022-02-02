@@ -80,7 +80,7 @@ export const Moving = (props) => {
                 method: "get",
                 url:
                     process.env.REACT_APP_API_BASE_URL +
-                    `/api/user/services/zip-code?zipCode=${value}&sub_service_id=${state?.subServiceId}`,
+                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${state?.vehicle_type_id}`,
             })
                 .then(function (response) {
                     setState((state) => ({
@@ -470,6 +470,11 @@ export const Moving = (props) => {
                             </div>
                             <div className="common-input pr-1">
                                 <input
+                                    disabled={
+                                        state?.vehicle_type_id == ""
+                                            ? true
+                                            : false
+                                    }
                                     type="text"
                                     name="zip_code"
                                     placeholder="Zip Code e.g 00000"
