@@ -23,7 +23,6 @@ const Header = (props) => {
         (state) => state.notificationReducer.list
     );
 
-    console.log(notifications);
     useEffect(() => {
         if (localStorage.getItem("userToken")) {
             setState((state) => ({

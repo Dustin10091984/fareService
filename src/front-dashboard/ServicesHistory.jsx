@@ -18,6 +18,7 @@ export const ServicesHistory = (props) => {
     // const location = useLocation();
 
     const [state, setState] = useState({
+        second: 0,
         payable: "",
         error: "",
     });
@@ -61,7 +62,12 @@ export const ServicesHistory = (props) => {
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
-        return () => {};
+        const interval = setInterval(() => {
+            setState((state) => ({ ...state, second: state.second + 1 }));
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     useEffect(() => {
@@ -341,50 +347,50 @@ export const ServicesHistory = (props) => {
                                                                                         .length >
                                                                                     0
                                                                                 ) {
-                                                                                    // return (
-                                                                                    //     <TimeCounter
-                                                                                    //         worked_times={
-                                                                                    //             serviceRequest?.worked_times
-                                                                                    //         }
-                                                                                    //     ></TimeCounter>
-                                                                                    // );
-                                                                                    // let time =
-                                                                                    //     new Date();
-                                                                                    // setInterval(
-                                                                                    //     () => {
-                                                                                    //         return time.toLocaleTimeString();
-                                                                                    //     },
-                                                                                    //     1000
-                                                                                    // );
-                                                                                    // return time.toLocaleTimeString();
-                                                                                    // return handleTimeCounter(
-                                                                                    //     serviceRequest?.worked_times
-                                                                                    // );
-                                                                                    // let started =
-                                                                                    //     moment(
-                                                                                    //         serviceRequest
-                                                                                    //             .worked_times[0]
-                                                                                    //             .start_at
-                                                                                    //     );
-                                                                                    // let now =
-                                                                                    //     moment();
-                                                                                    // let duration =
-                                                                                    //     moment.duration(
-                                                                                    //         now.diff(
-                                                                                    //             started
-                                                                                    //         )
-                                                                                    //     );
-                                                                                    // duration =
-                                                                                    //     duration.asMinutes();
-                                                                                    // return duration;
+                                                                                    let breakTime = 0;
+                                                                                    let started =
+                                                                                        moment(
+                                                                                            serviceRequest
+                                                                                                .worked_times[0]
+                                                                                                .start_at
+                                                                                        );
+                                                                                    serviceRequest?.worked_times?.forEach(
+                                                                                        (
+                                                                                            time
+                                                                                        ) => {
+                                                                                            if (
+                                                                                                time.is_pause &&
+                                                                                                time.end_at !=
+                                                                                                    null
+                                                                                            ) {
+                                                                                                breakTime =
+                                                                                                    moment(
+                                                                                                        time.start_at
+                                                                                                    ).diff(
+                                                                                                        time.end_at,
+                                                                                                        "seconds"
+                                                                                                    );
+                                                                                            }
+                                                                                        }
+                                                                                    );
+                                                                                    let now =
+                                                                                        moment();
+                                                                                    let duration =
+                                                                                        moment.duration(
+                                                                                            now.diff(
+                                                                                                started
+                                                                                            )
+                                                                                        );
+                                                                                    duration =
+                                                                                        duration.subtract(
+                                                                                            moment(
+                                                                                                breakTime
+                                                                                            ),
+                                                                                            "seconds"
+                                                                                        );
+                                                                                    // `${ duration.asDays().toFixed( 0 ) > 0 ? duration.asDays().toFixed(0) + "d" : ""}`
+                                                                                    return `${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
                                                                                 }
-                                                                                // var hours =
-                                                                                //     duration.asHours();
-                                                                                // console.log(
-                                                                                //     // moment(
-                                                                                //     hours
-                                                                                //     // ).fromAt()
-                                                                                // );
                                                                                 return "Started";
                                                                             }
 
