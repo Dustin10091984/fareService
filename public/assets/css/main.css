@@ -365,3 +365,102 @@
     background: #1b1464;
 }
 /*# sourceMappingURL=main.css.map */
+.icon {
+    cursor: pointer;
+    margin-right: 50px;
+    line-height: 60px;
+}
+
+.icon span {
+    background: #f00;
+    padding: 7px;
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: top;
+    margin-left: -25px;
+}
+
+.icon img {
+    display: inline-block;
+    width: 26px;
+    margin-top: 4px;
+}
+
+.icon:hover {
+    opacity: 0.7;
+}
+
+.logo {
+    flex: 1;
+    margin-left: 50px;
+    color: #eee;
+    font-size: 20px;
+    font-family: monospace;
+}
+
+.notifications {
+    margin-top: 2vh;
+    z-index: 1;
+    width: 30%;
+    height: auto;
+    opacity: 1;
+    position: absolute;
+    top: 63px;
+    right: 3%;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.notifications::after {
+    content: " ";
+    position: absolute;
+    right: 30px;
+    top: -15px;
+    border-top: none;
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-bottom: 15px solid #fff;
+}
+
+.notifications h2 {
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #999;
+}
+
+.notifications h2 span {
+    color: #f00;
+}
+
+.notifications-item {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    padding: 6px 9px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+.notifications-item:hover {
+    background-color: #eee;
+}
+
+.notifications-item img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-right: 9px;
+    border-radius: 50%;
+    margin-top: 2px;
+}
+
+.notifications-item .text h4 {
+    color: #777;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.notifications-item .text p {
+    color: #aaa;
+    font-size: 12px;
+}

@@ -6,6 +6,7 @@ import { Chat } from "../Chat/Chat";
 
 const Header = (props) => {
     const [state, setState] = useState({
+        notificationOpen: false,
         is_loggedin: false,
         header_menu: [],
         isChatOpen: false,
@@ -189,69 +190,151 @@ const Header = (props) => {
                                                 </span>
                                             )}
                                         </li>
-                                        {state.is_loggedin ? (
-                                            <li className="dropdown show item-list">
-                                                <div
-                                                    // className="btn btn-secondary dropdown-toggle"
-                                                    className="link"
-                                                    id="dropdownMenuLink"
-                                                    data-toggle="dropdown"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false"
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    <i
-                                                        className="fa fa-user fa-lg"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                    <i
-                                                        className="fa fa-sort-desc ml-2"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </div>
 
-                                                <div
-                                                    className="dropdown-menu dropdown-menu-right mt-2"
-                                                    aria-labelledby="dropdownMenuLink"
+                                        {state.is_loggedin ? (
+                                            <>
+                                                <li
+                                                    className="item-list"
                                                     style={{
-                                                        fontSize: "1.5rem",
+                                                        fontSize: "2rem",
+                                                    }}
+                                                    onClick={() => {
+                                                        setState({
+                                                            ...state,
+                                                            notificationOpen:
+                                                                !state.notificationOpen,
+                                                        });
                                                     }}
                                                 >
-                                                    <Link
-                                                        to="/dashboard"
-                                                        className=" dropdown-item"
-                                                    >
+                                                    {state.notificationOpen && (
                                                         <i
-                                                            className="fa fa-tachometer mr-2"
+                                                            class="fa fa-times fa-1x"
                                                             aria-hidden="true"
                                                         ></i>
-                                                        Dashboard
-                                                    </Link>
-                                                    <Link
-                                                        to="/my-account"
-                                                        className=" dropdown-item"
-                                                    >
+                                                    )}
+                                                    {!state.notificationOpen && (
                                                         <i
-                                                            className="fa fa-user mr-2"
+                                                            class="fa fa-bell fa-xl"
                                                             aria-hidden="true"
                                                         ></i>
-                                                        My Account
-                                                    </Link>
-                                                    <Link
-                                                        to=""
-                                                        onClick={handleLogout}
-                                                        className="dropdown-item"
+                                                    )}
+                                                    {state?.notificationOpen && (
+                                                        <div
+                                                            class="notifications"
+                                                            id="box"
+                                                        >
+                                                            <h2>
+                                                                Notifications
+                                                                {/* <span>2</span> */}
+                                                            </h2>
+                                                            <div class="notifications-item">
+                                                                {" "}
+                                                                {/* <img
+                                                                src="https://i.imgur.com/uIgDDDd.jpg"
+                                                                alt="img"
+                                                            /> */}
+                                                                <div class="text">
+                                                                    <h4>
+                                                                        Samso
+                                                                        aliao
+                                                                    </h4>
+                                                                    <p>
+                                                                        Samso
+                                                                        Nagaro
+                                                                        Like
+                                                                        your
+                                                                        home
+                                                                        work
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="notifications-item">
+                                                                {" "}
+                                                                {/* <img
+                                                                src="https://img.icons8.com/flat_round/64/000000/vote-badge.png"
+                                                                alt="img"
+                                                            /> */}
+                                                                <div class="text">
+                                                                    <h4>
+                                                                        John
+                                                                        Silvester
+                                                                    </h4>
+                                                                    <p>
+                                                                        +20
+                                                                        vista
+                                                                        badge
+                                                                        earned
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </li>
+                                                <li className="dropdown show item-list">
+                                                    <div
+                                                        // className="btn btn-secondary dropdown-toggle"
+                                                        className="link"
+                                                        id="dropdownMenuLink"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
                                                     >
                                                         <i
-                                                            className="fa fa-sign-out mr-2"
+                                                            className="fa fa-user fa-lg"
                                                             aria-hidden="true"
                                                         ></i>
-                                                        Logout
-                                                    </Link>
-                                                </div>
-                                            </li>
+                                                        <i
+                                                            className="fa fa-sort-desc ml-2"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                    </div>
+
+                                                    <div
+                                                        className="dropdown-menu dropdown-menu-right mt-2"
+                                                        aria-labelledby="dropdownMenuLink"
+                                                        style={{
+                                                            fontSize: "1.5rem",
+                                                        }}
+                                                    >
+                                                        <Link
+                                                            to="/dashboard"
+                                                            className=" dropdown-item"
+                                                        >
+                                                            <i
+                                                                className="fa fa-tachometer mr-2"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            Dashboard
+                                                        </Link>
+                                                        <Link
+                                                            to="/my-account"
+                                                            className=" dropdown-item"
+                                                        >
+                                                            <i
+                                                                className="fa fa-user mr-2"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            My Account
+                                                        </Link>
+                                                        <Link
+                                                            to=""
+                                                            onClick={
+                                                                handleLogout
+                                                            }
+                                                            className="dropdown-item"
+                                                        >
+                                                            <i
+                                                                className="fa fa-sign-out mr-2"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            Logout
+                                                        </Link>
+                                                    </div>
+                                                </li>
+                                            </>
                                         ) : (
                                             <li className="item-list">
                                                 <Link

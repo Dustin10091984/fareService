@@ -117,7 +117,7 @@ function App() {
   return (
     <Elements stripe={stripePromise} >
       <div className="App">
-        {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null}
+        {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null} */}
         <ReactNotificationComponent
           title={notification.title}
           body={notification.body}
