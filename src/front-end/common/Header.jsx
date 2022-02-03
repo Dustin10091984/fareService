@@ -119,7 +119,7 @@ const Header = (props) => {
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""
-                                        // className="img-fluid"
+                                        className="img-fluid"
                                         style={{
                                             height: "15vh",
                                             width: "auto",
