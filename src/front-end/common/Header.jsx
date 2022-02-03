@@ -3,6 +3,9 @@ import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../Chat/Chat";
+import { useSelector, useDispatch } from "react-redux";
+import { getNotifications } from "../../store/Slices/notification";
+import { useHistory } from "react-router-dom";
 
 const Header = (props) => {
     const [state, setState] = useState({
@@ -11,12 +14,23 @@ const Header = (props) => {
         header_menu: [],
         isChatOpen: false,
     });
+
+    const history = useHistory();
+
+    const dispatch = useDispatch();
+
+    const notifications = useSelector(
+        (state) => state.notificationReducer.list
+    );
+
+    console.log(notifications);
     useEffect(() => {
         if (localStorage.getItem("userToken")) {
             setState((state) => ({
                 ...state,
                 is_loggedin: true,
             }));
+            dispatch(getNotifications());
         }
 
         axios({
@@ -204,57 +218,119 @@ const Header = (props) => {
                                                             notificationOpen:
                                                                 !state.notificationOpen,
                                                         });
+                                                        dispatch(
+                                                            getNotifications()
+                                                        );
                                                     }}
                                                 >
                                                     {state.notificationOpen && (
                                                         <i
-                                                            class="fa fa-times fa-1x"
+                                                            className="fa fa-times fa-1x"
                                                             aria-hidden="true"
                                                         ></i>
                                                     )}
                                                     {!state.notificationOpen && (
                                                         <i
-                                                            class="fa fa-bell fa-xl"
+                                                            className="fa fa-bell fa-xl"
                                                             aria-hidden="true"
                                                         ></i>
                                                     )}
                                                     {state?.notificationOpen && (
                                                         <div
-                                                            class="notifications"
+                                                            className="notifications"
                                                             id="box"
                                                         >
                                                             <h2>
                                                                 Notifications
                                                                 {/* <span>2</span> */}
                                                             </h2>
-                                                            <div class="notifications-item">
-                                                                {" "}
-                                                                {/* <img
-                                                                src="https://i.imgur.com/uIgDDDd.jpg"
-                                                                alt="img"
-                                                            /> */}
-                                                                <div class="text">
-                                                                    <h4>
-                                                                        Samso
-                                                                        aliao
-                                                                    </h4>
-                                                                    <p>
-                                                                        Samso
-                                                                        Nagaro
-                                                                        Like
-                                                                        your
-                                                                        home
-                                                                        work
-                                                                    </p>
+                                                            {notifications.loading && (
+                                                                <div className="notifications-item">
+                                                                    <div className="text-center">
+                                                                        Loading...
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="notifications-item">
+                                                            )}
+                                                            {!notifications.loading &&
+                                                                notifications.error && (
+                                                                    <div className="notifications-item">
+                                                                        <div className="text-center">
+                                                                            {
+                                                                                notifications.message
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            {!notifications.loading &&
+                                                                notifications
+                                                                    ?.data
+                                                                    .length >
+                                                                    0 &&
+                                                                notifications?.data?.map(
+                                                                    (
+                                                                        notification,
+                                                                        index
+                                                                    ) => (
+                                                                        <div
+                                                                            className="notifications-item"
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            onClick={() => {
+                                                                                if (
+                                                                                    notification
+                                                                                        ?.data[0]
+                                                                                        ?.type ==
+                                                                                        "SERVICE_REQUEST" ||
+                                                                                    notification
+                                                                                        ?.data[0]
+                                                                                        ?.type ==
+                                                                                        "MOVING"
+                                                                                ) {
+                                                                                    history.push(
+                                                                                        "/services-history"
+                                                                                    );
+                                                                                }
+                                                                                setState(
+                                                                                    {
+                                                                                        ...state,
+                                                                                        notificationOpen:
+                                                                                            !state.notificationOpen,
+                                                                                    }
+                                                                                );
+                                                                            }}
+                                                                        >
+                                                                            {" "}
+                                                                            {/* <img
+                                                                                src="https://i.imgur.com/uIgDDDd.jpg"
+                                                                                alt="img"
+                                                                            /> */}
+                                                                            <div className="text">
+                                                                                <h4>
+                                                                                    {
+                                                                                        notification
+                                                                                            .data[0]
+                                                                                            .title
+                                                                                    }
+                                                                                </h4>
+                                                                                <p>
+                                                                                    {
+                                                                                        notification
+                                                                                            .data[0]
+                                                                                            .body
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                )}
+                                                            {/* <div className="notifications-item">
                                                                 {" "}
-                                                                {/* <img
+                                                                <img
                                                                 src="https://img.icons8.com/flat_round/64/000000/vote-badge.png"
                                                                 alt="img"
-                                                            /> */}
-                                                                <div class="text">
+                                                            />
+                                                                <div className="text">
                                                                     <h4>
                                                                         John
                                                                         Silvester
@@ -266,7 +342,7 @@ const Header = (props) => {
                                                                         earned
                                                                     </p>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     )}
                                                 </li>

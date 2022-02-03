@@ -212,6 +212,22 @@ export const ServicesHistory = (props) => {
         }
     };
 
+    // const TimeCounter = ({ worked_times }) => {
+    //     const [time, setTime] = useState(new Date());
+    //     useEffect(() => {
+    //         setTime(new Date());
+    //     }, [time]);
+    //     return (
+    //         <div className="time-counter">
+    //             {time.getHours() +
+    //                 ":" +
+    //                 time.getMinutes() +
+    //                 ":" +
+    //                 time.getSeconds()}
+    //         </div>
+    //     );
+    // };
+
     return (
         <>
             <div className="breadcrumb-dash">
@@ -303,6 +319,12 @@ export const ServicesHistory = (props) => {
                                                                     {
                                                                         (() => {
                                                                             if (
+                                                                                serviceRequest.status ===
+                                                                                "PENDING"
+                                                                            ) {
+                                                                                return "Pending";
+                                                                            }
+                                                                            if (
                                                                                 serviceRequest.working_status ==
                                                                                 null
                                                                             ) {
@@ -313,6 +335,56 @@ export const ServicesHistory = (props) => {
                                                                                 serviceRequest.working_status ==
                                                                                 "STARTED"
                                                                             ) {
+                                                                                if (
+                                                                                    serviceRequest
+                                                                                        ?.worked_times
+                                                                                        .length >
+                                                                                    0
+                                                                                ) {
+                                                                                    // return (
+                                                                                    //     <TimeCounter
+                                                                                    //         worked_times={
+                                                                                    //             serviceRequest?.worked_times
+                                                                                    //         }
+                                                                                    //     ></TimeCounter>
+                                                                                    // );
+                                                                                    // let time =
+                                                                                    //     new Date();
+                                                                                    // setInterval(
+                                                                                    //     () => {
+                                                                                    //         return time.toLocaleTimeString();
+                                                                                    //     },
+                                                                                    //     1000
+                                                                                    // );
+                                                                                    // return time.toLocaleTimeString();
+                                                                                    // return handleTimeCounter(
+                                                                                    //     serviceRequest?.worked_times
+                                                                                    // );
+                                                                                    // let started =
+                                                                                    //     moment(
+                                                                                    //         serviceRequest
+                                                                                    //             .worked_times[0]
+                                                                                    //             .start_at
+                                                                                    //     );
+                                                                                    // let now =
+                                                                                    //     moment();
+                                                                                    // let duration =
+                                                                                    //     moment.duration(
+                                                                                    //         now.diff(
+                                                                                    //             started
+                                                                                    //         )
+                                                                                    //     );
+                                                                                    // duration =
+                                                                                    //     duration.asMinutes();
+                                                                                    // return duration;
+                                                                                }
+                                                                                // var hours =
+                                                                                //     duration.asHours();
+                                                                                // console.log(
+                                                                                //     // moment(
+                                                                                //     hours
+                                                                                //     // ).fromAt()
+                                                                                // );
                                                                                 return "Started";
                                                                             }
 
