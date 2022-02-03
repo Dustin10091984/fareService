@@ -18,6 +18,7 @@ export const ServicesHistory = (props) => {
     // const location = useLocation();
 
     const [state, setState] = useState({
+        second: 0,
         payable: "",
         error: "",
     });
@@ -61,7 +62,12 @@ export const ServicesHistory = (props) => {
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
-        return () => {};
+        const interval = setInterval(() => {
+            setState((state) => ({ ...state, second: state.second + 1 }));
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     useEffect(() => {
@@ -212,6 +218,22 @@ export const ServicesHistory = (props) => {
         }
     };
 
+    // const TimeCounter = ({ worked_times }) => {
+    //     const [time, setTime] = useState(new Date());
+    //     useEffect(() => {
+    //         setTime(new Date());
+    //     }, [time]);
+    //     return (
+    //         <div className="time-counter">
+    //             {time.getHours() +
+    //                 ":" +
+    //                 time.getMinutes() +
+    //                 ":" +
+    //                 time.getSeconds()}
+    //         </div>
+    //     );
+    // };
+
     return (
         <>
             <div className="breadcrumb-dash">
@@ -303,6 +325,12 @@ export const ServicesHistory = (props) => {
                                                                     {
                                                                         (() => {
                                                                             if (
+                                                                                serviceRequest.status ===
+                                                                                "PENDING"
+                                                                            ) {
+                                                                                return "Pending";
+                                                                            }
+                                                                            if (
                                                                                 serviceRequest.working_status ==
                                                                                 null
                                                                             ) {
@@ -313,6 +341,56 @@ export const ServicesHistory = (props) => {
                                                                                 serviceRequest.working_status ==
                                                                                 "STARTED"
                                                                             ) {
+                                                                                if (
+                                                                                    serviceRequest
+                                                                                        ?.worked_times
+                                                                                        .length >
+                                                                                    0
+                                                                                ) {
+                                                                                    let breakTime = 0;
+                                                                                    let started =
+                                                                                        moment(
+                                                                                            serviceRequest
+                                                                                                .worked_times[0]
+                                                                                                .start_at
+                                                                                        );
+                                                                                    serviceRequest?.worked_times?.forEach(
+                                                                                        (
+                                                                                            time
+                                                                                        ) => {
+                                                                                            if (
+                                                                                                time.is_pause &&
+                                                                                                time.end_at !=
+                                                                                                    null
+                                                                                            ) {
+                                                                                                breakTime =
+                                                                                                    moment(
+                                                                                                        time.start_at
+                                                                                                    ).diff(
+                                                                                                        time.end_at,
+                                                                                                        "seconds"
+                                                                                                    );
+                                                                                            }
+                                                                                        }
+                                                                                    );
+                                                                                    let now =
+                                                                                        moment();
+                                                                                    let duration =
+                                                                                        moment.duration(
+                                                                                            now.diff(
+                                                                                                started
+                                                                                            )
+                                                                                        );
+                                                                                    duration =
+                                                                                        duration.subtract(
+                                                                                            moment(
+                                                                                                breakTime
+                                                                                            ),
+                                                                                            "seconds"
+                                                                                        );
+                                                                                    // `${ duration.asDays().toFixed( 0 ) > 0 ? duration.asDays().toFixed(0) + "d" : ""}`
+                                                                                    return `${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
+                                                                                }
                                                                                 return "Started";
                                                                             }
 

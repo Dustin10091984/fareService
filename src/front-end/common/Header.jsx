@@ -3,19 +3,33 @@ import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../Chat/Chat";
+import { useSelector, useDispatch } from "react-redux";
+import { getNotifications } from "../../store/Slices/notification";
+import { useHistory } from "react-router-dom";
 
 const Header = (props) => {
     const [state, setState] = useState({
+        notificationOpen: false,
         is_loggedin: false,
         header_menu: [],
         isChatOpen: false,
     });
+
+    const history = useHistory();
+
+    const dispatch = useDispatch();
+
+    const notifications = useSelector(
+        (state) => state.notificationReducer.list
+    );
+
     useEffect(() => {
         if (localStorage.getItem("userToken")) {
             setState((state) => ({
                 ...state,
                 is_loggedin: true,
             }));
+            dispatch(getNotifications());
         }
 
         axios({
@@ -105,7 +119,7 @@ const Header = (props) => {
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""
-                                        // className="img-fluid"
+                                        className="img-fluid"
                                         style={{
                                             height: "15vh",
                                             width: "auto",
@@ -189,69 +203,213 @@ const Header = (props) => {
                                                 </span>
                                             )}
                                         </li>
-                                        {state.is_loggedin ? (
-                                            <li className="dropdown show item-list">
-                                                <div
-                                                    // className="btn btn-secondary dropdown-toggle"
-                                                    className="link"
-                                                    id="dropdownMenuLink"
-                                                    data-toggle="dropdown"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false"
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    <i
-                                                        className="fa fa-user fa-lg"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                    <i
-                                                        className="fa fa-sort-desc ml-2"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </div>
 
-                                                <div
-                                                    className="dropdown-menu dropdown-menu-right mt-2"
-                                                    aria-labelledby="dropdownMenuLink"
+                                        {state.is_loggedin ? (
+                                            <>
+                                                <li
+                                                    className="item-list"
                                                     style={{
-                                                        fontSize: "1.5rem",
+                                                        fontSize: "2rem",
+                                                    }}
+                                                    onClick={() => {
+                                                        setState({
+                                                            ...state,
+                                                            notificationOpen:
+                                                                !state.notificationOpen,
+                                                        });
+                                                        dispatch(
+                                                            getNotifications()
+                                                        );
                                                     }}
                                                 >
-                                                    <Link
-                                                        to="/dashboard"
-                                                        className=" dropdown-item"
-                                                    >
+                                                    {state.notificationOpen && (
                                                         <i
-                                                            className="fa fa-tachometer mr-2"
+                                                            className="fa fa-times fa-1x"
                                                             aria-hidden="true"
                                                         ></i>
-                                                        Dashboard
-                                                    </Link>
-                                                    <Link
-                                                        to="/my-account"
-                                                        className=" dropdown-item"
-                                                    >
+                                                    )}
+                                                    {!state.notificationOpen && (
                                                         <i
-                                                            className="fa fa-user mr-2"
+                                                            className="fa fa-bell fa-xl"
                                                             aria-hidden="true"
                                                         ></i>
-                                                        My Account
-                                                    </Link>
-                                                    <Link
-                                                        to=""
-                                                        onClick={handleLogout}
-                                                        className="dropdown-item"
+                                                    )}
+                                                    {state?.notificationOpen && (
+                                                        <div
+                                                            className="notifications"
+                                                            id="box"
+                                                        >
+                                                            <h2>
+                                                                Notifications
+                                                                {/* <span>2</span> */}
+                                                            </h2>
+                                                            {notifications.loading && (
+                                                                <div className="notifications-item">
+                                                                    <div className="text-center">
+                                                                        Loading...
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {!notifications.loading &&
+                                                                notifications.error && (
+                                                                    <div className="notifications-item">
+                                                                        <div className="text-center">
+                                                                            {
+                                                                                notifications.message
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            {!notifications.loading &&
+                                                                notifications
+                                                                    ?.data
+                                                                    .length >
+                                                                    0 &&
+                                                                notifications?.data?.map(
+                                                                    (
+                                                                        notification,
+                                                                        index
+                                                                    ) => (
+                                                                        <div
+                                                                            className="notifications-item"
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            onClick={() => {
+                                                                                if (
+                                                                                    notification
+                                                                                        ?.data[0]
+                                                                                        ?.type ==
+                                                                                        "SERVICE_REQUEST" ||
+                                                                                    notification
+                                                                                        ?.data[0]
+                                                                                        ?.type ==
+                                                                                        "MOVING"
+                                                                                ) {
+                                                                                    history.push(
+                                                                                        "/services-history"
+                                                                                    );
+                                                                                }
+                                                                                setState(
+                                                                                    {
+                                                                                        ...state,
+                                                                                        notificationOpen:
+                                                                                            !state.notificationOpen,
+                                                                                    }
+                                                                                );
+                                                                            }}
+                                                                        >
+                                                                            {" "}
+                                                                            {/* <img
+                                                                                src="https://i.imgur.com/uIgDDDd.jpg"
+                                                                                alt="img"
+                                                                            /> */}
+                                                                            <div className="text">
+                                                                                <h4>
+                                                                                    {
+                                                                                        notification
+                                                                                            .data[0]
+                                                                                            .title
+                                                                                    }
+                                                                                </h4>
+                                                                                <p>
+                                                                                    {
+                                                                                        notification
+                                                                                            .data[0]
+                                                                                            .body
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                )}
+                                                            {/* <div className="notifications-item">
+                                                                {" "}
+                                                                <img
+                                                                src="https://img.icons8.com/flat_round/64/000000/vote-badge.png"
+                                                                alt="img"
+                                                            />
+                                                                <div className="text">
+                                                                    <h4>
+                                                                        John
+                                                                        Silvester
+                                                                    </h4>
+                                                                    <p>
+                                                                        +20
+                                                                        vista
+                                                                        badge
+                                                                        earned
+                                                                    </p>
+                                                                </div>
+                                                            </div> */}
+                                                        </div>
+                                                    )}
+                                                </li>
+                                                <li className="dropdown show item-list">
+                                                    <div
+                                                        // className="btn btn-secondary dropdown-toggle"
+                                                        className="link"
+                                                        id="dropdownMenuLink"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
                                                     >
                                                         <i
-                                                            className="fa fa-sign-out mr-2"
+                                                            className="fa fa-user fa-lg"
                                                             aria-hidden="true"
                                                         ></i>
-                                                        Logout
-                                                    </Link>
-                                                </div>
-                                            </li>
+                                                        <i
+                                                            className="fa fa-sort-desc ml-2"
+                                                            aria-hidden="true"
+                                                        ></i>
+                                                    </div>
+
+                                                    <div
+                                                        className="dropdown-menu dropdown-menu-right mt-2"
+                                                        aria-labelledby="dropdownMenuLink"
+                                                        style={{
+                                                            fontSize: "1.5rem",
+                                                        }}
+                                                    >
+                                                        <Link
+                                                            to="/dashboard"
+                                                            className=" dropdown-item"
+                                                        >
+                                                            <i
+                                                                className="fa fa-tachometer mr-2"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            Dashboard
+                                                        </Link>
+                                                        <Link
+                                                            to="/my-account"
+                                                            className=" dropdown-item"
+                                                        >
+                                                            <i
+                                                                className="fa fa-user mr-2"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            My Account
+                                                        </Link>
+                                                        <Link
+                                                            to=""
+                                                            onClick={
+                                                                handleLogout
+                                                            }
+                                                            className="dropdown-item"
+                                                        >
+                                                            <i
+                                                                className="fa fa-sign-out mr-2"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            Logout
+                                                        </Link>
+                                                    </div>
+                                                </li>
+                                            </>
                                         ) : (
                                             <li className="item-list">
                                                 <Link

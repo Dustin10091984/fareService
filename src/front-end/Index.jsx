@@ -14,11 +14,12 @@ export const Index = (props) => {
                                         reliable way to take care of your home.
                                     </div>
                                     <div className="des">
-                                        Amet minim mollit non deserunt ullamco
-                                        est sit aliqua dolor do amet sint. Velit
-                                        officia consequat duis enim velit
-                                        mollit. Exercitation <br />
-                                        veniam consequat sunt nostrud amet.
+                                        reliable way to take care of your home
+                                        We make it easy for you to create the
+                                        best experience for your home. Book for
+                                        a handyman, get a professional service
+                                        or shop from a wide variety of products
+                                        and get them delivered to your doorstep.
                                     </div>
                                     <a href="#" className="button-common">
                                         See all Services
@@ -42,11 +43,12 @@ export const Index = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <div className="common-heading text-center">
+                            <div className="common-heading">
                                 <div className="title">Popular Services</div>
                                 <div className="sub-des">
-                                    liked or admired by many people or by a
-                                    particular person or group.
+                                    Explore our top services. All our services
+                                    are designed with you in mind. See for
+                                    yourself
                                 </div>
                             </div>
                         </div>
@@ -65,7 +67,7 @@ export const Index = (props) => {
                                 </Link>
                             </div>
                             <div className="service-box">
-                                <Link to="/food-grocery">
+                                <Link to="/grocery-stores">
                                     <img
                                         src="/assets/img/service2.jpg"
                                         className="img-fluid"
@@ -77,7 +79,7 @@ export const Index = (props) => {
                                 </Link>
                             </div>
                             <div className="service-box">
-                                <Link to="/food-grocery">
+                                <Link to="/restaurants">
                                     <img
                                         src="/assets/img/service3.jpg"
                                         className="img-fluid"

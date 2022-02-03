@@ -17,6 +17,7 @@ import cartsSlice from "./Slices/cart/cartsSlice";
 import orderSlice from "./Slices/order/orderSlice";
 import groceryStoreSlice from "./Slices/grocery/groceryStoreSlice";
 import categorySlice from "./Slices/category/index";
+import notificationSlice from "./Slices/notification";
 
 export default combineReducers({
     userReducer: userSclice,
@@ -36,5 +37,6 @@ export default combineReducers({
     cartsReducer: cartsSlice,
     orderReducer: orderSlice,
     categoryReducer: categorySlice,
-    registrationReducer: registrationSlice
+    registrationReducer: registrationSlice,
+    notificationReducer: notificationSlice,
 });
