@@ -206,7 +206,7 @@ export const RestaurantPage = (props) => {
                 </div>
                 <div className="col-md-3 p-0">
                    <div className="restaurant-page-right-sec bs-3 pt-5">
-                   <Cart data={cartList}></Cart>;
+                   <Cart data={cartList}></Cart>
                    </div>
                 </div>
             </div>

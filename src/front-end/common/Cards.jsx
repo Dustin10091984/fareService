@@ -26,7 +26,7 @@ const Card = ({
                         });
                     }}
                 >
-                    <div className="prod-img ">
+                    <div className="prod-img mb-2">
                         <img
                             className="img-fluid"
                             src={image}
@@ -94,7 +94,7 @@ export const CheckOutCard = ({
                             {quantity > 1 && (
                                 <div className="cart-remove-btn remove-btn-absolute">
                                     <i
-                                        className="fa fa-times m-0 "
+                                        className="far fa-trash-alt m-0 "
                                         onClick={handleRemoveCartClick}
                                     ></i>
                                 </div>
@@ -104,46 +104,24 @@ export const CheckOutCard = ({
                                     <div className="text-truncate">{title}</div>
                                 </div>
                                 <div className="">{price}</div>
-                                <div className="float-right d-flex flex-row justify-content-between align-items-center flex-wrap">
-                                    <span className="font-weight-bold">
-                                        {quantity}
-                                    </span>
-                                    &nbsp;&nbsp;
+                                <div className="float-right d-flex flex-row justify-content-between align-items-center added-cart-ctm">
                                     {quantity == 1 ? (
                                         <i
-                                            className="fa fa-times m-0 cart-remove-btn"
+                                            className="far fa-trash-alt m-0 cart-remove-btn"
                                             onClick={handleRemoveCartClick}
                                         ></i>
                                     ) : (
                                         <i
-                                            className="fa fa-minus"
-                                            aria-hidden="true"
-                                            style={{
-                                                cursor: "pointer",
-                                                color: "white",
-                                                backgroundColor: "blue",
-                                                borderRadius: "100%",
-                                                padding: ".4rem",
-                                                paddingLeft: ".5rem",
-                                                paddingRight: ".5rem",
-                                            }}
-                                            onClick={handleMinusClick}
+                                            className="fa fa-minus plus-btn"
+                                            aria-hidden="true" onClick={handleMinusClick}
                                         ></i>
                                     )}
-                                    &nbsp;&nbsp;
+                                     <span className="font-weight-bold quantity-box d-flex aling-items-center justify-content-center">
+                                        {quantity}
+                                    </span>
                                     <i
-                                        className="fa fa-plus"
-                                        aria-hidden="true"
-                                        style={{
-                                            cursor: "pointer",
-                                            color: "white",
-                                            backgroundColor: "#fea629",
-                                            borderRadius: "100%",
-                                            padding: ".4rem",
-                                            paddingLeft: ".5rem",
-                                            paddingRight: ".5rem",
-                                        }}
-                                        onClick={handlePlusClick}
+                                        className="fa fa-plus plus-btn"
+                                        aria-hidden="true" onClick={handlePlusClick}
                                     ></i>
                                 </div>
                             </div>

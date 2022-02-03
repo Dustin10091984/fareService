@@ -957,7 +957,19 @@ body {
     overflow: hidden;
     background-size: contain;
     background-size: cover;
-    background-size: 100% 100%;
+    background-size: 100% 100%;  position: relative;
+}
+.product-card .prod-img::after{
+  
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 5;
+    background-color: rgba(0,0,0,.04);
 }
 
 .product-card .prod-tag {
@@ -1026,13 +1038,8 @@ body {
 }
 
 .product-card:hover .prod-img img {
-    display: block;
-    width: auto;
-    height: auto;
-    max-height: 100%;
-    max-width: 100%;
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
+    -webkit-transform: scale(1.04);
+    transform: scale(1.06);
 }
 
 .product-des-imgs {
@@ -2744,13 +2751,16 @@ hr {
     font-weight: 500;
 }
 
+
 .product-card .prod-img img {
     border-radius: 1rem;
-    padding: 0.5rem;
+    padding: 0;
     display: block;
     height: 100%;
     width: 100%;
+    object-fit: cover;
     transition: all 0.4s;
+    position: relative;
 }
 
 .food-card:hover {
@@ -2817,9 +2827,9 @@ hr {
     background: #fff;
 }
 
-.cart-remove-btn {
-    background: #fea629;
-    color: #fff;
+.cart-remove-btn,.plus-btn {
+    background: transparent;
+    color: #fea629;
     width: 2rem;
     height: 2rem;
     display: flex;
@@ -2827,7 +2837,10 @@ hr {
     justify-content: center;
     cursor: pointer;
     font-size: 1.2rem;
+    line-height: normal;
+    border-radius: 50%;
 }
+
 
 .remove-btn-absolute {
     position: absolute;
@@ -2844,9 +2857,9 @@ hr {
 .cart-remove-btn i {
     padding-top: 0.2rem;
 }
-.cart-remove-btn:hover {
+/* .cart-remove-btn:hover {
     background: #444;
-}
+} */
 
 .check-out-btn {
     border: none;
@@ -2858,8 +2871,49 @@ hr {
     font-size: 2rem;
     font-weight: bold;
 }
+.check-out-btn:hover{
+    background: #fea629;
+    color: #fff !important;
+}
 
 
 .footer-lgoo {
     max-width: 150px;
+}
+
+
+
+.added-cart-ctm{
+    background: transparent;
+    padding: 0.5rem 0.3rem;
+    transition: all 0.4s;
+
+}
+
+.food-card:hover .added-cart-ctm{
+    background: #fff;
+    box-shadow: 0 2px 16px 0 rgb(0 0 0 / 8%);
+}
+.quantity-box{
+    width: 3rem;
+}
+
+
+.cart-total-amount{
+    word-wrap: break-word;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #000000;
+}
+.right-ordertext-title{
+    word-wrap: break-word;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000000;
+}
+.right-ordertext-subtitle{
+    word-wrap: break-word;
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #666;
 }

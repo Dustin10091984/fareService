@@ -162,6 +162,7 @@ export const Cart = ({ data }) => {
     return (
         <>
             {/* <Loading loading={updateCart?.loading} /> */}
+            
             <div className="row m-0">
                 <div
                     className="col-md-12 mb-3"
@@ -171,16 +172,16 @@ export const Cart = ({ data }) => {
                     }}
                 >
                     <div className="text-center">
-                        <h3>Your Order</h3>
+                        <h3 className="right-ordertext-title">Your Order</h3>
                     </div>
                     <div className="text-center mb-5">
-                        <h5>Add item to your cart</h5>
+                        <h5 className="right-ordertext-subtitle">Add item to your cart</h5>
                     </div>
                     <div
                         style={{
                             overflow: "auto",
                             width: "100%",
-                            height: "80vh",
+                            maxHeight: "80vh",
                             paddingTop: "1rem",
                         }}
                     >
@@ -273,9 +274,13 @@ export const Cart = ({ data }) => {
                     <div className="col-4">
                         <span className=" float-right">35374</span>
                     </div> */}
-                <div className="col-8">Total</div>
+                <div className="col-8">
+                    <div className="cart-total-amount">
+                    Total
+                    </div>
+                </div>
                 <div className="col-4">
-                    <span className=" float-right">
+                    <span className="cart-total-amount float-right">
                         {`$${data?.total_price || "0"}`}
                     </span>
                 </div>
@@ -292,6 +297,7 @@ export const Cart = ({ data }) => {
                     )}
                 </div>
             </div>
+          
         </>
     );
 };
