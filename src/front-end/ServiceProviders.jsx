@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { getProviderList } from "../store/Slices/providers/providerListSclice";
+import {
+    getProviderList,
+    setStateProvider,
+} from "../store/Slices/providers/providerListSclice";
 import { getProviderSchedule } from "../store/Slices/providers/providerScheduleSclice";
 import { postRequestService } from "../store/Slices/services/RequestServiceSclice";
 import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
@@ -69,6 +72,7 @@ export const ServiceProviders = (props) => {
     useEffect(() => {
         return () => {
             dispatch(getInitialRequestService());
+            dispatch(setStateProvider(""));
         };
     }, []);
 
