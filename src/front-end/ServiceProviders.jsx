@@ -8,7 +8,10 @@ import {
 import { getProviderSchedule } from "../store/Slices/providers/providerScheduleSclice";
 import { postRequestService } from "../store/Slices/services/RequestServiceSclice";
 import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
-import { makeMovingRequest } from "../store/Slices/moving/movingSlice";
+import {
+    makeMovingRequest,
+    movingRequest,
+} from "../store/Slices/moving/movingSlice";
 import ServiceType from "../constants/ServiceType";
 import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
@@ -149,6 +152,7 @@ export const ServiceProviders = (props) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleGoToServicesHistory();
+                    dispatch(movingRequest(""));
                 }
             });
         }
