@@ -752,13 +752,18 @@ export const ServiceProviders = (props) => {
                                                                         </div>
                                                                         {provider
                                                                             ?.user_feedbacks[0] && (
-                                                                            <div className="review-detail">
-                                                                                {
-                                                                                    provider
-                                                                                        ?.user_feedbacks[0]
-                                                                                        .comment
-                                                                                }
-                                                                            </div>
+                                                                            <>
+                                                                                <div className="review-detail">
+                                                                                    {
+                                                                                        provider
+                                                                                            ?.user_feedbacks[0]
+                                                                                            .comment
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="review-rating">
+                                                                                    {/* ldskjflksdjflksdj */}
+                                                                                </div>
+                                                                            </>
                                                                         )}
                                                                     </div>
                                                                 </div>
