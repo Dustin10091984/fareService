@@ -43,7 +43,11 @@
 html {
     font-size: 9px;
 }
-
+@media (max-width:1191px) {
+    html {
+        font-size: 7px;
+    }
+}
 body {
     font-family: Product Sans;
 }
@@ -480,6 +484,7 @@ body {
     margin-top: 4rem;
 }
 
+
 .banner-image::after {
     content: "";
     display: block;
@@ -494,7 +499,14 @@ body {
     transform: translateY(-50%);
     z-index: -1;
 }
-
+@media (max-width:1191px) {
+    .banner-image::before {
+        right: -1rem;
+    }
+    .banner-image::after {
+        left: -1rem;
+    }
+}
 .services-sec {
     padding: 10rem 0rem 3.5rem;
 }
@@ -526,7 +538,13 @@ body {
     width: 35rem;
     height: 35rem;
     position: relative;
-    margin-bottom: 6.5rem;
+    margin-bottom: 4.5rem;
+}
+@media (max-width:1191px) {
+    .service-box {
+        width: 30rem;
+        height: 30rem;
+    }
 }
 
 .service-box .cat-title {
@@ -679,7 +697,8 @@ body {
 }
 
 .app-links {
-    width: 58.2rem;
+    max-width: 58.2rem;
+    width: 100%;
 }
 
 .shop-baner {
@@ -687,7 +706,8 @@ body {
 }
 
 .shop-baner .hany-shop-img {
-    width: 114rem;
+    max-width: 114rem;
+    width: 100%;
     height: 47.7rem;
     border-radius: 20px;
     overflow: hidden;
@@ -702,10 +722,15 @@ body {
     right: 13.6rem;
     z-index: -1;
 }
+.p-logo img {
+    max-width: 100%;
+    height: auto;
+}
 
 .shop-baner .hany-shop-img .inner-btn {
     position: absolute;
-    width: 120.8rem;
+    max-width: 120.8rem;
+    width: 100%;
     height: 33.5rem;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
