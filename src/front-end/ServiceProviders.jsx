@@ -14,7 +14,7 @@ import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-import "react-calendar/dist/Calendar.css";
+
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
@@ -848,11 +848,33 @@ export const ServiceProviders = (props) => {
                                             fontSize: "1.5rem",
                                         }}
                                     >
-                                        <Calendar
-                                            onChange={handleCalendarClick}
-                                            minDate={new Date()}
-                                            value={value}
-                                        />
+                                        {(() => {
+                                            let mindate = new Date();
+                                            let maxDate = new Date(
+                                                `${
+                                                    mindate.getMonth() + 2
+                                                }/${mindate.getDate()}/${mindate.getFullYear()}`
+                                            );
+                                            return (
+                                                <Calendar
+                                                    onChange={
+                                                        handleCalendarClick
+                                                    }
+                                                    minDate={mindate}
+                                                    maxDate={maxDate}
+                                                    value={value}
+                                                    maxDetail="month"
+                                                    // tileDisabled={({
+                                                    //     activeStartDate,
+                                                    //     date,
+                                                    //     view,
+                                                    // }) =>
+                                                    //     date.getDay() ===
+                                                    //     mindate.getDate()
+                                                    // }
+                                                />
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                                 <div

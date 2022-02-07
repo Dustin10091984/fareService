@@ -415,7 +415,7 @@ const Header = (props) => {
                                                 >
                                                     Login{" "}
                                                     <i
-                                                        class="fa fa-sign-in fa-1x"
+                                                        className="fa fa-sign-in fa-1x"
                                                         aria-hidden="true"
                                                     ></i>
                                                 </Link>

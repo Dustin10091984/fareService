@@ -11,7 +11,7 @@ import {
     getLatLng,
 } from "react-places-autocomplete";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+// import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 import Loading from "../common/Loading";
 
