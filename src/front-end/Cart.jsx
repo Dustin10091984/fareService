@@ -246,7 +246,7 @@ export const Cart = (props) => {
                                                         src={
                                                             "/assets/img/shop-home.jpg"
                                                         }
-                                                        class="img-fluid"
+                                                        className="img-fluid"
                                                         alt="..."
                                                     />
                                                 </div>

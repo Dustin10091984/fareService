@@ -305,15 +305,15 @@ const Header = (props) => {
                                                                                 <h4>
                                                                                     {
                                                                                         notification
-                                                                                            .data[0]
-                                                                                            .title
+                                                                                            ?.data[0]
+                                                                                            ?.title
                                                                                     }
                                                                                 </h4>
                                                                                 <p>
                                                                                     {
                                                                                         notification
-                                                                                            .data[0]
-                                                                                            .body
+                                                                                            ?.data[0]
+                                                                                            ?.body
                                                                                     }
                                                                                 </p>
                                                                             </div>
@@ -415,7 +415,7 @@ const Header = (props) => {
                                                 >
                                                     Login{" "}
                                                     <i
-                                                        class="fa fa-sign-in fa-1x"
+                                                        className="fa fa-sign-in fa-1x"
                                                         aria-hidden="true"
                                                     ></i>
                                                 </Link>
