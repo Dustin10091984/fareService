@@ -6,10 +6,10 @@ const movingSlice = createSlice({
     initialState: [],
     reducers: {
         vehicleTypes: (state, action) => {
-            return {list: action.payload};
+            return { list: action.payload };
         },
         movingRequest: (state, action) => {
-            return {movingRequest: action.payload};
+            return { movingRequest: action.payload };
         },
         initialvehicleTypes: (state, action) => {
             return action.payload;
@@ -19,6 +19,8 @@ const movingSlice = createSlice({
 export default movingSlice.reducer;
 
 const { vehicleTypes, movingRequest } = movingSlice.actions;
+
+const { movingRequest } = movingSlice.actions;
 
 export const getVehicleTypes = () => async dispatch => {
     try {
@@ -45,7 +47,7 @@ export const makeMovingRequest = (data) => async dispatch => {
         dispatch(movingRequest({ error: false, loading: true }));
         await axios({
             method: 'post',
-            headers: {Authorization: `${localStorage.userToken}`},
+            headers: { Authorization: `${localStorage.userToken}` },
             url: process.env.REACT_APP_API_BASE_URL + `/api/user/order/move-request`,
             data: data
         }).then((response) => {
