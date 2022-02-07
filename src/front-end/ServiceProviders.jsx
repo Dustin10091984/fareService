@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { getProviderList } from "../store/Slices/providers/providerListSclice";
+import {
+    getProviderList,
+    setStateProvider,
+} from "../store/Slices/providers/providerListSclice";
 import { getProviderSchedule } from "../store/Slices/providers/providerScheduleSclice";
 import { postRequestService } from "../store/Slices/services/RequestServiceSclice";
 import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
-import { makeMovingRequest } from "../store/Slices/moving/movingSlice";
+import {
+    makeMovingRequest,
+    movingRequest,
+} from "../store/Slices/moving/movingSlice";
 import ServiceType from "../constants/ServiceType";
 import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-import "react-calendar/dist/Calendar.css";
+
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
@@ -69,6 +75,7 @@ export const ServiceProviders = (props) => {
     useEffect(() => {
         return () => {
             dispatch(getInitialRequestService());
+            dispatch(setStateProvider(""));
         };
     }, []);
 
@@ -145,6 +152,7 @@ export const ServiceProviders = (props) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleGoToServicesHistory();
+                    dispatch(movingRequest(""));
                 }
             });
         }
@@ -680,7 +688,8 @@ export const ServiceProviders = (props) => {
                                                         <div className="user-price">
                                                             {provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate
+                                                                ?.hourly_rate !==
+                                                            null
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
                                                                 : ""}
                                                         </div>
@@ -744,13 +753,18 @@ export const ServiceProviders = (props) => {
                                                                         </div>
                                                                         {provider
                                                                             ?.user_feedbacks[0] && (
-                                                                            <div className="review-detail">
-                                                                                {
-                                                                                    provider
-                                                                                        ?.user_feedbacks[0]
-                                                                                        .comment
-                                                                                }
-                                                                            </div>
+                                                                            <>
+                                                                                <div className="review-detail">
+                                                                                    {
+                                                                                        provider
+                                                                                            ?.user_feedbacks[0]
+                                                                                            .comment
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="review-rating">
+                                                                                    {/* ldskjflksdjflksdj */}
+                                                                                </div>
+                                                                            </>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -844,11 +858,33 @@ export const ServiceProviders = (props) => {
                                             fontSize: "1.5rem",
                                         }}
                                     >
-                                        <Calendar
-                                            onChange={handleCalendarClick}
-                                            minDate={new Date()}
-                                            value={value}
-                                        />
+                                        {(() => {
+                                            let mindate = new Date();
+                                            let maxDate = new Date(
+                                                `${
+                                                    mindate.getMonth() + 2
+                                                }/${mindate.getDate()}/${mindate.getFullYear()}`
+                                            );
+                                            return (
+                                                <Calendar
+                                                    onChange={
+                                                        handleCalendarClick
+                                                    }
+                                                    minDate={mindate}
+                                                    maxDate={maxDate}
+                                                    value={value}
+                                                    maxDetail="month"
+                                                    // tileDisabled={({
+                                                    //     activeStartDate,
+                                                    //     date,
+                                                    //     view,
+                                                    // }) =>
+                                                    //     date.getDay() ===
+                                                    //     mindate.getDate()
+                                                    // }
+                                                />
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                                 <div

@@ -187,8 +187,9 @@ export const ProviderProfile = (props) => {
                         </div>
 
                         <div className="col-md-8 mt-5">
-                            {providerProfile?.data?.provider?.portfolios && (
-                                <div className="job-provider-card p-5">
+                            <div className="job-provider-card p-5">
+                                {providerProfile?.data?.provider?.portfolios
+                                    .length < 0 ? (
                                     <div
                                         style={{
                                             height: "45vh",
@@ -301,19 +302,16 @@ export const ProviderProfile = (props) => {
                                             </span>
                                         </button>
                                     </div>
-                                    {/* <div className="useer-qust mt-0 mb-3 mt-5">
-                                        <div className="title">
-                                            Portfolio Details
-                                        </div>
-                                        <div className="des">
-                                            {
-                                                providerProfile?.data?.provider
-                                                    ?.portfolio?.description
-                                            }
-                                        </div>
-                                    </div> */}
-                                </div>
-                            )}
+                                ) : (
+                                    <center
+                                        className="col-12 alert alert-warnig"
+                                        role="alert"
+                                        style={{ fontSize: 20 }}
+                                    >
+                                        Not have Portfolio
+                                    </center>
+                                )}
+                            </div>
                             <div className="job-provider-card">
                                 {(() => {
                                     if (

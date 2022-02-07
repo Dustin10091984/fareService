@@ -982,10 +982,10 @@ body {
     overflow: hidden;
     background-size: contain;
     background-size: cover;
-    background-size: 100% 100%;  position: relative;
+    background-size: 100% 100%;
+    position: relative;
 }
-.product-card .prod-img::after{
-  
+.product-card .prod-img::after {
     display: block;
     content: "";
     position: absolute;
@@ -994,7 +994,7 @@ body {
     bottom: 0;
     right: 0;
     z-index: 5;
-    background-color: rgba(0,0,0,.04);
+    background-color: rgba(0, 0, 0, 0.04);
 }
 
 .product-card .prod-tag {
@@ -2776,7 +2776,6 @@ hr {
     font-weight: 500;
 }
 
-
 .product-card .prod-img img {
     border-radius: 1rem;
     padding: 0;
@@ -2852,7 +2851,8 @@ hr {
     background: #fff;
 }
 
-.cart-remove-btn,.plus-btn {
+.cart-remove-btn,
+.plus-btn {
     background: transparent;
     color: #fea629;
     width: 2rem;
@@ -2865,7 +2865,6 @@ hr {
     line-height: normal;
     border-radius: 50%;
 }
-
 
 .remove-btn-absolute {
     position: absolute;
@@ -2896,49 +2895,111 @@ hr {
     font-size: 2rem;
     font-weight: bold;
 }
-.check-out-btn:hover{
+.check-out-btn:hover {
     background: #fea629;
     color: #fff !important;
 }
-
 
 .footer-lgoo {
     max-width: 150px;
 }
 
-
-
-.added-cart-ctm{
+.added-cart-ctm {
     background: transparent;
     padding: 0.5rem 0.3rem;
     transition: all 0.4s;
-
 }
 
-.food-card:hover .added-cart-ctm{
+.food-card:hover .added-cart-ctm {
     background: #fff;
     box-shadow: 0 2px 16px 0 rgb(0 0 0 / 8%);
 }
-.quantity-box{
+.quantity-box {
     width: 3rem;
 }
 
-
-.cart-total-amount{
+.cart-total-amount {
     word-wrap: break-word;
     font-size: 1.7rem;
     font-weight: bold;
     color: #000000;
 }
-.right-ordertext-title{
+.right-ordertext-title {
     word-wrap: break-word;
     font-size: 2rem;
     font-weight: bold;
     color: #000000;
 }
-.right-ordertext-subtitle{
+.right-ordertext-subtitle {
     word-wrap: break-word;
     font-size: 1.8rem;
     font-weight: 500;
     color: #666;
+}
+
+.container {
+    padding: 2em;
+}
+
+.react-calendar {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.react-calendar__viewContainer button:disabled {
+    background: #ccc;
+    /* border-radius: 50%; */
+}
+
+/* year */
+.react-calendar__navigation__arrow {
+    background: none;
+    border-width: 0;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.react-calendar__navigation__label {
+    background: none;
+    border-width: 0;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+/* weekdays */
+.react-calendar__month-view__weekdays__weekday {
+    text-align: center;
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+    color: gray;
+    border-bottom: 1px solid lightgray;
+}
+
+.react-calendar__month-view__weekdays__weekday > abbr {
+    text-decoration: none;
+}
+
+/* days */
+.react-calendar__tile {
+    padding: 1em;
+    border-width: 0;
+    background-color: white;
+    cursor: pointer;
+    transition-duration: 0.2s;
+}
+
+.react-calendar__tile:not(.tile--active):hover {
+    background-color: #fea629;
+    /* border-radius: 50%; */
+}
+
+.react-calendar__month-view__days__day--neighboringMonth:not(.tile--active) {
+    opacity: 0.5;
+    /* border-radius: 50%; */
+}
+
+.react-calendar__tile--active {
+    background-color: #fea629;
+    /* border-radius: 50%; */
+    color: white;
 }

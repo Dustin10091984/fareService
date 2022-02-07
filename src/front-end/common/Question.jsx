@@ -113,7 +113,7 @@ export const Question = (props) => {
                 // var queryString = Object.keys(select).map(key => key[9] + '=' + `${select[key]}`).join('&');
                 props.history.push({
                     pathname: "/service-providers",
-                    search: `?zipCode=${state.zipCode}&service=${serviceId}&subService=${subServiceId}`,
+                    search: `?zipCode=${state.zipCode}&subService=${subServiceId}`,
                     state: select,
                 });
             } else {

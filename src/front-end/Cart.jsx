@@ -246,7 +246,7 @@ export const Cart = (props) => {
                                                         src={
                                                             "/assets/img/shop-home.jpg"
                                                         }
-                                                        class="img-fluid"
+                                                        className="img-fluid"
                                                         alt="..."
                                                     />
                                                 </div>
@@ -329,7 +329,6 @@ export const Cart = (props) => {
                                                                     src={
                                                                         (food?.image &&
                                                                             `${HOST}${food.image}`) ||
-                                                                        "/assets/img/cart-prod.jpg" ||
                                                                         (product?.image &&
                                                                             `${HOST}${product.image}`) ||
                                                                         "/assets/img/cart-prod.jpg"
