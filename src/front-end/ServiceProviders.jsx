@@ -688,7 +688,8 @@ export const ServiceProviders = (props) => {
                                                         <div className="user-price">
                                                             {provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate
+                                                                ?.hourly_rate !==
+                                                            null
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
                                                                 : ""}
                                                         </div>
