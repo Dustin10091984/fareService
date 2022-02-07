@@ -18,9 +18,9 @@ const movingSlice = createSlice({
 });
 export default movingSlice.reducer;
 
-const { vehicleTypes, movingRequest } = movingSlice.actions;
+const { vehicleTypes } = movingSlice.actions;
 
-const { movingRequest } = movingSlice.actions;
+export const { movingRequest } = movingSlice.actions;
 
 export const getVehicleTypes = () => async dispatch => {
     try {
