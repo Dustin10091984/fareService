@@ -68,7 +68,7 @@ const Header = (props) => {
     const header_menu = state.header_menu.map((menu, idx) => {
         return (
             <li className="nav-item" key={`menu-${idx}`} style={{ zIndex: 10 }}>
-                <a className="nav-link active" href="#">
+                <a className="nav-link" href="#">
                     {menu.name}{" "}
                     <i className="fa fa-angle-down pl-1" aria-hidden="true"></i>
                 </a>
@@ -113,25 +113,23 @@ const Header = (props) => {
             <header className="header-sec">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-12 d-flex align-items-center justify-content-between">
+                        <div className="col-md-12 d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
                             <div className="header-logo">
                                 <Link to="/">
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""
                                         className="img-fluid"
-                                        style={{
-                                            height: "15vh",
-                                            width: "auto",
-                                        }}
+                                        // style={{
+                                        //     height: "15vh",
+                                        //     width: "auto",
+                                        // }}
                                     />
                                 </Link>
                             </div>
 
-                            <div className="header-search d-flex align-items-center">
-                                {/* <Link to="/shop" className="serch-title">
-                      shop
-                    </Link> */}
+                            <div className="header-search d-flex align-items-center order-2 order-md-1">
+                            
                                 <form action="">
                                     <div className="input-box d-flex align-items-center">
                                         <div className="icon-div">
@@ -161,9 +159,9 @@ const Header = (props) => {
                                     </div>
                                 </form>
                             </div>
-                            <div className="d-flex align-items-center">
+                            <div className="d-flex align-items-center order-1 order-md-2">
                                 <div className="header-links-login">
-                                    <ul className="nav-l d-flex">
+                                    <ul className="nav-l d-flex align-items-center">
                                         {/* <li className="item-list">
                                             <Link to="/cart" className="link">
                                                 <i
@@ -220,16 +218,10 @@ const Header = (props) => {
                                                     }}
                                                 >
                                                     {state.notificationOpen && (
-                                                        <i
-                                                            className="fa fa-times fa-1x"
-                                                            aria-hidden="true"
-                                                        ></i>
+                                                       <img src="/assets/img/outline-bell.svg" className="img-fluid"/>
                                                     )}
                                                     {!state.notificationOpen && (
-                                                        <i
-                                                            className="fa fa-bell fa-xl"
-                                                            aria-hidden="true"
-                                                        ></i>
+                                                        <img src="/assets/img/outline-bell.svg" className="img-fluid"/>
                                                     )}
                                                     {state?.notificationOpen && (
                                                         <div
@@ -354,14 +346,11 @@ const Header = (props) => {
                                                             cursor: "pointer",
                                                         }}
                                                     >
-                                                        <i
-                                                            className="fa fa-user fa-lg"
-                                                            aria-hidden="true"
-                                                        ></i>
-                                                        <i
+                                                        <img src="/assets/img/outline-user.svg" className="img-fluid"/>
+                                                        {/* <i
                                                             className="fa fa-sort-desc ml-2"
                                                             aria-hidden="true"
-                                                        ></i>
+                                                        ></i> */}
                                                     </div>
 
                                                     <div
@@ -432,7 +421,7 @@ const Header = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <nav className="navbar navbar-expand-lg navbar-light">
+                            <nav className="navbar navbar-expand-md navbar-light">
                                 <button
                                     className="navbar-toggler"
                                     type="button"
@@ -456,7 +445,7 @@ const Header = (props) => {
                                         >
                                             <Link
                                                 to={`/restaurants`}
-                                                className="nav-link active"
+                                                className="nav-link"
                                             >
                                                 {"Restaurants "}
                                             </Link>
@@ -467,7 +456,7 @@ const Header = (props) => {
                                         >
                                             <Link
                                                 to={`/grocery-stores`}
-                                                className="nav-link active"
+                                                className="nav-link"
                                             >
                                                 {"Grocery Stores "}
                                             </Link>

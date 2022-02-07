@@ -15,7 +15,7 @@ export class Footer extends Component{
                <footer className="footer-sec pt-5 mt-3">
                    <div className="container">
                        <div className="row">
-                           <div className="col-md-3">
+                           <div className="col-6 col-md-3">
                                <ul className="footer-link">
                                    <li className="item pt-0">
                                        <a href="#" className="link">
@@ -69,8 +69,8 @@ export class Footer extends Component{
                                    </li>
                                </ul>
                            </div>
-                           <div className="col-md-3">
-                               <div className="d-flex align-items-center justify-content-center">
+                           <div className="col-6 col-md-3">
+                               <div className="d-flex align-items-center justify-content-md-center">
                                    <ul className="footer-link">
                                        <div className="title">LOCATION</div>
                                        <li className="item">
@@ -121,8 +121,8 @@ export class Footer extends Component{
                                    </ul>
                                </div>
                            </div>
-                           <div className="col-md-3">
-                               <div className="d-flex align-items-center justify-content-center">
+                           <div className="col-6 col-md-3">
+                               <div className="d-flex align-items-center justify-content-md-center">
                                    <ul className="footer-link">
                                        <div className="title">
                                            POPULAR SERVICES
@@ -175,8 +175,8 @@ export class Footer extends Component{
                                    </ul>
                                </div>
                            </div>
-                           <div className="col-md-3">
-                               <div className="d-flex align-items-center justify-content-center">
+                           <div className="col-6 col-md-3">
+                               <div className="d-flex align-items-center justify-content-md-center">
                                    <ul className="footer-link">
                                        <div className="title">
                                            POPULAR SEARCHES
@@ -246,8 +246,8 @@ export class Footer extends Component{
                <footer className="footer-sec2">
                    <div className="container">
                        <div className="row">
-                           <div className="col-md-12 d-flex align-items-center justify-content-between">
-                               <div className="footer-lgoo">
+                           <div className="col-md-12 d-flex align-items-center justify-content-between flex-column flex-md-row">
+                               <div className="footer-lgoo mb-5">
                                    <img
                                        src="/assets/img/logo.png"
                                        className="img-fluid"
@@ -255,7 +255,7 @@ export class Footer extends Component{
                                    />
                                </div>
 
-                               <div className="footer-about">
+                               <div className="footer-about text-center text-md-left mb-5">
                                    <p>
                                        Connect with us on social media - Be part
                                        of our budding community and share your
@@ -319,13 +319,13 @@ export class Footer extends Component{
                <div className="copyright-sec">
                    <div className="container">
                        <div className="row">
-                           <div className="col-12 d-flex align-items-center justify-content-between">
+                           <div className="col-12 d-flex align-items-center justify-content-between flex-column flex-md-row">
                                <div className="copy-des">
                                    2020 Handy. All rights reserved.
                                </div>
 
-                               <div className="footer-info-link">
-                                   <ul className="d-flex align-items-center">
+                               <div className="footer-info-link mt-5">
+                                   <ul className="d-flex align-items-center justify-content-center  flex-wrap flex-md-nowrap">
                                        <li>
                                            <a href="#">Contact</a>
                                        </li>

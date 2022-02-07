@@ -1,0 +1,105 @@
+@media (max-width:991px) {
+    .stre-detail {
+    margin-bottom: 0rem;
+    height: auto;
+
+    max-width: 100%;
+}
+.pad-y,.services-sec{
+    padding: 5rem 0;
+}
+.pad-t{
+    padding-top: 5rem 
+}
+.service-card-des .src-image-box {
+    width: 58rem;
+    min-width: 58rem;
+    height: 38rem;
+}
+
+
+
+}
+
+
+@media (max-width:767px) {
+    .service-card-des{
+        flex-wrap: wrap;
+        margin-bottom: 5rem;
+    }
+    .team-card{
+        margin-bottom: 5rem;
+        height: auto;
+    }
+    .service-card-des .src-image-box{
+        margin-bottom: 2rem;
+        width: 100%;
+    min-width: 100%;
+    height: auto;
+    }
+    .service-card-des:nth-child(even) .src-image-box{
+        order: 0;
+        margin-left: 0;
+
+    }
+    .service-card-des:nth-child(even) .service-card-detail {
+        order: 1;
+    }
+    .hanfy-card {
+        margin-bottom: 5rem;
+    }
+    .hanfy-card .inner-card-handy{
+        margin: 0 auto;
+    }
+    .common-heading{
+        margin-bottom: 5rem;
+    }
+    .footer-about{
+        max-width: 100%;
+    }
+.shop-baner .hany-shop-img img{
+height: 100%;
+object-fit: cover;
+}
+    html{
+        font-size: 6px;
+    }
+    .banner-sec {
+        padding: 5rem 0rem;
+    }
+    .input-box{
+        width: 93vw;
+        margin-top: 2rem;
+    }
+    .banner-image{
+        max-width: 100%;
+    }
+    .pad-y,.services-sec{
+        padding: 3rem 0;
+    }
+    .service-box {
+        flex: 0 0 48%;
+    }
+
+    .copyright-sec{
+        padding: 1.5rem 0rem;
+    }
+    .phone-box {
+        max-width: 50%;
+        margin: 0 auto;
+    }
+    
+}
+
+@media (max-width:425px) {
+    .service-box {
+        /* flex: 0 0 100%; */
+    height: 24rem;
+    }
+}
+@media (max-width:325px) {
+    .service-box {
+        /* flex: 0 0 100%; */
+    height: 20rem;
+    }
+}

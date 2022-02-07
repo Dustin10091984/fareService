@@ -7,8 +7,8 @@ export const Index = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <div className="banner-sec d-flex align-items-center justify-content-between">
-                                <div className="banner-text">
+                            <div className="banner-sec d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
+                                <div className="banner-text mb-5 mb-md-0">
                                     <div className="title">The easy, </div>
                                     <div className="subtitle">
                                         reliable way to take care of your home.
@@ -159,7 +159,7 @@ export const Index = (props) => {
                         </div>
 
                         <div className="col-12">
-                            <div className="back-check-box d-flex align-items-center justify-content-between">
+                            <div className="back-check-box d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
                                 <div className="check-img">
                                     <img
                                         src="/assets/img/back-check-layer.svg"

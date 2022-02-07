@@ -361,6 +361,10 @@ body {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    padding: 1rem;
+}
+.social .item a img{
+    height: 100%;
 }
 
 .social .item.facebook {
@@ -395,9 +399,9 @@ body {
     background: rgba(72, 198, 106, 0.8);
 }
 
-.footer-sec2 {
+/* .footer-sec2 {
     padding: 6rem 0rem;
-}
+} */
 
 .copyright-sec {
     padding: 3.5rem 0rem;
@@ -700,6 +704,11 @@ body {
     max-width: 58.2rem;
     width: 100%;
 }
+@media (max-width:991px) {
+    .app-links a{
+      margin: 0 1rem;
+    }   
+}
 
 .shop-baner {
     position: relative;
@@ -745,6 +754,7 @@ body {
     max-width: 56.5rem;
     height: 26.6rem;
 }
+
 
 .stre-detail .title {
     font-style: normal;
@@ -1343,7 +1353,8 @@ body {
 }
 
 .hanfy-card .inner-card-handy {
-    width: 35rem;
+    max-width: 35rem;
+    width: 100%;
     height: 35rem;
     background: #ffffff;
     border-radius: 2rem;
@@ -1618,9 +1629,9 @@ body {
 }
 
 .time-list {
-    /* width: 29.2rem; */
+    width: 29.2rem;
     margin: auto;
-    /* margin-top: 4rem; */
+    margin-top: 4rem;
 }
 
 .time-list li {
@@ -1640,10 +1651,10 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* .time-list li:hover { */
-/* background: #FEA629;
-  color: #fff; */
-/* } */
+.time-list li:hover {
+background: #FEA629;
+  color: #fff;
+}
 
 .common-input {
     width: 100%;
@@ -2900,9 +2911,9 @@ hr {
     color: #fff !important;
 }
 
-.footer-lgoo {
+/* .footer-lgoo {
     max-width: 150px;
-}
+} */
 
 .added-cart-ctm {
     background: transparent;
