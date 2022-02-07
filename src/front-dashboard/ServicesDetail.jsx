@@ -121,7 +121,7 @@ export const ServicesDetail = (props) => {
                                                             </div> */}
                                                             <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
                                                                 <Rating
-                                                                    rating={data?.provider?.rating.toFixed(
+                                                                    rating={data?.provider?.rating?.toFixed(
                                                                         1
                                                                     )}
                                                                     isCenter={
