@@ -102,4 +102,10 @@ object-fit: cover;
         /* flex: 0 0 100%; */
     height: 20rem;
     }
+    html{
+        font-size: 5px;
+    }
+    .moving-search-box {
+        padding: 1rem;
+    }
 }

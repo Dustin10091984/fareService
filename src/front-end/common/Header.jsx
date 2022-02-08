@@ -219,16 +219,22 @@ const Header = (props) => {
                                                     }}
                                                 >
                                                     {state.notificationOpen && (
+                                                       <div>
+                                                           <span className="user-name-farenow">Notification</span> 
                                                         <img
                                                             src="/assets/img/outline-bell.svg"
                                                             className="img-fluid"
                                                         />
+                                                       </div>
                                                     )}
                                                     {!state.notificationOpen && (
+                                                         <div>
+                                                        <span className="user-name-farenow">Notification</span> 
                                                         <img
                                                             src="/assets/img/outline-bell.svg"
                                                             className="img-fluid"
                                                         />
+                                                        </div>
                                                     )}
                                                     {state?.notificationOpen && (
                                                         <div
@@ -353,6 +359,7 @@ const Header = (props) => {
                                                             cursor: "pointer",
                                                         }}
                                                     >
+                                                        <span className="user-name-farenow">Jhon</span>
                                                         <img
                                                             src="/assets/img/outline-user.svg"
                                                             className="img-fluid"
@@ -364,7 +371,7 @@ const Header = (props) => {
                                                     </div>
 
                                                     <div
-                                                        className="dropdown-menu dropdown-menu-right mt-2"
+                                                        className="dropdown-menu dropdown-menu-right mt-2 user-dropdown-menu"
                                                         aria-labelledby="dropdownMenuLink"
                                                         style={{
                                                             fontSize: "1.5rem",

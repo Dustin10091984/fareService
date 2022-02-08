@@ -187,12 +187,12 @@ export const Moving = (props) => {
                         );
                     }
                 })()}
-                <div className="col-md-12 col-sm-12 mb-5">
+                <div className="col-lg-8 mb-5 mx-auto mt-5">
                     <div className="row justify-content-center">
                         {(() => {
                             return data?.map((item, index) => (
                                 <div
-                                    className="col-md-3 col-sm-6 col-xs-12"
+                                    className="col-6 col-md-4"
                                     key={index}
                                 >
                                     <div
@@ -214,7 +214,7 @@ export const Moving = (props) => {
                                         }
                                     >
                                         <div
-                                            className="d-flex flex-column justify-content-center align-items-center m-3"
+                                            className="d-flex flex-column justify-content-end align-items-center flex-column m-3 moving-vehiclei-box"
                                             style={{ fontSize: 15 }}
                                         >
                                             {item.image ? (
@@ -226,10 +226,6 @@ export const Moving = (props) => {
                                                     }
                                                     className="img-fluid m-1"
                                                     alt="..."
-                                                    style={{
-                                                        height: "12rem",
-                                                        width: "12rem",
-                                                    }}
                                                 />
                                             ) : (
                                                 <i
@@ -237,7 +233,7 @@ export const Moving = (props) => {
                                                     aria-hidden="true"
                                                 ></i>
                                             )}
-                                            {item.title}
+                                            <div className="vehicle-title mt-3">{item.title}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +245,7 @@ export const Moving = (props) => {
                 <div className="col-12 mt-5">
                     <div className="row justify-content-center">
                         <div
-                            className="col-8 p-5"
+                            className="col-lg-8 p-5"
                             style={{
                                 boxShadow: `.01rem .01rem .5rem .5rem ${"#cccccc"}`,
                                 borderRadius: ".5rem",
@@ -258,8 +254,9 @@ export const Moving = (props) => {
                             <div className="title-move mb-5">
                                 please select your moving location.
                             </div>
+                            <div className="mb-3">
                             <div
-                                className="col-md-12 text-dark"
+                                className="col-md-12 px-0 text-dark"
                                 style={{ fontSize: "2rem" }}
                             >
                                 Moving From
@@ -344,8 +341,10 @@ export const Moving = (props) => {
                                     )}
                                 </PlacesAutocomplete>
                             </div>
+                            </div>
+                            <div className="mb-3">
                             <div
-                                className="col-md-12 text-dark"
+                                className="col-md-12 px-0 text-dark"
                                 style={{ fontSize: "2rem" }}
                             >
                                 Moving To
@@ -430,8 +429,10 @@ export const Moving = (props) => {
                                     )}
                                 </PlacesAutocomplete>
                             </div>
-                            <div
-                                className="col-md-12 text-dark"
+                            </div>
+                           <div className="mb-3">
+                           <div
+                                className="col-md-12 px-0 text-dark"
                                 style={{ fontSize: "2rem" }}
                             >
                                 Moving Date
@@ -462,8 +463,10 @@ export const Moving = (props) => {
                                     }
                                 />
                             </div>
-                            <div
-                                className="col-md-12 text-dark"
+                           </div>
+                           <div className="mb-3">
+                           <div
+                                className="col-md-12 px-0 text-dark"
                                 style={{ fontSize: "2rem" }}
                             >
                                 Zip Code
@@ -483,6 +486,7 @@ export const Moving = (props) => {
                                     onChange={handleChangeZipCode}
                                 />
                             </div>
+                           </div>
                             <div className="col-md-12 text-danger">
                                 {state?.zipCodeDataErr}
                             </div>
