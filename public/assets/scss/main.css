@@ -43,7 +43,7 @@
 html {
     font-size: 9px;
 }
-@media (max-width:1191px) {
+@media (max-width: 1191px) {
     html {
         font-size: 7px;
     }
@@ -363,7 +363,7 @@ body {
     justify-content: center;
     padding: 1rem;
 }
-.social .item a img{
+.social .item a img {
     height: 100%;
 }
 
@@ -488,7 +488,6 @@ body {
     margin-top: 4rem;
 }
 
-
 .banner-image::after {
     content: "";
     display: block;
@@ -503,7 +502,7 @@ body {
     transform: translateY(-50%);
     z-index: -1;
 }
-@media (max-width:1191px) {
+@media (max-width: 1191px) {
     .banner-image::before {
         right: -1rem;
     }
@@ -544,7 +543,7 @@ body {
     position: relative;
     margin-bottom: 4.5rem;
 }
-@media (max-width:1191px) {
+@media (max-width: 1191px) {
     .service-box {
         width: 30rem;
         height: 30rem;
@@ -704,10 +703,10 @@ body {
     max-width: 58.2rem;
     width: 100%;
 }
-@media (max-width:991px) {
-    .app-links a{
-      margin: 0 1rem;
-    }   
+@media (max-width: 991px) {
+    .app-links a {
+        margin: 0 1rem;
+    }
 }
 
 .shop-baner {
@@ -754,7 +753,6 @@ body {
     max-width: 56.5rem;
     height: 26.6rem;
 }
-
 
 .stre-detail .title {
     font-style: normal;
@@ -1652,8 +1650,8 @@ body {
 }
 
 .time-list li:hover {
-background: #FEA629;
-  color: #fff;
+    background: #fea629;
+    color: #fff;
 }
 
 .common-input {
@@ -3013,4 +3011,16 @@ hr {
     background-color: #fea629;
     /* border-radius: 50%; */
     color: white;
+}
+
+.service-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 20vh;
+}
+
+.error-color {
+    color: #d72727;
+    font-size: 2.5rem;
 }
