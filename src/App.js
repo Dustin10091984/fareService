@@ -32,7 +32,7 @@ import { RestaurantPage } from './front-end/RestaurantPage';
 import { GroceryStorePage } from './front-end/GroceryStorePage';
 import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
-import { Services } from './front-end/Services';
+import { ServicesPage } from './views/ServicesPage';
 import { Dashboard } from './front-dashboard/Dashboard';
 import { OrderHistory } from './front-dashboard/OrderHistory';
 import { FoodDelivery } from './front-dashboard/FoodDelivery';
@@ -164,8 +164,8 @@ function App() {
           <Route path='/restaurants' component={Restaurant} />
           <Route path='/restaurant-page/:id' component={RestaurantPage} />
           <Route path='/food-details' component={FoodDetails} />
-          <Route path='/services/:serviceId/:subServiceId' component={Services} />
-          <Route path='/services' component={Services} />
+          <Route path='/services/:serviceId/:subServiceId' component={ServicesPage} />
+          <Route path='/services' component={ServicesPage} />
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
           <Route path='/product-delivery' component={ProductDelivery} />
