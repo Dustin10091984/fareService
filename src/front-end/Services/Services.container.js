@@ -3,7 +3,7 @@ import { Services } from './Services.jsx';
 // import { providerSignup, verifyPhoneNo } from "./../../store/Slices/providers/registration";
 
 const mapStateToProps = (state) => ({
-    // providerSignup: state.registrationReducer?.signupProvider,
+    headerMenu: state.headerMenuReducer,
     // verifyOpt: state.registrationReducer?.verify,
 });
 

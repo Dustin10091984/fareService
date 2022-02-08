@@ -6,6 +6,7 @@ import { Chat } from "../Chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { getNotifications } from "../../store/Slices/notification";
 import { useHistory } from "react-router-dom";
+import { headerMenu } from "../../store/Slices/HeaderMenuSlice";
 
 const Header = (props) => {
     const [state, setState] = useState({
@@ -41,6 +42,7 @@ const Header = (props) => {
                     ...state,
                     header_menu: response.data.data,
                 }));
+                dispatch(headerMenu(response.data.data));
             })
             .catch((error) => {
                 //handle error
@@ -129,7 +131,6 @@ const Header = (props) => {
                             </div>
 
                             <div className="header-search d-flex align-items-center order-2 order-md-1">
-                            
                                 <form action="">
                                     <div className="input-box d-flex align-items-center">
                                         <div className="icon-div">
@@ -218,10 +219,16 @@ const Header = (props) => {
                                                     }}
                                                 >
                                                     {state.notificationOpen && (
-                                                       <img src="/assets/img/outline-bell.svg" className="img-fluid"/>
+                                                        <img
+                                                            src="/assets/img/outline-bell.svg"
+                                                            className="img-fluid"
+                                                        />
                                                     )}
                                                     {!state.notificationOpen && (
-                                                        <img src="/assets/img/outline-bell.svg" className="img-fluid"/>
+                                                        <img
+                                                            src="/assets/img/outline-bell.svg"
+                                                            className="img-fluid"
+                                                        />
                                                     )}
                                                     {state?.notificationOpen && (
                                                         <div
@@ -346,7 +353,10 @@ const Header = (props) => {
                                                             cursor: "pointer",
                                                         }}
                                                     >
-                                                        <img src="/assets/img/outline-user.svg" className="img-fluid"/>
+                                                        <img
+                                                            src="/assets/img/outline-user.svg"
+                                                            className="img-fluid"
+                                                        />
                                                         {/* <i
                                                             className="fa fa-sort-desc ml-2"
                                                             aria-hidden="true"

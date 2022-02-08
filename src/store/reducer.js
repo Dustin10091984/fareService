@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import HeaderMenuSlice from "./Slices/HeaderMenuSlice";
 import userSclice from "./Slices/UserSlice";
 import serviceSclice from "./Slices/services/ServiceSclice";
 import requestServiceSlice from "./Slices/services/RequestServiceSclice";
@@ -20,6 +21,7 @@ import categorySlice from "./Slices/category/index";
 import notificationSlice from "./Slices/notification";
 
 export default combineReducers({
+    headerMenuReducer: HeaderMenuSlice,
     userReducer: userSclice,
     service: serviceSclice,
     serviceRequest: requestServiceSlice,
