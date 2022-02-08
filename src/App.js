@@ -86,8 +86,8 @@ function App() {
         .catch((error) => {
           // console.log(error.response.data.message);
         });
+      dispatch(getCartList());
     }
-    dispatch(getCartList());
   }, []);
 
   window.io = io;

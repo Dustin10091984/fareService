@@ -1,99 +1,266 @@
-const Service = ({ headerMenu, ...props }) => {
-    const { serviceId, subServiceId } = props.match.params;
-    console.log(serviceId, subServiceId, headerMenu);
-    const service = headerMenu.find((item) => item.id == serviceId);
-    const sub_service = service?.sub_services.find(
-        (item) => item.id == subServiceId
-    );
+import { useEffect, Fragment } from "react";
+const Service = ({
+    headerMenu,
+    getServiceQuestion,
+    serviceData,
+    service,
+    handleZipCodeChange,
+    handleSelectZipCode,
+    handleChangeQuestion,
+    ...props
+}) => {
+    const {
+        match: {
+            params: { subServiceId },
+        },
+    } = props;
+    useEffect(() => {
+        getServiceQuestion(subServiceId);
+    }, [subServiceId]);
+
     return (
         <div className="moving-search-box house-cleaning-sec">
-            <div className="title-move mb-5">{sub_service?.name}</div>
-            <div className="d-flex justify-content-between">
-                <div className="m-search-left-box w-100">
-                    <div className="mb-4 d-flex align-items-center justify-content-between">
-                        <div className="common-input mx-3">
-                            <input type="text" placeholder="Zip Code" />
-                        </div>
-                        <div className="common-input mx-3">
-                            <input type="text" placeholder="State" />
-                        </div>
-                        {/* <div className="common-input">
-                                                    <input type="text" placeholder="City" />
-                                                </div> */}
-                    </div>
-
-                    <div className="d-flex justify-content-between">
-                        <div className="common-input mb-4 mx-3">
-                            <select name="" id="">
-                                <option value="">1 Bedroom</option>
-                                <option value="">2 Bedroom</option>
-                                <option value="">3 Bedroom</option>
-                                <option value="">4 Bedroom</option>
-                                <option value="">5 Bedroom</option>
-                            </select>
-                        </div>
-
-                        <div className="common-input mb-4 mx-3">
-                            <select name="" id="">
-                                <option value="">1 Bedroom</option>
-                                <option value="">2 Bedroom</option>
-                                <option value="">3 Bedroom</option>
-                                <option value="">4 Bedroom</option>
-                                <option value="">5 Bedroom</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="mb-4 d-flex align-items-center justify-content-between">
-                        <div className="common-input mx-3">
-                            <input type="text" placeholder="Phone Number" />
-                        </div>
-                        <div className="common-input mx-3">
-                            <input type="text" placeholder="Email" />
-                        </div>
-                    </div>
+            {serviceData?.loading && (
+                <div className="service-loading">
+                    <i className="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+                    <span className="sr-only">Loading...</span>
                 </div>
-            </div>
+            )}
+            {!serviceData?.loading && serviceData?.error && (
+                <div className="service-loading-error">
+                    <i
+                        className="fa fa-exclamation-triangle fa-4x fa-fw error-color"
+                        aria-hidden="true"
+                    ></i>
+                    <span className="error-color"> {serviceData?.message}</span>
+                </div>
+            )}
+            {serviceData?.data && (
+                <>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        <div className="title-move mb-5">
+                            {serviceData?.data?.name}
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <div className="m-search-left-box w-100">
+                                {serviceData?.data?.questions.map(
+                                    (questionData, index) => (
+                                        <Fragment key={index}>
+                                            <div
+                                                className="mx-4 mb-2"
+                                                style={{
+                                                    fontSize: "1.5rem",
+                                                }}
+                                            ></div>
+                                            <div className="d-flex justify-content-between">
+                                                <div className="common-input mb-4 mx-3">
+                                                    <select
+                                                        name={`question_${questionData.id}`}
+                                                        // data-question={`question_${questionData.id}`}
+                                                        onChange={(e) => {
+                                                            const {
+                                                                name,
+                                                                value,
+                                                            } = e.target;
+                                                            handleChangeQuestion(
+                                                                { name, value }
+                                                            );
+                                                        }}
+                                                        defaultValue={
+                                                            service.selected[
+                                                                `question_${questionData.id}`
+                                                            ]
+                                                        }
+                                                        required
+                                                    >
+                                                        <option
+                                                            // disabled={true}
+                                                            defaultValue=""
+                                                            value=""
+                                                        >
+                                                            {
+                                                                questionData.question
+                                                            }
+                                                        </option>
+                                                        {questionData?.options.map(
+                                                            (
+                                                                optionData,
+                                                                index
+                                                            ) => (
+                                                                <Fragment
+                                                                    key={index}
+                                                                >
+                                                                    <option
+                                                                        value={
+                                                                            optionData?.id
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            optionData?.option
+                                                                        }
+                                                                    </option>
+                                                                </Fragment>
+                                                            )
+                                                        )}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </Fragment>
+                                    )
+                                )}
+                                <div
+                                    className="col-md-12 text-dark mb-2"
+                                    style={{ fontSize: "1.5rem" }}
+                                >
+                                    ZipCode
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                    <div className="common-input mb-4 mx-3">
+                                        <input
+                                            type="text"
+                                            onChange={handleZipCodeChange}
+                                            name="zipCode"
+                                            value={service?.zipCode}
+                                            placeholder="Zip Code"
+                                        />
+                                    </div>
+                                </div>
+                                {/* <div className=""> */}
+                                {service?.zipCodeData !== "" &&
+                                    service?.selectedZipCode == false && (
+                                        <>
+                                            <center
+                                                className="col-md-12 text-dark mb-1 mt-1"
+                                                style={{
+                                                    fontSize: "1.5rem",
+                                                }}
+                                            >
+                                                Please Select ZipCode
+                                            </center>
+                                            {service?.zipCodeData?.map(
+                                                (data, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="col-md-12 text-dark mb-1 mt-1"
+                                                        style={{
+                                                            fontSize: "1.5rem",
+                                                            border: "1px solid #F1F2F7",
+                                                            backgroundColor:
+                                                                "#F1F2F7",
+                                                            borderRadius: "5px",
+                                                        }}
+                                                        data-code={data?.code}
+                                                        onClick={() =>
+                                                            handleSelectZipCode(
+                                                                data?.code
+                                                            )
+                                                        }
+                                                    >
+                                                        {data?.code}
+                                                    </div>
+                                                )
+                                            )}
+                                        </>
+                                    )}
+                                <div className="col-md-12 text-danger">
+                                    {service?.zipCodeDataErr}
+                                </div>
+                                {service?.zipCodeErr}
+                                {/* </div> */}
+                            </div>
+                        </div>
+                        <div className="text-center mt-0 mx-3">
+                            <button
+                                type="submit"
+                                className="button-common mt-5 w-100"
+                                disabled={(() => {
+                                    let isDisabled = false;
+                                    serviceData?.data?.questions.filter(
+                                        (question) => {
+                                            if (
+                                                service.selected[
+                                                    `question_${question.id}`
+                                                ] === "" ||
+                                                service.selected[
+                                                    `question_${question.id}`
+                                                ] === undefined
+                                            ) {
+                                                isDisabled = true;
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    );
+                                    if (
+                                        service.zipCode === "" ||
+                                        service?.selectedZipCode == false
+                                    ) {
+                                        isDisabled = true;
+                                    }
 
-            <div className="text-center mt-0 mx-3">
-                <div className="button-common mt-5 w-100">Get a Price</div>
-            </div>
+                                    return isDisabled;
+                                })()}
+                            >
+                                Get Providers
+                            </button>
+                        </div>
+                    </form>
+                    {/* <div className="moving-des mt-5">
+                        <div className="title">
+                            For your home size, We recommend
+                        </div>
 
-            <div className="moving-des mt-5">
-                <div className="title">For your home size, We recommend</div>
-
-                <ul className="time-list d-flex align-items-center justify-content-between flex-wrap">
-                    <li className="d-flex align-items-center justify-content-center">
-                        1 Hours
-                    </li>
-                    <li className="d-flex align-items-center justify-content-center">
-                        4 Hours
-                    </li>
-                    <li className="d-flex align-items-center justify-content-center">
-                        6 Hours
-                    </li>
-                    <li className="d-flex align-items-center justify-content-center">
-                        8 Hours
-                    </li>
-                    <li className="d-flex align-items-center justify-content-center">
-                        10 Hours
-                    </li>
-                    <li className="d-flex align-items-center justify-content-center">
-                        2 Hours
-                    </li>
-                </ul>
-                <p className="text-center">
-                    By signing and clicking Get a Price, you affirm you have
-                    read and agree to the Handy Terms, and you agree and
-                    authorize Handy and its affiliates, and their networks of
-                    service professionals, to deliver marketing calls or texts
-                    using automated technology to the number you provided above
-                    regarding your project and other home services offers.
-                    Consent is not a condition of purchase.
-                </p>
-            </div>
+                        <ul className="time-list d-flex align-items-center justify-content-between flex-wrap">
+                            <li className="d-flex align-items-center justify-content-center">
+                                1 Hours
+                            </li>
+                            <li className="d-flex align-items-center justify-content-center">
+                                4 Hours
+                            </li>
+                            <li className="d-flex align-items-center justify-content-center">
+                                6 Hours
+                            </li>
+                            <li className="d-flex align-items-center justify-content-center">
+                                8 Hours
+                            </li>
+                            <li className="d-flex align-items-center justify-content-center">
+                                10 Hours
+                            </li>
+                            <li className="d-flex align-items-center justify-content-center">
+                                2 Hours
+                            </li>
+                        </ul>
+                        <p className="text-center">
+                            By signing and clicking Get a Price, you affirm you
+                            have read and agree to the Handy Terms, and you
+                            agree and authorize Handy and its affiliates, and
+                            their networks of service professionals, to deliver
+                            marketing calls or texts using automated technology
+                            to the number you provided above regarding your
+                            project and other home services offers. Consent is
+                            not a condition of purchase.
+                        </p>
+                    </div> */}
+                </>
+            )}
         </div>
     );
 };
 
 export { Service };
+
+{
+    /* <div className="common-input mb-4 mx-3">
+    <select name="" id="">
+        <option value="">1 Bedroom</option>
+        <option value="">2 Bedroom</option>
+        <option value="">3 Bedroom</option>
+        <option value="">4 Bedroom</option>
+        <option value="">5 Bedroom</option>
+    </select>
+</div>; */
+}

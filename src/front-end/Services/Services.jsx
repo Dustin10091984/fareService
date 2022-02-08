@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { HOST } from "../../constants";
 import ServiceType from "../../constants/ServiceType";
 import { Moving } from "./Moving";
 import { Service } from "./Service";
@@ -7,7 +9,7 @@ export const Services = (props) => {
     const search = props.location.search; // could be '?foo=bar'
     const params = new URLSearchParams(search);
     const [service, setService] = useState({
-        question: [],
+        selected: {},
         currentStep: 0,
         error: "",
         zipCode: "",
@@ -16,6 +18,74 @@ export const Services = (props) => {
         zipCodeDataErr: "",
         selectedZipCode: false,
     });
+
+    const [error, setError] = useState({
+        selected: {},
+    });
+
+    const handleChangeQuestion = ({ name, value }) => {
+        setService({
+            ...service,
+            selected: {
+                ...service?.selected,
+                [name]: value,
+            },
+        });
+    };
+
+    const handleZipCodeChange = (e) => {
+        const { name, value } = e.target;
+        // let re = /^(0|[1-9][0-9]*)$/;
+
+        setService((state) => ({
+            ...state,
+            [name]: value,
+            selectedZipCode: false,
+        }));
+        if (value.length < 1 || value.length > 12) {
+            setService((service) => ({
+                ...service,
+                zipCodeErr: (
+                    <div
+                        className="col-md-12 text-danger mt-2"
+                        style={{ fontSize: 15 }}
+                    >
+                        Zip Code characher(Number only) should be in between 2
+                        and 12
+                    </div>
+                ),
+            }));
+        } else {
+            setService((service) => ({ ...service, zipCodeErr: "" }));
+            axios({
+                method: "get",
+                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}`,
+            })
+                .then(function (response) {
+                    setService((service) => ({
+                        ...service,
+                        zipCodeData: response?.data?.data?.data,
+                        zipCodeDataErr: "",
+                    }));
+                })
+                .catch((error) => {
+                    setService((service) => ({
+                        ...service,
+                        zipCodeData: "",
+                        zipCodeDataErr: error?.response?.data?.message,
+                    }));
+                });
+        }
+    };
+
+    const handleSelectZipCode = (code) => {
+        setService((state) => ({
+            ...service,
+            zipCode: code,
+            zipCodeErr: "",
+            selectedZipCode: true,
+        }));
+    };
 
     return (
         <>
@@ -59,7 +129,19 @@ export const Services = (props) => {
                                         //     />
                                         // </div>
                                         // <></>
-                                        <Service {...props} />
+                                        <Service
+                                            {...props}
+                                            service={service}
+                                            handleChangeQuestion={
+                                                handleChangeQuestion
+                                            }
+                                            handleZipCodeChange={
+                                                handleZipCodeChange
+                                            }
+                                            handleSelectZipCode={
+                                                handleSelectZipCode
+                                            }
+                                        />
                                     )}
                                 </>
                             ) : (

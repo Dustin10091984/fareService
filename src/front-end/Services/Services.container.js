@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
+import { getServiceQuestion } from '../../store/Slices/services/ServiceSclice.js';
 import { Services } from './Services.jsx';
-// import { providerSignup, verifyPhoneNo } from "./../../store/Slices/providers/registration";
 
 const mapStateToProps = (state) => ({
     headerMenu: state.headerMenuReducer,
-    // verifyOpt: state.registrationReducer?.verify,
+    serviceData: state?.service,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // handleProviderSignup: (signupData) => {
-        //     dispatch(providerSignup(signupData));
-        // },
+
+        getServiceQuestion: (id) => {
+            dispatch(getServiceQuestion(id));
+        },
         // handleverifyPhoneNo: (otpData) => {
         //     dispatch(verifyPhoneNo(otpData));
         // },
