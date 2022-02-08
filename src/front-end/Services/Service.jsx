@@ -48,69 +48,150 @@ const Service = ({
                         <div className="d-flex justify-content-between">
                             <div className="m-search-left-box w-100">
                                 {serviceData?.data?.questions.map(
-                                    (questionData, index) => (
-                                        <Fragment key={index}>
-                                            <div
-                                                className="mx-4 mb-2"
-                                                style={{
-                                                    fontSize: "1.5rem",
-                                                }}
-                                            ></div>
-                                            <div className="d-flex justify-content-between">
-                                                <div className="common-input mb-4 mx-3">
-                                                    <select
-                                                        name={`question_${questionData.id}`}
-                                                        // data-question={`question_${questionData.id}`}
-                                                        onChange={(e) => {
-                                                            const {
-                                                                name,
-                                                                value,
-                                                            } = e.target;
-                                                            handleChangeQuestion(
-                                                                { name, value }
-                                                            );
-                                                        }}
-                                                        defaultValue={
-                                                            service.selected[
-                                                                `question_${questionData.id}`
-                                                            ]
-                                                        }
-                                                        required
-                                                    >
-                                                        <option
-                                                            // disabled={true}
-                                                            defaultValue=""
-                                                            value=""
-                                                        >
-                                                            {
-                                                                questionData.question
+                                    (questionData, index, questionsData) =>
+                                        index % 2 === 0 && (
+                                            <Fragment key={index}>
+                                                <div className="d-flex justify-content-between">
+                                                    <div className="common-input mb-4 mx-3">
+                                                        <select
+                                                            name={`question_${questionData.id}`}
+                                                            // data-question={`question_${questionData.id}`}
+                                                            onChange={(e) => {
+                                                                const {
+                                                                    name,
+                                                                    value,
+                                                                } = e.target;
+                                                                handleChangeQuestion(
+                                                                    {
+                                                                        name,
+                                                                        value,
+                                                                    }
+                                                                );
+                                                            }}
+                                                            defaultValue={
+                                                                service
+                                                                    .selected[
+                                                                    `question_${questionData.id}`
+                                                                ]
                                                             }
-                                                        </option>
-                                                        {questionData?.options.map(
-                                                            (
-                                                                optionData,
-                                                                index
-                                                            ) => (
-                                                                <Fragment
-                                                                    key={index}
-                                                                >
-                                                                    <option
-                                                                        value={
-                                                                            optionData?.id
+                                                            required
+                                                        >
+                                                            <option
+                                                                // disabled={true}
+                                                                defaultValue=""
+                                                                value=""
+                                                            >
+                                                                {
+                                                                    questionData.question
+                                                                }
+                                                            </option>
+                                                            {questionData?.options.map(
+                                                                (
+                                                                    optionData,
+                                                                    index
+                                                                ) => (
+                                                                    <Fragment
+                                                                        key={
+                                                                            index
                                                                         }
                                                                     >
+                                                                        <option
+                                                                            value={
+                                                                                optionData?.id
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                optionData?.option
+                                                                            }
+                                                                        </option>
+                                                                    </Fragment>
+                                                                )
+                                                            )}
+                                                        </select>
+                                                    </div>
+                                                    {questionsData[
+                                                        index + 1
+                                                    ] && (
+                                                        <div className="common-input mb-4 mx-3">
+                                                            <select
+                                                                name={`question_${
+                                                                    questionsData[
+                                                                        index +
+                                                                            1
+                                                                    ]?.id
+                                                                }`}
+                                                                // data-question={`question_${questionData.id}`}
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    const {
+                                                                        name,
+                                                                        value,
+                                                                    } =
+                                                                        e.target;
+                                                                    handleChangeQuestion(
                                                                         {
-                                                                            optionData?.option
+                                                                            name,
+                                                                            value,
                                                                         }
-                                                                    </option>
-                                                                </Fragment>
-                                                            )
-                                                        )}
-                                                    </select>
+                                                                    );
+                                                                }}
+                                                                defaultValue={
+                                                                    service
+                                                                        .selected[
+                                                                        `question_${
+                                                                            questionsData[
+                                                                                index +
+                                                                                    1
+                                                                            ]
+                                                                        }`
+                                                                    ]
+                                                                }
+                                                                required
+                                                            >
+                                                                <option
+                                                                    // disabled={true}
+                                                                    defaultValue=""
+                                                                    value=""
+                                                                >
+                                                                    {
+                                                                        questionsData[
+                                                                            index +
+                                                                                1
+                                                                        ]
+                                                                            ?.question
+                                                                    }
+                                                                </option>
+                                                                {questionsData[
+                                                                    index + 1
+                                                                ]?.options.map(
+                                                                    (
+                                                                        optionData,
+                                                                        index
+                                                                    ) => (
+                                                                        <Fragment
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                        >
+                                                                            <option
+                                                                                value={
+                                                                                    optionData?.id
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    optionData?.option
+                                                                                }
+                                                                            </option>
+                                                                        </Fragment>
+                                                                    )
+                                                                )}
+                                                            </select>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            </div>
-                                        </Fragment>
-                                    )
+                                            </Fragment>
+                                        )
                                 )}
                                 <div
                                     className="col-md-12 text-dark mb-2"
