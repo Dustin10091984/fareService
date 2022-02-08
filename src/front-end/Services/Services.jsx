@@ -87,6 +87,14 @@ export const Services = (props) => {
         }));
     };
 
+    const getProviders = () => {
+        props.history.push({
+            pathname: "/service-providers",
+            search: `?zipCode=${service.zipCode}&subService=${subServiceId}`,
+            state: service.selected,
+        });
+    };
+
     return (
         <>
             <div
@@ -141,6 +149,7 @@ export const Services = (props) => {
                                             handleSelectZipCode={
                                                 handleSelectZipCode
                                             }
+                                            getProviders={getProviders}
                                         />
                                     )}
                                 </>

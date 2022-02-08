@@ -7,6 +7,7 @@ const Service = ({
     handleZipCodeChange,
     handleSelectZipCode,
     handleChangeQuestion,
+    getProviders,
     ...props
 }) => {
     const {
@@ -40,6 +41,7 @@ const Service = ({
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
+                            getProviders();
                         }}
                     >
                         <div className="title-move mb-5">
