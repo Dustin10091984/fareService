@@ -8,7 +8,7 @@ export const GoogleMap = (props) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        return new Promise((resolve) => {
+        return new Promise(async (resolve) => {
             setDirectionsService(new window.google.maps.DirectionsService());
             resolve();
         });

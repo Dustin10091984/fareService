@@ -638,7 +638,10 @@ export const ServiceProviders = (props) => {
                                                                         ServiceType.MOVING
                                                                             ? "#moving"
                                                                             : provider.account_type ===
-                                                                              "BASIC"
+                                                                                  "BASIC" &&
+                                                                              provider
+                                                                                  ?.provider_profile
+                                                                                  ?.hourly_rate
                                                                             ? "#hourly"
                                                                             : "#quotation"
                                                                     }
@@ -657,7 +660,10 @@ export const ServiceProviders = (props) => {
                                                                     }
                                                                 >
                                                                     {provider.account_type ===
-                                                                    "BASIC"
+                                                                        "BASIC" &&
+                                                                    provider
+                                                                        ?.provider_profile
+                                                                        ?.hourly_rate
                                                                         ? "Make a Request"
                                                                         : "Get a Qoutation"}
                                                                 </button>
@@ -686,10 +692,9 @@ export const ServiceProviders = (props) => {
                                                             )}
                                                         </div>
                                                         <div className="user-price">
-                                                            {provider
+                                                            {!!provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate !==
-                                                            null
+                                                                ?.hourly_rate
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
                                                                 : ""}
                                                         </div>
@@ -820,7 +825,7 @@ export const ServiceProviders = (props) => {
                                 className="modal-title display-4"
                                 id="exampleModalLongTitle"
                             >
-                                Service Request 
+                                Service Request
                             </h5>
                             {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

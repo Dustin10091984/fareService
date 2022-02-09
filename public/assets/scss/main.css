@@ -3025,45 +3025,44 @@ hr {
     font-size: 2.5rem;
 }
 
-
 .user-dropdown-menu {
-    padding:0.8rem 0px;
+    padding: 0.8rem 0px;
     width: 168px;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 0.5px 5px rgb(0 0 0 / 4%), 0px 3.75px 11px rgb(0 0 0 / 19%);
     border-radius: 12px;
     left: 1rem !important;
 }
-.user-dropdown-menu  .dropdown-item{
+.user-dropdown-menu .dropdown-item {
     /* font-family: Product Sans; */
     font-style: normal;
     font-weight: normal;
     font-size: 1.6rem;
-    line-height: 2rem;   
+    line-height: 2rem;
     color: #606060;
     padding: 1rem;
-    
 }
 
-.user-name-farenow{
+.user-name-farenow {
     font-style: normal;
-font-weight: normal;
-font-size: 1.8rem;
-line-height: 2.2rem;
-color: #000000;
-margin-right: 0.5rem;
+    font-weight: normal;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    color: #000000;
+    margin-right: 0.5rem;
 }
 
-.moving-vehiclei-box{
+.moving-vehiclei-box {
     width: 25.1rem;
 height: 14.5rem;
 padding: 1rem;
+    height: 14.5rem;
 }
-.vehicle-title{
+.vehicle-title {
     font-weight: bold;
-font-size: 2rem;
-line-height: 2rem;
-color: #000000;
-mix-blend-mode: normal;
-text-transform: capitalize;
+    font-size: 2rem;
+    line-height: 2rem;
+    color: #000000;
+    mix-blend-mode: normal;
+    text-transform: capitalize;
 }
