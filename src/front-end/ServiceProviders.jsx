@@ -638,7 +638,10 @@ export const ServiceProviders = (props) => {
                                                                         ServiceType.MOVING
                                                                             ? "#moving"
                                                                             : provider.account_type ===
-                                                                              "BASIC"
+                                                                                  "BASIC" &&
+                                                                              provider
+                                                                                  ?.provider_profile
+                                                                                  ?.hourly_rate
                                                                             ? "#hourly"
                                                                             : "#quotation"
                                                                     }
