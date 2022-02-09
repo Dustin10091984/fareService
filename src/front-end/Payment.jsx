@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { getPaymentCards } from "../store/Slices/payments/paymentSlice";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
+import { HOST } from "../constants";
 
 export const Payment = (props) => {
     const stripe = useStripe();
@@ -1033,12 +1034,17 @@ export const Payment = (props) => {
                                                                 <div className="d-flex align-items-center justify-content">
                                                                     <div className="cart-img">
                                                                         <img
+                                                                            style={{
+                                                                                width: "16rem",
+                                                                                height: "16rem",
+                                                                            }}
                                                                             src={
                                                                                 (food?.image &&
-                                                                                    food.image) ||
-                                                                                "/assets/img/cart-prod.jpg" ||
+                                                                                    HOST +
+                                                                                        food.image) ||
                                                                                 (product?.image &&
-                                                                                    product.image) ||
+                                                                                    HOST +
+                                                                                        product.image) ||
                                                                                 "/assets/img/cart-prod.jpg"
                                                                             }
                                                                             className="img-fluid"
