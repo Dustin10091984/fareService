@@ -657,7 +657,10 @@ export const ServiceProviders = (props) => {
                                                                     }
                                                                 >
                                                                     {provider.account_type ===
-                                                                    "BASIC"
+                                                                        "BASIC" &&
+                                                                    provider
+                                                                        ?.provider_profile
+                                                                        ?.hourly_rate
                                                                         ? "Make a Request"
                                                                         : "Get a Qoutation"}
                                                                 </button>
@@ -688,8 +691,7 @@ export const ServiceProviders = (props) => {
                                                         <div className="user-price">
                                                             {provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate !==
-                                                            null
+                                                                ?.hourly_rate
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
                                                                 : ""}
                                                         </div>
