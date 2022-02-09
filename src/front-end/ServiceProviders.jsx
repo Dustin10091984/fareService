@@ -692,7 +692,7 @@ export const ServiceProviders = (props) => {
                                                             )}
                                                         </div>
                                                         <div className="user-price">
-                                                            {provider
+                                                            {!!provider
                                                                 ?.provider_profile
                                                                 ?.hourly_rate
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
