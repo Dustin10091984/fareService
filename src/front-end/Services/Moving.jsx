@@ -198,7 +198,7 @@ export const Moving = (props) => {
                                     <div
                                         className="d-flex bd-highlight m-4 justify-content-center align-items-center"
                                         style={{
-                                            width: "17rem",
+                                            width: "100%",
                                             height: "17rem",
                                             // background: '#FFFFFF',
                                             boxShadow: `.2rem .2rem .6rem .8rem ${
