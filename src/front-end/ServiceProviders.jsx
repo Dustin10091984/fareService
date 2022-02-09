@@ -825,7 +825,7 @@ export const ServiceProviders = (props) => {
                                 className="modal-title display-4"
                                 id="exampleModalLongTitle"
                             >
-                                Service Request 
+                                Service Request
                             </h5>
                             {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

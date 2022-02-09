@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { HOST } from "../constants";
+import ServiceType from "../constants/ServiceType";
 export const Index = (props) => {
+    const headerMenu = useSelector((state) => state.headerMenuReducer);
     return (
         <>
             <div className="banner">
@@ -52,21 +56,48 @@ export const Index = (props) => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="col-md-12 d-flex align-content-center justify-content-between flex-wrap">
-                            <div className="service-box">
-                                <Link to="/house-cleaning">
-                                    <img
-                                        src="/assets/img/service1.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                    <div className="cat-title d-flex align-items-center justify-content-center">
-                                        Home Cleaning
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="service-box">
+                            {headerMenu.map((item, index) => {
+                                return item.sub_services.map(
+                                    (subService, index) => (
+                                        <div
+                                            key={index}
+                                            className="service-box"
+                                        >
+                                            <Link
+                                                to={`/services/${item.id}/${
+                                                    subService.id
+                                                }${
+                                                    item.id == 3
+                                                        ? "?service_type=" +
+                                                          ServiceType.MOVING
+                                                        : ""
+                                                }`}
+                                            >
+                                                <img
+                                                    src={
+                                                        subService.image
+                                                            ? HOST +
+                                                              subService.image
+                                                            : "/assets/img/service-1.jpg"
+                                                    }
+                                                    className="img-fluid"
+                                                    alt=""
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src =
+                                                            "/assets/img/service-1.jpg";
+                                                    }}
+                                                />
+                                                <div className="cat-title d-flex align-items-center justify-content-center">
+                                                    {subService.name}
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    )
+                                );
+                            })}
+                            {/* <div className="service-box">
                                 <Link to="/grocery-stores">
                                     <img
                                         src="/assets/img/service2.jpg"
@@ -125,7 +156,7 @@ export const Index = (props) => {
                                         TV Mounting
                                     </div>
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
