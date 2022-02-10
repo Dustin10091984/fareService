@@ -145,7 +145,7 @@ const Service = ({
                                                                             questionsData[
                                                                                 index +
                                                                                     1
-                                                                            ]
+                                                                            ].id
                                                                         }`
                                                                     ]
                                                                 }
@@ -293,10 +293,7 @@ const Service = ({
                         </div>
                     </form>
                     <div className="moving-des mt-5">
-                        <div className="title">
-                            For your home size, We recommend
-                        </div>
-
+                        <div className="title">We recommend you!</div>
                         <ul className="time-list d-flex align-items-center justify-content-between flex-wrap">
                             <li className="d-flex align-items-center justify-content-center">
                                 1 Hours
