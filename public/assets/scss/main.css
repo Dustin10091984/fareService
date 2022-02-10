@@ -3068,3 +3068,62 @@ padding: 1rem;
     mix-blend-mode: normal;
     text-transform: capitalize;
 }
+
+.moving-push-top{
+    position: relative;
+    margin-top: -44rem;
+}
+
+.map-box-new{
+    width: 100%;
+height: 30.5rem;
+}
+
+.map-title{
+    font-weight: bold;
+font-size: 3.6rem;
+color: #000000;
+
+}
+.qoutes-map-box{
+    background: #FFFFFF;
+box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+border-radius: 8px;
+/* overflow: hidden; */
+}
+
+.moving-form{
+    font-weight: bold;
+font-size: 2.0rem;
+color: #000000;
+}
+
+.moving-form-map-link{
+    font-style: normal;
+font-weight: bold;
+font-size: 1.4rem;
+color: #fea629;
+}
+
+.request-information{
+    background: #FFFFFF;
+box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.RequestQuote{
+    font-weight: bold;
+font-size: 6.4rem;
+color: #000000;
+}
+
+.enter-detail-rqt{
+    font-weight: bold;
+font-size: 2.8rem;
+background: #fea629;
+box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+border-radius: 8px;
+color: #FFFFFF;
+padding: 1rem;
+width: 100%;
+text-align: center;
+}
