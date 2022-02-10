@@ -56,6 +56,7 @@ import { onMessageListener, getToken } from './firebaseInit';
 import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
+import { MovingRequest } from './front-end/Services/MovingRequest';
 
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
@@ -146,6 +147,7 @@ function App() {
           <Route path='/shop' component={Shop} />
           <Route path='/shop2' component={ShopTwo} />
           <Route path='/moving-help' component={MovingHelp} />
+          <Route path='/moving-request' component={MovingRequest} />
           <Route path='/house-cleaning' component={HouseCleaning} />
           <Route path='/provider/profile/:id' component={ProviderProfile} />
           <Route path='/latest-news' component={LatestNews} />
