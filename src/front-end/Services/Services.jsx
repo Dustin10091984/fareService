@@ -18,7 +18,7 @@ export const Services = (props) => {
         zipCodeDataErr: "",
         selectedZipCode: false,
     });
-
+    console.log(service.selected);
     const [error, setError] = useState({
         selected: {},
     });
@@ -566,7 +566,6 @@ export const Services = (props) => {
                                     (item, index) => {
                                         const description =
                                             item?.description?.split(".");
-                                        console.log(description);
                                         return (
                                             <div
                                                 key={index}
