@@ -293,27 +293,38 @@ const Service = ({
                         </div>
                     </form>
                     <div className="moving-des mt-5">
-                        <div className="title">We recommend you!</div>
-                        <ul className="time-list d-flex align-items-center justify-content-between flex-wrap">
-                            <li className="d-flex align-items-center justify-content-center">
-                                1 Hours
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                4 Hours
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                6 Hours
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                8 Hours
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                10 Hours
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                2 Hours
-                            </li>
-                        </ul>
+                        {serviceData?.data?.service_requests && (
+                            <>
+                                <div className="title">We recommend you!</div>
+                                <ul className="time-list d-flex align-items-center justify-content-between flex-wrap">
+                                    {serviceData?.data?.service_requests?.map(
+                                        (service, index) => (
+                                            <li
+                                                key={index}
+                                                className="d-flex align-items-center justify-content-center"
+                                            >
+                                                {service.hours} hours
+                                            </li>
+                                        )
+                                    )}
+                                    {/* <li className="d-flex align-items-center justify-content-center">
+                                        4 Hours
+                                    </li>
+                                    <li className="d-flex align-items-center justify-content-center">
+                                        6 Hours
+                                    </li>
+                                    <li className="d-flex align-items-center justify-content-center">
+                                        8 Hours
+                                    </li>
+                                    <li className="d-flex align-items-center justify-content-center">
+                                        10 Hours
+                                    </li>
+                                    <li className="d-flex align-items-center justify-content-center">
+                                        2 Hours
+                                    </li>} */}
+                                </ul>
+                            </>
+                        )}
                         <p className="text-center">
                             {serviceData?.data?.terms}
                         </p>
