@@ -541,163 +541,106 @@ export const Services = (props) => {
                 </div>
             </div>
 
-            <section className="service-des-card-sec pad-t">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="common-heading text-center">
-                                <div className="title">
-                                    What's Included in a House Cleaning?
-                                </div>
-                                <div className="sub-des">
-                                    Here is what you can expect from a house
-                                    cleaning from a Handy professional. Download
-                                    the app to share furthe
-                                    <br />
-                                    cleaning details and instructions!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
+            {props?.serviceData?.data?.service_contents && (
+                <section className="service-des-card-sec pad-t">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="common-heading text-center">
                                     <div className="title">
-                                        Bedroom, Living Room & Common Areas
+                                        What's Included in a House Cleaning?
                                     </div>
-                                    <div className="des">
-                                        <ul>
-                                            <li>
-                                                Dust all accessible surfaces
-                                            </li>
-                                            <li>
-                                                Wipe down all mirrors and glass
-                                                fixtures
-                                            </li>
-                                            <li>Clean all floor surfaces</li>
-                                            <li>
-                                                Take out garbage and recycling
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2-2.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
-                                    <div className="title">
-                                        Bathroom
-                                        <br /> Cleaning
-                                    </div>
-                                    <div className="des">
-                                        <ul>
-                                            <li>
-                                                Wash and sanitize the toilet,
-                                                shower, tub and sink
-                                            </li>
-                                            <li>
-                                                Dust all accessible surfaces
-                                            </li>
-                                            <li>
-                                                Wipe down all mirrors and glass
-                                                fixtures
-                                            </li>
-                                            <li> Clean all floor surfaces</li>
-                                            <li>
-                                                Take out garbage and recycling
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2-3.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
-                                    <div className="title">
-                                        Kitchen
-                                        <br /> Cleaning
-                                    </div>
-                                    <div className="des">
-                                        <ul>
-                                            <li>
-                                                Dust all accessible surfaces
-                                            </li>
-                                            <li>
-                                                Empty sink and load up
-                                                dishwasher with dirty dishes
-                                            </li>
-                                            <li>
-                                                Wipe down exterior of stove,
-                                                oven and fridge
-                                            </li>
-                                            <li> Clean all floor surfaces</li>
-                                            <li>
-                                                Take out garbage and recycling
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2-3.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
-                                    <div className="title">Extras</div>
-                                    <div className="des">
-                                        For a deeper clean, consider adding one
-                                        or more cleaning extras. Most cleaning
-                                        extras add one half hour of time and
-                                        cost to your booking.
-                                        <ul>
-                                            <li>Inside cabinets</li>
-                                            <li>Inside fridge</li>
-                                            <li>Inside oven</li>
-                                            <li>Laundry wash & dry</li>
-                                            <li>Interior windows</li>
-                                        </ul>
+                                    <div className="sub-des">
+                                        Here is what you can expect from a house
+                                        cleaning from a Handy professional.
+                                        Download the app to share furthe
+                                        <br />
+                                        cleaning details and instructions!
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                {props?.serviceData?.data?.service_contents?.map(
+                                    (item, index) => {
+                                        const description =
+                                            item?.description?.split(".");
+                                        console.log(description);
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="service-card-des d-flex align-items-center "
+                                            >
+                                                <div className="src-image-box">
+                                                    <img
+                                                        src={
+                                                            item?.image
+                                                                ? HOST +
+                                                                  item?.image
+                                                                : "/assets/img/service-caed-2.jpg"
+                                                        }
+                                                        className="img-fluid"
+                                                        alt="image"
+                                                    />
+                                                </div>
+                                                <div className="service-card-detail">
+                                                    <div className="title">
+                                                        {item?.title}
+                                                    </div>
+                                                    <div className="des">
+                                                        <ul>
+                                                            {description?.map(
+                                                                (
+                                                                    point,
+                                                                    index
+                                                                ) =>
+                                                                    point && (
+                                                                        <React.Fragment
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                        >
+                                                                            <li>
+                                                                                {
+                                                                                    point
+                                                                                }
+                                                                            </li>
+                                                                        </React.Fragment>
+                                                                    )
+                                                            )}
+                                                            {/* <li>
+                                                            Wipe down all
+                                                            mirrors and glass
+                                                            fixtures
+                                                        </li>
+                                                        <li>
+                                                            Clean all floor
+                                                            surfaces
+                                                        </li>
+                                                        <li>
+                                                            Take out garbage and
+                                                            recycling
+                                                        </li> */}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    }
+                                )}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </section>
-
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <hr />
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-12">
+                                <hr />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </section>
+            )}
 
             <section className="qustions-sec pad-y">
                 <div className="container">
@@ -1459,3 +1402,101 @@ export const Services = (props) => {
         </>
     );
 };
+
+{
+    /* <div className="service-card-des d-flex align-items-center ">
+                                <div className="src-image-box">
+                                    <img
+                                        src="/assets/img/service-caed-2-2.jpg"
+                                        className="img-fluid"
+                                        alt="image"
+                                    />
+                                </div>
+                                <div className="service-card-detail">
+                                    <div className="title">
+                                        Bathroom
+                                        <br /> Cleaning
+                                    </div>
+                                    <div className="des">
+                                        <ul>
+                                            <li>
+                                                Wash and sanitize the toilet,
+                                                shower, tub and sink
+                                            </li>
+                                            <li>
+                                                Dust all accessible surfaces
+                                            </li>
+                                            <li>
+                                                Wipe down all mirrors and glass
+                                                fixtures
+                                            </li>
+                                            <li> Clean all floor surfaces</li>
+                                            <li>
+                                                Take out garbage and recycling
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="service-card-des d-flex align-items-center ">
+                                <div className="src-image-box">
+                                    <img
+                                        src="/assets/img/service-caed-2-3.jpg"
+                                        className="img-fluid"
+                                        alt="image"
+                                    />
+                                </div>
+                                <div className="service-card-detail">
+                                    <div className="title">
+                                        Kitchen
+                                        <br /> Cleaning
+                                    </div>
+                                    <div className="des">
+                                        <ul>
+                                            <li>
+                                                Dust all accessible surfaces
+                                            </li>
+                                            <li>
+                                                Empty sink and load up
+                                                dishwasher with dirty dishes
+                                            </li>
+                                            <li>
+                                                Wipe down exterior of stove,
+                                                oven and fridge
+                                            </li>
+                                            <li> Clean all floor surfaces</li>
+                                            <li>
+                                                Take out garbage and recycling
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="service-card-des d-flex align-items-center ">
+                                <div className="src-image-box">
+                                    <img
+                                        src="/assets/img/service-caed-2-3.jpg"
+                                        className="img-fluid"
+                                        alt="image"
+                                    />
+                                </div>
+                                <div className="service-card-detail">
+                                    <div className="title">Extras</div>
+                                    <div className="des">
+                                        For a deeper clean, consider adding one
+                                        or more cleaning extras. Most cleaning
+                                        extras add one half hour of time and
+                                        cost to your booking.
+                                        <ul>
+                                            <li>Inside cabinets</li>
+                                            <li>Inside fridge</li>
+                                            <li>Inside oven</li>
+                                            <li>Laundry wash & dry</li>
+                                            <li>Interior windows</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> */
+}

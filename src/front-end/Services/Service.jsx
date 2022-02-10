@@ -292,7 +292,7 @@ const Service = ({
                             </button>
                         </div>
                     </form>
-                    {/* <div className="moving-des mt-5">
+                    <div className="moving-des mt-5">
                         <div className="title">
                             For your home size, We recommend
                         </div>
@@ -318,16 +318,9 @@ const Service = ({
                             </li>
                         </ul>
                         <p className="text-center">
-                            By signing and clicking Get a Price, you affirm you
-                            have read and agree to the Handy Terms, and you
-                            agree and authorize Handy and its affiliates, and
-                            their networks of service professionals, to deliver
-                            marketing calls or texts using automated technology
-                            to the number you provided above regarding your
-                            project and other home services offers. Consent is
-                            not a condition of purchase.
+                            {serviceData?.data?.terms}
                         </p>
-                    </div> */}
+                    </div>
                 </>
             )}
         </div>
