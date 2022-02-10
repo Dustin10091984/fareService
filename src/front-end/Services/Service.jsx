@@ -303,7 +303,7 @@ const Service = ({
                                                 key={index}
                                                 className="d-flex align-items-center justify-content-center"
                                             >
-                                                {service.hours} hours
+                                                {service?.hours} hours
                                             </li>
                                         )
                                     )}
