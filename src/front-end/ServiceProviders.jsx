@@ -617,7 +617,10 @@ export const ServiceProviders = (props) => {
                                                                         handleContinueClick(
                                                                             event,
                                                                             provider.account_type ===
-                                                                                "BASIC"
+                                                                                "BASIC" &&
+                                                                                provider
+                                                                                    ?.provider_profile
+                                                                                    ?.hourly_rate
                                                                                 ? true
                                                                                 : false,
                                                                             provider
