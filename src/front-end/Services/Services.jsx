@@ -197,7 +197,7 @@ export const Services = (props) => {
                 </div>
             </div>
 
-            <div className="shop-page pad-y">
+            <div className="shop-page pad-y ">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
