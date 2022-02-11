@@ -81,7 +81,7 @@ export const Moving = (props) => {
                 method: "get",
                 url:
                     process.env.REACT_APP_API_BASE_URL +
-                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${state?.vehicle_type_id}`,
+                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${props?.vehicle_type_id}`,
             })
                 .then(function (response) {
                     setState((state) => ({
@@ -135,14 +135,14 @@ export const Moving = (props) => {
     };
 
     const handleCalendarClick = (selectedDate) => {
-        let newDate = new Date();
-        if (moment(selectedDate).isSameOrAfter(newDate.setHours(0, 0, 0, 0))) {
-            closeRef.current.click();
-            setState((state) => ({
-                ...state,
-                date: selectedDate,
-            }));
-        }
+        // let newDate = new Date();
+        // if (moment(selectedDate).isSameOrAfter(newDate.setHours(0, 0, 0, 0))) {
+        closeRef.current.click();
+        setState((state) => ({
+            ...state,
+            date: selectedDate,
+        }));
+        // }
     };
 
     const handleSelectZipCode = (code) => {
@@ -156,452 +156,408 @@ export const Moving = (props) => {
 
     return (
         <>
-         <div className="row">
-            <Loading loading={loading} />
-            <div className="col-md-12">
-                <div className="title-move">
-                    Please select your vehicle type.
-                </div>
-                {(() => {
-                    if (loading) {
-                        return (
-                            <div
-                                className="col-12  alert alert-info text-center"
-                                role="alert"
-                                style={{ fontSize: 15 }}
-                            >
-                                <i className="fa fa-spinner fa-spin"></i>{" "}
-                                Processing...
-                            </div>
-                        );
-                    }
-
-                    if (error) {
-                        return (
-                            <div
-                                className="col-12  alert alert-danger text-center"
-                                role="alert"
-                                style={{ fontSize: 15 }}
-                            >
-                                {message}
-                            </div>
-                        );
-                    }
-                })()}
-                <div className="col-lg-8 mb-5 mx-auto mt-5">
-                    <div className="row justify-content-center">
-                        {(() => {
-                            return data?.map((item, index) => (
+            {/* <div className="row"> */}
+            {/* <Loading loading={loading} /> */}
+            {/* <div className="col-md-12"> */}
+            {/* <div className="title-move">
+                        Please select your vehicle type.
+                    </div> */}
+            {/* {(() => {
+                        if (loading) {
+                            return (
                                 <div
-                                    className="col-6 col-md-4"
-                                    key={index}
+                                    className="col-12  alert alert-info text-center"
+                                    role="alert"
+                                    style={{ fontSize: 15 }}
                                 >
-                                    <div
-                                        className="d-flex bd-highlight m-4 justify-content-center align-items-center"
-                                        style={{
-                                            width: "100%",
-                                            height: "17rem",
-                                            // background: '#FFFFFF',
-                                            boxShadow: `.2rem .2rem .6rem .8rem ${
-                                                item.id ===
-                                                state.vehicle_type_id
-                                                    ? "#fea629"
-                                                    : "#cccccc"
-                                            }`,
-                                            borderRadius: ".5rem",
-                                        }}
-                                        onClick={() =>
-                                            handleSelectTypeClick(item.id)
-                                        }
-                                    >
+                                    <i className="fa fa-spinner fa-spin"></i>{" "}
+                                    Processing...
+                                </div>
+                            );
+                        }
+
+                        if (error) {
+                            return (
+                                <div
+                                    className="col-12  alert alert-danger text-center"
+                                    role="alert"
+                                    style={{ fontSize: 15 }}
+                                >
+                                    {message}
+                                </div>
+                            );
+                        }
+                    })()} */}
+            {/* <div className="col-lg-8 mb-5 mx-auto mt-5">
+                        <div className="row justify-content-center">
+                            {(() => {
+                                return data?.map((item, index) => (
+                                    <div className="col-6 col-md-4" key={index}>
                                         <div
-                                            className="d-flex flex-column justify-content-end align-items-center flex-column m-3 moving-vehiclei-box"
-                                            style={{ fontSize: 15 }}
+                                            className="d-flex bd-highlight m-4 justify-content-center align-items-center"
+                                            style={{
+                                                width: "100%",
+                                                height: "17rem",
+                                                // background: '#FFFFFF',
+                                                boxShadow: `.2rem .2rem .6rem .8rem ${
+                                                    item.id ===
+                                                    state.vehicle_type_id
+                                                        ? "#fea629"
+                                                        : "#cccccc"
+                                                }`,
+                                                borderRadius: ".5rem",
+                                            }}
+                                            onClick={() =>
+                                                handleSelectTypeClick(item.id)
+                                            }
                                         >
-                                            {item.image ? (
-                                                <img
-                                                    src={
-                                                        process.env
-                                                            .REACT_APP_API_BASE_URL +
-                                                        item.image
-                                                    }
-                                                    className="img-fluid m-1"
-                                                    alt="..."
-                                                />
-                                            ) : (
-                                                <i
-                                                    className="fa fa-car fa-5x"
-                                                    aria-hidden="true"
-                                                ></i>
-                                            )}
-                                            <div className="vehicle-title mt-3">{item.title}</div>
+                                            <div
+                                                className="d-flex flex-column justify-content-end align-items-center flex-column m-3 moving-vehiclei-box"
+                                                style={{ fontSize: 15 }}
+                                            >
+                                                {item.image ? (
+                                                    <img
+                                                        src={
+                                                            process.env
+                                                                .REACT_APP_API_BASE_URL +
+                                                            item.image
+                                                        }
+                                                        className="img-fluid m-1"
+                                                        alt="..."
+                                                    />
+                                                ) : (
+                                                    <i
+                                                        className="fa fa-car fa-5x"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                )}
+                                                <div className="vehicle-title mt-3">
+                                                    {item.title}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ));
-                        })()}
-                    </div>
-                </div>
-
-                <div className="col-12 mt-5">
-                    <div className="row justify-content-center">
-                        <div
-                            className="col-lg-8 p-5"
-                            style={{
-                                boxShadow: `.01rem .01rem .5rem .5rem ${"#cccccc"}`,
-                                borderRadius: ".5rem",
-                            }}
-                        >
-                            <div className="title-move mb-5">
-                                please select your moving location.
-                            </div>
-                            <div className="mb-3">
-                            <div
-                                className="col-md-12 px-0 text-dark"
-                                style={{ fontSize: "2rem" }}
-                            >
-                                Moving From
-                                <strong className="text-danger">*</strong>
-                            </div>
-                            <div className="common-input p-1">
-                                <PlacesAutocomplete
-                                    value={state.from_address}
-                                    onChange={(from_address) =>
-                                        setState((state) => ({
-                                            ...state,
-                                            from_address,
-                                        }))
-                                    }
-                                    onSelect={handleFromAdessSelect}
-                                >
-                                    {({
-                                        getInputProps,
-                                        suggestions,
-                                        getSuggestionItemProps,
-                                        loading,
-                                    }) => (
-                                        <div>
-                                            <input
-                                                {...getInputProps({
-                                                    placeholder: "From ...",
-                                                    className:
-                                                        "location-search-input m-1",
-                                                })}
-                                            />
-                                            <div className="autocomplete-dropdown-container">
-                                                {loading && (
-                                                    <div>Loading...</div>
-                                                )}
-                                                {suggestions.map(
-                                                    (suggestion) => {
-                                                        const className =
-                                                            suggestion.active
-                                                                ? "suggestion-item--active"
-                                                                : "suggestion-item";
-                                                        // inline style for demonstration purpose
-                                                        const style =
-                                                            suggestion.active
-                                                                ? {
-                                                                      backgroundColor:
-                                                                          "#fafafa",
-                                                                      cursor: "pointer",
-                                                                      fontSize: 15,
-                                                                      margin: "5px",
-                                                                  }
-                                                                : {
-                                                                      backgroundColor:
-                                                                          "#ffffff",
-                                                                      cursor: "pointer",
-                                                                      fontSize: 15,
-                                                                      margin: "5px",
-                                                                  };
-                                                        return (
-                                                            <div
-                                                                key={
-                                                                    suggestion.index
-                                                                }
-                                                                {...getSuggestionItemProps(
-                                                                    suggestion,
-                                                                    {
-                                                                        className,
-                                                                        style,
-                                                                    }
-                                                                )}
-                                                            >
-                                                                <span>
-                                                                    {
-                                                                        suggestion.description
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                        );
-                                                    }
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-                                </PlacesAutocomplete>
-                            </div>
-                            </div>
-                            <div className="mb-3">
-                            <div
-                                className="col-md-12 px-0 text-dark"
-                                style={{ fontSize: "2rem" }}
-                            >
-                                Moving To
-                                <strong className="text-danger">*</strong>
-                            </div>
-                            <div className="common-input pr-1">
-                                <PlacesAutocomplete
-                                    value={state.to_address}
-                                    onChange={(to_address) =>
-                                        setState((state) => ({
-                                            ...state,
-                                            to_address,
-                                        }))
-                                    }
-                                    onSelect={handleToAdessSelect}
-                                >
-                                    {({
-                                        getInputProps,
-                                        suggestions,
-                                        getSuggestionItemProps,
-                                        loading,
-                                    }) => (
-                                        <div>
-                                            <input
-                                                {...getInputProps({
-                                                    placeholder: "To ...",
-                                                    className:
-                                                        "location-search-input m-1",
-                                                })}
-                                            />
-                                            <div className="autocomplete-dropdown-container">
-                                                {loading && (
-                                                    <div>Loading...</div>
-                                                )}
-                                                {suggestions.map(
-                                                    (suggestion) => {
-                                                        const className =
-                                                            suggestion.active
-                                                                ? "suggestion-item--active"
-                                                                : "suggestion-item";
-                                                        // inline style for demonstration purpose
-                                                        const style =
-                                                            suggestion.active
-                                                                ? {
-                                                                      backgroundColor:
-                                                                          "#fafafa",
-                                                                      cursor: "pointer",
-                                                                      fontSize: 15,
-                                                                      margin: "5px",
-                                                                  }
-                                                                : {
-                                                                      backgroundColor:
-                                                                          "#ffffff",
-                                                                      cursor: "pointer",
-                                                                      fontSize: 15,
-                                                                      margin: "5px",
-                                                                  };
-                                                        return (
-                                                            <div
-                                                                key={
-                                                                    suggestion.index
-                                                                }
-                                                                {...getSuggestionItemProps(
-                                                                    suggestion,
-                                                                    {
-                                                                        className,
-                                                                        style,
-                                                                    }
-                                                                )}
-                                                            >
-                                                                <span>
-                                                                    {
-                                                                        suggestion.description
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                        );
-                                                    }
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-                                </PlacesAutocomplete>
-                            </div>
-                            </div>
-                           <div className="mb-3">
-                           <div
-                                className="col-md-12 px-0 text-dark"
-                                style={{ fontSize: "2rem" }}
-                            >
-                                Moving Date
-                                <strong className="text-danger">*</strong>
-                            </div>
-                            <div
-                                className="common-input pr-1"
-                                data-backdrop="static"
-                                data-keyboard="false"
-                                data-toggle="modal"
-                                data-target="#date"
-                            >
-                                <input
-                                    type="text"
-                                    placeholder="date e.g 2222-12-30"
-                                    value={
-                                        state.date
-                                            ? moment(state.date).format(
-                                                  "YYYY-MM-DD"
-                                              )
-                                            : ""
-                                    }
-                                    onChange={(e) =>
-                                        setState((state) => ({
-                                            ...state,
-                                            date: e.target.value,
-                                        }))
-                                    }
-                                />
-                            </div>
-                           </div>
-                           <div className="mb-3">
-                           <div
-                                className="col-md-12 px-0 text-dark"
-                                style={{ fontSize: "2rem" }}
-                            >
-                                Zip Code
-                                <strong className="text-danger">*</strong>
-                            </div>
-                            <div className="common-input pr-1">
-                                <input
-                                    disabled={
-                                        state?.vehicle_type_id == ""
-                                            ? true
-                                            : false
-                                    }
-                                    type="text"
-                                    name="zip_code"
-                                    placeholder="Zip Code e.g 00000"
-                                    value={state.zip_code}
-                                    onChange={handleChangeZipCode}
-                                />
-                            </div>
-                           </div>
-                            <div className="col-md-12 text-danger">
-                                {state?.zipCodeDataErr}
-                            </div>
-                            {state?.zipCodeErr}
-
-                            {state.zipCodeData !== "" &&
-                                state.selectedZipCode == false && (
-                                    <>
-                                        <center
-                                            className="col-md-12 text-dark mb-1 mt-1"
-                                            style={{ fontSize: "1.5rem" }}
-                                        >
-                                            Please Select ZipCode
-                                        </center>
-                                        {state?.zipCodeData?.map(
-                                            (data, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="col-md-12 text-dark mb-1 mt-1"
-                                                    style={{
-                                                        fontSize: "1.5rem",
-                                                        border: "1px solid #F1F2F7",
-                                                        backgroundColor:
-                                                            "#F1F2F7",
-                                                        borderRadius: "5px",
-                                                    }}
-                                                    data-code={data.code}
-                                                    onClick={() =>
-                                                        handleSelectZipCode(
-                                                            data.code
-                                                        )
-                                                    }
-                                                >
-                                                    {data.code}
-                                                </div>
-                                            )
-                                        )}
-                                    </>
-                                )}
-                            <div className="text-center">
-                                {state.from_address !== "" &&
-                                state.to_address !== "" &&
-                                state.date !== "" &&
-                                state.zip_code !== "" &&
-                                state.vehicle_type_id !== "" &&
-                                state?.selectedZipCode == true ? (
-                                    <Link
-                                        type="button"
-                                        to={{
-                                            pathname: "/service-providers",
-                                            state: {
-                                                ...state,
-                                                sub_service_id: subServiceId,
-                                            },
-                                        }}
-                                        className="button-common mt-4 w-100"
-                                    >
-                                        Get Providers
-                                    </Link>
-                                ) : (
-                                    <button
-                                        disabled
-                                        type="button"
-                                        className="button-common mt-4 w-100"
-                                    >
-                                        Get Providers
-                                    </button>
-                                )}
-                            </div>
+                                ));
+                            })()}
                         </div>
-                    </div>
-                </div>
+                    </div> */}
 
-                <div className="moving-des mt-5">
-                    <p className="text-center">
-                        By signing and clicking Get a Price, you affirm you have
-                        read and agree to the Handy Terms, and you agree and
-                        authorize Handy and its affiliates, and their networks
-                        of service professionals, to deliver marketing calls or
-                        texts using automated technology to the number you
-                        provided above regarding your project and other home
-                        services offers. Consent is not a condition of purchase.
-                    </p>
-                    <br />
-                    <br />
-                    <br />
-                    <p className="text-center">
-                        If you're moving to a new home or relocating your
-                        office, you're probably worried about how you're going
-                        to get it all done. Luckily, Handy is here to help. When
-                        you book moving help through the Handy platform, you'll
-                        save time, money and the inevitable stress that comes
-                        with any big move. Handy will connect you with local
-                        house movers who have the skill, experience, and
-                        equipment to make your house move go as smoothly as
-                        possible. You're responsible for providing your own
-                        moving van or truck, but once you've figured that out,
-                        Handy will help you figure out the rest. We will help
-                        you find professional furniture movers who can help with
-                        everything, from the initial packing and wrapping to
-                        heavy lifting and unpacking once you reach your final
-                        destination.
-                    </p>
-                    <br />
-                    <br />
-                    <br />
-                    <strong className="text-center">
-                        Note: This service is for moving help, including packing
-                        boxes, unpacking boxes, heavy lifting, and loading items
-                        into a vehicle. It is not full-service moving and there
-                        is no transportation provided.
-                    </strong>
+            {/* <div className="col-12 mt-5">
+                <div className="row justify-content-center"> */}
+            {/* <div
+                className="col-lg-8 p-5"
+                style={{
+                    boxShadow: `.01rem .01rem .5rem .5rem ${"#cccccc"}`,
+                    borderRadius: ".5rem",
+                }}
+            > */}
+            <div className="title-move mb-5">
+                please select your moving location.
+            </div>
+            <div className="mb-3">
+                <div
+                    className="col-md-12 px-0 text-dark"
+                    style={{ fontSize: "2rem" }}
+                >
+                    Moving From
+                    <strong className="text-danger">*</strong>
+                </div>
+                <div className="common-input p-1">
+                    <PlacesAutocomplete
+                        value={state.from_address}
+                        onChange={(from_address) =>
+                            setState((state) => ({
+                                ...state,
+                                from_address,
+                            }))
+                        }
+                        onSelect={handleFromAdessSelect}
+                    >
+                        {({
+                            getInputProps,
+                            suggestions,
+                            getSuggestionItemProps,
+                            loading,
+                        }) => (
+                            <div>
+                                <input
+                                    {...getInputProps({
+                                        placeholder: "From ...",
+                                        className: "location-search-input m-1",
+                                    })}
+                                />
+                                <div className="autocomplete-dropdown-container">
+                                    {loading && <div>Loading...</div>}
+                                    {suggestions.map((suggestion) => {
+                                        const className = suggestion.active
+                                            ? "suggestion-item--active"
+                                            : "suggestion-item";
+                                        // inline style for demonstration purpose
+                                        const style = suggestion.active
+                                            ? {
+                                                  backgroundColor: "#fafafa",
+                                                  cursor: "pointer",
+                                                  fontSize: 15,
+                                                  margin: "5px",
+                                              }
+                                            : {
+                                                  backgroundColor: "#ffffff",
+                                                  cursor: "pointer",
+                                                  fontSize: 15,
+                                                  margin: "5px",
+                                              };
+                                        return (
+                                            <div
+                                                key={suggestion.index}
+                                                {...getSuggestionItemProps(
+                                                    suggestion,
+                                                    {
+                                                        className,
+                                                        style,
+                                                    }
+                                                )}
+                                            >
+                                                <span>
+                                                    {suggestion.description}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </PlacesAutocomplete>
                 </div>
             </div>
+            <div className="mb-3">
+                <div
+                    className="col-md-12 px-0 text-dark"
+                    style={{ fontSize: "2rem" }}
+                >
+                    Moving To
+                    <strong className="text-danger">*</strong>
+                </div>
+                <div className="common-input pr-1">
+                    <PlacesAutocomplete
+                        value={state.to_address}
+                        onChange={(to_address) =>
+                            setState((state) => ({
+                                ...state,
+                                to_address,
+                            }))
+                        }
+                        onSelect={handleToAdessSelect}
+                    >
+                        {({
+                            getInputProps,
+                            suggestions,
+                            getSuggestionItemProps,
+                            loading,
+                        }) => (
+                            <div>
+                                <input
+                                    {...getInputProps({
+                                        placeholder: "To ...",
+                                        className: "location-search-input m-1",
+                                    })}
+                                />
+                                <div className="autocomplete-dropdown-container">
+                                    {loading && <div>Loading...</div>}
+                                    {suggestions.map((suggestion) => {
+                                        const className = suggestion.active
+                                            ? "suggestion-item--active"
+                                            : "suggestion-item";
+                                        // inline style for demonstration purpose
+                                        const style = suggestion.active
+                                            ? {
+                                                  backgroundColor: "#fafafa",
+                                                  cursor: "pointer",
+                                                  fontSize: 15,
+                                                  margin: "5px",
+                                              }
+                                            : {
+                                                  backgroundColor: "#ffffff",
+                                                  cursor: "pointer",
+                                                  fontSize: 15,
+                                                  margin: "5px",
+                                              };
+                                        return (
+                                            <div
+                                                key={suggestion.index}
+                                                {...getSuggestionItemProps(
+                                                    suggestion,
+                                                    {
+                                                        className,
+                                                        style,
+                                                    }
+                                                )}
+                                            >
+                                                <span>
+                                                    {suggestion.description}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </PlacesAutocomplete>
+                </div>
+            </div>
+            <div className="mb-3">
+                <div
+                    className="col-md-12 px-0 text-dark"
+                    style={{ fontSize: "2rem" }}
+                >
+                    Moving Date
+                    <strong className="text-danger">*</strong>
+                </div>
+                <div
+                    className="common-input pr-1"
+                    data-backdrop="static"
+                    data-keyboard="false"
+                    data-toggle="modal"
+                    data-target="#date"
+                >
+                    <input
+                        type="text"
+                        placeholder="date e.g 2222-12-30"
+                        value={
+                            state.date
+                                ? moment(state.date).format("YYYY-MM-DD")
+                                : ""
+                        }
+                        onChange={(e) =>
+                            setState((state) => ({
+                                ...state,
+                                date: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+            </div>
+            <div className="mb-3">
+                <div
+                    className="col-md-12 px-0 text-dark"
+                    style={{ fontSize: "2rem" }}
+                >
+                    Zip Code
+                    <strong className="text-danger">*</strong>
+                </div>
+                <div className="common-input pr-1">
+                    <input
+                        // disabled={props?.vehicle_type_id == "" ? true : false}
+                        type="text"
+                        name="zip_code"
+                        placeholder="Zip Code e.g 00000"
+                        value={state.zip_code}
+                        onChange={handleChangeZipCode}
+                    />
+                </div>
+            </div>
+            <div className="col-md-12 text-danger">{state?.zipCodeDataErr}</div>
+            {state?.zipCodeErr}
+
+            {state.zipCodeData !== "" && state.selectedZipCode == false && (
+                <>
+                    <center
+                        className="col-md-12 text-dark mb-1 mt-1"
+                        style={{ fontSize: "1.5rem" }}
+                    >
+                        Please Select ZipCode
+                    </center>
+                    {state?.zipCodeData?.map((data, index) => (
+                        <div
+                            key={index}
+                            className="col-md-12 text-dark mb-1 mt-1"
+                            style={{
+                                fontSize: "1.5rem",
+                                border: "1px solid #F1F2F7",
+                                backgroundColor: "#F1F2F7",
+                                borderRadius: "5px",
+                            }}
+                            data-code={data.code}
+                            onClick={() => handleSelectZipCode(data.code)}
+                        >
+                            {data.code}
+                        </div>
+                    ))}
+                </>
+            )}
+            <div className="text-center">
+                {state.from_address !== "" &&
+                state.to_address !== "" &&
+                state.date !== "" &&
+                state.zip_code !== "" &&
+                props?.vehicle_type_id !== "" &&
+                state?.selectedZipCode == true ? (
+                    <Link
+                        type="button"
+                        to={{
+                            pathname: "/service-providers",
+                            state: {
+                                ...state,
+                                vehicle_type_id: props?.vehicle_type_id,
+                                sub_service_id: props?.subServiceId,
+                            },
+                        }}
+                        className="button-common mt-4 w-100"
+                    >
+                        Get Providers
+                    </Link>
+                ) : (
+                    <button
+                        disabled
+                        type="button"
+                        className="button-common mt-4 w-100"
+                    >
+                        Get Providers
+                    </button>
+                )}
+            </div>
+            {/* </div> */}
+            {/* </div>
+            </div> */}
+
+            {/* <div className="moving-des mt-5">
+                <p className="text-center">
+                    By signing and clicking Get a Price, you affirm you have
+                    read and agree to the Handy Terms, and you agree and
+                    authorize Handy and its affiliates, and their networks of
+                    service professionals, to deliver marketing calls or texts
+                    using automated technology to the number you provided above
+                    regarding your project and other home services offers.
+                    Consent is not a condition of purchase.
+                </p>
+                <br />
+                <br />
+                <br />
+                <p className="text-center">
+                    If you're moving to a new home or relocating your office,
+                    you're probably worried about how you're going to get it all
+                    done. Luckily, Handy is here to help. When you book moving
+                    help through the Handy platform, you'll save time, money and
+                    the inevitable stress that comes with any big move. Handy
+                    will connect you with local house movers who have the skill,
+                    experience, and equipment to make your house move go as
+                    smoothly as possible. You're responsible for providing your
+                    own moving van or truck, but once you've figured that out,
+                    Handy will help you figure out the rest. We will help you
+                    find professional furniture movers who can help with
+                    everything, from the initial packing and wrapping to heavy
+                    lifting and unpacking once you reach your final destination.
+                </p>
+                <br />
+                <br />
+                <br />
+                <strong className="text-center">
+                    Note: This service is for moving help, including packing
+                    boxes, unpacking boxes, heavy lifting, and loading items
+                    into a vehicle. It is not full-service moving and there is
+                    no transportation provided.
+                </strong>
+            </div> */}
+            {/* </div> */}
 
             <div
                 className="modal fade bd-example-modal-md"
@@ -657,6 +613,7 @@ export const Moving = (props) => {
                                         >
                                             <Calendar
                                                 onChange={handleCalendarClick}
+                                                minDate={new Date()}
                                                 value={state?.date}
                                             />
                                         </div>
@@ -675,9 +632,9 @@ export const Moving = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+            {/* </div> */}
 
-        <div className="row">
+            {/* <div className="row">
             <div className="col-12 mb-5">
                 <div className="moving-image-box text-center">
                     <img src="/assets/img/moving-image-.png" className="img-fluid" alt="" />
@@ -742,9 +699,9 @@ export const Moving = (props) => {
                         })()}
                     </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="row">
+            {/* <div className="row">
         <div className="col-12 mt-5">
                     <div className="row justify-content-center">
                         <div
@@ -978,7 +935,7 @@ export const Moving = (props) => {
                             <div className="common-input pr-1">
                                 <input
                                     disabled={
-                                        state?.vehicle_type_id == ""
+                                        props?.vehicle_type_id == ""
                                             ? true
                                             : false
                                     }
@@ -1062,7 +1019,7 @@ export const Moving = (props) => {
                         </div>
                     </div>
                 </div>
-        </div>
+        </div> */}
         </>
     );
 };

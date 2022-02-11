@@ -22,7 +22,7 @@ export const Services = (props) => {
     });
     const [moving, setMoving] = useState({
         step: 0,
-        vehicles: "",
+        vehicle_type_id: "",
         fromAddress: "",
         toAddress: "",
         date: "",
@@ -106,7 +106,21 @@ export const Services = (props) => {
     };
 
     if (parseInt(serviceId) === 3) {
-        return <MovingRequest {...props} />;
+        const handleSelectTypeClick = (type) => {
+            setMoving({
+                ...moving,
+                vehicle_type_id: type,
+                step: 1,
+            });
+        };
+        return (
+            <MovingRequest
+                {...props}
+                moving={moving}
+                subServiceId={subServiceId}
+                handleSelectTypeClick={handleSelectTypeClick}
+            />
+        );
     }
     return (
         <>
@@ -126,8 +140,7 @@ export const Services = (props) => {
                         <div className="col-12">
                             {serviceId && subServiceId ? (
                                 <>
-                                    {params.get("service_type") ===
-                                    ServiceType.MOVING ? (
+                                    {serviceId == 3 ? (
                                         <div className="moving-search-box m-5">
                                             <Moving
                                                 {...props}
@@ -261,16 +274,13 @@ export const Services = (props) => {
                                                         className="item"
                                                         key={index}
                                                     >
-                                                        <a
-                                                            href="javascript:void(0)"
-                                                            className="link"
-                                                        >
+                                                        <div className="link">
                                                             <i
                                                                 className="fa fa-angle-right pr-3"
                                                                 aria-hidden="true"
                                                             ></i>
                                                             {subMenu?.name}
-                                                        </a>
+                                                        </div>
                                                     </li>
                                                 )
                                             )}
