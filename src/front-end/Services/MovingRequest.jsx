@@ -8,7 +8,7 @@ const MovingRequest = (props) => {
                 <div className="row">
                     <div className="col-12 mt-5">
                         <div className="row justify-content-center">
-                            <div className="col-lg-8 p-5" style={{background:"#fff",boxShadow: "rgb(204, 204, 204) 0.01rem 0.01rem 0.5rem 0.5rem", borderRadius: "0.5rem"}}>
+                            <div className="col-lg-5 p-5" style={{background:"#fff",boxShadow: "rgb(204, 204, 204) 0.01rem 0.01rem 0.5rem 0.5rem", borderRadius: "0.5rem"}}>
                                 <div className="title-move mb-5">please select your moving location.</div>
                                 <div className="mb-3">
                                 <div className="col-md-12 px-0 text-dark" style={{fontSize: "2rem"}}>Moving From<strong className="text-danger">*</strong></div>

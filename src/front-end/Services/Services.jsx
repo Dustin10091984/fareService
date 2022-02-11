@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { HOST } from "../../constants";
 import ServiceType from "../../constants/ServiceType";
 import { Moving } from "./Moving";
+import { MovingRequest } from "./MovingRequest";
 import { Service } from "./Service";
 export const Services = (props) => {
     const { serviceId, subServiceId } = props.match.params;
@@ -19,7 +20,15 @@ export const Services = (props) => {
         zipCodeDataErr: "",
         selectedZipCode: false,
     });
-    console.log(service.selected);
+    const [moving, setMoving] = useState({
+        step: 0,
+        vehicles: "",
+        fromAddress: "",
+        toAddress: "",
+        date: "",
+        zip_code: "",
+    });
+
     const [error, setError] = useState({
         selected: {},
     });
@@ -96,6 +105,9 @@ export const Services = (props) => {
         });
     };
 
+    if(parseInt(serviceId) === 3){
+        return <MovingRequest {...props} />;
+    }
     return (
         <>
             <div
@@ -1422,6 +1434,7 @@ export const Services = (props) => {
             </div> */}
         </>
     );
+
 };
 
 {
