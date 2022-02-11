@@ -52,17 +52,17 @@ export class Footer extends Component{
                                            Contact Us
                                        </a>
                                    </li>
-                                   <li className="d-item mt-4">
+                                   <li className="d-item d-none mt-4">
                                        <a href="#" className="link">
                                            Be a Professional
                                        </a>
                                    </li>
-                                   <li className="d-item">
+                                   <li className="d-item d-none">
                                        <a href="#" className="link">
                                            Retail Partnerships
                                        </a>
                                    </li>
-                                   <li className="d-item">
+                                   <li className="d-item d-none">
                                        <a href="#" className="link">
                                            Scholarship
                                        </a>

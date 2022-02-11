@@ -3127,3 +3127,37 @@ padding: 1rem;
 width: 100%;
 text-align: center;
 }
+
+section.qustions-sec.pad-y,section.best-house-clen.pad-y ,.cleaning-affordable.pad-y {
+    display: none;
+}
+
+@media (max-width:767px) {
+    header.nav-sec {
+        background: #f5f5f5;
+    }
+    
+.menu-icon-mobile{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.menu-icon-mobile .title--menu{
+    font-size: 2rem;
+    font-weight: 600;
+    color: black;
+    text-transform: capitalize;
+}
+.navbar-light .navbar-toggler{
+    border-color: black;
+}
+.nav-sec .navbar-nav .nav-item{
+    position: relative;
+}
+.nav-sec .navbar-nav .nav-item:hover .dropdownmenu{
+    z-index: 5000;
+}
+}

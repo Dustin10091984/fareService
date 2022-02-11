@@ -69,7 +69,7 @@ const Header = (props) => {
 
     const header_menu = state.header_menu.map((menu, idx) => {
         return (
-            <li className="nav-item" key={`menu-${idx}`} style={{ zIndex: 10 }}>
+            <li className="nav-item" key={`menu-${idx}`}>
                 <a className="nav-link" href="#">
                     {menu.name}{" "}
                     <i className="fa fa-angle-down pl-1" aria-hidden="true"></i>
@@ -439,6 +439,8 @@ const Header = (props) => {
                     <div className="row">
                         <div className="col-md-12">
                             <nav className="navbar navbar-expand-md navbar-light">
+                                <div className="menu-icon-mobile d-md-none">
+                                   <div className="title--menu"> menu</div>
                                 <button
                                     className="navbar-toggler"
                                     type="button"
@@ -450,6 +452,7 @@ const Header = (props) => {
                                 >
                                     <span className="navbar-toggler-icon"></span>
                                 </button>
+                                </div>
                                 <div
                                     className="collapse navbar-collapse"
                                     id="navbarSupportedContent"
@@ -458,7 +461,6 @@ const Header = (props) => {
                                         {header_menu}
                                         <li
                                             className="nav-item"
-                                            style={{ zIndex: 10 }}
                                         >
                                             <Link
                                                 to={`/restaurants`}
@@ -469,7 +471,7 @@ const Header = (props) => {
                                         </li>
                                         <li
                                             className="nav-item"
-                                            style={{ zIndex: 10 }}
+
                                         >
                                             <Link
                                                 to={`/grocery-stores`}

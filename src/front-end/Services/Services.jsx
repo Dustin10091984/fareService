@@ -641,6 +641,7 @@ export const Services = (props) => {
                 </section>
             )}
 
+            <div className="d-none">
             <section className="qustions-sec pad-y">
                 <div className="container">
                     <div className="row">
@@ -939,6 +940,7 @@ export const Services = (props) => {
                     </div>
                 </div>
             </div>
+            </div>
             <section className="handy-works pad-y">
                 <div className="container">
                     <div className="row">
@@ -1186,6 +1188,7 @@ export const Services = (props) => {
                     </div>
                 </div>
             </section>
+            <div className="d-none">
             <div className="container">
                 <div className="row">
                     <div className="col-12">
@@ -1397,6 +1400,7 @@ export const Services = (props) => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );
