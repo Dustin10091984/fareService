@@ -121,9 +121,15 @@ export const ServicesDetail = (props) => {
                                                             </div> */}
                                                             <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
                                                                 <Rating
-                                                                    rating={data?.provider?.rating?.toFixed(
-                                                                        1
-                                                                    )}
+                                                                    rating={
+                                                                        typeof data
+                                                                            ?.provider
+                                                                            ?.rating ==
+                                                                            "float" &&
+                                                                        data?.provider?.rating?.toFixed(
+                                                                            1
+                                                                        )
+                                                                    }
                                                                     isCenter={
                                                                         false
                                                                     }
@@ -135,10 +141,14 @@ export const ServicesDetail = (props) => {
                                                     </button> */}
                                                             </div>
                                                             <div className="user-price text-green">
-                                                                {data?.provider
+                                                                {(data?.provider
                                                                     ?.provider_profile
                                                                     ?.hourly_rate !==
-                                                                null
+                                                                    null &&
+                                                                data?.provider
+                                                                    ?.provider_profile
+                                                                    ?.hourly_rate !==
+                                                                    undefined)
                                                                     ? `$${data?.provider?.provider_profile?.hourly_rate}/Per Hour`
                                                                     : null}
                                                             </div>
@@ -195,7 +205,8 @@ export const ServicesDetail = (props) => {
                                                     <div className="order-title">
                                                         Type :{" "}
                                                         <span className="order-num active">
-                                                            {data?.type}
+                                                            {data?.requested_sub_service ||
+                                                                data?.type}
                                                         </span>
                                                     </div>
                                                     {data?.type ==
