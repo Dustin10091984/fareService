@@ -56,7 +56,7 @@ import { onMessageListener, getToken } from './firebaseInit';
 import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
-import { MovingRequest } from './front-end/Services/MovingRequest';
+import { MovingRequest } from './front-end/moving';
 
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 

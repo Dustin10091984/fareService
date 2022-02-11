@@ -3054,10 +3054,10 @@ hr {
 
 .moving-vehiclei-box {
     width: 25.1rem;
-height: 14.5rem;
-padding: 1rem;
+    height: 14.5rem;
+    padding: 1rem;
 }
-.moving-vehiclei-box img{
+.moving-vehiclei-box img {
     max-height: 100%;
 }
 .vehicle-title {
@@ -3069,95 +3069,95 @@ padding: 1rem;
     text-transform: capitalize;
 }
 
-.moving-push-top{
+.moving-push-top {
     position: relative;
     margin-top: -44rem;
 }
 
-.map-box-new{
+.map-box-new {
     width: 100%;
-height: 30.5rem;
+    height: 30.5rem;
 }
 
-.map-title{
+.map-title {
     font-weight: bold;
-font-size: 3.6rem;
-color: #000000;
-
+    font-size: 3.6rem;
+    color: #000000;
 }
-.qoutes-map-box{
-    background: #FFFFFF;
-box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
-border-radius: 8px;
-/* overflow: hidden; */
+.qoutes-map-box {
+    background: #ffffff;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    /* overflow: hidden; */
 }
 
-.moving-form{
+.moving-form {
     font-weight: bold;
-font-size: 2.0rem;
-color: #000000;
+    font-size: 2rem;
+    color: #000000;
 }
 
-.moving-form-map-link{
+.moving-form-map-link {
     font-style: normal;
-font-weight: bold;
-font-size: 1.4rem;
-color: #fea629;
-}
-
-.request-information{
-    background: #FFFFFF;
-box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
-}
-
-.RequestQuote{
     font-weight: bold;
-font-size: 6.4rem;
-color: #000000;
+    font-size: 1.4rem;
+    color: #fea629;
 }
 
-.enter-detail-rqt{
+.request-information {
+    background: #ffffff;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.RequestQuote {
     font-weight: bold;
-font-size: 2.8rem;
-background: #fea629;
-box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
-border-radius: 8px;
-color: #FFFFFF;
-padding: 1rem;
-width: 100%;
-text-align: center;
+    font-size: 6.4rem;
+    color: #000000;
 }
 
-section.qustions-sec.pad-y,section.best-house-clen.pad-y ,.cleaning-affordable.pad-y {
+.enter-detail-rqt {
+    font-weight: bold;
+    font-size: 2.8rem;
+    background: #fea629;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+section.qustions-sec.pad-y,
+section.best-house-clen.pad-y,
+.cleaning-affordable.pad-y {
     display: none;
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
     header.nav-sec {
         background: #f5f5f5;
     }
-    
-.menu-icon-mobile{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-}
+    .menu-icon-mobile {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-.menu-icon-mobile .title--menu{
-    font-size: 2rem;
-    font-weight: 600;
-    color: black;
-    text-transform: capitalize;
-}
-.navbar-light .navbar-toggler{
-    border-color: black;
-}
-.nav-sec .navbar-nav .nav-item{
-    position: relative;
-}
-.nav-sec .navbar-nav .nav-item:hover .dropdownmenu{
-    z-index: 5000;
-}
+    .menu-icon-mobile .title--menu {
+        font-size: 2rem;
+        font-weight: 600;
+        color: black;
+        text-transform: capitalize;
+    }
+    .navbar-light .navbar-toggler {
+        border-color: black;
+    }
+    .nav-sec .navbar-nav .nav-item {
+        position: relative;
+    }
+    .nav-sec .navbar-nav .nav-item:hover .dropdownmenu {
+        z-index: 5000;
+    }
 }
