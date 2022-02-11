@@ -70,10 +70,15 @@ const Header = (props) => {
     const header_menu = state.header_menu.map((menu, idx) => {
         return (
             <li className="nav-item" key={`menu-${idx}`}>
-                <a className="nav-link" href="javascript:void(0)">
+                <div
+                    className="nav-link"
+                    style={{
+                        cursor: "default",
+                    }}
+                >
                     {menu.name}{" "}
                     <i className="fa fa-angle-down pl-1" aria-hidden="true"></i>
-                </a>
+                </div>
                 {menu.sub_services && menu.sub_services.length ? (
                     <ul className="dropdownmenu">
                         {menu.sub_services.map((sub_menu, index) => {
@@ -83,9 +88,7 @@ const Header = (props) => {
                                     key={`sub-menu-${index}`}
                                 >
                                     <Link
-                                        to={`/services/${menu.id}/${
-                                            sub_menu.id
-                                        }`}
+                                        to={`/services/${menu.id}/${sub_menu.id}`}
                                         // ${
                                         //     menu.id == 3
                                         //         ? "?service_type=" +
@@ -220,21 +223,25 @@ const Header = (props) => {
                                                     }}
                                                 >
                                                     {state.notificationOpen && (
-                                                       <div>
-                                                           <span className="user-name-farenow">Notification</span> 
-                                                        <img
-                                                            src="/assets/img/outline-bell.svg"
-                                                            className="img-fluid"
-                                                        />
-                                                       </div>
+                                                        <div>
+                                                            <span className="user-name-farenow">
+                                                                Notification
+                                                            </span>
+                                                            <img
+                                                                src="/assets/img/outline-bell.svg"
+                                                                className="img-fluid"
+                                                            />
+                                                        </div>
                                                     )}
                                                     {!state.notificationOpen && (
-                                                         <div>
-                                                        <span className="user-name-farenow">Notification</span> 
-                                                        <img
-                                                            src="/assets/img/outline-bell.svg"
-                                                            className="img-fluid"
-                                                        />
+                                                        <div>
+                                                            <span className="user-name-farenow">
+                                                                Notification
+                                                            </span>
+                                                            <img
+                                                                src="/assets/img/outline-bell.svg"
+                                                                className="img-fluid"
+                                                            />
                                                         </div>
                                                     )}
                                                     {state?.notificationOpen && (
@@ -360,7 +367,9 @@ const Header = (props) => {
                                                             cursor: "pointer",
                                                         }}
                                                     >
-                                                        <span className="user-name-farenow">Jhon</span>
+                                                        <span className="user-name-farenow">
+                                                            Jhon
+                                                        </span>
                                                         <img
                                                             src="/assets/img/outline-user.svg"
                                                             className="img-fluid"
@@ -441,18 +450,18 @@ const Header = (props) => {
                         <div className="col-md-12">
                             <nav className="navbar navbar-expand-md navbar-light">
                                 <div className="menu-icon-mobile d-md-none">
-                                   <div className="title--menu"> menu</div>
-                                <button
-                                    className="navbar-toggler"
-                                    type="button"
-                                    data-toggle="collapse"
-                                    data-target="#navbarSupportedContent"
-                                    aria-controls="navbarSupportedContent"
-                                    aria-expanded="false"
-                                    aria-label="Toggle navigation"
-                                >
-                                    <span className="navbar-toggler-icon"></span>
-                                </button>
+                                    <div className="title--menu"> menu</div>
+                                    <button
+                                        className="navbar-toggler"
+                                        type="button"
+                                        data-toggle="collapse"
+                                        data-target="#navbarSupportedContent"
+                                        aria-controls="navbarSupportedContent"
+                                        aria-expanded="false"
+                                        aria-label="Toggle navigation"
+                                    >
+                                        <span className="navbar-toggler-icon"></span>
+                                    </button>
                                 </div>
                                 <div
                                     className="collapse navbar-collapse"
@@ -460,9 +469,7 @@ const Header = (props) => {
                                 >
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
-                                        <li
-                                            className="nav-item"
-                                        >
+                                        <li className="nav-item">
                                             <Link
                                                 to={`/restaurants`}
                                                 className="nav-link"
@@ -470,10 +477,7 @@ const Header = (props) => {
                                                 {"Restaurants "}
                                             </Link>
                                         </li>
-                                        <li
-                                            className="nav-item"
-
-                                        >
+                                        <li className="nav-item">
                                             <Link
                                                 to={`/grocery-stores`}
                                                 className="nav-link"

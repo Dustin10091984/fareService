@@ -160,10 +160,7 @@ export const ProviderProfile = (props) => {
                                                     className="item"
                                                     key={index}
                                                 >
-                                                    <a
-                                                        href="javascript:void(0)"
-                                                        className="link"
-                                                    >
+                                                    <div className="link">
                                                         <i
                                                             className="fa fa-angle-right pr-2"
                                                             aria-hidden="true"
@@ -172,7 +169,7 @@ export const ProviderProfile = (props) => {
                                                             service?.sub_service
                                                                 ?.name
                                                         }
-                                                    </a>
+                                                    </div>
                                                 </li>
                                             );
                                         }

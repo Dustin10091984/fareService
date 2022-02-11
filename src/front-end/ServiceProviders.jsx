@@ -10,7 +10,7 @@ import { postRequestService } from "../store/Slices/services/RequestServiceSclic
 import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
 import {
     makeMovingRequest,
-    movingRequest,
+    movingRequest as clearMovingRequest,
 } from "../store/Slices/moving/movingSlice";
 import ServiceType from "../constants/ServiceType";
 import { GoogleMap } from "../components/GoogleMap/GoogleMap";
@@ -152,7 +152,7 @@ export const ServiceProviders = (props) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleGoToServicesHistory();
-                    dispatch(movingRequest(""));
+                    dispatch(clearMovingRequest(""));
                 }
             });
         }

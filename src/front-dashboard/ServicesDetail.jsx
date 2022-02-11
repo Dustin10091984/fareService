@@ -140,14 +140,14 @@ export const ServicesDetail = (props) => {
                                                     </button> */}
                                                             </div>
                                                             <div className="user-price text-green">
-                                                                {(data?.provider
+                                                                {data?.provider
                                                                     ?.provider_profile
                                                                     ?.hourly_rate !==
                                                                     null &&
                                                                 data?.provider
                                                                     ?.provider_profile
                                                                     ?.hourly_rate !==
-                                                                    undefined)
+                                                                    undefined
                                                                     ? `$${data?.provider?.provider_profile?.hourly_rate}/Per Hour`
                                                                     : null}
                                                             </div>
@@ -204,7 +204,9 @@ export const ServicesDetail = (props) => {
                                                     <div className="order-title">
                                                         Type :{" "}
                                                         <span className="order-num active">
-                                                            {data?.requested_sub_service ||
+                                                            {data
+                                                                ?.requested_sub_service
+                                                                ?.name ||
                                                                 data?.type}
                                                         </span>
                                                     </div>
