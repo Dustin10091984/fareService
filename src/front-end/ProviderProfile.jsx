@@ -161,7 +161,7 @@ export const ProviderProfile = (props) => {
                                                     key={index}
                                                 >
                                                     <a
-                                                        href="#"
+                                                        href="javascript:void(0)"
                                                         className="link"
                                                     >
                                                         <i

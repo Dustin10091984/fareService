@@ -70,7 +70,7 @@ const Header = (props) => {
     const header_menu = state.header_menu.map((menu, idx) => {
         return (
             <li className="nav-item" key={`menu-${idx}`}>
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="javascript:void(0)">
                     {menu.name}{" "}
                     <i className="fa fa-angle-down pl-1" aria-hidden="true"></i>
                 </a>
@@ -85,12 +85,13 @@ const Header = (props) => {
                                     <Link
                                         to={`/services/${menu.id}/${
                                             sub_menu.id
-                                        }${
-                                            menu.id == 3
-                                                ? "?service_type=" +
-                                                  ServiceType.MOVING
-                                                : ""
                                         }`}
+                                        // ${
+                                        //     menu.id == 3
+                                        //         ? "?service_type=" +
+                                        //           ServiceType.MOVING
+                                        //         : ""
+                                        // }
                                         className="nav-link border-bottom"
                                     >
                                         <i
@@ -265,7 +266,7 @@ const Header = (props) => {
                                                             {!notifications.loading &&
                                                                 notifications
                                                                     ?.data
-                                                                    .length >
+                                                                    ?.length >
                                                                     0 &&
                                                                 notifications?.data?.map(
                                                                     (
