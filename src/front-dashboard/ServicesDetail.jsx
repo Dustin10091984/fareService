@@ -124,8 +124,7 @@ export const ServicesDetail = (props) => {
                                                                     rating={
                                                                         typeof data
                                                                             ?.provider
-                                                                            ?.rating ==
-                                                                            "float" &&
+                                                                            ?.rating &&
                                                                         data?.provider?.rating?.toFixed(
                                                                             1
                                                                         )
