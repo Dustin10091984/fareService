@@ -6,6 +6,7 @@ import { Moving } from "./Moving";
 import { Service } from "./Service";
 export const Services = (props) => {
     const { serviceId, subServiceId } = props.match.params;
+    const { headerMenu } = props;
     const search = props.location.search; // could be '?foo=bar'
     const params = new URLSearchParams(search);
     const [service, setService] = useState({
@@ -222,82 +223,103 @@ export const Services = (props) => {
                                         </div>
                                         <div className="service-line"></div> */}
                             <div className="service-items-list d-flex align-items-start justify-content-center w-100 flex-wrap flex-md-nowrap">
-                                <div className="service-card mb-4">
-                                    <div className="service-img">
-                                        <img
-                                            src="/assets/img/service-card1.jpg"
-                                            className="img-fluid"
-                                            alt="image"
-                                        />
+                                {headerMenu.map((mainMenu, index) => (
+                                    <div className="service-card mb-4">
+                                        <div className="service-img">
+                                            <img
+                                                src={
+                                                    (mainMenu?.image &&
+                                                        HOST +
+                                                            mainMenu?.image) ||
+                                                    "/assets/img/service-card1.jpg"
+                                                }
+                                                className="img-fluid"
+                                                alt="image"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src =
+                                                        "/assets/img/service-card1.jpg";
+                                                }}
+                                            />
+                                        </div>
+                                        <ul className="service-list">
+                                            {mainMenu?.sub_services?.map(
+                                                (subMenu, index) => (
+                                                    <li
+                                                        className="item"
+                                                        key={index}
+                                                    >
+                                                        <a
+                                                            href="javascript:void(0)"
+                                                            className="link"
+                                                        >
+                                                            <i
+                                                                className="fa fa-angle-right pr-3"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                            {subMenu?.name}
+                                                        </a>
+                                                    </li>
+                                                )
+                                            )}
+                                            {/* <li className="item">
+                                                <a href="#" className="link">
+                                                    <i
+                                                        className="fa fa-angle-right pr-3"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    Affordable Maids
+                                                </a>
+                                            </li>
+                                            <li className="item">
+                                                <a href="#" className="link">
+                                                    <i
+                                                        className="fa fa-angle-right pr-3"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    Apartment Cleaning
+                                                </a>
+                                            </li>
+                                            <li className="item">
+                                                <a href="#" className="link">
+                                                    <i
+                                                        className="fa fa-angle-right pr-3"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    Bedroom Cleaning
+                                                </a>
+                                            </li>
+                                            <li className="item">
+                                                <a href="#" className="link">
+                                                    <i
+                                                        className="fa fa-angle-right pr-3"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    Cleaning Service
+                                                </a>
+                                            </li>
+                                            <li className="item">
+                                                <a href="#" className="link">
+                                                    <i
+                                                        className="fa fa-angle-right pr-3"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    Housekeeping
+                                                </a>
+                                            </li>
+                                            <li className="item">
+                                                <a href="#" className="link">
+                                                    <i
+                                                        className="fa fa-angle-right pr-3"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    Home Sanitization
+                                                </a>
+                                            </li> */}
+                                        </ul>
                                     </div>
-                                    <ul className="service-list">
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Affordable Cleaning Service
-                                            </a>
-                                        </li>
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Affordable Maids
-                                            </a>
-                                        </li>
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Apartment Cleaning
-                                            </a>
-                                        </li>
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Bedroom Cleaning
-                                            </a>
-                                        </li>
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Cleaning Service
-                                            </a>
-                                        </li>
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Housekeeping
-                                            </a>
-                                        </li>
-                                        <li className="item">
-                                            <a href="#" className="link">
-                                                <i
-                                                    className="fa fa-angle-right pr-3"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                Home Sanitization
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div className="service-card mb-4">
+                                ))}
+                                {/* <div className="service-card mb-4">
                                     <div className="service-img">
                                         <img
                                             src="/assets/img/service-card1.jpg"
@@ -435,7 +457,7 @@ export const Services = (props) => {
                                             </a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         {/* </div>
@@ -446,7 +468,7 @@ export const Services = (props) => {
             </div>
 
             {/* here added the service content  */}
-            <section className="handy-works pad-y">
+            {/* <section className="handy-works pad-y">
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -464,7 +486,7 @@ export const Services = (props) => {
                             <div className="hanfy-card">
                                 <div className="inner-card-handy">
                                     <div className="hnady-img">
-                                        {/* <img src="" alt="image"/> */}
+                                        <img src="" alt="image" />
                                     </div>
                                     <div className="title">
                                         Set Up a Cleaning Plan
@@ -487,7 +509,7 @@ export const Services = (props) => {
                             <div className="hanfy-card">
                                 <div className="inner-card-handy">
                                     <div className="hnady-img">
-                                        {/* <img src="" alt="image"/> */}
+                                        <img src="" alt="image" />
                                     </div>
                                     <div className="title">
                                         Manage Everything Online
@@ -510,7 +532,7 @@ export const Services = (props) => {
                             <div className="hanfy-card">
                                 <div className="inner-card-handy">
                                     <div className="hnady-img">
-                                        {/* <img src="" alt="image"/> */}
+                                        <img src="" alt="image" />
                                     </div>
                                     <div className="title">
                                         Sit Back and <br />
@@ -539,7 +561,7 @@ export const Services = (props) => {
                         <hr />
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {props?.serviceData?.data?.service_contents && (
                 <section className="service-des-card-sec pad-t">
@@ -641,7 +663,7 @@ export const Services = (props) => {
                 </section>
             )}
 
-            <section className="qustions-sec pad-y">
+            {/* <section className="qustions-sec pad-y">
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -931,14 +953,14 @@ export const Services = (props) => {
                         </div>
                     </div>
                 </div>
-            </section>
-            <div className="container">
+            </section> */}
+            {/* <div className="container">
                 <div className="row">
                     <div className="col-12">
                         <hr />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <section className="handy-works pad-y">
                 <div className="container">
                     <div className="row">
@@ -1194,7 +1216,7 @@ export const Services = (props) => {
                 </div>
             </div>
 
-            <section className="best-house-clen pad-y">
+            {/* <section className="best-house-clen pad-y">
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -1397,7 +1419,7 @@ export const Services = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };
