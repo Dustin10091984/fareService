@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Moving } from "./Moving";
 
 const MovingRequest = ({
@@ -7,10 +7,9 @@ const MovingRequest = ({
     vehicleTypes,
     handleSelectTypeClick,
     subServiceId,
+    handleStepClick,
 }) => {
-    console.log("====================================");
-    console.log(moving);
-    console.log("====================================");
+    const ref = useRef(null);
     useEffect(() => {
         getVehicleTypes();
     }, []);
@@ -18,6 +17,22 @@ const MovingRequest = ({
         <>
             <div className="moving-new-secion">
                 <div className="new-imag-moving text-center">
+                    {vehicleTypes?.error && (
+                        <div className="text-danger">
+                            <i className="fa fa-exclamation-triangle fa-4x" />
+                            <span className="display-4">
+                                {" "}
+                                {vehicleTypes?.message ||
+                                    "Something went wrong"}
+                            </span>
+                        </div>
+                    )}
+                    {vehicleTypes?.loading && (
+                        <div className="text-dark">
+                            <i className="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+                            <span className="display-4"> Loading...</span>
+                        </div>
+                    )}
                     <img
                         src={
                             moving?.step == 0
@@ -27,78 +42,85 @@ const MovingRequest = ({
                         className="img-fluid"
                         alt=""
                     />
+                    <div
+                        ref={ref}
+                        style={{
+                            position: "absolute",
+                            top: "40%",
+                        }}
+                    ></div>
                 </div>
             </div>
             {moving?.step == 0 && (
                 <>
-                    <div className="col-md-12">
-                        <div className="title-move mb-5">
-                            Please select your vehicle type.
-                        </div>
-                    </div>
-                    <div className="col-md-6 mx-auto">
+                    {vehicleTypes?.loading == false &&
+                        vehicleTypes?.error == false && (
+                            <div className="col-md-12">
+                                <div className="title-move mb-5">
+                                    Please select your vehicle type.
+                                </div>
+                            </div>
+                        )}
+                    <div className="col-md-6 mx-auto mb-5">
                         <div className="row">
-                            {(() => {
-                                return vehicleTypes?.data?.map(
-                                    (item, index) => (
+                            {vehicleTypes?.data?.map((item, index) => {
+                                ref?.current?.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "start",
+                                });
+                                return (
+                                    <div className="col-6 col-md-4" key={index}>
                                         <div
-                                            className="col-6 col-md-3"
-                                            key={index}
+                                            className="d-flex bd-highlight mb-5 justify-content-center align-items-center"
+                                            style={{
+                                                width: "100%",
+                                                height: "18rem",
+                                                boxShadow: `.2rem .2rem .6rem .8rem ${
+                                                    item.id ===
+                                                    moving?.vehicle_type_id
+                                                        ? "#fea629"
+                                                        : "#cccccc"
+                                                }`,
+                                                borderRadius: ".5rem",
+                                            }}
+                                            onClick={() => {
+                                                handleSelectTypeClick(item.id);
+                                            }}
                                         >
                                             <div
-                                                className="d-flex bd-highlight mb-5 justify-content-center align-items-center"
-                                                style={{
-                                                    width: "100%",
-                                                    height: "17rem",
-                                                    boxShadow: `.2rem .2rem .6rem .8rem ${
-                                                        item.id ===
-                                                        moving?.vehicle_type_id
-                                                            ? "#fea629"
-                                                            : "#cccccc"
-                                                    }`,
-                                                    borderRadius: ".5rem",
-                                                }}
-                                                onClick={() => {
-                                                    handleSelectTypeClick(
-                                                        item.id
-                                                    );
-                                                }}
+                                                className="d-flex flex-column justify-content-end align-items-center flex-column m-3 moving-vehiclei-box"
+                                                style={{ fontSize: 15 }}
                                             >
-                                                <div
-                                                    className="d-flex flex-column justify-content-end align-items-center flex-column m-3 moving-vehiclei-box"
-                                                    style={{ fontSize: 15 }}
-                                                >
-                                                    {item.image ? (
-                                                        <img
-                                                            src={
-                                                                process.env
-                                                                    .REACT_APP_API_BASE_URL +
-                                                                item.image
-                                                            }
-                                                            className="img-fluid m-1"
-                                                            alt="..."
-                                                        />
-                                                    ) : (
-                                                        <i
-                                                            className="fa fa-car fa-5x"
-                                                            aria-hidden="true"
-                                                        ></i>
-                                                    )}
-                                                    <div className="vehicle-title mt-3">
-                                                        {item.title}
-                                                    </div>
+                                                {item.image ? (
+                                                    <img
+                                                        src={
+                                                            process.env
+                                                                .REACT_APP_API_BASE_URL +
+                                                            item.image
+                                                        }
+                                                        className="img-fluid m-1"
+                                                        alt="..."
+                                                    />
+                                                ) : (
+                                                    <i
+                                                        className="fa fa-car fa-5x"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                )}
+                                                <div className="vehicle-title mt-3">
+                                                    {item.title}
                                                 </div>
                                             </div>
                                         </div>
-                                    )
+                                    </div>
                                 );
-                            })()}
+                            })}
                         </div>
                     </div>
                 </>
             )}
-            {moving?.step == 1 && (
-                <div className="container col-md-12 moving-push-top">
+            {moving?.step == 1 && moving?.vehicle_type_id && (
+                <div className="container col-md-12 moving-push-top mb-6">
                     <div className="row">
                         <div className="col-md-12">
                             <div className="row justify-content-center">
@@ -258,6 +280,45 @@ const MovingRequest = ({
                     </div>
                 </div>
             )}
+            <div className="col-md-7 mx-auto mb-5">
+                <div className="row">
+                    <div className="col-md-6">
+                        {moving?.step == 1 && (
+                            <span
+                                onClick={() => handleStepClick(0)}
+                                style={{
+                                    cursor: "pointer",
+                                    fontWeight: "bold",
+                                    color: "#fea619",
+                                }}
+                            >
+                                <i className="fa fa-angle-left fa-5x"></i>
+                            </span>
+                        )}
+                    </div>
+                    <div className="col-md-6">
+                        {moving?.step == 0 && moving?.vehicle_type_id && (
+                            <span
+                                onClick={() => handleStepClick(1)}
+                                className="float-right"
+                                style={{
+                                    cursor: "pointer",
+                                    fontWeight: "bold",
+                                    color: "#fea619",
+                                }}
+                            >
+                                <i
+                                    className="fa fa-angle-right fa-5x"
+                                    style={{
+                                        marginTop: "1rem",
+                                    }}
+                                ></i>
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div className="mb-5 mt-5"></div>
         </>
     );
 };

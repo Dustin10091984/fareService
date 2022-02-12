@@ -109,15 +109,23 @@ export const Services = (props) => {
         const handleSelectTypeClick = (type) => {
             setMoving({
                 ...moving,
-                vehicle_type_id: type,
-                step: 1,
+                vehicle_type_id: moving?.vehicle_type_id == type ? "" : type,
             });
         };
+
+        const handleStepClick = (step) => {
+            setMoving((state) => ({
+                ...state,
+                step,
+            }));
+        };
+
         return (
             <MovingRequest
                 {...props}
                 moving={moving}
                 subServiceId={subServiceId}
+                handleStepClick={handleStepClick}
                 handleSelectTypeClick={handleSelectTypeClick}
             />
         );
