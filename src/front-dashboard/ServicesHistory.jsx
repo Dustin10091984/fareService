@@ -12,6 +12,7 @@ import Loading from "../front-end/common/Loading";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Rating from "../components/Rating";
 import Paginate from "./../components/Paginate";
+import { HOST } from "../constants";
 
 export const ServicesHistory = (props) => {
     const { location, history } = props;
@@ -509,10 +510,20 @@ export const ServicesHistory = (props) => {
                                                         <div className="col-md-4">
                                                             <img
                                                                 className="img-fluid"
+                                                                style={{
+                                                                    height: "9rem",
+                                                                    width: "100%",
+                                                                    borderRadius:
+                                                                        "100%",
+                                                                }}
                                                                 src={
-                                                                    serviceRequest
+                                                                    (serviceRequest
                                                                         ?.provider
-                                                                        ?.image ||
+                                                                        ?.image &&
+                                                                        HOST +
+                                                                            serviceRequest
+                                                                                ?.provider
+                                                                                ?.image) ||
                                                                     "/assets/img/user4.jpg"
                                                                 }
                                                                 alt=""

@@ -249,7 +249,10 @@ export const Services = (props) => {
                                         <div className="service-line"></div> */}
                             <div className="service-items-list d-flex align-items-start justify-content-center w-100 flex-wrap flex-md-nowrap">
                                 {headerMenu.map((mainMenu, index) => (
-                                    <div className="service-card mb-4">
+                                    <div
+                                        className="service-card mb-4"
+                                        key={index}
+                                    >
                                         <div className="service-img">
                                             <img
                                                 src={
