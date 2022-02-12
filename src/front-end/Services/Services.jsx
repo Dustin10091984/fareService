@@ -603,14 +603,12 @@ export const Services = (props) => {
                             <div className="col-12">
                                 <div className="common-heading text-center">
                                     <div className="title">
-                                        What's Included in a House Cleaning?
+                                        What's Included in a{" "}
+                                        {props?.serviceData?.data?.name}?
                                     </div>
                                     <div className="sub-des">
-                                        Here is what you can expect from a house
-                                        cleaning from a Handy professional.
-                                        Download the app to share furthe
-                                        <br />
-                                        cleaning details and instructions!
+                                        Here is what you can expect from a{" "}
+                                        {props?.serviceData?.data?.name}.
                                     </div>
                                 </div>
                             </div>
