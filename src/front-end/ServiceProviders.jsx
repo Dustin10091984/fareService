@@ -24,7 +24,7 @@ import Swal from "sweetalert2";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
-
+    console.log(location.state);
     const [open, setOpen] = useState(false);
 
     const movingRef = useRef("movingModal");
@@ -613,7 +613,78 @@ export const ServiceProviders = (props) => {
                                                                 <button
                                                                     onClick={(
                                                                         event
-                                                                    ) =>
+                                                                    ) => {
+                                                                        if (
+                                                                            location
+                                                                                .state
+                                                                                .service_type ==
+                                                                            ServiceType.MOVING
+                                                                        ) {
+                                                                            console.log(
+                                                                                location.state
+                                                                            );
+                                                                            props?.history?.push(
+                                                                                {
+                                                                                    pathname:
+                                                                                        "/moving-request",
+                                                                                    state: {
+                                                                                        date: location
+                                                                                            ?.state
+                                                                                            ?.date,
+                                                                                        end_lat:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.end_lat,
+                                                                                        end_lng:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.end_lng,
+                                                                                        from_address:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.from_address,
+                                                                                        service_type:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.service_type,
+                                                                                        start_lat:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.start_lat,
+                                                                                        start_lng:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.start_lng,
+                                                                                        to_address:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.to_address,
+                                                                                        provider_id:
+                                                                                            provider.id,
+                                                                                        sub_service_id:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.sub_service_id,
+                                                                                        vehicle_type_id:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.vehicle_type_id,
+                                                                                        zip_code:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.zip_code,
+                                                                                        date: moment(
+                                                                                            location
+                                                                                                .state
+                                                                                                .date
+                                                                                        ).format(
+                                                                                            "YYYY-MM-DD"
+                                                                                        ),
+                                                                                    },
+                                                                                }
+                                                                            );
+                                                                            return;
+                                                                        }
                                                                         handleContinueClick(
                                                                             event,
                                                                             provider.account_type ===
@@ -624,8 +695,8 @@ export const ServiceProviders = (props) => {
                                                                                 ? true
                                                                                 : false,
                                                                             provider
-                                                                        )
-                                                                    }
+                                                                        );
+                                                                    }}
                                                                     value={
                                                                         provider.id
                                                                     }
@@ -637,16 +708,15 @@ export const ServiceProviders = (props) => {
                                                                     data-target={
                                                                         location
                                                                             .state
-                                                                            .service_type ==
-                                                                        ServiceType.MOVING
-                                                                            ? "#moving"
-                                                                            : provider.account_type ===
-                                                                                  "BASIC" &&
-                                                                              provider
-                                                                                  ?.provider_profile
-                                                                                  ?.hourly_rate
+                                                                            .service_type !=
+                                                                            ServiceType.MOVING &&
+                                                                        (provider.account_type ===
+                                                                            "BASIC" &&
+                                                                        provider
+                                                                            ?.provider_profile
+                                                                            ?.hourly_rate
                                                                             ? "#hourly"
-                                                                            : "#quotation"
+                                                                            : "#quotation")
                                                                     }
                                                                     disabled={
                                                                         location
