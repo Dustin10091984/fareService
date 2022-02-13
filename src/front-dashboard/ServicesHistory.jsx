@@ -290,18 +290,15 @@ export const ServicesHistory = (props) => {
                                 serviceRequestList?.data?.map(
                                     (serviceRequest, index) => (
                                         <div
-                                            className="col-md-4 col-sm-6"
+                                            className="col-9 mobile-auto-col col-sm-6 col-lg-4"
                                             key={index}
                                         >
-                                            <div className="col-md-12">
-                                                <div
-                                                    className=" row order-card d-flex"
-                                                    style={{
-                                                        minHeight: "34vh",
-                                                    }}
+                                             <div
+                                                    className="order-card order-history-card-11 d-flex"
+                                                   
                                                 >
                                                     <div className="row">
-                                                        <div className="col-md-8 order-des-b">
+                                                        <div className="col-8 order-des-b">
                                                             <Link
                                                                 to={`service-detail/${serviceRequest.id}`}
                                                                 className="font-weight-bold"
@@ -507,12 +504,13 @@ export const ServicesHistory = (props) => {
                                                                     serviceRequest.type}
                                                             </div>
                                                         </div>
-                                                        <div className="col-md-4">
+                                                        <div className="col-4">
                                                             <img
                                                                 className="img-fluid"
                                                                 style={{
-                                                                    height: "9rem",
-                                                                    width: "100%",
+                                                                    height: "8.1rem",
+                                                                    width: "8.1rem",
+                                                                    objectFit:"cover",
                                                                     borderRadius:
                                                                         "100%",
                                                                 }}
@@ -573,14 +571,11 @@ export const ServicesHistory = (props) => {
                                                                     "ENDED"
                                                             ) {
                                                                 return (
-                                                                    <div className="order-des-b">
+                                                                    <div className="order-des-b w-100">
                                                                         <div
                                                                             type="button"
-                                                                            className="service-label"
-                                                                            style={{
-                                                                                backgroundColor:
-                                                                                    "blue",
-                                                                            }}
+                                                                            className="button-common w-100"
+                                                                           
                                                                             onClick={() =>
                                                                                 handleFeedbackClick(
                                                                                     serviceRequest.id,
@@ -603,7 +598,6 @@ export const ServicesHistory = (props) => {
                                                         })()}
                                                     </div>
                                                 </div>
-                                            </div>
                                         </div>
                                     )
                                 )}

@@ -18,7 +18,6 @@ export const Index = (props) => {
                                         reliable way to take care of your home.
                                     </div>
                                     <div className="des">
-                                        reliable way to take care of your home
                                         We make it easy for you to create the
                                         best experience for your home. Book for
                                         a handyman, get a professional service

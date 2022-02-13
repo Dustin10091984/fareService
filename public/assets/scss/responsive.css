@@ -1,4 +1,10 @@
 @media (max-width:991px) {
+    .input-box {
+        width: 35rem;
+    }
+    .header-logo {
+        max-width: 140px;
+    }
     .stre-detail {
     margin-bottom: 0rem;
     height: auto;
@@ -135,4 +141,26 @@ object-fit: cover;
         width: 100%;
     }
     .job-provider-card{margin-top: 1.5rem;}
+
+    .job-provider-slider .carousel-item img{
+        height: 100%;
+        max-height: 190px;
+
+        object-fit: cover;
+    }
+    .job-provider-slider {
+        height: auto;
+    }
+    .job-provider-slider .carousel-indicators {
+        bottom: -30px;
+      }
+      .mobile-auto-col{
+          margin:  0 auto;
+      }
+}
+
+@media (max-width:375px) {
+    .job-provider-slider .carousel-indicators {
+        bottom: -28px;
+      }
 }

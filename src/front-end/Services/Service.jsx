@@ -49,6 +49,7 @@ const Service = ({
                         </div>
                         <div className="d-flex justify-content-between">
                             <div className="m-search-left-box w-100">
+                                <div className="qust-inputs-box">
                                 {serviceData?.data?.questions.map(
                                     (questionData, index, questionsData) =>
                                         index % 2 === 0 && (
@@ -195,6 +196,7 @@ const Service = ({
                                             </Fragment>
                                         )
                                 )}
+                                </div>
                                 <div
                                     className="col-md-12 text-dark mb-2"
                                     style={{ fontSize: "1.5rem" }}
@@ -296,7 +298,7 @@ const Service = ({
                         {serviceData?.data?.service_requests && (
                             <>
                                 <div className="title">We recommend you!</div>
-                                <ul className="time-list d-flex align-items-center justify-content-between flex-wrap">
+                                <ul className="time-list d-flex align-items-center justify-content-between flex-wrap recommend-times">
                                     {serviceData?.data?.service_requests?.map(
                                         (service, index) => (
                                             <li

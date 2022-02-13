@@ -270,7 +270,7 @@ export const MyAccount = (props) => {
                     My Account
                 </div>
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-lg-4">
                         {(() => {
                             let data = {};
                             if (profile?.data) {
@@ -287,16 +287,17 @@ export const MyAccount = (props) => {
                         })()}
                     </div>
                     <div
-                        className="col-md-8 mt-5 mb-5 service-time-box"
+                        className="col-lg-8 mt-5 mb-5 service-time-box"
                         style={{
                             fontSize: "1.5rem",
                         }}
                     >
                         <div
-                            className="text-center"
+                            className="text-left"
                             style={{
                                 fontWeight: "bold",
                                 fontSize: "2rem",
+                                marginBottom:'1rem',
                             }}
                         >
                             Profile
@@ -332,7 +333,7 @@ export const MyAccount = (props) => {
                                         key={index}
                                         className="col-md-6 d-flex"
                                     >
-                                        <div className="order-card d-flex align-items-center justify-content-between">
+                                        <div className="order-card d-flex align-items-center justify-content-between w-100">
                                             <div>
                                                 {item.brand == "Visa" && (
                                                     <i
