@@ -61,13 +61,13 @@ export const ProviderProfile = (props) => {
                                                             data?.provider
                                                                 ?.image
                                                                 ? `${HOST}${data?.provider?.image}`
-                                                                : "/assets/img/user4.jpg"
+                                                                : "/assets/img/Profile_avatar.png"
                                                         }
                                                         onError={(e) => {
                                                             e.target.onerror =
                                                                 null;
                                                             e.target.src =
-                                                                "/assets/img/user4.jpg";
+                                                                "/assets/img/Profile_avatar.png";
                                                         }}
                                                         className="img-fluid"
                                                         alt=""
@@ -186,7 +186,7 @@ export const ProviderProfile = (props) => {
                         <div className="col-md-8 mt-5">
                             <div className="job-provider-card p-5">
                                 {providerProfile?.data?.provider?.portfolios
-                                    .length < 0 ? (
+                                    .length > 0 ? (
                                     <div
                                         style={{
                                             height: "45vh",
@@ -243,7 +243,7 @@ export const ProviderProfile = (props) => {
                                                                 e.target.onerror =
                                                                     null;
                                                                 e.target.src =
-                                                                    "/assets/img/layer-2.jpg";
+                                                                    "/assets/img/Placeholder_view.svg";
                                                             }}
                                                         />
                                                         <div className="carousel-caption d-none d-md-block">
@@ -368,7 +368,7 @@ export const ProviderProfile = (props) => {
                                                                                             ?.user
                                                                                             ?.image &&
                                                                                             `${HOST}${feedback?.user?.image}`) ||
-                                                                                        "/assets/img/user4.jpg"
+                                                                                        "/assets/img/Profile_avatar.png"
                                                                                     }
                                                                                     className="img-fluid"
                                                                                     alt=""
@@ -376,7 +376,7 @@ export const ProviderProfile = (props) => {
                                                                                         e
                                                                                     ) => {
                                                                                         e.target.src =
-                                                                                            "/assets/img/user4.jpg";
+                                                                                            "/assets/img/Profile_avatar.png";
                                                                                     }}
                                                                                 />
                                                                             </div>

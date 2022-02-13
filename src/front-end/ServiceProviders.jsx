@@ -563,13 +563,13 @@ export const ServiceProviders = (props) => {
                                                             src={
                                                                 provider.image
                                                                     ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
-                                                                    : "/assets/img/user4.jpg"
+                                                                    : "/assets/img/Profile_avatar.png"
                                                             }
                                                             onError={(e) => {
                                                                 e.target.onerror =
                                                                     null;
                                                                 e.target.src =
-                                                                    "/assets/img/user4.jpg";
+                                                                    "/assets/img/Profile_avatar.png";
                                                             }}
                                                             className="img-fluid"
                                                             alt="Not Found"
@@ -815,7 +815,7 @@ export const ServiceProviders = (props) => {
                                                                                               ?.user_feedbacks[0]
                                                                                               ?.user
                                                                                               ?.image
-                                                                                        : "/assets/img/user4.jpg"
+                                                                                        : "/assets/img/Profile_avatar.png"
                                                                                 }
                                                                                 className="img-fluid"
                                                                                 alt="Not have"
@@ -825,7 +825,7 @@ export const ServiceProviders = (props) => {
                                                                                     e.target.onerror =
                                                                                         null;
                                                                                     e.target.src =
-                                                                                        "/assets/img/user4.jpg";
+                                                                                        "/assets/img/Profile_avatar.png";
                                                                                 }}
                                                                             />
                                                                         </div>
@@ -1794,7 +1794,7 @@ export const ServiceProviders = (props) => {
 // <div className="job-provider-card">
 //                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
 //                                     <div className="user-img d-flex align-items-center justify-content-center">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                     </div>
 //                                     <div className="user-detail w-100">
 //                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
@@ -1839,7 +1839,7 @@ export const ServiceProviders = (props) => {
 
 //                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
 //                                         <div className="review-img">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                         </div>
 
 //                                         <div className="review-detail">
@@ -1854,7 +1854,7 @@ export const ServiceProviders = (props) => {
 //                             <div className="job-provider-card">
 //                                 <div className="user-des d-flex align-items-centet justify-content-start w-100">
 //                                     <div className="user-img d-flex align-items-center justify-content-center">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                     </div>
 //                                     <div className="user-detail w-100">
 //                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
@@ -1899,7 +1899,7 @@ export const ServiceProviders = (props) => {
 
 //                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
 //                                         <div className="review-img">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                         </div>
 
 //                                         <div className="review-detail">

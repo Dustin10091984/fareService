@@ -524,14 +524,14 @@ export const ServicesHistory = (props) => {
                                                                             serviceRequest
                                                                                 ?.provider
                                                                                 ?.image) ||
-                                                                    "/assets/img/user4.jpg"
+                                                                    "/assets/img/Profile_avatar.png"
                                                                 }
                                                                 alt=""
                                                                 onError={(
                                                                     e
                                                                 ) => {
                                                                     e.target.src =
-                                                                        "/assets/img/user4.jpg";
+                                                                        "/assets/img/Profile_avatar.png";
                                                                 }}
                                                             />
                                                             <div className="order-btn-b mt-2">
