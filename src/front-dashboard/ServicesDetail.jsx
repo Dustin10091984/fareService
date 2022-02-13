@@ -83,7 +83,7 @@ export const ServicesDetail = (props) => {
                                                                         ?.provider
                                                                         ?.image
                                                                         ? `${HOST}${data?.provider?.image}`
-                                                                        : `/assets/img/user4.jpg`
+                                                                        : `/assets/img/Profile_avatar.png`
                                                                 }
                                                                 className="img-fluid"
                                                                 alt=""

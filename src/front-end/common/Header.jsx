@@ -368,7 +368,13 @@ const Header = (props) => {
                                                         }}
                                                     >
                                                         <span className="user-name-farenow">
-                                                            Jhon
+                                                            {
+                                                                JSON.parse(
+                                                                    localStorage.getItem(
+                                                                        "user_data"
+                                                                    )
+                                                                )?.first_name
+                                                            }
                                                         </span>
                                                         <img
                                                             src="/assets/img/outline-user.svg"
