@@ -1630,6 +1630,8 @@ body {
     width: 29.2rem;
     margin: auto;
     margin-top: 4rem;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .time-list li {
@@ -1647,7 +1649,11 @@ body {
     cursor: pointer;
     padding: 0 1.5rem;
     margin-bottom: 1.5rem;
+    width: 100%;
+    margin-right: 1rem;
+    max-width: 100%;
 }
+
 
 .time-list li:hover {
     background: #fea629;
@@ -1746,6 +1752,7 @@ body {
     padding: 0 1.5rem;
     margin-bottom: 1rem;
     cursor: pointer;
+    max-width: 45%;
 }
 
 .select-time:hover {
@@ -1849,9 +1856,14 @@ body {
 }
 
 .time-list-pro {
-    -webkit-column-count: 2;
-    column-count: 2;
+    /* -webkit-column-count: 2;
+    column-count: 2; */
     margin-top: 2rem;
+    display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+margin-left:0;
+margin-right:0px;
 }
 
 .ser-des {

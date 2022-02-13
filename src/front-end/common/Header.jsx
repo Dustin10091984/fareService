@@ -246,14 +246,15 @@ const Header = (props) => {
                                                     )}
                                                     {state?.notificationOpen && (
                                                         <div
-                                                            className="notifications"
+                                                            className="notifications ssds"
                                                             id="box"
                                                         >
                                                             <h2>
                                                                 Notifications
                                                                 {/* <span>2</span> */}
                                                             </h2>
-                                                            {notifications.loading && (
+                                                           <div className="notification-scroll">
+                                                           {notifications.loading && (
                                                                 <div className="notifications-item">
                                                                     <div className="text-center">
                                                                         Loading...
@@ -352,6 +353,7 @@ const Header = (props) => {
                                                                     </p>
                                                                 </div>
                                                             </div> */}
+                                                           </div>
                                                         </div>
                                                     )}
                                                 </li>

@@ -109,3 +109,30 @@ object-fit: cover;
         padding: 1rem;
     }
 }
+
+@media (max-width:375px) {
+  
+    .job-provider-card .user-des{
+        flex-wrap: wrap;
+        justify-content: center !important;
+    }
+    .header-logo {
+        max-width: 100px;
+    }
+    .moving-vehiclei-box{
+        height: 18.5rem !important;
+    }
+    
+}
+@media (max-width:767px) {
+    .new-imag-moving.text-center {
+        padding: 1rem 4.5rem;
+    }
+    .time-list li {
+        max-width: 40%;
+    }
+    .time-list{
+        width: 100%;
+    }
+    .job-provider-card{margin-top: 1.5rem;}
+}
