@@ -1010,49 +1010,52 @@ export const Services = (props) => {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="row">
-                            {props?.serviceData?.data?.provider?.map(
-                                (provider, index) => (
-                                    <div key={index} className="col-md-4">
-                                        <div className="team-card">
-                                            <div className="team-img">
-                                                <img
-                                                    src={
-                                                        provider?.image
-                                                            ? HOST +
-                                                              provider?.image
-                                                            : "/assets/img/Profile_avatar.png"
-                                                    }
-                                                    className="img-fluid"
-                                                    alt="image"
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src =
-                                                            "/assets/img/Profile_avatar.png";
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="title">
-                                                {`${provider?.first_name} ${provider?.first_name[0]}.`}
-                                            </div>
-                                            {provider?.provider_service_requests_count && (
-                                                <div className="job-cmplte">
-                                                    {
-                                                        provider?.provider_service_requests_count
-                                                    }{" "}
-                                                    Jobs Completed
-                                                </div>
-                                            )}
-                                            <div className="stars-rating ">
-                                                <div className="star-rating-area d-flex align-items-center justify-content-center">
-                                                    {console.log(provider)}
-                                                    <Rating
-                                                        rating={
-                                                            provider?.rating && provider?.rating?.toFixed(1) 
+                        <div className="col-12">
+                            <div className="row">
+                                {props?.serviceData?.data?.provider?.map(
+                                    (provider, index) => (
+                                        <div key={index} className="col-md-4">
+                                            <div className="team-card">
+                                                <div className="team-img">
+                                                    <img
+                                                        src={
+                                                            provider?.image
+                                                                ? HOST +
+                                                                  provider?.image
+                                                                : "/assets/img/Profile_avatar.png"
                                                         }
-                                                    ></Rating>
-                                                    {/* <div
+                                                        className="img-fluid"
+                                                        alt="image"
+                                                        onError={(e) => {
+                                                            e.target.onerror =
+                                                                null;
+                                                            e.target.src =
+                                                                "/assets/img/Profile_avatar.png";
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="title">
+                                                    {`${provider?.first_name} ${provider?.first_name[0]}.`}
+                                                </div>
+                                                {provider?.provider_service_requests_count && (
+                                                    <div className="job-cmplte">
+                                                        {
+                                                            provider?.provider_service_requests_count
+                                                        }{" "}
+                                                        Jobs Completed
+                                                    </div>
+                                                )}
+                                                <div className="stars-rating ">
+                                                    <div className="star-rating-area d-flex align-items-center justify-content-center">
+                                                        <Rating
+                                                            rating={
+                                                                provider?.rating &&
+                                                                provider?.rating?.toFixed(
+                                                                    1
+                                                                )
+                                                            }
+                                                        ></Rating>
+                                                        {/* <div
                                                         className="rating-static clearfix mr-3"
                                                         rel="4"
                                                     >
@@ -1097,17 +1100,18 @@ export const Services = (props) => {
                                                             title="{{ 'Bad - 0.5 stars' | translate }}"
                                                         ></label>
                                                     </div> */}
-                                                    {/* <div className="ratilike ng-binding">5</div> */}
+                                                        {/* <div className="ratilike ng-binding">5</div> */}
+                                                    </div>
+                                                </div>
+
+                                                <div className="detail-team">
+                                                    {provider?.bio}
                                                 </div>
                                             </div>
-
-                                            <div className="detail-team">
-                                                {provider?.bio}
-                                            </div>
                                         </div>
-                                    </div>
-                                )
-                            )}
+                                    )
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
