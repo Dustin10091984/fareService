@@ -320,9 +320,9 @@ export const ProviderProfile = (props) => {
                                         if (provider?.bio) {
                                             return (
                                                 <div className="useer-qust mt-0 mb-3 d-none">
-                                                    <div className="title">
+                                                    {/* <div className="title">
                                                         How can i help ?
-                                                    </div>
+                                                    </div> */}
                                                     <div className="des">
                                                         {provider.bio}
                                                     </div>
