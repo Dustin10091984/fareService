@@ -1039,9 +1039,7 @@ export const ServiceProviders = (props) => {
                                                                     }
                                                                     className="d-flex align-items-center justify-content-center m-2 col-5"
                                                                 >
-                                                                    {slot.start +
-                                                                        " - " +
-                                                                        slot.end}
+                                                                    {slot.start}
                                                                 </li>
                                                             ) : (
                                                                 <li
