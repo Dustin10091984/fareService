@@ -50,79 +50,14 @@ const Service = ({
                         <div className="d-flex justify-content-between">
                             <div className="m-search-left-box w-100">
                                 <div className="qust-inputs-box">
-                                {serviceData?.data?.questions.map(
-                                    (questionData, index, questionsData) =>
-                                        index % 2 === 0 && (
-                                            <Fragment key={index}>
-                                                <div className="d-flex justify-content-between">
-                                                    <div className="common-input mb-4 mx-3">
-                                                        <select
-                                                            name={`question_${questionData.id}`}
-                                                            // data-question={`question_${questionData.id}`}
-                                                            onChange={(e) => {
-                                                                const {
-                                                                    name,
-                                                                    value,
-                                                                } = e.target;
-                                                                handleChangeQuestion(
-                                                                    {
-                                                                        name,
-                                                                        value,
-                                                                    }
-                                                                );
-                                                            }}
-                                                            defaultValue={
-                                                                service
-                                                                    .selected[
-                                                                    `question_${questionData.id}`
-                                                                ]
-                                                            }
-                                                            required
-                                                        >
-                                                            <option
-                                                                // disabled={true}
-                                                                defaultValue=""
-                                                                value=""
-                                                            >
-                                                                {
-                                                                    questionData.question
-                                                                }
-                                                            </option>
-                                                            {questionData?.options.map(
-                                                                (
-                                                                    optionData,
-                                                                    index
-                                                                ) => (
-                                                                    <Fragment
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                    >
-                                                                        <option
-                                                                            value={
-                                                                                optionData?.id
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                optionData?.option
-                                                                            }
-                                                                        </option>
-                                                                    </Fragment>
-                                                                )
-                                                            )}
-                                                        </select>
-                                                    </div>
-                                                    {questionsData[
-                                                        index + 1
-                                                    ] && (
+                                    {serviceData?.data?.questions.map(
+                                        (questionData, index, questionsData) =>
+                                            index % 2 === 0 && (
+                                                <Fragment key={index}>
+                                                    <div className="d-flex justify-content-between">
                                                         <div className="common-input mb-4 mx-3">
                                                             <select
-                                                                name={`question_${
-                                                                    questionsData[
-                                                                        index +
-                                                                            1
-                                                                    ]?.id
-                                                                }`}
+                                                                name={`question_${questionData.id}`}
                                                                 // data-question={`question_${questionData.id}`}
                                                                 onChange={(
                                                                     e
@@ -142,12 +77,7 @@ const Service = ({
                                                                 defaultValue={
                                                                     service
                                                                         .selected[
-                                                                        `question_${
-                                                                            questionsData[
-                                                                                index +
-                                                                                    1
-                                                                            ].id
-                                                                        }`
+                                                                        `question_${questionData.id}`
                                                                     ]
                                                                 }
                                                                 required
@@ -158,16 +88,10 @@ const Service = ({
                                                                     value=""
                                                                 >
                                                                     {
-                                                                        questionsData[
-                                                                            index +
-                                                                                1
-                                                                        ]
-                                                                            ?.question
+                                                                        questionData.question
                                                                     }
                                                                 </option>
-                                                                {questionsData[
-                                                                    index + 1
-                                                                ]?.options.map(
+                                                                {questionData?.options.map(
                                                                     (
                                                                         optionData,
                                                                         index
@@ -191,11 +115,92 @@ const Service = ({
                                                                 )}
                                                             </select>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </Fragment>
-                                        )
-                                )}
+                                                        {questionsData[
+                                                            index + 1
+                                                        ] && (
+                                                            <div className="common-input mb-4 mx-3">
+                                                                <select
+                                                                    name={`question_${
+                                                                        questionsData[
+                                                                            index +
+                                                                                1
+                                                                        ]?.id
+                                                                    }`}
+                                                                    // data-question={`question_${questionData.id}`}
+                                                                    onChange={(
+                                                                        e
+                                                                    ) => {
+                                                                        const {
+                                                                            name,
+                                                                            value,
+                                                                        } =
+                                                                            e.target;
+                                                                        handleChangeQuestion(
+                                                                            {
+                                                                                name,
+                                                                                value,
+                                                                            }
+                                                                        );
+                                                                    }}
+                                                                    defaultValue={
+                                                                        service
+                                                                            .selected[
+                                                                            `question_${
+                                                                                questionsData[
+                                                                                    index +
+                                                                                        1
+                                                                                ]
+                                                                                    .id
+                                                                            }`
+                                                                        ]
+                                                                    }
+                                                                    required
+                                                                >
+                                                                    <option
+                                                                        // disabled={true}
+                                                                        defaultValue=""
+                                                                        value=""
+                                                                    >
+                                                                        {
+                                                                            questionsData[
+                                                                                index +
+                                                                                    1
+                                                                            ]
+                                                                                ?.question
+                                                                        }
+                                                                    </option>
+                                                                    {questionsData[
+                                                                        index +
+                                                                            1
+                                                                    ]?.options.map(
+                                                                        (
+                                                                            optionData,
+                                                                            index
+                                                                        ) => (
+                                                                            <Fragment
+                                                                                key={
+                                                                                    index
+                                                                                }
+                                                                            >
+                                                                                <option
+                                                                                    value={
+                                                                                        optionData?.id
+                                                                                    }
+                                                                                >
+                                                                                    {
+                                                                                        optionData?.option
+                                                                                    }
+                                                                                </option>
+                                                                            </Fragment>
+                                                                        )
+                                                                    )}
+                                                                </select>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </Fragment>
+                                            )
+                                    )}
                                 </div>
                                 <div
                                     className="col-md-12 text-dark mb-2"
@@ -295,7 +300,7 @@ const Service = ({
                         </div>
                     </form>
                     <div className="moving-des mt-5">
-                        {serviceData?.data?.service_requests && (
+                        {serviceData?.data?.service_requests.length > 0 && (
                             <>
                                 <div className="title">We recommend you!</div>
                                 <ul className="time-list d-flex align-items-center justify-content-between flex-wrap recommend-times">
