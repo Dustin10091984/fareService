@@ -272,6 +272,7 @@ export const Moving = (props) => {
                             }))
                         }
                         onSelect={handleFromAdessSelect}
+                        googleCallbackName="initOne"
                     >
                         {({
                             getInputProps,
@@ -347,6 +348,7 @@ export const Moving = (props) => {
                             }))
                         }
                         onSelect={handleToAdessSelect}
+                        googleCallbackName="initTwo"
                     >
                         {({
                             getInputProps,
@@ -732,6 +734,7 @@ export const Moving = (props) => {
                                         }))
                                     }
                                     onSelect={handleFromAdessSelect}
+                                     googleCallbackName="myCallbackFunc"
                                 >
                                     {({
                                         getInputProps,
@@ -820,6 +823,7 @@ export const Moving = (props) => {
                                         }))
                                     }
                                     onSelect={handleToAdessSelect}
+                                     googleCallbackName="myCallbackFunc"
                                 >
                                     {({
                                         getInputProps,

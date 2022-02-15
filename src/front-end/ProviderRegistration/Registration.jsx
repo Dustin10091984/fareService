@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import {
     Basic,
     Otp,
@@ -29,7 +30,10 @@ const Registration = (props) => {
 
     const [otpData, setOtpData] = useState({});
     const [basicInfo, setBasicInfo] = useState({});
-    const [zipCode, setZipCode] = useState({});
+    const [zipCode, setZipCode] = useState({
+        address: "",
+        zip_code: [],
+    });
     const [providerType, setProviderType] = useState();
     const [individual, setIndividual] = useState({});
     const [company, setCompany] = useState({});
@@ -37,9 +41,21 @@ const Registration = (props) => {
     const loading = useRef(null);
     const error = useRef(null);
 
-    // useEffect(() => {
-
-    // }, [basicInfoRes]);
+    useEffect(() => {
+        if (
+            basicInfoRes?.loading == false &&
+            basicInfoRes?.message == "success"
+        ) {
+            handleStep(step + 1);
+        }
+        if (basicInfoRes.loading == false && basicInfoRes.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [basicInfoRes?.loading, basicInfoRes?.message]);
 
     useEffect(() => {
         if (providerSignup?.loading) {
@@ -213,6 +229,15 @@ const Registration = (props) => {
         }
     };
 
+    const handleZipCode = ({ address, zip_code }) => {
+        if (address != undefined) {
+            setZipCode((zipCode) => ({ ...zipCode, address }));
+        }
+        if (zip_code != undefined) {
+            setZipCode((zipCode) => ({ ...zipCode, zip_code }));
+        }
+    };
+
     const handleOtp = (e) => {
         const { name, value } = e.target;
         let regx = /^[0-9]{4,4}$/;
@@ -336,6 +361,10 @@ const Registration = (props) => {
                                     <SelectZipCode
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
+                                        handleZipCode={(data) => {
+                                            handleZipCode(data);
+                                        }}
+                                        zipCode={zipCode}
                                     />
                                 )}
                                 {/* <!-- step 5 --> */}

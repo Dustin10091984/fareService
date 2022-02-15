@@ -1091,6 +1091,7 @@ export const ServiceProviders = (props) => {
                                                 }))
                                             }
                                             onSelect={handleAddressChange}
+                                            googleCallbackName="initOne"
                                         >
                                             {({
                                                 getInputProps,
@@ -1370,6 +1371,7 @@ export const ServiceProviders = (props) => {
                                             </div>
                                             <div className="common-input">
                                                 <PlacesAutocomplete
+                                                    googleCallbackName="initTwo"
                                                     value={state.address}
                                                     onChange={(address) =>
                                                         setState((state) => ({

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
+import {
+    geocodeByAddress,
+    getLatLng,
+    geocodeByPlaceId,
+} from "react-places-autocomplete";
+import AutoCompleteInput from "../../../components/AutoCompleteInput";
 const Basic = ({
     step,
     basic,
@@ -225,22 +230,6 @@ const BasicInfo = ({
         handleBasicInfoSubmit(data);
     };
 
-    useEffect(() => {
-        if (
-            basicInfoRes?.loading == false &&
-            basicInfoRes?.message == "success"
-        ) {
-            handleStep(step + 1);
-        }
-        if (basicInfoRes.loading == false && basicInfoRes.error) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-            });
-        }
-    }, [basicInfoRes]);
-
     return (
         <form onSubmit={handleSubmit(handleBasic)}>
             <div className="login-from step-3">
@@ -425,28 +414,75 @@ const BasicInfo = ({
     );
 };
 
-const SelectZipCode = ({ step, handleStep }) => {
+const SelectZipCode = ({ step, handleStep, handleZipCode, zipCode }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+
+    const [state, setState] = useState({
+        zip_codeErr: "",
+    });
+
+    const handleOnChange = (address) => {
+        handleZipCode({ address });
+    };
+
+    const handleOnSelect = async (address, placeId) => {
+        handleZipCode({ address });
+        // const results = await geocodeByAddress(address);
+        // const latLng = await getLatLng(results[0]);
+        const [place] = await geocodeByPlaceId(placeId);
+        const { long_name: postalCode = "" } =
+            place.address_components.find((c) =>
+                c.types.includes("postal_code")
+            ) || {};
+        if (postalCode) {
+            if (zipCode?.zip_code?.includes(postalCode) == false) {
+                handleZipCode({ zip_code: [...zipCode?.zip_code, postalCode] });
+            }
+            setState({ ...state, zip_codeErr: "" });
+        } else {
+            setState({
+                ...state,
+                zip_codeErr: "Please select an other location",
+            });
+        }
+    };
+    console.log(zipCode);
     return (
         <div className="login-from step-4">
+            {state?.zip_codeErr && (
+                <div className="alert alert-danger text-center">
+                    {state?.zip_codeErr}
+                </div>
+            )}
             <div className="form-group">
                 <div className="form-title mb-3">Where do you work?</div>
                 <label htmlFor="name">Enter location</label>
-                <input
+                <AutoCompleteInput
+                    placeholder="Type your area address"
+                    handleOnChange={handleOnChange}
+                    handleOnSelect={handleOnSelect}
+                    value={zipCode?.address}
+                ></AutoCompleteInput>
+                {/* <input
                     {...register("name", { required: true })}
                     className="form-control"
                     placeholder="Enter location"
-                />
+                /> */}
             </div>
 
             <div className="zip-code d-flex flex-wrap">
-                <div className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">
-                    1078 GZ <span className="fa fa-times ml-1"></span>
-                </div>
+                {zipCode?.zip_code?.map((zip, index) => (
+                    <div
+                        key={index}
+                        className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1"
+                    >
+                        {zip} <span className="fa fa-times ml-1"></span>
+                    </div>
+                ))}
             </div>
 
             <div className="d-flex justify-content-between">
@@ -454,7 +490,7 @@ const SelectZipCode = ({ step, handleStep }) => {
                     className="btn btn-primary w-100 mt-3"
                     id="step-4-back"
                     type="button"
-                    onClick={() => handleStep(step - 1)}
+                    // onClick={() => handleStep(step - 1)}
                 >
                     Back
                 </button>
@@ -463,7 +499,8 @@ const SelectZipCode = ({ step, handleStep }) => {
                     className="btn btn-primary w-100 mt-3"
                     id="step-4"
                     type="button"
-                    onClick={() => handleStep(step + 1)}
+                    disabled={zipCode?.zip_code?.length === 0}
+                    // onClick={() => handleStep(step + 1)}
                 >
                     Next
                 </button>
