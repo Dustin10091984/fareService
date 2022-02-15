@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import Registration from './Registration';
-import { providerSignup, verifyPhoneNo } from "./../../store/Slices/providers/registration";
+import { providerSignup, verifyPhoneNo, postBasicInfo } from "./../../store/Slices/providers/registration";
 
 const mapStateToProps = (state) => ({
     providerSignup: state.registrationReducer?.signupProvider,
     verifyOpt: state.registrationReducer?.verify,
+    basicInfoRes: state.registrationReducer?.basicInfo,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -12,9 +13,12 @@ const mapDispatchToProps = (dispatch) => {
         handleProviderSignup: (signupData) => {
             dispatch(providerSignup(signupData));
         },
-        handleverifyPhoneNo: (otpData) => {
+        handleVerifyPhoneNo: (otpData) => {
             dispatch(verifyPhoneNo(otpData));
         },
+        handleBasicInfoSubmit: (basicInfo) => {
+            dispatch(postBasicInfo(basicInfo));
+        }
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Registration);

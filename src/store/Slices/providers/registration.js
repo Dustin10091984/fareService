@@ -7,6 +7,7 @@ const registrationSlice = createSlice({
     initialState: {
         signupProvider: "",
         verify: "",
+        basicInfo: "",
     },
     reducers: {
         signupProvider: (state, action) => {
@@ -20,13 +21,20 @@ const registrationSlice = createSlice({
                 ...state,
                 verify: action.payload
             }
+        },
+        basicInfo: (state, action) => {
+            return {
+                ...state, basicInfo: {
+                    ...state.basicInfo, ...action.payload
+                }
+            }
         }
     }
 });
 
 export default registrationSlice.reducer;
 
-const { signupProvider, verifyCode } = registrationSlice.actions;
+const { signupProvider, verifyCode, basicInfo } = registrationSlice.actions;
 
 
 
@@ -73,5 +81,32 @@ export const verifyPhoneNo = (data) => async dispatch => {
         });
     } catch (error) {
         dispatch(verifyCode({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+
+export const postBasicInfo = (data) => async dispatch => {
+    try {
+        dispatch(basicInfo({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('providerToken')}`
+            },
+            data,
+            url: HOST + `/api/provider/signup/name`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(basicInfo(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(basicInfo(error.response.data));
+        });
+    } catch (error) {
+        dispatch(basicInfo({ error: true, loading: false, message: "something went wrong!" }));
     }
 }

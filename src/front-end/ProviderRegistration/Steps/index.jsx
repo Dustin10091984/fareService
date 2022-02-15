@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 const Basic = ({
     step,
     basic,
@@ -153,7 +154,7 @@ const Basic = ({
     );
 };
 
-const Otp = ({ step, handleStep, otpData, handleOtp, handleverifyPhoneNo }) => {
+const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
     return (
         <div className="login-from step-2">
             <div className="form-title mb-3">Please enter OTP Code.</div>
@@ -192,7 +193,7 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleverifyPhoneNo }) => {
                     id="step-2"
                     type="button"
                     onClick={() =>
-                        handleverifyPhoneNo({
+                        handleVerifyPhoneNo({
                             phone: otpData?.phone,
                             otp: otpData?.otp,
                         })
@@ -205,93 +206,239 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleverifyPhoneNo }) => {
     );
 };
 
-const BasicInfo = ({ step, handleStep }) => {
+const BasicInfo = ({
+    step,
+    handleStep,
+    basicInfo,
+    handleBasicInfo,
+    handleBasicInfoSubmit,
+    basicInfoRes,
+}) => {
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm();
+    const handleBasic = (data) => {
+        handleBasicInfo(data);
+        handleBasicInfoSubmit(data);
+    };
+
+    useEffect(() => {
+        if (
+            basicInfoRes?.loading == false &&
+            basicInfoRes?.message == "success"
+        ) {
+            handleStep(step + 1);
+        }
+        if (basicInfoRes.loading == false && basicInfoRes.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [basicInfoRes]);
+
     return (
-        <div className="login-from step-3">
-            <div className="form-title mb-3">
-                To start , help us get to know you and your business
+        <form onSubmit={handleSubmit(handleBasic)}>
+            <div className="login-from step-3">
+                <div className="form-title mb-3">
+                    To start , help us get to know you and your business
+                </div>
+                <div className="form-term mb-2">
+                    This info helps our team provide customized support -- it
+                    won't be public.
+                </div>
+
+                <div className="form-group">
+                    <div className="form-title mb-3">What is your name?</div>
+                    <label htmlFor="name">First Name</label>
+                    <input
+                        {...register("first_name", {
+                            required: true,
+                            minLength: 2,
+                            maxLength: 50,
+                            value: basicInfo?.first_name || "",
+                        })}
+                        className={`form-control ${
+                            errors.first_name && "is-invalid"
+                        }`}
+                        placeholder="First Name"
+                    />
+                    {errors.first_name &&
+                        (() => {
+                            if (errors.first_name.type === "required") {
+                                return (
+                                    <div className="text-danger">
+                                        First Name is required
+                                    </div>
+                                );
+                            }
+                            if (errors.first_name.type === "minLength") {
+                                return (
+                                    <div className="text-danger">
+                                        First Name must be at least 2 characters
+                                        long
+                                    </div>
+                                );
+                            }
+                            if (errors.first_name.type === "maxLength") {
+                                return (
+                                    <div className="text-danger">
+                                        First Name must be at most 50 characters
+                                        long
+                                    </div>
+                                );
+                            }
+                        })()}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="name">Last Name</label>
+                    <input
+                        {...register("last_name", {
+                            required: true,
+                            minLength: 2,
+                            maxLength: 50,
+                            value: basicInfo.last_name || "",
+                        })}
+                        className={`form-control ${
+                            errors.first_name && "is-invalid"
+                        }`}
+                        placeholder="Last Name"
+                    />
+                    {errors.last_name &&
+                        (() => {
+                            if (errors.last_name.type === "required") {
+                                return (
+                                    <div className="text-danger">
+                                        Last Name is required
+                                    </div>
+                                );
+                            }
+                            if (errors.last_name.type === "minLength") {
+                                return (
+                                    <div className="text-danger">
+                                        Last Name must be at least 2 characters
+                                        long
+                                    </div>
+                                );
+                            }
+                            if (errors.last_name.type === "maxLength") {
+                                return (
+                                    <div className="text-danger">
+                                        Last Name must be at most 50 characters
+                                        long
+                                    </div>
+                                );
+                            }
+                        })()}
+                </div>
+
+                <div className="form-title mb-3">
+                    How much do you spend each month on online marketing
+                </div>
+
+                <label className="custom-radio">
+                    $1-$100{" "}
+                    <input
+                        type="radio"
+                        {...register("spend_each_month", {
+                            required: true,
+                        })}
+                        defaultChecked={
+                            basicInfo?.spend_each_month === "$1-$100"
+                        }
+                        value="$1-$100"
+                    />
+                    <span className="checkmark"></span>
+                </label>
+
+                <label className="custom-radio">
+                    $100-$400
+                    <input
+                        type="radio"
+                        {...register("spend_each_month", {
+                            required: true,
+                        })}
+                        value="$100-$400"
+                        defaultChecked={
+                            basicInfo?.spend_each_month === "$100-$400"
+                        }
+                    />
+                    <span className="checkmark"></span>
+                </label>
+
+                <label className="custom-radio">
+                    $400-$600
+                    <input
+                        type="radio"
+                        {...register("spend_each_month", {
+                            required: true,
+                        })}
+                        defaultChecked={
+                            basicInfo?.spend_each_month === "$400-$600"
+                        }
+                        value="$400-$600"
+                    />
+                    <span className="checkmark"></span>
+                </label>
+                {errors.spend_each_month && (
+                    <div className="text-danger">
+                        How much do you spend each month on online marketing is
+                        required
+                    </div>
+                )}
+
+                <div className="d-flex justify-content-between">
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="step-3-back"
+                        type="button"
+                        disabled={localStorage.getItem("providerToken")}
+                        // onClick={() => handleStep(step - 1)}
+                    >
+                        Back
+                    </button>
+                    <div className="px-3"></div>
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="step-3"
+                        type="submit"
+                        disabled={basicInfoRes?.loading}
+                        // onClick={() => handleStep(step + 1)}
+                    >
+                        {basicInfoRes?.loading ? (
+                            <span>
+                                <i className={`fa fa-spinner fa-pulse`}></i>{" "}
+                                Loading...
+                            </span>
+                        ) : (
+                            "Next"
+                        )}
+                    </button>
+                </div>
             </div>
-            <div className="form-term mb-2">
-                This info helps our team provide customized support -- it won't
-                be public.
-            </div>
-
-            <div className="form-group">
-                <div className="form-title mb-3">What is your name?</div>
-                <label htmlFor="name">First Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="First Name"
-                />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="name">Last Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="Last Name"
-                />
-            </div>
-
-            <div className="form-title mb-3">
-                How much do you spend each month on online marketing
-            </div>
-
-            <label className="custom-radio">
-                $1-$100
-                <input type="radio" checked="checked" name="online-marketing" />
-                <span className="checkmark"></span>
-            </label>
-
-            <label className="custom-radio">
-                $100-$400
-                <input type="radio" name="online-marketing" />
-                <span className="checkmark"></span>
-            </label>
-
-            <label className="custom-radio">
-                $400-$600
-                <input type="radio" name="online-marketing" />
-                <span className="checkmark"></span>
-            </label>
-
-            <div className="d-flex justify-content-between">
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-3-back"
-                    type="button"
-                    onClick={() => handleStep(step - 1)}
-                >
-                    Back
-                </button>
-                <div className="px-3"></div>
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-3"
-                    type="button"
-                    onClick={() => handleStep(step + 1)}
-                >
-                    Next
-                </button>
-            </div>
-        </div>
+        </form>
     );
 };
 
 const SelectZipCode = ({ step, handleStep }) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
     return (
         <div className="login-from step-4">
             <div className="form-group">
                 <div className="form-title mb-3">Where do you work?</div>
                 <label htmlFor="name">Enter location</label>
                 <input
-                    type="text"
+                    {...register("name", { required: true })}
                     className="form-control"
-                    id="name"
                     placeholder="Enter location"
                 />
             </div>

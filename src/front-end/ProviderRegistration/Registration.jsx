@@ -12,9 +12,12 @@ import {
 
 const Registration = (props) => {
     // dispatch actions
-    const { handleProviderSignup, handleverifyPhoneNo } = props;
-    const { providerSignup, verifyOpt } = props;
-    const [step, setStep] = useState(1);
+    const { handleProviderSignup, handleVerifyPhoneNo, handleBasicInfoSubmit } =
+        props;
+    const { providerSignup, verifyOpt, basicInfoRes } = props;
+    const [step, setStep] = useState(
+        localStorage.getItem("providerToken") ? 3 : 1
+    );
     const [basic, setBasic] = useState({
         code: "+92",
         error: {
@@ -23,6 +26,7 @@ const Registration = (props) => {
             password: "",
         },
     });
+
     const [otpData, setOtpData] = useState({});
     const [basicInfo, setBasicInfo] = useState({});
     const [zipCode, setZipCode] = useState({});
@@ -32,6 +36,10 @@ const Registration = (props) => {
 
     const loading = useRef(null);
     const error = useRef(null);
+
+    // useEffect(() => {
+
+    // }, [basicInfoRes]);
 
     useEffect(() => {
         if (providerSignup?.loading) {
@@ -126,7 +134,7 @@ const Registration = (props) => {
                     ...basic.error,
                     phone: `Please enter a valid phone number and should be of ${
                         (basic.code == "+92" && "10") ||
-                        (basic.code == "+1" && "11")
+                        (basic.code == "+1" && "10")
                     } digits`,
                 },
             }));
@@ -148,7 +156,7 @@ const Registration = (props) => {
             }
             if (basic.code == "+1") {
                 let error = "";
-                if (phone.length != 11) {
+                if (phone.length != 10) {
                     error = "Phone number should be of 11 digits";
                 }
                 setBasic((basic) => ({
@@ -230,6 +238,10 @@ const Registration = (props) => {
         }
     };
 
+    const handleBasicInfo = (data) => {
+        setBasicInfo(data);
+    };
+
     return (
         <>
             <div
@@ -277,48 +289,48 @@ const Registration = (props) => {
                             </div>
                             <div className="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
                                 {/* <!-- step 1 --> */}
-                                {step == 1 &&
-                                    localStorage.getItem("providerToken") ==
-                                        undefined && (
-                                        <Basic
-                                            handleStep={(step) =>
-                                                handleStep(step)
-                                            }
-                                            step={step}
-                                            handleBasic={(e) => handleBasic(e)}
-                                            basic={basic}
-                                            handleProviderSignup={
-                                                handleProviderSignup
-                                            }
-                                            providerSignup={providerSignup}
-                                        />
-                                    )}
+                                {step == 1 && (
+                                    <Basic
+                                        handleStep={(step) => handleStep(step)}
+                                        step={step}
+                                        handleBasic={(e) => handleBasic(e)}
+                                        basic={basic}
+                                        handleProviderSignup={
+                                            handleProviderSignup
+                                        }
+                                        providerSignup={providerSignup}
+                                    />
+                                )}
                                 {/* <!-- step 2 --> */}
-                                {step == 2 &&
-                                    localStorage.getItem("providerToken") ==
-                                        undefined && (
-                                        <Otp
-                                            handleStep={(step) =>
-                                                handleStep(step)
-                                            }
-                                            step={step}
-                                            handleOtp={(e) => handleOtp(e)}
-                                            otpData={otpData}
-                                            handleverifyPhoneNo={
-                                                handleverifyPhoneNo
-                                            }
-                                        />
-                                    )}
+                                {step == 2 && (
+                                    <Otp
+                                        handleStep={(step) => handleStep(step)}
+                                        step={step}
+                                        handleOtp={(e) => handleOtp(e)}
+                                        otpData={otpData}
+                                        handleVerifyPhoneNo={
+                                            handleVerifyPhoneNo
+                                        }
+                                    />
+                                )}
                                 {/* <!-- step 3 --> */}
-                                {step == 3 ||
-                                    (localStorage.getItem("providerToken") && (
+                                {step == 3 &&
+                                    localStorage.getItem("providerToken") && (
                                         <BasicInfo
                                             handleStep={(step) =>
                                                 handleStep(step)
                                             }
+                                            handleBasicInfoSubmit={
+                                                handleBasicInfoSubmit
+                                            }
+                                            handleBasicInfo={(data) =>
+                                                handleBasicInfo(data)
+                                            }
+                                            basicInfo={basicInfo}
                                             step={step}
+                                            {...props}
                                         />
-                                    ))}
+                                    )}
                                 {/* <!-- step 4 --> */}
                                 {step == 4 && (
                                     <SelectZipCode
