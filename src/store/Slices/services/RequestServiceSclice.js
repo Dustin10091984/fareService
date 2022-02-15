@@ -122,7 +122,7 @@ export const getServiceRequest = (id) => async dispatch => {
             dispatch(serviceRequestDetail(data))
         });
     } catch (error) {
-        dispatch(requestService({ error: true, message: "Something went wrong!", loading: false }));
+        dispatch(serviceRequestDetail({ error: true, message: "Something went wrong!", loading: false }));
     }
 }
 

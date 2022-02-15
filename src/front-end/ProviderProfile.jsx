@@ -61,13 +61,13 @@ export const ProviderProfile = (props) => {
                                                             data?.provider
                                                                 ?.image
                                                                 ? `${HOST}${data?.provider?.image}`
-                                                                : "/assets/img/user4.jpg"
+                                                                : "/assets/img/Profile_avatar.png"
                                                         }
                                                         onError={(e) => {
                                                             e.target.onerror =
                                                                 null;
                                                             e.target.src =
-                                                                "/assets/img/user4.jpg";
+                                                                "/assets/img/Profile_avatar.png";
                                                         }}
                                                         className="img-fluid"
                                                         alt=""
@@ -95,7 +95,132 @@ export const ProviderProfile = (props) => {
                                     }
                                 })()}
                             </div>
-                            <div className="service-time-box mt-5 mb-5">
+                        </div>
+                        <div className="col-md-8 mt-5">
+                            <div className="job-provider-card job-provider-slider p-5">
+                                {providerProfile?.data?.provider?.portfolios
+                                    .length > 0 ? (
+                                    <div
+                                        id="carouselExampleIndicators"
+                                        className="carousel slide"
+                                        data-ride="carousel"
+                                    >
+                                        <ol className="carousel-indicators">
+                                            {providerProfile?.data?.provider?.portfolios?.map(
+                                                (img, index) => (
+                                                    <React.Fragment key={index}>
+                                                        <li
+                                                            index={index}
+                                                            data-target="#carouselExampleIndicators"
+                                                            data-slide-to={
+                                                                index
+                                                            }
+                                                            className={
+                                                                index == 0
+                                                                    ? "active"
+                                                                    : ""
+                                                            }
+                                                        ></li>
+                                                    </React.Fragment>
+                                                )
+                                            )}
+                                        </ol>
+                                        <div className="carousel-inner">
+                                            {providerProfile?.data?.provider?.portfolios?.map(
+                                                (data, index) => (
+                                                    <div
+                                                        className={`carousel-item${
+                                                            index == 0
+                                                                ? " active"
+                                                                : ""
+                                                        }`}
+                                                        key={index}
+                                                    >
+                                                        <img
+                                                            src={
+                                                                HOST +
+                                                                data?.image
+                                                            }
+                                                            className="d-block w-100"
+                                                            alt="..."
+                                                            style={{
+                                                                borderRadius:
+                                                                    ".5rem",
+                                                                border: "1px solid #e6e6e6",
+                                                            }}
+                                                            onError={(e) => {
+                                                                e.target.onerror =
+                                                                    null;
+                                                                e.target.src =
+                                                                    "/assets/img/Placeholder_view.svg";
+                                                            }}
+                                                        />
+                                                        <div className="carousel-caption d-none d-md-block">
+                                                            <p
+                                                                style={{
+                                                                    fontSize:
+                                                                        "1.5rem",
+                                                                }}
+                                                            >
+                                                                {
+                                                                    data?.description
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                        <button
+                                            className="carousel-control-prev"
+                                            type="button"
+                                            data-target="#carouselExampleIndicators"
+                                            data-slide="prev"
+                                            style={{
+                                                background: "transparent",
+                                                border: "none",
+                                            }}
+                                        >
+                                            <span
+                                                className="carousel-control-prev-icon"
+                                                aria-hidden="true"
+                                            ></span>
+                                            <span className="sr-only">
+                                                Previous
+                                            </span>
+                                        </button>
+                                        <button
+                                            className="carousel-control-next"
+                                            type="button"
+                                            data-target="#carouselExampleIndicators"
+                                            data-slide="next"
+                                            style={{
+                                                background: "transparent",
+                                                border: "none",
+                                            }}
+                                        >
+                                            <span
+                                                className="carousel-control-next-icon"
+                                                aria-hidden="true"
+                                            ></span>
+                                            <span className="sr-only">
+                                                Next
+                                            </span>
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <center
+                                        className="col-12 alert alert-warnig"
+                                        role="alert"
+                                        style={{ fontSize: 20 }}
+                                    >
+                                        Not have Portfolio
+                                    </center>
+                                )}
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                        <div className="service-time-box mb-5">
                                 <div className="title-servic px-2 mb-4">
                                     Serrvices
                                 </div>
@@ -160,10 +285,7 @@ export const ProviderProfile = (props) => {
                                                     className="item"
                                                     key={index}
                                                 >
-                                                    <a
-                                                        href="#"
-                                                        className="link"
-                                                    >
+                                                    <div className="link">
                                                         <i
                                                             className="fa fa-angle-right pr-2"
                                                             aria-hidden="true"
@@ -172,7 +294,7 @@ export const ProviderProfile = (props) => {
                                                             service?.sub_service
                                                                 ?.name
                                                         }
-                                                    </a>
+                                                    </div>
                                                 </li>
                                             );
                                         }
@@ -185,124 +307,7 @@ export const ProviderProfile = (props) => {
                                 </ul>
                             </div>
                         </div>
-
-                        <div className="col-md-8 mt-5">
-                            {providerProfile?.data?.provider?.portfolios && (
-                                <div className="job-provider-card p-5">
-                                    <div
-                                        style={{
-                                            height: "45vh",
-                                        }}
-                                        id="carouselExampleIndicators"
-                                        className="carousel slide"
-                                        data-ride="carousel"
-                                    >
-                                        <ol className="carousel-indicators">
-                                            {providerProfile?.data?.provider?.portfolios?.map(
-                                                (img, index) => (
-                                                    <li
-                                                        data-target="#carouselExampleIndicators"
-                                                        data-slide-to={index}
-                                                        className={
-                                                            index == 0
-                                                                ? "active"
-                                                                : ""
-                                                        }
-                                                    ></li>
-                                                )
-                                            )}
-                                        </ol>
-                                        <div className="carousel-inner">
-                                            {providerProfile?.data?.provider?.portfolios?.map(
-                                                (data, index) => (
-                                                    <div
-                                                        className={`carousel-item${
-                                                            index == 0
-                                                                ? " active"
-                                                                : ""
-                                                        }`}
-                                                        key={index}
-                                                    >
-                                                        <img
-                                                            src={
-                                                                HOST +
-                                                                data?.image
-                                                            }
-                                                            className="d-block w-100"
-                                                            alt="..."
-                                                            style={{
-                                                                height: "45vh",
-                                                                borderRadius:
-                                                                    ".5rem",
-                                                                border: "1px solid #e6e6e6",
-                                                            }}
-                                                        />
-                                                        <div className="carousel-caption d-none d-md-block">
-                                                            <p
-                                                                style={{
-                                                                    fontSize:
-                                                                        "1.5rem",
-                                                                }}
-                                                            >
-                                                                {
-                                                                    data?.description
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            )}
-                                        </div>
-                                        <button
-                                            className="carousel-control-prev"
-                                            type="button"
-                                            data-target="#carouselExampleIndicators"
-                                            data-slide="prev"
-                                            style={{
-                                                background: "transparent",
-                                                border: "none",
-                                            }}
-                                        >
-                                            <span
-                                                className="carousel-control-prev-icon"
-                                                aria-hidden="true"
-                                            ></span>
-                                            <span className="sr-only">
-                                                Previous
-                                            </span>
-                                        </button>
-                                        <button
-                                            className="carousel-control-next"
-                                            type="button"
-                                            data-target="#carouselExampleIndicators"
-                                            data-slide="next"
-                                            style={{
-                                                background: "transparent",
-                                                border: "none",
-                                            }}
-                                        >
-                                            <span
-                                                className="carousel-control-next-icon"
-                                                aria-hidden="true"
-                                            ></span>
-                                            <span className="sr-only">
-                                                Next
-                                            </span>
-                                        </button>
-                                    </div>
-                                    {/* <div className="useer-qust mt-0 mb-3 mt-5">
-                                        <div className="title">
-                                            Portfolio Details
-                                        </div>
-                                        <div className="des">
-                                            {
-                                                providerProfile?.data?.provider
-                                                    ?.portfolio?.description
-                                            }
-                                        </div>
-                                    </div> */}
-                                </div>
-                            )}
+                        <div className="col-md-8">
                             <div className="job-provider-card">
                                 {(() => {
                                     if (
@@ -314,10 +319,10 @@ export const ProviderProfile = (props) => {
                                             providerProfile?.data?.provider;
                                         if (provider?.bio) {
                                             return (
-                                                <div className="useer-qust mt-0 mb-3">
-                                                    <div className="title">
+                                                <div className="useer-qust mt-0 mb-3 d-none">
+                                                    {/* <div className="title">
                                                         How can i help ?
-                                                    </div>
+                                                    </div> */}
                                                     <div className="des">
                                                         {provider.bio}
                                                     </div>
@@ -357,9 +362,21 @@ export const ProviderProfile = (props) => {
                                                                         <div className="review-item d-flex align-itmes-centetr justifu-content-between">
                                                                             <div className="review-img">
                                                                                 <img
-                                                                                    src="/assets/img/user4.jpg"
+                                                                                    src={
+                                                                                        (feedback
+                                                                                            ?.user
+                                                                                            ?.image &&
+                                                                                            `${HOST}${feedback?.user?.image}`) ||
+                                                                                        "/assets/img/Profile_avatar.png"
+                                                                                    }
                                                                                     className="img-fluid"
                                                                                     alt=""
+                                                                                    onError={(
+                                                                                        e
+                                                                                    ) => {
+                                                                                        e.target.src =
+                                                                                            "/assets/img/Profile_avatar.png";
+                                                                                    }}
                                                                                 />
                                                                             </div>
                                                                             {feedback?.comment ? (

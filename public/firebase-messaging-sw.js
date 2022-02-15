@@ -31,9 +31,9 @@ messaging.onBackgroundMessage(function (payload) {
     // eslint-disable-next-line no-restricted-globals
     self.addEventListener("notificationclick", function (event) {
         event.notification.close();
-        event.waitUntil(
-            clients.openWindow("https://master.d1vfvqwww9zfmg.amplifyapp.com/")
-        );
+        // event.waitUntil(
+        //     clients.openWindow("https://master.d1vfvqwww9zfmg.amplifyapp.com/")
+        // );
     });
 
     return self.registration.showNotification(

@@ -293,7 +293,8 @@ export class MovingHelp extends Component {
                     </div>
                 </div>
 
-                <section className="qustions-sec pad-y">
+              <div className="d-none">
+              <section className="qustions-sec pad-y">
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
@@ -412,6 +413,7 @@ export class MovingHelp extends Component {
                         </div>
                     </div>
                 </div>
+              </div>
                 <section className="handy-works pad-y">
                     <div className="container">
                         <div className="row">
@@ -524,7 +526,7 @@ export class MovingHelp extends Component {
                         </div>
                     </div>
                 </section>
-                <div className="container">
+                <div className="d-none"><div className="container">
                     <div className="row">
                         <div className="col-12">
                             <hr />
@@ -577,7 +579,7 @@ export class MovingHelp extends Component {
                             <hr />
                         </div>
                     </div>
-                </div>
+                </div></div>
 
 
                 <div className="cleaning-affordable pad-y">

@@ -113,7 +113,7 @@ export const Question = (props) => {
                 // var queryString = Object.keys(select).map(key => key[9] + '=' + `${select[key]}`).join('&');
                 props.history.push({
                     pathname: "/service-providers",
-                    search: `?zipCode=${state.zipCode}&service=${serviceId}&subService=${subServiceId}`,
+                    search: `?zipCode=${state.zipCode}&subService=${subServiceId}`,
                     state: select,
                 });
             } else {
@@ -156,7 +156,9 @@ export const Question = (props) => {
             setState((state) => ({ ...state, zipCodeErr: "" }));
             axios({
                 method: "get",
-                url: HOST + "/api/user/services/zip-code?zipCode=" + value,
+                url:
+                    HOST +
+                    `/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}`,
             })
                 .then(function (response) {
                     setState((state) => ({
@@ -175,7 +177,6 @@ export const Question = (props) => {
         }
     };
 
-    console.log(state.zipCodeDataErr);
     const handleSelectZipCode = (code) => {
         setState((state) => ({
             ...state,

@@ -28,7 +28,7 @@ const paymentSlice = createSlice({
                             ...state.list.data, data: [action.payload.data, ...state.list.data.data]
                         }
                     },
-                    removeCard: action.payload
+                    addCard: action.payload
                 }
             }
             return {

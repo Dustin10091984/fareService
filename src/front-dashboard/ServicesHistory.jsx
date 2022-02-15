@@ -12,12 +12,14 @@ import Loading from "../front-end/common/Loading";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Rating from "../components/Rating";
 import Paginate from "./../components/Paginate";
+import { HOST } from "../constants";
 
 export const ServicesHistory = (props) => {
     const { location, history } = props;
     // const location = useLocation();
 
     const [state, setState] = useState({
+        second: 0,
         payable: "",
         error: "",
     });
@@ -61,7 +63,12 @@ export const ServicesHistory = (props) => {
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
-        return () => {};
+        const interval = setInterval(() => {
+            setState((state) => ({ ...state, second: state.second + 1 }));
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     useEffect(() => {
@@ -212,6 +219,22 @@ export const ServicesHistory = (props) => {
         }
     };
 
+    // const TimeCounter = ({ worked_times }) => {
+    //     const [time, setTime] = useState(new Date());
+    //     useEffect(() => {
+    //         setTime(new Date());
+    //     }, [time]);
+    //     return (
+    //         <div className="time-counter">
+    //             {time.getHours() +
+    //                 ":" +
+    //                 time.getMinutes() +
+    //                 ":" +
+    //                 time.getSeconds()}
+    //         </div>
+    //     );
+    // };
+
     return (
         <>
             <div className="breadcrumb-dash">
@@ -267,18 +290,15 @@ export const ServicesHistory = (props) => {
                                 serviceRequestList?.data?.map(
                                     (serviceRequest, index) => (
                                         <div
-                                            className="col-md-4 col-sm-6"
+                                            className="col-9 mobile-auto-col col-sm-6 col-lg-4"
                                             key={index}
                                         >
-                                            <div className="col-md-12">
-                                                <div
-                                                    className=" row order-card d-flex"
-                                                    style={{
-                                                        minHeight: "34vh",
-                                                    }}
+                                             <div
+                                                    className="order-card order-history-card-11 d-flex"
+                                                   
                                                 >
                                                     <div className="row">
-                                                        <div className="col-md-8 order-des-b">
+                                                        <div className="col-8 order-des-b">
                                                             <Link
                                                                 to={`service-detail/${serviceRequest.id}`}
                                                                 className="font-weight-bold"
@@ -303,6 +323,12 @@ export const ServicesHistory = (props) => {
                                                                     {
                                                                         (() => {
                                                                             if (
+                                                                                serviceRequest.status ===
+                                                                                "PENDING"
+                                                                            ) {
+                                                                                return "Pending";
+                                                                            }
+                                                                            if (
                                                                                 serviceRequest.working_status ==
                                                                                 null
                                                                             ) {
@@ -313,6 +339,56 @@ export const ServicesHistory = (props) => {
                                                                                 serviceRequest.working_status ==
                                                                                 "STARTED"
                                                                             ) {
+                                                                                if (
+                                                                                    serviceRequest
+                                                                                        ?.worked_times
+                                                                                        .length >
+                                                                                    0
+                                                                                ) {
+                                                                                    let breakTime = 0;
+                                                                                    let started =
+                                                                                        moment(
+                                                                                            serviceRequest
+                                                                                                .worked_times[0]
+                                                                                                .start_at
+                                                                                        );
+                                                                                    serviceRequest?.worked_times?.forEach(
+                                                                                        (
+                                                                                            time
+                                                                                        ) => {
+                                                                                            if (
+                                                                                                time.is_pause &&
+                                                                                                time.end_at !=
+                                                                                                    null
+                                                                                            ) {
+                                                                                                breakTime =
+                                                                                                    moment(
+                                                                                                        time.start_at
+                                                                                                    ).diff(
+                                                                                                        time.end_at,
+                                                                                                        "seconds"
+                                                                                                    );
+                                                                                            }
+                                                                                        }
+                                                                                    );
+                                                                                    let now =
+                                                                                        moment();
+                                                                                    let duration =
+                                                                                        moment.duration(
+                                                                                            now.diff(
+                                                                                                started
+                                                                                            )
+                                                                                        );
+                                                                                    duration =
+                                                                                        duration.subtract(
+                                                                                            moment(
+                                                                                                breakTime
+                                                                                            ),
+                                                                                            "seconds"
+                                                                                        );
+                                                                                    // `${ duration.asDays().toFixed( 0 ) > 0 ? duration.asDays().toFixed(0) + "d" : ""}`
+                                                                                    return `${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
+                                                                                }
                                                                                 return "Started";
                                                                             }
 
@@ -425,24 +501,35 @@ export const ServicesHistory = (props) => {
                                                             <div className="font-weight-bold">
                                                                 Service:{" "}
                                                                 {serviceRequest.sub_service ||
-                                                                    "N/A"}
+                                                                    serviceRequest.type}
                                                             </div>
                                                         </div>
-                                                        <div className="col-md-4">
+                                                        <div className="col-4">
                                                             <img
                                                                 className="img-fluid"
+                                                                style={{
+                                                                    height: "8.1rem",
+                                                                    width: "8.1rem",
+                                                                    objectFit:"cover",
+                                                                    borderRadius:
+                                                                        "100%",
+                                                                }}
                                                                 src={
-                                                                    serviceRequest
+                                                                    (serviceRequest
                                                                         ?.provider
-                                                                        ?.image ||
-                                                                    "/assets/img/user4.jpg"
+                                                                        ?.image &&
+                                                                        HOST +
+                                                                            serviceRequest
+                                                                                ?.provider
+                                                                                ?.image) ||
+                                                                    "/assets/img/Profile_avatar.png"
                                                                 }
                                                                 alt=""
                                                                 onError={(
                                                                     e
                                                                 ) => {
                                                                     e.target.src =
-                                                                        "/assets/img/user4.jpg";
+                                                                        "/assets/img/Profile_avatar.png";
                                                                 }}
                                                             />
                                                             <div className="order-btn-b mt-2">
@@ -484,14 +571,11 @@ export const ServicesHistory = (props) => {
                                                                     "ENDED"
                                                             ) {
                                                                 return (
-                                                                    <div className="order-des-b">
+                                                                    <div className="order-des-b w-100">
                                                                         <div
                                                                             type="button"
-                                                                            className="service-label"
-                                                                            style={{
-                                                                                backgroundColor:
-                                                                                    "blue",
-                                                                            }}
+                                                                            className="button-common w-100"
+                                                                           
                                                                             onClick={() =>
                                                                                 handleFeedbackClick(
                                                                                     serviceRequest.id,
@@ -514,7 +598,6 @@ export const ServicesHistory = (props) => {
                                                         })()}
                                                     </div>
                                                 </div>
-                                            </div>
                                         </div>
                                     )
                                 )}

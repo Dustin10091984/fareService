@@ -32,7 +32,7 @@ import { RestaurantPage } from './front-end/RestaurantPage';
 import { GroceryStorePage } from './front-end/GroceryStorePage';
 import { FoodDetails } from './front-end/FoodDetails';
 import { Cart } from './front-end/Cart';
-import { Services } from './front-end/Services';
+import { ServicesPage } from './views/ServicesPage';
 import { Dashboard } from './front-dashboard/Dashboard';
 import { OrderHistory } from './front-dashboard/OrderHistory';
 import { FoodDelivery } from './front-dashboard/FoodDelivery';
@@ -56,6 +56,7 @@ import { onMessageListener, getToken } from './firebaseInit';
 import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
+import { MovingRequest } from './front-end/moving';
 
 const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
 
@@ -84,10 +85,10 @@ function App() {
         .then(function (response) {
         })
         .catch((error) => {
-          console.log(error.response.data.message);
+          // console.log(error.response.data.message);
         });
+      dispatch(getCartList());
     }
-    dispatch(getCartList());
   }, []);
 
   window.io = io;
@@ -117,11 +118,8 @@ function App() {
   return (
     <Elements stripe={stripePromise} >
       <div className="App">
-        {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null}
-        <ReactNotificationComponent
-          title={notification.title}
-          body={notification.body}
-          type={notification.type}
+        {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null} */}
+        <ReactNotificationComponent {...notification}
         />
         <Header></Header>
 
@@ -149,6 +147,7 @@ function App() {
           <Route path='/shop' component={Shop} />
           <Route path='/shop2' component={ShopTwo} />
           <Route path='/moving-help' component={MovingHelp} />
+          <Route path='/moving-request' component={MovingRequest} />
           <Route path='/house-cleaning' component={HouseCleaning} />
           <Route path='/provider/profile/:id' component={ProviderProfile} />
           <Route path='/latest-news' component={LatestNews} />
@@ -167,8 +166,8 @@ function App() {
           <Route path='/restaurants' component={Restaurant} />
           <Route path='/restaurant-page/:id' component={RestaurantPage} />
           <Route path='/food-details' component={FoodDetails} />
-          <Route path='/services/:serviceId/:subServiceId' component={Services} />
-          <Route path='/services' component={Services} />
+          <Route path='/services/:serviceId/:subServiceId' component={ServicesPage} />
+          <Route path='/services' component={ServicesPage} />
           <Route path='/order-history' component={OrderHistory} />
           <Route path='/food-delivery' component={FoodDelivery} />
           <Route path='/product-delivery' component={ProductDelivery} />

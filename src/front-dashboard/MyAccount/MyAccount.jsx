@@ -27,7 +27,12 @@ export const MyAccount = (props) => {
     const [state, setState] = useState({ type: "HOME", addCardError: true });
     const [checkoutError, setCheckoutError] = useState();
     const dispatch = useDispatch();
+    const cardLoading = useRef(null);
     const loading = useRef(null);
+    const success = useRef(null);
+    const error = useRef(null);
+    const closeRef = useRef(null);
+    const closeAddressModalRef = useRef(null);
     const profile = useSelector((state) => state.userReducer?.profile);
     const address = useSelector((state) => state.userReducer?.address);
     const addressList = useSelector((state) => state.userReducer?.addresses);
@@ -53,6 +58,7 @@ export const MyAccount = (props) => {
     useEffect(() => {
         if (delAddress?.loading) {
             loading.current = toast.info("Address list loading...", {
+                toastId: loading.current,
                 autoClose: false,
             });
             return true;
@@ -60,13 +66,17 @@ export const MyAccount = (props) => {
 
         if (delAddress?.error == false && delAddress?.data) {
             toast.dismiss(loading.current);
-            toast.success(delAddress?.message);
+            toast.success(delAddress?.message, {
+                toastId: success.current,
+            });
             return true;
         }
 
         if (delAddress?.error) {
             toast.dismiss(loading.current);
-            toast.error(delAddress?.message);
+            toast.error(delAddress?.message, {
+                toastId: error.current,
+            });
             return true;
         }
     }, [delAddress]);
@@ -74,20 +84,26 @@ export const MyAccount = (props) => {
     useEffect(() => {
         if (address?.loading) {
             loading.current = toast.info("Address adding...", {
+                toastId: loading.current,
                 autoClose: false,
             });
             return true;
         }
 
         if (address?.error == false && address?.data) {
+            closeAddressModalRef.current.click();
             toast.dismiss(loading.current);
-            toast.success("Address added successfully");
+            toast.success("Address added successfully", {
+                toastId: success.current,
+            });
             return true;
         }
 
         if (address?.error) {
             toast.dismiss(loading.current);
-            toast.error(address?.message || "Address adding failed");
+            toast.error(address?.message || "Address adding failed", {
+                toastId: error.current,
+            });
             return true;
         }
     }, [address]);
@@ -95,6 +111,7 @@ export const MyAccount = (props) => {
     useEffect(() => {
         if (removeCard?.loading) {
             loading.current = toast.info("Card deleting...", {
+                toastId: loading.current,
                 autoClose: false,
             });
             return true;
@@ -102,35 +119,44 @@ export const MyAccount = (props) => {
 
         if (removeCard?.error == false && removeCard?.data) {
             toast.dismiss(loading.current);
-            toast.success("Card deleted successfully");
+            toast.success("Card deleted successfully", {
+                toastId: success.current,
+            });
             return true;
         }
 
         if (removeCard?.error) {
             toast.dismiss(loading.current);
-            toast.error(removeCard?.message || "Card deleting failed");
+            toast.error(removeCard?.message || "Card deleting failed", {
+                toastId: error.current,
+            });
             return true;
         }
     }, [removeCard]);
 
     useEffect(() => {
         if (addCard?.loading) {
-            toast.dismiss(loading.current);
-            loading.current = toast.info("Card adding...", {
+            cardLoading.current = toast.info("Card adding...", {
+                toastId: loading.current,
                 autoClose: false,
             });
             return true;
         }
 
-        if (addCard?.error == false && addCard?.data) {
-            toast.dismiss(loading.current);
-            toast.success("Card added successfully");
+        if (addCard?.error == false) {
+            closeRef.current.click();
+            toast.dismiss(cardLoading.current);
+            toast.success("Card added successfully", {
+                toastId: success.current,
+            });
             return true;
         }
 
         if (addCard?.error) {
-            toast.dismiss(loading.current);
-            toast.error(addCard?.message || "Card adding failed");
+            toast.dismiss(cardLoading.current);
+            toast.error(addCard?.message || "Card adding failed", {
+                toastId: error.current,
+            });
             return true;
         }
     }, [addCard]);
@@ -139,7 +165,7 @@ export const MyAccount = (props) => {
         const { name, value } = e.target;
         setState((state) => ({ ...state, [name]: value }));
         let errorMsg = "Zip Code may not be less than 3 grater than 15";
-        if (value.length > 3 && value.length < 15) {
+        if ((value.length > 3 && value.length < 15) || value.length == 0) {
             errorMsg = "";
         }
         setState((state) => ({
@@ -187,6 +213,7 @@ export const MyAccount = (props) => {
     const handleAddCardClick = async () => {
         try {
             loading.current = toast.info("Card adding...", {
+                toastId: loading.current,
                 autoClose: false,
             });
             setState((state) => ({
@@ -243,7 +270,7 @@ export const MyAccount = (props) => {
                     My Account
                 </div>
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-lg-4">
                         {(() => {
                             let data = {};
                             if (profile?.data) {
@@ -260,16 +287,17 @@ export const MyAccount = (props) => {
                         })()}
                     </div>
                     <div
-                        className="col-md-8 mt-5 mb-5 service-time-box"
+                        className="col-lg-8 mt-5 mb-5 service-time-box"
                         style={{
                             fontSize: "1.5rem",
                         }}
                     >
                         <div
-                            className="text-center"
+                            className="text-left"
                             style={{
                                 fontWeight: "bold",
                                 fontSize: "2rem",
+                                marginBottom:'1rem',
                             }}
                         >
                             Profile
@@ -305,7 +333,7 @@ export const MyAccount = (props) => {
                                         key={index}
                                         className="col-md-6 d-flex"
                                     >
-                                        <div className="order-card d-flex align-items-center justify-content-between">
+                                        <div className="order-card d-flex align-items-center justify-content-between w-100">
                                             <div>
                                                 {item.brand == "Visa" && (
                                                     <i
@@ -478,6 +506,7 @@ export const MyAccount = (props) => {
                             </h5>
                             <button
                                 // type="button"
+                                ref={closeRef}
                                 style={{
                                     fontSize: "2rem",
                                 }}
@@ -695,6 +724,7 @@ export const MyAccount = (props) => {
                                 style={{
                                     fontSize: "4rem",
                                 }}
+                                ref={closeAddressModalRef}
                                 className="close"
                                 data-dismiss="modal"
                                 aria-label="Close"
@@ -886,10 +916,7 @@ export const MyAccount = (props) => {
                                 className="button-common-2"
                                 disabled={
                                     state?.address?.length < 5 ||
-                                    state?.zip_code == "" ||
-                                    state?.zip_code === undefined ||
-                                    state?.error?.zip_codeErr !== "" ||
-                                    state?.error?.zip_codeErr === undefined ||
+                                    state?.error?.zip_codeErr != "" ||
                                     !state?.type
                                 }
                                 onClick={handleAddAddress}

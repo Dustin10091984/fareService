@@ -21,7 +21,6 @@ const ProfileCard = ({ profile }) => {
             imgLoading.current = toast.info("updating profile Image", {
                 autoClose: false,
             });
-            console.log(imgLoading.current);
             return true;
         }
 
@@ -54,10 +53,12 @@ const ProfileCard = ({ profile }) => {
                 </>
             ) : (
                 <>
-                    <div className="pro-pic">
+                   <div className="profile-box-11">
+                   <div className="pro-pic">
                         <img
                             src={
-                                HOST + profile?.image || "/assets/img/user4.jpg"
+                                HOST + profile?.image ||
+                                "/assets/img/Profile_avatar.png"
                             }
                             className="img-fluid"
                             alt=""
@@ -76,12 +77,13 @@ const ProfileCard = ({ profile }) => {
                                 borderRadius: "50%",
                                 position: "absolute",
                                 zIndex: "1",
-                                top: "30%",
-                                right: "27%",
+                                bottom: '10%',
+                                right: '0px',
                             }}
                             htmlFor="image"
                         ></label>
                     </div>
+                   </div>
                     <div className="pro-title">{profile?.name || "Name"}</div>
                     <div className="pro-price">
                         {profile?.sub_title || "BASIC"}

@@ -7,6 +7,9 @@ const providerSlice = createSlice({
     reducers: {
         getProvider: (state, action) => {
             return action.payload
+        },
+        setStateProvider: (state, action) => {
+            return action.payload
         }
     }
 });
@@ -14,6 +17,7 @@ const providerSlice = createSlice({
 export default providerSlice.reducer;
 
 const { getProvider } = providerSlice.actions;
+export const { setStateProvider } = providerSlice.actions;
 
 
 export const getProviderList = (params) => async dispatch => {

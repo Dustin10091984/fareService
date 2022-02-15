@@ -1,24 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { getProviderList } from "../store/Slices/providers/providerListSclice";
+import {
+    getProviderList,
+    setStateProvider,
+} from "../store/Slices/providers/providerListSclice";
 import { getProviderSchedule } from "../store/Slices/providers/providerScheduleSclice";
 import { postRequestService } from "../store/Slices/services/RequestServiceSclice";
 import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
-import { makeMovingRequest } from "../store/Slices/moving/movingSlice";
+import {
+    makeMovingRequest,
+    movingRequest as clearMovingRequest,
+} from "../store/Slices/moving/movingSlice";
 import ServiceType from "../constants/ServiceType";
 import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-import "react-calendar/dist/Calendar.css";
+
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
-
+    console.log(location.state);
     const [open, setOpen] = useState(false);
 
     const movingRef = useRef("movingModal");
@@ -69,6 +75,7 @@ export const ServiceProviders = (props) => {
     useEffect(() => {
         return () => {
             dispatch(getInitialRequestService());
+            dispatch(setStateProvider(""));
         };
     }, []);
 
@@ -125,6 +132,32 @@ export const ServiceProviders = (props) => {
         // serviceRequest
     ]);
 
+    useEffect(() => {
+        if (movingError == true) {
+            Swal.fire({
+                title: "Error",
+                text: movingMessage,
+                confirmButtonText: "Close",
+                icon: "error",
+            });
+            return;
+        }
+        if (movingError == false && movingMessage) {
+            movingRef.current.click();
+            Swal.fire({
+                title: "Success!",
+                text: "Request Successfully Sent",
+                confirmButtonText: "Go To Services History",
+                icon: "success",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    handleGoToServicesHistory();
+                    dispatch(clearMovingRequest(""));
+                }
+            });
+        }
+    }, [movingError, movingMessage]);
+
     function handleContinueClick(event, type, provider) {
         setOpen(true);
         const { value } = event.target;
@@ -172,22 +205,24 @@ export const ServiceProviders = (props) => {
     }
 
     const handleCalendarClick = (selectedDate) => {
-        if (selectedDate <= new Date(selectedDate)) {
-            setValue(selectedDate);
-            let timeSlots = providerSchedule?.data?.data.filter(
-                (slot) =>
-                    +slot.provider_schedule.year ===
+        setValue(selectedDate);
+        let timeSlots = providerSchedule?.data?.data.filter((slot) => {
+            if (slot?.provider_schedule) {
+                return (
+                    +slot.provider_schedule?.year ===
                         selectedDate.getFullYear() &&
                     +slot.provider_schedule.month ===
                         selectedDate.getMonth() + 1 &&
                     +slot.provider_schedule.date === selectedDate.getDate()
-            );
-            if (timeSlots) {
-                setState((state) => ({ ...state, timeSlots: timeSlots }));
-            } else {
-                setState((state) => ({ ...state, timeSlots: undefined }));
+                );
             }
+        });
+        if (timeSlots) {
+            setState((state) => ({ ...state, timeSlots: timeSlots }));
+        } else {
+            setState((state) => ({ ...state, timeSlots: undefined }));
         }
+        return;
     };
 
     const handleHoursClick = (e) => {
@@ -326,7 +361,7 @@ export const ServiceProviders = (props) => {
 
     const handleGoToServicesHistory = () => {
         dispatch(getInitialRequestService());
-        props.history.push({
+        props.history.replace({
             pathname: "/services-history",
         });
     };
@@ -528,13 +563,13 @@ export const ServiceProviders = (props) => {
                                                             src={
                                                                 provider.image
                                                                     ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
-                                                                    : "/assets/img/user4.jpg"
+                                                                    : "/assets/img/Profile_avatar.png"
                                                             }
                                                             onError={(e) => {
                                                                 e.target.onerror =
                                                                     null;
                                                                 e.target.src =
-                                                                    "/assets/img/user4.jpg";
+                                                                    "/assets/img/Profile_avatar.png";
                                                             }}
                                                             className="img-fluid"
                                                             alt="Not Found"
@@ -551,7 +586,7 @@ export const ServiceProviders = (props) => {
                                                                 }
                                                             </div>
                                                             <Link
-                                                                to={`/provider/${provider.id}`}
+                                                                to={`/provider/profile/${provider.id}`}
                                                                 className="button-common"
                                                             >
                                                                 View Profile
@@ -578,16 +613,90 @@ export const ServiceProviders = (props) => {
                                                                 <button
                                                                     onClick={(
                                                                         event
-                                                                    ) =>
+                                                                    ) => {
+                                                                        if (
+                                                                            location
+                                                                                .state
+                                                                                .service_type ==
+                                                                            ServiceType.MOVING
+                                                                        ) {
+                                                                            console.log(
+                                                                                location.state
+                                                                            );
+                                                                            props?.history?.push(
+                                                                                {
+                                                                                    pathname:
+                                                                                        "/moving-request",
+                                                                                    state: {
+                                                                                        date: location
+                                                                                            ?.state
+                                                                                            ?.date,
+                                                                                        end_lat:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.end_lat,
+                                                                                        end_lng:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.end_lng,
+                                                                                        from_address:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.from_address,
+                                                                                        service_type:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.service_type,
+                                                                                        start_lat:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.start_lat,
+                                                                                        start_lng:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.start_lng,
+                                                                                        to_address:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.to_address,
+                                                                                        provider_id:
+                                                                                            provider.id,
+                                                                                        sub_service_id:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.sub_service_id,
+                                                                                        vehicle_type_id:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.vehicle_type_id,
+                                                                                        zip_code:
+                                                                                            location
+                                                                                                ?.state
+                                                                                                ?.zip_code,
+                                                                                        date: moment(
+                                                                                            location
+                                                                                                .state
+                                                                                                .date
+                                                                                        ).format(
+                                                                                            "YYYY-MM-DD"
+                                                                                        ),
+                                                                                    },
+                                                                                }
+                                                                            );
+                                                                            return;
+                                                                        }
                                                                         handleContinueClick(
                                                                             event,
                                                                             provider.account_type ===
-                                                                                "BASIC"
+                                                                                "BASIC" &&
+                                                                                provider
+                                                                                    ?.provider_profile
+                                                                                    ?.hourly_rate
                                                                                 ? true
                                                                                 : false,
                                                                             provider
-                                                                        )
-                                                                    }
+                                                                        );
+                                                                    }}
                                                                     value={
                                                                         provider.id
                                                                     }
@@ -599,13 +708,15 @@ export const ServiceProviders = (props) => {
                                                                     data-target={
                                                                         location
                                                                             .state
-                                                                            .service_type ==
-                                                                        ServiceType.MOVING
-                                                                            ? "#moving"
-                                                                            : provider.account_type ===
-                                                                              "BASIC"
+                                                                            .service_type !=
+                                                                            ServiceType.MOVING &&
+                                                                        (provider.account_type ===
+                                                                            "BASIC" &&
+                                                                        provider
+                                                                            ?.provider_profile
+                                                                            ?.hourly_rate
                                                                             ? "#hourly"
-                                                                            : "#quotation"
+                                                                            : "#quotation")
                                                                     }
                                                                     disabled={
                                                                         location
@@ -622,7 +733,10 @@ export const ServiceProviders = (props) => {
                                                                     }
                                                                 >
                                                                     {provider.account_type ===
-                                                                    "BASIC"
+                                                                        "BASIC" &&
+                                                                    provider
+                                                                        ?.provider_profile
+                                                                        ?.hourly_rate
                                                                         ? "Make a Request"
                                                                         : "Get a Qoutation"}
                                                                 </button>
@@ -651,7 +765,7 @@ export const ServiceProviders = (props) => {
                                                             )}
                                                         </div>
                                                         <div className="user-price">
-                                                            {provider
+                                                            {!!provider
                                                                 ?.provider_profile
                                                                 ?.hourly_rate
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
@@ -701,7 +815,7 @@ export const ServiceProviders = (props) => {
                                                                                               ?.user_feedbacks[0]
                                                                                               ?.user
                                                                                               ?.image
-                                                                                        : "/assets/img/user4.jpg"
+                                                                                        : "/assets/img/Profile_avatar.png"
                                                                                 }
                                                                                 className="img-fluid"
                                                                                 alt="Not have"
@@ -711,19 +825,24 @@ export const ServiceProviders = (props) => {
                                                                                     e.target.onerror =
                                                                                         null;
                                                                                     e.target.src =
-                                                                                        "/assets/img/user4.jpg";
+                                                                                        "/assets/img/Profile_avatar.png";
                                                                                 }}
                                                                             />
                                                                         </div>
                                                                         {provider
                                                                             ?.user_feedbacks[0] && (
-                                                                            <div className="review-detail">
-                                                                                {
-                                                                                    provider
-                                                                                        ?.user_feedbacks[0]
-                                                                                        .comment
-                                                                                }
-                                                                            </div>
+                                                                            <>
+                                                                                <div className="review-detail">
+                                                                                    {
+                                                                                        provider
+                                                                                            ?.user_feedbacks[0]
+                                                                                            .comment
+                                                                                    }
+                                                                                </div>
+                                                                                <div className="review-rating">
+                                                                                    {/* ldskjflksdjflksdj */}
+                                                                                </div>
+                                                                            </>
                                                                         )}
                                                                     </div>
                                                                 </div>
@@ -817,10 +936,33 @@ export const ServiceProviders = (props) => {
                                             fontSize: "1.5rem",
                                         }}
                                     >
-                                        <Calendar
-                                            onChange={handleCalendarClick}
-                                            value={value}
-                                        />
+                                        {(() => {
+                                            let mindate = new Date();
+                                            let maxDate = new Date(
+                                                `${
+                                                    mindate.getMonth() + 2
+                                                }/${mindate.getDate()}/${mindate.getFullYear()}`
+                                            );
+                                            return (
+                                                <Calendar
+                                                    onChange={
+                                                        handleCalendarClick
+                                                    }
+                                                    minDate={mindate}
+                                                    maxDate={maxDate}
+                                                    value={value}
+                                                    maxDetail="month"
+                                                    // tileDisabled={({
+                                                    //     activeStartDate,
+                                                    //     date,
+                                                    //     view,
+                                                    // }) =>
+                                                    //     date.getDay() ===
+                                                    //     mindate.getDate()
+                                                    // }
+                                                />
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                                 <div
@@ -897,9 +1039,7 @@ export const ServiceProviders = (props) => {
                                                                     }
                                                                     className="d-flex align-items-center justify-content-center m-2 col-5"
                                                                 >
-                                                                    {slot.start +
-                                                                        " - " +
-                                                                        slot.end}
+                                                                    {slot.start}
                                                                 </li>
                                                             ) : (
                                                                 <li
@@ -915,9 +1055,7 @@ export const ServiceProviders = (props) => {
                                                                     }
                                                                     className="d-flex align-items-center justify-content-center m-2 col-5"
                                                                 >
-                                                                    {slot.start +
-                                                                        " - " +
-                                                                        slot.end}
+                                                                    {slot.start}
                                                                 </li>
                                                             )}
                                                         </React.Fragment>
@@ -1184,6 +1322,7 @@ export const ServiceProviders = (props) => {
                                                     typeof serviceRequest.message
                                                 ) {
                                                     case "string":
+                                                        qautationRef.current.click();
                                                         Swal.fire({
                                                             title: "Success!",
                                                             text: "Successfully created request service",
@@ -1194,7 +1333,6 @@ export const ServiceProviders = (props) => {
                                                             if (
                                                                 result.isConfirmed
                                                             ) {
-                                                                qautationRef.current.click();
                                                                 handleGoToServicesHistory();
                                                             }
                                                         });
@@ -1481,13 +1619,6 @@ export const ServiceProviders = (props) => {
                                             ) {
                                                 switch (typeof movingMessage) {
                                                     case "string":
-                                                        Swal.fire({
-                                                            title: "Error",
-                                                            text: movingMessage,
-                                                            confirmButtonText:
-                                                                "Close",
-                                                            icon: "error",
-                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-danger text-center"
@@ -1545,20 +1676,6 @@ export const ServiceProviders = (props) => {
                                             ) {
                                                 switch (typeof movingMessage) {
                                                     case "string":
-                                                        Swal.fire({
-                                                            title: "Success!",
-                                                            text: "Request Successfully Sent",
-                                                            confirmButtonText:
-                                                                "Go To Services History",
-                                                            icon: "success",
-                                                        }).then((result) => {
-                                                            if (
-                                                                result.isConfirmed
-                                                            ) {
-                                                                movingRef.current.click();
-                                                                handleGoToServicesHistory();
-                                                            }
-                                                        });
                                                         return (
                                                             <div
                                                                 className="col-12  alert alert-success text-center"
@@ -1673,7 +1790,7 @@ export const ServiceProviders = (props) => {
 // <div className="job-provider-card">
 //                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
 //                                     <div className="user-img d-flex align-items-center justify-content-center">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                     </div>
 //                                     <div className="user-detail w-100">
 //                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
@@ -1718,7 +1835,7 @@ export const ServiceProviders = (props) => {
 
 //                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
 //                                         <div className="review-img">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                         </div>
 
 //                                         <div className="review-detail">
@@ -1733,7 +1850,7 @@ export const ServiceProviders = (props) => {
 //                             <div className="job-provider-card">
 //                                 <div className="user-des d-flex align-items-centet justify-content-start w-100">
 //                                     <div className="user-img d-flex align-items-center justify-content-center">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                     </div>
 //                                     <div className="user-detail w-100">
 //                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
@@ -1778,7 +1895,7 @@ export const ServiceProviders = (props) => {
 
 //                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
 //                                         <div className="review-img">
-//                                         <img src="/assets/img/user4.jpg" className="img-fluid" alt=""/>
+//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
 //                                         </div>
 
 //                                         <div className="review-detail">

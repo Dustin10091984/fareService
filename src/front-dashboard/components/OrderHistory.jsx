@@ -6,9 +6,9 @@ const OrderHistory = ({ title, list, pagination, data }) => {
     return (
         <div
             className="dashborad-box order-history"
-            style={{
-                backgroundImage: `url("/assets/img/apply-bg.jpg")`,
-            }}
+            // style={{
+            //     backgroundImage: `url("/assets/img/layer-2.jpg")`,
+            // }}
         >
             <div className="container">
                 <div className="row">

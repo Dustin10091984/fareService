@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from "react-router-dom";
 
-const ReactNotificationComponent = ({ title, body, type }) => {
+const ReactNotificationComponent = ({
+    title,
+    body,
+    type,
+    service_request_id,
+}) => {
     const location = useLocation();
     if (title !== "" && !body !== "") {
         toast.info(<Display />, {
@@ -22,6 +27,10 @@ const ReactNotificationComponent = ({ title, body, type }) => {
     const handleNotificationClick = (type) => {
         toast.dismiss();
         if (type == "MOVING" || type == "SERVICE_REQUEST") {
+            if (service_request_id) {
+                location.push(`/service-detail/${service_request_id}`);
+                return;
+            }
             location.push({
                 pathname: "/services-history",
             });

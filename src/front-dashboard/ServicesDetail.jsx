@@ -5,7 +5,7 @@ import Rating from "../components/Rating";
 import Loading from "../front-end/common/Loading";
 import { getServiceRequest } from "../store/Slices/services/RequestServiceSclice";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
-
+import { HOST } from "../constants";
 export const ServicesDetail = (props) => {
     const [state, setState] = useState({});
     const dispatch = useDispatch();
@@ -81,8 +81,9 @@ export const ServicesDetail = (props) => {
                                                                 src={
                                                                     data
                                                                         ?.provider
-                                                                        ?.image ||
-                                                                    `/assets/img/user4.jpg`
+                                                                        ?.image
+                                                                        ? `${HOST}${data?.provider?.image}`
+                                                                        : `/assets/img/Profile_avatar.png`
                                                                 }
                                                                 className="img-fluid"
                                                                 alt=""
@@ -120,9 +121,14 @@ export const ServicesDetail = (props) => {
                                                             </div> */}
                                                             <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
                                                                 <Rating
-                                                                    rating={data?.provider?.rating.toFixed(
-                                                                        1
-                                                                    )}
+                                                                    rating={
+                                                                        typeof data
+                                                                            ?.provider
+                                                                            ?.rating &&
+                                                                        data?.provider?.rating?.toFixed(
+                                                                            1
+                                                                        )
+                                                                    }
                                                                     isCenter={
                                                                         false
                                                                     }
@@ -136,7 +142,12 @@ export const ServicesDetail = (props) => {
                                                             <div className="user-price text-green">
                                                                 {data?.provider
                                                                     ?.provider_profile
-                                                                    ?.hourly_rate
+                                                                    ?.hourly_rate !==
+                                                                    null &&
+                                                                data?.provider
+                                                                    ?.provider_profile
+                                                                    ?.hourly_rate !==
+                                                                    undefined
                                                                     ? `$${data?.provider?.provider_profile?.hourly_rate}/Per Hour`
                                                                     : null}
                                                             </div>
@@ -193,7 +204,10 @@ export const ServicesDetail = (props) => {
                                                     <div className="order-title">
                                                         Type :{" "}
                                                         <span className="order-num active">
-                                                            {data?.type}
+                                                            {data
+                                                                ?.requested_sub_service
+                                                                ?.name ||
+                                                                data?.type}
                                                         </span>
                                                     </div>
                                                     {data?.type ==
@@ -230,38 +244,32 @@ export const ServicesDetail = (props) => {
                                             </div>
                                             <div className=" d-flex  align-items-center justify-content-between mb-5">
                                                 {data?.type ==
-                                                    "MOVING_REQUEST" && (
-                                                    <Map
-                                                        // required
-                                                        id="direction-example"
-                                                        // required
-                                                        mapContainerStyle={{
-                                                            height: "400px",
-                                                            width: "100%",
-                                                        }}
-                                                        center={{
-                                                            lat: 0,
-                                                            lng: -180,
-                                                        }}
-                                                        // required
-                                                        zoom={7}
-                                                    >
-                                                        {state?.response !==
-                                                            null &&
-                                                            state?.response !==
-                                                                undefined &&
-                                                            state?.response !==
-                                                                "" && (
-                                                                <DirectionsRenderer
-                                                                    // required
-                                                                    options={{
-                                                                        directions:
-                                                                            state?.response,
-                                                                    }}
-                                                                />
-                                                            )}
-                                                    </Map>
-                                                )}
+                                                    "MOVING_REQUEST" &&
+                                                    state?.response && (
+                                                        <Map
+                                                            // required
+                                                            id="direction-example"
+                                                            // required
+                                                            mapContainerStyle={{
+                                                                height: "400px",
+                                                                width: "100%",
+                                                            }}
+                                                            center={{
+                                                                lat: 0,
+                                                                lng: -180,
+                                                            }}
+                                                            // required
+                                                            zoom={7}
+                                                        >
+                                                            <DirectionsRenderer
+                                                                // required
+                                                                options={{
+                                                                    directions:
+                                                                        state?.response,
+                                                                }}
+                                                            />
+                                                        </Map>
+                                                    )}
                                             </div>
                                             {data?.type == "SERVICE_REQUEST" ? (
                                                 <>
