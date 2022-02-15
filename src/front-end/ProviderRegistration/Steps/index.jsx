@@ -414,13 +414,18 @@ const BasicInfo = ({
     );
 };
 
-const SelectZipCode = ({ step, handleStep, handleZipCode, zipCode }) => {
+const SelectZipCode = ({
+    step,
+    handleStep,
+    handleZipCode,
+    zipCode,
+    headerMenu,
+}) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-
     const [state, setState] = useState({
         zip_codeErr: "",
     });
@@ -450,7 +455,9 @@ const SelectZipCode = ({ step, handleStep, handleZipCode, zipCode }) => {
             });
         }
     };
-    console.log(zipCode);
+    const handleOnSubmit = (data) => {
+        console.log(data);
+    };
     return (
         <div className="login-from step-4">
             {state?.zip_codeErr && (
@@ -458,53 +465,105 @@ const SelectZipCode = ({ step, handleStep, handleZipCode, zipCode }) => {
                     {state?.zip_codeErr}
                 </div>
             )}
-            <div className="form-group">
-                <div className="form-title mb-3">Where do you work?</div>
-                <label htmlFor="name">Enter location</label>
-                <AutoCompleteInput
-                    placeholder="Type your area address"
-                    handleOnChange={handleOnChange}
-                    handleOnSelect={handleOnSelect}
-                    value={zipCode?.address}
-                ></AutoCompleteInput>
-                {/* <input
-                    {...register("name", { required: true })}
-                    className="form-control"
-                    placeholder="Enter location"
-                /> */}
-            </div>
-
-            <div className="zip-code d-flex flex-wrap">
-                {zipCode?.zip_code?.map((zip, index) => (
-                    <div
-                        key={index}
-                        className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1"
-                    >
-                        {zip} <span className="fa fa-times ml-1"></span>
+            <form onSubmit={handleSubmit(handleOnSubmit)}>
+                <div className="form-group">
+                    <label htmlFor="service_id">Services</label>
+                    <div className="form-title mb-3">
+                        <select
+                            {...register("service_id", {
+                                required: true,
+                                value: "",
+                            })}
+                            className={`form-control ${
+                                errors?.service_id ? "is-invalid" : ""
+                            }`}
+                            onChange={(e) => {
+                                handleZipCode({ service_id: e.target.value });
+                            }}
+                        >
+                            <option value="" disabled>
+                                Please selec a service
+                            </option>
+                            {headerMenu?.map((item) => (
+                                <React.Fragment key={item.id}>
+                                    <option value={item?.id}>
+                                        {item?.name}
+                                    </option>
+                                </React.Fragment>
+                            ))}
+                            {/* <option value="male">male</option>
+                            <option value="other">other</option> */}
+                        </select>
+                        {console.log(errors)}
+                        {errors?.service_id &&
+                            errors?.service_id?.type === "required" && (
+                                <div className="text-danger">
+                                    Please select a service
+                                </div>
+                            )}
                     </div>
-                ))}
-            </div>
+                </div>
+                <div className="form-group">
+                    <div class="d-flex flex-wrap" id="subService">
+                        <label class="custom-check mr-4">
+                            slkdlsdkl
+                            <input
+                                class="checkbox"
+                                type="checkbox"
+                                value=""
+                            ></input>
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <div className="form-title mb-3">Where do you work?</div>
+                    <label htmlFor="name">Enter location</label>
+                    <AutoCompleteInput
+                        placeholder="Type your area address"
+                        handleOnChange={handleOnChange}
+                        handleOnSelect={handleOnSelect}
+                        value={zipCode?.address}
+                    ></AutoCompleteInput>
+                    {/* <input
+                        {...register("name", { required: true })}
+                        className="form-control"
+                        placeholder="Enter location"
+                    /> */}
+                </div>
 
-            <div className="d-flex justify-content-between">
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-4-back"
-                    type="button"
-                    // onClick={() => handleStep(step - 1)}
-                >
-                    Back
-                </button>
-                <div className="px-3"></div>
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-4"
-                    type="button"
-                    disabled={zipCode?.zip_code?.length === 0}
-                    // onClick={() => handleStep(step + 1)}
-                >
-                    Next
-                </button>
-            </div>
+                <div className="zip-code d-flex flex-wrap">
+                    {zipCode?.zip_code?.map((zip, index) => (
+                        <div
+                            key={index}
+                            className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1"
+                        >
+                            {zip} <span className="fa fa-times ml-1"></span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="d-flex justify-content-between">
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="step-4-back"
+                        type="button"
+                        // onClick={() => handleStep(step - 1)}
+                    >
+                        Back
+                    </button>
+                    <div className="px-3"></div>
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="step-4"
+                        type="submit"
+                        disabled={zipCode?.zip_code?.length === 0}
+                        // onClick={() => handleStep(step + 1)}
+                    >
+                        Next
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

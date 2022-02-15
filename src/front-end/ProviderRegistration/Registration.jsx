@@ -33,6 +33,7 @@ const Registration = (props) => {
     const [zipCode, setZipCode] = useState({
         address: "",
         zip_code: [],
+        service_id: "",
     });
     const [providerType, setProviderType] = useState();
     const [individual, setIndividual] = useState({});
@@ -229,12 +230,15 @@ const Registration = (props) => {
         }
     };
 
-    const handleZipCode = ({ address, zip_code }) => {
+    const handleZipCode = ({ address, zip_code, service_id }) => {
         if (address != undefined) {
             setZipCode((zipCode) => ({ ...zipCode, address }));
         }
         if (zip_code != undefined) {
             setZipCode((zipCode) => ({ ...zipCode, zip_code }));
+        }
+        if (service_id != undefined) {
+            setZipCode((zipCode) => ({ ...zipCode, service_id }));
         }
     };
 
@@ -365,6 +369,7 @@ const Registration = (props) => {
                                             handleZipCode(data);
                                         }}
                                         zipCode={zipCode}
+                                        {...props}
                                     />
                                 )}
                                 {/* <!-- step 5 --> */}

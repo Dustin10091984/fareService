@@ -6,6 +6,7 @@ const mapStateToProps = (state) => ({
     providerSignup: state.registrationReducer?.signupProvider,
     verifyOpt: state.registrationReducer?.verify,
     basicInfoRes: state.registrationReducer?.basicInfo,
+    headerMenu: state?.headerMenuReducer,
 });
 
 const mapDispatchToProps = (dispatch) => {
