@@ -720,19 +720,27 @@ const ProfileDetail = ({
         });
     };
     const handleDatePick = (date) => {
-        handleProfile({ dob: date });
+        handleProfile(date);
     };
 
     const handleOnSubmitProfile = (data) => {
         const form = new FormData();
-        let dob = moment(profile?.dob).format("MM/DD/YYYY");
+        if (providerType === "Individual") {
+            let dob = moment(profile?.dob).format("MM/DD/YYYY");
+            form.append("dob", dob);
+            form.append("first_name", profile?.first_name);
+            form.append("last_name", profile?.last_name);
+        }
+        if (providerType === "Business") {
+            let founded = moment(profile?.founded).format("MM/DD/YYYY");
+            form.append("founded", founded);
+            form.append("business_name", data?.business_name);
+            form.append("number_of_employees", data?.number_of_employees);
+        }
         if (profile?.file) {
             form.append("image", profile.file);
         }
-        form.append("first_name", profile?.first_name);
-        form.append("last_name", profile?.last_name);
         form.append("type", providerType);
-        form.append("dob", dob);
         form.append("rourly_rate", data.rourly_rate);
         form.append("street_address", data.street_address);
         form.append("suite_number", data.suite_number);
@@ -870,9 +878,17 @@ const ProfileDetail = ({
                         className={`form-control ${
                             errors?.dob ? "is-invalid" : ""
                         }`}
-                        selected={profile?.dob || new Date()}
+                        selected={
+                            providerType === "Business"
+                                ? profile?.founded || new Date()
+                                : profile?.dob || new Date()
+                        }
                         onChange={(date) => {
-                            handleDatePick(date);
+                            if (providerType === "Business") {
+                                handleDatePick({ founded: date });
+                            } else {
+                                handleDatePick({ dob: date });
+                            }
                         }}
                         // {...register("dob", {
                         //     required: true,
@@ -880,7 +896,11 @@ const ProfileDetail = ({
                         //         handleProfile({ dob: e.target.value });
                         //     },
                         // })}
-                        value={profile?.dob}
+                        value={
+                            providerType === "Business"
+                                ? profile?.founded
+                                : profile?.dob
+                        }
                     />
                     {errors?.dob && errors.dob.type === "required" && (
                         <strong className="text-danger">
@@ -1038,7 +1058,7 @@ const ProfileDetail = ({
                         placeholder="Enter you bio"
                         {...register("bio", {
                             required: true,
-                            minLength: 10,
+                            minLength: 20,
                             maxLength: 500,
                             onChange: (e) => {
                                 handleProfile({ bio: e.target.value });
@@ -1054,7 +1074,7 @@ const ProfileDetail = ({
                         )) ||
                             (errors?.bio?.type === "minLength" && (
                                 <strong className="text-danger">
-                                    Bio must be at least 10 characters
+                                    Bio must be at least 20 characters
                                 </strong>
                             )) ||
                             (errors?.bio?.type === "maxLength" && (
