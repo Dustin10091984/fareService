@@ -15,7 +15,7 @@ const Registration = (props) => {
     // dispatch actions
     const { handleProviderSignup, handleVerifyPhoneNo, handleBasicInfoSubmit } =
         props;
-    const { providerSignup, verifyOpt, basicInfoRes } = props;
+    const { providerSignup, verifyOpt, basicInfoRes, serviceDetail } = props;
     const [step, setStep] = useState(
         localStorage.getItem("providerToken") ? 3 : 1
     );
@@ -41,22 +41,6 @@ const Registration = (props) => {
 
     const loading = useRef(null);
     const error = useRef(null);
-
-    useEffect(() => {
-        if (
-            basicInfoRes?.loading == false &&
-            basicInfoRes?.message == "success"
-        ) {
-            handleStep(step + 1);
-        }
-        if (basicInfoRes.loading == false && basicInfoRes.error) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-            });
-        }
-    }, [basicInfoRes?.loading, basicInfoRes?.message]);
 
     useEffect(() => {
         if (providerSignup?.loading) {
@@ -112,6 +96,39 @@ const Registration = (props) => {
             setStep(3);
         }
     }, [verifyOpt]);
+
+    useEffect(() => {
+        if (
+            basicInfoRes?.loading == false &&
+            basicInfoRes?.message == "success"
+        ) {
+            handleStep(step + 1);
+        }
+        if (basicInfoRes.loading == false && basicInfoRes.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [basicInfoRes?.loading, basicInfoRes?.message]);
+
+    useEffect(() => {
+        if (
+            serviceDetail?.loading == false &&
+            serviceDetail?.message == "success"
+        ) {
+            handleStep(step + 1);
+        }
+        if (serviceDetail.loading == false && serviceDetail.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [serviceDetail?.loading, serviceDetail?.message]);
+
 
     const handleStep = (step) => {
         setStep(step);

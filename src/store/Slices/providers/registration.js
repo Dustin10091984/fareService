@@ -8,6 +8,7 @@ const registrationSlice = createSlice({
         signupProvider: "",
         verify: "",
         basicInfo: "",
+        serviceDetail: "",
     },
     reducers: {
         signupProvider: (state, action) => {
@@ -28,13 +29,21 @@ const registrationSlice = createSlice({
                     ...state.basicInfo, ...action.payload
                 }
             }
+        },
+        serviceDetail: (state, action) => {
+            return {
+                ...state,
+                serviceDetail: {
+                    ...state.serviceDetail, ...action.payload
+                }
+            }
         }
     }
 });
 
 export default registrationSlice.reducer;
 
-const { signupProvider, verifyCode, basicInfo } = registrationSlice.actions;
+const { signupProvider, verifyCode, basicInfo, serviceDetail } = registrationSlice.actions;
 
 
 
@@ -108,5 +117,32 @@ export const postBasicInfo = (data) => async dispatch => {
         });
     } catch (error) {
         dispatch(basicInfo({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+
+export const postServiceDetails = (data) => async dispatch => {
+    try {
+        dispatch(serviceDetail({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('providerToken')}`
+            },
+            data,
+            url: HOST + `/api/provider/signup/my-services`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(serviceDetail(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(serviceDetail(error.response.data));
+        });
+    } catch (error) {
+        dispatch(serviceDetail({ error: true, loading: false, message: "something went wrong!" }));
     }
 }

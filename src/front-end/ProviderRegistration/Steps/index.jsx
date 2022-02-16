@@ -420,6 +420,8 @@ const SelectZipCode = ({
     handleZipCode,
     zipCode,
     headerMenu,
+    handleServiceDetails,
+    serviceDetail,
 }) => {
     const {
         register,
@@ -445,7 +447,10 @@ const SelectZipCode = ({
             ) || {};
         if (postalCode) {
             if (zipCode?.zip_code?.includes(postalCode) == false) {
-                handleZipCode({ zip_code: [...zipCode?.zip_code, postalCode] });
+                handleZipCode({
+                    zip_code: [...zipCode?.zip_code, postalCode],
+                    address: "",
+                });
             }
             setState({ ...state, zip_codeErr: "" });
         } else {
@@ -456,7 +461,7 @@ const SelectZipCode = ({
         }
     };
     const handleOnSubmit = (data) => {
-        console.log(data);
+        handleServiceDetails({ ...data, zip_code: zipCode?.zip_code });
     };
     return (
         <div className="login-from step-4">
@@ -481,20 +486,20 @@ const SelectZipCode = ({
                                 handleZipCode({ service_id: e.target.value });
                             }}
                         >
-                            <option value="" disabled>
-                                Please selec a service
+                            <option value="" defaultChecked>
+                                Please select a service
                             </option>
-                            {headerMenu?.map((item) => (
-                                <React.Fragment key={item.id}>
-                                    <option value={item?.id}>
-                                        {item?.name}
-                                    </option>
-                                </React.Fragment>
-                            ))}
-                            {/* <option value="male">male</option>
-                            <option value="other">other</option> */}
+                            {headerMenu?.map(
+                                (item) =>
+                                    item?.sub_services && (
+                                        <React.Fragment key={item.id}>
+                                            <option value={item?.id}>
+                                                {item?.name}
+                                            </option>
+                                        </React.Fragment>
+                                    )
+                            )}
                         </select>
-                        {console.log(errors)}
                         {errors?.service_id &&
                             errors?.service_id?.type === "required" && (
                                 <div className="text-danger">
@@ -504,17 +509,36 @@ const SelectZipCode = ({
                     </div>
                 </div>
                 <div className="form-group">
-                    <div class="d-flex flex-wrap" id="subService">
-                        <label class="custom-check mr-4">
-                            slkdlsdkl
-                            <input
-                                class="checkbox"
-                                type="checkbox"
-                                value=""
-                            ></input>
-                            <span class="checkmark"></span>
-                        </label>
+                    <div className="d-flex flex-wrap" id="subService">
+                        {zipCode?.service_id &&
+                            headerMenu
+                                ?.find(
+                                    (service) =>
+                                        service?.id == zipCode?.service_id
+                                )
+                                ?.sub_services?.map((item) => (
+                                    <label
+                                        key={item.id}
+                                        className="custom-check mr-4"
+                                    >
+                                        {item?.name}
+                                        <input
+                                            className="checkbox"
+                                            type="checkbox"
+                                            {...register("sub_services", {
+                                                required: true,
+                                            })}
+                                            value={item?.id}
+                                        ></input>
+                                        <span className="checkmark"></span>
+                                    </label>
+                                ))}
                     </div>
+                    {errors.sub_services && (
+                        <div className="text-danger">
+                            Please select at least one sub service
+                        </div>
+                    )}
                 </div>
                 <div className="form-group">
                     <div className="form-title mb-3">Where do you work?</div>
@@ -538,7 +562,17 @@ const SelectZipCode = ({
                             key={index}
                             className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1"
                         >
-                            {zip} <span className="fa fa-times ml-1"></span>
+                            {zip}{" "}
+                            <span
+                                className="fa fa-times ml-1"
+                                onClick={() => {
+                                    handleZipCode({
+                                        zip_code: zipCode?.zip_code.filter(
+                                            (zip) => zip !== zip
+                                        ),
+                                    });
+                                }}
+                            ></span>
                         </div>
                     ))}
                 </div>
@@ -557,10 +591,19 @@ const SelectZipCode = ({
                         className="btn btn-primary w-100 mt-3"
                         id="step-4"
                         type="submit"
-                        disabled={zipCode?.zip_code?.length === 0}
-                        // onClick={() => handleStep(step + 1)}
+                        disabled={
+                            zipCode?.zip_code?.length === 0 ||
+                            serviceDetail?.loading
+                        }
                     >
-                        Next
+                        {serviceDetail?.loading ? (
+                            <span>
+                                <i className={`fa fa-spinner fa-pulse`}></i>{" "}
+                                Loading...
+                            </span>
+                        ) : (
+                            "Next"
+                        )}
                     </button>
                 </div>
             </form>
