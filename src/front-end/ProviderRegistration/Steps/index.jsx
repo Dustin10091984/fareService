@@ -698,7 +698,7 @@ const ProviderType = ({
     );
 };
 
-const Individual = ({
+const ProfileDetail = ({
     step,
     handleStep,
     profile,
@@ -771,29 +771,101 @@ const Individual = ({
                     </div>
                 </div>
 
+                {providerType === "Individual" && (
+                    <>
+                        <div className="form-group">
+                            <div className="form-title mb-3">Legal Name</div>
+                            <label htmlFor="name">First Name</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="First name"
+                                value={profile?.first_name}
+                                readOnly
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="name">Last Name</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="last name"
+                                value={profile?.last_name}
+                                readOnly
+                            />
+                        </div>
+                    </>
+                )}
+                {providerType === "Business" && (
+                    <>
+                        <div className="form-group">
+                            <label htmlFor="name">Business Name</label>
+                            <input
+                                type="text"
+                                className={`form-control ${
+                                    errors?.business_name ? "is-invalid" : ""
+                                }`}
+                                placeholder="Business name"
+                                value={profile?.business_name}
+                                {...register("business_name", {
+                                    required: true,
+                                    onChange: (e) => {
+                                        handleProfile({
+                                            business_name: e.target.value,
+                                        });
+                                    },
+                                })}
+                            />
+                            {errors.business_name && (
+                                <strong className="text-danger">
+                                    business name is required
+                                </strong>
+                            )}
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="name">Business Name</label>
+                            <input
+                                type="text"
+                                className={`form-control ${
+                                    errors?.number_of_employees
+                                        ? "is-invalid"
+                                        : ""
+                                }`}
+                                placeholder="Number of employees"
+                                value={profile?.number_of_employees}
+                                {...register("number_of_employees", {
+                                    required: true,
+                                    pattern: /^[0-9]*$/,
+                                    onChange: (e) => {
+                                        handleProfile({
+                                            number_of_employees: e.target.value,
+                                        });
+                                    },
+                                })}
+                            />
+                            {errors?.number_of_employees &&
+                                ((errors.number_of_employees.type ===
+                                    "required" && (
+                                    <strong className="text-danger">
+                                        Number of employees is required
+                                    </strong>
+                                )) ||
+                                    (errors.number_of_employees.type ===
+                                        "pattern" && (
+                                        <strong className="text-danger">
+                                            Number of employees must be a number
+                                        </strong>
+                                    )))}
+                        </div>
+                    </>
+                )}
+
                 <div className="form-group">
-                    <div className="form-title mb-3">Legal Name</div>
-                    <label htmlFor="name">First Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="First name"
-                        value={profile?.first_name}
-                        readOnly
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="name">Last Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="last name"
-                        value={profile?.last_name}
-                        readOnly
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="name">Date of birth</label>
+                    <label htmlFor="name">
+                        {providerType === "Business"
+                            ? "Founded date"
+                            : "Date of birth"}
+                    </label>
                     <DatePicker
                         className={`form-control ${
                             errors?.dob ? "is-invalid" : ""
@@ -850,21 +922,21 @@ const Individual = ({
                     <input
                         type="text"
                         className={`form-control ${
-                            errors?.address ? "is-invalid" : ""
+                            errors?.street_address ? "is-invalid" : ""
                         }`}
                         placeholder="street address"
                         {...register("street_address", {
                             required: true,
                             onChange: (e) => {
                                 handleProfile({
-                                    street_address: e.target.value,
+                                    street_address: e?.target?.value,
                                 });
                             },
                         })}
                         value={profile?.street_address}
                     />
                     {errors?.street_address &&
-                        errors.address.type === "required" && (
+                        errors.street_address.type === "required" && (
                             <strong className="text-danger">
                                 Address is required
                             </strong>
@@ -1027,148 +1099,148 @@ const Individual = ({
             </form>
         </div>
     );
-};;
-
-const Company = ({ handleStep }) => {
-    return (
-        <div className="login-from step-6-company">
-            <div className="form-group">
-                <div className="form-title mb-3"> Company Profile Setting</div>
-
-                <div className="user-profile">
-                    <div className="user-image d-flex align-items-center justify-content-center">
-                        <img
-                            src="img/images.png"
-                            className="img-fluid"
-                            alt=""
-                        />
-                    </div>
-                    <label htmlFor="file-upload" className="upload-image">
-                        <i className="fas fa-pencil-alt"></i>
-                        <input
-                            type="file"
-                            id="file-upload1"
-                            className="d-none"
-                        />
-                    </label>
-                </div>
-            </div>
-
-            <div className="form-group">
-                <div className="form-title mb-3">Legal Name</div>
-                <label htmlFor="name">First Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="First name"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Last Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="last name"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Date of birth</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="select Date"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Hourly rate</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="$10 per hour"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Home Address</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="street address"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="suit or #"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="utrecht"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="utrecht"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="1078GZ n/a, 3527 kz"
-                />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="name">Bio</label>
-                <textarea
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="Enter you bio"
-                ></textarea>
-            </div>
-            <div className="form-term mb-2">
-                {" "}
-                Please make sure all information you submit is accurate before
-                submit.
-            </div>
-
-            <div className="d-flex justify-content-between">
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-6-back-c"
-                    type="button"
-                    onClick={() => handleStep(5)}
-                >
-                    Back
-                </button>
-                <div className="px-3"></div>
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="submit-company"
-                    type="button"
-                >
-                    submit
-                </button>
-            </div>
-        </div>
-    );
 };
+
+// const Company = ({ handleStep }) => {
+//     return (
+//         <div className="login-from step-6-company">
+//             <div className="form-group">
+//                 <div className="form-title mb-3"> Company Profile Setting</div>
+
+//                 <div className="user-profile">
+//                     <div className="user-image d-flex align-items-center justify-content-center">
+//                         <img
+//                             src="img/images.png"
+//                             className="img-fluid"
+//                             alt=""
+//                         />
+//                     </div>
+//                     <label htmlFor="file-upload" className="upload-image">
+//                         <i className="fas fa-pencil-alt"></i>
+//                         <input
+//                             type="file"
+//                             id="file-upload1"
+//                             className="d-none"
+//                         />
+//                     </label>
+//                 </div>
+//             </div>
+
+//             <div className="form-group">
+//                 <div className="form-title mb-3">Legal Name</div>
+//                 <label htmlFor="name">First Name</label>
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="First name"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="name">Last Name</label>
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="last name"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="name">Date of birth</label>
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="select Date"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="name">Hourly rate</label>
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="$10 per hour"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="name">Home Address</label>
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="street address"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="suit or #"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="utrecht"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="utrecht"
+//                 />
+//             </div>
+//             <div className="form-group">
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="1078GZ n/a, 3527 kz"
+//                 />
+//             </div>
+
+//             <div className="form-group">
+//                 <label htmlFor="name">Bio</label>
+//                 <textarea
+//                     type="text"
+//                     className="form-control"
+//                     id="name"
+//                     placeholder="Enter you bio"
+//                 ></textarea>
+//             </div>
+//             <div className="form-term mb-2">
+//                 {" "}
+//                 Please make sure all information you submit is accurate before
+//                 submit.
+//             </div>
+
+//             <div className="d-flex justify-content-between">
+//                 <button
+//                     className="btn btn-primary w-100 mt-3"
+//                     id="step-6-back-c"
+//                     type="button"
+//                     onClick={() => handleStep(5)}
+//                 >
+//                     Back
+//                 </button>
+//                 <div className="px-3"></div>
+//                 <button
+//                     className="btn btn-primary w-100 mt-3"
+//                     id="submit-company"
+//                     type="button"
+//                 >
+//                     submit
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// };
 
 export {
     Basic,
@@ -1176,6 +1248,6 @@ export {
     BasicInfo,
     SelectZipCode,
     ProviderType,
-    Individual,
-    Company,
+    ProfileDetail,
+    // Company,
 };

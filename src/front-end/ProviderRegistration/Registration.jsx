@@ -7,8 +7,8 @@ import {
     BasicInfo,
     SelectZipCode,
     ProviderType,
-    Individual,
-    Company,
+    ProfileDetail,
+    // Company,
 } from "./Steps";
 
 const Registration = (props) => {
@@ -455,25 +455,29 @@ const Registration = (props) => {
                                     />
                                 )}
                                 {/* <!-- step 6 user --> */}
-                                {step == 6 && providerType == "Individual" && (
-                                    <Individual
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                        profile={profile}
-                                        providerType={providerType}
-                                        handleProfile={(data) =>
-                                            handleProfile(data)
-                                        }
-                                        {...props}
-                                    />
-                                )}
+                                {step == 6 &&
+                                    (providerType == "Individual" ||
+                                        providerType == "Business") && (
+                                        <ProfileDetail
+                                            handleStep={(step) =>
+                                                handleStep(step)
+                                            }
+                                            step={step}
+                                            profile={profile}
+                                            providerType={providerType}
+                                            handleProfile={(data) =>
+                                                handleProfile(data)
+                                            }
+                                            {...props}
+                                        />
+                                    )}
                                 {/* <!-- step 6 company--> */}
-                                {step == 6 && providerType == "Business" && (
+                                {/* {step == 6 && providerType == "Business" && (
                                     <Company
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
                                     />
-                                )}
+                                )} */}
                             </div>
                         </div>
                     </div>
