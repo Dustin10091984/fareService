@@ -6,6 +6,10 @@ import {
     geocodeByPlaceId,
 } from "react-places-autocomplete";
 import AutoCompleteInput from "../../../components/AutoCompleteInput";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../styles.css";
+
 const Basic = ({
     step,
     basic,
@@ -624,7 +628,7 @@ const ProviderType = ({
     } = useForm();
 
     const handleOnSubmit = (data) => {
-        console.log(data);
+        handleStep(6);
     };
 
     return (
@@ -672,7 +676,7 @@ const ProviderType = ({
                         className="btn btn-primary w-100 mt-3"
                         id="step-4-back"
                         type="button"
-                        onClick={() => handleStep(step - 1)}
+                        onClick={() => handleStep(5)}
                     >
                         Back
                     </button>
@@ -682,7 +686,6 @@ const ProviderType = ({
                         disabled={providerType == undefined}
                         id="step-4"
                         type="submit"
-                        onClick={() => handleStep(step + 1)}
                     >
                         Next
                     </button>
@@ -692,148 +695,316 @@ const ProviderType = ({
     );
 };
 
-const Individual = ({ step, handleStep }) => {
+const Individual = ({
+    step,
+    handleStep,
+    profile,
+    providerType,
+    handleProfile,
+    handleProfileDetails,
+}) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const handleImage = (image) => {
+        handleProfile({
+            image: image ? URL.createObjectURL(image) : "",
+            file: image,
+        });
+    };
+    const handleDatePick = (date) => {
+        handleProfile({ dob: date });
+    };
+
+    const handleOnSubmitProfile = (data) => {
+        const form = new FormData();
+        if (profile.file) {
+            form.append("image", profile.file);
+        }
+        form.append("first_name", profile?.first_name);
+        form.append("last_name", profile?.last_name);
+        form.append("type", providerType);
+        form.append("dob ", profile.dob);
+        form.append("rourly_rate", data.rourly_rate);
+        form.append("street_address", data.street_address);
+        form.append("suite_number", data.suite_number);
+        form.append("zip_code", data.zip_code);
+        form.append("city", data.city);
+        form.append("state", data.state);
+        form.append("bio", data.bio);
+        handleProfileDetails(form);
+    };
     return (
         <div className="login-from step-6-user">
-            <div className="form-group">
-                <div className="form-title mb-3">Profile Setting</div>
+            <form onSubmit={handleSubmit(handleOnSubmitProfile)}>
+                <div className="form-group">
+                    <div className="form-title mb-3">Profile Setting</div>
 
-                <div className="user-profile">
-                    <div className="user-image d-flex align-items-center justify-content-center">
-                        <img
-                            src="img/images.png"
-                            className="img-fluid"
-                            alt=""
-                        />
+                    <div className="user-profile">
+                        <div className="user-image d-flex align-items-center justify-content-center">
+                            <img
+                                src={profile?.image}
+                                className="img-fluid"
+                                alt=""
+                            />
+                        </div>
+                        <label htmlFor="file-upload1" className="upload-image">
+                            <i className="fas fa-pencil-alt"></i>
+                            <input
+                                type="file"
+                                className="d-none"
+                                id="file-upload1"
+                                accept="image/*"
+                                onChange={(e) => {
+                                    handleImage(e?.target?.files[0]);
+                                }}
+                            />
+                        </label>
                     </div>
-                    <label htmlFor="file-upload1" className="upload-image">
-                        <i className="fas fa-pencil-alt"></i>
-                        <input
-                            type="file"
-                            className="d-none"
-                            id="file-upload1"
-                        />
-                    </label>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <div className="form-title mb-3">Legal Name</div>
-                <label htmlFor="name">First Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="First name"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Last Name</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="last name"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Date of birth</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="select Date"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Hourly rate</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="$10 per hour"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="name">Home Address</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="street address"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="suit or #"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="utrecht"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="utrecht"
-                />
-            </div>
-            <div className="form-group">
-                <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="1078GZ n/a, 3527 kz"
-                />
-            </div>
+                <div className="form-group">
+                    <div className="form-title mb-3">Legal Name</div>
+                    <label htmlFor="name">First Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="First name"
+                        value={profile?.first_name}
+                        readOnly
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="name">Last Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="last name"
+                        value={profile?.last_name}
+                        readOnly
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="name">Date of birth</label>
+                    <DatePicker
+                        className={`form-control ${
+                            errors?.dob ? "is-invalid" : ""
+                        }`}
+                        selected={profile?.dob || new Date()}
+                        onChange={(date) => {
+                            handleDatePick(date);
+                        }}
+                        // {...register("dob", {
+                        //     required: true,
+                        //     onChange: (e) => {
+                        //         handleProfile({ dob: e.target.value });
+                        //     },
+                        // })}
+                    />
+                    {errors?.dob && errors.dob.type === "required" && (
+                        <strong className="text-danger">
+                            Date of birth is required
+                        </strong>
+                    )}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="name">Hourly rate</label>
+                    <input
+                        type="text"
+                        className={`form-control ${
+                            errors?.hourly_rate ? "is-invalid" : ""
+                        }`}
+                        placeholder="Add hourly rate like 12"
+                        {...register("hourly_rate", {
+                            required: true,
+                            pattern: /^[0-9]*$/,
+                            onChange: (e) => {
+                                handleProfile({ hourly_rate: e.target.value });
+                            },
+                        })}
+                    />
+                    {errors?.hourly_rate &&
+                        ((errors.hourly_rate?.type === "required" && (
+                            <strong className="text-danger">
+                                Hourly rate is required
+                            </strong>
+                        )) ||
+                            (errors.hourly_rate?.type === "pattern" && (
+                                <strong className="text-danger">
+                                    Hourly rate must be number
+                                </strong>
+                            )))}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="name">Address</label>
+                    <input
+                        type="text"
+                        className={`form-control ${
+                            errors?.address ? "is-invalid" : ""
+                        }`}
+                        placeholder="street address"
+                        {...register("street_address", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProfile({ address: e.target.value });
+                            },
+                        })}
+                    />
+                    {errors?.address && errors.address.type === "required" && (
+                        <strong className="text-danger">
+                            Address is required
+                        </strong>
+                    )}
+                </div>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        className={`form-control ${
+                            errors?.suite_number ? "is-invalid" : ""
+                        }`}
+                        placeholder="suit or #"
+                        {...register("suite_number", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProfile({ suite_number: e.target.value });
+                            },
+                        })}
+                    />
+                    {errors?.suite_number && (
+                        <strong className="text-danger">
+                            Suite number is required
+                        </strong>
+                    )}
+                </div>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        className={`form-control ${
+                            errors?.zip_code ? "is-invalid" : ""
+                        }`}
+                        placeholder="zip code"
+                        {...register("zip_code", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProfile({ zip_code: e.target.value });
+                            },
+                        })}
+                    />
+                    {errors?.zip_code && (
+                        <strong className="text-danger">
+                            Zip code is required
+                        </strong>
+                    )}
+                </div>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        className={`form-control ${
+                            errors?.city ? "is-invalid" : ""
+                        }`}
+                        placeholder="City"
+                        {...register("city", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProfile({ city: e.target.value });
+                            },
+                        })}
+                    />
+                    {errors?.city && (
+                        <strong className="text-danger">
+                            City is required
+                        </strong>
+                    )}
+                </div>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        className={`form-control ${
+                            errors?.state ? "is-invalid" : ""
+                        }`}
+                        placeholder="state"
+                        {...register("state", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProfile({ state: e.target.value });
+                            },
+                        })}
+                    />
+                    {errors?.state && (
+                        <strong className="text-danger">
+                            State is required
+                        </strong>
+                    )}
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="name">Bio</label>
-                <textarea
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    placeholder="Enter you bio"
-                ></textarea>
-            </div>
-            <div className="form-term mb-2">
-                {" "}
-                Please make sure all information you submit is accurate before
-                submit.
-            </div>
+                <div className="form-group">
+                    <label htmlFor="name">Bio</label>
+                    <textarea
+                        type="text"
+                        className={`form-control ${
+                            errors?.bio ? "is-invalid" : ""
+                        }`}
+                        id="name"
+                        placeholder="Enter you bio"
+                        {...register("bio", {
+                            required: true,
+                            minLength: 10,
+                            maxLength: 500,
+                            onChange: (e) => {
+                                handleProfile({ bio: e.target.value });
+                            },
+                        })}
+                    ></textarea>
+                    {errors?.bio &&
+                        ((errors.bio.type === "required" && (
+                            <strong className="text-danger">
+                                Bio is required
+                            </strong>
+                        )) ||
+                            (errors?.bio?.type === "minLength" && (
+                                <strong className="text-danger">
+                                    Bio must be at least 10 characters
+                                </strong>
+                            )) ||
+                            (errors?.bio?.type === "maxLength" && (
+                                <strong className="text-danger">
+                                    Bio must be less than 500 characters
+                                </strong>
+                            )))}
+                </div>
+                <div className="form-term mb-2">
+                    {" "}
+                    Please make sure all information you submit is accurate
+                    before submit.
+                </div>
 
-            <div className="d-flex justify-content-between">
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-6-back"
-                    type="button"
-                    onClick={() => handleStep(step - 1)}
-                >
-                    Back
-                </button>
-                <div className="px-3"></div>
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="submit"
-                    type="button"
-                >
-                    submit
-                </button>
-            </div>
+                <div className="d-flex justify-content-between">
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="step-6-back"
+                        type="button"
+                        onClick={() => handleStep(5)}
+                    >
+                        Back
+                    </button>
+                    <div className="px-3"></div>
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="submit"
+                        type="submit"
+                    >
+                        submit
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };
 
-const Company = (props) => {
+const Company = ({ handleStep }) => {
     return (
         <div className="login-from step-6-company">
             <div className="form-group">
@@ -957,6 +1128,7 @@ const Company = (props) => {
                     className="btn btn-primary w-100 mt-3"
                     id="step-6-back-c"
                     type="button"
+                    onClick={() => handleStep(5)}
                 >
                     Back
                 </button>

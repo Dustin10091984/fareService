@@ -9,6 +9,7 @@ const registrationSlice = createSlice({
         verify: "",
         basicInfo: "",
         serviceDetail: "",
+        profileDetails: "",
     },
     reducers: {
         signupProvider: (state, action) => {
@@ -37,13 +38,21 @@ const registrationSlice = createSlice({
                     ...state.serviceDetail, ...action.payload
                 }
             }
+        },
+        profileDetails: (state, action) => {
+            return {
+                ...state,
+                profileDetails: {
+                    ...state.profileDetails, ...action.payload
+                }
+            }
         }
     }
 });
 
 export default registrationSlice.reducer;
 
-const { signupProvider, verifyCode, basicInfo, serviceDetail } = registrationSlice.actions;
+const { signupProvider, verifyCode, basicInfo, serviceDetail, profileDetails } = registrationSlice.actions;
 
 
 
@@ -146,3 +155,31 @@ export const postServiceDetails = (data) => async dispatch => {
         dispatch(serviceDetail({ error: true, loading: false, message: "something went wrong!" }));
     }
 }
+
+export const postProfileDetail = (data) => async dispatch => {
+    try {
+        dispatch(profileDetails({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                'contentType': 'multipart/form-data',
+                'Authorization': `${localStorage.getItem('providerToken')}`
+            },
+            data,
+            url: HOST + `/api/provider/signup/profile`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(profileDetails(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(profileDetails(error.response.data));
+        });
+    } catch (error) {
+        dispatch(profileDetails({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+

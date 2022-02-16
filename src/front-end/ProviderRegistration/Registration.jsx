@@ -15,7 +15,13 @@ const Registration = (props) => {
     // dispatch actions
     const { handleProviderSignup, handleVerifyPhoneNo, handleBasicInfoSubmit } =
         props;
-    const { providerSignup, verifyOpt, basicInfoRes, serviceDetail } = props;
+    const {
+        providerSignup,
+        verifyOpt,
+        basicInfoRes,
+        serviceDetail,
+        profileDetails,
+    } = props;
     const [step, setStep] = useState(
         localStorage.getItem("providerToken") ? 3 : 1
     );
@@ -36,8 +42,9 @@ const Registration = (props) => {
         service_id: "",
     });
     const [providerType, setProviderType] = useState();
-    const [individual, setIndividual] = useState({});
-    const [company, setCompany] = useState({});
+    const [profile, setProfile] = useState({
+        image: "",
+    });
 
     const loading = useRef(null);
     const error = useRef(null);
@@ -113,8 +120,6 @@ const Registration = (props) => {
         }
     }, [basicInfoRes?.loading, basicInfoRes?.message]);
 
-    console.log(providerType);
-
     useEffect(() => {
         if (
             serviceDetail?.loading == false &&
@@ -131,6 +136,25 @@ const Registration = (props) => {
         }
     }, [serviceDetail?.loading, serviceDetail?.message]);
 
+    useEffect(() => {
+        if (
+            profileDetails?.loading == false &&
+            profileDetails?.message == "success"
+        ) {
+            Swal.fire({
+                icon: "success",
+                title: "Successfully Registered",
+                text: "Congratulation! You are successfully registered.",
+            });
+        }
+        if (profileDetails.loading == false && profileDetails.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [profileDetails]);
     const handleStep = (step) => {
         setStep(step);
     };
@@ -260,6 +284,10 @@ const Registration = (props) => {
         }
     };
 
+    const handleProfile = (data) => {
+        setProfile((profile) => ({ ...profile, ...data }));
+    };
+
     const handleOtp = (e) => {
         const { name, value } = e.target;
         let regx = /^[0-9]{4,4}$/;
@@ -287,6 +315,10 @@ const Registration = (props) => {
 
     const handleBasicInfo = (data) => {
         setBasicInfo(data);
+        handleProfile({
+            first_name: data?.first_name ? data?.first_name : "",
+            last_name: data?.last_name ? data?.last_name : "",
+        });
     };
 
     return (
@@ -406,6 +438,12 @@ const Registration = (props) => {
                                     <Individual
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
+                                        profile={profile}
+                                        providerType={providerType}
+                                        handleProfile={(data) =>
+                                            handleProfile(data)
+                                        }
+                                        {...props}
                                     />
                                 )}
                                 {/* <!-- step 6 company--> */}
