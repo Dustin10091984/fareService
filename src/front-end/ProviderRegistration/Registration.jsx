@@ -1,20 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import {
     Basic,
     Otp,
     BasicInfo,
     SelectZipCode,
     ProviderType,
-    Individual,
-    Company,
+    ProfileDetail,
+    // Company,
 } from "./Steps";
 
 const Registration = (props) => {
     // dispatch actions
-    const { handleProviderSignup, handleverifyPhoneNo } = props;
-    const { providerSignup, verifyOpt } = props;
-    const [step, setStep] = useState(1);
+    const { handleProviderSignup, handleVerifyPhoneNo, handleBasicInfoSubmit } =
+        props;
+    const {
+        providerSignup,
+        verifyOpt,
+        basicInfoRes,
+        serviceDetail,
+        profileDetails,
+    } = props;
+    const [step, setStep] = useState(
+        localStorage.getItem("providerToken") ? 3 : 1
+    );
     const [basic, setBasic] = useState({
         code: "+92",
         error: {
@@ -23,12 +33,18 @@ const Registration = (props) => {
             password: "",
         },
     });
+
     const [otpData, setOtpData] = useState({});
     const [basicInfo, setBasicInfo] = useState({});
-    const [zipCode, setZipCode] = useState({});
+    const [zipCode, setZipCode] = useState({
+        address: "",
+        zip_code: [],
+        service_id: "",
+    });
     const [providerType, setProviderType] = useState();
-    const [individual, setIndividual] = useState({});
-    const [company, setCompany] = useState({});
+    const [profile, setProfile] = useState({
+        image: "",
+    });
 
     const loading = useRef(null);
     const error = useRef(null);
@@ -88,6 +104,78 @@ const Registration = (props) => {
         }
     }, [verifyOpt]);
 
+    useEffect(() => {
+        if (
+            basicInfoRes?.loading == false &&
+            basicInfoRes?.message == "success"
+        ) {
+            handleStep(step + 1);
+        }
+        if (basicInfoRes.loading == false && basicInfoRes.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [basicInfoRes?.loading, basicInfoRes?.message]);
+
+    useEffect(() => {
+        if (
+            serviceDetail?.loading == false &&
+            serviceDetail?.message == "success"
+        ) {
+            handleStep(step + 1);
+        }
+        if (serviceDetail.loading == false && serviceDetail.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [serviceDetail?.loading, serviceDetail?.message]);
+
+    useEffect(() => {
+        if (
+            profileDetails?.loading == false &&
+            profileDetails?.message == "success"
+        ) {
+            Swal.fire({
+                icon: "success",
+                title: "Successfully Registered",
+                text: "Congratulation! You are successfully registered.",
+            });
+            localStorage.removeItem("providerToken");
+            setStep(1);
+            setBasic({
+                code: "+92",
+                error: {
+                    email: "",
+                    phone: "",
+                    password: "",
+                },
+            });
+            setOtpData({});
+            setBasicInfo({});
+            setZipCode({
+                address: "",
+                zip_code: [],
+                service_id: "",
+            });
+            setProviderType();
+            setProfile({
+                image: "",
+            });
+        }
+        if (profileDetails.loading == false && profileDetails.error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            });
+        }
+    }, [profileDetails]);
     const handleStep = (step) => {
         setStep(step);
     };
@@ -126,7 +214,7 @@ const Registration = (props) => {
                     ...basic.error,
                     phone: `Please enter a valid phone number and should be of ${
                         (basic.code == "+92" && "10") ||
-                        (basic.code == "+1" && "11")
+                        (basic.code == "+1" && "10")
                     } digits`,
                 },
             }));
@@ -148,7 +236,7 @@ const Registration = (props) => {
             }
             if (basic.code == "+1") {
                 let error = "";
-                if (phone.length != 11) {
+                if (phone.length != 10) {
                     error = "Phone number should be of 11 digits";
                 }
                 setBasic((basic) => ({
@@ -205,6 +293,22 @@ const Registration = (props) => {
         }
     };
 
+    const handleZipCode = ({ address, zip_code, service_id }) => {
+        if (address != undefined) {
+            setZipCode((zipCode) => ({ ...zipCode, address }));
+        }
+        if (zip_code != undefined) {
+            setZipCode((zipCode) => ({ ...zipCode, zip_code }));
+        }
+        if (service_id != undefined) {
+            setZipCode((zipCode) => ({ ...zipCode, service_id }));
+        }
+    };
+
+    const handleProfile = (data) => {
+        setProfile((profile) => ({ ...profile, ...data }));
+    };
+
     const handleOtp = (e) => {
         const { name, value } = e.target;
         let regx = /^[0-9]{4,4}$/;
@@ -228,6 +332,14 @@ const Registration = (props) => {
             });
             return;
         }
+    };
+
+    const handleBasicInfo = (data) => {
+        setBasicInfo(data);
+        handleProfile({
+            first_name: data?.first_name ? data?.first_name : "",
+            last_name: data?.last_name ? data?.last_name : "",
+        });
     };
 
     return (
@@ -277,53 +389,58 @@ const Registration = (props) => {
                             </div>
                             <div className="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
                                 {/* <!-- step 1 --> */}
-                                {step == 1 &&
-                                    localStorage.getItem("providerToken") ==
-                                        undefined && (
-                                        <Basic
-                                            handleStep={(step) =>
-                                                handleStep(step)
-                                            }
-                                            step={step}
-                                            handleBasic={(e) => handleBasic(e)}
-                                            basic={basic}
-                                            handleProviderSignup={
-                                                handleProviderSignup
-                                            }
-                                            providerSignup={providerSignup}
-                                        />
-                                    )}
+                                {step == 1 && (
+                                    <Basic
+                                        handleStep={(step) => handleStep(step)}
+                                        step={step}
+                                        handleBasic={(e) => handleBasic(e)}
+                                        basic={basic}
+                                        handleProviderSignup={
+                                            handleProviderSignup
+                                        }
+                                        providerSignup={providerSignup}
+                                    />
+                                )}
                                 {/* <!-- step 2 --> */}
-                                {step == 2 &&
-                                    localStorage.getItem("providerToken") ==
-                                        undefined && (
-                                        <Otp
-                                            handleStep={(step) =>
-                                                handleStep(step)
-                                            }
-                                            step={step}
-                                            handleOtp={(e) => handleOtp(e)}
-                                            otpData={otpData}
-                                            handleverifyPhoneNo={
-                                                handleverifyPhoneNo
-                                            }
-                                        />
-                                    )}
+                                {step == 2 && (
+                                    <Otp
+                                        handleStep={(step) => handleStep(step)}
+                                        step={step}
+                                        handleOtp={(e) => handleOtp(e)}
+                                        otpData={otpData}
+                                        handleVerifyPhoneNo={
+                                            handleVerifyPhoneNo
+                                        }
+                                    />
+                                )}
                                 {/* <!-- step 3 --> */}
-                                {step == 3 ||
-                                    (localStorage.getItem("providerToken") && (
+                                {step == 3 &&
+                                    localStorage.getItem("providerToken") && (
                                         <BasicInfo
                                             handleStep={(step) =>
                                                 handleStep(step)
                                             }
+                                            handleBasicInfoSubmit={
+                                                handleBasicInfoSubmit
+                                            }
+                                            handleBasicInfo={(data) =>
+                                                handleBasicInfo(data)
+                                            }
+                                            basicInfo={basicInfo}
                                             step={step}
+                                            {...props}
                                         />
-                                    ))}
+                                    )}
                                 {/* <!-- step 4 --> */}
                                 {step == 4 && (
                                     <SelectZipCode
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
+                                        handleZipCode={(data) => {
+                                            handleZipCode(data);
+                                        }}
+                                        zipCode={zipCode}
+                                        {...props}
                                     />
                                 )}
                                 {/* <!-- step 5 --> */}
@@ -332,22 +449,35 @@ const Registration = (props) => {
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
                                         providerType={providerType}
+                                        handleProviderType={(data) =>
+                                            setProviderType(data)
+                                        }
                                     />
                                 )}
                                 {/* <!-- step 6 user --> */}
-                                {step == 6 && providerType == "INDIVIDUAL" && (
-                                    <Individual
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                    />
-                                )}
+                                {step == 6 &&
+                                    (providerType == "Individual" ||
+                                        providerType == "Business") && (
+                                        <ProfileDetail
+                                            handleStep={(step) =>
+                                                handleStep(step)
+                                            }
+                                            step={step}
+                                            profile={profile}
+                                            providerType={providerType}
+                                            handleProfile={(data) =>
+                                                handleProfile(data)
+                                            }
+                                            {...props}
+                                        />
+                                    )}
                                 {/* <!-- step 6 company--> */}
-                                {step == 6 && providerType == "COMPANY" && (
+                                {/* {step == 6 && providerType == "Business" && (
                                     <Company
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
                                     />
-                                )}
+                                )} */}
                             </div>
                         </div>
                     </div>

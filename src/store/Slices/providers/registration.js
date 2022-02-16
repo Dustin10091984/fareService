@@ -7,6 +7,9 @@ const registrationSlice = createSlice({
     initialState: {
         signupProvider: "",
         verify: "",
+        basicInfo: "",
+        serviceDetail: "",
+        profileDetails: "",
     },
     reducers: {
         signupProvider: (state, action) => {
@@ -20,13 +23,36 @@ const registrationSlice = createSlice({
                 ...state,
                 verify: action.payload
             }
+        },
+        basicInfo: (state, action) => {
+            return {
+                ...state, basicInfo: {
+                    ...state.basicInfo, ...action.payload
+                }
+            }
+        },
+        serviceDetail: (state, action) => {
+            return {
+                ...state,
+                serviceDetail: {
+                    ...state.serviceDetail, ...action.payload
+                }
+            }
+        },
+        profileDetails: (state, action) => {
+            return {
+                ...state,
+                profileDetails: {
+                    ...state.profileDetails, ...action.payload
+                }
+            }
         }
     }
 });
 
 export default registrationSlice.reducer;
 
-const { signupProvider, verifyCode } = registrationSlice.actions;
+const { signupProvider, verifyCode, basicInfo, serviceDetail, profileDetails } = registrationSlice.actions;
 
 
 
@@ -75,3 +101,85 @@ export const verifyPhoneNo = (data) => async dispatch => {
         dispatch(verifyCode({ error: true, loading: false, message: "something went wrong!" }));
     }
 }
+
+export const postBasicInfo = (data) => async dispatch => {
+    try {
+        dispatch(basicInfo({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('providerToken')}`
+            },
+            data,
+            url: HOST + `/api/provider/signup/name`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(basicInfo(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(basicInfo(error.response.data));
+        });
+    } catch (error) {
+        dispatch(basicInfo({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+
+export const postServiceDetails = (data) => async dispatch => {
+    try {
+        dispatch(serviceDetail({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${localStorage.getItem('providerToken')}`
+            },
+            data,
+            url: HOST + `/api/provider/signup/my-services`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(serviceDetail(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(serviceDetail(error.response.data));
+        });
+    } catch (error) {
+        dispatch(serviceDetail({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+
+export const postProfileDetail = (data) => async dispatch => {
+    try {
+        dispatch(profileDetails({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                'contentType': 'multipart/form-data',
+                'Authorization': `${localStorage.getItem('providerToken')}`
+            },
+            data,
+            url: HOST + `/api/provider/signup/profile`,
+        }).then((response) => {
+            //handle success
+            let data = response.data;
+            data.loading = false;
+            dispatch(profileDetails(response.data));
+        }).catch((error) => {
+            //handle error
+            let data = error.response.data;
+            data.loading = false;
+            dispatch(profileDetails(error.response.data));
+        });
+    } catch (error) {
+        dispatch(profileDetails({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+

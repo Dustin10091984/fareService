@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import ProviderRegistration from "./../../front-end/ProviderRegistration";
+import Registration from "./../../front-end/ProviderRegistration";
 
-const Registration = (props) => {
+const RegistrationPage = (props) => {
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
         document.title = "Farenow: Provider Registration From";
     });
-    return <ProviderRegistration />;
+    return <Registration />;
 };
 
-export { Registration };
+export { RegistrationPage };

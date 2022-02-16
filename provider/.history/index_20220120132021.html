@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+    <link rel="stylesheet" href="css/main.css" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <title>Farerun</title>
+  </head>
+  <body>
+  
+    <header class="main-header" style="background: url(img/banner.jpg) no-repeat center/cover;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 d-flex align-items-center justify-content-between py-5">
+                    <div class="logo-main">
+                        <!-- <img src="img/logo.png" class="img-fluid" alt=""> -->
+                    </div>
+                    <div class="login-btn">
+                        <a href="#" class="login-now text-capitalize text-white">login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="driver-from">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-10 col-md-6 col-lg-6 offset-lg-1 p-b-md">
+                        <div class="banner-content">
+                            <h1 class="banner-title">Drive with Farerun</h1>
+                        <div class="banner-des">Earn good money with your vehicle.</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
+                        <!-- step 1 -->
+                        <div class="login-from step-1 d-none">
+                           
+                                <div class="form-title mb-3">Set Up Your Business Profile.</div>
+                                <div class="form-term mb-2">How Whould you like customer to contact you?</div>
+                               
+                                <div class="form-group">
+                                  <label for="name">Email</label>
+                                  <input type="text" class="form-control" id="name" placeholder="john.doe@gmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                  <div class="d-flex phone-input">
+                                    <select class="js-example-basic-single form-control" name="state">
+                                        <option value="AL">+91 <option>
+                                        <option value="WY">+91</option>
+                                        <option value="WY">+93</option>
+                                    </select>
+                                    <input type="text" class="form-control"  placeholder="51112345">
+                                  </div>
+                               </div>
+                               <label class="custom-check">Enable text messages
+                                <input type="checkbox" checked="checked">
+                                <span class="checkmark"></span>
+                              </label>
+                              <div class="form-term mb-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem facere suscipit earum voluptatibus doloremque quia?</div>
+                              <div class="form-group">
+                                <label for="name">Password</label>
+                                <input type="password" class="form-control" id="name" placeholder="password">
+                              </div> 
+                              <!-- <div class="form-group d-none">
+                                    <label class="mb-0">Citis</label>
+                                    <select class="js-example-basic-single form-control" name="state">
+                                        <option value="AL">City <option>
+                                        <option value="WY">Warri</option>
+                                        <option value="WY">Benin</option>
+                                    </select>
+                               </div> -->
+                               <div class="form-term my-2">By tapping continue with Facebook or Continue with Google. you adree to the <br> <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. </div>
+
+                               <button class="btn btn-primary w-100 mt-3" id="step-1" type="button">Next</button>
+                             
+                        </div>
+                        <!-- step 2 -->
+                        <div class="login-from step-2 d-none">
+                                <div class="form-title mb-3">Please enter OTP Code.</div>
+                                <!-- <div class="form-term mb-2">How Whould you like customer to contact you?</div> -->
+                               
+                                <div class="form-group">
+                                  <label for="name">Code.</label>
+                                  <input type="text" class="form-control" id="name" placeholder="0 0 0 0">
+                                </div>
+                                <div class="form-term my-2">Didn't you receive any code? <br> <a href="#">Resend New Code</a> </div>
+                              <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary w-100 mt-3" id="step-2-back"  type="button">Back</button>
+                                <div class="px-3"></div>
+                                <button class="btn btn-primary w-100 mt-3" id="step-2"  type="button">Next</button>
+                              </div>
+                             
+                        </div>
+                         <!-- step 3 -->
+                         <div class="login-from step-3 d-none">
+                                <div class="form-title mb-3">To start , help us get to know you and your business</div>
+                                <div class="form-term mb-2">This info helps our team provide customized support -- it won't be public.</div>
+                               
+                                <div class="form-group">
+                                    <div class="form-title mb-3">What is your name?</div>
+                                  <label for="name">First Name</label>
+                                  <input type="text" class="form-control" id="name" placeholder="First Name">
+                                </div>
+                               
+                                <div class="form-group">
+                                  <label for="name">Last Name</label>
+                                  <input type="text" class="form-control" id="name" placeholder="Last Name">
+                                </div>
+
+                                <div class="form-title mb-3">
+                                    How much do you spend each month on online marketing 
+                                </div>
+                              
+                               <label class="custom-radio">$1-$100
+                                <input type="radio" checked="checked" name="online-marketing">
+                                <span class="checkmark"></span>
+                              </label>
+
+                               <label class="custom-radio">$100-$400
+                                <input type="radio" name="online-marketing">
+                                <span class="checkmark"></span>
+                              </label>
+
+                               <label class="custom-radio">$400-$600
+                                <input type="radio" name="online-marketing">
+                                <span class="checkmark"></span>
+                              </label>
+
+
+                              <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary w-100 mt-3" id="step-3-back"  type="button">Back</button>
+                                <div class="px-3"></div>
+                                <button class="btn btn-primary w-100 mt-3" id="step-3"  type="button">Next</button>
+                              </div>
+                        </div>
+                         <!-- step 4 -->
+                         <div class="login-from step-4 d-none">
+                           
+                               
+                                <div class="form-group">
+                                    <div class="form-title mb-3">Where do you work?</div>
+                                  <label for="name">Enter location</label>
+                                  <input type="text" class="form-control" id="name" placeholder="Enter location">
+                                </div>
+                               
+                               <div class="zip-code d-flex flex-wrap">
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+                                <div class="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1">1078 GZ <span class="fa fa-times ml-1"></span></div>
+
+                               </div>
+
+                              
+                              
+                             
+
+                              
+
+
+                              <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary w-100 mt-3" id="step-4-back"  type="button">Back</button>
+                                <div class="px-3"></div>
+                                <button class="btn btn-primary w-100 mt-3" id="step-4"  type="button">Next</button>
+                              </div>
+                             
+                        </div>
+                         
+                        <!-- step 5 -->
+                         <div class="login-from step-5 d-none">
+                            <div class="form-group">
+                                <div class="form-title mb-3">Choose your role?</div>
+                            </div>
+
+                            <label class="custom-radio" >I am a individual 
+                                <input type="radio" id="individual" name="role">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="custom-radio">We are a company
+                                <input type="radio"  id="company" name="role">
+                                <span class="checkmark"></span>
+                            </label>
+                               
+                            <!--  -->
+
+
+                              <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary w-100 mt-3" id="step-5-back"  type="button">Back</button>
+                                <div class="px-3"></div>
+                                <button class="btn btn-primary w-100 mt-3" id="step-individual"  type="button">Next</button>
+                                <button class="btn btn-primary w-100 mt-3" id="step-compnay"  type="button">Next</button>
+                              </div>
+                        </div>
+
+                         <!-- step 6 user -->
+                         <div class="login-from step-6-user d-none">
+                           
+                               
+                            <div class="form-group">
+                                <div class="form-title mb-3">Profile Setting</div>
+
+                                <div class="user-profile">
+                                    <div class="user-image d-flex align-items-center justify-content-center">
+                                        <img src="img/images.png" class="img-fluid" alt="">
+                                    </div>
+                                    <label for="file-upload1" class="upload-image">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        <input type="file" class="d-none" id="file-upload1">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-title mb-3">Legal Name</div>
+                              <label for="name">First Name</label>
+                              <input type="text" class="form-control" id="name" placeholder="First name">
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Last Name</label>
+                              <input type="text" class="form-control" id="name" placeholder="last name">
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Date of birth</label>
+                              <input type="text" class="form-control" id="name" placeholder="select Date">
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Hourly rate</label>
+                              <input type="text" class="form-control" id="name" placeholder="$10 per hour">
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Home Address</label>
+                              <input type="text" class="form-control" id="name" placeholder="street address">
+                            </div>
+                            <div class="form-group">
+                              <input type="text" class="form-control" id="name" placeholder="suit or #">
+                            </div>
+                            <div class="form-group">
+                              <input type="text" class="form-control" id="name" placeholder="utrecht">
+                            </div>
+                            <div class="form-group">
+                              <input type="text" class="form-control" id="name" placeholder="utrecht">
+                            </div>
+                            <div class="form-group">
+                              <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz">
+                            </div>
+                           
+                          
+                            <div class="form-group">
+                                <label for="name">Bio</label>
+                                <textarea type="text" class="form-control" id="name" placeholder="Enter you bio"></textarea>
+                              </div>
+                              <div class="form-term mb-2"> Please make sure all information you submit is accurate before submit.</div>
+                             
+                              <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary w-100 mt-3" id="step-6-back"  type="button">Back</button>
+                                <div class="px-3"></div>
+                                <button class="btn btn-primary w-100 mt-3" id="submit"  type="button">submit</button>
+                              </div>
+                         
+                    </div>
+
+                     <!-- step 6 company-->
+                     <div class="login-from step-6-company">
+                           
+                               
+                        <div class="form-group">
+                            <div class="form-title mb-3"> Company Profile Setting</div>
+
+                            <div class="user-profile">
+                                <div class="user-image d-flex align-items-center justify-content-center">
+                                    <img src="img/images.png" class="img-fluid" alt="">
+                                </div>
+                                <label for="file-upload" class="upload-image">
+                                    <i class="fas fa-pencil-alt"></i>
+                                    <input type="file" id="file-upload1" class="d-none">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-title mb-3">Legal Name</div>
+                          <label for="name">First Name</label>
+                          <input type="text" class="form-control" id="name" placeholder="First name">
+                        </div>
+                        <div class="form-group">
+                          <label for="name">Last Name</label>
+                          <input type="text" class="form-control" id="name" placeholder="last name">
+                        </div>
+                        <div class="form-group">
+                          <label for="name">Date of birth</label>
+                          <input type="text" class="form-control" id="name" placeholder="select Date">
+                        </div>
+                        <div class="form-group">
+                          <label for="name">Hourly rate</label>
+                          <input type="text" class="form-control" id="name" placeholder="$10 per hour">
+                        </div>
+                        <div class="form-group">
+                          <label for="name">Home Address</label>
+                          <input type="text" class="form-control" id="name" placeholder="street address">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="name" placeholder="suit or #">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="name" placeholder="utrecht">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="name" placeholder="utrecht">
+                        </div>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="name" placeholder="1078GZ n/a, 3527 kz">
+                        </div>
+                       
+                      
+                        <div class="form-group">
+                            <label for="name">Bio</label>
+                            <textarea type="text" class="form-control" id="name" placeholder="Enter you bio"></textarea>
+                          </div>
+                          <div class="form-term mb-2"> Please make sure all information you submit is accurate before submit.</div>
+                         
+                          <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary w-100 mt-3" id="step-6-back-c"  type="button">Back</button>
+                            <div class="px-3"></div>
+                            <button class="btn btn-primary w-100 mt-3" id="submit-company"  type="button">submit</button>
+                          </div>
+                     
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arrow-down-banner text-center">
+            <i class="fas fa-angle-down"></i>
+        </div>
+    </header>
+
+
+    <section class="why-farerun">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="why-title">Why Farerun?</h2>
+                </div>
+                <div class="col-sm-4 text-center">
+                   <div class="box-why">
+                    <div class="text-center">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Earn money</h3>
+                    <p>Drive with Bolt and earn extra income.</p>
+                   </div>
+                  </div>
+                  <div class="col-sm-4 text-center">
+                   <div class="box-why">
+                    <div class="text-center">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <h3>Drive anytime</h3>
+                    <p>Work with your own schedule. No minimum hours and no boss.</p>
+                   </div>
+                  </div>
+                  <div class="col-sm-4 text-center">
+                   <div class="box-why">
+                    <div class="text-center">
+                        <img src="img/credit-card.svg" class="img-fluid" alt="">
+                      </div>
+                      <h3>No monthly fees</h3>
+                      <p>No risk, you only pay when you earn.</p>
+                   </div>
+                  </div>
+            </div>
+        </div>
+    </section>
+    <section class="why-farerun">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="why-title">How  Farerun works?</h2>
+                </div>
+                <div class="col-sm-4 text-center mb-4 mt-md-0">
+                   <div class="box-why">
+                    <h3 class="mb-2">1. Accept the request</h3>
+                    <img src="img/step1.jpg" class="img-thumbnail" alt="">
+                   </div>
+                  </div>
+                  <div class="col-sm-4 text-center mb-4 mt-md-0">
+                   <div class="box-why">
+                    <h3 class="mb-2">2. Pickup the client</h3>
+                    <img src="img/step2.jpg" class="img-thumbnail" alt="">
+                   </div>
+                  </div>
+                  <div class="col-sm-4 text-center mb-4 mt-md-0">
+                   <div class="box-why">
+                      <h3 class="mb-2">3. Drive to destination</h3>
+                      <img src="img/step3.jpg" class="img-thumbnail" alt="">
+                   </div>
+                  </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer-sec py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="sign-up-btn btn btn-lg btn-primary">Sign up to drive with Bolt</button>
+                    <div class="copy-right">
+                        <p class="pt-4 mb-0">Got questions or concerns? Contact us.</p>
+                    <p>Taxify OÜ. Vana-Lõuna tn 39/1, Tallinn, 10134, Estonia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> 
+    <script>
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+
+        // add  class
+        $(document).ready(function(){
+        $("#step-1").click(function(){
+            $(".step-1").addClass("d-none");
+            $(".step-2").removeClass("d-none");
+        });
+     //  remove class
+        $("#step-2-back").click(function(){
+            $(".step-1").removeClass("d-none");
+            $(".step-2").addClass("d-none");
+        });
+        // add class
+        $("#step-2").click(function(){
+            $(".step-2").addClass("d-none");
+            $(".step-3").removeClass("d-none");
+        });
+        // remove class
+        $("#step-3-back").click(function(){
+            $(".step-2").removeClass("d-none");
+            $(".step-3").addClass("d-none");
+        });
+
+        // add class
+        $("#step-3").click(function(){
+            $(".step-3").addClass("d-none");
+            $(".step-4").removeClass("d-none");
+        });
+
+          // remove class
+          $("#step-4-back").click(function(){
+            $(".step-3").removeClass("d-none");
+            $(".step-4").addClass("d-none");
+        });
+
+         // add class
+         $("#step-4").click(function(){
+            $(".step-4").addClass("d-none");
+            $(".step-5").removeClass("d-none");
+        });
+         // remove class
+         $("#step-5-back").click(function(){
+            $(".step-4").removeClass("d-none");
+            $(".step-5").addClass("d-none");
+        });
+         // add class
+         $("#step-individual").click(function(){
+            $(".step-5").addClass("d-none");
+            $(".step-6-user").removeClass("d-none");
+        });
+         // add class
+         $("#step-compnay").click(function(){
+            $(".step-5").addClass("d-none");
+            $(".step-6-company").removeClass("d-none");
+        });
+
+           // remove class
+           $("#step-6-back").click(function(){
+            $(".step-5").removeClass("d-none");
+            $(".step-6-user").addClass("d-none");
+        });
+           // remove class
+           $("#step-6-back-c").click(function(){
+            $(".step-5").removeClass("d-none");
+            $(".step-6-company").addClass("d-none");
+        });
+
+        });
+       
+        $(document).ready(function(){
+            $('#individual').click(function(){
+                $('#step-individual').addClass('user-active').siblings().removeClass('company-active');       
+            });
+            $('#company').click(function(){
+                $('#step-compnay').addClass('company-active').siblings().removeClass('user-active');       
+            });
+        });
+    </script> 
+    
+</body>
+</html>

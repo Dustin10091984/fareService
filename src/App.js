@@ -43,7 +43,7 @@ import { ServicesDetail } from './front-dashboard/ServicesDetail';
 import { ChangeP } from "./front-dashboard/ChangeP";
 import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
-import { Registration } from "./views/Provider/Registration";
+import { RegistrationPage } from "./views/Provider/Registration";
 
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -132,7 +132,7 @@ function App() {
             to="/"
           />
 
-          {/* <Route path='/provider/registration' component={Registration} /> */}
+          <Route path='/provider/registration' component={RegistrationPage} />
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
 

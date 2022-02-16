@@ -19,9 +19,10 @@ const AutoCompleteInput = ({
                 </div>
             )}
             <PlacesAutocomplete
-                value={value}
+                value={value ? value : ""}
                 onChange={handleOnChange}
                 onSelect={handleOnSelect}
+                googleCallbackName="initOne"
             >
                 {({
                     getInputProps,

@@ -167,18 +167,18 @@ const Header = (props) => {
                             <div className="d-flex align-items-center order-1 order-md-2">
                                 <div className="header-links-login">
                                     <ul className="nav-l d-flex align-items-center">
-                                        {/* <li className="item-list">
-                                            <Link to="/cart" className="link">
-                                                <i
-                                                    className="fa fa-shopping-cart"
-                                                    aria-hidden="true"
-                                                ></i>{" "}
-                                                Cart
-                                            </Link> */}
-                                        {/* <a href="#" className="link">
-                                                Help
-                                            </a> */}
-                                        {/* </li> */}
+                                        <li className="item-list">
+                                            <Link
+                                                to="/provider/registration"
+                                                className="link"
+                                            >
+                                                <img
+                                                    src="/assets/img/outline-user.svg"
+                                                    className="img-fluid"
+                                                />{" "}
+                                                become a provider
+                                            </Link>
+                                        </li>
                                         <li className="item-list">
                                             {state.is_loggedin && (
                                                 <span
@@ -253,88 +253,88 @@ const Header = (props) => {
                                                                 Notifications
                                                                 {/* <span>2</span> */}
                                                             </h2>
-                                                           <div className="notification-scroll">
-                                                           {notifications.loading && (
-                                                                <div className="notifications-item">
-                                                                    <div className="text-center">
-                                                                        Loading...
-                                                                    </div>
-                                                                </div>
-                                                            )}
-                                                            {!notifications.loading &&
-                                                                notifications.error && (
+                                                            <div className="notification-scroll">
+                                                                {notifications.loading && (
                                                                     <div className="notifications-item">
                                                                         <div className="text-center">
-                                                                            {
-                                                                                notifications.message
-                                                                            }
+                                                                            Loading...
                                                                         </div>
                                                                     </div>
                                                                 )}
-                                                            {!notifications.loading &&
-                                                                notifications
-                                                                    ?.data
-                                                                    ?.length >
-                                                                    0 &&
-                                                                notifications?.data?.map(
-                                                                    (
-                                                                        notification,
-                                                                        index
-                                                                    ) => (
-                                                                        <div
-                                                                            className="notifications-item"
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            onClick={() => {
-                                                                                if (
-                                                                                    notification
-                                                                                        ?.data[0]
-                                                                                        ?.type ==
-                                                                                        "SERVICE_REQUEST" ||
-                                                                                    notification
-                                                                                        ?.data[0]
-                                                                                        ?.type ==
-                                                                                        "MOVING"
-                                                                                ) {
-                                                                                    history.push(
-                                                                                        "/services-history"
-                                                                                    );
+                                                                {!notifications.loading &&
+                                                                    notifications.error && (
+                                                                        <div className="notifications-item">
+                                                                            <div className="text-center">
+                                                                                {
+                                                                                    notifications.message
                                                                                 }
-                                                                                setState(
-                                                                                    {
-                                                                                        ...state,
-                                                                                        notificationOpen:
-                                                                                            !state.notificationOpen,
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                {!notifications.loading &&
+                                                                    notifications
+                                                                        ?.data
+                                                                        ?.length >
+                                                                        0 &&
+                                                                    notifications?.data?.map(
+                                                                        (
+                                                                            notification,
+                                                                            index
+                                                                        ) => (
+                                                                            <div
+                                                                                className="notifications-item"
+                                                                                key={
+                                                                                    index
+                                                                                }
+                                                                                onClick={() => {
+                                                                                    if (
+                                                                                        notification
+                                                                                            ?.data[0]
+                                                                                            ?.type ==
+                                                                                            "SERVICE_REQUEST" ||
+                                                                                        notification
+                                                                                            ?.data[0]
+                                                                                            ?.type ==
+                                                                                            "MOVING"
+                                                                                    ) {
+                                                                                        history.push(
+                                                                                            "/services-history"
+                                                                                        );
                                                                                     }
-                                                                                );
-                                                                            }}
-                                                                        >
-                                                                            {" "}
-                                                                            {/* <img
+                                                                                    setState(
+                                                                                        {
+                                                                                            ...state,
+                                                                                            notificationOpen:
+                                                                                                !state.notificationOpen,
+                                                                                        }
+                                                                                    );
+                                                                                }}
+                                                                            >
+                                                                                {" "}
+                                                                                {/* <img
                                                                                 src="https://i.imgur.com/uIgDDDd.jpg"
                                                                                 alt="img"
                                                                             /> */}
-                                                                            <div className="text">
-                                                                                <h4>
-                                                                                    {
-                                                                                        notification
-                                                                                            ?.data[0]
-                                                                                            ?.title
-                                                                                    }
-                                                                                </h4>
-                                                                                <p>
-                                                                                    {
-                                                                                        notification
-                                                                                            ?.data[0]
-                                                                                            ?.body
-                                                                                    }
-                                                                                </p>
+                                                                                <div className="text">
+                                                                                    <h4>
+                                                                                        {
+                                                                                            notification
+                                                                                                ?.data[0]
+                                                                                                ?.title
+                                                                                        }
+                                                                                    </h4>
+                                                                                    <p>
+                                                                                        {
+                                                                                            notification
+                                                                                                ?.data[0]
+                                                                                                ?.body
+                                                                                        }
+                                                                                    </p>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    )
-                                                                )}
-                                                            {/* <div className="notifications-item">
+                                                                        )
+                                                                    )}
+                                                                {/* <div className="notifications-item">
                                                                 {" "}
                                                                 <img
                                                                 src="https://img.icons8.com/flat_round/64/000000/vote-badge.png"
@@ -353,7 +353,7 @@ const Header = (props) => {
                                                                     </p>
                                                                 </div>
                                                             </div> */}
-                                                           </div>
+                                                            </div>
                                                         </div>
                                                     )}
                                                 </li>
