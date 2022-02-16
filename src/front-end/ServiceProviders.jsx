@@ -21,6 +21,8 @@ import PlacesAutocomplete from "react-places-autocomplete";
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
+import DayPicker from "react-day-picker";
+import "react-day-picker/lib/style.css";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
@@ -944,23 +946,68 @@ export const ServiceProviders = (props) => {
                                                 }/${mindate.getDate()}/${mindate.getFullYear()}`
                                             );
                                             return (
-                                                <Calendar
-                                                    onChange={
-                                                        handleCalendarClick
+                                                <DayPicker
+                                                    initialMonth={new Date()}
+                                                    selectedDays={
+                                                        [
+                                                            ...providerSchedule?.data?.data?.map(
+                                                                (schedule) => {
+                                                                    console.log(
+                                                                        schedule.provider_schedule
+                                                                    );
+                                                                    return new Date(
+                                                                        `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                                    );
+                                                                }
+                                                            ),
+                                                            // providerSchedule?.data?.data?.map(
+                                                            //     (schedule) => {
+                                                            //         console.log(
+                                                            //             schedule.provider_schedule
+                                                            //         );
+                                                            //         return new Date(
+                                                            //             schedule?.provider_schedule?.date,
+                                                            //             schedule?.provider_schedule?.month,
+                                                            //             schedule?.provider_schedule?.year
+                                                            //         );
+                                                            //     }
+                                                            // ),
+                                                        ]
+                                                        // [
+                                                        // new Date(),
+                                                        // new Date(2017, 3, 2),
+                                                        // {
+                                                        //     after: new Date(
+                                                        //         2017,
+                                                        //         3,
+                                                        //         20
+                                                        //     ),
+                                                        //     before: new Date(
+                                                        //         2017,
+                                                        //         3,
+                                                        //         25
+                                                        //     ),
+                                                        // },
+                                                        // ]
                                                     }
-                                                    minDate={mindate}
-                                                    maxDate={maxDate}
-                                                    value={value}
-                                                    maxDetail="month"
-                                                    // tileDisabled={({
-                                                    //     activeStartDate,
-                                                    //     date,
-                                                    //     view,
-                                                    // }) =>
-                                                    //     date.getDay() ===
-                                                    //     mindate.getDate()
-                                                    // }
                                                 />
+                                                // <Calendar
+                                                //     onChange={
+                                                //         handleCalendarClick
+                                                //     }
+                                                //     minDate={mindate}
+                                                //     maxDate={maxDate}
+                                                //     value={value}
+                                                //     maxDetail="month"
+                                                //     // tileDisabled={({
+                                                //     //     activeStartDate,
+                                                //     //     date,
+                                                //     //     view,
+                                                //     // }) =>
+                                                //     //     date.getDay() ===
+                                                //     //     mindate.getDate()
+                                                //     // }
+                                                // />
                                             );
                                         })()}
                                     </div>
