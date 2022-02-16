@@ -831,7 +831,9 @@ const ProfileDetail = ({
                             )}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="name">Business Name</label>
+                            <label htmlFor="name">
+                                How many you have Employees
+                            </label>
                             <input
                                 type="text"
                                 className={`form-control ${
@@ -1095,7 +1097,7 @@ const ProfileDetail = ({
                         id="step-6-back"
                         type="button"
                         onClick={() => handleStep(5)}
-                        disabled={profileDetails?.isLoading}
+                        disabled={profileDetails?.loading}
                     >
                         Back
                     </button>
@@ -1104,9 +1106,9 @@ const ProfileDetail = ({
                         className="btn btn-primary w-100 mt-3"
                         id="submit"
                         type="submit"
-                        disabled={profileDetails?.isLoading}
+                        disabled={profileDetails?.loading}
                     >
-                        {profileDetails?.isLoading ? (
+                        {profileDetails?.loading ? (
                             <span>
                                 <i className={`fa fa-spinner fa-pulse`}></i>{" "}
                                 Loading...
