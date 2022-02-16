@@ -9,6 +9,7 @@ import AutoCompleteInput from "../../../components/AutoCompleteInput";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles.css";
+import moment from "moment";
 
 const Basic = ({
     step,
@@ -650,6 +651,7 @@ const ProviderType = ({
                                 handleProviderType(e.target.value);
                             },
                         })}
+                        defaultChecked={providerType === "Individual"}
                     />
                     <span className="checkmark"></span>
                 </label>
@@ -665,6 +667,7 @@ const ProviderType = ({
                                 handleProviderType(e.target.value);
                             },
                         })}
+                        defaultChecked={providerType === "Business"}
                     />
                     <span className="checkmark"></span>
                 </label>
@@ -702,6 +705,7 @@ const Individual = ({
     providerType,
     handleProfile,
     handleProfileDetails,
+    profileDetails,
 }) => {
     const {
         register,
@@ -721,13 +725,14 @@ const Individual = ({
 
     const handleOnSubmitProfile = (data) => {
         const form = new FormData();
-        if (profile.file) {
+        let dob = moment(profile?.dob).format("MM/DD/YYYY");
+        if (profile?.file) {
             form.append("image", profile.file);
         }
         form.append("first_name", profile?.first_name);
         form.append("last_name", profile?.last_name);
         form.append("type", providerType);
-        form.append("dob ", profile.dob);
+        form.append("dob", dob);
         form.append("rourly_rate", data.rourly_rate);
         form.append("street_address", data.street_address);
         form.append("suite_number", data.suite_number);
@@ -803,6 +808,7 @@ const Individual = ({
                         //         handleProfile({ dob: e.target.value });
                         //     },
                         // })}
+                        value={profile?.dob}
                     />
                     {errors?.dob && errors.dob.type === "required" && (
                         <strong className="text-danger">
@@ -825,6 +831,7 @@ const Individual = ({
                                 handleProfile({ hourly_rate: e.target.value });
                             },
                         })}
+                        value={profile?.hourly_rate}
                     />
                     {errors?.hourly_rate &&
                         ((errors.hourly_rate?.type === "required" && (
@@ -849,15 +856,19 @@ const Individual = ({
                         {...register("street_address", {
                             required: true,
                             onChange: (e) => {
-                                handleProfile({ address: e.target.value });
+                                handleProfile({
+                                    street_address: e.target.value,
+                                });
                             },
                         })}
+                        value={profile?.street_address}
                     />
-                    {errors?.address && errors.address.type === "required" && (
-                        <strong className="text-danger">
-                            Address is required
-                        </strong>
-                    )}
+                    {errors?.street_address &&
+                        errors.address.type === "required" && (
+                            <strong className="text-danger">
+                                Address is required
+                            </strong>
+                        )}
                 </div>
                 <div className="form-group">
                     <input
@@ -872,6 +883,7 @@ const Individual = ({
                                 handleProfile({ suite_number: e.target.value });
                             },
                         })}
+                        value={profile?.suite_number}
                     />
                     {errors?.suite_number && (
                         <strong className="text-danger">
@@ -892,6 +904,7 @@ const Individual = ({
                                 handleProfile({ zip_code: e.target.value });
                             },
                         })}
+                        value={profile?.zip_code}
                     />
                     {errors?.zip_code && (
                         <strong className="text-danger">
@@ -912,6 +925,7 @@ const Individual = ({
                                 handleProfile({ city: e.target.value });
                             },
                         })}
+                        value={profile?.city}
                     />
                     {errors?.city && (
                         <strong className="text-danger">
@@ -932,6 +946,7 @@ const Individual = ({
                                 handleProfile({ state: e.target.value });
                             },
                         })}
+                        value={profile?.state}
                     />
                     {errors?.state && (
                         <strong className="text-danger">
@@ -957,6 +972,7 @@ const Individual = ({
                                 handleProfile({ bio: e.target.value });
                             },
                         })}
+                        value={profile?.bio}
                     ></textarea>
                     {errors?.bio &&
                         ((errors.bio.type === "required" && (
@@ -987,6 +1003,7 @@ const Individual = ({
                         id="step-6-back"
                         type="button"
                         onClick={() => handleStep(5)}
+                        disabled={profileDetails?.isLoading}
                     >
                         Back
                     </button>
@@ -995,14 +1012,22 @@ const Individual = ({
                         className="btn btn-primary w-100 mt-3"
                         id="submit"
                         type="submit"
+                        disabled={profileDetails?.isLoading}
                     >
-                        submit
+                        {profileDetails?.isLoading ? (
+                            <span>
+                                <i className={`fa fa-spinner fa-pulse`}></i>{" "}
+                                Loading...
+                            </span>
+                        ) : (
+                            "submit"
+                        )}
                     </button>
                 </div>
             </form>
         </div>
     );
-};
+};;
 
 const Company = ({ handleStep }) => {
     return (

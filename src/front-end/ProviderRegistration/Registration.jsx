@@ -146,6 +146,27 @@ const Registration = (props) => {
                 title: "Successfully Registered",
                 text: "Congratulation! You are successfully registered.",
             });
+            localStorage.removeItem("providerToken");
+            setStep(1);
+            setBasic({
+                code: "+92",
+                error: {
+                    email: "",
+                    phone: "",
+                    password: "",
+                },
+            });
+            setOtpData({});
+            setBasicInfo({});
+            setZipCode({
+                address: "",
+                zip_code: [],
+                service_id: "",
+            });
+            setProviderType();
+            setProfile({
+                image: "",
+            });
         }
         if (profileDetails.loading == false && profileDetails.error) {
             Swal.fire({
