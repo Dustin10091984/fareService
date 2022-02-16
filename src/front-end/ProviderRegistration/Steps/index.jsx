@@ -611,46 +611,83 @@ const SelectZipCode = ({
     );
 };
 
-const ProviderType = ({ step, handleStep, providerType }) => {
+const ProviderType = ({
+    step,
+    handleStep,
+    providerType,
+    handleProviderType,
+}) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const handleOnSubmit = (data) => {
+        console.log(data);
+    };
+
     return (
         <div className="login-from step-5">
-            <div className="form-group">
-                <div className="form-title mb-3">Choose your role?</div>
-            </div>
+            <form onSubmit={handleSubmit(handleOnSubmit)}>
+                <div className="form-group">
+                    <div className="form-title mb-3">Choose your role?</div>
+                </div>
 
-            <label className="custom-radio">
-                I am a individual
-                <input type="radio" id="individual" name="role" />
-                <span className="checkmark"></span>
-            </label>
-            <label className="custom-radio">
-                We are a company
-                <input type="radio" id="company" name="role" />
-                <span className="checkmark"></span>
-            </label>
+                <label className="custom-radio">
+                    I am a individual
+                    <input
+                        type="radio"
+                        name="type"
+                        value="Individual"
+                        {...register("type", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProviderType(e.target.value);
+                            },
+                        })}
+                    />
+                    <span className="checkmark"></span>
+                </label>
+                <label className="custom-radio">
+                    We are a company
+                    <input
+                        type="radio"
+                        name="type"
+                        value="Business"
+                        {...register("type", {
+                            required: true,
+                            onChange: (e) => {
+                                handleProviderType(e.target.value);
+                            },
+                        })}
+                    />
+                    <span className="checkmark"></span>
+                </label>
 
-            {/* <!--  --> */}
+                {/* <!--  --> */}
 
-            <div className="d-flex justify-content-between">
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    id="step-4-back"
-                    type="button"
-                    onClick={() => handleStep(step - 1)}
-                >
-                    Back
-                </button>
-                <div className="px-3"></div>
-                <button
-                    className="btn btn-primary w-100 mt-3"
-                    disabled={providerType == undefined}
-                    id="step-4"
-                    type="button"
-                    onClick={() => handleStep(step + 1)}
-                >
-                    Next
-                </button>
-            </div>
+                <div className="d-flex justify-content-between">
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        id="step-4-back"
+                        type="button"
+                        onClick={() => handleStep(step - 1)}
+                    >
+                        Back
+                    </button>
+                    <div className="px-3"></div>
+                    <button
+                        className="btn btn-primary w-100 mt-3"
+                        disabled={providerType == undefined}
+                        id="step-4"
+                        type="submit"
+                        onClick={() => handleStep(step + 1)}
+                    >
+                        Next
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

@@ -113,6 +113,8 @@ const Registration = (props) => {
         }
     }, [basicInfoRes?.loading, basicInfoRes?.message]);
 
+    console.log(providerType);
+
     useEffect(() => {
         if (
             serviceDetail?.loading == false &&
@@ -128,7 +130,6 @@ const Registration = (props) => {
             });
         }
     }, [serviceDetail?.loading, serviceDetail?.message]);
-
 
     const handleStep = (step) => {
         setStep(step);
@@ -395,17 +396,20 @@ const Registration = (props) => {
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
                                         providerType={providerType}
+                                        handleProviderType={(data) =>
+                                            setProviderType(data)
+                                        }
                                     />
                                 )}
                                 {/* <!-- step 6 user --> */}
-                                {step == 6 && providerType == "INDIVIDUAL" && (
+                                {step == 6 && providerType == "Individual" && (
                                     <Individual
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
                                     />
                                 )}
                                 {/* <!-- step 6 company--> */}
-                                {step == 6 && providerType == "COMPANY" && (
+                                {step == 6 && providerType == "Business" && (
                                     <Company
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
