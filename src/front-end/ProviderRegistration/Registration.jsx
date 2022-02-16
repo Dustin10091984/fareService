@@ -23,8 +23,7 @@ const Registration = (props) => {
         profileDetails,
     } = props;
     const [step, setStep] = useState(
-        // localStorage.getItem("providerToken") ? 3 : 1
-        5
+        localStorage.getItem("providerToken") ? 3 : 1
     );
     const [basic, setBasic] = useState({
         code: "+92",
