@@ -6,8 +6,7 @@ import {
     geocodeByPlaceId,
 } from "react-places-autocomplete";
 import AutoCompleteInput from "../../../components/AutoCompleteInput";
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import "react-datepicker/dist/react-datepicker.css";
+// import DayPickerInput from "react-day-picker/DayPickerInput";
 import "../styles.css";
 import moment from "moment";
 
