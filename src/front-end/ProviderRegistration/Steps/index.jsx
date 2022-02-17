@@ -6,7 +6,7 @@ import {
     geocodeByPlaceId,
 } from "react-places-autocomplete";
 import AutoCompleteInput from "../../../components/AutoCompleteInput";
-import DatePicker from "react-datepicker";
+import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles.css";
 import moment from "moment";
@@ -193,7 +193,7 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
                     className="btn btn-primary w-100 mt-3"
                     id="step-2-back"
                     type="button"
-                    onClick={() => handleStep(step - 1)}
+                    onClick={() => handleStep(1)}
                 >
                     Back
                 </button>
@@ -392,7 +392,7 @@ const BasicInfo = ({
                         id="step-3-back"
                         type="button"
                         disabled={localStorage.getItem("providerToken")}
-                        // onClick={() => handleStep(step - 1)}
+                        onClick={() => handleStep(2)}
                     >
                         Back
                     </button>
@@ -587,7 +587,7 @@ const SelectZipCode = ({
                         className="btn btn-primary w-100 mt-3"
                         id="step-4-back"
                         type="button"
-                        // onClick={() => handleStep(step - 1)}
+                        onClick={() => handleStep(3)}
                     >
                         Back
                     </button>
@@ -679,7 +679,7 @@ const ProviderType = ({
                         className="btn btn-primary w-100 mt-3"
                         id="step-4-back"
                         type="button"
-                        onClick={() => handleStep(5)}
+                        onClick={() => handleStep(4)}
                     >
                         Back
                     </button>
@@ -876,7 +876,40 @@ const ProfileDetail = ({
                             ? "Founded date"
                             : "Date of birth"}
                     </label>
-                    <DatePicker
+                    <input
+                        type="date"
+                        className={`form-control ${
+                            errors?.dob || errors?.founded ? "is-invalid" : ""
+                        }`}
+                        value={
+                            providerType === "Business"
+                                ? profile?.founded
+                                : profile?.dob
+                        }
+                        onChange={(date) => {
+                            if (providerType === "Business") {
+                                handleDatePick({ founded: date });
+                            } else {
+                                handleDatePick({ dob: date });
+                            }
+                        }}
+                        {...register(
+                            providerType === "Business" ? "founded" : "dob",
+                            {
+                                required: true,
+                                onChange: (e) => {
+                                    if (providerType === "Business") {
+                                        handleDatePick({
+                                            founded: e.target.value,
+                                        });
+                                    } else {
+                                        handleDatePick({ dob: e.target.value });
+                                    }
+                                },
+                            }
+                        )}
+                    />
+                    {/* <DatePicker
                         className={`form-control ${
                             errors?.dob ? "is-invalid" : ""
                         }`}
@@ -898,12 +931,7 @@ const ProfileDetail = ({
                         //         handleProfile({ dob: e.target.value });
                         //     },
                         // })}
-                        value={
-                            providerType === "Business"
-                                ? profile?.founded
-                                : profile?.dob
-                        }
-                    />
+                    /> */}
                     {errors?.dob && errors.dob.type === "required" && (
                         <strong className="text-danger">
                             Date of birth is required
