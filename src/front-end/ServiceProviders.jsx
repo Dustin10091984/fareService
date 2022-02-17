@@ -22,7 +22,8 @@ import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
 import DayPicker from "react-day-picker";
-import "react-day-picker/lib/style.css";
+// import "react-day-picker/lib/style.css";
+import "./Styles.css";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
@@ -935,7 +936,7 @@ export const ServiceProviders = (props) => {
                                     <div
                                         style={{
                                             marginLeft: 25,
-                                            fontSize: "1.5rem",
+                                            fontSize: "1.5em",
                                         }}
                                     >
                                         {(() => {
@@ -947,19 +948,21 @@ export const ServiceProviders = (props) => {
                                             );
                                             return (
                                                 <DayPicker
+                                                    styles={{
+                                                        caption: {
+                                                            color: "red",
+                                                        },
+                                                    }}
                                                     initialMonth={new Date()}
                                                     selectedDays={
                                                         [
-                                                            ...providerSchedule?.data?.data?.map(
+                                                            ...(providerSchedule?.data?.data?.map(
                                                                 (schedule) => {
-                                                                    console.log(
-                                                                        schedule.provider_schedule
-                                                                    );
                                                                     return new Date(
                                                                         `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
                                                                     );
                                                                 }
-                                                            ),
+                                                            ) || []),
                                                             // providerSchedule?.data?.data?.map(
                                                             //     (schedule) => {
                                                             //         console.log(
