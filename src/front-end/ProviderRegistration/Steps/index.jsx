@@ -9,6 +9,8 @@ import AutoCompleteInput from "../../../components/AutoCompleteInput";
 // import DayPickerInput from "react-day-picker/DayPickerInput";
 import "../styles.css";
 import moment from "moment";
+import { HOST } from "../../../constants";
+import axios from "axios";
 
 const Basic = ({
     step,
@@ -164,8 +166,41 @@ const Basic = ({
 };
 
 const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
+    const [state, setState] = useState({ loading: false });
+    const handleResendOtp = (e) => {
+        e.preventDefault();
+        setState({ loading: true });
+        axios({
+            method: "post",
+            data: { phone: otpData?.phone },
+            url: `${HOST}/api/provider/signup/phone/verify/resend`,
+        })
+            .then(function (response) {
+                setState({
+                    success: "OTP has been sent to your phone number",
+                    loading: false,
+                });
+            })
+            .catch((error) => {
+                setState({
+                    error: error.response.data.message,
+                    loading: false,
+                });
+            });
+    };
+
     return (
         <div className="login-from step-2">
+            {state?.success && (
+                <div className="alert alert-success text-center">
+                    {state?.success}
+                </div>
+            )}
+            {state?.error && (
+                <div className="alert alert-success text-center">
+                    {state?.error}
+                </div>
+            )}
             <div className="form-title mb-3">Please enter OTP Code.</div>
             <div className="form-term mb-2">
                 How Whould you like customer to contact you?
@@ -185,7 +220,9 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
             <div className="text-danger">{otpData?.error?.otp}</div>
             <div className="form-term my-2">
                 Didn't you receive any code? <br />{" "}
-                <a href="#">Resend New Code</a>{" "}
+                <a href="#" onClick={handleResendOtp}>
+                    Resend New Code
+                </a>{" "}
             </div>
             <div className="d-flex justify-content-between">
                 <button
@@ -201,6 +238,7 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
                     className="btn btn-primary w-100 mt-3"
                     id="step-2"
                     type="button"
+                    disabled={state.loading}
                     onClick={() =>
                         handleVerifyPhoneNo({
                             phone: otpData?.phone,
@@ -208,7 +246,11 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
                         })
                     }
                 >
-                    Next
+                    {state.loading ? (
+                        <i className="fa fa-spinner fa-pulse"></i>
+                    ) : (
+                        "Next"
+                    )}
                 </button>
             </div>
         </div>
