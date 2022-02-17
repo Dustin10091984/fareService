@@ -813,7 +813,7 @@ export const Payment = (props) => {
                                                                         ? {
                                                                               cursor: "pointer",
                                                                               backgroundColor:
-                                                                                  "blue",
+                                                                                  "#fea11188",
                                                                           }
                                                                         : {
                                                                               cursor: "pointer",

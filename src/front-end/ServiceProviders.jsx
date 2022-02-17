@@ -54,7 +54,7 @@ export const ServiceProviders = (props) => {
 
     const { detail, detailErr } = state;
 
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState();
 
     const dispatch = useDispatch();
 
@@ -909,53 +909,46 @@ export const ServiceProviders = (props) => {
                         </div>
                         <div className="modal-body">
                             <div className="row">
-                                <center className="col-12">
-                                    {state.questionsErr}
-                                </center>
-                                {/* {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
-                                    <center className="col-12 ">
-                                        <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
-                                            {state.serviceRequest.message}
-                                        </div>
-                                    </center>
-                                ) : (
-                                    ''
-                                )}
-                                {state.serviceRequest !== undefined && state.serviceRequest.error === false ? (
-                                    <center className="col-12 ">
-                                        <div className="col-12  alert alert-success" role="alert" style={{ fontSize: 15 }}>
-                                            {state.serviceRequest.message}
-                                        </div>
-                                    </center>
-                                ) : (
-                                    ''
-                                )} */}
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6 align-items-center justify-content-center">
-                                    <div
-                                        style={{
-                                            marginLeft: 25,
-                                            fontSize: "1.5em",
-                                        }}
-                                    >
-                                        {(() => {
-                                            let mindate = new Date();
-                                            let maxDate = new Date(
-                                                `${
-                                                    mindate.getMonth() + 2
-                                                }/${mindate.getDate()}/${mindate.getFullYear()}`
-                                            );
-                                            return (
-                                                <DayPicker
-                                                    styles={{
-                                                        caption: {
-                                                            color: "red",
-                                                        },
-                                                    }}
-                                                    initialMonth={new Date()}
-                                                    selectedDays={
-                                                        [
+                                <div className="col-md-12">
+                                    <div className="row">
+                                        <center className="col-12">
+                                            {state.questionsErr}
+                                        </center>
+                                        {/* {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
+                                            <center className="col-12 ">
+                                                <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
+                                                    {state.serviceRequest.message}
+                                                </div>
+                                            </center>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {state.serviceRequest !== undefined && state.serviceRequest.error === false ? (
+                                            <center className="col-12 ">
+                                                <div className="col-12  alert alert-success" role="alert" style={{ fontSize: 15 }}>
+                                                    {state.serviceRequest.message}
+                                                </div>
+                                            </center>
+                                        ) : (
+                                            ''
+                                        )} */}
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-md-6 align-items-center justify-content-center">
+                                            <div
+                                                style={{
+                                                    marginLeft: 25,
+                                                    fontSize: "1.5em",
+                                                }}
+                                            >
+                                                {(() => {
+                                                    const available = `.DayPicker-Day--highlighted {
+                                                                            background-color: orange;
+                                                                            color: black;
+                                                                            }`;
+
+                                                    const modifiers = {
+                                                        highlighted: [
                                                             ...(providerSchedule?.data?.data?.map(
                                                                 (schedule) => {
                                                                     return new Date(
@@ -963,259 +956,310 @@ export const ServiceProviders = (props) => {
                                                                     );
                                                                 }
                                                             ) || []),
-                                                            // providerSchedule?.data?.data?.map(
-                                                            //     (schedule) => {
-                                                            //         console.log(
-                                                            //             schedule.provider_schedule
-                                                            //         );
-                                                            //         return new Date(
-                                                            //             schedule?.provider_schedule?.date,
-                                                            //             schedule?.provider_schedule?.month,
-                                                            //             schedule?.provider_schedule?.year
-                                                            //         );
-                                                            //     }
-                                                            // ),
-                                                        ]
-                                                        // [
-                                                        // new Date(),
-                                                        // new Date(2017, 3, 2),
-                                                        // {
-                                                        //     after: new Date(
-                                                        //         2017,
-                                                        //         3,
-                                                        //         20
-                                                        //     ),
-                                                        //     before: new Date(
-                                                        //         2017,
-                                                        //         3,
-                                                        //         25
-                                                        //     ),
-                                                        // },
-                                                        // ]
-                                                    }
-                                                />
-                                                // <Calendar
-                                                //     onChange={
-                                                //         handleCalendarClick
-                                                //     }
-                                                //     minDate={mindate}
-                                                //     maxDate={maxDate}
-                                                //     value={value}
-                                                //     maxDetail="month"
-                                                //     // tileDisabled={({
-                                                //     //     activeStartDate,
-                                                //     //     date,
-                                                //     //     view,
-                                                //     // }) =>
-                                                //     //     date.getDay() ===
-                                                //     //     mindate.getDate()
-                                                //     // }
-                                                // />
-                                            );
-                                        })()}
-                                    </div>
-                                </div>
-                                <div
-                                    className="col-md-6 justify-center"
-                                    style={{ marginLeft: -20 }}
-                                >
-                                    <div className="common-input ml-3 w-auto">
-                                        <select
-                                            className="hours"
-                                            id=""
-                                            onChange={handleHoursClick}
-                                        >
-                                            <option defaultValue>
-                                                please select hours
-                                            </option>
-                                            {[...Array(12).keys()].map(
-                                                (index) => (
-                                                    <option
-                                                        key={index + 1}
-                                                        value={index + 1}
-                                                    >
-                                                        {`${index + 1} hours`}
-                                                    </option>
-                                                )
-                                            )}
-                                        </select>
-                                    </div>
-                                    <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
-                                        <li
-                                            style={{
-                                                backgroundColor: "#2F88E7",
-                                                color: "white",
-                                            }}
-                                            className="d-flex align-items-center justify-content-center col-8 m-4"
-                                        >
-                                            {" "}
-                                            Available time Slots
-                                        </li>
-                                        {/* {slots.map((time, index) =>{
-                                            let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
-                                            return(
-                                                <React.Fragment key={index}>
-                                                    {slot ? (
-                                                        <li style={{backgroundColor: "#2F88E7", color: 'white'}} onClick={handleSlotClick} slot-id={slot.id} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
-                                                        ) : (
-                                                        <li style={{color: 'black'}} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
-                                                    )}
-                                                </React.Fragment>
-
-                                            )}
-                                        )} */}
-                                        {state !== undefined &&
-                                        state.timeSlots !== undefined ? (
-                                            state.timeSlots.map(
-                                                (slot, index) => {
+                                                        ],
+                                                    };
                                                     return (
-                                                        <React.Fragment
-                                                            key={index}
-                                                        >
-                                                            {state.selectedSlot ==
-                                                            slot.id ? (
-                                                                <li
-                                                                    key={index}
-                                                                    style={{
-                                                                        backgroundColor:
-                                                                            "#2F88E7",
-                                                                        color: "white",
-                                                                    }}
-                                                                    onClick={
-                                                                        handleSlotClick
+                                                        <div>
+                                                            <style>
+                                                                {available}
+                                                            </style>
+                                                            <DayPicker
+                                                                modifiers={
+                                                                    modifiers
+                                                                }
+                                                                month={
+                                                                    new Date()
+                                                                }
+                                                                selectedDays={
+                                                                    value || []
+                                                                }
+                                                                onDayClick={(
+                                                                    day,
+                                                                    {
+                                                                        selected,
+                                                                        highlighted,
                                                                     }
-                                                                    value={
-                                                                        slot.id
+                                                                ) => {
+                                                                    if (
+                                                                        highlighted
+                                                                    ) {
+                                                                        handleCalendarClick(
+                                                                            day
+                                                                        );
                                                                     }
-                                                                    className="d-flex align-items-center justify-content-center m-2 col-5"
-                                                                >
-                                                                    {slot.start}
-                                                                </li>
-                                                            ) : (
-                                                                <li
-                                                                    key={index}
-                                                                    style={{
-                                                                        color: "black",
-                                                                    }}
-                                                                    onClick={
-                                                                        handleSlotClick
-                                                                    }
-                                                                    value={
-                                                                        slot.id
-                                                                    }
-                                                                    className="d-flex align-items-center justify-content-center m-2 col-5"
-                                                                >
-                                                                    {slot.start}
-                                                                </li>
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        // <DayPicker
+                                                        //     fromMonth={new Date()}
+                                                        //     selectedDays={[
+                                                        //         ...(providerSchedule?.data?.data?.map(
+                                                        //             (schedule) => {
+                                                        //                 return new Date(
+                                                        //                     `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                        //                 );
+                                                        //             }
+                                                        //         ) || []),
+                                                        //     ]}
+                                                        //     disabledDays={[
+                                                        //         { before: new Date() },
+                                                        //         {
+                                                        //             ...(providerSchedule?.data?.data?.map(
+                                                        //                 (
+                                                        //                     schedule,
+                                                        //                     index
+                                                        //                 ) => {
+                                                        //                     return {
+                                                        //                         afterAll:
+                                                        //                             new Date(
+                                                        //                                 `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                        //                             ),
+                                                        //                     };
+                                                        //                 }
+                                                        //             ) || {
+                                                        //                 after: new Date(),
+                                                        //             }),
+                                                        //         },
+                                                        //     ]}
+                                                        // />
+                                                        // <Calendar
+                                                        //     onChange={
+                                                        //         handleCalendarClick
+                                                        //     }
+                                                        //     minDate={mindate}
+                                                        //     maxDate={maxDate}
+                                                        //     value={value}
+                                                        //     maxDetail="month"
+                                                        //     // tileDisabled={({
+                                                        //     //     activeStartDate,
+                                                        //     //     date,
+                                                        //     //     view,
+                                                        //     // }) =>
+                                                        //     //     date.getDay() ===
+                                                        //     //     mindate.getDate()
+                                                        //     // }
+                                                        // />
+                                                    );
+                                                })()}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className="col-md-6 justify-center"
+                                            style={{ marginLeft: -20 }}
+                                        >
+                                            <div className="common-input ml-3 w-auto">
+                                                <select
+                                                    className="hours"
+                                                    id=""
+                                                    onChange={handleHoursClick}
+                                                >
+                                                    <option defaultValue>
+                                                        please select hours
+                                                    </option>
+                                                    {[...Array(12).keys()].map(
+                                                        (index) => (
+                                                            <option
+                                                                key={index + 1}
+                                                                value={
+                                                                    index + 1
+                                                                }
+                                                            >
+                                                                {`${
+                                                                    index + 1
+                                                                } hours`}
+                                                            </option>
+                                                        )
+                                                    )}
+                                                </select>
+                                            </div>
+                                            <ul className="time-list d-flex align-items-center justify-content-center flex-wrap">
+                                                <li
+                                                    style={{
+                                                        backgroundColor:
+                                                            "#2F88E7",
+                                                        color: "white",
+                                                    }}
+                                                    className="d-flex align-items-center justify-content-center col-8 m-4"
+                                                >
+                                                    {" "}
+                                                    Available time Slots
+                                                </li>
+                                                {/* {slots.map((time, index) =>{
+                                                    let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
+                                                    return(
+                                                        <React.Fragment key={index}>
+                                                            {slot ? (
+                                                                <li style={{backgroundColor: "#2F88E7", color: 'white'}} onClick={handleSlotClick} slot-id={slot.id} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
+                                                                ) : (
+                                                                <li style={{color: 'black'}} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
                                                             )}
                                                         </React.Fragment>
-                                                    );
-                                                }
-                                            )
-                                        ) : (
-                                            <center
-                                                className="col-12 text-dark"
-                                                style={{ fontSize: 20 }}
-                                            >
-                                                Not Available
-                                            </center>
-                                        )}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-12 p-5">
-                                    <div
-                                        className="col-md-12 text-dark mb-2"
-                                        style={{ fontSize: 20 }}
-                                    >
-                                        Address
+
+                                                    )}
+                                                )} */}
+                                                {state !== undefined &&
+                                                state.timeSlots !==
+                                                    undefined ? (
+                                                    state.timeSlots.map(
+                                                        (slot, index) => {
+                                                            return (
+                                                                <React.Fragment
+                                                                    key={index}
+                                                                >
+                                                                    {state.selectedSlot ==
+                                                                    slot.id ? (
+                                                                        <li
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            style={{
+                                                                                backgroundColor:
+                                                                                    "#2F88E7",
+                                                                                color: "white",
+                                                                            }}
+                                                                            onClick={
+                                                                                handleSlotClick
+                                                                            }
+                                                                            value={
+                                                                                slot.id
+                                                                            }
+                                                                            className="d-flex align-items-center justify-content-center m-2 col-5"
+                                                                        >
+                                                                            {
+                                                                                slot.start
+                                                                            }
+                                                                        </li>
+                                                                    ) : (
+                                                                        <li
+                                                                            key={
+                                                                                index
+                                                                            }
+                                                                            style={{
+                                                                                color: "black",
+                                                                            }}
+                                                                            onClick={
+                                                                                handleSlotClick
+                                                                            }
+                                                                            value={
+                                                                                slot.id
+                                                                            }
+                                                                            className="d-flex align-items-center justify-content-center m-2 col-5"
+                                                                        >
+                                                                            {
+                                                                                slot.start
+                                                                            }
+                                                                        </li>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            );
+                                                        }
+                                                    )
+                                                ) : (
+                                                    <center
+                                                        className="col-12 text-dark"
+                                                        style={{ fontSize: 20 }}
+                                                    >
+                                                        Not Available
+                                                    </center>
+                                                )}
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div className="common-input">
-                                        <PlacesAutocomplete
-                                            value={state.address}
-                                            onChange={(address) =>
-                                                setState((state) => ({
-                                                    ...state,
-                                                    address,
-                                                }))
-                                            }
-                                            onSelect={handleAddressChange}
-                                            googleCallbackName="initOne"
+                                    <div className="row mt-5">
+                                        <div
+                                            className="col-md-11 mx-auto text-dark mb-2 mb-2"
+                                            style={{ fontSize: 20 }}
                                         >
-                                            {({
-                                                getInputProps,
-                                                suggestions,
-                                                getSuggestionItemProps,
-                                                loading,
-                                            }) => (
-                                                <div>
-                                                    <input
-                                                        {...getInputProps({
-                                                            placeholder:
-                                                                "From ...",
-                                                            className:
-                                                                "location-search-input m-1",
-                                                        })}
-                                                    />
-                                                    <div className="autocomplete-dropdown-container">
-                                                        {loading && (
-                                                            <div>
-                                                                Loading...
-                                                            </div>
-                                                        )}
-                                                        {suggestions.map(
-                                                            (suggestion) => {
-                                                                const className =
-                                                                    suggestion.active
-                                                                        ? "suggestion-item--active"
-                                                                        : "suggestion-item";
-                                                                // inline style for demonstration purpose
-                                                                const style =
-                                                                    suggestion.active
-                                                                        ? {
-                                                                              backgroundColor:
-                                                                                  "#fafafa",
-                                                                              cursor: "pointer",
-                                                                              fontSize: 15,
-                                                                              margin: "5px",
-                                                                          }
-                                                                        : {
-                                                                              backgroundColor:
-                                                                                  "#ffffff",
-                                                                              cursor: "pointer",
-                                                                              fontSize: 15,
-                                                                              margin: "5px",
-                                                                          };
-                                                                return (
-                                                                    <div
-                                                                        key={
-                                                                            suggestion.index
-                                                                        }
-                                                                        {...getSuggestionItemProps(
-                                                                            suggestion,
-                                                                            {
-                                                                                className,
-                                                                                style,
+                                            Address
+                                        </div>
+                                        <div className="common-input col-md-11 mx-auto">
+                                            <PlacesAutocomplete
+                                                value={state.address}
+                                                onChange={(address) =>
+                                                    setState((state) => ({
+                                                        ...state,
+                                                        address,
+                                                    }))
+                                                }
+                                                onSelect={handleAddressChange}
+                                                googleCallbackName="initOne"
+                                            >
+                                                {({
+                                                    getInputProps,
+                                                    suggestions,
+                                                    getSuggestionItemProps,
+                                                    loading,
+                                                }) => (
+                                                    <div>
+                                                        <input
+                                                            {...getInputProps({
+                                                                placeholder:
+                                                                    "From ...",
+                                                                className:
+                                                                    "location-search-input m-1",
+                                                            })}
+                                                        />
+                                                        <div className="autocomplete-dropdown-container">
+                                                            {loading && (
+                                                                <div>
+                                                                    Loading...
+                                                                </div>
+                                                            )}
+                                                            {suggestions.map(
+                                                                (
+                                                                    suggestion
+                                                                ) => {
+                                                                    const className =
+                                                                        suggestion.active
+                                                                            ? "suggestion-item--active"
+                                                                            : "suggestion-item";
+                                                                    // inline style for demonstration purpose
+                                                                    const style =
+                                                                        suggestion.active
+                                                                            ? {
+                                                                                  backgroundColor:
+                                                                                      "#fafafa",
+                                                                                  cursor: "pointer",
+                                                                                  fontSize: 15,
+                                                                                  margin: "5px",
+                                                                              }
+                                                                            : {
+                                                                                  backgroundColor:
+                                                                                      "#ffffff",
+                                                                                  cursor: "pointer",
+                                                                                  fontSize: 15,
+                                                                                  margin: "5px",
+                                                                              };
+                                                                    return (
+                                                                        <div
+                                                                            key={
+                                                                                suggestion.index
                                                                             }
-                                                                        )}
-                                                                    >
-                                                                        <span>
-                                                                            {
-                                                                                suggestion.description
-                                                                            }
-                                                                        </span>
-                                                                    </div>
-                                                                );
-                                                            }
-                                                        )}
+                                                                            {...getSuggestionItemProps(
+                                                                                suggestion,
+                                                                                {
+                                                                                    className,
+                                                                                    style,
+                                                                                }
+                                                                            )}
+                                                                        >
+                                                                            <span>
+                                                                                {
+                                                                                    suggestion.description
+                                                                                }
+                                                                            </span>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            )}
-                                        </PlacesAutocomplete>
-                                        {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
+                                                )}
+                                            </PlacesAutocomplete>
+                                            {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
+                                        </div>
+                                        {state.addressErr}
                                     </div>
-                                    {state.addressErr}
                                 </div>
                             </div>
                         </div>
