@@ -1635,9 +1635,9 @@ body {
 }
 
 .time-list {
-    width: 29.2rem;
+    width: 100%;
     margin: auto;
-    margin-top: 4rem;
+    margin-top: 1rem;
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
