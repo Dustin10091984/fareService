@@ -155,13 +155,8 @@ export const ProviderProfile = (props) => {
                                                                     "/assets/img/Placeholder_view.svg";
                                                             }}
                                                         />
-                                                        <div className="carousel-caption d-none d-md-block">
-                                                            <p
-                                                                style={{
-                                                                    fontSize:
-                                                                        "1.5rem",
-                                                                }}
-                                                            >
+                                                        <div className="carousel-caption job-provider-slider-text">
+                                                            <p>
                                                                 {
                                                                     data?.description
                                                                 }

@@ -50,7 +50,7 @@ export const ServicesDetail = (props) => {
                         <div className="col-md-12">
                             <div className="page-title">Service Detail</div>
                         </div>
-                        <div className="col-md-12">
+                        <div className="col-md-8 mx-auto">
                             <div className="order-box-des">
                                 {(() => {
                                     if (serviceRequestDetail?.error) {
@@ -73,8 +73,8 @@ export const ServicesDetail = (props) => {
 
                                     return (
                                         <>
-                                            <div className="col-md-9 mx-auto">
-                                                <div className="job-provider-card service-card-des">
+                                            <div className="col-md-12 mx-auto">
+                                                <div className="job-provider-card service-card-des px-0">
                                                     <div className="user-des d-flex align-items-centet justify-content-start w-100">
                                                         <div className="user-img d-flex align-items-center justify-content-center">
                                                             <img
@@ -156,16 +156,24 @@ export const ServicesDetail = (props) => {
                                                     <hr />
                                                 </div>
                                             </div>
-                                            <div className="pb-5">
+                                            {/* <div className="pb-5">
                                                 <div className="order-title mb-5 text-center">
                                                     Subtotal
                                                 </div>
-                                            </div>
-                                            <div className="d-flex  align-items-center justify-content-between mb-5">
+                                            </div> */}
+                                            <div className=" mb-5">
                                                 <div>
-                                                    <div className="order-num">
+                                                    <div className="order-num mian-order-des">
                                                         Order Details
                                                     </div>
+
+                                                    <div className="order-title">
+                                                    Service :{" "}
+                                                        <span className="order-num active">
+                                                        #{data?.id}
+                                                        </span>
+                                                    </div>
+                                                    
                                                     <div className="order-title">
                                                         Request Status :{" "}
                                                         <span className="order-num active">
@@ -236,11 +244,7 @@ export const ServicesDetail = (props) => {
                                                         </>
                                                     )}
                                                 </div>
-                                                <div className="div">
-                                                    <div className="order-number ">
-                                                        #{data?.id}
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                             <div className=" d-flex  align-items-center justify-content-between mb-5">
                                                 {data?.type ==
@@ -289,7 +293,7 @@ export const ServicesDetail = (props) => {
                                                             </div>
                                                         </div>
                                                     </div> */}
-                                                    <div className="d-flex subtotal-box  align-items-center justify-content-between mb-4">
+                                                    <div className="d-flex subtotal-box  align-items-center justify-content-between p-4">
                                                         <div>
                                                             <div className="order-num">
                                                                 Total

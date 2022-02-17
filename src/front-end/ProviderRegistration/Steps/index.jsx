@@ -48,12 +48,11 @@ const Basic = ({
                 How Whould you like customer to contact you?
             </div>
 
-            <div className="form-group">
+            <div className="common-input mb-4">
                 <label htmlFor="name">Email</label>
                 <strong className="text-danger">*</strong>
                 <input
                     type="email"
-                    className="form-control"
                     name="email"
                     placeholder="john.doe@gmail.com"
                     defaultValue={basic?.email || ""}
@@ -65,12 +64,12 @@ const Basic = ({
                 </div>
             </div>
             <div className="row">
-                <div className="form-group col-12">
+                <div className="common-input mb-4 col-12">
                     <label>Phone</label>
                     <strong className="text-danger">*</strong>
                     <div className="d-flex phone-input">
                         <select
-                            className="js-example-basic-single form-control col-3"
+                            className="js-example-basic-single  col-3"
                             name="code"
                             defaultValue={basic?.code}
                             onChange={handleBasic}
@@ -81,7 +80,7 @@ const Basic = ({
                         <input
                             type="tel"
                             name="phone"
-                            className="form-control col-9"
+                            className="phone-input-2 col-9"
                             placeholder="51112345"
                             defaultValue={basic?.phone || ""}
                             onChange={handleBasic}
@@ -105,12 +104,12 @@ const Basic = ({
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
                 facere suscipit earum voluptatibus doloremque quia?
             </div> */}
-            <div className="form-group">
+            <div className="common-input mb-4">
                 <label htmlFor="name">Password</label>
                 <strong className="text-danger">*</strong>
                 <input
                     type="password"
-                    className="form-control"
+                    
                     name="password"
                     placeholder="password"
                     defaultValue={basic?.password || ""}
@@ -121,10 +120,10 @@ const Basic = ({
                     {/* {isServerError("password")} */}
                 </div>
             </div>
-            {/* <div className="form-group d-none">
+            {/* <div className="common-input mb-4 d-none">
                 <label className="mb-0">Citis</label>
                 <select
-                    className="js-example-basic-single form-control"
+                    className="js-example-basic-single "
                     name="state"
                     onChange={handleBasic}
                 >
@@ -134,8 +133,7 @@ const Basic = ({
                 </select>
             </div> */}
             <div className="form-term my-2">
-                By tapping continue with Facebook or Continue with Google. you
-                adree to the <br /> <a href="#">Terms of Service</a> and{" "}
+                By clicking next you agree to  <a href="#">Terms of Service</a> and{" "}
                 <a href="#">Privacy Policy</a>.{" "}
             </div>
 
@@ -207,11 +205,11 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
             </div>
             <div className="form-term mb-2">Phone: {otpData?.phone}</div>
 
-            <div className="form-group">
+            <div className="common-input mb-4">
                 <label htmlFor="name">Code.</label>
                 <input
                     type="text"
-                    className="form-control"
+                    
                     name="otp"
                     onChange={handleOtp}
                     placeholder="0 0 0 0"
@@ -287,7 +285,7 @@ const BasicInfo = ({
                     won't be public.
                 </div>
 
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <div className="form-title mb-3">What is your name?</div>
                     <label htmlFor="name">First Name</label>
                     <input
@@ -297,7 +295,7 @@ const BasicInfo = ({
                             maxLength: 50,
                             value: basicInfo?.first_name || "",
                         })}
-                        className={`form-control ${
+                        className={` ${
                             errors.first_name && "is-invalid"
                         }`}
                         placeholder="First Name"
@@ -330,7 +328,7 @@ const BasicInfo = ({
                         })()}
                 </div>
 
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <label htmlFor="name">Last Name</label>
                     <input
                         {...register("last_name", {
@@ -339,7 +337,7 @@ const BasicInfo = ({
                             maxLength: 50,
                             value: basicInfo.last_name || "",
                         })}
-                        className={`form-control ${
+                        className={` ${
                             errors.first_name && "is-invalid"
                         }`}
                         placeholder="Last Name"
@@ -517,7 +515,7 @@ const SelectZipCode = ({
                 </div>
             )}
             <form onSubmit={handleSubmit(handleOnSubmit)}>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <label htmlFor="service_id">Services</label>
                     <div className="form-title mb-3">
                         <select
@@ -525,7 +523,7 @@ const SelectZipCode = ({
                                 required: true,
                                 value: "",
                             })}
-                            className={`form-control ${
+                            className={` ${
                                 errors?.service_id ? "is-invalid" : ""
                             }`}
                             onChange={(e) => {
@@ -554,7 +552,7 @@ const SelectZipCode = ({
                             )}
                     </div>
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <div className="d-flex flex-wrap" id="subService">
                         {zipCode?.service_id &&
                             headerMenu
@@ -586,7 +584,7 @@ const SelectZipCode = ({
                         </div>
                     )}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <div className="form-title mb-3">Where do you work?</div>
                     <label htmlFor="name">Enter location</label>
                     <AutoCompleteInput
@@ -597,7 +595,7 @@ const SelectZipCode = ({
                     ></AutoCompleteInput>
                     {/* <input
                         {...register("name", { required: true })}
-                        className="form-control"
+                        
                         placeholder="Enter location"
                     /> */}
                 </div>
@@ -676,7 +674,7 @@ const ProviderType = ({
     return (
         <div className="login-from step-5">
             <form onSubmit={handleSubmit(handleOnSubmit)}>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <div className="form-title mb-3">Choose your role?</div>
                 </div>
 
@@ -794,8 +792,8 @@ const ProfileDetail = ({
     return (
         <div className="login-from step-6-user">
             <form onSubmit={handleSubmit(handleOnSubmitProfile)}>
-                <div className="form-group">
-                    <div className="form-title mb-3">Profile Setting</div>
+                <div className="common-input mb-4">
+                    <div className="form-title mb-3 text-center">Profile Setting</div>
 
                     <div className="user-profile">
                         <div className="user-image d-flex align-items-center justify-content-center">
@@ -822,22 +820,22 @@ const ProfileDetail = ({
 
                 {providerType === "Individual" && (
                     <>
-                        <div className="form-group">
-                            <div className="form-title mb-3">Legal Name</div>
+                        <div className="common-input mb-4">
+                            {/* <div className="form-title mb-3">Legal Name</div> */}
                             <label htmlFor="name">First Name</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                
                                 placeholder="First name"
                                 value={profile?.first_name}
                                 readOnly
                             />
                         </div>
-                        <div className="form-group">
+                        <div className="common-input mb-4">
                             <label htmlFor="name">Last Name</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                
                                 placeholder="last name"
                                 value={profile?.last_name}
                                 readOnly
@@ -847,11 +845,11 @@ const ProfileDetail = ({
                 )}
                 {providerType === "Business" && (
                     <>
-                        <div className="form-group">
+                        <div className="common-input mb-4">
                             <label htmlFor="name">Business Name</label>
                             <input
                                 type="text"
-                                className={`form-control ${
+                                className={` ${
                                     errors?.business_name ? "is-invalid" : ""
                                 }`}
                                 placeholder="Business name"
@@ -871,13 +869,13 @@ const ProfileDetail = ({
                                 </strong>
                             )}
                         </div>
-                        <div className="form-group">
+                        <div className="common-input mb-4">
                             <label htmlFor="name">
                                 How many you have Employees
                             </label>
                             <input
                                 type="text"
-                                className={`form-control ${
+                                className={` ${
                                     errors?.number_of_employees
                                         ? "is-invalid"
                                         : ""
@@ -911,7 +909,7 @@ const ProfileDetail = ({
                     </>
                 )}
 
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <label htmlFor="name">
                         {providerType === "Business"
                             ? "Founded date"
@@ -919,7 +917,7 @@ const ProfileDetail = ({
                     </label>
                     <input
                         type="date"
-                        className={`form-control ${
+                        className={` ${
                             errors?.dob || errors?.founded ? "is-invalid" : ""
                         }`}
                         value={
@@ -951,7 +949,7 @@ const ProfileDetail = ({
                         )}
                     />
                     {/* <DatePicker
-                        className={`form-control ${
+                        className={` ${
                             errors?.dob ? "is-invalid" : ""
                         }`}
                         selected={
@@ -979,11 +977,11 @@ const ProfileDetail = ({
                         </strong>
                     )}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <label htmlFor="name">Hourly rate</label>
                     <input
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.hourly_rate ? "is-invalid" : ""
                         }`}
                         placeholder="Add hourly rate like 12"
@@ -1008,11 +1006,11 @@ const ProfileDetail = ({
                                 </strong>
                             )))}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <label htmlFor="name">Address</label>
                     <input
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.street_address ? "is-invalid" : ""
                         }`}
                         placeholder="street address"
@@ -1033,10 +1031,10 @@ const ProfileDetail = ({
                             </strong>
                         )}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.suite_number ? "is-invalid" : ""
                         }`}
                         placeholder="suit or #"
@@ -1054,10 +1052,10 @@ const ProfileDetail = ({
                         </strong>
                     )}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.zip_code ? "is-invalid" : ""
                         }`}
                         placeholder="zip code"
@@ -1075,10 +1073,10 @@ const ProfileDetail = ({
                         </strong>
                     )}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.city ? "is-invalid" : ""
                         }`}
                         placeholder="City"
@@ -1096,10 +1094,10 @@ const ProfileDetail = ({
                         </strong>
                     )}
                 </div>
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.state ? "is-invalid" : ""
                         }`}
                         placeholder="state"
@@ -1118,11 +1116,11 @@ const ProfileDetail = ({
                     )}
                 </div>
 
-                <div className="form-group">
+                <div className="common-input mb-4">
                     <label htmlFor="name">Bio</label>
                     <textarea
                         type="text"
-                        className={`form-control ${
+                        className={` ${
                             errors?.bio ? "is-invalid" : ""
                         }`}
                         id="name"
@@ -1195,7 +1193,7 @@ const ProfileDetail = ({
 // const Company = ({ handleStep }) => {
 //     return (
 //         <div className="login-from step-6-company">
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <div className="form-title mb-3"> Company Profile Setting</div>
 
 //                 <div className="user-profile">
@@ -1217,90 +1215,90 @@ const ProfileDetail = ({
 //                 </div>
 //             </div>
 
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <div className="form-title mb-3">Legal Name</div>
 //                 <label htmlFor="name">First Name</label>
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="First name"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <label htmlFor="name">Last Name</label>
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="last name"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <label htmlFor="name">Date of birth</label>
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="select Date"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <label htmlFor="name">Hourly rate</label>
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="$10 per hour"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <label htmlFor="name">Home Address</label>
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="street address"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="suit or #"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="utrecht"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="utrecht"
 //                 />
 //             </div>
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <input
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="1078GZ n/a, 3527 kz"
 //                 />
 //             </div>
 
-//             <div className="form-group">
+//             <div className="common-input mb-4">
 //                 <label htmlFor="name">Bio</label>
 //                 <textarea
 //                     type="text"
-//                     className="form-control"
+//                     
 //                     id="name"
 //                     placeholder="Enter you bio"
 //                 ></textarea>

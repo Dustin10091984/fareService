@@ -895,17 +895,49 @@ export const ServiceProviders = (props) => {
                     className="modal-dialog modal-dialog-centered modal-lg"
                     role="document"
                 >
-                    <div className="modal-content">
+                    <div className="modal-content rqst-q-modal">
                         <div className="modal-header">
-                            <h5
-                                className="modal-title display-4"
-                                id="exampleModalLongTitle"
-                            >
-                                Service Request
-                            </h5>
-                            {/* <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button> */}
+                            <div className="job-provider-card border-0 shadow-none w-100 mb-0 p-5">
+                                <div className="user-des d-flex align-items-center justify-content-start w-100">
+                                    <div className="user-img d-flex align-items-center justify-content-center">
+                                        <img src="https://api.farenow.com/storage/user/profile/620a8fec3c3b5-1644859372.jpg" className="img-fluid" alt="Not Found"/>
+                                    </div>
+                                    <div className="user-detail w-100 d-flex align-items-center justify-content-between">
+                                        <div>
+                                        <div className=" w-100 ">
+                                            <div className="title">Aurangzaib Rana</div>
+                                        </div>
+                                        <div className="job-status">4 Jobs Completed</div>
+                                        <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
+                                            <div className="star-rating-area">
+                                                <div className="star-rating-area d-flex align-items-center justify-content-center">
+                                                <div className="rating-static clearfix mr-3" rel="4.6">
+                                                    <label className="full" title="{{ 'Awesome - 5 stars' | translate }}"></label>
+                                                    <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}"></label>
+                                                    <label className="full" title="{{ 'Excellent - 4 stars' | translate }}"></label>
+                                                    <label className="half" title="{{ 'Better - 3.5 stars' | translate }}"></label>
+                                                    <label className="full" title="{{ 'Good - 3 stars' | translate }}"></label>
+                                                    <label className="half" title="{{ 'Good - 2.5 stars' | translate }}"></label>
+                                                    <label className="full" title="{{ 'Fair - 2 stars' | translate }}"></label>
+                                                    <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}"></label>
+                                                    <label className="full" title="{{ 'Bad - 1 star' | translate }}"></label>
+                                                    <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                        <a className="button-common" href="#">Select & Continue</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" className="close modal-close-btn" data-dismiss="modal" aria-label="Close">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18.2003 0.308788L10 8.50904L1.79974 0.308789C1.60203 0.111076 1.33387 1.42189e-06 1.05427 1.42189e-06C0.774658 1.42189e-06 0.5065 0.111076 0.308787 0.308789C0.111074 0.506502 0 0.774659 0 1.05427C0 1.33388 0.111074 1.60203 0.308787 1.79974L8.50904 10L0.308788 18.2003C0.111075 18.398 8.88678e-08 18.6661 8.88678e-08 18.9457C8.88678e-08 19.2253 0.111075 19.4935 0.308788 19.6912C0.401995 19.7918 0.515676 19.8712 0.642169 19.9241C0.768663 19.977 0.90503 20.0022 1.04208 19.998C1.17913 19.9937 1.31368 19.9602 1.43666 19.8995C1.55964 19.8389 1.6682 19.7526 1.75502 19.6465L9.95527 11.4462L18.2003 19.6912C18.398 19.8889 18.6661 20 18.9457 20C19.2253 20 19.4935 19.8889 19.6912 19.6912C19.8889 19.4935 20 19.2253 20 18.9457C20 18.6661 19.8889 18.398 19.6912 18.2003L11.491 10L19.6912 1.79974C19.8889 1.60203 20 1.33387 20 1.05427C20 0.774658 19.8889 0.506501 19.6912 0.308788C19.4935 0.111075 19.2253 0 18.9457 0C18.6661 0 18.398 0.111075 18.2003 0.308788Z" fill="#606060"/>
+                            </svg>
+
+                            </button>
                         </div>
                         <div className="modal-body">
                             <div className="row">

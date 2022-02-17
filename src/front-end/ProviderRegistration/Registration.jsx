@@ -379,12 +379,12 @@ const Registration = (props) => {
                         <div className="row">
                             <div className="col-sm-10 col-md-6 col-lg-6 offset-lg-1 p-b-md">
                                 <div className="banner-content">
-                                    <h1 className="banner-title">
+                                    {/* <h1 className="banner-title">
                                         Drive with FareNow
                                     </h1>
                                     <div className="banner-des">
                                         Earn good money with your vehicle.
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">

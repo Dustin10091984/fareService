@@ -2,10 +2,13 @@
     font-family: toolkit-entypo;
     src: url("../fonts/toolkit-entypo.woff2");
 }
+button,a{
+    cursor: pointer;
+}
 
 .btn-primary {
-    background: #c1272d !important;
-    border-color: #c1272d !important;
+    background: #fea629 !important;
+    border-color: #fea629 !important;
     font-size: 1.6rem;
 }
 
@@ -41,7 +44,7 @@
 
 .login-now:hover {
     text-decoration: none;
-    color: #c1272d !important;
+    color: #fea629 !important;
 }
 
 .login-from {
@@ -65,7 +68,7 @@
 }
 
 .form-term a {
-    color: #c1272d;
+    color: #fea629;
 }
 
 .form-group label {
@@ -149,14 +152,14 @@
 }
 
 .arrow-down-banner {
-    color: #c1272d;
+    color: #fea629;
     font-size: 40px;
     cursor: pointer;
 }
 
 .box-why i {
     font-size: 56px;
-    color: #c1272d;
+    color: #fea629;
 }
 
 .box-why p {
@@ -197,7 +200,7 @@
 }
 
 .custom-check input:checked ~ .checkmark {
-    background-color: #c1272d;
+    background-color: #fea629;
 }
 
 .custom-check input:checked ~ .checkmark:after {
@@ -244,7 +247,7 @@
 
 .custom-radio .checkmark {
     position: absolute;
-    top: 7px;
+    top: 12px;
     left: 6px;
     height: 20px;
     width: 20px;
@@ -256,7 +259,7 @@
     content: "";
     position: absolute;
     display: none;
-    top: 7px;
+    top: 6px;
     left: 6px;
     width: 8px;
     height: 8px;
@@ -271,7 +274,7 @@
 }
 
 .custom-radio input:checked ~ .checkmark {
-    background-color: #c1272d;
+    background-color: #fea629;
 }
 
 .custom-radio input:checked ~ .checkmark:after {
@@ -343,7 +346,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    background: #c1272d;
+    background: #fea629;
     height: 30px;
     width: 30px;
     border-radius: 50%;
@@ -468,4 +471,23 @@
 .notifications-item .text p {
     color: #aaa;
     font-size: 12px;
+}
+
+.phone-input select.js-example-basic-single.col-3 {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.phone-input .phone-input-2 {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.modal-close-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.rqst-q-modal{
+    border-radius: 20px;
 }
