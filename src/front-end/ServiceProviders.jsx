@@ -141,6 +141,7 @@ export const ServiceProviders = (props) => {
                 text: movingMessage,
                 confirmButtonText: "Close",
                 icon: "error",
+                confirmButtonColor: "#fea629",
             });
             return;
         }
@@ -151,6 +152,7 @@ export const ServiceProviders = (props) => {
                 text: "Request Successfully Sent",
                 confirmButtonText: "Go To Services History",
                 icon: "success",
+                confirmButtonColor: "#fea629",
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleGoToServicesHistory();
@@ -863,6 +865,7 @@ export const ServiceProviders = (props) => {
                                                 "Not found provider",
                                             confirmButtonText: "Close",
                                             icon: "error",
+                                            confirmButtonColor: "#fea629",
                                         });
                                     })()}
                                     <div className="text-center display-4">
@@ -1037,7 +1040,7 @@ export const ServiceProviders = (props) => {
                                                 {providerSchedule?.error && (
                                                     <div className="text-center text-danger">
                                                         <i className="fa fa-exclamation-triangle fa-2x"></i>{" "}
-                                                        {providerSchedule?.error ||
+                                                        {providerSchedule?.message ||
                                                             "No Schedule Found"}
                                                     </div>
                                                 )}
@@ -1496,6 +1499,8 @@ export const ServiceProviders = (props) => {
                                                             confirmButtonText:
                                                                 "Close",
                                                             icon: "error",
+                                                            confirmButtonColor:
+                                                                "#fea629",
                                                         });
                                                         return (
                                                             <div
@@ -1561,6 +1566,8 @@ export const ServiceProviders = (props) => {
                                                             confirmButtonText:
                                                                 "Go To Service History",
                                                             icon: "success",
+                                                            confirmButtonColor:
+                                                                "#fea629",
                                                         }).then((result) => {
                                                             if (
                                                                 result.isConfirmed

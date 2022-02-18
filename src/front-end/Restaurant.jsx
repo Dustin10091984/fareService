@@ -94,6 +94,7 @@ export const Restaurant = (props) => {
                 title: "Error",
                 text: list?.message || "Something went wrong",
                 confirmButtonText: "Close",
+                confirmButtonColor: "#fea629",
                 icon: "error",
             });
         }

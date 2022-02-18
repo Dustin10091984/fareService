@@ -116,6 +116,7 @@ const Registration = (props) => {
                 icon: "error",
                 title: "Oops...",
                 text: "Something went wrong!",
+                confirmButtonColor: "#fea629",
             });
         }
     }, [basicInfoRes?.loading, basicInfoRes?.message]);
@@ -132,6 +133,7 @@ const Registration = (props) => {
                 icon: "error",
                 title: "Oops...",
                 text: "Something went wrong!",
+                confirmButtonColor: "#fea629",
             });
         }
     }, [serviceDetail?.loading, serviceDetail?.message]);
@@ -145,6 +147,7 @@ const Registration = (props) => {
                 icon: "success",
                 title: "Successfully Registered",
                 text: "Congratulation! You are successfully registered.",
+                confirmButtonColor: "#fea629",
             });
             localStorage.removeItem("providerToken");
             setStep(1);
@@ -173,6 +176,7 @@ const Registration = (props) => {
                 icon: "error",
                 title: "Oops...",
                 text: "Something went wrong!",
+                confirmButtonColor: "#fea629",
             });
         }
     }, [profileDetails]);
