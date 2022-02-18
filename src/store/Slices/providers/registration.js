@@ -174,6 +174,9 @@ export const postProfileDetail = (data) => async dispatch => {
             dispatch(profileDetails(response.data));
         }).catch((error) => {
             //handle error
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             let data = error.response.data;
             data.loading = false;
             dispatch(profileDetails(error.response.data));

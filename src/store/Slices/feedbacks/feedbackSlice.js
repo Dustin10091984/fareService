@@ -32,6 +32,9 @@ export const addFeedback = (data) => async dispatch => {
             data.loading = false
             dispatch(feedback(data));
         }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             let data = error.response.data;
             data.loading = false
             dispatch(feedback(data));
