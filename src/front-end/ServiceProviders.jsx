@@ -1025,6 +1025,22 @@ export const ServiceProviders = (props) => {
                                                     fontSize: "1.5em",
                                                 }}
                                             >
+                                                {providerSchedule?.loading && (
+                                                    <div className="text-center">
+                                                        <i
+                                                            className="fa fa-spinner fa-pulse fa-2x"
+                                                            // aria-hidden="true"
+                                                        ></i>{" "}
+                                                        Loading...
+                                                    </div>
+                                                )}
+                                                {providerSchedule?.error && (
+                                                    <div className="text-center text-danger">
+                                                        <i className="fa fa-exclamation-triangle fa-2x"></i>{" "}
+                                                        {providerSchedule?.error ||
+                                                            "No Schedule Found"}
+                                                    </div>
+                                                )}
                                                 {(() => {
                                                     const available = `.DayPicker-Day--highlighted {
                                                                             background-color: orange;
@@ -1076,6 +1092,7 @@ export const ServiceProviders = (props) => {
                                                                 {available}
                                                             </style>
                                                             <DayPicker
+                                                                showOutsideDays
                                                                 modifiers={
                                                                     modifiers
                                                                 }
@@ -1086,7 +1103,10 @@ export const ServiceProviders = (props) => {
                                                                     value
                                                                 }
                                                                 disabledDays={
-                                                                    isDayDisabled
+                                                                    ({
+                                                                        before: new Date(),
+                                                                    },
+                                                                    isDayDisabled)
                                                                 }
                                                                 fromMonth={
                                                                     new Date()
