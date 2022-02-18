@@ -32,6 +32,9 @@ export const sendMessage = (msg) => async dispatch => {
             dispatch(addMessage(data.data));
             dispatch(message(data));
         }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             let data = error.response.data;
             data.loading = false
             dispatch(message(data));

@@ -29,6 +29,9 @@ export const chatList = (params) => async dispatch => {
             data.loading = false
             dispatch(getChatList(data));
         }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             let data = error.response.data;
             data.loading = false
             dispatch(getChatList(data));

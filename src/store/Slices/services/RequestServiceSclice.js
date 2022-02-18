@@ -60,6 +60,9 @@ export const postRequestService = (payload, formData) => async dispatch => {
             data.loading = false
             dispatch(requestService(data));
         }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             const data = error.response.data;
             data.loading = false
             dispatch(requestService(data))
@@ -89,6 +92,9 @@ export const getServiceRequestList = ({ params }) => async dispatch => {
             data.loading = false
             dispatch(requestService({ list: data }));
         }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             const data = error.response.data;
             data.loading = false
             dispatch(requestService({ list: data }))
@@ -117,6 +123,9 @@ export const getServiceRequest = (id) => async dispatch => {
             data.loading = false
             dispatch(serviceRequestDetail(data));
         }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             const data = error.response.data;
             data.loading = false
             dispatch(serviceRequestDetail(data))

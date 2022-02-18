@@ -32,6 +32,9 @@ export const getProviderSchedule = (id) => async dispatch => {
             dispatch(getSchedule(response.data));
         }).catch((error) => {
             //handle error
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
             let data = error.response.data;
             data.loading = false;
             dispatch(getSchedule(error.response.data));

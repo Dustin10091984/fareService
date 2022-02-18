@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
 export const helperAxios = (method, url, reducer, token = false, data = null, formData = false, fun, stateTypes) => async dispatch => {
     if (method && url && reducer)
         try {
@@ -32,6 +31,9 @@ export const helperAxios = (method, url, reducer, token = false, data = null, fo
                     ...data, ...stateTypes
                 }));
             }).catch((error) => {
+                if (error.response.status === 401) {
+                    localStorage.clear();
+                }
                 let data = error.response.data;
                 data.loading = false
                 dispatch(reducer({ ...data, ...stateTypes }));
