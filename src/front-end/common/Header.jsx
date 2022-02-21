@@ -167,7 +167,8 @@ const Header = (props) => {
                             <div className="d-flex align-items-center order-1 order-md-2">
                                 <div className="header-links-login">
                                     <ul className="nav-l d-flex align-items-center">
-                                        <li className="item-list">
+                                        {!state.is_loggedin && (
+                                            <li className="item-list">
                                             <Link
                                                 to="/provider/registration"
                                                 className="link"
@@ -179,6 +180,7 @@ const Header = (props) => {
                                                 become a provider
                                             </Link>
                                         </li>
+                                        )}
                                         <li className="item-list">
                                             {state.is_loggedin && (
                                                 <span

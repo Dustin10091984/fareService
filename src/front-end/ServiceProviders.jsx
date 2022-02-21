@@ -1054,12 +1054,15 @@ export const ServiceProviders = (props) => {
                                                         highlighted: [
                                                             ...(providerSchedule?.data?.data?.map(
                                                                 (
-                                                                    schedule,
-                                                                    index
+                                                                    schedule
                                                                 ) => {
-                                                                    return new Date(
+                                                                    if(moment(moment().format('YYYY-MM-DD')).isSameOrBefore(moment(new Date(
                                                                         `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
-                                                                    );
+                                                                    )))) {
+                                                                        return new Date(
+                                                                            `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                                        );
+                                                                    }
                                                                 }
                                                             ) || []),
                                                         ],
@@ -1068,12 +1071,15 @@ export const ServiceProviders = (props) => {
                                                     const disabledDays = [
                                                         ...(providerSchedule?.data?.data?.map(
                                                             (
-                                                                schedule,
-                                                                index
+                                                                schedule
                                                             ) => {
-                                                                return new Date(
+                                                                if(moment(moment().format('YYYY-MM-DD')).isSameOrBefore(moment(new Date(
                                                                     `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
-                                                                );
+                                                                )))) {
+                                                                    return new Date(
+                                                                        `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                                    );
+                                                                }
                                                             }
                                                         ) || []),
                                                     ];
@@ -1085,6 +1091,8 @@ export const ServiceProviders = (props) => {
                                                                 DateUtils.isSameDay(
                                                                     day,
                                                                     disabledDay
+                                                                ) && !DateUtils.isDayBefore(
+                                                                    day, new Date()
                                                                 )
                                                         );
                                                     }
@@ -1106,10 +1114,7 @@ export const ServiceProviders = (props) => {
                                                                     value
                                                                 }
                                                                 disabledDays={
-                                                                    ({
-                                                                        before: new Date(),
-                                                                    },
-                                                                    isDayDisabled)
+                                                                    isDayDisabled
                                                                 }
                                                                 fromMonth={
                                                                     new Date()
