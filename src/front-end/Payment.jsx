@@ -590,6 +590,8 @@ export const Payment = (props) => {
                                                         text: serviceRequest.message,
                                                         confirmButtonText:
                                                             "Close",
+                                                        confirmButtonColor:
+                                                            "#fea629",
                                                         icon: "error",
                                                     });
                                                     return (
@@ -654,6 +656,8 @@ export const Payment = (props) => {
                                                         confirmButtonText:
                                                             "Go services history",
                                                         icon: "success",
+                                                        confirmButtonColor:
+                                                            "#fea629",
                                                     }).then((result) => {
                                                         if (
                                                             result.isConfirmed

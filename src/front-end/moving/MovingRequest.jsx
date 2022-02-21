@@ -35,6 +35,7 @@ const MovingRequest = (props) => {
                 confirmButtonText: "Go To Services History",
                 icon: "success",
                 allowOutsideClick: false,
+                confirmButtonColor: "#fea629",
             }).then((result) => {
                 if (result.isConfirmed) {
                     clearMovingRequest("");
@@ -51,6 +52,7 @@ const MovingRequest = (props) => {
                 text: movingRequestMessage,
                 confirmButtonText: "Close",
                 icon: "error",
+                confirmButtonColor: "#fea629",
             });
             return;
         }
