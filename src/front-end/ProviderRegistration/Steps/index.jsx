@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import {
     geocodeByAddress,
@@ -20,6 +20,7 @@ const Basic = ({
     handleProviderSignup,
     providerSignup,
 }) => {
+    const ref = useRef(null);
     const isError = (name) => (basic.error[name] ? basic.error[name] : null);
     const isServerError = (name) => {
         if (
@@ -41,11 +42,21 @@ const Basic = ({
         // handleStep(step + 1);
     };
 
+    useEffect(() => {
+        window?.scrollTo(0, 0, "smooth");
+    }, [basic?.success]);
+
     return (
+        <>
+        {basic.success && (
+            <div ref={ref} className="alert alert-success text-center">
+                    {basic.success}
+            </div>
+        )}
         <div className="login-from step-1">
             <div className="form-title mb-3">Set Up Your Business Profile.</div>
             <div className="form-term mb-2">
-                How Whould you like customer to contact you?
+                How Whould you like customer to contact you? 
             </div>
 
             <div className="common-input mb-4">
@@ -81,7 +92,7 @@ const Basic = ({
                             type="tel"
                             name="phone"
                             className="phone-input-2 col-9"
-                            placeholder="51112345"
+                            placeholder="1234567890"
                             defaultValue={basic?.phone || ""}
                             onChange={handleBasic}
                         />
@@ -157,13 +168,21 @@ const Basic = ({
                 type="button"
                 onClick={handleNextClick}
             >
-                Next
+                {providerSignup?.loading ? (
+                    <>
+                        <i 
+                            className="fa fa-spinner fa-pulse"
+                        >
+                        </i> Please wait...
+                    </>
+                ) : "Next"}
             </button>
         </div>
+        </>
     );
 };
 
-const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
+const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo, verifyOpt}) => {
     const [state, setState] = useState({ loading: false });
     const handleResendOtp = (e) => {
         e.preventDefault();
@@ -244,8 +263,8 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo }) => {
                         })
                     }
                 >
-                    {state.loading ? (
-                        <i className="fa fa-spinner fa-pulse"></i>
+                    {state.loading || verifyOpt?.loading ? (
+                        <><i className="fa fa-spinner fa-pulse"></i> Please wait...</>
                     ) : (
                         "Next"
                     )}
@@ -295,7 +314,8 @@ const BasicInfo = ({
                             maxLength: 50,
                             value: basicInfo?.first_name || "",
                         })}
-                        className={` ${
+                        defaultValue={basicInfo?.first_name || ""}
+                        className={`${
                             errors.first_name && "is-invalid"
                         }`}
                         placeholder="First Name"
@@ -337,6 +357,7 @@ const BasicInfo = ({
                             maxLength: 50,
                             value: basicInfo.last_name || "",
                         })}
+                        defaultValue={basicInfo.last_name || ""}
                         className={` ${
                             errors.first_name && "is-invalid"
                         }`}
@@ -572,7 +593,7 @@ const SelectZipCode = ({
                                             {...register("sub_services", {
                                                 required: true,
                                             })}
-                                            value={item?.id}
+                                            defaultValue={item?.id}
                                         ></input>
                                         <span className="checkmark"></span>
                                     </label>
@@ -853,7 +874,7 @@ const ProfileDetail = ({
                                     errors?.business_name ? "is-invalid" : ""
                                 }`}
                                 placeholder="Business name"
-                                value={profile?.business_name}
+                                defaultValue={profile?.business_name}
                                 {...register("business_name", {
                                     required: true,
                                     onChange: (e) => {
@@ -881,7 +902,7 @@ const ProfileDetail = ({
                                         : ""
                                 }`}
                                 placeholder="Number of employees"
-                                value={profile?.number_of_employees}
+                                defaultValue={profile?.number_of_employees}
                                 {...register("number_of_employees", {
                                     required: true,
                                     pattern: /^[0-9]*$/,
@@ -920,7 +941,7 @@ const ProfileDetail = ({
                         className={` ${
                             errors?.dob || errors?.founded ? "is-invalid" : ""
                         }`}
-                        value={
+                        defaultValue={
                             providerType === "Business"
                                 ? profile?.founded
                                 : profile?.dob
@@ -992,7 +1013,7 @@ const ProfileDetail = ({
                                 handleProfile({ hourly_rate: e.target.value });
                             },
                         })}
-                        value={profile?.hourly_rate}
+                        defaultValue={profile?.hourly_rate}
                     />
                     {errors?.hourly_rate &&
                         ((errors.hourly_rate?.type === "required" && (
@@ -1022,7 +1043,7 @@ const ProfileDetail = ({
                                 });
                             },
                         })}
-                        value={profile?.street_address}
+                        defaultValue={profile?.street_address}
                     />
                     {errors?.street_address &&
                         errors.street_address.type === "required" && (
@@ -1044,7 +1065,7 @@ const ProfileDetail = ({
                                 handleProfile({ suite_number: e.target.value });
                             },
                         })}
-                        value={profile?.suite_number}
+                        defaultValue={profile?.suite_number}
                     />
                     {errors?.suite_number && (
                         <strong className="text-danger">
@@ -1065,7 +1086,7 @@ const ProfileDetail = ({
                                 handleProfile({ zip_code: e.target.value });
                             },
                         })}
-                        value={profile?.zip_code}
+                        defaultValue={profile?.zip_code}
                     />
                     {errors?.zip_code && (
                         <strong className="text-danger">
@@ -1086,7 +1107,7 @@ const ProfileDetail = ({
                                 handleProfile({ city: e.target.value });
                             },
                         })}
-                        value={profile?.city}
+                        defaultValue={profile?.city}
                     />
                     {errors?.city && (
                         <strong className="text-danger">
@@ -1107,7 +1128,7 @@ const ProfileDetail = ({
                                 handleProfile({ state: e.target.value });
                             },
                         })}
-                        value={profile?.state}
+                        defaultValue={profile?.state}
                     />
                     {errors?.state && (
                         <strong className="text-danger">
@@ -1133,7 +1154,7 @@ const ProfileDetail = ({
                                 handleProfile({ bio: e.target.value });
                             },
                         })}
-                        value={profile?.bio}
+                        defaultValue={profile?.bio}
                     ></textarea>
                     {errors?.bio &&
                         ((errors.bio.type === "required" && (
