@@ -50,13 +50,6 @@ const Registration = (props) => {
     const error = useRef(null);
 
     useEffect(() => {
-        if (providerSignup?.loading) {
-            loading.current = toast.info("please wait", {
-                toastId: loading.current,
-                autoClose: false,
-            });
-            return;
-        }
         if (providerSignup?.error) {
             toast.dismiss(loading.current);
             if (typeof providerSignup?.message != "object") {
@@ -79,13 +72,6 @@ const Registration = (props) => {
     }, [providerSignup]);
 
     useEffect(() => {
-        if (verifyOpt?.loading) {
-            loading.current = toast.info("please wait", {
-                toastId: loading.current,
-                autoClose: false,
-            });
-            return;
-        }
         if (verifyOpt?.error) {
             if (typeof verifyOpt?.message != "object") {
                 toast.dismiss(loading.current);
@@ -109,7 +95,7 @@ const Registration = (props) => {
             basicInfoRes?.loading == false &&
             basicInfoRes?.message == "success"
         ) {
-            handleStep(step + 1);
+            handleStep(4);
         }
         if (basicInfoRes.loading == false && basicInfoRes.error) {
             Swal.fire({
@@ -126,7 +112,7 @@ const Registration = (props) => {
             serviceDetail?.loading == false &&
             serviceDetail?.message == "success"
         ) {
-            handleStep(step + 1);
+            handleStep(5);
         }
         if (serviceDetail.loading == false && serviceDetail.error) {
             Swal.fire({
@@ -143,15 +129,10 @@ const Registration = (props) => {
             profileDetails?.loading == false &&
             profileDetails?.message == "success"
         ) {
-            Swal.fire({
-                icon: "success",
-                title: "Successfully Registered",
-                text: "Congratulation! You are successfully registered.",
-                confirmButtonColor: "#fea629",
-            });
             localStorage.removeItem("providerToken");
             setStep(1);
             setBasic({
+                success: "Congratulation! You are successfully registered. We will let you know when we launch our website. Thank you.",
                 code: "+92",
                 error: {
                     email: "",
@@ -415,6 +396,7 @@ const Registration = (props) => {
                                         handleVerifyPhoneNo={
                                             handleVerifyPhoneNo
                                         }
+                                        verifyOpt={verifyOpt}
                                     />
                                 )}
                                 {/* <!-- step 3 --> */}
