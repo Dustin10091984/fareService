@@ -58,7 +58,9 @@ import ReactNotificationComponent from './components/notification/ReactNotificat
 import axios from 'axios'
 import { MovingRequest } from './front-end/moving';
 
-const stripePromise = loadStripe('pk_test_51JVYy7CiKsbMzZ4LLhJxG93Gzs85Vbet4WssQvrZQ69xlRdjzPZyAgtKjgbsgdaEyyamStfa1nlDNq0b3nKNxBBq00vXmoyr8R');
+const stripePromise = loadStripe(
+  process.env.React_APP_STRIPE_PUBLIC_KEY
+);
 
 function App() {
   const [notification, setNotification] = useState({ title: "", body: "" });
