@@ -9,7 +9,7 @@ import AutoCompleteInput from "../../../components/AutoCompleteInput";
 // import DayPickerInput from "react-day-picker/DayPickerInput";
 import "../styles.css";
 import moment from "moment";
-import { HOST } from "../../../constants";
+import { GOOGLE_API, HOST } from "../../../constants";
 import axios from "axios";
 
 const Basic = ({
@@ -20,7 +20,6 @@ const Basic = ({
     handleProviderSignup,
     providerSignup,
 }) => {
-    const ref = useRef(null);
     const isError = (name) => (basic.error[name] ? basic.error[name] : null);
     const isServerError = (name) => {
         if (
@@ -49,7 +48,7 @@ const Basic = ({
     return (
         <>
         {basic.success && (
-            <div ref={ref} className="alert alert-success text-center">
+            <div className="alert alert-success text-center">
                     {basic.success}
             </div>
         )}
@@ -488,6 +487,7 @@ const SelectZipCode = ({
     handleServiceDetails,
     serviceDetail,
 }) => {
+    const [postalCode, setPostalCode] = useState({errors: {}});
     const {
         register,
         handleSubmit,
@@ -501,21 +501,47 @@ const SelectZipCode = ({
         handleZipCode({ address });
     };
 
-    const handleOnSelect = async (address, placeId) => {
-        handleZipCode({ address });
-        // const results = await geocodeByAddress(address);
-        // const latLng = await getLatLng(results[0]);
-        const [place] = await geocodeByPlaceId(placeId);
-        const { long_name: postalCode = "" } =
-            place.address_components.find((c) =>
-                c.types.includes("postal_code")
-            ) || {};
-        if (postalCode) {
-            if (zipCode?.zip_code?.includes(postalCode) == false) {
+    // const handleOnSelect = async (address, placeId) => {
+    //     handleZipCode({ address });
+    //     // const results = await geocodeByAddress(address);
+    //     // const latLng = await getLatLng(results[0]);
+    //     const [place] = await geocodeByPlaceId(placeId);
+    //     const { long_name: postalCode = "" } =
+    //         place.address_components.find((c) =>
+    //             c.types.includes("postal_code")
+    //         ) || {};
+    //     if (postalCode) {
+    //         if (zipCode?.zip_code?.includes(postalCode) == false) {
+    //             handleZipCode({
+    //                 zip_code: [...zipCode?.zip_code, postalCode],
+    //                 address: "",
+    //             });
+    //         }
+    //         setState({ ...state, zip_codeErr: "" });
+    //     } else {
+    //         setState({
+    //             ...state,
+    //             zip_codeErr: "Please select an other location",
+    //         });
+    //     }
+    // };
+
+    const handleSelectPostalCode = (address) => {
+        const {address_components} = address;
+        const postalCode = address_components?.find((address) =>{
+            return address?.types?.includes("postal_code") ? address : null
+        });
+        if (postalCode?.short_name) {
+            if (zipCode?.zip_code?.includes(postalCode?.short_name) == false) {
                 handleZipCode({
-                    zip_code: [...zipCode?.zip_code, postalCode],
+                    zip_code: [...zipCode?.zip_code, postalCode?.short_name],
                     address: "",
                 });
+                setPostalCode({
+                    ...postalCode,
+                    postal_code: "",
+                    errors: {},
+                })
             }
             setState({ ...state, zip_codeErr: "" });
         } else {
@@ -524,7 +550,26 @@ const SelectZipCode = ({
                 zip_codeErr: "Please select an other location",
             });
         }
-    };
+    }
+
+    const handleChangePostalCode = ({target: {name, value}}) => {
+        if(value){
+            setPostalCode({...postalCode, loading: true, [name]: value});
+            axios({
+                method: "post",
+                url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
+            }).then(function (response) {
+                    if(response.data.results.length > 0) {
+                        setPostalCode({...state, response: response.data.results, errors: {}, loading: false});
+                    } else {
+                        setPostalCode({...state, response: null, errors: {...state.errors, postal_code: "Invalid Postal Code"}, loading: false});
+                    }
+                }).catch((error) => {
+                    setPostalCode({...state, response: null, errors: {...state.errors,  postal_code: "Invalid Postal Code"}, loading: false});
+                });
+        }
+    }
+
     const handleOnSubmit = (data) => {
         handleServiceDetails({ ...data, zip_code: zipCode?.zip_code });
     };
@@ -608,12 +653,36 @@ const SelectZipCode = ({
                 <div className="common-input mb-4">
                     <div className="form-title mb-3">Where do you work?</div>
                     <label htmlFor="name">Enter location</label>
-                    <AutoCompleteInput
+                    <div className="common-input mr-1 mb-1">
+                        <input
+                                type="text"
+                                name="postal_code"
+                                placeholder="2323"
+                                autoComplete="postal_code"
+                                value={postalCode?.postal_code}
+                                onChange={handleChangePostalCode}
+                            />
+                        {
+                            postalCode?.loading && (<><i className="fa fa-spinner fa-pulse"></i> Loading...</>) 
+                        }
+                        {postalCode?.response && postalCode?.response?.length>0 ? postalCode?.response?.map((address, index) => (
+                            <div className="text-dark mt-2 mb-2" onClick={()=>handleSelectPostalCode(address)} role="button" key={index}>
+                                {address.formatted_address}
+                            </div>
+                        )) : (
+                            postalCode?.postal_code && (
+                            <div className="text-dark mt-2 mb-2">
+                                Please add complete zip code
+                            </div>
+                            )
+                        )}
+                    </div>
+                    {/* <AutoCompleteInput
                         placeholder="Type your area address"
                         handleOnChange={handleOnChange}
                         handleOnSelect={handleOnSelect}
                         value={zipCode?.address}
-                    ></AutoCompleteInput>
+                    ></AutoCompleteInput> */}
                     {/* <input
                         {...register("name", { required: true })}
                         
