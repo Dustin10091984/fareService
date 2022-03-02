@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
@@ -13,6 +13,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Rating from "../components/Rating";
 import Paginate from "./../components/Paginate";
 import { HOST } from "../constants";
+import Swal from "sweetalert2";
 
 export const ServicesHistory = (props) => {
     const { location, history } = props;
@@ -23,6 +24,8 @@ export const ServicesHistory = (props) => {
         payable: "",
         error: "",
     });
+
+    const ref = useRef(null);
 
     const [feedback, setFeedback] = useState({
         service_request_id: "",
@@ -104,6 +107,20 @@ export const ServicesHistory = (props) => {
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
     }, [location.search]);
+
+    useEffect(() => {
+        if(feedbackMessage && feedbackError == false){
+            ref.current.click();
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: "Feedback added successfully!",
+                showConfirmButton: false,
+                timer: 1000
+              })
+            return;
+        }
+    }, [feedbackMessage, feedbackError])
 
     /**
      * get payable object and set state
@@ -817,6 +834,11 @@ export const ServicesHistory = (props) => {
                             >
                                 Add Feedback
                             </h5>
+                            <button ref={ref} type="button" onClick={handleCloseClick} class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                            </button>
                         </div>
                         <div className="modal-body">
                             <div className="row m-2">
@@ -824,15 +846,10 @@ export const ServicesHistory = (props) => {
                                     <center className="col-12">
                                         {(() => {
                                             if (feedbackLoading == false) {
-                                                if (feedbackMessage) {
+                                                if (feedbackMessage && feedbackError == true) {
                                                     return (
                                                         <div
-                                                            className={`col-12  alert alert-${
-                                                                feedbackError ==
-                                                                false
-                                                                    ? "success"
-                                                                    : "danger"
-                                                            } text-center`}
+                                                            className={`col-12  alert alert-danger text-center`}
                                                             role="alert"
                                                             style={{
                                                                 fontSize: 15,
@@ -842,18 +859,6 @@ export const ServicesHistory = (props) => {
                                                         </div>
                                                     );
                                                 }
-                                            }
-                                            if (feedbackMessage == true) {
-                                                return (
-                                                    <div
-                                                        className="col-12  alert alert-info text-center"
-                                                        role="alert"
-                                                        style={{ fontSize: 15 }}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin"></i>{" "}
-                                                        Processing...
-                                                    </div>
-                                                );
                                             }
                                         })()}
                                     </center>
@@ -968,6 +973,7 @@ export const ServicesHistory = (props) => {
                                 className="button-common"
                                 data-dismiss="modal"
                                 onClick={handleCloseClick}
+                                disabled={feedbackLoading}
                             >
                                 Close
                             </button>
@@ -985,7 +991,10 @@ export const ServicesHistory = (props) => {
                                 type="button"
                                 className="button-common-2"
                             >
-                                Submit
+                                {feedbackLoading ? (
+                                    <><i className="fa fa-spinner fa-pulse"></i>  Loading</>
+                                ) : "Submit"}
+                                
                             </button>
                         </div>
                     </div>

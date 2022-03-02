@@ -1037,14 +1037,14 @@ export const Services = (props) => {
                                                 <div className="title">
                                                     {`${provider?.first_name} ${provider?.first_name[0]}.`}
                                                 </div>
-                                                {provider?.provider_service_requests_count && (
+                                                {provider?.provider_service_requests_count ? (
                                                     <div className="job-cmplte">
                                                         {
                                                             provider?.provider_service_requests_count
                                                         }{" "}
                                                         Jobs Completed
                                                     </div>
-                                                )}
+                                                ) : null}
                                                 <div className="stars-rating ">
                                                     <div className="star-rating-area d-flex align-items-center justify-content-center">
                                                         <Rating
