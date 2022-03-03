@@ -1321,6 +1321,11 @@ export const Payment = (props) => {
                                         </li>
                                     </ul>
                                 )}
+                                {addressesLoading && (
+                                    <div className="d-flex justify-content-center">
+                                        <i className="fa fa-spinner fa-pulse fa-5x"></i>
+                                    </div>
+                                )}
                                 {state.addNewAddress ? (
                                     <div className="col-12">
                                         <AutoCompleteInput

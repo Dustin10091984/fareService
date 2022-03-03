@@ -84,14 +84,14 @@ export const Cart = (props) => {
         };
     }, [deleteCartLoading]);
 
-    useEffect(() => {
-        cartLoading &&
-            (loading.current = toast.info("Loading...", {
-                autoClose: false,
-                toastId: loading.current,
-            }));
-        cartLoading == false && toast.dismiss(loading.current);
-    }, [cartLoading]);
+    // useEffect(() => {
+    //     cartLoading &&
+    //         (loading.current = toast.info("Loading...", {
+    //             autoClose: false,
+    //             toastId: loading.current,
+    //         }));
+    //     cartLoading == false && toast.dismiss(loading.current);
+    // }, [cartLoading]);
 
     useEffect(() => {
         updateCartLoading == false &&
