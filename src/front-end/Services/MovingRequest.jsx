@@ -15,6 +15,7 @@ const MovingRequest = ({
     useEffect(() => {
         getVehicleTypes();
     }, []);
+    console.log(movingState);
     return (
         <>
             <div className="moving-new-secion">

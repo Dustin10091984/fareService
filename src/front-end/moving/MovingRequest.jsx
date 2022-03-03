@@ -264,9 +264,6 @@ const MovingRequest = (props) => {
                                         style={{ fontSize: "2rem" }}
                                     >
                                         Description
-                                        <strong className="text-danger">
-                                            *
-                                        </strong>
                                     </div>
                                     <div className="common-input p-1">
                                         <div>
