@@ -57,6 +57,7 @@ import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
 import { MovingRequest } from './front-end/moving';
+import { HOST } from './constants';
 
 const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
@@ -81,7 +82,7 @@ function App() {
         headers: {
           Authorization: `${localStorage.userToken}`
         },
-        url: process.env.REACT_APP_API_BASE_URL + "/api/user/device-token",
+        url: `${HOST}/api/user/device-token`,
         data: { device_token: token },
       })
         .then(function (response) {

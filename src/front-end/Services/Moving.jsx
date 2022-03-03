@@ -16,7 +16,7 @@ import axios from "axios";
 import Loading from "../common/Loading";
 
 export const Moving = (props) => {
-    const { subServiceId } = props;
+    const { subServiceId, movingState, handleMovingState } = props;
     const [state, setState] = useState({
         vehicle_type_id: "",
         from_address: "",
@@ -40,8 +40,17 @@ export const Moving = (props) => {
     const message = useSelector((state) => state.movingReducer?.list?.message);
 
     useEffect(() => {
-        dispatch(getVehicleTypes());
+        // dispatch(getVehicleTypes());
+        if(movingState) {
+            setState({
+                ...movingState
+            });
+        }
     }, []);
+
+    useEffect(() => {
+        handleMovingState(state);
+    }, [state])
 
     const handleSelectTypeClick = (vehicle_type_id) => {
         vehicle_type_id === state.vehicle_type_id
