@@ -17,7 +17,7 @@ import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-
+import {HOST} from "./../constants"
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
@@ -162,7 +162,7 @@ export const ServiceProviders = (props) => {
         }
     }, [movingError, movingMessage]);
 
-    function handleContinueClick(event, type, provider) {
+    function handleContinueClick(event, type, provider, provider_service_requests_count) {
         setOpen(true);
         const { value } = event.target;
         if (state.is_loggedin) {
@@ -172,6 +172,7 @@ export const ServiceProviders = (props) => {
                     is_hourly: type,
                     provider_id: value,
                     provider,
+                    provider_service_requests_count
                 }));
                 if (location?.state?.service_type !== ServiceType.MOVING) {
                     if (type == true) {
@@ -695,7 +696,8 @@ export const ServiceProviders = (props) => {
                                                                                     ?.hourly_rate
                                                                                 ? true
                                                                                 : false,
-                                                                            provider
+                                                                            provider,
+                                                                            provider?.provider_service_requests_count
                                                                         );
                                                                     }}
                                                                     value={
@@ -900,22 +902,32 @@ export const ServiceProviders = (props) => {
                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
                                     <div className="user-img d-flex align-items-center justify-content-center">
                                         <img
-                                            src="https://api.farenow.com/storage/user/profile/620a8fec3c3b5-1644859372.jpg"
+                                            src={state?.provider?.image ? HOST+state?.provider?.image : "/assets/img/Profile_avatar.png"}
                                             className="img-fluid"
                                             alt="Not Found"
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.src = "/assets/img/Profile_avatar.png";
+                                            }}
                                         />
                                     </div>
                                     <div className="user-detail w-100 d-flex align-items-center justify-content-between">
                                         <div>
                                             <div className=" w-100 ">
                                                 <div className="title">
-                                                    Aurangzaib Rana
+                                                    {state?.provider?.first_name}{" "}{state?.provider?.last_name}
                                                 </div>
                                             </div>
                                             <div className="job-status">
-                                                4 Jobs Completed
+                                                {state?.provider_service_requests_count} Jobs Completed
                                             </div>
-                                            <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
+                                            <Rating
+                                                rating={
+                                                      5
+                                                }
+                                                justify="start"
+                                            />
+                                            {/* <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
                                                 <div className="star-rating-area">
                                                     <div className="star-rating-area d-flex align-items-center justify-content-center">
                                                         <div
@@ -965,7 +977,7 @@ export const ServiceProviders = (props) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
 
                                         <a className="button-common" href="#">
