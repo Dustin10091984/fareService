@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { Moving } from "./Moving";
 
 const MovingRequest = ({
+    movingState,
+    handleMovingState,
     moving,
     getVehicleTypes,
     vehicleTypes,
@@ -13,6 +15,7 @@ const MovingRequest = ({
     useEffect(() => {
         getVehicleTypes();
     }, []);
+    console.log(movingState);
     return (
         <>
             <div className="moving-new-secion">
@@ -135,6 +138,8 @@ const MovingRequest = ({
                                     }}
                                 >
                                     <Moving
+                                        movingState={movingState}
+                                        handleMovingState={handleMovingState}
                                         vehicle_type_id={
                                             moving?.vehicle_type_id
                                         }

@@ -834,9 +834,9 @@ export const ServicesHistory = (props) => {
                             >
                                 Add Feedback
                             </h5>
-                            <button ref={ref} type="button" onClick={handleCloseClick} class="close" data-dismiss="modal" aria-label="Close">
+                            <button ref={ref} type="button" onClick={handleCloseClick} className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">
-                                    <i class="fas fa-times"></i>
+                                    <i className="fas fa-times"></i>
                                 </span>
                             </button>
                         </div>

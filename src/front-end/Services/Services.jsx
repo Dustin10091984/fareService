@@ -30,6 +30,8 @@ export const Services = (props) => {
         zip_code: "",
     });
 
+    const [movingState, setMovingState] = useState();
+
     const [error, setError] = useState({
         selected: {},
     });
@@ -121,9 +123,15 @@ export const Services = (props) => {
             }));
         };
 
+        const handleMovingState = (data) => {
+            setMovingState(data);
+        }
+
         return (
             <MovingRequest
                 {...props}
+                handleMovingState={handleMovingState}
+                movingState={movingState}
                 moving={moving}
                 subServiceId={subServiceId}
                 handleStepClick={handleStepClick}
