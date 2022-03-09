@@ -980,9 +980,9 @@ export const ServiceProviders = (props) => {
                                             </div> */}
                                         </div>
 
-                                        <a className="button-common" href="#">
+                                        {/* <a className="button-common" href="#">
                                             Select & Continue
-                                        </a>
+                                        </a> */}
                                     </div>
                                 </div>
                             </div>
