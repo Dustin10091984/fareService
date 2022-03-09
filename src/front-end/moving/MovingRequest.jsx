@@ -243,7 +243,7 @@ const MovingRequest = (props) => {
                                                     pattern:
                                                         /^\+(\d{1}\-)?(\d{11,12})$/,
                                                 })}
-                                                placeholder="Number"
+                                                placeholder="+923331234567"
                                                 className="location-search-input m-1"
                                             />
                                             <div className="text-danger">
