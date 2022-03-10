@@ -19,6 +19,13 @@ const userSlice = createSlice({
             }
         },
         updateProfile: (state, action) => {
+            if (action.payload?.data) {
+                return {
+                    ...state,
+                    profile: action.payload,
+                    updateProfile: action.payload
+                }
+            }
             return {
                 ...state,
                 updateProfile: action.payload
