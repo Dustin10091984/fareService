@@ -2,10 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { patchupdateProfile, initialState } from "../../store/Slices/UserSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 const Profile = ({ profile }) => {
     const loading = useRef(null);
     const dispatch = useDispatch();
     const [state, setState] = useState({ errors: {} });
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        formState: { errors },
+    } = useForm();
+
+
     const updateProfile = useSelector(
         (state) => state.userReducer.updateProfile
     );
@@ -16,6 +26,14 @@ const Profile = ({ profile }) => {
             dispatch(initialState("updateProfile"));
         };
     }, []);
+
+    useEffect(() => {
+        if(profile){
+            setState((prevState) => ({
+                ...prevState, profile: profile?.data
+            }));
+        }
+    }, [profile]);
 
     useEffect(() => {
         if (updateProfile?.loading) {
@@ -46,13 +64,14 @@ const Profile = ({ profile }) => {
                 ...state,
                 profile: { ...state.profile, [e.target.name]: e.target.value },
                 errors: {
+                    ...state.errors,
                     [e.target.name]: " Required",
                 },
             });
         } else {
             setState({
                 ...state,
-                profile: { [e.target.name]: e.target.value },
+                profile: { ...state.profile, [e.target.name]: e.target.value },
                 errors: {
                     ...state.errors,
                     [e.target.name]: "",
@@ -61,95 +80,186 @@ const Profile = ({ profile }) => {
         }
     };
 
-    const handleSubmit = () => {
-        let data = { ...profile?.data };
-        data.first_name = state?.profile?.first_name || data?.first_name;
-        data.last_name = state?.profile?.last_name || data?.last_name;
-        data.zip_code = state?.profile?.zip_code || data?.zip_code;
-        dispatch(patchupdateProfile(data));
+    const handleOnSubmit = (data) => {
+        let d = { ...state?.profile, ...data };
+        dispatch(patchupdateProfile(d));
     };
-
-    const hasError = (field) => state?.errors[field] && state?.errors[field];
-
+    
     return (
-        <div className="row">
-            <div className="col-md-6">
-                <div className="common-input mb-2">
-                    First Name
-                    <input
-                        type="text"
-                        placeholder="First Name"
-                        name="first_name"
-                        defaultValue={profile?.data?.first_name}
-                        onChange={handleChange}
-                    />
-                    <p className="text-danger">{hasError("first_name")}</p>
-                </div>
+        <form onSubmit={handleSubmit(handleOnSubmit)}>
+            <div className="row">
+                    <div className="col-md-6">
+                        <div className="common-input mb-2">
+                            First Name
+                            <input
+                                type="text"
+                                placeholder="First Name"
+                                {...register("first_name", {
+                                    required: true,
+                                    minLength: 2,
+                                    maxLength: 25,
+                                    onChange: handleChange,
+                                })}
+                                {...setValue("first_name", state?.profile?.first_name)}
+                            />
+                            {errors?.first_name?.type === "required" && (
+                                <p className="text-danger">
+                                    {errors?.first_name?.message || "First Name is required"}
+                                </p>
+                            )}
+                            {errors?.first_name?.type === "minLength" && (
+                                <p className="text-danger">
+                                    {errors?.first_name?.message || "First Name must be at least 2 characters"}
+                                </p>
+                            )}
+                            {errors?.first_name?.type === "maxLength" && (
+                                <p className="text-danger">
+                                    {errors?.first_name?.message || "First Name must be at most 25 characters"}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="common-input mb-2">
+                            Last Name
+                            <input
+                                type="text"
+                                placeholder="Last Name"
+                                defaultValue={state?.profile?.last_name || ""}
+                                {...register("last_name", {
+                                    required: true,
+                                    minLength: 2,
+                                    maxLength: 25,
+                                    onChange: handleChange,
+                                })}
+                                {...setValue("last_name", state?.profile?.last_name)}
+                            />
+                            {errors?.last_name?.type === "required" && (
+                                <p className="text-danger">
+                                    {errors?.last_name?.message || "Last Name is required"}
+                                </p>
+                            )}
+                            {errors?.last_name?.type === "minLength" && (
+                                <p className="text-danger">
+                                    {errors?.last_name?.message || "Last Name must be at least 2 characters"}
+                                </p>
+                            )}
+                            {errors?.last_name?.type === "maxLength" && (
+                                <p className="text-danger">
+                                    {errors?.last_name?.message || "Last Name must be at most 25 characters"}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="common-input mb-2">
+                            Email
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                defaultValue={state?.profile?.email || ""}
+                                {...register("email", {
+                                    required: true,
+                                })}
+                                {...setValue("email", state?.profile?.email)}
+                                readOnly
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="common-input mb-2">
+                            Phone
+                            <input
+                                type="tel"
+                                placeholder="Phone No"
+                                defaultValue={state?.profile?.phone || ""}
+                                {...register("phone", {
+                                    required: true,
+                                })}
+                                {...setValue("phone", state?.profile?.phone)}
+                                readOnly
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="common-input mb-2">
+                            Zip Code
+                            <input
+                                type="text"
+                                placeholder="ZIP Code"
+                                defaultValue={state?.profile?.zip_code || ""}
+                                {...register("zip_code", {
+                                    required: true,
+                                    minLength: 2,
+                                    maxLength: 20,
+                                    onChange: handleChange,
+                                })}
+                                {...setValue("zip_code", state?.profile?.zip_code)}
+                            />
+                            {errors?.zip_code?.type === "required" && (
+                                <p className="text-danger">
+                                    {errors?.zip_code?.message || "Zip Code is required"}
+                                </p>
+                            )}
+                            {errors?.zip_code?.type === "minLength" && (
+                                <p className="text-danger">
+                                    {errors?.zip_code?.message || "Zip Code must be at least 2 characters"}
+                                </p>
+                            )}
+                            {errors?.zip_code?.type === "maxLength" && (
+                                <p className="text-danger">
+                                    {errors?.zip_code?.message || "Zip Code must be at most 20 characters"}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="common-input mb-2">
+                            Bio
+                            <textarea
+                                type="text"
+                                placeholder="ZIP Code"
+                                defaultValue={state?.profile?.bio || ""}
+                                {...register("bio", {
+                                    required: true,
+                                    minLength: 20,
+                                    maxLength: 100,
+                                    onChange: handleChange,
+                                })}
+                                {...setValue("bio", state?.profile?.bio)}
+                            ></textarea>
+                            {errors?.bio?.type === "required" && (
+                                <p className="text-danger">
+                                    {errors?.bio?.message || "Bio is required"}
+                                </p>
+                            )}
+                            {errors?.bio?.type === "minLength" && (
+                                <p className="text-danger">
+                                    {errors?.bio?.message || "Bio must be at least 20 characters"}
+                                </p>
+                            )}
+                            {errors?.bio?.type === "maxLength" && (
+                                <p className="text-danger">
+                                    {errors?.bio?.message || "Bio must be at most 100 characters"}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-4">
+                        <button
+                            disabled={
+                                state?.profile?.first_name === "" ||
+                                state?.profile?.last_name === "" ||
+                                state?.profile?.zip_code === ""
+                            }
+                            type="submit"
+                            className="button-common w-100 mb-5"
+                        >
+                            Update{" "}
+                        </button>
+                    </div>
             </div>
-            <div className="col-md-6">
-                <div className="common-input mb-2">
-                    Last Name
-                    <input
-                        type="text"
-                        placeholder="Last Name"
-                        name="last_name"
-                        defaultValue={profile?.data?.last_name}
-                        onChange={handleChange}
-                    />
-                    <p className="text-danger">{hasError("last_name")}</p>
-                </div>
-            </div>
-            <div className="col-md-6">
-                <div className="common-input mb-2">
-                    Email
-                    <input
-                        type="text"
-                        placeholder="Email"
-                        name="email"
-                        defaultValue={profile?.data?.email}
-                        readOnly
-                    />
-                </div>
-            </div>
-            <div className="col-md-6">
-                <div className="common-input mb-2">
-                    Phone
-                    <input
-                        type="text"
-                        placeholder="Phone No"
-                        name="phone"
-                        defaultValue={profile?.data?.phone}
-                        readOnly
-                    />
-                </div>
-            </div>
-            <div className="col-md-6">
-                <div className="common-input mb-2">
-                    Zip Code
-                    <input
-                        type="text"
-                        placeholder="ZIP Code"
-                        name="zip_code"
-                        defaultValue={profile?.data?.zip_code}
-                    />
-                    <p className="text-danger">{hasError("zip_code")}</p>
-                </div>
-            </div>
-            <div className="col-md-12 mt-4">
-                <button
-                    disabled={
-                        state?.profile?.first_name === "" ||
-                        state?.profile?.last_name === "" ||
-                        state?.profile?.zip_code === ""
-                    }
-                    type="submit"
-                    className="button-common w-100 mb-5"
-                    onClick={handleSubmit}
-                >
-                    Update{" "}
-                </button>
-            </div>
-        </div>
+        </form>
     );
 };
 
