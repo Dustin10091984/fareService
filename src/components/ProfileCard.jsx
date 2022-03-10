@@ -57,7 +57,7 @@ const ProfileCard = ({ profile }) => {
                    <div className="pro-pic">
                         <img
                             src={
-                                HOST + profile?.image ||
+                                profile?.image ? HOST + profile?.image :
                                 "/assets/img/Profile_avatar.png"
                             }
                             className="img-fluid"
