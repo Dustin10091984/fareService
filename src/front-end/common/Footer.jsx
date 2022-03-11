@@ -31,6 +31,7 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-6 col-md-3">
                             <ul className="footer-link">
+                            <div className="title">Pages</div>
                                 {state?.links?.map((link) => (
                                     <li className="item" key={link?.id}>
                                         <a href={link?.url} className="link" target="_blank">
