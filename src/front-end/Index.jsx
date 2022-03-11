@@ -75,17 +75,16 @@ export const Index = (props) => {
                                             >
                                                 <img
                                                     src={
-                                                        subService.image
-                                                            ? HOST +
-                                                              subService.image
-                                                            : "/assets/img/service-1.jpg"
+                                                        (subService.image
+                                                            && HOST +
+                                                              subService.image) || ""
                                                     }
                                                     className="img-fluid"
                                                     alt=""
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src =
-                                                            "/assets/img/service-1.jpg";
+                                                            "/assets/img/service1.jpg";
                                                     }}
                                                 />
                                                 <div className="cat-title d-flex align-items-center justify-content-center">

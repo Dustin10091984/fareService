@@ -60,8 +60,7 @@ export const ProviderProfile = (props) => {
                                                         src={
                                                             data?.provider
                                                                 ?.image
-                                                                ? `${HOST}${data?.provider?.image}`
-                                                                : "/assets/img/Profile_avatar.png"
+                                                                && `${HOST}${data?.provider?.image}` || ""
                                                         }
                                                         onError={(e) => {
                                                             e.target.onerror =
@@ -138,8 +137,8 @@ export const ProviderProfile = (props) => {
                                                     >
                                                         <img
                                                             src={
-                                                                HOST +
-                                                                data?.image
+                                                                (data?.image && HOST +
+                                                                data?.image) || ""
                                                             }
                                                             className="d-block w-100"
                                                             alt="..."
@@ -361,8 +360,7 @@ export const ProviderProfile = (props) => {
                                                                                         (feedback
                                                                                             ?.user
                                                                                             ?.image &&
-                                                                                            `${HOST}${feedback?.user?.image}`) ||
-                                                                                        "/assets/img/Profile_avatar.png"
+                                                                                            `${HOST}${feedback?.user?.image}`) || ""
                                                                                     }
                                                                                     className="img-fluid"
                                                                                     alt=""

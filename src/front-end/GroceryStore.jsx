@@ -130,9 +130,8 @@ export const GroceryStore = (props) => {
                                             src={
                                                 (productId &&
                                                     HOST + product?.image) ||
-                                                HOST +
-                                                    groceryStoreData?.image ||
-                                                "/assets/img/food.svg"
+                                                (HOST +
+                                                    groceryStoreData?.image) || ""
                                             }
                                             alt=""
                                             onError={(e) => {

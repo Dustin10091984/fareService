@@ -98,8 +98,7 @@ export const GroceryStorePage = (props) => {
                                 <img
                                     src={
                                         groceryStore?.data?.cover_image
-                                            ? `${HOST}${groceryStore?.data?.cover_image}`
-                                            : "/assets/img/restaurant.jpg"
+                                            && `${HOST}${groceryStore?.data?.cover_image}` || ""
                                     }
                                     className="restaurant-banner"
                                     onError={(e) => {

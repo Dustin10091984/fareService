@@ -275,8 +275,7 @@ export const Services = (props) => {
                                                 src={
                                                     (mainMenu?.image &&
                                                         HOST +
-                                                            mainMenu?.image) ||
-                                                    "/assets/img/service-card1.jpg"
+                                                            mainMenu?.image) || ""
                                                 }
                                                 className="img-fluid"
                                                 alt="image"
@@ -1027,10 +1026,9 @@ export const Services = (props) => {
                                                 <div className="team-img">
                                                     <img
                                                         src={
-                                                            provider?.image
-                                                                ? HOST +
-                                                                  provider?.image
-                                                                : "/assets/img/Profile_avatar.png"
+                                                            (provider?.image
+                                                                && HOST +
+                                                                  provider?.image) || ""
                                                         }
                                                         className="img-fluid"
                                                         alt="image"

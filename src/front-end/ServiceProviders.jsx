@@ -566,9 +566,8 @@ export const ServiceProviders = (props) => {
                                                     <div className="user-img d-flex align-items-center justify-content-center">
                                                         <img
                                                             src={
-                                                                provider.image
-                                                                    ? `${process.env.REACT_APP_API_BASE_URL}${provider.image}`
-                                                                    : "/assets/img/Profile_avatar.png"
+                                                                (provider.image
+                                                                    && `${process.env.REACT_APP_API_BASE_URL}${provider.image}`) || ""
                                                             }
                                                             onError={(e) => {
                                                                 e.target.onerror =
@@ -807,18 +806,17 @@ export const ServiceProviders = (props) => {
                                                                         <div className="review-img">
                                                                             <img
                                                                                 src={
-                                                                                    provider
+                                                                                    (provider
                                                                                         ?.user_feedbacks[0]
                                                                                         ?.user
                                                                                         ?.image
-                                                                                        ? process
+                                                                                        && process
                                                                                               .env
                                                                                               .REACT_APP_API_BASE_URL +
                                                                                           provider
                                                                                               ?.user_feedbacks[0]
                                                                                               ?.user
-                                                                                              ?.image
-                                                                                        : "/assets/img/Profile_avatar.png"
+                                                                                              ?.image) || ""
                                                                                 }
                                                                                 className="img-fluid"
                                                                                 alt="Not have"
@@ -902,7 +900,7 @@ export const ServiceProviders = (props) => {
                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
                                     <div className="user-img d-flex align-items-center justify-content-center">
                                         <img
-                                            src={state?.provider?.image ? HOST+state?.provider?.image : "/assets/img/Profile_avatar.png"}
+                                            src={state?.provider?.image && HOST+state?.provider?.image || ""}
                                             className="img-fluid"
                                             alt="Not Found"
                                             onError={(e) => {

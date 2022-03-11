@@ -59,8 +59,7 @@ export const OrderDetail = (props) => {
                                                                 className="img-fluid"
                                                                 src={
                                                                     (orderItem?.image &&
-                                                                        `${HOST}${orderItem?.image}`) ||
-                                                                    "/assets/img/product.png"
+                                                                        `${HOST}${orderItem?.image}`) ||""
                                                                 }
                                                                 alt=""
                                                                 onError={(
