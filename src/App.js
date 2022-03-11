@@ -9,8 +9,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './front-end/Auth/Login';
 import Register from './front-end/Auth/Register';
 import Header from './front-end/common/Header';
+import Footer from './front-end/common/Footer';
 
-import { Footer } from './front-end/common/Footer';
 import { Index } from './front-end/Index';
 import { Shop } from './front-end/Shop';
 import { ShopTwo } from './front-end/ShopTwo';

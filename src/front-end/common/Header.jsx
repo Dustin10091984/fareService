@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getNotifications } from "../../store/Slices/notification";
 import { useHistory } from "react-router-dom";
 import { headerMenu } from "../../store/Slices/HeaderMenuSlice";
+import { pageLinks } from "../../store/Slices/footer";
 
 const Header = (props) => {
     const [state, setState] = useState({
@@ -43,6 +44,7 @@ const Header = (props) => {
                     header_menu: response.data.data,
                 }));
                 dispatch(headerMenu(response.data.data));
+                dispatch(pageLinks(response.data.links));
             })
             .catch((error) => {
                 //handle error
