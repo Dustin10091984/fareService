@@ -1048,7 +1048,7 @@ export const Payment = (props) => {
                                                                                         food.image) ||
                                                                                 (product?.image &&
                                                                                     HOST +
-                                                                                        product.image)
+                                                                                        product.image) || ""
                                                                             }
                                                                             className="img-fluid"
                                                                             alt=""

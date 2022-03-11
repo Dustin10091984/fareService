@@ -131,7 +131,7 @@ export const GroceryStore = (props) => {
                                                 (productId &&
                                                     HOST + product?.image) ||
                                                 (HOST +
-                                                    groceryStoreData?.image)
+                                                    groceryStoreData?.image) || ""
                                             }
                                             alt=""
                                             onError={(e) => {

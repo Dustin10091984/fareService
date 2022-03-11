@@ -93,7 +93,7 @@ const ProductDetail = (props) => {
                                                     (product?.data?.image &&
                                                         HOST +
                                                             product?.data
-                                                                ?.image)
+                                                                ?.image) || ""
                                                 }
                                                 className="img-fluid"
                                                 alt=""

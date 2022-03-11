@@ -77,7 +77,7 @@ export const Index = (props) => {
                                                     src={
                                                         (subService.image
                                                             && HOST +
-                                                              subService.image)
+                                                              subService.image) || ""
                                                     }
                                                     className="img-fluid"
                                                     alt=""

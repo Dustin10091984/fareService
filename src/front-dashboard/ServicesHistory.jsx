@@ -538,7 +538,7 @@ export const ServicesHistory = (props) => {
                                                                         HOST +
                                                                             serviceRequest
                                                                                 ?.provider
-                                                                                ?.image
+                                                                                ?.image || ""
                                                                 }
                                                                 alt=""
                                                                 onError={(

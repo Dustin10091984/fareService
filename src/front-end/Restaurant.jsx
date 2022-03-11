@@ -182,7 +182,7 @@ export const Restaurant = (props) => {
                                                 (foodId &&
                                                     HOST + food?.image) ||
                                                     (restaurantData?.image &&
-                                                         HOST + restaurantData?.image)
+                                                         HOST + restaurantData?.image) || ""
                                             }
                                             alt=""
                                             onError={(e) => {

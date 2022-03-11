@@ -330,7 +330,7 @@ export const Cart = (props) => {
                                                                         (food?.image &&
                                                                             `${HOST}${food.image}`) ||
                                                                         (product?.image &&
-                                                                            `${HOST}${product.image}`)
+                                                                            `${HOST}${product.image}`) || ""
                                                                     }
                                                                     className="img-fluid"
                                                                     alt=""
