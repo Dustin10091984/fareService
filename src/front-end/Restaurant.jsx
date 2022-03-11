@@ -181,8 +181,8 @@ export const Restaurant = (props) => {
                                             src={
                                                 (foodId &&
                                                     HOST + food?.image) ||
-                                                HOST + restaurantData?.image ||
-                                                "/assets/img/food.svg"
+                                                    (restaurantData?.image &&
+                                                         HOST + restaurantData?.image)
                                             }
                                             alt=""
                                             onError={(e) => {

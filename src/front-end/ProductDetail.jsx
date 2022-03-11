@@ -93,8 +93,7 @@ const ProductDetail = (props) => {
                                                     (product?.data?.image &&
                                                         HOST +
                                                             product?.data
-                                                                ?.image) ||
-                                                    "/assets/img/food.svg"
+                                                                ?.image)
                                                 }
                                                 className="img-fluid"
                                                 alt=""

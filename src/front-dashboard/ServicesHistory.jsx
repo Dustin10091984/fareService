@@ -532,14 +532,13 @@ export const ServicesHistory = (props) => {
                                                                         "100%",
                                                                 }}
                                                                 src={
-                                                                    (serviceRequest
+                                                                    serviceRequest
                                                                         ?.provider
                                                                         ?.image &&
                                                                         HOST +
                                                                             serviceRequest
                                                                                 ?.provider
-                                                                                ?.image) ||
-                                                                    "/assets/img/Profile_avatar.png"
+                                                                                ?.image
                                                                 }
                                                                 alt=""
                                                                 onError={(

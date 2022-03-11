@@ -108,8 +108,7 @@ export const RestaurantPage = (props) => {
                            <img
                                 src={
                                     restaurant?.data?.cover_image
-                                        ? `${HOST}${restaurant?.data?.cover_image}`
-                                        : "/assets/img/restaurant.jpg"
+                                        && `${HOST}${restaurant?.data?.cover_image}`
                                 }
                                 className="restaurant-banner"
                                 onError={(e) => {
