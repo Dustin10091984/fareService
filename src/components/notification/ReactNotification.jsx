@@ -9,6 +9,8 @@ const ReactNotificationComponent = ({
     body,
     type,
     service_request_id,
+    handleMessageClick,
+    ...rest
 }) => {
     const location = useLocation();
     if (title !== "" && !body !== "") {
@@ -33,6 +35,14 @@ const ReactNotificationComponent = ({
             }
             location.push({
                 pathname: "/services-history",
+            });
+        } else if(type == "MESSAGE"){
+            handleMessageClick({
+                title,
+                body,
+                type,
+                service_request_id,
+                ...rest
             });
         }
     };

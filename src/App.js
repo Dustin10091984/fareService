@@ -65,6 +65,7 @@ const stripePromise = loadStripe(
 
 function App() {
   const [notification, setNotification] = useState({ title: "", body: "" });
+  const [state, setState] = useState();
   onMessageListener()
     .then((payload) => {
       setNotification({
@@ -72,6 +73,10 @@ function App() {
         body: payload.data.body,
       });
     });
+    
+    const handleMessageClick = (data) => {
+      setState(data)
+    }
 
   const dispatch = useDispatch();
   useEffect(async () => {
@@ -95,16 +100,12 @@ function App() {
   }, []);
 
   window.io = io;
-  const liveOption = {
-    host: "http://api.farenow.com:6001",
-    broadcaster: 'socket.io',
-  };
-  const localOption = {
-    host: "http://localhost:6001",
+  const option = {
+    host: `${HOST}:6001`,
     broadcaster: 'socket.io',
   };
   if (typeof window.io != 'undefined') {
-    window.Echo = new Echo(liveOption);
+    window.Echo = new Echo(option);
     // client: io,
     // auth: {headers: {Authorization: localStorage.userToken }}
 
@@ -121,10 +122,9 @@ function App() {
   return (
     <Elements stripe={stripePromise} >
       <div className="App">
-        {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null} */}
-        <ReactNotificationComponent {...notification}
-        />
-        <Header></Header>
+        {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
+        <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
+        <Header notification={state}></Header>
 
         <Switch>
           <Route exact path='/' component={Index} />
