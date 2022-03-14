@@ -210,7 +210,7 @@ const Header = (props) => {
 
                                         {state.is_loggedin ? (
                                             <>
-                                                <li
+                                                {/* <li
                                                     className="item-list"
                                                     style={{
                                                         fontSize: "2rem",
@@ -249,117 +249,138 @@ const Header = (props) => {
                                                         </div>
                                                     )}
                                                     {state?.notificationOpen && (
+                                                        <></>
+                                                    )}
+                                                </li> */}
+                                                <li className="dropdown item-list">
+                                                    <div onClick={()=>{
+                                                        console.log("clicked");
+                                                    }}>
                                                         <div
-                                                            className="notifications ssds"
-                                                            id="box"
+                                                            // className="btn btn-secondary dropdown-toggle"
+                                                            className="link"
+                                                            id="notificationDropdown"
+                                                            data-toggle="dropdown"
+                                                            style={{
+                                                                cursor: "pointer",
+                                                            }}
                                                         >
-                                                            <h2>
-                                                                Notifications
-                                                                {/* <span>2</span> */}
-                                                            </h2>
-                                                            <div className="notification-scroll">
-                                                                {notifications.loading && (
-                                                                    <div className="notifications-item">
-                                                                        <div className="text-center">
-                                                                            Loading...
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                                {!notifications.loading &&
-                                                                    notifications.error && (
+                                                            <span className="user-name-farenow">
+                                                                Notification
+                                                            </span>
+                                                            <img
+                                                                src="/assets/img/outline-bell.svg"
+                                                                className="img-fluid"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            className="dropdown-menu dropdown-menu-right mt-2 notification-dropdown-menu"
+                                                            aria-labelledby="notificationDropdown"
+                                                            style={{
+                                                                fontSize: "1.5rem",
+                                                            }}
+                                                        >
+                                                                <div className="notification-scroll">
+                                                                    {notifications.loading && (
                                                                         <div className="notifications-item">
                                                                             <div className="text-center">
-                                                                                {
-                                                                                    notifications.message
-                                                                                }
+                                                                                Loading...
                                                                             </div>
                                                                         </div>
                                                                     )}
-                                                                {!notifications.loading &&
-                                                                    notifications
-                                                                        ?.data
-                                                                        ?.length >
-                                                                        0 &&
-                                                                    notifications?.data?.map(
-                                                                        (
-                                                                            notification,
-                                                                            index
-                                                                        ) => (
-                                                                            <div
-                                                                                className="notifications-item"
-                                                                                key={
-                                                                                    index
-                                                                                }
-                                                                                onClick={() => {
-                                                                                    if (
-                                                                                        notification
-                                                                                            ?.data[0]
-                                                                                            ?.type ==
-                                                                                            "SERVICE_REQUEST" ||
-                                                                                        notification
-                                                                                            ?.data[0]
-                                                                                            ?.type ==
-                                                                                            "MOVING"
-                                                                                    ) {
-                                                                                        history.push(
-                                                                                            "/services-history"
-                                                                                        );
+                                                                    {!notifications.loading &&
+                                                                        notifications.error && (
+                                                                            <div className="notifications-item">
+                                                                                <div className="text-center">
+                                                                                    {
+                                                                                        notifications.message
                                                                                     }
-                                                                                    setState(
-                                                                                        {
-                                                                                            ...state,
-                                                                                            notificationOpen:
-                                                                                                !state.notificationOpen,
-                                                                                        }
-                                                                                    );
-                                                                                }}
-                                                                            >
-                                                                                {" "}
-                                                                                {/* <img
-                                                                                src="https://i.imgur.com/uIgDDDd.jpg"
-                                                                                alt="img"
-                                                                            /> */}
-                                                                                <div className="text">
-                                                                                    <h4>
-                                                                                        {
-                                                                                            notification
-                                                                                                ?.data[0]
-                                                                                                ?.title
-                                                                                        }
-                                                                                    </h4>
-                                                                                    <p>
-                                                                                        {
-                                                                                            notification
-                                                                                                ?.data[0]
-                                                                                                ?.body
-                                                                                        }
-                                                                                    </p>
                                                                                 </div>
                                                                             </div>
-                                                                        )
-                                                                    )}
-                                                                {/* <div className="notifications-item">
-                                                                {" "}
-                                                                <img
-                                                                src="https://img.icons8.com/flat_round/64/000000/vote-badge.png"
-                                                                alt="img"
-                                                            />
-                                                                <div className="text">
-                                                                    <h4>
-                                                                        John
-                                                                        Silvester
-                                                                    </h4>
-                                                                    <p>
-                                                                        +20
-                                                                        vista
-                                                                        badge
-                                                                        earned
-                                                                    </p>
+                                                                        )}
+                                                                    {!notifications.loading &&
+                                                                        notifications
+                                                                            ?.data
+                                                                            ?.length >
+                                                                            0 &&
+                                                                        notifications?.data?.map(
+                                                                            (
+                                                                                notification,
+                                                                                index
+                                                                            ) => (
+                                                                                <div
+                                                                                    className="notifications-item"
+                                                                                    key={
+                                                                                        index
+                                                                                    }
+                                                                                    onClick={() => {
+                                                                                        if (
+                                                                                            notification
+                                                                                                ?.data[0]
+                                                                                                ?.type ==
+                                                                                                "SERVICE_REQUEST" ||
+                                                                                            notification
+                                                                                                ?.data[0]
+                                                                                                ?.type ==
+                                                                                                "MOVING"
+                                                                                        ) {
+                                                                                            props?.location?.push(`/service-detail/${1}`);
+                                                                                        }
+                                                                                        setState(
+                                                                                            {
+                                                                                                ...state,
+                                                                                                notificationOpen:
+                                                                                                    !state.notificationOpen,
+                                                                                            }
+                                                                                        );
+                                                                                    }}
+                                                                                >
+                                                                                    {" "}
+                                                                                    {/* <img
+                                                                                    src="https://i.imgur.com/uIgDDDd.jpg"
+                                                                                    alt="img"
+                                                                                /> */}
+                                                                                    <div className="text">
+                                                                                        <h4>
+                                                                                            {
+                                                                                                notification
+                                                                                                    ?.data[0]
+                                                                                                    ?.title
+                                                                                            }
+                                                                                        </h4>
+                                                                                        <p>
+                                                                                            {
+                                                                                                notification
+                                                                                                    ?.data[0]
+                                                                                                    ?.body
+                                                                                            }
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    {/* <div className="notifications-item">
+                                                                    {" "}
+                                                                    <img
+                                                                    src="https://img.icons8.com/flat_round/64/000000/vote-badge.png"
+                                                                    alt="img"
+                                                                />
+                                                                    <div className="text">
+                                                                        <h4>
+                                                                            John
+                                                                            Silvester
+                                                                        </h4>
+                                                                        <p>
+                                                                            +20
+                                                                            vista
+                                                                            badge
+                                                                            earned
+                                                                        </p>
+                                                                    </div>
+                                                                </div> */}
                                                                 </div>
-                                                            </div> */}
-                                                            </div>
                                                         </div>
-                                                    )}
+                                                    </div>
                                                 </li>
                                                 <li className="dropdown show item-list">
                                                     <div
@@ -391,7 +412,6 @@ const Header = (props) => {
                                                             aria-hidden="true"
                                                         ></i> */}
                                                     </div>
-
                                                     <div
                                                         className="dropdown-menu dropdown-menu-right mt-2 user-dropdown-menu"
                                                         aria-labelledby="dropdownMenuLink"
