@@ -100,11 +100,7 @@ function App() {
 
   window.io = io;
   const liveOption = {
-    host: "http://api.farenow.com:6001",
-    broadcaster: 'socket.io',
-  };
-  const localOption = {
-    host: "http://localhost:6001",
+    host: `${HOST}:6001`,
     broadcaster: 'socket.io',
   };
   if (typeof window.io != 'undefined') {
@@ -125,7 +121,7 @@ function App() {
   return (
     <Elements stripe={stripePromise} >
       <div className="App">
-        {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null} */}
+        {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
         <ReactNotificationComponent {...notification}
         />
         <Header notification={state}></Header>
