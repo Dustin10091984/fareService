@@ -68,14 +68,15 @@ function App() {
   const [state, setState] = useState();
   onMessageListener()
     .then((payload) => {
-      if(payload.data.type == 'MESSAGE'){
-        setState(payload)
-      }
       setNotification({
         title: payload.data.title,
         body: payload.data.body,
       });
     });
+    
+    const handleMessageClick = (data) => {
+      setState(data)
+    }
 
   const dispatch = useDispatch();
   useEffect(async () => {
@@ -99,12 +100,12 @@ function App() {
   }, []);
 
   window.io = io;
-  const liveOption = {
+  const option = {
     host: `${HOST}:6001`,
     broadcaster: 'socket.io',
   };
   if (typeof window.io != 'undefined') {
-    window.Echo = new Echo(liveOption);
+    window.Echo = new Echo(option);
     // client: io,
     // auth: {headers: {Authorization: localStorage.userToken }}
 
@@ -122,8 +123,7 @@ function App() {
     <Elements stripe={stripePromise} >
       <div className="App">
         {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
-        <ReactNotificationComponent {...notification}
-        />
+        <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
         <Header notification={state}></Header>
 
         <Switch>
