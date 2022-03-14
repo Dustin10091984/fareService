@@ -254,7 +254,14 @@ const Header = (props) => {
                                                 </li> */}
                                                 <li className="dropdown item-list">
                                                     <div onClick={()=>{
-                                                        console.log("clicked");
+                                                        setState({
+                                                            ...state,
+                                                            notificationOpen:
+                                                                !state.notificationOpen,
+                                                        });
+                                                        dispatch(
+                                                            getNotifications()
+                                                        );
                                                     }}>
                                                         <div
                                                             // className="btn btn-secondary dropdown-toggle"
