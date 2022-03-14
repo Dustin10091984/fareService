@@ -247,9 +247,9 @@ export const ServicesDetail = (props) => {
                                                 
                                             </div>
                                             <div className=" d-flex  align-items-center justify-content-between mb-5">
-                                                {data?.type ==
+                                                {(data?.type ==
                                                     "MOVING_REQUEST" &&
-                                                    state?.response && (
+                                                    state?.response) && (
                                                         <Map
                                                             // required
                                                             id="direction-example"

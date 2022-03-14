@@ -26,20 +26,22 @@ import moment from "moment";
 import { HOST } from "./../../constants";
 
 export const Chat = ({ isChatOpen, ...props }) => {
-    const image =
-        "https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg";
-
+    const image = "/assets/img/Profile_avatar.png";
+    const { notification } = props;
     const [state, setState] = useState({
         providers: null,
         orders: null,
-        provider_id: null,
+        provider_id: 2,
     });
     const [messageInputValue, setMessageInputValue] = useState("");
     const [loadingMore, setLoadingMore] = useState(false);
     const [sending, setSending] = useState(false);
     const [tempMsg, setTempMsg] = useState("");
 
-    const [active, setActive] = useState();
+    const [active, setActive] = useState({
+        orderId: 37,
+        userId: 2
+    });
 
     const [newMsg, setNewMsg] = useState();
 
@@ -57,6 +59,16 @@ export const Chat = ({ isChatOpen, ...props }) => {
             dispatch(addMessage(newMsg));
         }
     }, [newMsg]);
+
+    useEffect(() => {
+        if(notification){
+            setActive((prev) => ({
+                ...prev,
+                userId: notification?.data?.sender_id,
+                orderId: notification?.data?.service_request_id,
+            }));
+        }
+    }, [notification]);
 
     const dispatch = useDispatch();
 
@@ -128,6 +140,9 @@ export const Chat = ({ isChatOpen, ...props }) => {
             dispatch(clearMessages(""));
         }
     };
+    console.log('====================================');
+    console.log(active);
+    console.log('====================================');
 
     const handleSendMessage = () => {
         setMessageInputValue("");

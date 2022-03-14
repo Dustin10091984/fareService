@@ -65,8 +65,12 @@ const stripePromise = loadStripe(
 
 function App() {
   const [notification, setNotification] = useState({ title: "", body: "" });
+  const [state, setState] = useState();
   onMessageListener()
     .then((payload) => {
+      if(payload.data.type == 'MESSAGE'){
+        setState(payload)
+      }
       setNotification({
         title: payload.data.title,
         body: payload.data.body,
@@ -124,7 +128,7 @@ function App() {
         {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? <Notifications /> : null} */}
         <ReactNotificationComponent {...notification}
         />
-        <Header></Header>
+        <Header notification={state}></Header>
 
         <Switch>
           <Route exact path='/' component={Index} />

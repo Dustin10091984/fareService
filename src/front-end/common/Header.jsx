@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, withRouter, useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../Chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { getNotifications } from "../../store/Slices/notification";
-import { useHistory } from "react-router-dom";
 import { headerMenu } from "../../store/Slices/HeaderMenuSlice";
 import { pageLinks } from "../../store/Slices/footer";
 
 const Header = (props) => {
+
+    const { notification } = props;
+
     const [state, setState] = useState({
         notificationOpen: false,
         is_loggedin: false,
         header_menu: [],
         isChatOpen: false,
     });
+
+    const ref = useRef(null);
+
+    const location = useLocation();
 
     const history = useHistory();
 
@@ -60,6 +66,12 @@ const Header = (props) => {
             }));
         }
     }, [localStorage.getItem("userToken")]);
+
+    useEffect(() => {
+        if(notification){
+            ref.current.click();
+        }
+    }, [notification]);
 
     const handleLogout = () => {
         localStorage.clear();
@@ -186,6 +198,7 @@ const Header = (props) => {
                                         <li className="item-list">
                                             {state.is_loggedin && (
                                                 <span
+                                                    ref={ref}
                                                     type="button"
                                                     className="link"
                                                     data-backdrop="static"
@@ -331,7 +344,11 @@ const Header = (props) => {
                                                                                                 ?.type ==
                                                                                                 "MOVING"
                                                                                         ) {
-                                                                                            props?.location?.push(`/service-detail/${1}`);
+                                                                                            if(notification?.data[0]?.service_request_id){
+                                                                                                history?.push(`/service-detail/${notification?.data[0]?.service_request_id}`);
+                                                                                            }
+                                                                                        } else if(notification?.data[0]?.type == "MESSAGE"){
+                                                                                            
                                                                                         }
                                                                                         setState(
                                                                                             {
@@ -575,6 +592,7 @@ const Header = (props) => {
                             <div className="row m-2">
                                 <div className="col-12">
                                     <Chat
+                                        notification={notification}
                                         isChatOpen={state?.isChatOpen}
                                         is_loggedin={state?.is_loggedin}
                                         {...props}
