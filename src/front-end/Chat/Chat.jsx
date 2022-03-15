@@ -31,17 +31,14 @@ export const Chat = ({ isChatOpen, ...props }) => {
     const [state, setState] = useState({
         providers: null,
         orders: null,
-        provider_id: 2,
+        provider_id: null,
     });
     const [messageInputValue, setMessageInputValue] = useState("");
     const [loadingMore, setLoadingMore] = useState(false);
     const [sending, setSending] = useState(false);
     const [tempMsg, setTempMsg] = useState("");
 
-    const [active, setActive] = useState({
-        orderId: 37,
-        userId: 2
-    });
+    const [active, setActive] = useState();
 
     const [newMsg, setNewMsg] = useState();
 
