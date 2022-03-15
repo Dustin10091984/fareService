@@ -751,7 +751,7 @@ export const MyAccount = (props) => {
                                 >
                                     Please select your address type
                                 </div>
-                                <ul className="time-list d-flex align-items-center justify-content-center flex-wrap s">
+                                <ul className="time-list d-flex align-items-center justify-content-center ">
                                     <li
                                         style={
                                             state.type == "HOME"
