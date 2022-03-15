@@ -20,6 +20,7 @@ import AddPaymentCard from "./AddPaymentCard";
 import Profile from "./Profile";
 import Loading from "../../front-end/common/Loading";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
+import Swal from "sweetalert2";
 
 export const MyAccount = (props) => {
     const stripe = useStripe();
@@ -369,16 +370,29 @@ export const MyAccount = (props) => {
                                                 <div className="order-btn-b m-3 align-baseline">
                                                     <button
                                                         className="btn-view-profile"
-                                                        data-backdrop="static"
-                                                        data-keyboard="false"
-                                                        data-toggle="modal"
-                                                        data-target="#delete"
+                                                        // data-backdrop="static"
+                                                        // data-keyboard="false"
+                                                        // data-toggle="modal"
+                                                        // data-target="#delete"
                                                         onClick={() => {
-                                                            setState({
-                                                                ...state,
-                                                                delete_card_id:
-                                                                    item.id,
+                                                            Swal.fire({
+                                                                title: "Are you sure?",
+                                                                text: "You won't be able to revert this!",
+                                                                icon: "warning",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: "#3085d6",
+                                                                cancelButtonColor: "#d33",
+                                                                confirmButtonText: "Yes, delete it!",
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    dispatch(deleteCard(item.id));
+                                                                }
                                                             });
+                                                            // setState({
+                                                            //     ...state,
+                                                            //     delete_card_id:
+                                                            //         item.id,
+                                                            // });
                                                         }}
                                                     >
                                                         Remove
@@ -434,10 +448,10 @@ export const MyAccount = (props) => {
                                             </div>
                                             <div className="col-md-3">
                                                 <span
-                                                    data-backdrop="static"
-                                                    data-keyboard="false"
-                                                    data-toggle="modal"
-                                                    data-target="#delete"
+                                                    // data-backdrop="static"
+                                                    // data-keyboard="false"
+                                                    // data-toggle="modal"
+                                                    // data-target="#delete"
                                                     style={{
                                                         fontSize: "1.5rem",
                                                         float: "right",
@@ -445,10 +459,18 @@ export const MyAccount = (props) => {
                                                         cursor: "pointer",
                                                     }}
                                                     onClick={() => {
-                                                        setState({
-                                                            ...state,
-                                                            delete_address_id:
-                                                                address.id,
+                                                        Swal.fire({
+                                                            title: "Are you sure?",
+                                                            text: "You won't be able to revert this!",
+                                                            icon: "warning",
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: "#3085d6",
+                                                            cancelButtonColor: "#d33",
+                                                            confirmButtonText: "Yes, delete it!",
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                dispatch(deleteAddress(address.id));
+                                                            }
                                                         });
                                                     }}
                                                 >
