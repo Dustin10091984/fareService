@@ -137,9 +137,6 @@ export const Chat = ({ isChatOpen, ...props }) => {
             dispatch(clearMessages(""));
         }
     };
-    console.log('====================================');
-    console.log(active);
-    console.log('====================================');
 
     const handleSendMessage = () => {
         setMessageInputValue("");
