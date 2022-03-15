@@ -80,7 +80,7 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(async () => {
-    if (localStorage.userToken) {
+    if (localStorage?.userToken) {
       const token = await getToken();
       axios({
         method: "post",
@@ -100,12 +100,20 @@ function App() {
   }, []);
 
   window.io = io;
-  const option = {
-    host: `${HOST}:6001`,
+  // const option = {
+  //   host: `${HOST}:6001`,
+  //   broadcaster: 'socket.io',
+  // };
+  const liveOption = {
+    host: "http://api.farenow.com:6001",
+    broadcaster: 'socket.io',
+  };
+  const localOption = {
+    host: "http://localhost:6001",
     broadcaster: 'socket.io',
   };
   if (typeof window.io != 'undefined') {
-    window.Echo = new Echo(option);
+    window.Echo = new Echo(liveOption);
     // client: io,
     // auth: {headers: {Authorization: localStorage.userToken }}
 
