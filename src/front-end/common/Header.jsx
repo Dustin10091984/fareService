@@ -318,11 +318,11 @@ const Header = (props) => {
                                                                                 </div>
                                                                             </div>
                                                                         )}
-                                                                    {!notifications.loading &&
+                                                                    {(!notifications.loading &&
                                                                         notifications
                                                                             ?.data
                                                                             ?.length >
-                                                                            0 &&
+                                                                            0) ?
                                                                         notifications?.data?.map(
                                                                             (
                                                                                 notification,
@@ -382,6 +382,8 @@ const Header = (props) => {
                                                                                     </div>
                                                                                 </div>
                                                                             )
+                                                                        ) : (
+                                                                            <> </>
                                                                         )}
                                                                     {/* <div className="notifications-item">
                                                                     {" "}
