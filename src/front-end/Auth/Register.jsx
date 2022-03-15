@@ -125,14 +125,9 @@ const Register = (props) => {
             data: state.values,
         })
             .then(function (response) {
-                localStorage.setItem(
-                    "userToken",
-                    response?.data?.data?.access_token
-                );
-                localStorage.setItem(
-                    "user_data",
-                    JSON.stringify(response?.data?.data?.user)
-                );
+                const data = response.data.data;
+                localStorage.setItem("userToken", data.auth_token);
+                localStorage.setItem("user_data", JSON.stringify(data.user));
                 history.push("/dashboard");
             })
             .catch((error) => {
