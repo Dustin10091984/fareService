@@ -66,7 +66,8 @@ export const ServicesHistory = (props) => {
 
     useEffect(() => {
         if (feedbackData) {
-            serviceRequestListUpdate(feedbackData?.service_request);
+            getServiceRequestList(location.search)
+            // serviceRequestListUpdate(feedbackData?.service_request);
         }
     }, [feedbackData])
 
