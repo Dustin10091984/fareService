@@ -128,6 +128,7 @@ const Register = (props) => {
                 setState((prevState) => ({
                     ...prevState,
                     success: true,
+                    isLoading: false,
                 }));
                 // const data = response.data.data;
                 // localStorage.setItem("userToken", data.auth_token);
@@ -448,7 +449,7 @@ const Register = (props) => {
                                                             type="submit"
                                                             className="button-common w-100 mb-5"
                                                             disabled={
-                                                                state.isLoading
+                                                                state.isLoading || state?.success
                                                             }
                                                         >
                                                             Register{" "}
