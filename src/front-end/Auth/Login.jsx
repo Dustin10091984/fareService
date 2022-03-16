@@ -57,9 +57,13 @@ const Login = (props) => {
             .catch((error) => {
                 //handle error
                 if (error.response && error.response.data["error"]) {
+                    let errors = null;
+                    if(typeof (error.response.data.message) == "string"){
+                        errors = error.response.data.message
+                    }
                     setState((state) => ({
                         ...state,
-                        errors: {
+                        errors: errors ? errors : {
                             ...(state.errors = error.response.data.message),
                         },
                     }));
@@ -89,7 +93,7 @@ const Login = (props) => {
                             <div className="login-heading text-center">
                                 Login
                             </div>
-                            <div className="text-dnager">{typeof (state.errors) == 'string' && state.errors}</div>
+                            <div className="text-center text-danger mb-2">{typeof (state.errors) == 'string' && state.errors}</div>
                             <div className="inner-box-log mx-auto">
                                 <form onSubmit={handleSignUp}>
                                     <div className="common-input mb-5">
