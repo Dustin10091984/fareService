@@ -64,12 +64,12 @@ export const ServicesHistory = (props) => {
     );
     const feedbackData = useSelector((state) => state?.feedbackReducer?.data);
 
-    useEffect(() => {
-        if (feedbackData) {
+    // useEffect(() => {
+    //     if (feedbackData) {
             getServiceRequestList(location.search)
             // serviceRequestListUpdate(feedbackData?.service_request);
-        }
-    }, [feedbackData])
+    //     }
+    // }, [feedbackData])
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
@@ -144,6 +144,7 @@ export const ServicesHistory = (props) => {
     const handleCloseClick = () => {
         setState((state) => ({ ...state, payable: "" }));
         if (feedback.rating) {
+            getServiceRequestList(location.search)
             dispatch(initialFeedback([]));
             setFeedback((state) => ({
                 ...state,
