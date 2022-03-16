@@ -125,10 +125,14 @@ const Register = (props) => {
             data: state.values,
         })
             .then(function (response) {
-                const data = response.data.data;
-                localStorage.setItem("userToken", data.auth_token);
-                localStorage.setItem("user_data", JSON.stringify(data.user));
-                history.push("/dashboard");
+                setState((prevState) => ({
+                    ...prevState,
+                    success: true,
+                }));
+                // const data = response.data.data;
+                // localStorage.setItem("userToken", data.auth_token);
+                // localStorage.setItem("user_data", JSON.stringify(data.user));
+                // history.push("/dashboard");
             })
             .catch((error) => {
                 //handle error
@@ -164,6 +168,11 @@ const Register = (props) => {
                         <div className="login-box h-auto mx-auto">
                             <div className="login-heading text-center">
                                 Register
+                            </div>
+                            <div className="text-center text-success" style={{
+                                fontSize: "1.5rem",
+                            }}>
+                                {state?.success && "Successfully registered. Please wait for the admin to approve your account."}
                             </div>
                             {(() => {
                                 switch (state.step) {
