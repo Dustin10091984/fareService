@@ -117,13 +117,13 @@ function App() {
     // client: io,
     // auth: {headers: {Authorization: localStorage.userToken }}
 
-    // window.Echo.connector.socket.on('connect', function () {
-    //   console.log("connect");
-    // });
+    window.Echo.connector.socket.on('connect', function () {
+      console.log("connect");
+    });
 
-    // window.Echo.connector.socket.on('disconnect', function () {
-    //   console.log("disconnect");
-    // });
+    window.Echo.connector.socket.on('disconnect', function () {
+      console.log("disconnect");
+    });
   }
 
 
