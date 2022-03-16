@@ -11,6 +11,26 @@ const requestServiceSlice = createSlice({
         serviceRequestList: (state, action) => {
             return action.payload
         },
+        serviceRequestListUpdate: (state, action) => {
+            return {
+                ...state,
+                serviceRequestList: {
+                    ...state.serviceRequestList, list: {
+                        ...state.serviceRequestList.list,
+                        data: {
+                            ...state.serviceRequestList.list.data,
+                            ...state.serviceRequestList.list.data.data.filter(item => {
+                                if(item.id == action.payload.id){
+                                    return item.status = action.payload.status
+                                }
+                                return item
+                            }),
+                            
+                        }
+                    }
+                }
+            }
+        },
         serviceRequestDetail: (state, action) => {
             return {
                 ...state,
@@ -23,6 +43,7 @@ export default requestServiceSlice.reducer
 
 
 const { requestService, serviceRequestList, serviceRequestDetail } = requestServiceSlice.actions
+export const { serviceRequestListUpdate } = requestServiceSlice.actions
 
 const request = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,

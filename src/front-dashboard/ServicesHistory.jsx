@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
-import { getServiceRequestList } from "../store/Slices/services/RequestServiceSclice";
+import { getServiceRequestList, serviceRequestListUpdate } from "../store/Slices/services/RequestServiceSclice";
 import { pay } from "../store/Slices/payments/paymentSlice";
 import {
     addFeedback,
@@ -63,6 +63,12 @@ export const ServicesHistory = (props) => {
         (state) => state?.feedbackReducer?.message
     );
     const feedbackData = useSelector((state) => state?.feedbackReducer?.data);
+
+    useEffect(() => {
+        if (feedbackData) {
+            serviceRequestListUpdate(feedbackData?.service_request);
+        }
+    }, [feedbackData])
 
     useEffect(() => {
         dispatch(getServiceRequestList(location.search));
