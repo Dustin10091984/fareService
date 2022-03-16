@@ -89,7 +89,7 @@ const Login = (props) => {
                             <div className="login-heading text-center">
                                 Login
                             </div>
-
+                            <div className="text-dnager">{typeof (state.errors) == 'string' && state.errors}</div>
                             <div className="inner-box-log mx-auto">
                                 <form onSubmit={handleSignUp}>
                                     <div className="common-input mb-5">
