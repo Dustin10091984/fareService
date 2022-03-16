@@ -124,7 +124,8 @@ export const ServicesHistory = (props) => {
                 title: "Feedback added successfully!",
                 showConfirmButton: false,
                 timer: 1000
-              })
+            })
+            getServiceRequestList(location.search)
             return;
         }
     }, [feedbackMessage, feedbackError])
@@ -144,7 +145,6 @@ export const ServicesHistory = (props) => {
     const handleCloseClick = () => {
         setState((state) => ({ ...state, payable: "" }));
         if (feedback.rating) {
-            getServiceRequestList(location.search)
             dispatch(initialFeedback([]));
             setFeedback((state) => ({
                 ...state,
