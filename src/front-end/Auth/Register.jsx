@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -18,6 +18,12 @@ const Register = (props) => {
         errors: {},
         step: 1,
     });
+
+    useEffect(() => {
+        if(localStorage.userToken, localStorage.userToken){
+            history.push("/dashboard");
+        }
+    }, [localStorage.userToken, localStorage.userToken]);
 
     const handleChange = (event) => {
         event.persist();
