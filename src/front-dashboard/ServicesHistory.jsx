@@ -125,7 +125,7 @@ export const ServicesHistory = (props) => {
                 showConfirmButton: false,
                 timer: 1000
             });
-            dispatch(serviceRequestListUpdate(feedbackData));
+            dispatch(serviceRequestListUpdate(feedbackData.service_request));
             // dispatch(getServiceRequestList(location.search));
             return;
         }
