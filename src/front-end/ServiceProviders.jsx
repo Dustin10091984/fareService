@@ -734,11 +734,9 @@ export const ServiceProviders = (props) => {
                                                                             : true)
                                                                     }
                                                                 >
-                                                                    {provider.account_type ===
-                                                                        "BASIC" &&
-                                                                    provider
-                                                                        ?.provider_profile
-                                                                        ?.hourly_rate
+                                                                    {(provider.account_type === "BASIC") &&
+                                                                    provider?.provider_profile?.hourly_rate && 
+                                                                    (provider.service_type != ServiceType.MOVING)
                                                                         ? "Make a Request"
                                                                         : "Get a Qoutation"}
                                                                 </button>
@@ -769,7 +767,7 @@ export const ServiceProviders = (props) => {
                                                         <div className="user-price">
                                                             {!!provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate
+                                                                ?.hourly_rate && (provider.service_type != ServiceType.MOVING)
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
                                                                 : ""}
                                                         </div>
