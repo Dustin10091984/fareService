@@ -86,6 +86,7 @@ const Basic = ({
                         >
                             <option value={"+1"}>+1 </option>
                             <option value={"+92"}>+92</option>
+                            <option value={"+234"}>+234</option>
                         </select>
                         <input
                             type="tel"

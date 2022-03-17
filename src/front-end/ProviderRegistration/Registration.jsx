@@ -191,13 +191,14 @@ const Registration = (props) => {
     };
 
     const handlePhoneChange = (phone) => {
-        let regx = /^[0-9]{10,11}$/;
+        let regx = /^[0-9]{10,12}$/;
         if (!regx.test(phone)) {
             setBasic((basic) => ({
                 ...basic,
                 error: {
                     ...basic.error,
                     phone: `Please enter a valid phone number and should be of ${
+                        (basic.code == "+234" && "10") ||
                         (basic.code == "+92" && "10") ||
                         (basic.code == "+1" && "10")
                     } digits`,
@@ -205,7 +206,7 @@ const Registration = (props) => {
             }));
             return;
         } else {
-            if (basic.code == "+92") {
+            if (basic.code == "+234" || basic.code == "+92" || basic.code == "+1") {
                 let error = "Phone number should be of 10 digits";
                 if (phone.length == 10) {
                     error = "";
@@ -219,20 +220,34 @@ const Registration = (props) => {
                 }));
                 return;
             }
-            if (basic.code == "+1") {
-                let error = "";
-                if (phone.length != 10) {
-                    error = "Phone number should be of 11 digits";
-                }
-                setBasic((basic) => ({
-                    ...basic,
-                    error: {
-                        ...basic.error,
-                        phone: error,
-                    },
-                }));
-                return;
-            }
+            // if (basic.code == "+92") {
+            //     let error = "Phone number should be of 10 digits";
+            //     if (phone.length == 10) {
+            //         error = "";
+            //     }
+            //     setBasic((basic) => ({
+            //         ...basic,
+            //         error: {
+            //             ...basic.error,
+            //             phone: error,
+            //         },
+            //     }));
+            //     return;
+            // }
+            // if (basic.code == "+1") {
+            //     let error = "";
+            //     if (phone.length != 10) {
+            //         error = "Phone number should be of 10 digits";
+            //     }
+            //     setBasic((basic) => ({
+            //         ...basic,
+            //         error: {
+            //             ...basic.error,
+            //             phone: error,
+            //         },
+            //     }));
+            //     return;
+            // }
         }
     };
 
