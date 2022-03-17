@@ -17,8 +17,10 @@ const requestServiceSlice = createSlice({
                     ...state.list, data: {
                         ...state.list.data, data: [
                             ...state.list.data.data.map(item => {
-                                console.log(item.id !== action.payload.id);
-                                return item
+                                if(item.id !== action.payload.id){
+                                    return action.payload;
+                                }
+                                return item;
                             })
                         ]
                     }
