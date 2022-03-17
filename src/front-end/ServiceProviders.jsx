@@ -734,9 +734,9 @@ export const ServiceProviders = (props) => {
                                                                             : true)
                                                                     }
                                                                 >
-                                                                    {(provider.account_type === "BASIC") &&
+                                                                    {((provider.account_type === "BASIC") &&
                                                                     provider?.provider_profile?.hourly_rate && 
-                                                                    (provider.service_type != ServiceType.MOVING)
+                                                                    (provider.service_type != ServiceType.MOVING))
                                                                         ? "Make a Request"
                                                                         : "Get a Qoutation"}
                                                                 </button>
