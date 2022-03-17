@@ -734,11 +734,19 @@ export const ServiceProviders = (props) => {
                                                                             : true)
                                                                     }
                                                                 >
-                                                                    {((provider.account_type === "BASIC") &&
-                                                                    provider?.provider_profile?.hourly_rate && 
-                                                                    (provider.service_type != ServiceType.MOVING))
-                                                                        ? "Make a Request"
-                                                                        : "Get a Qoutation"}
+                                                                    {
+                                                                        (()=>{
+                                                                            if(provider.service_type == ServiceType.MOVING){
+                                                                                return "Get a Qoutation"
+                                                                            }
+                                                                            if((provider.account_type === "BASIC") &&
+                                                                            provider?.provider_profile?.hourly_rate){
+                                                                                return "Make a Request"
+                                                                            } else {
+                                                                                return "Get a Qoutation";
+                                                                            }
+                                                                        })()
+                                                                    }
                                                                 </button>
                                                             ) : (
                                                                 <button
