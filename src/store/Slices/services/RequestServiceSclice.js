@@ -13,20 +13,14 @@ const requestServiceSlice = createSlice({
         },
         serviceRequestListUpdate: (state, action) => {
             return {
-                ...state,
-                serviceRequestList: {
-                    ...state.serviceRequestList, list: {
-                        ...state.serviceRequestList.list,
-                        data: {
-                            ...state.serviceRequestList.list.data,
-                            ...state.serviceRequestList.list.data.data.filter(item => {
-                                if(item.id == action.payload.id){
-                                    return item.status = action.payload.status
-                                }
+                ...state, list: {
+                    ...state.list, data: {
+                        ...state.list.data, data: [
+                            ...state.list.data.data.map(item => {
+                                console.log(item.id !== action.payload.id);
                                 return item
-                            }),
-                            
-                        }
+                            })
+                        ]
                     }
                 }
             }
