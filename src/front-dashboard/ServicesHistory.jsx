@@ -26,6 +26,7 @@ export const ServicesHistory = (props) => {
     });
 
     const ref = useRef(null);
+    const payRef = useRef(null);
 
     const [feedback, setFeedback] = useState({
         service_request_id: "",
@@ -463,6 +464,7 @@ export const ServicesHistory = (props) => {
                                                                                     data-keyboard="false"
                                                                                     data-toggle="modal"
                                                                                     data-target="#payable"
+                                                                                    ref={payRef}
                                                                                 >
                                                                                     {serviceRequest?.payable_amount !=
                                                                                     null
@@ -1047,7 +1049,18 @@ export const ServicesHistory = (props) => {
                                                 );
                                             }
                                             if (payLoading == false) {
-                                                if (payMessage) {
+                                                if(payError == false && payData){
+                                                    Swal.fire({
+                                                        position: 'top-end',
+                                                        icon: 'success',
+                                                        title: payMessage,
+                                                        showConfirmButton: false,
+                                                        timer: 1000
+                                                    });
+                                                    payRef.current.click()
+                                                    return;
+                                                }
+                                                if (payError) {
                                                     return (
                                                         <div
                                                             className={`col-12  alert alert-${
@@ -1066,7 +1079,7 @@ export const ServicesHistory = (props) => {
                                                     );
                                                 }
                                             }
-                                            if (payMessage == true) {
+                                            if (payLoading == true) {
                                                 return (
                                                     <div
                                                         className="col-12  alert alert-info text-center"
