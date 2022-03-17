@@ -66,8 +66,8 @@ export const ServicesHistory = (props) => {
 
     // useEffect(() => {
     //     if (feedbackData) {
-            getServiceRequestList(location.search)
-            // serviceRequestListUpdate(feedbackData?.service_request);
+    //         getServiceRequestList(location.search)
+    //         serviceRequestListUpdate(feedbackData?.service_request);
     //     }
     // }, [feedbackData])
 
@@ -124,8 +124,9 @@ export const ServicesHistory = (props) => {
                 title: "Feedback added successfully!",
                 showConfirmButton: false,
                 timer: 1000
-            })
-            getServiceRequestList(location.search)
+            });
+            dispatch(serviceRequestListUpdate(feedbackData));
+            dispatch(getServiceRequestList(location.search));
             return;
         }
     }, [feedbackMessage, feedbackError])
