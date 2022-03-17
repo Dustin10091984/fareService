@@ -126,7 +126,7 @@ export const ServicesHistory = (props) => {
                 timer: 1000
             });
             dispatch(serviceRequestListUpdate(feedbackData));
-            dispatch(getServiceRequestList(location.search));
+            // dispatch(getServiceRequestList(location.search));
             return;
         }
     }, [feedbackMessage, feedbackError])
