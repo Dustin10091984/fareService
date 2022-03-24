@@ -64,14 +64,11 @@ const stripePromise = loadStripe(
 );
 
 function App() {
-  const [notification, setNotification] = useState({ title: "", body: "" });
+  const [notification, setNotification] = useState();
   const [state, setState] = useState();
   onMessageListener()
     .then((payload) => {
-      setNotification({
-        title: payload.data.title,
-        body: payload.data.body,
-      });
+      setNotification(payload);
     });
     
     const handleMessageClick = (data) => {

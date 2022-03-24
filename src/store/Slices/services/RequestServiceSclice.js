@@ -41,6 +41,12 @@ export default requestServiceSlice.reducer
 const { requestService, serviceRequestList, serviceRequestDetail } = requestServiceSlice.actions
 export const { serviceRequestListUpdate } = requestServiceSlice.actions
 
+export const handleServiceRequestNotification = (payload) => async (dispatch) => {
+    payload = JSON.parse(payload);
+    dispatch(serviceRequestDetail(payload));
+    dispatch(serviceRequestListUpdate(payload));
+}
+
 const request = axios.create({
     baseURL: process.env.REACT_APP_API_BASE_URL,
     timeout: 30 * 1000,
