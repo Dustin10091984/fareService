@@ -48,9 +48,6 @@ export const Chat = ({ isChatOpen, ...props }) => {
                 JSON.parse(localStorage?.user_data)?.id
             }`
         ).listen("MessageEvent", (data) => {
-            console.log('====================================');
-            console.log(data);
-            console.log('====================================');
             setNewMsg(data.message);
         });
     }
