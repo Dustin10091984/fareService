@@ -12,17 +12,19 @@ const requestServiceSlice = createSlice({
             return action.payload
         },
         serviceRequestListUpdate: (state, action) => {
-            return {
-                ...state, list: {
-                    ...state.list, data: {
-                        ...state.list.data, data: [
-                            ...state.list.data.data.map(item => {
-                                if(item.id == action.payload.id){
-                                    return action.payload;
-                                }
-                                return item;
-                            })
-                        ]
+            if(state?.list?.data?.data){
+                return {
+                    ...state, list: {
+                        ...state?.list, data: {
+                            ...state?.list?.data, data: [
+                                ...state?.list?.data?.data?.map(item => {
+                                    if(item?.id == action?.payload.id){
+                                        return action?.payload;
+                                    }
+                                    return item;
+                                })
+                            ]
+                        }
                     }
                 }
             }
@@ -32,6 +34,14 @@ const requestServiceSlice = createSlice({
                 ...state,
                 serviceRequestDetail: action.payload
             }
+        },
+        serviceRequestDetailUpdate: (state, action) => {
+            return {
+                ...state,
+                serviceRequestDetail: {
+                    ...state?.serviceRequestDetail, data: action.payload
+                }
+            }
         }
     },
 });
@@ -39,11 +49,11 @@ export default requestServiceSlice.reducer
 
 
 const { requestService, serviceRequestList, serviceRequestDetail } = requestServiceSlice.actions
-export const { serviceRequestListUpdate } = requestServiceSlice.actions
+export const { serviceRequestListUpdate, serviceRequestDetailUpdate } = requestServiceSlice.actions
 
 export const handleServiceRequestNotification = (payload) => async (dispatch) => {
     payload = JSON.parse(payload);
-    dispatch(serviceRequestDetail(payload));
+    dispatch(serviceRequestDetailUpdate(payload));
     dispatch(serviceRequestListUpdate(payload));
 }
 

@@ -45,7 +45,7 @@ import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
 import { RegistrationPage } from "./views/Provider/Registration";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCartList } from './store/Slices/cart/cartsSlice';
 import Echo from "laravel-echo";

@@ -58,14 +58,14 @@ export const Chat = ({ isChatOpen, ...props }) => {
     }, [newMsg]);
 
     useEffect(() => {
-        if(notification){
+        if(notification?.fcmMessageId){
             setActive((prev) => ({
                 ...prev,
                 userId: notification?.data?.sender_id,
                 orderId: notification?.data?.service_request_id,
             }));
         }
-    }, [notification]);
+    }, [notification?.fcmMessageId]);
 
     const dispatch = useDispatch();
 

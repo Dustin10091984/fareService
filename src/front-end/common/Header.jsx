@@ -68,10 +68,10 @@ const Header = (props) => {
     }, [localStorage.getItem("userToken")]);
 
     useEffect(() => {
-        if(notification){
-            ref.current.click();
+        if(notification?.fcmMessageId){
+            console.log(notification);
         }
-    }, [notification]);
+    }, [notification?.fcmMessageId]);
 
     const handleLogout = () => {
         localStorage.clear();
