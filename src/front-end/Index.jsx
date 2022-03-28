@@ -214,10 +214,10 @@ export const Index = (props) => {
                                         is our goal. If you’re not happy, we’ll
                                         work to make it right. Our friendly
                                         customer service agents are available 24
-                                        hours a day, 7 days a week. The Handy
+                                        hours a day, 7 days a week. The Farenow
                                         Happiness Guarantee only applies when
                                         you book and pay for a service directly
-                                        through the Handy platform.{" "}
+                                        through the Farenow platform.{" "}
                                         <a href="#">Learn more</a>
                                     </div>
                                 </div>
@@ -240,7 +240,7 @@ export const Index = (props) => {
                     <div className="row">
                         <div className="col-12">
                             <div className="common-heading text-center">
-                                <div className="title">Get the Handy App</div>
+                                <div className="title">Get the Farenow App</div>
                                 <div className="sub-des">
                                     Book and manage appointments, message your
                                     pro, view pro profiles and ratings, see
@@ -300,7 +300,7 @@ export const Index = (props) => {
                                 <div className="sub-des">
                                     Shop furniture, electronics, appliances, and
                                     more. Everything comes with expert
-                                    installation by Handy.
+                                    installation by Farenow.
                                 </div>
                             </div>
                         </div>
@@ -346,15 +346,15 @@ export const Index = (props) => {
                                 </div>
                                 <div className="des">
                                     From cleaners to handymen to smart home
-                                    installers, Handy is always looking for
+                                    installers, Farenow is always looking for
                                     service professionals who are experts in
                                     their trade and provide great service to
                                     their customers. The best home service
-                                    professionals use Handy for the great pay
+                                    professionals use Farenow for the great pay
                                     and flexible scheduling.
                                 </div>
                                 <a href="#" className="button-common">
-                                    Become a Handy Pro
+                                    Become a Farenow Pro
                                 </a>
                             </div>
                         </div>
@@ -377,7 +377,7 @@ export const Index = (props) => {
                             <div className="common-heading text-center">
                                 <div className="title">Our Partners</div>
                                 <div className="sub-des">
-                                    Handy works with partners who want to
+                                Farenow works with partners who want to
                                     provide their customers, tenants, or
                                     employees easy access to quality{" "}
                                     <br className="d-none d-md-block" />

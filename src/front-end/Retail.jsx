@@ -6,8 +6,8 @@ export class Retail extends Component {
             <>
                 <div className="breadcrumb-sec-2  d-flex align-items-center justify-content-center flex-column retailer" style={{ backgroundImage: `url("/assets/img/retail-bg.jpg")` }}>
                     <div className="title">Revolutionize your retail experience</div>
-                    <div className="detail2 text-center mt-5">Partner with Handy to accelerate growth by providing your<br className="d-none d-md-block" /> customers with the convenience of high quality assembly and
-                    <br className="d-none d-md-block" />installation services. The Handy One Click Service is available at<br className="d-none d-md-block" /> point of sale online and in store.</div>
+                    <div className="detail2 text-center mt-5">Partner with Farenow to accelerate growth by providing your<br className="d-none d-md-block" /> customers with the convenience of high quality assembly and
+                    <br className="d-none d-md-block" />installation services. The Farenow One Click Service is available at<br className="d-none d-md-block" /> point of sale online and in store.</div>
                     <button className="button-common mt-4">Become a Partner</button>
                 </div>
 
@@ -90,7 +90,7 @@ export class Retail extends Component {
                                 <div className="common-heading text-center mb-5 ">
                                     <div className="title">What's Included in a House Cleaning?</div>
                                     <div className="sub-des">
-                                    Here is what you can expect from a house cleaning from a Handy professional. Download the app to share furtheر
+                                    Here is what you can expect from a house cleaning from a Farenow professional. Download the app to share furtheر
  <br/>cleaning details and instructions!
 
                                 </div>
@@ -166,7 +166,7 @@ export class Retail extends Component {
                                 <div className="common-heading text-center mb-5">
                                     <div className="title">What's Included in a House Cleaning?</div>
                                     <div className="sub-des">
-                                    Here is what you can expect from a house cleaning from a Handy professional. Download the app to share furtheر<br/>cleaning details and instructions!
+                                    Here is what you can expect from a house cleaning from a Farenow professional. Download the app to share furtheر<br/>cleaning details and instructions!
 
                                 </div>
                                 </div>
@@ -231,7 +231,7 @@ export class Retail extends Component {
 
                                     <button className="button-common my-5">Become a Partner</button>
                                     <div className="sub-des">
-                                    For non-retail business inquiries, email partnerships@handy.com.
+                                    For non-retail business inquiries, email partnerships@farenow.com.
                                 </div>
                                 </div>
                             </div>

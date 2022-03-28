@@ -32,14 +32,14 @@ export class LatestNews extends Component {
                                         <div className="news-detail">
                                             11/14/2016  -  November 2016<br />
                                         "The risk ended up being worth it. The more customer density
-                                         Handy has in a market, the better its business model works--customer
+                                         Farenow has in a market, the better its business model works--customer
                                          acquisition is cheaper, the greater density of both cleaners and
                                          customers makes it easier for both to get appointments they want,
                                          and referrals jump as a result. Happier customers means fewer contacts
                                          with customer service staff. Happy staff means higher retention and
-                                         less need for recruitment and onboarding assistance. If Handy hadn't
+                                         less need for recruitment and onboarding assistance. If Farenow hadn't
                                          stopped its market expansion, it would not be reaping these benefits
-                                         today...Handy's economics are looking healthier with each <a href="#">read more</a>..
+                                         today...Farenow's economics are looking healthier with each <a href="#">read more</a>..
                                     </div>
                                     </div>
                                     
@@ -53,7 +53,7 @@ export class LatestNews extends Component {
                                             The web platform that connects customers with house cleaners, is
                                             fine-tuning its messaging. In the beginning of March, a pollster
                                             employed by the Flatiron-based tech company asked 800 New Yorkers a
-                                            series of questions designed to help Handy better understand how to
+                                            series of questions designed to help Farenow better understand how to
                                             communicate with New York policymakers. The idea was “to make sure we
                                             were communicating in a clear way why people were choosing to work in
                                             a flexible economy,” said Oisin Hanrahan, the company’s CEO." <a href="#"> read more</a>..

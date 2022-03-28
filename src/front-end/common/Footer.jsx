@@ -6,6 +6,10 @@ const Footer = (props) => {
     const [state, setState] = useState({
         links: []
     })
+
+    const date = new Date()
+    const year = date.getFullYear()
+
     const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
 
     useEffect(() => {
@@ -293,7 +297,7 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-12 d-flex align-items-center justify-content-between flex-column flex-md-row">
                             <div className="copy-des">
-                                2020 Handy. All rights reserved.
+                                {year} Farenow. All rights reserved.
                             </div>
 
                             <div className="footer-info-link mt-5">

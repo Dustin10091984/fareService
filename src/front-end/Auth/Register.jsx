@@ -476,8 +476,8 @@ const Register = (props) => {
 
                             <div className="login-detail mt-5 text-center">
                                 By signing and clicking Get a Price, you affirm
-                                you have read and agree to the Handy Terms, and
-                                you agree and authorize Handy and its
+                                you have read and agree to the Farenow Terms, and
+                                you agree and authorize Farenow and its
                                 affiliates, and their networks of service
                                 professionals, to deliver marketing calls or
                                 texts using automated technology to the number
