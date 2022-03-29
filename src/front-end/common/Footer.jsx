@@ -247,7 +247,7 @@ const Footer = (props) => {
                                             if(link.type == 'FACEBOOK'){
                                                 return (
                                                     <li className="item facebook mr-4" key={link.id}>
-                                                        <a href="#">
+                                                        <a href={link.url} target="_blank">
                                                             <img
                                                                 src="/assets/img/facebook.png"
                                                                 className="img-fluid"
@@ -260,7 +260,7 @@ const Footer = (props) => {
                                             if(link.type == 'INSTAGRAM'){
                                                 return (
                                                     <li className="item instragram mr-4">
-                                                        <a href="#">
+                                                        <a href={link.url} target="_blank">
                                                             <img
                                                                 src="/assets/img/instagram.png"
                                                                 className="img-fluid"
@@ -273,7 +273,7 @@ const Footer = (props) => {
                                             if(link.type == 'TWITTER'){
                                                 return (
                                                     <li className="item twitter mr-4" key={link.id}>
-                                                        <a href="#">
+                                                        <a href={link.url} target="_blank">
                                                             <img
                                                                 src="/assets/img/twitter.png"
                                                                 className="img-fluid"
@@ -286,7 +286,7 @@ const Footer = (props) => {
                                             if(link.type == 'WHATS_APP'){
                                                 return (
                                                     <li className="item twitter mr-4" key={link.id}>
-                                                        <a href="#">
+                                                        <a href={link.url} target="_blank">
                                                             <img src="/assets/img/twitter.png" className="img-fluid" alt="socail" />
                                                         </a>
                                                     </li>
