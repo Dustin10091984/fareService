@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 const ReactNotificationComponent = ({
     fcmMessageId,
     data,
-    // handleMessageClick,
+    handleMessageClick,
     ...rest
 }) => {
     const history = useHistory();
@@ -49,18 +49,15 @@ const ReactNotificationComponent = ({
                 pathname: "/services-history",
             });
         } else if(data?.type == "MESSAGE"){
-            // handleMessageClick({
-            //     title,
-            //     body,
-            //     type,
-            //     service_request_id,
-            //     ...rest
-            // });
+            handleMessageClick({...data, fcmMessageId});
         }
     };
     
     function Display() {
-        var zippi = new Audio('/assets/audio/notification.mp3');
+        var zippi = new Audio('/assets/audio/notification.mp3',{
+            autoPlay: true,
+        });
+        zippi.muted = false;
         zippi.play();
         return (
             <div onClick={()=>handleNotificationClick(data?.type)}>

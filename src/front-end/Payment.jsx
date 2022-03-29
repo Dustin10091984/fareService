@@ -947,7 +947,7 @@ export const Payment = (props) => {
                                 <div className="moving-des mt-5">
                                     <p className="text-center">
                                         By clicking the button below, I agree to
-                                        Handy's Terms of{" "}
+                                        Farenow's Terms of{" "}
                                         <br className="d-none d-md-block" />
                                         Use and Cancellation Policy and
                                         understand that my

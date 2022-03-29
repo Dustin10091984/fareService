@@ -15,20 +15,20 @@ export class AboutUs extends Component {
                                 <div className="affordable-detail">
                                     <div className="title">About [site_name]</div>
                                     <p className="des">
-                                        Handy is the leading platform for connecting individuals looking for household services with top-quality, pre-screened independent service professionals. From home cleaning to handyman services, Handy instantly matches thousands of customers every week with top-rated professionals in cities all around the world. With a seamless 60-second booking process, secure payment, and backed by the Handy Happiness Guarantee, Handy is the easiest, most convenient way to book home services.
+                                        Farenow is the leading platform for connecting individuals looking for household services with top-quality, pre-screened independent service professionals. From home cleaning to handyman services, Farenow instantly matches thousands of customers every week with top-rated professionals in cities all around the world. With a seamless 60-second booking process, secure payment, and backed by the Farenow Happiness Guarantee, Farenow is the easiest, most convenient way to book home services.
                                     </p>
                                 </div>
 
                                 <div className="affordable-detail mt-5 pt-5">
                                     <div className="title">Our Story</div>
                                     <p className="des">
-                                        Handy is the leading platform for connecting individuals looking for household services with top-quality, pre-screened independent service professionals. From home cleaning to handyman services, Handy instantly matches thousands of customers every week with top-rated professionals in cities all around the world. With a seamless 60-second booking process, secure payment, and backed by the Handy Happiness Guarantee, Handy is the easiest, most convenient way to book home services.
+                                        Farenow is the leading platform for connecting individuals looking for household services with top-quality, pre-screened independent service professionals. From home cleaning to handyman services, Farenow instantly matches thousands of customers every week with top-rated professionals in cities all around the world. With a seamless 60-second booking process, secure payment, and backed by the Farenow Happiness Guarantee, Farenow is the easiest, most convenient way to book home services.
                                     </p>
                                 </div>
                                 <div className="affordable-detail mt-5 pt-5">
                                     <div className="title">Our Founder</div>
                                     <p className="des">
-                                        We know that when you book a maid service, housekeeping service, or house cleaning service through Handy, you are allowing a stranger to enter your home. When you book a house cleaner through the Handy platform, you can rest assured that they’ve been vetted before they arrive at your door. You can give your Handy professional additional instructions when filling out your cleaning preferences online. If you have particular allergies to detergents, for instance, or a special way of cleaning that you prefer, you can easily let your house cleaner know ahead of time. You can even prioritize the various home cleaning tasks that your Handy professional will tackle in the order that you prefer, so you can make sure your biggest concerns will get extra love and attention.
+                                        We know that when you book a maid service, housekeeping service, or house cleaning service through Farenow, you are allowing a stranger to enter your home. When you book a house cleaner through the Farenow platform, you can rest assured that they’ve been vetted before they arrive at your door. You can give your Farenow professional additional instructions when filling out your cleaning preferences online. If you have particular allergies to detergents, for instance, or a special way of cleaning that you prefer, you can easily let your house cleaner know ahead of time. You can even prioritize the various home cleaning tasks that your Farenow professional will tackle in the order that you prefer, so you can make sure your biggest concerns will get extra love and attention.
                                     </p>
                                 </div>
 
@@ -146,24 +146,24 @@ export class AboutUs extends Component {
                                 <div className="affordable-detail">
                                     <div className="title">Oisin Hanrahan, CEO</div>
                                     <p className="des">
-                                    Oisin Hanrahan is the Co-Founder and CEO of Handy. Prior to founding Handy, Oisin founded MiCandidate, a service that provided real time political content to media companies in 25 European countries. He also founded Clearwater Group, a real estate development business in Budapest, Hungary. In 2009, Oisin co-founded The Undergraduate Awards, a foundation that supports and celebrates outstanding undergraduate students globally.
+                                    Oisin Hanrahan is the Co-Founder and CEO of Farenow. Prior to founding Farenow, Oisin founded MiCandidate, a service that provided real time political content to media companies in 25 European countries. He also founded Clearwater Group, a real estate development business in Budapest, Hungary. In 2009, Oisin co-founded The Undergraduate Awards, a foundation that supports and celebrates outstanding undergraduate students globally.
                                     </p>
                                 </div>
 
                                 <div className="affordable-detail mt-5 pt-5">
                                     <div className="title">Umang Dua, COO</div>
                                     <p className="des">
-                                    Umang Dua is the Co-Founder and COO of Handy. Prior to founding Handy, Umang founded College Connect, an online platform in India that connected aspiring college students with enrolled students around the world. Earlier, Umang was a Business Analyst at McKinsey & Company. Umang earned a Bachelor of Arts degree in Economics and Political Science from Amherst College.
+                                    Umang Dua is the Co-Founder and COO of Farenow. Prior to founding Farenow, Umang founded College Connect, an online platform in India that connected aspiring college students with enrolled students around the world. Earlier, Umang was a Business Analyst at McKinsey & Company. Umang earned a Bachelor of Arts degree in Economics and Political Science from Amherst College.
                                     </p>
                                 </div>
                                 <div className="affordable-detail mt-5 pt-5">
-                                    <div className="title">Thank you to the many people who helped Handy get started.</div>
+                                    <div className="title">Thank you to the many people who helped Farenow get started.</div>
                                     <p className="des">
-                                    Ignacio Leonhardt and Weina Scott were the first members of the founding team at Handy. After spending 9 months working with Handy, Ignacio moved back to Guatemala and is now running his family's business. Weina worked with Handy for 7 months, building the first version of the website, and now works on another startup in California. Bob Davis and Jeremiah Daly from Highland Capital Partners invested the first capital in Handy, followed by Joel Cutler and Nitesh Banta from General Catalyst Partners, David Tisch and Adam Rothenberg from Box Group, and Art Papas. Andrew Lurvey was Handy's first operations team member. Andrew joined Handy when we were four people in a small room. He spent two years working with Handy while we've grown to over 200 hundred people in 28 cities.
+                                    Ignacio Leonhardt and Weina Scott were the first members of the founding team at Farenow. After spending 9 months working with Farenow, Ignacio moved back to Guatemala and is now running his family's business. Weina worked with Farenow for 7 months, building the first version of the website, and now works on another startup in California. Bob Davis and Jeremiah Daly from Highland Capital Partners invested the first capital in Farenow, followed by Joel Cutler and Nitesh Banta from General Catalyst Partners, David Tisch and Adam Rothenberg from Box Group, and Art Papas. Andrew Lurvey was Farenow's first operations team member. Andrew joined Farenow when we were four people in a small room. He spent two years working with Farenow while we've grown to over 200 hundred people in 28 cities.
                                     </p>
                                 </div>
                                 <div className="affordable-detail mt-5 pt-5">
-                                    <div className="title">Thank you to the many people who've subsequently joined the team and invested in Handy. It's because of your help that we're well on our way to changing the way the world buys services.</div>
+                                    <div className="title">Thank you to the many people who've subsequently joined the team and invested in Farenow. It's because of your help that we're well on our way to changing the way the world buys services.</div>
                                 </div>
 
 

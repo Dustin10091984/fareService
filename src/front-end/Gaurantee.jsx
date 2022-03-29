@@ -19,9 +19,9 @@ export class Gaurantee extends Component {
                                     <div className="service-card-detail">
                                         <div className="title">Your experience matters.</div>
                                         <div className="des">
-                                            Handy strives to match you with the right pro for you and your home every time.
+                                            Farenow strives to match you with the right pro for you and your home every time.
                                              If you’re not satisfied with the quality of the service you booked and paid for 
-                                             directly on the Handy platform, we’ll send another pro at no extra charge for your next booking.
+                                             directly on the Farenow platform, we’ll send another pro at no extra charge for your next booking.
                                         </div>
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@ export class Gaurantee extends Component {
                                 <div className="common-heading text-center">
                                     <div className="title">The professionals you want</div>
                                     <div className="sub-des">
-                                        Cleaning and handyman services booked and paid for directly through the Handy platform are performed by
+                                        Cleaning and handyman services booked and paid for directly through the Farenow platform are performed by
                                      <br className="d-none d-md-block" /> background-checked professionals who are highly rated by customers like you. And for cleaning, your favorite pro
                                     <br className="d-none d-md-block" /> can come back again and again to clean your home just the way you like it.
 
@@ -139,7 +139,7 @@ export class Gaurantee extends Component {
                                     <div className="service-card-detail">
                                         <div className="title">We’ve got you covered.</div>
                                         <div className="des">
-                                        In the rare event of damage, Handy’s got your back. Bookings made and paid for directly on the Handy platform are insured. Learn more
+                                        In the rare event of damage, Farenow got your back. Bookings made and paid for directly on the Farenow platform are insured. Learn more
                                         </div>
                                     </div>
                                     <div className="src-image-box">

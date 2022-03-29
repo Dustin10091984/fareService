@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -6,6 +6,10 @@ const Footer = (props) => {
     const [state, setState] = useState({
         links: []
     })
+
+    const date = new Date()
+    const year = date.getFullYear()
+
     const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
 
     useEffect(() => {
@@ -29,10 +33,11 @@ const Footer = (props) => {
             <footer className="footer-sec pt-5 mt-3">
                 <div className="container">
                     <div className="row">
-                        <div className="col-6 col-md-3">
+                        <div className="col-6 col-md-4">
                             <ul className="footer-link">
                             <div className="title">Pages</div>
                                 {state?.links?.map((link) => (
+                                    link.type == null &&
                                     <li className="item" key={link?.id}>
                                         <a href={link?.url} className="link" target="_blank">
                                             {link?.name || link?.page}
@@ -41,7 +46,7 @@ const Footer = (props) => {
                                 ))}
                             </ul>
                         </div>
-                        <div className="col-6 col-md-3">
+                        <div className="col-6 col-md-4">
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
                                     <div className="title">LOCATION</div>
@@ -93,7 +98,7 @@ const Footer = (props) => {
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-6 col-md-3">
+                        <div className="col-6 col-md-4">
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
                                     <div className="title">
@@ -147,7 +152,7 @@ const Footer = (props) => {
                                 </ul>
                             </div>
                         </div>
-                        <div className="col-6 col-md-3">
+                        {/* <div className="col-6 col-md-3">
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
                                     <div className="title">
@@ -203,7 +208,7 @@ const Footer = (props) => {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </footer>
@@ -237,7 +242,59 @@ const Footer = (props) => {
                             </div>
                             <div className="footer-social-link">
                                 <ul className="social d-flex">
-                                    <li className="item facebook mr-4">
+                                    {state?.links?.map((link) => {
+                                        if(link.type != null){
+                                            if(link.type == 'FACEBOOK'){
+                                                return (
+                                                    <li className="item facebook mr-4" key={link.id}>
+                                                        <a href="#">
+                                                            <img
+                                                                src="/assets/img/facebook.png"
+                                                                className="img-fluid"
+                                                                alt="socail"
+                                                            />
+                                                        </a>
+                                                    </li>
+                                                )
+                                            }
+                                            if(link.type == 'INSTAGRAM'){
+                                                return (
+                                                    <li className="item instragram mr-4">
+                                                        <a href="#">
+                                                            <img
+                                                                src="/assets/img/instagram.png"
+                                                                className="img-fluid"
+                                                                alt="socail"
+                                                            />
+                                                        </a>
+                                                    </li>
+                                                )
+                                            }
+                                            if(link.type == 'TWITTER'){
+                                                return (
+                                                    <li className="item twitter mr-4" key={link.id}>
+                                                        <a href="#">
+                                                            <img
+                                                                src="/assets/img/twitter.png"
+                                                                className="img-fluid"
+                                                                alt="socail"
+                                                            />
+                                                        </a>
+                                                    </li>
+                                                )
+                                            }
+                                            if(link.type == 'WHATS_APP'){
+                                                return (
+                                                    <li className="item twitter mr-4" key={link.id}>
+                                                        <a href="#">
+                                                            <img src="/assets/img/twitter.png" className="img-fluid" alt="socail" />
+                                                        </a>
+                                                    </li>
+                                                )
+                                            }
+                                        }
+                                    })}
+                                    {/* <li className="item facebook mr-4">
                                         <a href="#">
                                             <img
                                                 src="/assets/img/facebook.png"
@@ -272,7 +329,7 @@ const Footer = (props) => {
                                                 alt="socail"
                                             />
                                         </a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -293,7 +350,7 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-12 d-flex align-items-center justify-content-between flex-column flex-md-row">
                             <div className="copy-des">
-                                2020 Handy. All rights reserved.
+                                {year} Farenow. All rights reserved.
                             </div>
 
                             <div className="footer-info-link mt-5">
