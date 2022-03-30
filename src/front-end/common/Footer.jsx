@@ -36,64 +36,41 @@ const Footer = (props) => {
                         <div className="col-6 col-md-4">
                             <ul className="footer-link">
                             <div className="title">Pages</div>
-                                {state?.links?.map((link) => (
-                                    link.type == null &&
-                                    <li className="item" key={link?.id}>
-                                        <a href={link?.url} className="link" target="_blank">
-                                            {link?.name || link?.page}
-                                        </a>
-                                    </li>
-                                ))}
+                                {state?.links?.map((link, index) => {
+                                    if(link.type == null && link.is_blog == false && index < 6) {
+                                        return (
+                                            <li className="item" key={link?.id}>
+                                                <a href={link?.url} className="link" target="_blank">
+                                                    {link?.name || link?.page}
+                                                </a>
+                                            </li>
+                                        )
+                                    }
+                                })}
+                                <li className="item">
+                                    <span role='button' className="link">
+                                        See all pages
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                         <div className="col-6 col-md-4">
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
-                                    <div className="title">LOCATION</div>
+                                    <div className="title">City Blog Links</div>
+                                    {state?.links?.map((link, index) => (
+                                    (link.is_blog == true && index < 6) && (
+                                        <li className="item" key={link?.id}>
+                                            <a href={link?.url} className="link" target="_blank">
+                                                {link?.name || link?.page}
+                                            </a>
+                                        </li>
+                                    )
+                                ))}
                                     <li className="item">
-                                        <a href="#" className="link">
-                                            Boston
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Chicago
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            London
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Los Angeles
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            New York
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            San Francisco
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Toronto
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Vancouver
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            See all Locations
-                                        </a>
+                                        <span className="link" role='button'>
+                                            See all blog links
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
