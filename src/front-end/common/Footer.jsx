@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
 const Footer = (props) => {
     const [state, setState] = useState({
-        links: []
+        links: [],
+        modal: null
     })
 
     const date = new Date()
@@ -48,7 +49,21 @@ const Footer = (props) => {
                                     }
                                 })}
                                 <li className="item">
-                                    <span role='button' className="link">
+                                    <span 
+                                        role='button'
+                                        className="link"
+                                        data-backdrop="static"
+                                        data-keyboard="false"
+                                        data-toggle="modal"
+                                        data-target="#details"
+                                        onClick={() => setState({
+                                            ...state,
+                                             modal: {
+                                                title: "Pages",
+                                                type: "all",
+                                            }
+                                        })}
+                                    >
                                         See all pages
                                     </span>
                                 </li>
@@ -68,7 +83,21 @@ const Footer = (props) => {
                                     )
                                 ))}
                                     <li className="item">
-                                        <span className="link" role='button'>
+                                        <span 
+                                            className="link" 
+                                            role='button'
+                                            data-backdrop="static"
+                                            data-keyboard="false"
+                                            data-toggle="modal"
+                                            data-target="#details"
+                                            onClick={() => setState({
+                                                ...state,
+                                                 modal: {
+                                                    title: "Pages",
+                                                    type: "blog",
+                                                }
+                                            })}
+                                        >
                                             See all blog links
                                         </span>
                                     </li>
@@ -236,7 +265,7 @@ const Footer = (props) => {
                                             }
                                             if(link.type == 'INSTAGRAM'){
                                                 return (
-                                                    <li className="item instragram mr-4">
+                                                    <li className="item instragram mr-4" key={link.id}>
                                                         <a href={link.url} target="_blank">
                                                             <img
                                                                 src="/assets/img/instagram.png"
@@ -351,6 +380,52 @@ const Footer = (props) => {
                                         <a href="#">Cancellation Policy</a>
                                     </li>
                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div
+                className="modal fade bd-example-modal"
+                id="details"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal"
+                    role="document"
+                >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h2
+                                className="modal-title"
+                                id="exampleModalLongTitle"
+                            >
+                                
+                            </h2>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    style={{
+                                        fontSize: "3rem",
+                                    }}
+                                >
+                                    &times;
+                                </span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row m-2">
+                                <div className="col-12">
+                                </div>
                             </div>
                         </div>
                     </div>
