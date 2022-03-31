@@ -3319,3 +3319,14 @@ section.best-house-clen.pad-y,
     border-radius: 12px;
     left: 1rem !important;
 }
+
+.show-all .item .link{
+    font-size: 1.8rem;
+    font-style: normal;
+    font-weight: normal;
+    color: #606060;
+}
+
+.show-all .item .link:hover {
+    color: #fea629;
+}

@@ -93,7 +93,7 @@ const Footer = (props) => {
                                             onClick={() => setState({
                                                 ...state,
                                                  modal: {
-                                                    title: "Pages",
+                                                    title: "blog links",
                                                     type: "blog",
                                                 }
                                             })}
@@ -404,7 +404,7 @@ const Footer = (props) => {
                                 className="modal-title"
                                 id="exampleModalLongTitle"
                             >
-                                
+                                {state.modal?.title}
                             </h2>
                             <button
                                 type="button"
@@ -423,8 +423,27 @@ const Footer = (props) => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <div className="row m-2">
-                                <div className="col-12">
+                            <div className="row m-2 ">
+                                <div className="d-flex show-all justify-content-between">
+                                {state?.links?.map((link) => {
+                                    if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
+                                        return (
+                                            <div className="item" key={link?.id}>
+                                                <a href={link?.url} className="col-md-4 link" target="_blank">
+                                                    {link?.name || link?.page}
+                                                </a>
+                                            </div>
+                                        )
+                                    } else if (state?.modal?.type == 'blog' && link?.is_blog) {
+                                        return (
+                                            <div className="item" key={link?.id}>
+                                                <a href={link?.url} className="col-md-4 link" target="_blank">
+                                                    {link?.name || link?.page}
+                                                </a>
+                                            </div>
+                                        )
+                                    }
+                                })}
                                 </div>
                             </div>
                         </div>
