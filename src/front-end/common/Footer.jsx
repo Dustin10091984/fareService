@@ -4,7 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
 const Footer = (props) => {
     const [state, setState] = useState({
-        links: []
+        links: [],
+        modal: null
     })
 
     const date = new Date()
@@ -36,64 +37,69 @@ const Footer = (props) => {
                         <div className="col-6 col-md-4">
                             <ul className="footer-link">
                             <div className="title">Pages</div>
-                                {state?.links?.map((link) => (
-                                    link.type == null &&
-                                    <li className="item" key={link?.id}>
-                                        <a href={link?.url} className="link" target="_blank">
-                                            {link?.name || link?.page}
-                                        </a>
-                                    </li>
-                                ))}
+                                {state?.links?.map((link, index) => {
+                                    if(link.type == null && link.is_blog == false && index < 6) {
+                                        return (
+                                            <li className="item" key={link?.id}>
+                                                <a href={link?.url} className="link" target="_blank">
+                                                    {link?.name || link?.page}
+                                                </a>
+                                            </li>
+                                        )
+                                    }
+                                })}
+                                <li className="item">
+                                    <span 
+                                        role='button'
+                                        className="link"
+                                        data-backdrop="static"
+                                        data-keyboard="false"
+                                        data-toggle="modal"
+                                        data-target="#details"
+                                        onClick={() => setState({
+                                            ...state,
+                                             modal: {
+                                                title: "Pages",
+                                                type: "all",
+                                            }
+                                        })}
+                                    >
+                                        See all pages
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                         <div className="col-6 col-md-4">
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
-                                    <div className="title">LOCATION</div>
+                                    <div className="title">City Blog Links</div>
+                                    {state?.links?.map((link, index) => (
+                                    (link.is_blog == true && index < 6) && (
+                                        <li className="item" key={link?.id}>
+                                            <a href={link?.url} className="link" target="_blank">
+                                                {link?.name || link?.page}
+                                            </a>
+                                        </li>
+                                    )
+                                ))}
                                     <li className="item">
-                                        <a href="#" className="link">
-                                            Boston
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Chicago
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            London
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Los Angeles
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            New York
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            San Francisco
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Toronto
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Vancouver
-                                        </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            See all Locations
-                                        </a>
+                                        <span 
+                                            className="link" 
+                                            role='button'
+                                            data-backdrop="static"
+                                            data-keyboard="false"
+                                            data-toggle="modal"
+                                            data-target="#details"
+                                            onClick={() => setState({
+                                                ...state,
+                                                 modal: {
+                                                    title: "blog links",
+                                                    type: "blog",
+                                                }
+                                            })}
+                                        >
+                                            See all blog links
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
@@ -259,7 +265,7 @@ const Footer = (props) => {
                                             }
                                             if(link.type == 'INSTAGRAM'){
                                                 return (
-                                                    <li className="item instragram mr-4">
+                                                    <li className="item instragram mr-4" key={link.id}>
                                                         <a href={link.url} target="_blank">
                                                             <img
                                                                 src="/assets/img/instagram.png"
@@ -374,6 +380,71 @@ const Footer = (props) => {
                                         <a href="#">Cancellation Policy</a>
                                     </li>
                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div
+                className="modal fade bd-example-modal"
+                id="details"
+                tabIndex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalCenterTitle"
+                aria-hidden="true"
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered modal"
+                    role="document"
+                >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h2
+                                className="modal-title"
+                                id="exampleModalLongTitle"
+                            >
+                                {state.modal?.title}
+                            </h2>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    style={{
+                                        fontSize: "3rem",
+                                    }}
+                                >
+                                    &times;
+                                </span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row m-2 ">
+                                <div className="d-flex show-all justify-content-between">
+                                {state?.links?.map((link) => {
+                                    if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
+                                        return (
+                                            <div className="item" key={link?.id}>
+                                                <a href={link?.url} className="col-md-4 link" target="_blank">
+                                                    {link?.name || link?.page}
+                                                </a>
+                                            </div>
+                                        )
+                                    } else if (state?.modal?.type == 'blog' && link?.is_blog) {
+                                        return (
+                                            <div className="item" key={link?.id}>
+                                                <a href={link?.url} className="col-md-4 link" target="_blank">
+                                                    {link?.name || link?.page}
+                                                </a>
+                                            </div>
+                                        )
+                                    }
+                                })}
+                                </div>
                             </div>
                         </div>
                     </div>
