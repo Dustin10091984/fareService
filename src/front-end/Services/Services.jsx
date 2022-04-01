@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rating from "../../components/Rating";
 import { HOST } from "../../constants";
 import ServiceType from "../../constants/ServiceType";
@@ -11,6 +11,12 @@ export const Services = (props) => {
     const { headerMenu } = props;
     const search = props.location.search; // could be '?foo=bar'
     const params = new URLSearchParams(search);
+
+    const [state, setState] = useState({
+        city: "",
+        country: "",
+    })
+    
     const [service, setService] = useState({
         selected: {},
         currentStep: 0,
@@ -36,6 +42,10 @@ export const Services = (props) => {
         selected: {},
     });
 
+    useEffect(() => {
+        props?.getCountriesList();
+    }, []);
+
     const handleChangeQuestion = ({ name, value }) => {
         setService({
             ...service,
@@ -45,6 +55,13 @@ export const Services = (props) => {
             },
         });
     };
+
+    const handleCountryCityChange = ({target:{name, value}}) => {
+        setState({
+            ...state,
+            [name]: value,
+        });
+    }
 
     const handleZipCodeChange = (e) => {
         const { name, value } = e.target;
@@ -72,7 +89,7 @@ export const Services = (props) => {
             setService((service) => ({ ...service, zipCodeErr: "" }));
             axios({
                 method: "get",
-                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}`,
+                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}&city=${state?.city}&country=${state?.country}`,
             })
                 .then(function (response) {
                     setService((service) => ({
@@ -182,6 +199,7 @@ export const Services = (props) => {
                                         // <></>
                                         <Service
                                             {...props}
+                                            cityCountry={{city: state?.city, country: state?.country}}
                                             service={service}
                                             handleChangeQuestion={
                                                 handleChangeQuestion
@@ -193,6 +211,7 @@ export const Services = (props) => {
                                                 handleSelectZipCode
                                             }
                                             getProviders={getProviders}
+                                            handleCountryCityChange={handleCountryCityChange}
                                         />
                                     )}
                                 </>

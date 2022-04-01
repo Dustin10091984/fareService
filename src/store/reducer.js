@@ -20,8 +20,10 @@ import orderSlice from "./Slices/order/orderSlice";
 import groceryStoreSlice from "./Slices/grocery/groceryStoreSlice";
 import categorySlice from "./Slices/category/index";
 import notificationSlice from "./Slices/notification";
+import commonSlice from "./Slices/common";
 
 export default combineReducers({
+    commonReducer: commonSlice,
     headerMenuReducer: HeaderMenuSlice,
     footerReducer: FooterSlice,
     userReducer: userSclice,
