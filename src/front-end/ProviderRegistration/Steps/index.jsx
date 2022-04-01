@@ -530,12 +530,34 @@ const SelectZipCode = ({
     const handleSelectPostalCode = (address) => {
         const {address_components} = address;
         const postalCode = address_components?.find((address) =>{
-            return address?.types?.includes("postal_code") ? address : null
+            return address?.types?.includes("postal_code") ? address?.long_name : null
         });
-        if (postalCode?.short_name) {
-            if (zipCode?.zip_code?.includes(postalCode?.short_name) == false) {
+        
+        const locality = address_components?.find((address) =>{
+            return address?.types?.includes("locality") ? address?.long_name : null
+        });
+
+        const country = address_components?.find((address) =>{
+            return address?.types?.includes("country") ? address?.long_name : null
+        });
+
+        const data = {
+            zipCode: postalCode?.long_name,
+            city: locality?.long_name,
+            country: country?.long_name
+        }
+
+        if (data?.zipCode && data?.city && data?.country) {
+            let code = zipCode?.zip_code?.find((object) => {
+                if(object.zipCode != data.zipCode){
+                    return false
+                } else {
+                    return true
+                }
+            });
+            if (code == undefined) {
                 handleZipCode({
-                    zip_code: [...zipCode?.zip_code, postalCode?.short_name],
+                    zip_code: [...zipCode?.zip_code, data],
                     address: "",
                 });
                 setPostalCode({
@@ -555,19 +577,29 @@ const SelectZipCode = ({
 
     const handleChangePostalCode = ({target: {name, value}}) => {
         if(value){
-            setPostalCode({...postalCode, loading: true, [name]: value});
+            setPostalCode((prevState) => ({
+                ...prevState,
+                loading: true,
+                [name]: value
+            }));
             axios({
                 method: "post",
                 url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
             }).then(function (response) {
                     if(response.data.results.length > 0) {
-                        setPostalCode({...state, response: response.data.results, errors: {}, loading: false});
+                        setPostalCode((postalCode) => ({
+                            ...postalCode, response: response.data.results, errors: {}, loading: false
+                        }));
                     } else {
-                        setPostalCode({...state, response: null, errors: {...state.errors, postal_code: "Invalid Postal Code"}, loading: false});
+                        setPostalCode((postalCode) => ({
+                            ...postalCode, response: null, errors: {...postalCode.errors, postal_code: "Invalid Postal Code"}, loading: false
+                        }));
                     }
                 }).catch((error) => {
-                    setPostalCode({...state, response: null, errors: {...state.errors,  postal_code: "Invalid Postal Code"}, loading: false});
+                    setPostalCode({...postalCode, response: null, errors: {...postalCode.errors,  postal_code: "Invalid Postal Code"}, loading: false});
                 });
+        } else {
+            setPostalCode({...postalCode, [name]: value, errors: {...postalCode.errors, postal_code: "Postal Code is required"}});
         }
     }
 
@@ -660,7 +692,8 @@ const SelectZipCode = ({
                                 name="postal_code"
                                 placeholder="2323"
                                 autoComplete="postal_code"
-                                value={postalCode?.postal_code}
+                                defaultValue={''}
+                                value={postalCode?.postal_code || ""}
                                 onChange={handleChangePostalCode}
                             />
                         {
@@ -697,13 +730,13 @@ const SelectZipCode = ({
                             key={index}
                             className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1"
                         >
-                            {zip}{" "}
+                            {zip?.zipCode}{" "}
                             <span
                                 className="fa fa-times ml-1"
                                 onClick={() => {
                                     handleZipCode({
                                         zip_code: zipCode?.zip_code.filter(
-                                            (zip) => zip !== zip
+                                            (thisZip) => thisZip?.zipCode !== zip?.zipCode
                                         ),
                                     });
                                 }}
