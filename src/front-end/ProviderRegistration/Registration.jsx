@@ -298,7 +298,7 @@ const Registration = (props) => {
             setZipCode((zipCode) => ({ ...zipCode, address }));
         }
         if (zip_code != undefined) {
-            setZipCode((zipCode) => ({ ...zipCode, zip_code }));
+            setZipCode((zipCode) => ({ ...zipCode, zip_code: zip_code }));
         }
         if (service_id != undefined) {
             setZipCode((zipCode) => ({ ...zipCode, service_id }));
