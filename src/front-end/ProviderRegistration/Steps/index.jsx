@@ -922,7 +922,7 @@ const ProfileDetail = ({
                     <div className="user-profile">
                         <div className="user-image d-flex align-items-center justify-content-center">
                             <img
-                                src={profile?.image}
+                                src={profile?.image || '/assets/img/Profile_avatar.png'}
                                 className="img-fluid"
                                 alt=""
                             />
