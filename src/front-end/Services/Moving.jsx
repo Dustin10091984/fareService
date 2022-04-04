@@ -97,7 +97,7 @@ export const Moving = (props) => {
                 method: "get",
                 url:
                     process.env.REACT_APP_API_BASE_URL +
-                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${props?.vehicle_type_id}`,
+                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${props?.vehicle_type_id}${cityCountry?.city ? `&city=${cityCountry?.city}` : ''}`,
             })
                 .then(function (response) {
                     setState((state) => ({
