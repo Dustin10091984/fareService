@@ -131,15 +131,10 @@ const Register = (props) => {
             data: state.values,
         })
             .then(function (response) {
-                setState((prevState) => ({
-                    ...prevState,
-                    success: true,
-                    isLoading: false,
-                }));
-                // const data = response.data.data;
-                // localStorage.setItem("userToken", data.auth_token);
-                // localStorage.setItem("user_data", JSON.stringify(data.user));
-                // history.push("/dashboard");
+                const data = response.data.data;
+                localStorage.setItem("userToken", data.auth_token);
+                localStorage.setItem("user_data", JSON.stringify(data.user));
+                history.push("/dashboard");
             })
             .catch((error) => {
                 //handle error
