@@ -54,11 +54,11 @@ const ReactNotificationComponent = ({
     };
     
     function Display() {
-        var zippi = new Audio('/assets/audio/notification.mp3',{
-            autoPlay: true,
-        });
-        zippi.muted = false;
-        zippi.play();
+        // var zippi = new Audio('/assets/audio/notification.mp3',{
+        //     autoPlay: true,
+        // });
+        // zippi.muted = false;
+        // zippi.play();
         return (
             <div onClick={()=>handleNotificationClick(data?.type)}>
                 <h4>{data?.title}</h4>
