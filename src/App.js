@@ -102,7 +102,7 @@ function App() {
   //   broadcaster: 'socket.io',
   // };
   const liveOption = {
-    host: "http://api.farenow.com:6001",
+    host: "http://18.116.116.71:6001",
     broadcaster: 'socket.io',
   };
   const localOption = {
