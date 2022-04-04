@@ -207,7 +207,7 @@ const Service = ({
                                     )}
                                 </div>
                                 <hr/>
-                                <h4 className="mx-3 my-1">Where you wants service?</h4>
+                                <h4 className="mx-3 my-1">Choose service area</h4>
                                 <div className="d-flex justify-content-between">
                                 <div className="common-input my-2 mx-3">
                                         <select 
