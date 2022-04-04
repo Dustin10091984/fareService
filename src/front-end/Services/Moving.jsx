@@ -456,7 +456,7 @@ export const Moving = (props) => {
             </div>
             <div className="mb-3">
             <hr/>
-                    <h4 className="mx-3 my-1">Where you wants service? <strong className="text-danger">*</strong></h4>
+                    <h4 className="mx-3 my-1">Choose service area<strong className="text-danger">*</strong></h4>
                     <div className="d-flex justify-content-between">
                     <div className="common-input my-2 pr-2">
                             <select 
