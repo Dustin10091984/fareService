@@ -191,7 +191,7 @@ const Header = (props) => {
                                                     src="/assets/img/outline-user.svg"
                                                     className="img-fluid"
                                                 />{" "}
-                                                Become A Provider
+                                                Become a Provider
                                             </Link>
                                         </li>
                                         )}
