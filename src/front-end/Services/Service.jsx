@@ -255,6 +255,7 @@ const Service = ({
                                 <div className="d-flex justify-content-between">
                                     <div className="common-input mb-4 mx-3">
                                         <input
+                                            disabled={!cityCountry?.city}
                                             type="text"
                                             onChange={handleZipCodeChange}
                                             name="zipCode"
