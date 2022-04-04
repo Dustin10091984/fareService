@@ -57,10 +57,18 @@ export const Services = (props) => {
     };
 
     const handleCountryCityChange = ({target:{name, value}}) => {
-        setState({
-            ...state,
-            [name]: value,
-        });
+        if(name === "country"){
+            setState({
+                ...state,
+                [name]: value,
+                city: "",
+            });
+        } else {
+            setState({
+                ...state,
+                [name]: value,
+            })
+        }
     }
 
     const handleZipCodeChange = (e) => {
@@ -89,7 +97,7 @@ export const Services = (props) => {
             setService((service) => ({ ...service, zipCodeErr: "" }));
             axios({
                 method: "get",
-                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}&city=${state?.city}&country=${state?.country}`,
+                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}${state?.city ? `&city=${state?.city}` : ''}`,
             })
                 .then(function (response) {
                     setService((service) => ({
@@ -147,12 +155,14 @@ export const Services = (props) => {
         return (
             <MovingRequest
                 {...props}
+                cityCountry={{city: state?.city, country: state?.country}}
                 handleMovingState={handleMovingState}
                 movingState={movingState}
                 moving={moving}
                 subServiceId={subServiceId}
                 handleStepClick={handleStepClick}
                 handleSelectTypeClick={handleSelectTypeClick}
+                handleCountryCityChange={handleCountryCityChange}
             />
         );
     }
@@ -174,7 +184,7 @@ export const Services = (props) => {
                         <div className="col-12">
                             {serviceId && subServiceId ? (
                                 <>
-                                    {serviceId == 3 ? (
+                                    {/* {serviceId == 3 ? (
                                         <div className="moving-search-box m-5">
                                             <Moving
                                                 {...props}
@@ -183,20 +193,20 @@ export const Services = (props) => {
                                             />
                                         </div>
                                     ) : (
-                                        // <div
-                                        //     className="moving-search-box  house-cleaning-sec"
-                                        //     style={{
-                                        //         marginTop: "8rem",
-                                        //         marginBottom: "8rem",
-                                        //     }}
-                                        // >
-                                        //     <Question
-                                        //         serviceId={serviceId}
-                                        //         subServiceId={subServiceId}
-                                        //         {...props}
-                                        //     />
-                                        // </div>
-                                        // <></>
+                                        <div
+                                            className="moving-search-box  house-cleaning-sec"
+                                            style={{
+                                                marginTop: "8rem",
+                                                marginBottom: "8rem",
+                                            }}
+                                        >
+                                            <Question
+                                                serviceId={serviceId}
+                                                subServiceId={subServiceId}
+                                                {...props}
+                                            />
+                                        </div>
+                                        <></> */}
                                         <Service
                                             {...props}
                                             cityCountry={{city: state?.city, country: state?.country}}
@@ -213,7 +223,7 @@ export const Services = (props) => {
                                             getProviders={getProviders}
                                             handleCountryCityChange={handleCountryCityChange}
                                         />
-                                    )}
+                                    {/* )} */}
                                 </>
                             ) : (
                                 <div className="shop-search services-serch d-flex align-items-center justify-content-center mx-auto">

@@ -10,12 +10,15 @@ const MovingRequest = ({
     handleSelectTypeClick,
     subServiceId,
     handleStepClick,
+    countriesData,
+    cityCountry,
+    handleCountryCityChange
 }) => {
     const ref = useRef(null);
     useEffect(() => {
         getVehicleTypes();
     }, []);
-    console.log(movingState);
+
     return (
         <>
             <div className="moving-new-secion">
@@ -144,6 +147,9 @@ const MovingRequest = ({
                                             moving?.vehicle_type_id
                                         }
                                         subServiceId={subServiceId}
+                                        countriesData={countriesData}
+                                        cityCountry={cityCountry}
+                                        handleCountryCityChange={handleCountryCityChange}
                                     />
                                 </div>
                             </div>
