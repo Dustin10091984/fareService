@@ -19,6 +19,15 @@ const MovingRequest = ({
         getVehicleTypes();
     }, []);
 
+    useEffect(() => {
+        if(vehicleTypes?.data){
+            ref?.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }, [vehicleTypes?.data])
+
     return (
         <>
             <div className="moving-new-secion">
@@ -70,10 +79,6 @@ const MovingRequest = ({
                     <div className="col-md-6 mx-auto mb-5">
                         <div className="row">
                             {vehicleTypes?.data?.map((item, index) => {
-                                ref?.current?.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "start",
-                                });
                                 return (
                                     <div className="col-6 col-md-4" key={index}>
                                         <div

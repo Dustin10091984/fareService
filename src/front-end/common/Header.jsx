@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, withRouter, useLocation, useHistory } from "react-router-dom";
+import { Link, NavLink, withRouter, useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../Chat/Chat";
@@ -68,8 +68,13 @@ const Header = (props) => {
     }, [localStorage.getItem("userToken")]);
 
     useEffect(() => {
-        if(notification?.fcmMessageId){
-            console.log(notification);
+        if(state?.is_loggedin){
+            if(notification?.fcmMessageId){
+                console.log(notification);
+                ref.current.click();
+            }
+        } else {
+            history.push("/login");
         }
     }, [notification?.fcmMessageId]);
 
@@ -101,14 +106,18 @@ const Header = (props) => {
                                     className="nav-item"
                                     key={`sub-menu-${index}`}
                                 >
-                                    <Link
-                                        to={`/services/${menu.id}/${sub_menu.id}`}
+                                    <NavLink
+                                        to={location => ({
+                                            ...location,
+                                            pathname: `/services/${menu.id}/${sub_menu.id}`,
+                                        })}
+                                            
                                         // ${
                                         //     menu.id == 3
                                         //         ? "?service_type=" +
                                         //           ServiceType.MOVING
                                         //         : ""
-                                        // }
+                                        // }`}
                                         className="nav-link border-bottom"
                                     >
                                         <i
@@ -116,7 +125,7 @@ const Header = (props) => {
                                             aria-hidden="true"
                                         ></i>{" "}
                                         {sub_menu.name}
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             );
                         })}
@@ -135,7 +144,10 @@ const Header = (props) => {
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
                             <div className="header-logo">
-                                <Link to="/">
+                                <Link to={location => ({
+                                    ...location,
+                                    pathname: "/",
+                                })} >
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""
@@ -183,8 +195,11 @@ const Header = (props) => {
                                     <ul className="nav-l d-flex align-items-center">
                                         {!state.is_loggedin && (
                                             <li className="item-list">
-                                            <Link
-                                                to="/provider/registration"
+                                            <NavLink
+                                                to={location => ({
+                                                    ...location,
+                                                    pathname: "/provider/registration",
+                                                })}
                                                 className="link"
                                             >
                                                 <img
@@ -192,7 +207,7 @@ const Header = (props) => {
                                                     className="img-fluid"
                                                 />{" "}
                                                 Become a Provider
-                                            </Link>
+                                            </NavLink>
                                         </li>
                                         )}
                                         <li className="item-list">
@@ -528,20 +543,20 @@ const Header = (props) => {
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
                                         <li className="nav-item">
-                                            <Link
+                                            <NavLink
                                                 to={`/restaurants`}
                                                 className="nav-link"
                                             >
                                                 {"Restaurants "}
-                                            </Link>
+                                            </NavLink>
                                         </li>
                                         <li className="nav-item">
-                                            <Link
+                                            <NavLink
                                                 to={`/grocery-stores`}
                                                 className="nav-link"
                                             >
                                                 {"Grocery Stores "}
-                                            </Link>
+                                            </NavLink>
                                         </li>
                                     </ul>
                                 </div>
@@ -609,4 +624,4 @@ const Header = (props) => {
     );
 };
 
-export default withRouter(Header);
+export default Header;
