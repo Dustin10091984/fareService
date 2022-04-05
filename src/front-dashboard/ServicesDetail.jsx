@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
 import Loading from "../front-end/common/Loading";
 import { getServiceRequest } from "../store/Slices/services/RequestServiceSclice";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
 import { HOST } from "../constants";
 export const ServicesDetail = (props) => {
+
     const [state, setState] = useState({});
+
+    const { id } = useParams();
+
     const dispatch = useDispatch();
     const serviceRequestDetail = useSelector(
         (state) => state?.serviceRequest?.serviceRequestDetail
     );
 
     useEffect(() => {
-        dispatch(getServiceRequest(props?.match?.params?.id));
+        dispatch(getServiceRequest(id));
     }, []);
 
     useEffect(() => {
@@ -87,6 +91,11 @@ export const ServicesDetail = (props) => {
                                                                 }
                                                                 className="img-fluid"
                                                                 alt=""
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src =
+                                                                        "/assets/img/Profile_avatar.png";
+                                                                }}
                                                             />
                                                         </div>
                                                         <div className="user-detail w-100">
