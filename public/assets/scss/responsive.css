@@ -163,4 +163,7 @@ object-fit: cover;
     .job-provider-slider .carousel-indicators {
         bottom: -28px;
       }
+      .login-box{
+          width: 100%;
+      }
 }
