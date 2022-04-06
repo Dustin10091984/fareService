@@ -73,8 +73,6 @@ const Header = (props) => {
                 console.log(notification);
                 ref.current.click();
             }
-        } else {
-            history.push("/login");
         }
     }, [notification?.fcmMessageId]);
 

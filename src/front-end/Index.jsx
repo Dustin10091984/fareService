@@ -353,9 +353,11 @@ export const Index = (props) => {
                                     professionals use Farenow for the great pay
                                     and flexible scheduling.
                                 </div>
-                                <a href="#" className="button-common">
+                                <Link to="/provider/registration" className="button-common">
+                                {/* <a href="#" className="button-common"> */}
                                     Become a Farenow Pro
-                                </a>
+                                {/* </a> */}
+                                </Link>
                             </div>
                         </div>
                     </div>
