@@ -69,6 +69,8 @@ function App() {
   onMessageListener()
     .then((payload) => {
       setNotification(payload);
+    }).catch((error) => {
+      console.log('notification error');
     });
     
     const handleMessageClick = (data) => {
