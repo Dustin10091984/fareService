@@ -15,14 +15,20 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null;
+const messaging = firebase?.messaging?.isSupported() ? firebase.messaging() : null;
 
 export const getToken = async () => {
     let currentToken = "";
 
     try {
         if(messaging){
-            currentToken = await messaging?.getToken({ vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" });
+            messaging.messaging()
+            .requestPermission()
+            .then(() => {
+                currentToken = await messaging?.getToken({ vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" });
+            }).catch(err => {
+                console.log('Unable to get permission to notify.');
+            })
         } else {
             console.log("messaging not supported");
         }

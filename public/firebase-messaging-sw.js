@@ -19,7 +19,7 @@ const firebaseConfig = {
 // eslint-disable-next-line no-undef
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging.isSupported() ? firebase.messaging() : null;
+const messaging = firebase?.messaging?.isSupported() ? firebase.messaging() : null;
 
 messaging.onBackgroundMessage(function (payload) {
 
