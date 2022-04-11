@@ -2,6 +2,7 @@
   "name": "farenow",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@chatscope/chat-ui-kit-react": "^1.8.2",
     "@chatscope/chat-ui-kit-styles": "^1.2.3",
