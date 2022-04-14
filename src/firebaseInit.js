@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import "firebase/messaging";
-import axios from 'axios';
+import { getMessaging, getToken as token  } from "firebase/messaging";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -15,24 +14,24 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// firebase.initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
 
 // const messaging = firebase?.messaging?.isSupported() ? firebase.messaging() : null;
 
+
 export const getToken = async () => {
-    let currentToken = "";
-
-    try {
-        // if(messaging){
-        //     currentToken = await messaging?.getToken({ vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" });
-        // } else {
-        //     console.log("messaging not supported");
-        // }
-    } catch (error) {
-        console.log("An error occurred while retrieving token. ", error);
-    }
-
-    return currentToken;
+    return token(messaging, { vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" }).then((currentToken) => {
+        if (currentToken) {
+            return currentToken;
+        } else {
+          // Show permission request UI
+          console.log('No registration token available. Request permission to generate one.');
+          // ...
+        }
+      }).catch((err) => {
+        console.log('An error occurred while retrieving token. ', err);
+        // ...
+      });
 };
 
 export const onMessageListener = () => {
