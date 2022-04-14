@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import "firebase/messaging";
 import axios from 'axios';
 
@@ -13,20 +13,21 @@ const firebaseConfig = {
     measurementId: "G-1X3ZF9YVWE"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const messaging = firebase?.messaging?.isSupported() ? firebase.messaging() : null;
+// firebase.initializeApp(firebaseConfig);
+
+// const messaging = firebase?.messaging?.isSupported() ? firebase.messaging() : null;
 
 export const getToken = async () => {
     let currentToken = "";
 
     try {
-        if(messaging){
-            currentToken = await messaging?.getToken({ vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" });
-        } else {
-            console.log("messaging not supported");
-        }
-
+        // if(messaging){
+        //     currentToken = await messaging?.getToken({ vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" });
+        // } else {
+        //     console.log("messaging not supported");
+        // }
     } catch (error) {
         console.log("An error occurred while retrieving token. ", error);
     }
@@ -35,11 +36,11 @@ export const getToken = async () => {
 };
 
 export const onMessageListener = () => {
-    if(messaging){
-        return new Promise((resolve) => {
-            messaging?.onMessage((payload) => {
-                resolve(payload);
-            });
-        });
-    }
+    // if(messaging){
+    //     return new Promise((resolve) => {
+    //         messaging?.onMessage((payload) => {
+    //             resolve(payload);
+    //         });
+    //     });
+    // }
 }

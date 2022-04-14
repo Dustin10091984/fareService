@@ -66,10 +66,10 @@ const stripePromise = loadStripe(
 function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
-  onMessageListener()
-    .then((payload) => {
-      setNotification(payload);
-    });
+  // onMessageListener()
+  //   .then((payload) => {
+  //     setNotification(payload);
+  //   });
     
     const handleMessageClick = (data) => {
       setState(data)
@@ -102,7 +102,7 @@ function App() {
   //   broadcaster: 'socket.io',
   // };
   const liveOption = {
-    host: "http://18.116.116.71:6001",
+    host: "http://api.farenow.com:6001",
     broadcaster: 'socket.io',
   };
   const localOption = {
