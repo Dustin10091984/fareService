@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getToken } from "../../firebaseInit.js";
+// import { getToken } from "../../firebaseInit.js";
 
 const Notifications = (props) => {
     const [isTokenFound, setTokenFound] = useState(false);
@@ -10,11 +10,11 @@ const Notifications = (props) => {
         if (!userData?.device_token && isTokenFound === false) {
             let data;
             async function tokenFunc() {
-                data = await getToken(setTokenFound);
-                if (data) {
-                    // console.log("Token is", data);
-                }
-                return data;
+                // data = await getToken(setTokenFound);
+                // if (data) {
+                //     // console.log("Token is", data);
+                // }
+                // return data;
             }
             tokenFunc();
         } else {

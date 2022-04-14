@@ -7,7 +7,7 @@ import { handleServiceRequestNotification } from "../../store/Slices/services/Re
 import { useDispatch } from "react-redux";
 
 const ReactNotificationComponent = ({
-    fcmMessageId,
+    messageId,
     data,
     handleMessageClick,
     ...rest
@@ -16,7 +16,7 @@ const ReactNotificationComponent = ({
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if(fcmMessageId){
+        if(messageId){
             toast.info(<Display />, {
                 hideProgressBar: true,
                 newestOnTop: false,
@@ -26,11 +26,11 @@ const ReactNotificationComponent = ({
                 draggable: true,
                 pauseOnHover: false,
                 position: "top-right",
-                toastId: fcmMessageId,
+                toastId: messageId,
             });
             handlePayload();
         }
-    }, [fcmMessageId]);
+    }, [messageId]);
 
     const handlePayload = () => {
         if(data?.type == "MOVING" || data?.type == "SERVICE_REQUEST"){
@@ -39,7 +39,7 @@ const ReactNotificationComponent = ({
     }
 
     const handleNotificationClick = (type) => {
-        toast.dismiss(fcmMessageId);
+        toast.dismiss(messageId);
         if (type == "MOVING" || type == "SERVICE_REQUEST") {
             if (data?.service_request_id) {
                 history?.push(`/service-detail/${data?.service_request_id}`);
@@ -49,7 +49,7 @@ const ReactNotificationComponent = ({
                 pathname: "/services-history",
             });
         } else if(data?.type == "MESSAGE"){
-            handleMessageClick({...data, fcmMessageId});
+            handleMessageClick({...data, fcmMessageId: messageId});
         }
     };
     

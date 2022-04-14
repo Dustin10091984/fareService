@@ -58,6 +58,7 @@ import ReactNotificationComponent from './components/notification/ReactNotificat
 import axios from 'axios'
 import { MovingRequest } from './front-end/moving';
 import { HOST } from './constants';
+import { getMessaging, onMessage } from "firebase/messaging";
 
 const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
@@ -66,9 +67,14 @@ const stripePromise = loadStripe(
 function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
+
+  const messaging = getMessaging();
+  onMessage(messaging, (payload) => {
+    setNotification(payload);
+  });
+
   // onMessageListener()
   //   .then((payload) => {
-  //     setNotification(payload);
   //   });
     
     const handleMessageClick = (data) => {
