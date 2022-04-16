@@ -3014,8 +3014,11 @@ hr {
     color: #666;
 }
 
-.container {
-    padding: 2em;
+
+@media (min-width:767px) {
+    .container {
+        padding: 2em;
+    }
 }
 
 .react-calendar {
