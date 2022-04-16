@@ -540,22 +540,28 @@ const Header = (props) => {
                                 >
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
-                                        <li className="nav-item">
-                                            <NavLink
-                                                to={`/restaurants`}
-                                                className="nav-link"
-                                            >
-                                                {"Restaurants "}
-                                            </NavLink>
-                                        </li>
-                                        <li className="nav-item">
-                                            <NavLink
-                                                to={`/grocery-stores`}
-                                                className="nav-link"
-                                            >
-                                                {"Grocery Stores "}
-                                            </NavLink>
-                                        </li>
+                                        {state.header_menu?.length ? (
+                                            <>
+                                                <li className="nav-item">
+                                                    <NavLink
+                                                        to={`/restaurants`}
+                                                        className="nav-link"
+                                                    >
+                                                        {"Restaurants "}
+                                                    </NavLink>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <NavLink
+                                                        to={`/grocery-stores`}
+                                                        className="nav-link"
+                                                    >
+                                                        {"Grocery Stores "}
+                                                    </NavLink>
+                                                </li>
+                                            </>
+                                        ) : (
+                                            ""
+                                        )}
                                     </ul>
                                 </div>
                             </nav>
