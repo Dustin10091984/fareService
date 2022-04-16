@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ const Footer = (props) => {
         total: false
     });
 
+    const ref = useRef(null);
 
     const date = new Date()
     const year = date.getFullYear()
@@ -40,8 +41,10 @@ const Footer = (props) => {
                         <div className="col-6 col-md-4">
                             <ul className="footer-link">
                             <div className="title">Pages</div>
-                                {state?.links?.map((link, index) => {
-                                    if(link.type == null && link.is_blog == false && index < 8) {
+                                {state?.links?.map((link) => {
+                                    let countLink = 0;
+                                    if(link.type == null && link.is_blog == false && countLink < 8) {
+                                        countLink = countLink + 1;
                                         return (
                                             <li className="item" key={link?.id}>
                                                 <a href={link?.url} className="link" target="_blank">
@@ -78,15 +81,19 @@ const Footer = (props) => {
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
                                     <div className="title">City Blog Links</div>
-                                    {state?.links?.map((link, index) => (
-                                    (link.is_blog == true && index < 8) && (
-                                        <li className="item" key={link?.id}>
-                                            <a href={link?.url} className="link" target="_blank">
-                                                {link?.name || link?.page}
-                                            </a>
-                                        </li>
-                                    )
-                                ))}
+                                    {state?.links?.map((link, index) => {
+                                        let countLink = 0;
+                                        if(link.is_blog == true && countLink < 8) {
+                                            countLink = countLink + 1;
+                                            return(
+                                                <li className="item" key={link?.id}>
+                                                    <a href={link?.url} className="link" target="_blank">
+                                                        {link?.name || link?.page}
+                                                    </a>
+                                                </li>
+                                            )
+                                        }
+                                    })}
                                 {state?.links?.filter((link) => (link.is_blog == true)).length >= 8 && (
                                     <li className="item">
                                         <span 
@@ -121,7 +128,7 @@ const Footer = (props) => {
                                         let total = 0;
                                         return headerMenu?.map((service) => (
                                             service?.sub_services?.map((sub_service)=> {
-                                                if(total <=6 ){
+                                                if(total < 8 ){
                                                     total++;
                                                     return (
                                                         <li className="item" key={`${service.id}_${sub_service.id}`}>
@@ -144,7 +151,7 @@ const Footer = (props) => {
                                                             </a> */}
                                                         </li>
                                                     )
-                                                } else if (total == 7) {
+                                                } else if (total == 8) {
                                                     return(
                                                         <li className="item">
                                                             <span 
@@ -457,6 +464,7 @@ const Footer = (props) => {
                                 {state.modal?.title}
                             </h2>
                             <button
+                                ref={ref}
                                 type="button"
                                 className="close"
                                 data-dismiss="modal"
@@ -479,7 +487,12 @@ const Footer = (props) => {
                                     if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
                                         return (
                                             <div className="item" key={link?.id}>
-                                                <a href={link?.url} className="col-md-4 link" target="_blank">
+                                                <a 
+                                                    href={link?.url} className="col-md-4 link close"
+                                                    data-dismiss="modal" 
+                                                    aria-label="Close" 
+                                                    target="_blank"
+                                                >
                                                     {link?.name || link?.page}
                                                 </a>
                                             </div>
@@ -487,7 +500,14 @@ const Footer = (props) => {
                                     } else if (state?.modal?.type == 'blog' && link?.is_blog) {
                                         return (
                                             <div className="item" key={link?.id}>
-                                                <a href={link?.url} className="col-md-4 link" target="_blank">
+                                                <a 
+                                                    href={link?.url}
+                                                    className="col-md-4 link close"
+                                                    data-dismiss="modal" 
+                                                    aria-label="Close" 
+                                                    target="_blank"
+                                                    
+                                                >
                                                     {link?.name || link?.page}
                                                 </a>
                                             </div>
@@ -503,11 +523,14 @@ const Footer = (props) => {
                                                                         ...location, pathname: `/services/${service.id}/${sub_service.id}`,
                                                                     })}
                                                                 className='col-md-6 link'
+                                                                // data-dismiss="modal" 
+                                                                // aria-label="Close"
                                                                 onClick={()=>{
                                                                     window.scrollTo({
                                                                         top: 0,
                                                                         behavior: "smooth"
-                                                                    })
+                                                                    });
+                                                                    ref.current.click();
                                                                 }}
                                                             >
                                                                 {sub_service.name}
