@@ -5,13 +5,16 @@ import { Link } from "react-router-dom";
 const Footer = (props) => {
     const [state, setState] = useState({
         links: [],
-        modal: null
-    })
+        modal: null,
+        total: false
+    });
+
 
     const date = new Date()
     const year = date.getFullYear()
 
     const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
+    const headerMenu = useSelector((state) => state?.headerMenuReducer);
 
     useEffect(() => {
         if(getLinks?.length>0){
@@ -38,7 +41,7 @@ const Footer = (props) => {
                             <ul className="footer-link">
                             <div className="title">Pages</div>
                                 {state?.links?.map((link, index) => {
-                                    if(link.type == null && link.is_blog == false && index < 6) {
+                                    if(link.type == null && link.is_blog == false && index < 8) {
                                         return (
                                             <li className="item" key={link?.id}>
                                                 <a href={link?.url} className="link" target="_blank">
@@ -48,25 +51,27 @@ const Footer = (props) => {
                                         )
                                     }
                                 })}
-                                <li className="item">
-                                    <span 
-                                        role='button'
-                                        className="link"
-                                        data-backdrop="static"
-                                        data-keyboard="false"
-                                        data-toggle="modal"
-                                        data-target="#details"
-                                        onClick={() => setState({
-                                            ...state,
-                                             modal: {
-                                                title: "Pages",
-                                                type: "all",
-                                            }
-                                        })}
-                                    >
-                                        See all pages
-                                    </span>
-                                </li>
+                                {state?.links?.filter((link) => (link.type == null && link.is_blog == false)).length >= 8 && (
+                                    <li className="item">
+                                        <span 
+                                            role='button'
+                                            className="link"
+                                            data-backdrop="static"
+                                            data-keyboard="false"
+                                            data-toggle="modal"
+                                            data-target="#details"
+                                            onClick={() => setState({
+                                                ...state,
+                                                modal: {
+                                                    title: "Pages",
+                                                    type: "all",
+                                                }
+                                            })}
+                                        >
+                                            See all pages
+                                        </span>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                         <div className="col-6 col-md-4">
@@ -74,7 +79,7 @@ const Footer = (props) => {
                                 <ul className="footer-link">
                                     <div className="title">City Blog Links</div>
                                     {state?.links?.map((link, index) => (
-                                    (link.is_blog == true && index < 6) && (
+                                    (link.is_blog == true && index < 8) && (
                                         <li className="item" key={link?.id}>
                                             <a href={link?.url} className="link" target="_blank">
                                                 {link?.name || link?.page}
@@ -82,6 +87,7 @@ const Footer = (props) => {
                                         </li>
                                     )
                                 ))}
+                                {state?.links?.filter((link) => (link.is_blog == true)).length >= 8 && (
                                     <li className="item">
                                         <span 
                                             className="link" 
@@ -101,6 +107,7 @@ const Footer = (props) => {
                                             See all blog links
                                         </span>
                                     </li>
+                                )}
                                 </ul>
                             </div>
                         </div>
@@ -110,12 +117,60 @@ const Footer = (props) => {
                                     <div className="title">
                                         POPULAR SERVICES
                                     </div>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            Cleaning
-                                        </a>
-                                    </li>
-                                    <li className="item">
+                                    {(()=>{
+                                        let total = 0;
+                                        return headerMenu?.map((service) => (
+                                            service?.sub_services?.map((sub_service)=> {
+                                                if(total <=6 ){
+                                                    total++;
+                                                    return (
+                                                        <li className="item" key={`${service.id}_${sub_service.id}`}>
+                                                            <Link 
+                                                                to={
+                                                                    location => ({
+                                                                        ...location, pathname: `/services/${service.id}/${sub_service.id}`,
+                                                                    })}
+                                                                className='link'
+                                                                onClick={()=>{
+                                                                    window.scrollTo({
+                                                                        top: 0,
+                                                                        behavior: "smooth"
+                                                                    })
+                                                                }}
+                                                            >
+                                                                {sub_service.name}
+                                                            </Link>
+                                                            {/* <a href="#" className="link">
+                                                            </a> */}
+                                                        </li>
+                                                    )
+                                                } else if (total == 7) {
+                                                    return(
+                                                        <li className="item">
+                                                            <span 
+                                                                className="link" 
+                                                                role='button'
+                                                                data-backdrop="static"
+                                                                data-keyboard="false"
+                                                                data-toggle="modal"
+                                                                data-target="#details"
+                                                                onClick={() => setState({
+                                                                    ...state,
+                                                                    modal: {
+                                                                        title: "All Services",
+                                                                        type: "services",
+                                                                    }
+                                                                })}
+                                                            >
+                                                                See all Services
+                                                            </span>
+                                                        </li>
+                                                    )
+                                                }
+                                            })
+                                        ))
+                                    })()}
+                                    {/* <li className="item">
                                         <a href="#" className="link">
                                             Handyman
                                         </a>
@@ -149,12 +204,7 @@ const Footer = (props) => {
                                         <a href="#" className="link">
                                             Smart Home
                                         </a>
-                                    </li>
-                                    <li className="item">
-                                        <a href="#" className="link">
-                                            See all Services
-                                        </a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -424,8 +474,8 @@ const Footer = (props) => {
                         </div>
                         <div className="modal-body">
                             <div className="row m-2 ">
-                                <div className="d-flex show-all justify-content-between">
-                                {state?.links?.map((link) => {
+                                <div className="d-flex show-all align-items-center justify-content-between flex-wrap">
+                                {state?.modal?.type != 'services' && state?.links?.map((link) => {
                                     if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
                                         return (
                                             <div className="item" key={link?.id}>
@@ -444,6 +494,28 @@ const Footer = (props) => {
                                         )
                                     }
                                 })}
+                                {state?.modal?.type == 'services' && headerMenu?.map((service) => (
+                                            service?.sub_services?.map((sub_service)=> (
+                                                    <li className="item" key={`${service.id}_${sub_service.id}`}>
+                                                            <Link 
+                                                                to={
+                                                                    location => ({
+                                                                        ...location, pathname: `/services/${service.id}/${sub_service.id}`,
+                                                                    })}
+                                                                className='col-md-6 link'
+                                                                onClick={()=>{
+                                                                    window.scrollTo({
+                                                                        top: 0,
+                                                                        behavior: "smooth"
+                                                                    })
+                                                                }}
+                                                            >
+                                                                {sub_service.name}
+                                                            </Link>
+                                                    </li>
+                                                )   
+                                            ))
+                                        )}
                                 </div>
                             </div>
                         </div>
