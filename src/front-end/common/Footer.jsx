@@ -151,9 +151,9 @@ const Footer = (props) => {
                                                             </a> */}
                                                         </li>
                                                     )
-                                                } else if (total == 8) {
+                                                } else if (total == 8 && total >! 8) {
                                                     return(
-                                                        <li className="item">
+                                                        <li className="item" key={`${service.id}_${sub_service.id}`}>
                                                             <span 
                                                                 className="link" 
                                                                 role='button'
