@@ -151,7 +151,8 @@ const Footer = (props) => {
                                                             </a> */}
                                                         </li>
                                                     )
-                                                } else if (total == 8 && total >! 8) {
+                                                } else if (total == 8 && total != null) {
+                                                    total = null;
                                                     return(
                                                         <li className="item" key={`${service.id}_${sub_service.id}`}>
                                                             <span 
@@ -481,7 +482,7 @@ const Footer = (props) => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <div className="row m-2 ">
+                            <div className="row m-2 show-all">
                                 {/* <div className="d-flex show-all align-items-center justify-content-between flex-wrap"> */}
                                     {state?.modal?.type != 'services' && state?.links?.map((link) => {
                                         if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
