@@ -128,7 +128,7 @@ const Footer = (props) => {
                                         let total = 0;
                                         return headerMenu?.map((service) => (
                                             service?.sub_services?.map((sub_service)=> {
-                                                if(total < 8 ){
+                                                if(total < 8 && total != null){
                                                     total++;
                                                     return (
                                                         <li className="item" key={`${service.id}_${sub_service.id}`}>
