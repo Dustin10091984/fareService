@@ -482,64 +482,64 @@ const Footer = (props) => {
                         </div>
                         <div className="modal-body">
                             <div className="row m-2 ">
-                                <div className="d-flex show-all align-items-center justify-content-between flex-wrap">
-                                {state?.modal?.type != 'services' && state?.links?.map((link) => {
-                                    if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
-                                        return (
-                                            <div className="item" key={link?.id}>
-                                                <a 
-                                                    href={link?.url} className="col-md-4 link close"
-                                                    data-dismiss="modal" 
-                                                    aria-label="Close" 
-                                                    target="_blank"
-                                                >
-                                                    {link?.name || link?.page}
-                                                </a>
-                                            </div>
-                                        )
-                                    } else if (state?.modal?.type == 'blog' && link?.is_blog) {
-                                        return (
-                                            <div className="item" key={link?.id}>
-                                                <a 
-                                                    href={link?.url}
-                                                    className="col-md-4 link close"
-                                                    data-dismiss="modal" 
-                                                    aria-label="Close" 
-                                                    target="_blank"
-                                                    
-                                                >
-                                                    {link?.name || link?.page}
-                                                </a>
-                                            </div>
-                                        )
-                                    }
-                                })}
-                                {state?.modal?.type == 'services' && headerMenu?.map((service) => (
-                                            service?.sub_services?.map((sub_service)=> (
-                                                    <li className="item" key={`${service.id}_${sub_service.id}`}>
-                                                            <Link 
-                                                                to={
-                                                                    location => ({
-                                                                        ...location, pathname: `/services/${service.id}/${sub_service.id}`,
-                                                                    })}
-                                                                className='col-md-6 link'
-                                                                // data-dismiss="modal" 
-                                                                // aria-label="Close"
-                                                                onClick={()=>{
-                                                                    window.scrollTo({
-                                                                        top: 0,
-                                                                        behavior: "smooth"
-                                                                    });
-                                                                    ref.current.click();
-                                                                }}
-                                                            >
-                                                                {sub_service.name}
-                                                            </Link>
-                                                    </li>
-                                                )   
-                                            ))
-                                        )}
-                                </div>
+                                {/* <div className="d-flex show-all align-items-center justify-content-between flex-wrap"> */}
+                                    {state?.modal?.type != 'services' && state?.links?.map((link) => {
+                                        if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
+                                            return (
+                                                <div className="item" key={link?.id}>
+                                                    <a 
+                                                        href={link?.url} className="col-md-6 link close"
+                                                        data-dismiss="modal" 
+                                                        aria-label="Close" 
+                                                        target="_blank"
+                                                    >
+                                                        {link?.name || link?.page}
+                                                    </a>
+                                                </div>
+                                            )
+                                        } else if (state?.modal?.type == 'blog' && link?.is_blog) {
+                                            return (
+                                                <div className="item" key={link?.id}>
+                                                    <a 
+                                                        href={link?.url}
+                                                        className="col-md-6 link close"
+                                                        data-dismiss="modal" 
+                                                        aria-label="Close" 
+                                                        target="_blank"
+                                                        
+                                                    >
+                                                        {link?.name || link?.page}
+                                                    </a>
+                                                </div>
+                                            )
+                                        }
+                                    })}
+                                    {state?.modal?.type == 'services' && headerMenu?.map((service) => (
+                                        service?.sub_services?.map((sub_service)=> (
+                                                <li className="item" key={`${service.id}_${sub_service.id}`}>
+                                                        <Link 
+                                                            to={
+                                                                location => ({
+                                                                    ...location, pathname: `/services/${service.id}/${sub_service.id}`,
+                                                                })}
+                                                            className='col-md-6 link'
+                                                            // data-dismiss="modal" 
+                                                            // aria-label="Close"
+                                                            onClick={()=>{
+                                                                window.scrollTo({
+                                                                    top: 0,
+                                                                    behavior: "smooth"
+                                                                });
+                                                                ref.current.click();
+                                                            }}
+                                                        >
+                                                            {sub_service.name}
+                                                        </Link>
+                                                </li>
+                                            )   
+                                        ))
+                                    )}
+                                {/* </div> */}
                             </div>
                         </div>
                     </div>
