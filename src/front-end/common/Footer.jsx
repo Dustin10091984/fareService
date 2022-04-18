@@ -482,7 +482,7 @@ const Footer = (props) => {
                         </div>
                         <div className="modal-body">
                             <div className="row m-2 ">
-                                <div className="d-flex show-all align-content-around justify-content-between flex-nowrap">
+                                <div className="d-flex show-all align-items-center justify-content-around flex-wrap">
                                 {state?.modal?.type != 'services' && state?.links?.map((link) => {
                                     if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
                                         return (
