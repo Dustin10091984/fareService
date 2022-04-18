@@ -486,9 +486,9 @@ const Footer = (props) => {
                                     {state?.modal?.type != 'services' && state?.links?.map((link) => {
                                         if(state.modal?.type == 'all' && link.type == null && link.is_blog == false){
                                             return (
-                                                <div className="item" key={link?.id}>
+                                                <div className="item col-md-6" key={link?.id}>
                                                     <a 
-                                                        href={link?.url} className="col-md-6 link close"
+                                                        href={link?.url} className=" link close"
                                                         data-dismiss="modal" 
                                                         aria-label="Close" 
                                                         target="_blank"
@@ -499,10 +499,10 @@ const Footer = (props) => {
                                             )
                                         } else if (state?.modal?.type == 'blog' && link?.is_blog) {
                                             return (
-                                                <div className="item" key={link?.id}>
+                                                <div className="item col-md-6" key={link?.id}>
                                                     <a 
                                                         href={link?.url}
-                                                        className="col-md-6 link close"
+                                                        className="link close"
                                                         data-dismiss="modal" 
                                                         aria-label="Close" 
                                                         target="_blank"
@@ -516,13 +516,13 @@ const Footer = (props) => {
                                     })}
                                     {state?.modal?.type == 'services' && headerMenu?.map((service) => (
                                         service?.sub_services?.map((sub_service)=> (
-                                                <li className="item" key={`${service.id}_${sub_service.id}`}>
+                                                <li className="item col-md-6" key={`${service.id}_${sub_service.id}`}>
                                                         <Link 
                                                             to={
                                                                 location => ({
                                                                     ...location, pathname: `/services/${service.id}/${sub_service.id}`,
                                                                 })}
-                                                            className='col-md-6 link'
+                                                            className='link'
                                                             // data-dismiss="modal" 
                                                             // aria-label="Close"
                                                             onClick={()=>{
