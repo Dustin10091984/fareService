@@ -5,16 +5,13 @@ import Loading from './common/Loading';
 export const Page = (props) => {
     const [state, setState] = useState();
 
-    const ref = useRef(null);
-
     const { match: { params: { name } } } = props;
 
     const pages = useSelector((state) => state?.footerReducer?.pages);
     const page = pages?.data?.find((page) => (page.name, name));
 
-    useEffect(() => {
-      ref.current.innerHTML = page?.contant
-    }, [page])
+    // useEffect(() => {
+    // }, [page])
 
     return (
         <div className="container">
@@ -24,7 +21,10 @@ export const Page = (props) => {
                     <h1>{page?.name}</h1>
                 </div>
                 <div className="col-md-12 order-box-des d-flex  align-items-center">
-                    <span ref={ref} ></span>
+                <p
+                    className="Features"
+                    dangerouslySetInnerHTML={{ __html: page?.content }}
+                />
                     {pages.error && (
                         <div className="order-num">Not Found Data</div>
                     )}
