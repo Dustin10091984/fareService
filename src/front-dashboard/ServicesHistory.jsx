@@ -369,7 +369,7 @@ export const ServicesHistory = (props) => {
                                                                                 if (
                                                                                     serviceRequest
                                                                                         ?.worked_times
-                                                                                        .length >
+                                                                                        ?.length >
                                                                                     0
                                                                                 ) {
                                                                                     let breakTime = 0;
