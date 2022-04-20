@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { getPages } from './../../store/Slices/footer/index';
 const Footer = (props) => {
     const [state, setState] = useState({
         links: [],
@@ -9,13 +10,20 @@ const Footer = (props) => {
         total: false
     });
 
+    const dispatch = useDispatch();
+
     const ref = useRef(null);
 
     const date = new Date()
     const year = date.getFullYear()
 
     const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
+    const pages = useSelector((state) => state?.footerReducer?.pages);
     const headerMenu = useSelector((state) => state?.headerMenuReducer);
+
+    useEffect(() => {
+        dispatch(getPages());
+    }, []);
 
     useEffect(() => {
         if(getLinks?.length>0){
@@ -419,10 +427,19 @@ const Footer = (props) => {
 
                             <div className="footer-info-link mt-5">
                                 <ul className="d-flex align-items-center justify-content-center  flex-wrap flex-md-nowrap">
-                                    <li>
-                                        <a href="#">Contact</a>
-                                    </li>
-                                    <li>
+                                    {pages?.data?.map((page) => (
+                                        <li key={page?.id} onClick={()=>{
+                                            window.scrollTo({
+                                                top: 0,
+                                                left: 0,
+                                                behavior: 'smooth'
+                                            });
+                                        }}>
+                                            <Link to={`/page/${page.name}`}>{page.name}</Link>
+                                            {/* <a href="#">{page?.name}</a> */}
+                                        </li>
+                                    ))}
+                                    {/* <li>
                                         <a href="#">Privacy</a>
                                     </li>
                                     <li>
@@ -436,7 +453,7 @@ const Footer = (props) => {
                                     </li>
                                     <li>
                                         <a href="#">Cancellation Policy</a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>

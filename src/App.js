@@ -44,6 +44,7 @@ import { ChangeP } from "./front-dashboard/ChangeP";
 import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
 import { PaymentCard } from "./front-dashboard/PaymentCard";
 import { RegistrationPage } from "./views/Provider/Registration";
+import { Page } from "./front-end/Page";
 
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -188,6 +189,7 @@ function App() {
           <Route path='/product-delivery' component={ProductDelivery} />
           <Route path='/change-password' component={ChangeP} />
           <Route path='/payment-card' component={PaymentCard} />
+          <Route path='/page/:name' component={Page} />
           <Redirect to="/not-found" />
         </Switch>
 
