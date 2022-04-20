@@ -34,7 +34,7 @@ const ReactNotificationComponent = ({
 
     const handlePayload = () => {
         if(data?.type == "MOVING" || data?.type == "SERVICE_REQUEST"){
-            dispatch(handleServiceRequestNotification(data?.payload))
+            dispatch(handleServiceRequestNotification(data?.service_request_id))
         }
     }
 

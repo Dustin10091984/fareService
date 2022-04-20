@@ -51,10 +51,29 @@ export default requestServiceSlice.reducer
 const { requestService, serviceRequestList, serviceRequestDetail } = requestServiceSlice.actions
 export const { serviceRequestListUpdate, serviceRequestDetailUpdate } = requestServiceSlice.actions
 
-export const handleServiceRequestNotification = (payload) => async (dispatch) => {
-    payload = JSON.parse(payload);
-    dispatch(serviceRequestDetailUpdate(payload));
-    dispatch(serviceRequestListUpdate(payload));
+export const handleServiceRequestNotification = (id) => async (dispatch) => {
+    try {
+        await axios({
+            method: 'get',
+            headers: {
+                Authorization: `${localStorage.userToken}`
+            },
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/service-request/${id}`,
+        }).then((response) => {
+            const data = response?.data?.data;
+            dispatch(serviceRequestDetailUpdate(data));
+            dispatch(serviceRequestListUpdate(data));
+        }).catch((error) => {
+            if (error.response.status === 401) {
+                localStorage.clear();
+            }
+            const data = error.response.data;
+            data.loading = false
+            dispatch(serviceRequestDetail(data))
+        });
+    } catch (error) {
+        
+    }
 }
 
 const request = axios.create({
