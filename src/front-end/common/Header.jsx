@@ -349,18 +349,18 @@ const Header = (props) => {
                                                                                     onClick={() => {
                                                                                         if (
                                                                                             notification
-                                                                                                ?.data[0]
+                                                                                                ?.data
                                                                                                 ?.type ==
                                                                                                 "SERVICE_REQUEST" ||
                                                                                             notification
-                                                                                                ?.data[0]
+                                                                                                ?.data
                                                                                                 ?.type ==
                                                                                                 "MOVING"
                                                                                         ) {
-                                                                                            if(notification?.data[0]?.service_request_id){
+                                                                                            if(notification?.data?.service_request_id){
                                                                                                 history?.push(`/service-detail/${notification?.data[0]?.service_request_id}`);
                                                                                             }
-                                                                                        } else if(notification?.data[0]?.type == "MESSAGE"){
+                                                                                        } else if(notification?.data?.type == "MESSAGE"){
                                                                                             
                                                                                         }
                                                                                         setState(
@@ -381,14 +381,14 @@ const Header = (props) => {
                                                                                         <h4>
                                                                                             {
                                                                                                 notification
-                                                                                                    ?.data[0]
+                                                                                                    ?.data
                                                                                                     ?.title
                                                                                             }
                                                                                         </h4>
                                                                                         <p>
                                                                                             {
                                                                                                 notification
-                                                                                                    ?.data[0]
+                                                                                                    ?.data
                                                                                                     ?.body
                                                                                             }
                                                                                         </p>
