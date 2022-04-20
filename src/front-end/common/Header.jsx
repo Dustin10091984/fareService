@@ -358,7 +358,7 @@ const Header = (props) => {
                                                                                                 "MOVING"
                                                                                         ) {
                                                                                             if(notification?.data?.service_request_id){
-                                                                                                history?.push(`/service-detail/${notification?.data[0]?.service_request_id}`);
+                                                                                                history?.push(`/service-detail/${notification?.data?.service_request_id}`);
                                                                                             }
                                                                                         } else if(notification?.data?.type == "MESSAGE"){
                                                                                             
