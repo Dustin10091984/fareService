@@ -19,6 +19,7 @@
     "laravel-echo": "^1.11.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "quill-delta-to-html": "^0.12.1",
     "react": "^17.0.1",
     "react-calendar": "^3.4.0",
     "react-day-picker": "^7.4.10",
