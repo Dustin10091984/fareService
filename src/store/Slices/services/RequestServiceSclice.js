@@ -64,12 +64,6 @@ export const handleServiceRequestNotification = (id) => async (dispatch) => {
             dispatch(serviceRequestDetailUpdate(data));
             dispatch(serviceRequestListUpdate(data));
         }).catch((error) => {
-            if (error.response.status === 401) {
-                localStorage.clear();
-            }
-            const data = error.response.data;
-            data.loading = false
-            dispatch(serviceRequestDetail(data))
         });
     } catch (error) {
         

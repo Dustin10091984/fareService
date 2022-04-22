@@ -71,6 +71,7 @@ function App() {
 
   const messaging = getMessaging();
   onMessage(messaging, (payload) => {
+    console.log(payload);
     setNotification(payload);
   });
 
