@@ -15,10 +15,10 @@ export const Page = (props) => {
             const page = pages?.data?.find((page) => (page.name == name));
             setState((state)=>({...state, title: page?.title}));
             const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
-            // converter = converter.convert();
-            // setState((state) => ({...state, content: converter}));
+            converter = converter.convert();
+            setState((state) => ({...state, content: converter}));
         }
-    }, [name]);
+    }, [props?.match?.params?.name]);
     
     return (
         <div className="container">
