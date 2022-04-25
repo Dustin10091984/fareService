@@ -13,7 +13,7 @@ export const Page = (props) => {
 
     useEffect(() => {
         if(page?.content) {
-            var converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
+            const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
             setState((state)=>(converter.convert()));
         }
     }, [page?.content]);
