@@ -4,7 +4,7 @@ import Loading from './common/Loading';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 
 export const Page = (props) => {
-    const [state, setState] = useState();
+    const [state, setState] = useState({});
 
     const { match: { params: { name } } } = props;
 
@@ -14,7 +14,7 @@ export const Page = (props) => {
     useEffect(() => {
         if(page?.content) {
             const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
-            setState((state)=>(converter.convert()));
+            setState((prev)=>({...prev, content: converter.convert()}));
         }
     }, [page?.content]);
 
