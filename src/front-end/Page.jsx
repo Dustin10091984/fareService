@@ -15,7 +15,7 @@ export const Page = (props) => {
             const page = pages?.data?.find((page) => (page.name == name));
             const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
             converter = converter.convert();
-            setState((state) => ({...state, content: converter, title: page?.title}));
+            setState((prev) => ({...prev, content: converter, title: page?.title}));
         }
     }, [props?.match?.params?.name]);
     
