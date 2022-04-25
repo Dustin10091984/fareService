@@ -17,7 +17,7 @@ export const Page = (props) => {
             converter = converter.convert();
             // setState((prev) => ({...prev, content: converter, title: page?.title}));
         }
-    }, [props?.match?.params?.name]);
+    }, [page?.content]);
     
     return (
         <div className="container">
