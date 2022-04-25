@@ -31,7 +31,7 @@ export const Page = (props) => {
                         fontSize: '1.5rem',
                     }}
                     className="Features"
-                    dangerouslySetInnerHTML={{ __html: state }}
+                    dangerouslySetInnerHTML={{ __html: state?.content }}
                 />
                     {pages.error && (
                         <div className="order-num">Not Found Data</div>
