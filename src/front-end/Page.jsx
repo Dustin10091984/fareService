@@ -9,23 +9,21 @@ export const Page = (props) => {
     const { match: { params: { name } } } = props;
 
     const pages = useSelector((state) => state?.footerReducer?.pages);
-    
+    const page = pages?.data?.find((page) => (page.name, name));
+
     useEffect(() => {
         if(page?.content) {
-            const page = pages?.data?.find((page) => (page.name == name));
-            setState((state)=>({...state, title: page?.title}));
-            const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
-            converter = converter.convert();
-            setState((state) => ({...state, content: converter}));
+            var converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
+            setState(converter.convert());
         }
-    }, [props?.match?.params?.name]);
-    
+    }, [page?.content]);
+
     return (
         <div className="container">
             <Loading loading={pages.loading}></Loading>
             <div className="row">
                 <div className="text-center col-md-12">
-                    <h1>{state?.title}</h1>
+                    <h1>{page?.name}</h1>
                 </div>
                 <div className="col-md-12 order-box-des d-flex  align-items-center">
                 <p
@@ -33,7 +31,7 @@ export const Page = (props) => {
                         fontSize: '1.5rem',
                     }}
                     className="Features"
-                    dangerouslySetInnerHTML={{ __html: state?.content }}
+                    dangerouslySetInnerHTML={{ __html: state }}
                 />
                     {pages.error && (
                         <div className="order-num">Not Found Data</div>
