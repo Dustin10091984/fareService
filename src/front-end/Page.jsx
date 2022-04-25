@@ -14,7 +14,7 @@ export const Page = (props) => {
     useEffect(() => {
         if(page?.content) {
             const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
-            setState((prev)=>({...prev, content: converter.convert()}));
+            setState((prev)=>({...prev, title: page?.title, content: converter.convert()}));
         }
     }, [page?.content]);
 
