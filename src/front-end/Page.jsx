@@ -9,7 +9,7 @@ export const Page = (props) => {
     const { match: { params: { name } } } = props;
 
     const pages = useSelector((state) => state?.footerReducer?.pages);
-    const page = pages?.data?.find((page) => (page.name, name));
+    const page = pages?.data?.find((page) => (page.name == name));
 
     useEffect(() => {
         if(name && page?.content) {
