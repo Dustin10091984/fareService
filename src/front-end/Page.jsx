@@ -12,18 +12,18 @@ export const Page = (props) => {
     const page = pages?.data?.find((page) => (page.name, name));
 
     useEffect(() => {
-        if(page?.content) {
+        if(name && page?.content) {
             const converter = new QuillDeltaToHtmlConverter(JSON.parse(page?.content)?.ops);
             setState((prev)=>({...prev, title: page?.title, content: converter.convert()}));
         }
-    }, [page?.content]);
+    }, [name]);
 
     return (
         <div className="container">
             <Loading loading={pages.loading}></Loading>
             <div className="row">
                 <div className="text-center col-md-12">
-                    <h1>{page?.name}</h1>
+                    <h1>{state?.title}</h1>
                 </div>
                 <div className="col-md-12 order-box-des d-flex  align-items-center">
                 <p
