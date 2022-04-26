@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import Loading from './common/Loading';
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
@@ -26,13 +26,15 @@ export const Page = (props) => {
                     <h1>{state?.title}</h1>
                 </div>
                 <div className="col-md-12 order-box-des d-flex  align-items-center">
-                <p
-                    style={{
-                        fontSize: '1.5rem',
-                    }}
-                    className="Features"
-                    dangerouslySetInnerHTML={{ __html: state?.content }}
-                />
+                <Fragment key={"propIddksdkfljsdhkfhsdkfhsdkjhfjkdshfkjdhfkjhsdkfjhsdkjfhdskfhdskjfdjkfhkdjshfjk"}>
+                    <p
+                        style={{
+                            fontSize: '1.5rem',
+                        }}
+                        className="Features"
+                        dangerouslySetInnerHTML={{ __html: state?.content }}
+                    />
+                </Fragment>
                     {pages.error && (
                         <div className="order-num">Not Found Data</div>
                     )}
