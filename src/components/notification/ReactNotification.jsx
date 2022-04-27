@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,7 +16,7 @@ const ReactNotificationComponent = ({
 
     const dispatch = useDispatch();
     useEffect(() => {
-        if(messageId){
+        if (messageId) {
             toast.info(<Display />, {
                 hideProgressBar: true,
                 newestOnTop: false,
@@ -33,10 +33,12 @@ const ReactNotificationComponent = ({
     }, [messageId]);
 
     const handlePayload = () => {
-        if(data?.type == "MOVING" || data?.type == "SERVICE_REQUEST"){
-            dispatch(handleServiceRequestNotification(data?.service_request_id))
+        if (data?.type == "MOVING" || data?.type == "SERVICE_REQUEST") {
+            dispatch(
+                handleServiceRequestNotification(data?.service_request_id)
+            );
         }
-    }
+    };
 
     const handleNotificationClick = (type) => {
         toast.dismiss(messageId);
@@ -48,11 +50,11 @@ const ReactNotificationComponent = ({
             history?.push({
                 pathname: "/services-history",
             });
-        } else if(data?.type == "MESSAGE"){
-            handleMessageClick({...data, fcmMessageId: messageId});
+        } else if (data?.type == "MESSAGE") {
+            handleMessageClick({ ...data, fcmMessageId: messageId });
         }
     };
-    
+
     function Display() {
         // var zippi = new Audio('/assets/audio/notification.mp3',{
         //     autoPlay: true,
@@ -60,7 +62,7 @@ const ReactNotificationComponent = ({
         // zippi.muted = false;
         // zippi.play();
         return (
-            <div onClick={()=>handleNotificationClick(data?.type)}>
+            <div onClick={() => handleNotificationClick(data?.type)}>
                 <h4>{data?.title}</h4>
                 <p>{data?.body}</p>
             </div>
