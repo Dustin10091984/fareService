@@ -26,18 +26,20 @@ const messageListSlice = createSlice({
         }, 
 
         addMessage: (state, action) => {
-            const dataList = JSON.parse(JSON.stringify(state?.data?.data));
-            let newData = null;
-            if(dataList){
-                newData = [...dataList, action.payload];
+            if (state?.data?.data) {
+                const dataList = JSON.parse(JSON.stringify(state?.data?.data));
+                let newData = null;
+                if (dataList) {
+                    newData = [...dataList, action.payload];
+                }
+                return {
+                    ...state,
+                    data: {
+                        ...state.data, data: newData == null ? [action.payload] : newData
+                    },
+                }
             }
-            
-            return {
-                ...state,
-                data : {
-                    ...state.data, data:newData == null ? [action.payload] : newData
-                },
-            }
+
         }
     }
 });

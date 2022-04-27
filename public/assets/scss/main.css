@@ -3347,3 +3347,7 @@ section.best-house-clen.pad-y,
     font-size: 30px;
     text-align: center;
 }
+
+.rem-1-5{
+    font-size: 2rem;
+}
