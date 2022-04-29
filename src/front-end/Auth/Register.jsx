@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
+import { HOST } from "../../constants";
 
 const Register = (props) => {
     const { history } = props;
 
     const [state, setState] = useState({
         isLoading: false,
+        otpLoading: false,
         values: {
             first_name: "",
             last_name: "",
@@ -16,11 +18,63 @@ const Register = (props) => {
             password_confirmation: "",
         },
         errors: {},
-        step: 1,
+        step: 2,
+        timeLeft: 30,
+        send: false,
+        otpMessage: "",
+        errorMessage: "",
     });
 
+    const countdown = () => {
+        setState({ ...state, otpLoading: true, send: true });
+        let timeLeft = 29;
+        let timerId = setInterval(() => {
+            if (timeLeft == 0) {
+                clearTimeout(timerId);
+                setState((prevState) => ({
+                    ...prevState,
+                    timeLeft: 29,
+                    send: false,
+                }));
+            } else {
+                setState((prevState) => ({
+                    ...prevState,
+                    timeLeft: timeLeft--,
+                }));
+            }
+        }, 1000);
+        axios({
+            method: "post",
+            url: process.env.REACT_APP_API_BASE_URL + "/api/user/signup/phone",
+            data: state.values,
+        })
+            .then(function (response) {
+                setState((prevState) => ({
+                    ...prevState,
+                    otpMessage: "OTP sent successfully",
+                    otpLoading: false,
+                }));
+            })
+            .catch((error) => {
+                //handle error
+                if (error.response && error.response.data["error"]) {
+                    setState((state) => ({
+                        ...state,
+
+                        errors: {
+                            ...(state.errors = error.response.data.message),
+                        },
+                    }));
+                }
+                setState((prevState) => ({
+                    ...prevState,
+                    otpLoading: false,
+                }));
+            });
+    };
+
     useEffect(() => {
-        if(localStorage.userToken, localStorage.userToken){
+        if ((localStorage.userToken, localStorage.userToken)) {
             history.push("/dashboard");
         }
     }, [localStorage.userToken, localStorage.userToken]);
@@ -41,7 +95,7 @@ const Register = (props) => {
     };
 
     const handlePhoneSignUp = (event) => {
-        event.preventDefault();
+        !!event && event.preventDefault();
         setState((state) => ({
             ...state,
             isLoading: true,
@@ -171,10 +225,14 @@ const Register = (props) => {
                             <div className="login-heading text-center">
                                 Register
                             </div>
-                            <div className="text-center text-success" style={{
-                                fontSize: "1.5rem",
-                            }}>
-                                {state?.success && "Successfully registered. Please wait for the admin to approve your account."}
+                            <div
+                                className="text-center text-success"
+                                style={{
+                                    fontSize: "1.5rem",
+                                }}
+                            >
+                                {state?.success &&
+                                    "Successfully registered. Please wait for the admin to approve your account."}
                             </div>
                             {(() => {
                                 switch (state.step) {
@@ -250,10 +308,13 @@ const Register = (props) => {
                                     case 2:
                                         return (
                                             <div className="inner-box-log mx-auto">
+                                                <div className="text-center mb-2">
+                                                    {state?.otpMessage}
+                                                </div>
                                                 <form
                                                     onSubmit={handleOtpSignUp}
                                                 >
-                                                    <div className="common-input mb-5">
+                                                    <div className="common-input">
                                                         <input
                                                             type="text"
                                                             name="otp"
@@ -274,9 +335,30 @@ const Register = (props) => {
                                                                 : ""}
                                                         </p>
                                                     </div>
+                                                    <div
+                                                        className="item show-all rem-1-5"
+                                                        onClick={countdown}
+                                                    >
+                                                        {state?.timeLeft > 0 &&
+                                                        state?.timeLeft < 29 ? (
+                                                            <span className="rem-1-5 m-2 float-right">
+                                                                Resent after{" "}
+                                                                {
+                                                                    state?.timeLeft
+                                                                }{" "}
+                                                                seconds
+                                                            </span>
+                                                        ) : (
+                                                            <a
+                                                                className={`link m-2 float-right`}
+                                                            >
+                                                                Resend otp{" "}
+                                                            </a>
+                                                        )}
+                                                    </div>
                                                     <button
                                                         type="submit"
-                                                        className="button-common w-100 mb-5"
+                                                        className="button-common w-100 mb-2"
                                                         disabled={
                                                             state.isLoading
                                                         }
@@ -450,7 +532,8 @@ const Register = (props) => {
                                                             type="submit"
                                                             className="button-common w-100 mb-5"
                                                             disabled={
-                                                                state.isLoading || state?.success
+                                                                state.isLoading ||
+                                                                state?.success
                                                             }
                                                         >
                                                             Register{" "}
@@ -471,8 +554,8 @@ const Register = (props) => {
 
                             <div className="login-detail mt-5 text-center">
                                 By signing and clicking Get a Price, you affirm
-                                you have read and agree to the Farenow Terms, and
-                                you agree and authorize Farenow and its
+                                you have read and agree to the Farenow Terms,
+                                and you agree and authorize Farenow and its
                                 affiliates, and their networks of service
                                 professionals, to deliver marketing calls or
                                 texts using automated technology to the number

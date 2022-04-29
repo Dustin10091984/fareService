@@ -3345,6 +3345,17 @@ section.best-house-clen.pad-y,
     text-align: center;
 }
 
-.rem-1-5{
+.rem-2{
     font-size: 2rem;
+}
+
+.rem-1-5{
+    font-size: 1.5rem;
+}
+
+.disabled {
+    color: #000;
+}
+.disabled:hover {
+    color: #000;
 }
