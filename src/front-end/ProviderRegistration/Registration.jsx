@@ -23,7 +23,7 @@ const Registration = (props) => {
         profileDetails,
     } = props;
     const [step, setStep] = useState(
-        localStorage.getItem("providerToken") ? 3 : 1
+        localStorage.getItem("providerToken") ? 3 : 6
     );
     const [basic, setBasic] = useState({
         code: "+92",
@@ -41,7 +41,7 @@ const Registration = (props) => {
         zip_code: [],
         service_id: "",
     });
-    const [providerType, setProviderType] = useState();
+    const [providerType, setProviderType] = useState("Individual");
     const [profile, setProfile] = useState({
         image: "",
     });
@@ -132,7 +132,8 @@ const Registration = (props) => {
             localStorage.removeItem("providerToken");
             setStep(1);
             setBasic({
-                success: "Congratulation! You are successfully registered. We will let you know when we launch our website. Thank you.",
+                success:
+                    "Congratulation! You are successfully registered. We will let you know when we launch our website. Thank you.",
                 code: "+92",
                 error: {
                     email: "",
@@ -348,8 +349,9 @@ const Registration = (props) => {
                 className="main-registration"
                 style={{
                     background:
-                        "url(/assets/img/banner.jpg) no-repeat center/cover",
-                    // fontSize: "1.5rem",
+                        "url(/assets/img/banner.jpg) no-repeat fixed center/cover",
+                    height: "100vh",
+                    width: "100%",
                 }}
             >
                 {/* <div className="container">

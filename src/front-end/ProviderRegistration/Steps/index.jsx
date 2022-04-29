@@ -47,63 +47,65 @@ const Basic = ({
 
     return (
         <>
-        {basic.success && (
-            <div className="alert alert-success text-center">
+            {basic.success && (
+                <div className="alert alert-success text-center">
                     {basic.success}
-            </div>
-        )}
-        <div className="login-from step-1">
-            <div className="form-title mb-3">Set Up Your Business Profile.</div>
-            <div className="form-term mb-2">
-                How Whould you like customer to contact you? 
-            </div>
+                </div>
+            )}
+            <div className="login-from step-1">
+                <div className="form-title mb-3">
+                    Set Up Your Business Profile.
+                </div>
+                <div className="form-term mb-2">
+                    How would you like customer to contact you?
+                </div>
 
-            <div className="common-input mb-4">
-                <label htmlFor="name">Email</label>
-                <strong className="text-danger">*</strong>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="john.doe@gmail.com"
-                    defaultValue={basic?.email || ""}
-                    onChange={handleBasic}
-                />
-                <div className="text-danger">
-                    {isError("email")}
-                    {/* {isServerError("email")} */}
-                </div>
-            </div>
-            <div className="row">
-                <div className="common-input mb-4 col-12">
-                    <label>Phone</label>
+                <div className="common-input mb-4">
+                    <label htmlFor="name">Email</label>
                     <strong className="text-danger">*</strong>
-                    <div className="d-flex phone-input">
-                        <select
-                            className="js-example-basic-single  col-3"
-                            name="code"
-                            defaultValue={basic?.code}
-                            onChange={handleBasic}
-                        >
-                            <option value={"+1"}>+1 </option>
-                            <option value={"+92"}>+92</option>
-                            <option value={"+234"}>+234</option>
-                        </select>
-                        <input
-                            type="tel"
-                            name="phone"
-                            className="phone-input-2 col-9"
-                            placeholder="1234567890"
-                            defaultValue={basic?.phone || ""}
-                            onChange={handleBasic}
-                        />
-                    </div>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="john.doe@gmail.com"
+                        defaultValue={basic?.email || ""}
+                        onChange={handleBasic}
+                    />
                     <div className="text-danger">
-                        {isError("phone")}
-                        {/* {isServerError("phone")} */}
+                        {isError("email")}
+                        {/* {isServerError("email")} */}
                     </div>
                 </div>
-            </div>
-            {/* <label className="custom-check">
+                <div className="row">
+                    <div className="common-input mb-4 col-12">
+                        <label>Phone</label>
+                        <strong className="text-danger">*</strong>
+                        <div className="d-flex phone-input">
+                            <select
+                                className="js-example-basic-single  col-3"
+                                name="code"
+                                defaultValue={basic?.code}
+                                onChange={handleBasic}
+                            >
+                                <option value={"+1"}>+1 </option>
+                                <option value={"+92"}>+92</option>
+                                <option value={"+234"}>+234</option>
+                            </select>
+                            <input
+                                type="tel"
+                                name="phone"
+                                className="phone-input-2 col-9"
+                                placeholder="1234567890"
+                                defaultValue={basic?.phone || ""}
+                                onChange={handleBasic}
+                            />
+                        </div>
+                        <div className="text-danger">
+                            {isError("phone")}
+                            {/* {isServerError("phone")} */}
+                        </div>
+                    </div>
+                </div>
+                {/* <label className="custom-check">
                                         Enable text messages
                                         <input
                                             type="checkbox"
@@ -111,27 +113,26 @@ const Basic = ({
                                         />
                                         <span className="checkmark"></span>
                                     </label> */}
-            {/* <div className="form-term mb-2">
+                {/* <div className="form-term mb-2">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
                 facere suscipit earum voluptatibus doloremque quia?
             </div> */}
-            <div className="common-input mb-4">
-                <label htmlFor="name">Password</label>
-                <strong className="text-danger">*</strong>
-                <input
-                    type="password"
-                    
-                    name="password"
-                    placeholder="password"
-                    defaultValue={basic?.password || ""}
-                    onChange={handleBasic}
-                />
-                <div className="text-danger">
-                    {isError("password")}
-                    {/* {isServerError("password")} */}
+                <div className="common-input mb-4">
+                    <label htmlFor="name">Password</label>
+                    <strong className="text-danger">*</strong>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="password"
+                        defaultValue={basic?.password || ""}
+                        onChange={handleBasic}
+                    />
+                    <div className="text-danger">
+                        {isError("password")}
+                        {/* {isServerError("password")} */}
+                    </div>
                 </div>
-            </div>
-            {/* <div className="common-input mb-4 d-none">
+                {/* <div className="common-input mb-4 d-none">
                 <label className="mb-0">Citis</label>
                 <select
                     className="js-example-basic-single "
@@ -143,41 +144,42 @@ const Basic = ({
                     <option value="WY">Benin</option>
                 </select>
             </div> */}
-            <div className="form-term my-2">
-                By clicking next you agree to  <a href="#">Terms of Service</a> and{" "}
-                <a href="#">Privacy Policy</a>.{" "}
-            </div>
+                <div className="form-term my-2">
+                    By clicking next you agree to{" "}
+                    <a href="#">Terms of Service</a> and{" "}
+                    <a href="#">Privacy Policy</a>.{" "}
+                </div>
 
-            <button
-                disabled={(() => {
-                    return (
-                        providerSignup?.loading ||
-                        isError("email") ||
-                        isError("phone") ||
-                        isError("password") ||
-                        basic?.email == "" ||
-                        basic?.email == undefined ||
-                        basic?.password == "" ||
-                        basic?.password == undefined ||
-                        basic?.phone == "" ||
-                        basic?.phone == undefined
-                    );
-                })()}
-                className="btn btn-primary w-100 mt-3"
-                id="step-1"
-                type="button"
-                onClick={handleNextClick}
-            >
-                {providerSignup?.loading ? (
-                    <>
-                        <i 
-                            className="fa fa-spinner fa-pulse"
-                        >
-                        </i> Please wait...
-                    </>
-                ) : "Next"}
-            </button>
-        </div>
+                <button
+                    disabled={(() => {
+                        return (
+                            providerSignup?.loading ||
+                            isError("email") ||
+                            isError("phone") ||
+                            isError("password") ||
+                            basic?.email == "" ||
+                            basic?.email == undefined ||
+                            basic?.password == "" ||
+                            basic?.password == undefined ||
+                            basic?.phone == "" ||
+                            basic?.phone == undefined
+                        );
+                    })()}
+                    className="btn btn-primary w-100 mt-3"
+                    id="step-1"
+                    type="button"
+                    onClick={handleNextClick}
+                >
+                    {providerSignup?.loading ? (
+                        <>
+                            <i className="fa fa-spinner fa-pulse"></i> Please
+                            wait...
+                        </>
+                    ) : (
+                        "Next"
+                    )}
+                </button>
+            </div>
         </>
     );
 };
