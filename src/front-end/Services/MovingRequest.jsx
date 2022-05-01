@@ -30,7 +30,7 @@ const MovingRequest = ({
 
     return (
         <>
-            <div className="moving-new-secion">
+            <div className="moving-new-secion" id="moving-section">
                 <div className="new-imag-moving text-center">
                     {vehicleTypes?.error && (
                         <div className="text-danger">
@@ -154,7 +154,9 @@ const MovingRequest = ({
                                         subServiceId={subServiceId}
                                         countriesData={countriesData}
                                         cityCountry={cityCountry}
-                                        handleCountryCityChange={handleCountryCityChange}
+                                        handleCountryCityChange={
+                                            handleCountryCityChange
+                                        }
                                     />
                                 </div>
                             </div>

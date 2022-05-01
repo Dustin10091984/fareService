@@ -75,7 +75,7 @@ export const Index = (props) => {
                                                 }${
                                                     item.id == 3
                                                         ? "?service_type=" +
-                                                          ServiceType.MOVING
+                                                          `${ServiceType.MOVING}#moving-section`
                                                         : ""
                                                 }#cleaning-services`}
                                             >
@@ -225,7 +225,7 @@ export const Index = (props) => {
                                         Happiness Guarantee only applies when
                                         you book and pay for a service directly
                                         through the Farenow platform.{" "}
-                                        <a href="#">Learn more</a>
+                                        {/* <a href="#">Learn more</a> */}
                                     </div>
                                 </div>
                             </div>
@@ -323,11 +323,11 @@ export const Index = (props) => {
                                     <div className="back-layer">
                                         {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
                                     </div>
-                                    <div className="inner-btn d-flex align-items-center justify-content-center">
+                                    {/* <div className="inner-btn d-flex align-items-center justify-content-center">
                                         <a href="#" className="button-common">
                                             Show all Home Products
                                         </a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

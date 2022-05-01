@@ -330,7 +330,8 @@ export const Cart = (props) => {
                                                                         (food?.image &&
                                                                             `${HOST}${food.image}`) ||
                                                                         (product?.image &&
-                                                                            `${HOST}${product.image}`) || ""
+                                                                            `${HOST}${product.image}`) ||
+                                                                        ""
                                                                     }
                                                                     className="img-fluid"
                                                                     alt=""
@@ -338,7 +339,7 @@ export const Cart = (props) => {
                                                                         e
                                                                     ) => {
                                                                         e.target.src =
-                                                                        "/assets/img/cart-prod.jpg"
+                                                                            "/assets/img/cart-prod.jpg";
                                                                     }}
                                                                 />
                                                             </div>
@@ -372,16 +373,9 @@ export const Cart = (props) => {
                                                                         "d-flex justify-content-center"
                                                                     }
                                                                 >
-                                                                    <span className="font-weight-bold">
-                                                                        {(item?.id ==
-                                                                            state
-                                                                                ?.cart
-                                                                                ?.id &&
-                                                                            state
-                                                                                ?.cart
-                                                                                ?.quantity) ||
-                                                                            item?.quantity}
-                                                                    </span>
+                                                                    {/* <span className="font-weight-bold">
+                                                                        
+                                                                    </span> */}
                                                                     &nbsp;&nbsp;
                                                                     {((item?.id ==
                                                                         state
@@ -392,56 +386,58 @@ export const Cart = (props) => {
                                                                             ?.quantity) ||
                                                                         item?.quantity) >
                                                                     1 ? (
-                                                                        <i
-                                                                            className="fa fa-minus"
-                                                                            aria-hidden="true"
-                                                                            style={{
-                                                                                cursor: "default",
-                                                                                color: "white",
-                                                                                backgroundColor:
-                                                                                    "blue",
-                                                                                borderRadius:
-                                                                                    "100%",
-                                                                                padding:
-                                                                                    ".4rem",
-                                                                                paddingLeft:
-                                                                                    ".6rem",
-                                                                                paddingRight:
-                                                                                    ".6rem",
-                                                                                paddingTop:
-                                                                                    ".6rem",
-                                                                            }}
-                                                                            onClick={() =>
-                                                                                handleMinusClick(
-                                                                                    {
-                                                                                        id: item.id,
-                                                                                        quantity:
-                                                                                            item?.id ==
-                                                                                            state
-                                                                                                ?.cart
-                                                                                                ?.id
-                                                                                                ? state
-                                                                                                      ?.cart
-                                                                                                      ?.quantity
-                                                                                                : parseInt(
-                                                                                                      item.quantity
-                                                                                                  ),
-                                                                                    }
-                                                                                )
-                                                                            }
-                                                                        ></i>
+                                                                        <></>
                                                                     ) : (
-                                                                        <i
-                                                                            className="fa fa-times mt-2 cart-remove-btn"
-                                                                            onClick={() =>
-                                                                                handleDeleteClick(
-                                                                                    item.id
-                                                                                )
-                                                                            }
-                                                                        ></i>
+                                                                        <></>
+                                                                        // <i
+                                                                        //     className="fa fa-minus"
+                                                                        //     aria-hidden="true"
+                                                                        //     style={{
+                                                                        //         cursor: "default",
+                                                                        //         color: "white",
+                                                                        //         backgroundColor:
+                                                                        //             "blue",
+                                                                        //         borderRadius:
+                                                                        //             "100%",
+                                                                        //         padding:
+                                                                        //             ".4rem",
+                                                                        //         paddingLeft:
+                                                                        //             ".6rem",
+                                                                        //         paddingRight:
+                                                                        //             ".6rem",
+                                                                        //         paddingTop:
+                                                                        //             ".6rem",
+                                                                        //     }}
+                                                                        //     onClick={() =>
+                                                                        //         handleMinusClick(
+                                                                        //             {
+                                                                        //                 id: item.id,
+                                                                        //                 quantity:
+                                                                        //                     item?.id ==
+                                                                        //                     state
+                                                                        //                         ?.cart
+                                                                        //                         ?.id
+                                                                        //                         ? state
+                                                                        //                               ?.cart
+                                                                        //                               ?.quantity
+                                                                        //                         : parseInt(
+                                                                        //                               item.quantity
+                                                                        //                           ),
+                                                                        //             }
+                                                                        //         )
+                                                                        //     }
+                                                                        // ></i>
+                                                                        // <i
+                                                                        //     className="fa fa-times mt-2 cart-remove-btn"
+                                                                        //     onClick={() =>
+                                                                        //         handleDeleteClick(
+                                                                        //             item.id
+                                                                        //         )
+                                                                        //     }
+                                                                        // ></i>
                                                                     )}
-                                                                    &nbsp;&nbsp;
-                                                                    <i
+                                                                    {/* &nbsp;&nbsp; */}
+                                                                    {/* <i
                                                                         className="fa fa-plus"
                                                                         aria-hidden="true"
                                                                         style={{
@@ -460,25 +456,84 @@ export const Cart = (props) => {
                                                                             paddingTop:
                                                                                 ".6rem",
                                                                         }}
-                                                                        onClick={() =>
-                                                                            handlePlusClick(
-                                                                                {
-                                                                                    id: item.id,
-                                                                                    quantity:
-                                                                                        item?.id ==
-                                                                                        state
-                                                                                            ?.cart
-                                                                                            ?.id
-                                                                                            ? state
-                                                                                                  ?.cart
-                                                                                                  ?.quantity
-                                                                                            : parseInt(
-                                                                                                  item.quantity
-                                                                                              ),
+                                                                    ></i> */}
+                                                                    <div className="float-right d-flex flex-row justify-content-between align-items-center added-cart-ctm">
+                                                                        {((item?.id ==
+                                                                            state
+                                                                                ?.cart
+                                                                                ?.id &&
+                                                                            state
+                                                                                ?.cart
+                                                                                ?.quantity) ||
+                                                                            item?.quantity) ==
+                                                                        1 ? (
+                                                                            <i
+                                                                                className="far fa-trash-alt m-0 cart-remove-btn"
+                                                                                aria-hidden="true"
+                                                                                onClick={() =>
+                                                                                    handleDeleteClick(
+                                                                                        item.id
+                                                                                    )
                                                                                 }
-                                                                            )
-                                                                        }
-                                                                    ></i>
+                                                                            ></i>
+                                                                        ) : (
+                                                                            <i
+                                                                                className="fa fa-minus plus-btn"
+                                                                                aria-hidden="true"
+                                                                                onClick={() =>
+                                                                                    handleMinusClick(
+                                                                                        {
+                                                                                            id: item.id,
+                                                                                            quantity:
+                                                                                                item?.id ==
+                                                                                                state
+                                                                                                    ?.cart
+                                                                                                    ?.id
+                                                                                                    ? state
+                                                                                                          ?.cart
+                                                                                                          ?.quantity
+                                                                                                    : parseInt(
+                                                                                                          item.quantity
+                                                                                                      ),
+                                                                                        }
+                                                                                    )
+                                                                                }
+                                                                            ></i>
+                                                                        )}
+                                                                        <span className="font-weight-bold quantity-box d-flex aling-items-center justify-content-center">
+                                                                            {/* {quantity} */}
+                                                                            {(item?.id ==
+                                                                                state
+                                                                                    ?.cart
+                                                                                    ?.id &&
+                                                                                state
+                                                                                    ?.cart
+                                                                                    ?.quantity) ||
+                                                                                item?.quantity}
+                                                                        </span>
+                                                                        <i
+                                                                            className="fa fa-plus plus-btn"
+                                                                            aria-hidden="true"
+                                                                            onClick={() =>
+                                                                                handlePlusClick(
+                                                                                    {
+                                                                                        id: item.id,
+                                                                                        quantity:
+                                                                                            item?.id ==
+                                                                                            state
+                                                                                                ?.cart
+                                                                                                ?.id
+                                                                                                ? state
+                                                                                                      ?.cart
+                                                                                                      ?.quantity
+                                                                                                : parseInt(
+                                                                                                      item.quantity
+                                                                                                  ),
+                                                                                    }
+                                                                                )
+                                                                            }
+                                                                        ></i>
+                                                                    </div>
                                                                     {/* <div className="col-6">
                                                                         <div className="input-group">
                                                                             <span className="input-group-btn">

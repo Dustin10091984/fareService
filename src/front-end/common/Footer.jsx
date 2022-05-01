@@ -347,11 +347,13 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between flex-column flex-md-row">
                             <div className="footer-lgoo mb-5">
-                                <img
-                                    src="/assets/img/logo.png"
-                                    className="img-fluid"
-                                    alt=""
-                                />
+                                <Link to={"/"}>
+                                    <img
+                                        src="/assets/img/logo.png"
+                                        className="img-fluid"
+                                        alt=""
+                                    />
+                                </Link>
                             </div>
 
                             <div className="footer-about text-center text-md-left mb-5">
@@ -644,14 +646,14 @@ const Footer = (props) => {
                                                         className="link"
                                                         // data-dismiss="modal"
                                                         // aria-label="Close"
-                                                        onClick={() => {
-                                                            window.scrollTo({
-                                                                top: 0,
-                                                                behavior:
-                                                                    "smooth",
-                                                            });
-                                                            ref.current.click();
-                                                        }}
+                                                        // onClick={() => {
+                                                        //     window.scrollTo({
+                                                        //         top: 0,
+                                                        //         behavior:
+                                                        //             "smooth",
+                                                        //     });
+                                                        //     ref.current.click();
+                                                        // }}
                                                     >
                                                         {sub_service.name}
                                                     </Link>

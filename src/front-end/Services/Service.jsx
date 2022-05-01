@@ -26,7 +26,7 @@ const Service = ({
     return (
         <div
             className="moving-search-box house-cleaning-sec"
-            id="cleaning-services"
+            id={"cleaning-services"}
         >
             {serviceData?.loading && (
                 <div className="service-loading">
@@ -40,7 +40,12 @@ const Service = ({
                         className="fa fa-exclamation-triangle fa-4x fa-fw error-color"
                         aria-hidden="true"
                     ></i>
-                    <span className="error-color"> {serviceData?.message}</span>
+                    <span className="error-color">
+                        {" "}
+                        {serviceData?.message == "Not Found"
+                            ? "This Service coming soon"
+                            : serviceData?.message}
+                    </span>
                 </div>
             )}
             {serviceData?.data && (
