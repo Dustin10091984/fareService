@@ -24,7 +24,10 @@ const Service = ({
     }, [subServiceId]);
 
     return (
-        <div className="moving-search-box house-cleaning-sec">
+        <div
+            className="moving-search-box house-cleaning-sec"
+            id="cleaning-services"
+        >
             {serviceData?.loading && (
                 <div className="service-loading">
                     <i className="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
@@ -206,23 +209,35 @@ const Service = ({
                                             )
                                     )}
                                 </div>
-                                <hr/>
-                                <h4 className="mx-3 my-1">Choose service area</h4>
+                                <hr />
+                                <h4 className="mx-3 my-1">
+                                    Choose service area
+                                </h4>
                                 <div className="d-flex justify-content-between">
-                                <div className="common-input my-2 mx-3">
-                                        <select 
+                                    <div className="common-input my-2 mx-3">
+                                        <select
                                             name="country"
                                             value={cityCountry?.country}
                                             onChange={(e) => {
                                                 handleCountryCityChange(e);
                                             }}
                                         >
-                                            <option defaultValue="">Select Country</option>
-                                            {countriesData?.data?.map((countryData, index) => (
-                                                <Fragment key={index}>
-                                                    <option value={countryData.id}>{countryData.name}</option>
-                                                </Fragment>
-                                            ))}
+                                            <option defaultValue="">
+                                                Select Country
+                                            </option>
+                                            {countriesData?.data?.map(
+                                                (countryData, index) => (
+                                                    <Fragment key={index}>
+                                                        <option
+                                                            value={
+                                                                countryData.id
+                                                            }
+                                                        >
+                                                            {countryData.name}
+                                                        </option>
+                                                    </Fragment>
+                                                )
+                                            )}
                                         </select>
                                     </div>
                                     <div className="common-input my-2 mx-3">
@@ -234,14 +249,29 @@ const Service = ({
                                                 handleCountryCityChange(e);
                                             }}
                                         >
-                                            <option defaultValue="" >Select City</option>
-                                            {(()=>{
-                                                const countryData = countriesData?.data?.find((countryData) => countryData.id == cityCountry?.country);
-                                                return countryData?.cities?.map((cityData, index) => (
-                                                    <Fragment key={index}>
-                                                        <option value={cityData.id}>{cityData.name}</option>
-                                                    </Fragment>
-                                                ))
+                                            <option defaultValue="">
+                                                Select City
+                                            </option>
+                                            {(() => {
+                                                const countryData =
+                                                    countriesData?.data?.find(
+                                                        (countryData) =>
+                                                            countryData.id ==
+                                                            cityCountry?.country
+                                                    );
+                                                return countryData?.cities?.map(
+                                                    (cityData, index) => (
+                                                        <Fragment key={index}>
+                                                            <option
+                                                                value={
+                                                                    cityData.id
+                                                                }
+                                                            >
+                                                                {cityData.name}
+                                                            </option>
+                                                        </Fragment>
+                                                    )
+                                                );
                                             })()}
                                         </select>
                                     </div>

@@ -77,7 +77,7 @@ export const Index = (props) => {
                                                         ? "?service_type=" +
                                                           ServiceType.MOVING
                                                         : ""
-                                                }`}
+                                                }#cleaning-services`}
                                             >
                                                 <img
                                                     src={

@@ -105,11 +105,7 @@ const Header = (props) => {
                                     key={`sub-menu-${index}`}
                                 >
                                     <NavLink
-                                        to={location => ({
-                                            ...location,
-                                            pathname: `/services/${menu.id}/${sub_menu.id}`,
-                                        })}
-                                            
+                                        to={`/services/${menu.id}/${sub_menu.id}#cleaning-services`}
                                         // ${
                                         //     menu.id == 3
                                         //         ? "?service_type=" +
