@@ -46,25 +46,25 @@ const Profile = ({ profile }) => {
     }, [updateProfile]);
 
     const handleChange = (e) => {
-        if (e.target.value == "") {
-            setState({
-                ...state,
-                profile: { ...state.profile, [e.target.name]: e.target.value },
-                errors: {
-                    ...state.errors,
-                    [e.target.name]: " Required",
-                },
-            });
-        } else {
-            setState({
-                ...state,
-                profile: { ...state.profile, [e.target.name]: e.target.value },
-                errors: {
-                    ...state.errors,
-                    [e.target.name]: "",
-                },
-            });
-        }
+        // if (e.target.value == "") {
+        //     setState({
+        //         ...state,
+        //         profile: { ...state.profile, [e.target.name]: e.target.value },
+        //         errors: {
+        //             ...state.errors,
+        //             [e.target.name]: " Required",
+        //         },
+        //     });
+        // } else {
+        //     setState({
+        //         ...state,
+        //         profile: { ...state.profile, [e.target.name]: e.target.value },
+        //         errors: {
+        //             ...state.errors,
+        //             [e.target.name]: "",
+        //         },
+        //     });
+        // }
     };
 
     const handleOnSubmit = (data) => {
