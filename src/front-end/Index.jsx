@@ -24,9 +24,15 @@ export const Index = (props) => {
                                         or shop from a wide variety of products
                                         and get them delivered to your doorstep.
                                     </div>
-                                    <a href="#" className="button-common">
+                                    <Link
+                                        className="button-common"
+                                        to="/#section1"
+                                    >
                                         See all Services
-                                    </a>
+                                    </Link>
+                                    {/* <a href="#" className="button-common">
+                                        See all Services
+                                    </a> */}
                                 </div>
 
                                 <div className="banner-image d-flex align-items-center justify-content-center">
@@ -42,7 +48,7 @@ export const Index = (props) => {
                 </div>
             </div>
 
-            <section className="services-sec">
+            <section className="services-sec" id={"section1"}>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -69,15 +75,16 @@ export const Index = (props) => {
                                                 }${
                                                     item.id == 3
                                                         ? "?service_type=" +
-                                                          ServiceType.MOVING
+                                                          `${ServiceType.MOVING}#moving-section`
                                                         : ""
-                                                }`}
+                                                }#cleaning-services`}
                                             >
                                                 <img
                                                     src={
-                                                        (subService.image
-                                                            && HOST +
-                                                              subService.image) || ""
+                                                        (subService.image &&
+                                                            HOST +
+                                                                subService.image) ||
+                                                        ""
                                                     }
                                                     className="img-fluid"
                                                     alt=""
@@ -218,7 +225,7 @@ export const Index = (props) => {
                                         Happiness Guarantee only applies when
                                         you book and pay for a service directly
                                         through the Farenow platform.{" "}
-                                        <a href="#">Learn more</a>
+                                        {/* <a href="#">Learn more</a> */}
                                     </div>
                                 </div>
                             </div>
@@ -316,11 +323,11 @@ export const Index = (props) => {
                                     <div className="back-layer">
                                         {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
                                     </div>
-                                    <div className="inner-btn d-flex align-items-center justify-content-center">
+                                    {/* <div className="inner-btn d-flex align-items-center justify-content-center">
                                         <a href="#" className="button-common">
                                             Show all Home Products
                                         </a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -353,10 +360,13 @@ export const Index = (props) => {
                                     professionals use Farenow for the great pay
                                     and flexible scheduling.
                                 </div>
-                                <Link to="/provider/registration" className="button-common">
-                                {/* <a href="#" className="button-common"> */}
+                                <Link
+                                    to="/provider/registration"
+                                    className="button-common"
+                                >
+                                    {/* <a href="#" className="button-common"> */}
                                     Become a Farenow Pro
-                                {/* </a> */}
+                                    {/* </a> */}
                                 </Link>
                             </div>
                         </div>
@@ -379,7 +389,7 @@ export const Index = (props) => {
                             <div className="common-heading text-center">
                                 <div className="title">Our Partners</div>
                                 <div className="sub-des">
-                                Farenow works with partners who want to
+                                    Farenow works with partners who want to
                                     provide their customers, tenants, or
                                     employees easy access to quality{" "}
                                     <br className="d-none d-md-block" />

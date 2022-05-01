@@ -41,8 +41,7 @@ export const OrderHistory = () => {
                                 <div className="dash-card-ds">
                                     <div className="title">Food Delivery</div>
                                     <div className="des">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit ut aliquam.
+                                        View your Food Orders.
                                     </div>
                                 </div>
                             </Link>
@@ -58,8 +57,7 @@ export const OrderHistory = () => {
                                 <div className="dash-card-ds">
                                     <div className="title">Groceries</div>
                                     <div className="des">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit ut aliquam.
+                                        View your Groceries Orders.
                                     </div>
                                 </div>
                             </Link>

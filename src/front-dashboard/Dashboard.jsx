@@ -39,8 +39,7 @@ export const Dashboard = (props) => {
                                 <div className="dash-card-ds">
                                     <div className="title">Orders History</div>
                                     <div className="des">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit ut aliquam.
+                                        View your Food and Grocery Orders.
                                     </div>
                                 </div>
                             </Link>
@@ -57,8 +56,7 @@ export const Dashboard = (props) => {
                                         Services History
                                     </div>
                                     <div className="des">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit ut aliquam.
+                                        View your Services Orders.
                                     </div>
                                 </div>
                             </Link>
@@ -73,8 +71,7 @@ export const Dashboard = (props) => {
                                 <div className="dash-card-ds">
                                     <div className="title">My Accounts</div>
                                     <div className="des">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit ut aliquam.
+                                        View your Account Details.
                                     </div>
                                 </div>
                             </Link>

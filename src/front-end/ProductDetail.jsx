@@ -93,7 +93,8 @@ const ProductDetail = (props) => {
                                                     (product?.data?.image &&
                                                         HOST +
                                                             product?.data
-                                                                ?.image) || ""
+                                                                ?.image) ||
+                                                    ""
                                                 }
                                                 className="img-fluid"
                                                 alt=""
@@ -182,7 +183,7 @@ const ProductDetail = (props) => {
                                             return (
                                                 <Link
                                                     to="/cart"
-                                                    className="button-common w-100 mt-5"
+                                                    className="button-common w-50 mt-5"
                                                 >
                                                     Go to cart
                                                 </Link>
@@ -192,7 +193,7 @@ const ProductDetail = (props) => {
                                                 "userToken"
                                             ) ? (
                                                 <button
-                                                    className="button-common w-100 mt-5"
+                                                    className="button-common w-50 mt-5"
                                                     onClick={handleCartClick}
                                                 >
                                                     Add to Cart
@@ -200,7 +201,7 @@ const ProductDetail = (props) => {
                                             ) : (
                                                 <Link
                                                     to="/login"
-                                                    className="button-common w-100 mt-5"
+                                                    className="button-common w-50 mt-5"
                                                 >
                                                     Login for add to cart
                                                 </Link>
@@ -208,9 +209,9 @@ const ProductDetail = (props) => {
                                         }
                                     })()}
                                 </div>
-                                <div className="col-md-3 mt-5">
+                                {/* <div className="col-md-3 mt-5">
                                     <div className="add-box"></div>
-                                </div>
+                                </div> */}
                             </>
                         )}
                     </div>

@@ -2219,7 +2219,7 @@ margin-right:0px;
     font-weight: normal;
     font-size: 1.6rem;
     line-height: 2.5rem;
-    color: #b6bcc1;
+    color: #000000;
     max-width: 50rem;
     margin: 0 auto;
 }
@@ -3348,6 +3348,17 @@ section.best-house-clen.pad-y,
     text-align: center;
 }
 
-.rem-1-5{
+.rem-2{
     font-size: 2rem;
+}
+
+.rem-1-5{
+    font-size: 1.5rem;
+}
+
+.disabled {
+    color: #000;
+}
+.disabled:hover {
+    color: #000;
 }

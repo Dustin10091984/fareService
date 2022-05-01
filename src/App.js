@@ -3,7 +3,7 @@ import './App.css';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute';
 
 import Login from './front-end/Auth/Login';
@@ -68,6 +68,7 @@ const stripePromise = loadStripe(
 function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
+  const { pathname, hash, key } = useLocation();
 
   const messaging = getMessaging();
   onMessage(messaging, (payload) => {
@@ -110,7 +111,7 @@ function App() {
   //   broadcaster: 'socket.io',
   // };
   const liveOption = {
-    host: "http://api.farenow.com:6001",
+    host: "https://api.farenow.com",
     broadcaster: 'socket.io',
   };
   const localOption = {
@@ -131,6 +132,27 @@ function App() {
     });
   }
 
+  useEffect(() => {
+    // if not a hash link, scroll to top
+    if (hash === '') {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+    else {
+      setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }
+      }, 0);
+    }
+  }, [pathname, hash, key]); // do this on route change
 
   return (
     <Elements stripe={stripePromise} >
