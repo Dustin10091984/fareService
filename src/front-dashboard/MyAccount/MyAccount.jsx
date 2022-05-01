@@ -243,13 +243,7 @@ export const MyAccount = (props) => {
 
     return (
         <>
-            <Loading
-                loading={
-                    addressList?.loading ||
-                    profile?.loading ||
-                    paymentCard?.loading
-                }
-            />
+            <Loading loading={addressList?.loading || profile?.loading} />
             <div
                 className="container"
                 style={{
@@ -298,7 +292,7 @@ export const MyAccount = (props) => {
                             style={{
                                 fontWeight: "bold",
                                 fontSize: "2rem",
-                                marginBottom:'1rem',
+                                marginBottom: "1rem",
                             }}
                         >
                             Profile
@@ -327,88 +321,108 @@ export const MyAccount = (props) => {
                                 <i className="fa fa-plus"></i> Add Card
                             </button>
                         </div>
-                        {paymentCard?.data?.data?.length > 0 ? (
-                            paymentCard?.data?.data?.map((item, index) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className="col-md-6 d-flex"
-                                    >
-                                        <div className="order-card d-flex align-items-center justify-content-between w-100">
-                                            <div>
-                                                {item.brand == "Visa" && (
-                                                    <i
-                                                        className="fa fa-cc-visa fa-5x text-primary"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                )}
-                                                {item.brand == "MasterCard" && (
-                                                    <i
-                                                        className="fa fa-cc-mastercard fa-5x"
-                                                        // "text-primary"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                )}
-                                                {/* <img
+                        {!!paymentCard?.loading && (
+                            <>
+                                <i className=" text-center fa fa-spinner fa-pulse fa-5x fa-fw m-5"></i>
+                                <span className="sr-only">Loading...</span>
+                            </>
+                        )}
+                        {paymentCard?.data?.data?.length > 0
+                            ? paymentCard?.data?.data?.map((item, index) => {
+                                  return (
+                                      <div
+                                          key={index}
+                                          className="col-md-6 d-flex"
+                                      >
+                                          <div className="order-card d-flex align-items-center justify-content-between w-100">
+                                              <div>
+                                                  {item.brand == "Visa" && (
+                                                      <i
+                                                          className="fa fa-cc-visa fa-5x text-primary"
+                                                          aria-hidden="true"
+                                                      ></i>
+                                                  )}
+                                                  {item.brand ==
+                                                      "MasterCard" && (
+                                                      <i
+                                                          className="fa fa-cc-mastercard fa-5x"
+                                                          // "text-primary"
+                                                          aria-hidden="true"
+                                                      ></i>
+                                                  )}
+                                                  {/* <img
                                                     src="/assets/img/master-card.svg"
                                                     alt=""
                                                 /> */}
-                                            </div>
-                                            <div className="d-flex align-items-center justify-content-between">
-                                                <div className="order-des-b ml-4">
-                                                    <div className="title">
-                                                        {`${item?.brand}****${item?.last4}`}
-                                                    </div>
-                                                    {/* <div className="order-time">
+                                              </div>
+                                              <div className="d-flex align-items-center justify-content-between">
+                                                  <div className="order-des-b ml-4">
+                                                      <div className="title">
+                                                          {`${item?.brand}****${item?.last4}`}
+                                                      </div>
+                                                      {/* <div className="order-time">
                                                         primary
                                                     </div> */}
-                                                    <div className="order-time">
-                                                        Expires{" "}
-                                                        {`${item?.exp_month}/${item?.exp_year}`}
-                                                    </div>
-                                                </div>
-                                                <div className="order-btn-b m-3 align-baseline">
-                                                    <button
-                                                        className="btn-view-profile"
-                                                        // data-backdrop="static"
-                                                        // data-keyboard="false"
-                                                        // data-toggle="modal"
-                                                        // data-target="#delete"
-                                                        onClick={() => {
-                                                            Swal.fire({
-                                                                title: "Are you sure?",
-                                                                text: "You won't be able to revert this!",
-                                                                icon: "warning",
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: "#3085d6",
-                                                                cancelButtonColor: "#d33",
-                                                                confirmButtonText: "Yes, delete it!",
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    dispatch(deleteCard(item.id));
-                                                                }
-                                                            });
-                                                            // setState({
-                                                            //     ...state,
-                                                            //     delete_card_id:
-                                                            //         item.id,
-                                                            // });
-                                                        }}
-                                                    >
-                                                        Remove
-                                                    </button>
-                                                    {/* <div className="btn-price-serv">
+                                                      <div className="order-time">
+                                                          Expires{" "}
+                                                          {`${item?.exp_month}/${item?.exp_year}`}
+                                                      </div>
+                                                  </div>
+                                                  <div className="order-btn-b m-3 align-baseline">
+                                                      <button
+                                                          className="btn-view-profile"
+                                                          // data-backdrop="static"
+                                                          // data-keyboard="false"
+                                                          // data-toggle="modal"
+                                                          // data-target="#delete"
+                                                          onClick={() => {
+                                                              Swal.fire({
+                                                                  title: "Are you sure?",
+                                                                  text: "You won't be able to revert this!",
+                                                                  icon: "warning",
+                                                                  showCancelButton: true,
+                                                                  confirmButtonColor:
+                                                                      "#3085d6",
+                                                                  cancelButtonColor:
+                                                                      "#d33",
+                                                                  confirmButtonText:
+                                                                      "Yes, delete it!",
+                                                              }).then(
+                                                                  (result) => {
+                                                                      if (
+                                                                          result.isConfirmed
+                                                                      ) {
+                                                                          dispatch(
+                                                                              deleteCard(
+                                                                                  item.id
+                                                                              )
+                                                                          );
+                                                                      }
+                                                                  }
+                                                              );
+                                                              // setState({
+                                                              //     ...state,
+                                                              //     delete_card_id:
+                                                              //         item.id,
+                                                              // });
+                                                          }}
+                                                      >
+                                                          Remove
+                                                      </button>
+                                                      {/* <div className="btn-price-serv">
                                                         edit
                                                     </div> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            })
-                        ) : (
-                            <div className="col-md-12 d-flex">Not Found</div>
-                        )}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  );
+                              })
+                            : !paymentCard?.loading && (
+                                  <div className="col-md-12 d-flex">
+                                      Not Found
+                                  </div>
+                              )}
                     </div>
                     <div className="col-md-12 service-time-box time-list d-flex align-items-center justify-content-center flex-wrap">
                         <div
@@ -464,12 +478,21 @@ export const MyAccount = (props) => {
                                                             text: "You won't be able to revert this!",
                                                             icon: "warning",
                                                             showCancelButton: true,
-                                                            confirmButtonColor: "#3085d6",
-                                                            cancelButtonColor: "#d33",
-                                                            confirmButtonText: "Yes, delete it!",
+                                                            confirmButtonColor:
+                                                                "#3085d6",
+                                                            cancelButtonColor:
+                                                                "#d33",
+                                                            confirmButtonText:
+                                                                "Yes, delete it!",
                                                         }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                dispatch(deleteAddress(address.id));
+                                                            if (
+                                                                result.isConfirmed
+                                                            ) {
+                                                                dispatch(
+                                                                    deleteAddress(
+                                                                        address.id
+                                                                    )
+                                                                );
                                                             }
                                                         });
                                                     }}
