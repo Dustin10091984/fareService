@@ -136,27 +136,33 @@ body {
     width: 50rem;
     font-size: 1.5rem;
     border: 2px solid #fea529;
-    border-top: none;
     border-radius: 1.5rem;
     z-index: 1;
     background: #fff;
     /* box-shadow: 0px 10px 20px rgba(235, 162, 5, 0.808), 0px 2px 4px rgb(235, 162, 5); */
 }
 
+.search-item{
+    color: #000;
+    font-size: 1.5rem;
+    background-image: #fff;
+}
+
 .search-item:hover{
     background: #fea529;
     color: #fff;
     cursor: pointer;
+
 }
 
-.search-item:first-child{
+.search-item:first-child:not(:last-child){
     border-bottom: none;
-    border-radius: 1.2rem 1.2rem 0rem 0rem;
+    border-radius: 1rem 1rem 0rem 0rem;
 }
 
-.search-item:last-child{
+.search-item:last-child:not(:first-child){
     border-bottom: none;
-    border-radius: 0rem 0rem 1.2rem 1.2rem;
+    border-radius: 0rem 0rem 1rem 1rem;
 }
 
 .input-box .icon-div {

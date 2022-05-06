@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Link, NavLink, withRouter, useLocation, useHistory } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
-import ServiceType from "../../constants/ServiceType";
+// import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../Chat/Chat";
 import { useSelector, useDispatch } from "react-redux";
 import { getNotifications } from "../../store/Slices/notification";
 import { headerMenu } from "../../store/Slices/HeaderMenuSlice";
 import { pageLinks } from "../../store/Slices/footer";
+import _ from "lodash";
 
 const Header = (props) => {
-
     const { notification } = props;
 
     const [state, setState] = useState({
@@ -17,11 +17,11 @@ const Header = (props) => {
         is_loggedin: false,
         header_menu: [],
         isChatOpen: false,
+        is_search: false,
+        subServices: [],
     });
 
     const ref = useRef(null);
-
-    const location = useLocation();
 
     const history = useHistory();
 
@@ -68,8 +68,8 @@ const Header = (props) => {
     }, [localStorage.getItem("userToken")]);
 
     useEffect(() => {
-        if(state?.is_loggedin){
-            if(notification?.fcmMessageId){
+        if (state?.is_loggedin) {
+            if (notification?.fcmMessageId) {
                 console.log(notification);
                 ref.current.click();
             }
@@ -82,6 +82,44 @@ const Header = (props) => {
             ...state,
             is_loggedin: false,
         }));
+    };
+
+    const mySearch = ({ target: { value } }) => {
+        if (value) {
+            setState((prev) => ({
+                ...prev,
+                is_search: true,
+            }));
+            const includesValue = (word, obj) => {
+                return _.some(obj, (value) => _.includes(value, word));
+            };
+            const words = _.words(value);
+            let subServices = [];
+            state?.header_menu.forEach((menu) => {
+                if (menu.sub_services) {
+                    const searchResult = menu?.sub_services?.filter(
+                        (subService) => {
+                            return words.every((word) =>
+                                includesValue(word, subService)
+                            );
+                        }
+                    );
+                    if (searchResult?.length > 0) {
+                        subServices = [...subServices, ...searchResult];
+                        setState((prev) => ({
+                            ...prev,
+                            subServices,
+                        }));
+                    }
+                }
+            });
+        } else {
+            setState((prev) => ({
+                ...prev,
+                is_search: false,
+                subServices: [],
+            }));
+        }
     };
 
     const header_menu = state.header_menu.map((menu, idx) => {
@@ -181,35 +219,44 @@ const Header = (props) => {
                                             type="search"
                                             className="form-control"
                                             placeholder="Search for services (e.g. “cleaning”)"
-                                            onChange={() => {
-                                                console.log("search");
+                                            onClick={() => {
+                                                setState((prevState) => ({
+                                                    ...prevState,
+                                                    is_search: true,
+                                                }));
                                             }}
+                                            onChange={mySearch}
                                         />
                                         <button type="button">Search</button>
                                     </div>
-                                    <ul
-                                        class="list-group-flush search-result"
-                                        style={{
-                                            position: "absolute",
-                                            zIndex: "1",
-                                        }}
-                                    >
-                                        <li class="list-group-item search-item">
-                                            Test
-                                        </li>
-                                        <li class="list-group-item search-item">
-                                            Another Test
-                                        </li>
-                                        <li class="list-group-item search-item">
-                                            Sample
-                                        </li>
-                                        <li class="list-group-item search-item">
-                                            Another Sample
-                                        </li>
-                                        <li class="list-group-item search-item">
-                                            Last one
-                                        </li>
-                                    </ul>
+                                    {state?.is_search &&
+                                        !!state?.subServices?.length && (
+                                            <ul
+                                                className="list-group-flush search-result"
+                                                style={{
+                                                    position: "absolute",
+                                                    zIndex: "1",
+                                                }}
+                                            >
+                                                {state?.subServices?.map(
+                                                    (sub_menu, index) => (
+                                                        <Link
+                                                            key={index}
+                                                            className="list-group-item search-item"
+                                                            to={`/services/${sub_menu.service_id}/${sub_menu.id}#cleaning-services`}
+                                                            onClick={() => {
+                                                                setState({
+                                                                    ...state,
+                                                                    is_search: false,
+                                                                });
+                                                            }}
+                                                        >
+                                                            {sub_menu?.name}
+                                                        </Link>
+                                                    )
+                                                )}
+                                            </ul>
+                                        )}
                                 </form>
                             </div>
                             <div className="d-flex align-items-center order-1 order-md-2">
