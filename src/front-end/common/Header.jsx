@@ -187,6 +187,29 @@ const Header = (props) => {
                                         />
                                         <button type="button">Search</button>
                                     </div>
+                                    <ul
+                                        class="list-group-flush search-result"
+                                        style={{
+                                            position: "absolute",
+                                            zIndex: "1",
+                                        }}
+                                    >
+                                        <li class="list-group-item search-item">
+                                            Test
+                                        </li>
+                                        <li class="list-group-item search-item">
+                                            Another Test
+                                        </li>
+                                        <li class="list-group-item search-item">
+                                            Sample
+                                        </li>
+                                        <li class="list-group-item search-item">
+                                            Another Sample
+                                        </li>
+                                        <li class="list-group-item search-item">
+                                            Last one
+                                        </li>
+                                    </ul>
                                 </form>
                             </div>
                             <div className="d-flex align-items-center order-1 order-md-2">
