@@ -1291,7 +1291,9 @@ body {
 .star-rating-area .rating-static[rel="5"] label {
     color: #fea629;
 }
-
+.disable-link {
+  pointer-events: none;
+}
 /*-------------------------Star-Reating-end--------------------------*/
 .moving-help-sec {
     margin-top: -33rem;

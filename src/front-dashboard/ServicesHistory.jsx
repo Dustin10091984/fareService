@@ -320,24 +320,18 @@ export const ServicesHistory = (props) => {
                                             className="col-9 mobile-auto-col col-sm-6 col-lg-4"
                                             key={index}
                                         >
-                                             <div
-                                                    className="order-card order-history-card-11 d-flex"
-                                                   
-                                                >
+                                            <Link
+                                                to={`service-detail/${serviceRequest.id}`}
+                                                className="font-weight-bold"
+                                                style={{
+                                                    color: "#000",
+                                                }}
+                                            >
+                                                <div className="order-card order-history-card-11 d-flex">
                                                     <div className="row">
                                                         <div className="col-8 order-des-b">
-                                                            <Link
-                                                                to={`service-detail/${serviceRequest.id}`}
-                                                                className="font-weight-bold"
-                                                                style={{
-                                                                    color: "#000",
-                                                                }}
-                                                            >
-                                                                Service#
-                                                                {
-                                                                    serviceRequest.id
-                                                                }
-                                                            </Link>
+                                                            Service#{" "}
+                                                            {serviceRequest.id}
                                                             <div className="order-time">
                                                                 {moment(
                                                                     serviceRequest.created_at
@@ -450,21 +444,26 @@ export const ServicesHistory = (props) => {
                                                                             return (
                                                                                 <div
                                                                                     type="button"
-                                                                                    className="btn-price-serv mb-3 mt-3"
+                                                                                    className="btn-price-serv mb-3 mt-3 disable-link"
                                                                                     style={{
                                                                                         backgroundColor:
                                                                                             "red",
                                                                                     }}
-                                                                                    onClick={() =>
+                                                                                    onClick={(
+                                                                                        evt
+                                                                                    ) => {
+                                                                                        // evt.preventDefault();
                                                                                         handlePaymentClick(
                                                                                             serviceRequest?.payable
-                                                                                        )
-                                                                                    }
+                                                                                        );
+                                                                                    }}
                                                                                     data-backdrop="static"
                                                                                     data-keyboard="false"
                                                                                     data-toggle="modal"
                                                                                     data-target="#payable"
-                                                                                    ref={payRef}
+                                                                                    ref={
+                                                                                        payRef
+                                                                                    }
                                                                                 >
                                                                                     {serviceRequest?.payable_amount !=
                                                                                     null
@@ -523,8 +522,8 @@ export const ServicesHistory = (props) => {
                                                                         }
                                                                     })()}
                                                                 {/* <div className="btn-price-serv mb-3 mt-3">
-                                                                    price
-                                                                </div> */}
+                                                                        price
+                                                                    </div> */}
                                                             </div>
                                                             <div className="font-weight-bold">
                                                                 Service:{" "}
@@ -538,18 +537,20 @@ export const ServicesHistory = (props) => {
                                                                 style={{
                                                                     height: "8.1rem",
                                                                     width: "8.1rem",
-                                                                    objectFit:"cover",
+                                                                    objectFit:
+                                                                        "cover",
                                                                     borderRadius:
                                                                         "100%",
                                                                 }}
                                                                 src={
-                                                                    serviceRequest
+                                                                    (serviceRequest
                                                                         ?.provider
                                                                         ?.image &&
                                                                         HOST +
                                                                             serviceRequest
                                                                                 ?.provider
-                                                                                ?.image || ""
+                                                                                ?.image) ||
+                                                                    ""
                                                                 }
                                                                 alt=""
                                                                 onError={(
@@ -601,16 +602,18 @@ export const ServicesHistory = (props) => {
                                                                     <div className="order-des-b w-100">
                                                                         <div
                                                                             type="button"
-                                                                            className="button-common w-100"
-                                                                           
-                                                                            onClick={() =>
+                                                                            className="button-common w-100 disable-link"
+                                                                            onClick={(
+                                                                                evt
+                                                                            ) => {
+                                                                                // evt.preventDefault();
                                                                                 handleFeedbackClick(
                                                                                     serviceRequest.id,
                                                                                     serviceRequest
                                                                                         .provider
                                                                                         .id
-                                                                                )
-                                                                            }
+                                                                                );
+                                                                            }}
                                                                             data-backdrop="static"
                                                                             data-keyboard="false"
                                                                             data-toggle="modal"
@@ -625,6 +628,7 @@ export const ServicesHistory = (props) => {
                                                         })()}
                                                     </div>
                                                 </div>
+                                            </Link>
                                         </div>
                                     )
                                 )}
@@ -844,7 +848,14 @@ export const ServicesHistory = (props) => {
                             >
                                 Add Feedback
                             </h5>
-                            <button ref={ref} type="button" onClick={handleCloseClick} className="close" data-dismiss="modal" aria-label="Close">
+                            <button
+                                ref={ref}
+                                type="button"
+                                onClick={handleCloseClick}
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
                                 <span aria-hidden="true">
                                     <i className="fas fa-times"></i>
                                 </span>
@@ -856,7 +867,10 @@ export const ServicesHistory = (props) => {
                                     <center className="col-12">
                                         {(() => {
                                             if (feedbackLoading == false) {
-                                                if (feedbackMessage && feedbackError == true) {
+                                                if (
+                                                    feedbackMessage &&
+                                                    feedbackError == true
+                                                ) {
                                                     return (
                                                         <div
                                                             className={`col-12  alert alert-danger text-center`}
@@ -1002,9 +1016,13 @@ export const ServicesHistory = (props) => {
                                 className="button-common-2"
                             >
                                 {feedbackLoading ? (
-                                    <><i className="fa fa-spinner fa-pulse"></i>  Loading</>
-                                ) : "Submit"}
-                                
+                                    <>
+                                        <i className="fa fa-spinner fa-pulse"></i>{" "}
+                                        Loading
+                                    </>
+                                ) : (
+                                    "Submit"
+                                )}
                             </button>
                         </div>
                     </div>
@@ -1049,15 +1067,18 @@ export const ServicesHistory = (props) => {
                                                 );
                                             }
                                             if (payLoading == false) {
-                                                if(payError == false && payData){
+                                                if (
+                                                    payError == false &&
+                                                    payData
+                                                ) {
                                                     Swal.fire({
-                                                        position: 'top-end',
-                                                        icon: 'success',
+                                                        position: "top-end",
+                                                        icon: "success",
                                                         title: payMessage,
                                                         showConfirmButton: false,
-                                                        timer: 1000
+                                                        timer: 1000,
                                                     });
-                                                    payRef.current.click()
+                                                    payRef.current.click();
                                                     return;
                                                 }
                                                 if (payError) {
