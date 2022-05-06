@@ -2,6 +2,9 @@
     .input-box {
         width: 35rem;
     }
+    .search-result{
+        width: 35rem;
+    }
     .header-logo {
         max-width: 140px;
     }
@@ -29,6 +32,9 @@
 
 
 @media (max-width:767px) {
+    .search-result{
+        width: 30rem;
+    }
     .service-card-des{
         flex-wrap: wrap;
         margin-bottom: 5rem;
