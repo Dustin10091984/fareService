@@ -239,21 +239,22 @@ const Header = (props) => {
                                                 }}
                                             >
                                                 {state?.subServices?.map(
-                                                    (sub_menu, index) => (
-                                                        <Link
-                                                            key={index}
-                                                            className="list-group-item search-item"
-                                                            to={`/services/${sub_menu.service_id}/${sub_menu.id}#cleaning-services`}
-                                                            onClick={() => {
-                                                                setState({
-                                                                    ...state,
-                                                                    is_search: false,
-                                                                });
-                                                            }}
-                                                        >
-                                                            {sub_menu?.name}
-                                                        </Link>
-                                                    )
+                                                    (sub_menu, index) =>
+                                                        index < 6 && (
+                                                            <Link
+                                                                key={index}
+                                                                className="list-group-item search-item"
+                                                                to={`/services/${sub_menu.service_id}/${sub_menu.id}#cleaning-services`}
+                                                                onClick={() => {
+                                                                    setState({
+                                                                        ...state,
+                                                                        is_search: false,
+                                                                    });
+                                                                }}
+                                                            >
+                                                                {sub_menu?.name}
+                                                            </Link>
+                                                        )
                                                 )}
                                             </ul>
                                         )}
