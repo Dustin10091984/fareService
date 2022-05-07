@@ -93,7 +93,10 @@ const Login = (props) => {
                             <div className="login-heading text-center">
                                 Login
                             </div>
-                            <div className="text-center text-danger mb-2">{typeof (state.errors) == 'string' && state.errors}</div>
+                            <div className="text-center text-danger mb-2">
+                                {typeof state.errors == "string" &&
+                                    state.errors}
+                            </div>
                             <div className="inner-box-log mx-auto">
                                 <form onSubmit={handleSignUp}>
                                     <div className="common-input mb-5">
@@ -162,11 +165,20 @@ const Login = (props) => {
                                         Register
                                     </Link>
                                 </div>
+                                <div className="text-center">
+                                    <Link
+                                        to="/forgot-password"
+                                        className="btn btn-link"
+                                        style={{ fontSize: "15px" }}
+                                    >
+                                        Forgot Password?
+                                    </Link>
+                                </div>
                             </div>
                             <div className="login-detail mt-5 text-center">
                                 By signing and clicking Get a Price, you affirm
-                                you have read and agree to the Farenow Terms, and
-                                you agree and authorize Farenow and its
+                                you have read and agree to the Farenow Terms,
+                                and you agree and authorize Farenow and its
                                 affiliates, and their networks of service
                                 professionals, to deliver marketing calls or
                                 texts using automated technology to the number

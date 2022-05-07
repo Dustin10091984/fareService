@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import Login from './front-end/Auth/Login';
 import Register from './front-end/Auth/Register';
+import ForgotPassword from './front-end/Auth/ForgotPassword';
 import Header from './front-end/common/Header';
 import Footer from './front-end/common/Footer';
 
@@ -173,6 +174,7 @@ function App() {
           <Route path='/provider/registration' component={RegistrationPage} />
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
+          <Route path='/forgot-password' component={ForgotPassword} />
 
           <ProtectedRoute path='/dashboard' component={Dashboard} />
           <ProtectedRoute path='/payment' component={Payment} />
