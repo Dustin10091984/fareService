@@ -2,19 +2,23 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { HOST } from "../../constants";
+import { useHistory } from "react-router-dom";
 
 const ForgotPassword = () => {
     const [state, setState] = useState({
         loading: false,
         phone: "",
         code: "+1",
-        otpSuccessMessage: "",
-        otpErrorMessage: "",
         section: 0,
         token: "",
         password: "",
         password_confirmation: "",
+        otpSuccessMessage: "",
+        otpErrorMessage: "",
+        passwordChangeMessage: "",
     });
+
+    const history = useHistory();
 
     const {
         register,
@@ -83,13 +87,14 @@ const ForgotPassword = () => {
     };
 
     const handleChangePassword = async () => {
+        console.log(state.token);
         setState((state) => ({
             ...state,
             loading: true,
         }));
         await axios({
             method: "post",
-            Authorization: `Bearer ${state.token}`,
+            headers: { Authorization: `Bearer ${state.token}` },
             data: {
                 password: state?.password,
                 password_confirmation: state?.password_confirmation,
@@ -97,24 +102,24 @@ const ForgotPassword = () => {
             url: `${HOST}/api/user/change-password`,
         })
             .then((response) => {
-                let data = response.data;
-                setState((state) => ({
-                    ...state,
-                    passwordChangeMessage: data.message,
-                    loading: false,
-                    section: 2,
-                }));
+                history.push({
+                    pathname: "/login",
+                    state: {
+                        from: "forgot-password",
+                        message: "Password change successfully",
+                    },
+                });
             })
             .catch((error) => {
                 let data = error.response.data;
                 setState((state) => ({
                     ...state,
-                    otpVerifyErrorMessage: data.message,
+                    passwordChangeMessage: data.message,
                     loading: false,
                 }));
             });
     };
-    console.log(errors);
+
     return (
         <>
             <div className="login-sec d-flex">
@@ -404,6 +409,12 @@ const ForgotPassword = () => {
                                             handleChangePassword
                                         )}
                                     >
+                                        {typeof state?.passwordChangeMessage ===
+                                            "string" && (
+                                            <div className="login-detail mt-0 mb-5 text-center">
+                                                {state?.passwordChangeMessage}
+                                            </div>
+                                        )}
                                         <div className="row">
                                             <div className="col-md-6 mx-auto">
                                                 <div className="common-input">
@@ -443,6 +454,17 @@ const ForgotPassword = () => {
                                                         placeholder="New password"
                                                     />
                                                 </div>
+                                                {typeof state?.passwordChangeMessage ===
+                                                    "object" && (
+                                                    <div className="text-danger">
+                                                        {
+                                                            state
+                                                                ?.passwordErrorMessage[
+                                                                "password"
+                                                            ]
+                                                        }
+                                                    </div>
+                                                )}
                                                 {!!state?.passwordErrorMessage && (
                                                     <div className="text-danger">
                                                         {
@@ -539,6 +561,17 @@ const ForgotPassword = () => {
                                                         type="password"
                                                         placeholder="Re enter password"
                                                     />
+                                                    {typeof state?.passwordChangeMessage ===
+                                                        "object" && (
+                                                        <div className="text-danger">
+                                                            {
+                                                                state
+                                                                    ?.passwordErrorMessage[
+                                                                    "passwopassword_confirmationrd"
+                                                                ]
+                                                            }
+                                                        </div>
+                                                    )}
                                                     {!!state?.passwordErrorMessage && (
                                                         <div className="text-danger">
                                                             {
