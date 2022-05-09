@@ -473,7 +473,7 @@ button,a{
     font-size: 12px;
 }
 
-.phone-input select.js-example-basic-single.col-3 {
+.phone-input select.js-example-basic-single {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
