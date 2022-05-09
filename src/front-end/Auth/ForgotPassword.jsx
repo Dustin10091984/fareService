@@ -2,83 +2,133 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { HOST } from "../../constants";
-import { async } from "@firebase/util";
+import { useHistory } from "react-router-dom";
 
 const ForgotPassword = () => {
     const [state, setState] = useState({
         loading: false,
         phone: "",
+        code: "+1",
+        section: 0,
+        token: "",
+        password: "",
+        password_confirmation: "",
         otpSuccessMessage: "",
         otpErrorMessage: "",
-        section: 1,
+        passwordChangeMessage: "",
     });
-    console.log(state);
-    const {
-        register,
-        handleSubmit,
-        setError,
-        formState: { errors },
-    } = useForm();
 
-    const handleBasic = async ({ phone }) => {
-        setState((state) => ({
-            ...state,
-            loading: true,
-        }));
-        await axios({
-            method: "post",
-            data: { phone: "+" + phone },
-            url: `${HOST}/api/user/forgot-password`,
+    const history = useHistory();
+
+    
+
+history.push({
+    pathname: "/login",
+    state: {
+        from: "forgot-password",
+        message: "Password change successfully",
+    },
+});
+
+const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+} = useForm();
+
+const handleBasic = async ({ phone }) => {
+    setState((state) => ({
+        ...state,
+        loading: true,
+    }));
+    await axios({
+        method: "post",
+        data: { phone: state?.code + phone },
+        url: `${HOST}/api/user/forgot-password`,
+    })
+        .then((response) => {
+            let data = response.data;
+            setState((state) => ({
+                ...state,
+                otpSuccessMessage: data.message,
+                section: 1,
+                loading: false,
+            }));
         })
-            .then((response) => {
-                let data = response.data;
-                console.log(data);
-                setState((state) => ({
-                    ...state,
-                    otpSuccessMessage: data.message,
-                    section: 1,
-                    loading: false,
-                }));
-            })
-            .catch((error) => {
-                let data = error.response.data;
-                setState((state) => ({
-                    ...state,
-                    otpErrorMessage: data.message,
-                    loading: false,
-                }));
-            });
-    };
+        .catch((error) => {
+            let data = error.response.data;
+            setState((state) => ({
+                ...state,
+                otpErrorMessage: data.message,
+                loading: false,
+            }));
+        });
+};
 
-    const handleOtpSubmit = async ({ otp }) => {
-        setState((state) => ({
-            ...state,
-            loading: true,
-        }));
-        await axios({
-            method: "post",
-            data: { otp, phone: state.phone || "+923224578466" },
-            url: `${HOST}/api/user/signup/phone/verify`,
+const handleOtpSubmit = async ({ otp }) => {
+    setState((state) => ({
+        ...state,
+        loading: true,
+    }));
+    await axios({
+        method: "post",
+        data: { otp, phone: state?.code + state.phone, for_password: true },
+        url: `${HOST}/api/user/signup/phone/verify`,
+    })
+        .then((response) => {
+            let data = response.data;
+            setState((state) => ({
+                ...state,
+                otpVerifySuccessMessage: data.message,
+                token: data.token,
+                loading: false,
+                section: 2,
+            }));
         })
-            .then((response) => {
-                let data = response.data;
-                setState((state) => ({
-                    ...state,
-                    otpVerifySuccessMessage: data.message,
-                    loading: false,
-                    section: 2,
-                }));
-            })
-            .catch((error) => {
-                let data = error.response.data;
-                setState((state) => ({
-                    ...state,
-                    otpVerifyErrorMessage: data.message,
-                    loading: false,
-                }));
-            });
-    };
+        .catch((error) => {
+            let data = error.response.data;
+            setState((state) => ({
+                ...state,
+                otpVerifyErrorMessage: data.message,
+                loading: false,
+            }));
+        });
+};
 
+const handleChangePassword = async () => {
+    console.log(state.token);
+    setState((state) => ({
+        ...state,
+        loading: true,
+    }));
+    await axios({
+        method: "post",
+        headers: { Authorization: `Bearer ${state.token}` },
+        data: {
+            password: state?.password,
+            password_confirmation: state?.password_confirmation,
+        },
+        url: `${HOST}/api/user/change-password`,
+    })
+        .then((response) => {
+            history.push({
+                pathname: "/login",
+                state: {
+                    from: "forgot-password",
+                    message: "Password change successfully",
+                },
+            });
+        })
+        .catch((error) => {
+            let data = error.response.data;
+            setState((state) => ({
+                ...state,
+                passwordChangeMessage: data.message,
+                loading: false,
+            }));
+        });
+};
     return (
         <>
             <div className="login-sec d-flex">
@@ -96,17 +146,50 @@ const ForgotPassword = () => {
                                             phone below.
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-6 mx-auto">
-                                                <span className="rem-1-5">
-                                                    phone start with +92, +1 or
-                                                    +234
-                                                </span>
-                                                <div className="common-input mt-2">
+                                            <div className="common-input mb-4 col-6 mx-auto">
+                                                <label className="rem-1-5">
+                                                    Phone
+                                                </label>
+                                                <strong className="text-danger">
+                                                    *
+                                                </strong>
+                                                <div className="d-flex phone-input">
+                                                    <select
+                                                        className="js-example-basic-single col-4"
+                                                        name="code"
+                                                        defaultValue={
+                                                            state?.code
+                                                        }
+                                                        onChange={({
+                                                            target: { value },
+                                                        }) =>
+                                                            setState(
+                                                                (state) => ({
+                                                                    ...state,
+                                                                    code: value,
+                                                                })
+                                                            )
+                                                        }
+                                                    >
+                                                        <option value={"+1"}>
+                                                            +1{" "}
+                                                        </option>
+                                                        <option value={"+92"}>
+                                                            +92
+                                                        </option>
+                                                        <option value={"+234"}>
+                                                            +234
+                                                        </option>
+                                                    </select>
                                                     <input
+                                                        type="tel"
+                                                        name="phone"
+                                                        className="phone-input-2 col-8"
+                                                        placeholder="1234567890"
                                                         {...register("phone", {
                                                             required: true,
                                                             minLength: 10,
-                                                            maxLength: 15,
+                                                            maxLength: 10,
                                                             defaultValue:
                                                                 !!state?.phone &&
                                                                 state?.phone,
@@ -127,10 +210,6 @@ const ForgotPassword = () => {
                                                                 );
                                                             },
                                                         })}
-                                                        type="number"
-                                                        defaultValue={""}
-                                                        placeholder="+923210000000"
-                                                        min={0}
                                                     />
                                                 </div>
                                                 {!!state?.otpErrorMessage && (
@@ -138,7 +217,7 @@ const ForgotPassword = () => {
                                                         {state?.otpErrorMessage}
                                                     </div>
                                                 )}
-                                                {errors.phone &&
+                                                {errors?.phone &&
                                                     (() => {
                                                         if (
                                                             errors.phone
@@ -174,7 +253,7 @@ const ForgotPassword = () => {
                                                                 <div className="text-danger">
                                                                     phone must
                                                                     be at most
-                                                                    15 digits
+                                                                    10 digits
                                                                 </div>
                                                             );
                                                         }
@@ -220,6 +299,12 @@ const ForgotPassword = () => {
                                             <div className="row">
                                                 <div className="col-md-6 mx-auto">
                                                     <div className="common-input">
+                                                        <label className="rem-1-5">
+                                                            Otp
+                                                        </label>
+                                                        <strong className="text-danger">
+                                                            *
+                                                        </strong>
                                                         <input
                                                             {...register(
                                                                 "otp",
@@ -328,30 +413,253 @@ const ForgotPassword = () => {
                                     </form>
                                 )}
                                 {state?.section == 2 && (
-                                    <form>
+                                    <form
+                                        onSubmit={handleSubmit(
+                                            handleChangePassword
+                                        )}
+                                    >
+                                        {typeof state?.passwordChangeMessage ===
+                                            "string" && (
+                                            <div className="login-detail mt-0 mb-5 text-center">
+                                                {state?.passwordChangeMessage}
+                                            </div>
+                                        )}
                                         <div className="row">
                                             <div className="col-md-6 mx-auto">
-                                                <div className="common-input mb-5">
+                                                <div className="common-input">
+                                                    <label className="rem-1-5">
+                                                        Password
+                                                    </label>
+                                                    <strong className="text-danger">
+                                                        *
+                                                    </strong>
                                                     <input
+                                                        {...register(
+                                                            "password",
+                                                            {
+                                                                required: true,
+                                                                minLength: 6,
+                                                                maxLength: 64,
+                                                                defaultValue:
+                                                                    "",
+                                                                onChange: ({
+                                                                    target: {
+                                                                        value,
+                                                                    },
+                                                                }) => {
+                                                                    setState(
+                                                                        (
+                                                                            state
+                                                                        ) => ({
+                                                                            ...state,
+                                                                            password:
+                                                                                value,
+                                                                        })
+                                                                    );
+                                                                },
+                                                            }
+                                                        )}
                                                         type="password"
                                                         placeholder="New password"
                                                     />
                                                 </div>
+                                                {typeof state?.passwordChangeMessage ===
+                                                    "object" && (
+                                                    <div className="text-danger">
+                                                        {
+                                                            state
+                                                                ?.passwordErrorMessage[
+                                                                "password"
+                                                            ]
+                                                        }
+                                                    </div>
+                                                )}
+                                                {!!state?.passwordErrorMessage && (
+                                                    <div className="text-danger">
+                                                        {
+                                                            state?.passwordErrorMessage
+                                                        }
+                                                    </div>
+                                                )}
+                                                {errors.password &&
+                                                    (() => {
+                                                        if (
+                                                            errors.password
+                                                                .type ===
+                                                            "required"
+                                                        ) {
+                                                            return (
+                                                                <div className="text-danger">
+                                                                    Password is
+                                                                    required
+                                                                </div>
+                                                            );
+                                                        }
+                                                        if (
+                                                            errors.password
+                                                                .type ===
+                                                            "minLength"
+                                                        ) {
+                                                            return (
+                                                                <div className="text-danger">
+                                                                    Password
+                                                                    must be at
+                                                                    least 6
+                                                                    characters
+                                                                </div>
+                                                            );
+                                                        }
+                                                        if (
+                                                            errors.password
+                                                                .type ===
+                                                            "maxLength"
+                                                        ) {
+                                                            return (
+                                                                <div className="text-danger">
+                                                                    Password
+                                                                    must be at
+                                                                    least 64
+                                                                    characters
+                                                                </div>
+                                                            );
+                                                        }
+                                                    })()}
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-md-6 mx-auto">
-                                                <div className="common-input mb-5">
+                                                <div className="common-input mt-4">
+                                                    <label className="rem-1-5">
+                                                        Confirm Password
+                                                    </label>
+                                                    <strong className="text-danger">
+                                                        *
+                                                    </strong>
                                                     <input
+                                                        {...register(
+                                                            "password_confirmation",
+                                                            {
+                                                                required: true,
+                                                                minLength: 6,
+                                                                maxLength: 64,
+                                                                defaultValue:
+                                                                    "",
+                                                                validate: (
+                                                                    value
+                                                                ) =>
+                                                                    value ===
+                                                                        state?.password ||
+                                                                    "The passwords do not match",
+                                                                onChange: ({
+                                                                    target: {
+                                                                        value,
+                                                                    },
+                                                                }) => {
+                                                                    setState(
+                                                                        (
+                                                                            state
+                                                                        ) => ({
+                                                                            ...state,
+                                                                            password_confirmation:
+                                                                                value,
+                                                                        })
+                                                                    );
+                                                                },
+                                                            }
+                                                        )}
                                                         type="password"
                                                         placeholder="Re enter password"
                                                     />
+                                                    {typeof state?.passwordChangeMessage ===
+                                                        "object" && (
+                                                        <div className="text-danger">
+                                                            {
+                                                                state
+                                                                    ?.passwordErrorMessage[
+                                                                    "passwopassword_confirmationrd"
+                                                                ]
+                                                            }
+                                                        </div>
+                                                    )}
+                                                    {!!state?.passwordErrorMessage && (
+                                                        <div className="text-danger">
+                                                            {
+                                                                state?.passwordErrorMessage
+                                                            }
+                                                        </div>
+                                                    )}
+                                                    {errors.password_confirmation &&
+                                                        (() => {
+                                                            if (
+                                                                errors
+                                                                    .password_confirmation
+                                                                    .type ===
+                                                                "required"
+                                                            ) {
+                                                                return (
+                                                                    <div className="text-danger">
+                                                                        Confirm
+                                                                        Password
+                                                                        is
+                                                                        required
+                                                                    </div>
+                                                                );
+                                                            }
+                                                            if (
+                                                                errors
+                                                                    .password_confirmation
+                                                                    .type ===
+                                                                "minLength"
+                                                            ) {
+                                                                return (
+                                                                    <div className="text-danger">
+                                                                        Password
+                                                                        must be
+                                                                        at least
+                                                                        6
+                                                                        characters
+                                                                    </div>
+                                                                );
+                                                            }
+                                                            if (
+                                                                errors
+                                                                    .password_confirmation
+                                                                    .type ===
+                                                                "maxLength"
+                                                            ) {
+                                                                return (
+                                                                    <div className="text-danger">
+                                                                        Password
+                                                                        must be
+                                                                        at least
+                                                                        64
+                                                                        characters
+                                                                    </div>
+                                                                );
+                                                            }
+                                                            if (
+                                                                errors
+                                                                    .password_confirmation
+                                                                    .type ===
+                                                                "validate"
+                                                            ) {
+                                                                return (
+                                                                    <div className="text-danger">
+                                                                        {
+                                                                            errors
+                                                                                .password_confirmation
+                                                                                ?.message
+                                                                        }
+                                                                    </div>
+                                                                );
+                                                            }
+                                                        })()}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-md-6 mx-auto">
-                                                <button className="button-common w-100 mb-5">
+                                                <button className="button-common w-100 mt-4">
                                                     Save
                                                 </button>
                                             </div>
