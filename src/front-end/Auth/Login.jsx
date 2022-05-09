@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 
 const Login = (props) => {
-    const { history } = props;
+    const { history, location } = props;
     const [state, setState] = useState({
         isLoading: false,
         values: {
@@ -50,22 +50,30 @@ const Login = (props) => {
                 const data = response.data.data;
                 localStorage.setItem("userToken", data.auth_token);
                 localStorage.setItem("user_data", JSON.stringify(data.user));
-                history.action === "POP"
-                    ? history.push("/dashboard")
-                    : history.goBack();
+                if (
+                    history.action === "POP" ||
+                    location?.state?.from == "forgot-password"
+                ) {
+                    history.push("/dashboard");
+                } else {
+                    history.goBack();
+                }
             })
             .catch((error) => {
                 //handle error
                 if (error.response && error.response.data["error"]) {
                     let errors = null;
-                    if(typeof (error.response.data.message) == "string"){
-                        errors = error.response.data.message
+                    if (typeof error.response.data.message == "string") {
+                        errors = error.response.data.message;
                     }
                     setState((state) => ({
                         ...state,
-                        errors: errors ? errors : {
-                            ...(state.errors = error.response.data.message),
-                        },
+                        errors: errors
+                            ? errors
+                            : {
+                                  ...(state.errors =
+                                      error.response.data.message),
+                              },
                     }));
                 } else {
                     console.log("Server not responding");
@@ -90,6 +98,11 @@ const Login = (props) => {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="login-box mx-auto">
+                            {location?.state?.from == "forgot-password" && (
+                                <div className="text-success rem-1-5 alert alert-success text-center">
+                                    {location?.state?.message}
+                                </div>
+                            )}
                             <div className="login-heading text-center">
                                 Login
                             </div>
