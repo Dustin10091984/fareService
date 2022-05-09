@@ -288,13 +288,13 @@ const ForgotPassword = () => {
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-6 mx-auto">
-                                                    <label className="rem-1-5">
-                                                        Otp
-                                                    </label>
-                                                    <strong className="text-danger">
-                                                        *
-                                                    </strong>
                                                     <div className="common-input">
+                                                        <label className="rem-1-5 float-left">
+                                                            Phone
+                                                            <strong className="text-danger">
+                                                                *
+                                                            </strong>
+                                                        </label>
                                                         <input
                                                             {...register(
                                                                 "otp",
@@ -410,7 +410,7 @@ const ForgotPassword = () => {
                                     >
                                         {typeof state?.passwordChangeMessage ===
                                             "string" && (
-                                            <div className="login-detail mt-0 mb-5 text-center">
+                                            <div className="login-detail text-danger mt-0 mb-5 text-center">
                                                 {state?.passwordChangeMessage}
                                             </div>
                                         )}
