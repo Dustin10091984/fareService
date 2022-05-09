@@ -288,13 +288,13 @@ const ForgotPassword = () => {
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-6 mx-auto">
+                                                    <label className="rem-1-5">
+                                                        Otp
+                                                    </label>
+                                                    <strong className="text-danger">
+                                                        *
+                                                    </strong>
                                                     <div className="common-input">
-                                                        <label className="rem-1-5">
-                                                            Otp
-                                                        </label>
-                                                        <strong className="text-danger">
-                                                            *
-                                                        </strong>
                                                         <input
                                                             {...register(
                                                                 "otp",
@@ -649,8 +649,18 @@ const ForgotPassword = () => {
                                         </div>
                                         <div className="row">
                                             <div className="col-md-6 mx-auto">
-                                                <button className="button-common w-100 mt-4">
-                                                    Save
+                                                <button
+                                                    className="button-common w-100 mt-4"
+                                                    type="submit"
+                                                >
+                                                    {!!state?.loading ? (
+                                                        <>
+                                                            Please wait{" "}
+                                                            <i className="fas fa-spinner fa-pulse"></i>
+                                                        </>
+                                                    ) : (
+                                                        "Save"
+                                                    )}
                                                 </button>
                                             </div>
                                         </div>
