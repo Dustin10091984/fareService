@@ -650,6 +650,7 @@ const ForgotPassword = () => {
                                         <div className="row">
                                             <div className="col-md-6 mx-auto">
                                                 <button
+                                                    disabled={state?.loading}
                                                     className="button-common w-100 mt-4"
                                                     type="submit"
                                                 >
