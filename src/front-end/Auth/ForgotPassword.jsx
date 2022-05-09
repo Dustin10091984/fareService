@@ -20,115 +20,105 @@ const ForgotPassword = () => {
 
     const history = useHistory();
 
-    
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm();
 
-history.push({
-    pathname: "/login",
-    state: {
-        from: "forgot-password",
-        message: "Password change successfully",
-    },
-});
-
-const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-} = useForm();
-
-const handleBasic = async ({ phone }) => {
-    setState((state) => ({
-        ...state,
-        loading: true,
-    }));
-    await axios({
-        method: "post",
-        data: { phone: state?.code + phone },
-        url: `${HOST}/api/user/forgot-password`,
-    })
-        .then((response) => {
-            let data = response.data;
-            setState((state) => ({
-                ...state,
-                otpSuccessMessage: data.message,
-                section: 1,
-                loading: false,
-            }));
+    const handleBasic = async ({ phone }) => {
+        setState((state) => ({
+            ...state,
+            loading: true,
+        }));
+        await axios({
+            method: "post",
+            data: { phone: state?.code + phone },
+            url: `${HOST}/api/user/forgot-password`,
         })
-        .catch((error) => {
-            let data = error.response.data;
-            setState((state) => ({
-                ...state,
-                otpErrorMessage: data.message,
-                loading: false,
-            }));
-        });
-};
-
-const handleOtpSubmit = async ({ otp }) => {
-    setState((state) => ({
-        ...state,
-        loading: true,
-    }));
-    await axios({
-        method: "post",
-        data: { otp, phone: state?.code + state.phone, for_password: true },
-        url: `${HOST}/api/user/signup/phone/verify`,
-    })
-        .then((response) => {
-            let data = response.data;
-            setState((state) => ({
-                ...state,
-                otpVerifySuccessMessage: data.message,
-                token: data.token,
-                loading: false,
-                section: 2,
-            }));
-        })
-        .catch((error) => {
-            let data = error.response.data;
-            setState((state) => ({
-                ...state,
-                otpVerifyErrorMessage: data.message,
-                loading: false,
-            }));
-        });
-};
-
-const handleChangePassword = async () => {
-    console.log(state.token);
-    setState((state) => ({
-        ...state,
-        loading: true,
-    }));
-    await axios({
-        method: "post",
-        headers: { Authorization: `Bearer ${state.token}` },
-        data: {
-            password: state?.password,
-            password_confirmation: state?.password_confirmation,
-        },
-        url: `${HOST}/api/user/change-password`,
-    })
-        .then((response) => {
-            history.push({
-                pathname: "/login",
-                state: {
-                    from: "forgot-password",
-                    message: "Password change successfully",
-                },
+            .then((response) => {
+                let data = response.data;
+                setState((state) => ({
+                    ...state,
+                    otpSuccessMessage: data.message,
+                    section: 1,
+                    loading: false,
+                }));
+            })
+            .catch((error) => {
+                let data = error.response.data;
+                setState((state) => ({
+                    ...state,
+                    otpErrorMessage: data.message,
+                    loading: false,
+                }));
             });
+    };
+
+    const handleOtpSubmit = async ({ otp }) => {
+        setState((state) => ({
+            ...state,
+            loading: true,
+        }));
+        await axios({
+            method: "post",
+            data: { otp, phone: state?.code + state.phone, for_password: true },
+            url: `${HOST}/api/user/signup/phone/verify`,
         })
-        .catch((error) => {
-            let data = error.response.data;
-            setState((state) => ({
-                ...state,
-                passwordChangeMessage: data.message,
-                loading: false,
-            }));
-        });
-};
+            .then((response) => {
+                let data = response.data;
+                setState((state) => ({
+                    ...state,
+                    otpVerifySuccessMessage: data.message,
+                    token: data.token,
+                    loading: false,
+                    section: 2,
+                }));
+            })
+            .catch((error) => {
+                let data = error.response.data;
+                setState((state) => ({
+                    ...state,
+                    otpVerifyErrorMessage: data.message,
+                    loading: false,
+                }));
+            });
+    };
+
+    const handleChangePassword = async () => {
+        console.log(state.token);
+        setState((state) => ({
+            ...state,
+            loading: true,
+        }));
+        await axios({
+            method: "post",
+            headers: { Authorization: `Bearer ${state.token}` },
+            data: {
+                password: state?.password,
+                password_confirmation: state?.password_confirmation,
+            },
+            url: `${HOST}/api/user/change-password`,
+        })
+            .then((response) => {
+                history.push({
+                    pathname: "/login",
+                    state: {
+                        from: "forgot-password",
+                        message: "Password change successfully",
+                    },
+                });
+            })
+            .catch((error) => {
+                let data = error.response.data;
+                setState((state) => ({
+                    ...state,
+                    passwordChangeMessage: data.message,
+                    loading: false,
+                }));
+            });
+    };
     return (
         <>
             <div className="login-sec d-flex">
