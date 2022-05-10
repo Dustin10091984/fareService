@@ -183,7 +183,7 @@ export const GroceryStorePage = (props) => {
                                 };
                                 if (
                                     match?.params?.id &&
-                                    productsMeta?.total > 1
+                                    productsMeta?.last_page > 1
                                 ) {
                                     data.id = match?.params?.id;
                                     data.last_page = productsMeta?.last_page;

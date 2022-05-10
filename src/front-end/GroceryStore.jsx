@@ -406,7 +406,7 @@ export const GroceryStore = (props) => {
                                         // }
                                         if (
                                             !match?.params?.id &&
-                                            listMeta?.total > 1
+                                            listMeta?.last_page > 1
                                         ) {
                                             data.last_page =
                                                 listMeta?.last_page;

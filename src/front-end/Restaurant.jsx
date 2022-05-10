@@ -539,10 +539,7 @@ export const Restaurant = (props) => {
                                             //     data.func = getRestaurantFoods;
                                             //     return <Paginate {...data} />;
                                             // }
-                                            if (
-                                                !match?.params?.id &&
-                                                listMeta?.total > 1
-                                            ) {
+                                            if (listMeta?.last_page > 1) {
                                                 data.last_page =
                                                     listMeta?.last_page;
                                                 data.current_page =
