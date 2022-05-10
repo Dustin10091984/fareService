@@ -19,6 +19,7 @@ const Header = (props) => {
         isChatOpen: false,
         is_search: false,
         subServices: [],
+        showMenu: false,
     });
 
     const ref = useRef(null);
@@ -124,7 +125,22 @@ const Header = (props) => {
 
     const header_menu = state.header_menu.map((menu, idx) => {
         return (
-            <li className="nav-item" key={`menu-${idx}`}>
+            <li
+                className={`nav-item ${state?.showMenu ? "" : "remove"}`}
+                onMouseOver={() => {
+                    setState((prev) => ({
+                        ...prev,
+                        showMenu: true,
+                    }));
+                }}
+                onMouseLeave={() => {
+                    setState((prev) => ({
+                        ...prev,
+                        showMenu: false,
+                    }));
+                }}
+                key={`menu-${idx}`}
+            >
                 <div
                     className="nav-link"
                     style={{
@@ -141,6 +157,12 @@ const Header = (props) => {
                                 <li
                                     className="nav-item"
                                     key={`sub-menu-${index}`}
+                                    onClick={() => {
+                                        setState((prev) => ({
+                                            ...prev,
+                                            showMenu: false,
+                                        }));
+                                    }}
                                 >
                                     <NavLink
                                         to={`/services/${menu.id}/${sub_menu.id}#cleaning-services`}

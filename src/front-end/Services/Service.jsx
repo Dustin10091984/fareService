@@ -322,6 +322,7 @@ const Service = ({
                                                             backgroundColor:
                                                                 "#F1F2F7",
                                                             borderRadius: "5px",
+                                                            cursor: "pointer",
                                                         }}
                                                         data-code={data?.code}
                                                         onClick={() =>
@@ -337,9 +338,10 @@ const Service = ({
                                         </>
                                     )}
                                 <div className="col-md-12 text-danger">
-                                    {service?.zipCodeDataErr}
+                                    {service?.zipCodeDataErr ||
+                                        service?.zipCodeErr}
                                 </div>
-                                {service?.zipCodeErr}
+                                {/* {service?.zipCodeErr} */}
                                 {/* </div> */}
                             </div>
                         </div>

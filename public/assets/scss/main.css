@@ -300,7 +300,7 @@ body {
     padding-bottom: 1.1rem;
 }
 
-.nav-sec .navbar-nav .nav-item:hover .dropdownmenu {
+.nav-sec .navbar-nav .nav-item:hover:not(.remove) .dropdownmenu {
     opacity: 1;
     visibility: visible;
     -webkit-transform: translate(-50%, 0px);
