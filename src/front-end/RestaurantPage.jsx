@@ -191,7 +191,7 @@ export const RestaurantPage = (props) => {
                                     current_page: 0,
                                     total: 0,
                                 };
-                                if (match?.params?.id && foodsMeta) {
+                                if (match?.params?.id && foodsMeta?.total > 1) {
                                     data.id = match?.params?.id;
                                     data.last_page = foodsMeta?.last_page;
                                     data.current_page = foodsMeta?.current_page;

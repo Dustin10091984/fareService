@@ -181,7 +181,10 @@ export const GroceryStorePage = (props) => {
                                     current_page: 0,
                                     total: 0,
                                 };
-                                if (match?.params?.id) {
+                                if (
+                                    match?.params?.id &&
+                                    productsMeta?.total > 1
+                                ) {
                                     data.id = match?.params?.id;
                                     data.last_page = productsMeta?.last_page;
                                     data.current_page =
