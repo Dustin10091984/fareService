@@ -94,8 +94,9 @@ const ForgotPassword = () => {
         }));
         await axios({
             method: "post",
-            headers: { Authorization: `Bearer ${state.token}` },
             data: {
+                phone: state?.code + state.phone,
+                token: state.token,
                 password: state?.password,
                 password_confirmation: state?.password_confirmation,
             },
