@@ -69,7 +69,7 @@ const stripePromise = loadStripe(
 function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
-  const { pathname, hash, key } = useLocation();
+  const { hash } = useLocation();
 
   const messaging = getMessaging();
   onMessage(messaging, (payload) => {
@@ -82,12 +82,12 @@ function App() {
   //   });
     
     const handleMessageClick = (data) => {
-      setState(data)
+      setState(data);
     }
 
   const dispatch = useDispatch();
   useEffect(async () => {
-    if (localStorage?.userToken) {
+    if (!!localStorage?.userToken) {
       const token = await getToken();
       axios({
         method: "post",
@@ -153,7 +153,7 @@ function App() {
         }
       }, 0);
     }
-  }, [pathname, hash, key]); // do this on route change
+  }, [hash]); // do this on route change
 
   return (
     <Elements stripe={stripePromise} >

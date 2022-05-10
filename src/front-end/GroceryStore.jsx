@@ -63,14 +63,14 @@ export const GroceryStore = (props) => {
         (state) => state.groceryStoreReducer?.products?.message
     );
 
-    useEffect(() => {
-        if (match?.params?.id) {
-            dispatch(getGroceryStore(match.params.id));
-            dispatch(getProducts({ id: match.params.id }));
-        } else {
-            dispatch(getGroceryStores(""));
-        }
-    }, [match?.params?.id]);
+    // useEffect(() => {
+    //     if (match?.params?.id) {
+    //         dispatch(getGroceryStore(match.params.id));
+    //         dispatch(getProducts({ id: match.params.id }));
+    //     } else {
+    //         dispatch(getGroceryStores(""));
+    //     }
+    // }, [match?.params?.id]);
 
     const handleSearchClick = () => {
         if (state.search) {
@@ -78,113 +78,114 @@ export const GroceryStore = (props) => {
         }
     };
 
-    const Worker = ({ productId }) => {
-        return (() => {
-            if (groceryStoreLoading == true) {
-                return (
-                    <div
-                        className="col-12  alert alert-info text-center"
-                        role="alert"
-                        style={{ fontSize: 15 }}
-                    >
-                        <i className="fa fa-spinner fa-spin fa-10x"></i>{" "}
-                        Processing...
-                    </div>
-                );
-            }
-            if (groceryStoreError) {
-                return (
-                    <div
-                        className="col-12  alert alert-danger text-center"
-                        role="alert"
-                        style={{ fontSize: 15 }}
-                    >
-                        {groceryStoreMessage}
-                    </div>
-                );
-            }
-            if ((groceryStoreError == false && groceryStoreData) || productId) {
-                const product =
-                    productId &&
-                    productsData?.find((product) => product.id == productId);
-                return (
-                    <>
-                        {product && (
-                            <button
-                                onClick={() => {
-                                    history.push(
-                                        `/grocery-stores/${product.grocer_id}`
-                                    );
-                                }}
-                                className="button-common-2"
-                            >
-                                Go Back
-                            </button>
-                        )}
-                        <div className="product-detail-card-item">
-                            <div>
-                                <span className="product-card box-shadow-none d-flex justify-content-center flex-column">
-                                    <div className="prod-img mx-auto">
-                                        <img
-                                            className="img-fluid"
-                                            src={
-                                                (productId &&
-                                                    HOST + product?.image) ||
-                                                (HOST +
-                                                    groceryStoreData?.image) || ""
-                                            }
-                                            alt=""
-                                            onError={(e) => {
-                                                e.target.src =
-                                                    "/assets/img/food.svg";
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="prod-detail">
-                                        <div className="title">
-                                            {(productId && product?.name) ||
-                                                groceryStoreData?.name}
-                                        </div>
-                                        {/* <div className="sub-title col-md-12 text-truncate">
-                                            {(productId && product?.name) ||
-                                                restaurantData?.restaurant_type}
-                                        </div> */}
-                                        {productId && product?.price && (
-                                            <div className="price">
-                                                {`$${product?.price}`}
-                                            </div>
-                                        )}
-                                        <Rating
-                                            rating={
-                                                groceryStoreData?.user?.rating
-                                            }
-                                        />
-                                        {/* <div className="text-center">
-                                <button className="button-common d-none">
-                                View Menu
-                                </button>
-                                <button className="button-common-2 d-none">
-                                Closed
-                                </button>
-                            </div> */}
-                                    </div>
-                                </span>
-                            </div>
-                        </div>
-                        {product && (
-                            <Link
-                                to={`/product-detail/${product.id}?type=${ProductType.GROCERY}`}
-                                className="button-common"
-                            >
-                                Open
-                            </Link>
-                        )}
-                    </>
-                );
-            }
-            return "";
-        })();
-    };
+    // const Worker = ({ productId }) => {
+    //     return (() => {
+    //         if (groceryStoreLoading == true) {
+    //             return (
+    //                 <div
+    //                     className="col-12  alert alert-info text-center"
+    //                     role="alert"
+    //                     style={{ fontSize: 15 }}
+    //                 >
+    //                     <i className="fa fa-spinner fa-spin fa-10x"></i>{" "}
+    //                     Processing...
+    //                 </div>
+    //             );
+    //         }
+    //         if (groceryStoreError) {
+    //             return (
+    //                 <div
+    //                     className="col-12  alert alert-danger text-center"
+    //                     role="alert"
+    //                     style={{ fontSize: 15 }}
+    //                 >
+    //                     {groceryStoreMessage}
+    //                 </div>
+    //             );
+    //         }
+    //         if ((groceryStoreError == false && groceryStoreData) || productId) {
+    //             const product =
+    //                 productId &&
+    //                 productsData?.find((product) => product.id == productId);
+    //             return (
+    //                 <>
+    //                     {product && (
+    //                         <button
+    //                             onClick={() => {
+    //                                 history.push(
+    //                                     `/grocery-stores/${product.grocer_id}`
+    //                                 );
+    //                             }}
+    //                             className="button-common-2"
+    //                         >
+    //                             Go Back
+    //                         </button>
+    //                     )}
+    //                     <div className="product-detail-card-item">
+    //                         <div>
+    //                             <span className="product-card box-shadow-none d-flex justify-content-center flex-column">
+    //                                 <div className="prod-img mx-auto">
+    //                                     <img
+    //                                         className="img-fluid"
+    //                                         src={
+    //                                             (productId &&
+    //                                                 HOST + product?.image) ||
+    //                                             HOST +
+    //                                                 groceryStoreData?.image ||
+    //                                             ""
+    //                                         }
+    //                                         alt=""
+    //                                         onError={(e) => {
+    //                                             e.target.src =
+    //                                                 "/assets/img/food.svg";
+    //                                         }}
+    //                                     />
+    //                                 </div>
+    //                                 <div className="prod-detail">
+    //                                     <div className="title">
+    //                                         {(productId && product?.name) ||
+    //                                             groceryStoreData?.name}
+    //                                     </div>
+    //                                     {/* <div className="sub-title col-md-12 text-truncate">
+    //                                         {(productId && product?.name) ||
+    //                                             restaurantData?.restaurant_type}
+    //                                     </div> */}
+    //                                     {productId && product?.price && (
+    //                                         <div className="price">
+    //                                             {`$${product?.price}`}
+    //                                         </div>
+    //                                     )}
+    //                                     <Rating
+    //                                         rating={
+    //                                             groceryStoreData?.user?.rating
+    //                                         }
+    //                                     />
+    //                                     {/* <div className="text-center">
+    //                             <button className="button-common d-none">
+    //                             View Menu
+    //                             </button>
+    //                             <button className="button-common-2 d-none">
+    //                             Closed
+    //                             </button>
+    //                         </div> */}
+    //                                 </div>
+    //                             </span>
+    //                         </div>
+    //                     </div>
+    //                     {product && (
+    //                         <Link
+    //                             to={`/product-detail/${product.id}?type=${ProductType.GROCERY}`}
+    //                             className="button-common"
+    //                         >
+    //                             Open
+    //                         </Link>
+    //                     )}
+    //                 </>
+    //             );
+    //         }
+    //         return "";
+    //     })();
+    // };
     return (
         <>
             {/* <div
@@ -367,7 +368,7 @@ export const GroceryStore = (props) => {
                                                     ></GroceryStoreCard>
                                                 </div>
                                             ))}
-                                        {match?.params?.id &&
+                                        {/* {match?.params?.id &&
                                             productsData?.map(
                                                 (product, index) => (
                                                     <div
@@ -383,7 +384,7 @@ export const GroceryStore = (props) => {
                                                         ></ProductCard>
                                                     </div>
                                                 )
-                                            )}
+                                            )} */}
                                     </>
                                 )}
                             </div>
@@ -394,16 +395,19 @@ export const GroceryStore = (props) => {
                                             current_page: 0,
                                             total: 0,
                                         };
-                                        if (match?.params?.id) {
-                                            data.id = match?.params?.id;
-                                            data.last_page =
-                                                productsMeta?.last_page;
-                                            data.current_page =
-                                                productsMeta?.current_page;
-                                            data.func = getProducts;
-                                            return <Paginate {...data} />;
-                                        }
-                                        if (!match?.params?.id && listMeta) {
+                                        // if (match?.params?.id) {
+                                        //     data.id = match?.params?.id;
+                                        //     data.last_page =
+                                        //         productsMeta?.last_page;
+                                        //     data.current_page =
+                                        //         productsMeta?.current_page;
+                                        //     data.func = getProducts;
+                                        //     return <Paginate {...data} />;
+                                        // }
+                                        if (
+                                            !match?.params?.id &&
+                                            listMeta?.last_page > 1
+                                        ) {
                                             data.last_page =
                                                 listMeta?.last_page;
                                             data.current_page =

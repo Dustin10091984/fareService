@@ -74,19 +74,19 @@ export const Restaurant = (props) => {
     /**
      * @useEffect is used to call the action
      */
-    useEffect(() => {
-        if (match?.params?.id) {
-            dispatch(getRestaurant(match.params.id));
-            dispatch(
-                getRestaurantFoods({
-                    id: match.params.id,
-                })
-            );
-            dispatch(getCategoryList("type=FOOD"));
-        } else {
-            dispatch(getRestaurants({ params: "" }));
-        }
-    }, [match?.params?.id]);
+    // useEffect(() => {
+    //     if (match?.params?.id) {
+    //         dispatch(getRestaurant(match.params.id));
+    //         dispatch(
+    //             getRestaurantFoods({
+    //                 id: match.params.id,
+    //             })
+    //         );
+    //         dispatch(getCategoryList("type=FOOD"));
+    //     } else {
+    //         dispatch(getRestaurants({ params: "" }));
+    //     }
+    // }, [match?.params?.id]);
 
     useEffect(() => {
         if (list?.error && list?.message) {
@@ -101,18 +101,18 @@ export const Restaurant = (props) => {
     }, [list.error]);
 
     useEffect(() => {
-        if (match?.params?.id && state?.selectedCategory) {
-            dispatch(
-                getRestaurantFoods({
-                    id: match.params.id,
-                    params: `?${new URLSearchParams({
-                        categories: state?.selectedCategory,
-                        restaurant_type: state?.selectedType,
-                    }).toString()}`,
-                })
-            );
-            return;
-        }
+        // if (match?.params?.id && state?.selectedCategory) {
+        //     dispatch(
+        //         getRestaurantFoods({
+        //             id: match.params.id,
+        //             params: `?${new URLSearchParams({
+        //                 categories: state?.selectedCategory,
+        //                 restaurant_type: state?.selectedType,
+        //             }).toString()}`,
+        //         })
+        //     );
+        //     return;
+        // }
         if (match?.params?.id == undefined) {
             dispatch(
                 getRestaurants({
@@ -128,117 +128,119 @@ export const Restaurant = (props) => {
         }
     }, [state?.selectedCategory, state?.selectedType]);
 
-    const Worker = ({ foodId }) => {
-        return (() => {
-            if (restaurantLoading == true) {
-                return (
-                    <div
-                        className="col-12  alert alert-info text-center"
-                        role="alert"
-                        style={{ fontSize: 15 }}
-                    >
-                        <i className="fa fa-spinner fa-spin fa-10x"></i>{" "}
-                        Processing...
-                    </div>
-                );
-            }
+    // const Worker = ({ foodId }) => {
+    //     return (() => {
+    //         if (restaurantLoading == true) {
+    //             return (
+    //                 <div
+    //                     className="col-12  alert alert-info text-center"
+    //                     role="alert"
+    //                     style={{ fontSize: 15 }}
+    //                 >
+    //                     <i className="fa fa-spinner fa-spin fa-10x"></i>{" "}
+    //                     Processing...
+    //                 </div>
+    //             );
+    //         }
 
-            if (restaurantError) {
-                return (
-                    <div
-                        className="col-12  alert alert-danger text-center"
-                        role="alert"
-                        style={{ fontSize: 15 }}
-                    >
-                        {restaurantMessage}
-                    </div>
-                );
-            }
+    //         if (restaurantError) {
+    //             return (
+    //                 <div
+    //                     className="col-12  alert alert-danger text-center"
+    //                     role="alert"
+    //                     style={{ fontSize: 15 }}
+    //                 >
+    //                     {restaurantMessage}
+    //                 </div>
+    //             );
+    //         }
 
-            if ((restaurantError == false && restaurantData) || foodId) {
-                const food =
-                    foodId && foodsData?.find((food) => food.id == foodId);
-                return (
-                    <>
-                        {food && (
-                            <button
-                                onClick={() => {
-                                    history.push(
-                                        `/restaurants/${food.restaurant_id}`
-                                    );
-                                }}
-                                className="button-common-2"
-                            >
-                                Go Back
-                            </button>
-                        )}
-                        <div className="product-detail-card-item">
-                            <div>
-                                <span className="product-card box-shadow-none d-flex justify-content-center flex-column">
-                                    <div className="prod-img mx-auto">
-                                        <img
-                                            className="img-fluid"
-                                            src={
-                                                (foodId &&
-                                                    HOST + food?.image) ||
-                                                    (restaurantData?.image &&
-                                                         HOST + restaurantData?.image) || ""
-                                            }
-                                            alt=""
-                                            onError={(e) => {
-                                                e.target.src =
-                                                    "/assets/img/food.svg";
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="prod-detail">
-                                        <div className="title">
-                                            {(foodId && food?.name) ||
-                                                restaurantData?.name}
-                                        </div>
-                                        <div className="sub-title col-md-12 text-truncate">
-                                            {(foodId && food?.name) ||
-                                                restaurantData?.restaurant_type}
-                                        </div>
-                                        {foodId && food?.price && (
-                                            <div className="price">
-                                                {`$${food?.price}`}
-                                            </div>
-                                        )}
-                                        <Rating
-                                            rating={
-                                                foodId
-                                                    ? food?.rating
-                                                    : restaurantData?.user
-                                                          ?.rating
-                                            }
-                                        />
-                                        {/* <div className="text-center">
-                                            <button className="button-common d-none">
-                                            View Menu
-                                            </button>
-                                            <button className="button-common-2 d-none">
-                                            Closed
-                                            </button>
-                                        </div> */}
-                                    </div>
-                                </span>
-                            </div>
-                        </div>
-                        {food && (
-                            <Link
-                                to={`/product-detail/${food.id}?type=${ProductType.FOOD}`}
-                                className="button-common"
-                            >
-                                Open
-                            </Link>
-                        )}
-                    </>
-                );
-            }
-            return "";
-        })();
-    };
+    //         if ((restaurantError == false && restaurantData) || foodId) {
+    //             const food =
+    //                 foodId && foodsData?.find((food) => food.id == foodId);
+    //             return (
+    //                 <>
+    //                     {food && (
+    //                         <button
+    //                             onClick={() => {
+    //                                 history.push(
+    //                                     `/restaurants/${food.restaurant_id}`
+    //                                 );
+    //                             }}
+    //                             className="button-common-2"
+    //                         >
+    //                             Go Back
+    //                         </button>
+    //                     )}
+    //                     <div className="product-detail-card-item">
+    //                         <div>
+    //                             <span className="product-card box-shadow-none d-flex justify-content-center flex-column">
+    //                                 <div className="prod-img mx-auto">
+    //                                     <img
+    //                                         className="img-fluid"
+    //                                         src={
+    //                                             (foodId &&
+    //                                                 HOST + food?.image) ||
+    //                                             (restaurantData?.image &&
+    //                                                 HOST +
+    //                                                     restaurantData?.image) ||
+    //                                             ""
+    //                                         }
+    //                                         alt=""
+    //                                         onError={(e) => {
+    //                                             e.target.src =
+    //                                                 "/assets/img/food.svg";
+    //                                         }}
+    //                                     />
+    //                                 </div>
+    //                                 <div className="prod-detail">
+    //                                     <div className="title">
+    //                                         {(foodId && food?.name) ||
+    //                                             restaurantData?.name}
+    //                                     </div>
+    //                                     <div className="sub-title col-md-12 text-truncate">
+    //                                         {(foodId && food?.name) ||
+    //                                             restaurantData?.restaurant_type}
+    //                                     </div>
+    //                                     {foodId && food?.price && (
+    //                                         <div className="price">
+    //                                             {`$${food?.price}`}
+    //                                         </div>
+    //                                     )}
+    //                                     <Rating
+    //                                         rating={
+    //                                             foodId
+    //                                                 ? food?.rating
+    //                                                 : restaurantData?.user
+    //                                                       ?.rating
+    //                                         }
+    //                                     />
+    //                                     {/* <div className="text-center">
+    //                                         <button className="button-common d-none">
+    //                                         View Menu
+    //                                         </button>
+    //                                         <button className="button-common-2 d-none">
+    //                                         Closed
+    //                                         </button>
+    //                                     </div> */}
+    //                                 </div>
+    //                             </span>
+    //                         </div>
+    //                     </div>
+    //                     {food && (
+    //                         <Link
+    //                             to={`/product-detail/${food.id}?type=${ProductType.FOOD}`}
+    //                             className="button-common"
+    //                         >
+    //                             Open
+    //                         </Link>
+    //                     )}
+    //                 </>
+    //             );
+    //         }
+    //         return "";
+    //     })();
+    // };
 
     return (
         <>
@@ -247,7 +249,11 @@ export const Restaurant = (props) => {
                 style={{ backgroundImage: `url("/assets/img/restaurant.jpg")` }}
             > */}
             <Loading
-                loading={restaurantLoading || foodsLoading || list?.loading}
+                loading={
+                    restaurantLoading ||
+                    // foodsLoading
+                    list?.loading
+                }
             />
             <div className="container">
                 <div className="row">
@@ -321,7 +327,7 @@ export const Restaurant = (props) => {
                     <div className="row">
                         <div className="col-md-3">
                             <div className="shop-left-box">
-                                {match?.params?.id && (
+                                {/* {match?.params?.id && (
                                     <>
                                         <div className="title">
                                             Search Filters
@@ -400,7 +406,7 @@ export const Restaurant = (props) => {
                                             })()}
                                         </div>
                                     </>
-                                )}
+                                )} */}
                                 <div className="title mt-5 pt-5">
                                     Quick Filters
                                 </div>
@@ -495,7 +501,7 @@ export const Restaurant = (props) => {
                                                     </div>
                                                 )
                                             )}
-                                        {match?.params?.id &&
+                                        {/* {match?.params?.id &&
                                             foodsData?.map((food, index) => (
                                                 <div
                                                     key={index}
@@ -509,7 +515,7 @@ export const Restaurant = (props) => {
                                                         }}
                                                     ></Food>
                                                 </div>
-                                            ))}
+                                            ))} */}
                                     </>
                                 )}
                             </div>
@@ -521,22 +527,19 @@ export const Restaurant = (props) => {
                                                 current_page: 0,
                                                 total: 0,
                                             };
-                                            if (
-                                                match?.params?.id &&
-                                                foodsMeta
-                                            ) {
-                                                data.id = match?.params?.id;
-                                                data.last_page =
-                                                    foodsMeta?.last_page;
-                                                data.current_page =
-                                                    foodsMeta?.current_page;
-                                                data.func = getRestaurantFoods;
-                                                return <Paginate {...data} />;
-                                            }
-                                            if (
-                                                !match?.params?.id &&
-                                                listMeta
-                                            ) {
+                                            // if (
+                                            //     match?.params?.id &&
+                                            //     foodsMeta?.tot
+                                            // ) {
+                                            //     data.id = match?.params?.id;
+                                            //     data.last_page =
+                                            //         foodsMeta?.last_page;
+                                            //     data.current_page =
+                                            //         foodsMeta?.current_page;
+                                            //     data.func = getRestaurantFoods;
+                                            //     return <Paginate {...data} />;
+                                            // }
+                                            if (listMeta?.last_page > 1) {
                                                 data.last_page =
                                                     listMeta?.last_page;
                                                 data.current_page =
