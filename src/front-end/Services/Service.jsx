@@ -322,6 +322,7 @@ const Service = ({
                                                             backgroundColor:
                                                                 "#F1F2F7",
                                                             borderRadius: "5px",
+                                                            cursor: "pointer",
                                                         }}
                                                         data-code={data?.code}
                                                         onClick={() =>
