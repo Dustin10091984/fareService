@@ -135,7 +135,7 @@ const Header = (props) => {
                     <i className="fa fa-angle-down pl-1" aria-hidden="true"></i>
                 </div>
                 {menu.sub_services && menu.sub_services.length ? (
-                    <ul className="dropdownmenu">
+                    <ul className="dropdownmenu" onMouseOver={(evt) => {}}>
                         {menu.sub_services.map((sub_menu, index) => {
                             return (
                                 <li

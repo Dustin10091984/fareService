@@ -337,9 +337,10 @@ const Service = ({
                                         </>
                                     )}
                                 <div className="col-md-12 text-danger">
-                                    {service?.zipCodeDataErr}
+                                    {service?.zipCodeDataErr ||
+                                        service?.zipCodeErr}
                                 </div>
-                                {service?.zipCodeErr}
+                                {/* {service?.zipCodeErr} */}
                                 {/* </div> */}
                             </div>
                         </div>
