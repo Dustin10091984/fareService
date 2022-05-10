@@ -94,8 +94,9 @@ const ForgotPassword = () => {
         }));
         await axios({
             method: "post",
-            headers: { Authorization: `Bearer ${state.token}` },
             data: {
+                phone: state?.code + state.phone,
+                token: state.token,
                 password: state?.password,
                 password_confirmation: state?.password_confirmation,
             },
@@ -667,6 +668,42 @@ const ForgotPassword = () => {
                                         </div>
                                     </form>
                                 )}
+
+                                {/* <div className="d-flex justify-content-between"> */}
+                                {state?.section == 1 && (
+                                    <div className="float-left">
+                                        <button
+                                            className="button-common"
+                                            onClick={() => {
+                                                setState((state) => ({
+                                                    ...state,
+                                                    section: 0,
+                                                }));
+                                            }}
+                                        >
+                                            <i className="fa fa-arrow-left"></i>{" "}
+                                            Back
+                                        </button>
+                                    </div>
+                                )}
+                                {state?.section == 0 &&
+                                    !!state?.otpSuccessMessage && (
+                                        <div className="float-right">
+                                            <button
+                                                className="button-common"
+                                                onClick={() => {
+                                                    setState((state) => ({
+                                                        ...state,
+                                                        section: 1,
+                                                    }));
+                                                }}
+                                            >
+                                                Next{" "}
+                                                <i className="fa fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    )}
+                                {/* </div> */}
                             </div>
                         </div>
                     </div>
