@@ -425,15 +425,3 @@ const Service = ({
 };
 
 export { Service };
-
-{
-    /* <div className="common-input mb-4 mx-3">
-    <select name="" id="">
-        <option value="">1 Bedroom</option>
-        <option value="">2 Bedroom</option>
-        <option value="">3 Bedroom</option>
-        <option value="">4 Bedroom</option>
-        <option value="">5 Bedroom</option>
-    </select>
-</div>; */
-}

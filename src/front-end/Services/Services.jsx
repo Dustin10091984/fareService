@@ -13,8 +13,8 @@ export const Services = (props) => {
     const [state, setState] = useState({
         city: "",
         country: "",
-    })
-    
+    });
+
     const [service, setService] = useState({
         selected: {},
         currentStep: 0,
@@ -54,8 +54,8 @@ export const Services = (props) => {
         });
     };
 
-    const handleCountryCityChange = ({target:{name, value}}) => {
-        if(name === "country"){
+    const handleCountryCityChange = ({ target: { name, value } }) => {
+        if (name === "country") {
             setState({
                 ...state,
                 [name]: value,
@@ -65,9 +65,9 @@ export const Services = (props) => {
             setState({
                 ...state,
                 [name]: value,
-            })
+            });
         }
-    }
+    };
 
     const handleZipCodeChange = (e) => {
         const { name, value } = e.target;
@@ -95,7 +95,9 @@ export const Services = (props) => {
             setService((service) => ({ ...service, zipCodeErr: "" }));
             axios({
                 method: "get",
-                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}${state?.city ? `&city=${state?.city}` : ''}`,
+                url: `${HOST}/api/user/services/zip-code?zipCode=${value}&sub_service_id=${subServiceId}${
+                    state?.city ? `&city=${state?.city}` : ""
+                }`,
             })
                 .then(function (response) {
                     setService((service) => ({
@@ -148,12 +150,12 @@ export const Services = (props) => {
 
         const handleMovingState = (data) => {
             setMovingState(data);
-        }
+        };
 
         return (
             <MovingRequest
                 {...props}
-                cityCountry={{city: state?.city, country: state?.country}}
+                cityCountry={{ city: state?.city, country: state?.country }}
                 handleMovingState={handleMovingState}
                 movingState={movingState}
                 moving={moving}
@@ -1372,251 +1374,3 @@ export const Services = (props) => {
         </>
     );
 };
-
-{
-    /* <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2-2.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
-                                    <div className="title">
-                                        Bathroom
-                                        <br /> Cleaning
-                                    </div>
-                                    <div className="des">
-                                        <ul>
-                                            <li>
-                                                Wash and sanitize the toilet,
-                                                shower, tub and sink
-                                            </li>
-                                            <li>
-                                                Dust all accessible surfaces
-                                            </li>
-                                            <li>
-                                                Wipe down all mirrors and glass
-                                                fixtures
-                                            </li>
-                                            <li> Clean all floor surfaces</li>
-                                            <li>
-                                                Take out garbage and recycling
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2-3.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
-                                    <div className="title">
-                                        Kitchen
-                                        <br /> Cleaning
-                                    </div>
-                                    <div className="des">
-                                        <ul>
-                                            <li>
-                                                Dust all accessible surfaces
-                                            </li>
-                                            <li>
-                                                Empty sink and load up
-                                                dishwasher with dirty dishes
-                                            </li>
-                                            <li>
-                                                Wipe down exterior of stove,
-                                                oven and fridge
-                                            </li>
-                                            <li> Clean all floor surfaces</li>
-                                            <li>
-                                                Take out garbage and recycling
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="service-card-des d-flex align-items-center ">
-                                <div className="src-image-box">
-                                    <img
-                                        src="/assets/img/service-caed-2-3.jpg"
-                                        className="img-fluid"
-                                        alt="image"
-                                    />
-                                </div>
-                                <div className="service-card-detail">
-                                    <div className="title">Extras</div>
-                                    <div className="des">
-                                        For a deeper clean, consider adding one
-                                        or more cleaning extras. Most cleaning
-                                        extras add one half hour of time and
-                                        cost to your booking.
-                                        <ul>
-                                            <li>Inside cabinets</li>
-                                            <li>Inside fridge</li>
-                                            <li>Inside oven</li>
-                                            <li>Laundry wash & dry</li>
-                                            <li>Interior windows</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div> */
-}
-
-
-
-                            // <div className="col-md-4">
-                            //     <div className="team-card">
-                            //         <div className="team-img">
-                            //             <img
-                            //                 src="/assets/img/user2.jpg"
-                            //                 className="img-fluid"
-                            //                 alt="image"
-                            //             />
-                            //         </div>
-                            //         <div className="title">Justin R.</div>
-                            //         <div className="job-cmplte">
-                            //             19 Jobs Completed
-                            //         </div>
-                            //         <div className="stars-rating ">
-                            //             <div className="star-rating-area d-flex align-items-center justify-content-center">
-                            //                 <div
-                            //                     className="rating-static clearfix mr-3"
-                            //                     rel="4"
-                            //                 >
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Awesome - 5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Excellent - 4.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Excellent - 4 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Better - 3.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Good - 3 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Good - 2.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Fair - 2 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Fair - 1.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Bad - 1 star' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Bad - 0.5 stars' | translate }}"
-                            //                     ></label>
-                            //                 </div>
-                            //                 {/* <div className="ratilike ng-binding">5</div> */}
-                            //             </div>
-                            //         </div>
-
-                            //         <div className="detail-team">
-                            //             My name is Justin I've been home
-                            //             cleaning for as long as I can remember.
-                            //             Cleaning was a part of life, and now has
-                            //             become a passion, going above and beyond
-                            //             is a thing I like to do, and I do best.
-                            //         </div>
-                            //     </div>
-                            // </div>
-                            // <div className="col-md-4">
-                            //     <div className="team-card">
-                            //         <div className="team-img">
-                            //             <img
-                            //                 src="/assets/img/user3.jpg"
-                            //                 className="img-fluid"
-                            //                 alt="image"
-                            //             />
-                            //         </div>
-                            //         <div className="title">Milagros K.</div>
-                            //         <div className="job-cmplte">
-                            //             1219 Jobs Completed
-                            //         </div>
-                            //         <div className="stars-rating ">
-                            //             <div className="star-rating-area d-flex align-items-center justify-content-center">
-                            //                 <div
-                            //                     className="rating-static clearfix mr-3"
-                            //                     rel="4"
-                            //                 >
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Awesome - 5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Excellent - 4.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Excellent - 4 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Better - 3.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Good - 3 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Good - 2.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Fair - 2 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Fair - 1.5 stars' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="full"
-                            //                         title="{{ 'Bad - 1 star' | translate }}"
-                            //                     ></label>
-                            //                     <label
-                            //                         className="half"
-                            //                         title="{{ 'Bad - 0.5 stars' | translate }}"
-                            //                     ></label>
-                            //                 </div>
-                            //                 {/* <div className="ratilike ng-binding">5</div> */}
-                            //             </div>
-                            //         </div>
-
-                            //         <div className="detail-team">
-                            //             My name is Milagros and I have been a
-                            //             housekeeper for 17 years. I have worked
-                            //             with a family from the Spanish Embassy
-                            //             in Washington, DC for 2 years, then I
-                            //             met a nice family that I worked for 11
-                            //             years as a live in housekeeper.
-                            //         </div>
-                            //     </div>
-                            // </div>
