@@ -207,22 +207,27 @@ export const Services = (props) => {
                                             />
                                         </div>
                                         <></> */}
-                                        <Service
-                                            {...props}
-                                            cityCountry={{city: state?.city, country: state?.country}}
-                                            service={service}
-                                            handleChangeQuestion={
-                                                handleChangeQuestion
-                                            }
-                                            handleZipCodeChange={
-                                                handleZipCodeChange
-                                            }
-                                            handleSelectZipCode={
-                                                handleSelectZipCode
-                                            }
-                                            getProviders={getProviders}
-                                            handleCountryCityChange={handleCountryCityChange}
-                                        />
+                                    <Service
+                                        {...props}
+                                        cityCountry={{
+                                            city: state?.city,
+                                            country: state?.country,
+                                        }}
+                                        service={service}
+                                        handleChangeQuestion={
+                                            handleChangeQuestion
+                                        }
+                                        handleZipCodeChange={
+                                            handleZipCodeChange
+                                        }
+                                        handleSelectZipCode={
+                                            handleSelectZipCode
+                                        }
+                                        getProviders={getProviders}
+                                        handleCountryCityChange={
+                                            handleCountryCityChange
+                                        }
+                                    />
                                     {/* )} */}
                                 </>
                             ) : (
@@ -304,7 +309,8 @@ export const Services = (props) => {
                                                 src={
                                                     (mainMenu?.image &&
                                                         HOST +
-                                                            mainMenu?.image) || ""
+                                                            mainMenu?.image) ||
+                                                    ""
                                                 }
                                                 className="img-fluid"
                                                 alt="image"
@@ -317,20 +323,21 @@ export const Services = (props) => {
                                         </div>
                                         <ul className="service-list">
                                             {mainMenu?.sub_services?.map(
-                                                (subMenu, index) => (
-                                                    <li
-                                                        className="item"
-                                                        key={index}
-                                                    >
-                                                        <div className="link">
-                                                            <i
-                                                                className="fa fa-angle-right pr-3"
-                                                                aria-hidden="true"
-                                                            ></i>
-                                                            {subMenu?.name}
-                                                        </div>
-                                                    </li>
-                                                )
+                                                (subMenu, index) =>
+                                                    index < 7 && (
+                                                        <li
+                                                            className="item"
+                                                            key={index}
+                                                        >
+                                                            <div className="link">
+                                                                <i
+                                                                    className="fa fa-angle-right pr-3"
+                                                                    aria-hidden="true"
+                                                                ></i>
+                                                                {subMenu?.name}
+                                                            </div>
+                                                        </li>
+                                                    )
                                             )}
                                             {/* <li className="item">
                                                 <a href="#" className="link">
@@ -1055,9 +1062,10 @@ export const Services = (props) => {
                                                 <div className="team-img">
                                                     <img
                                                         src={
-                                                            (provider?.image
-                                                                && HOST +
-                                                                  provider?.image) || ""
+                                                            (provider?.image &&
+                                                                HOST +
+                                                                    provider?.image) ||
+                                                            ""
                                                         }
                                                         className="img-fluid"
                                                         alt="image"
