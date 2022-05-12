@@ -2,8 +2,6 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Rating from "../../components/Rating";
 import { HOST } from "../../constants";
-import ServiceType from "../../constants/ServiceType";
-import { Moving } from "./Moving";
 import { MovingRequest } from "./MovingRequest";
 import { Service } from "./Service";
 export const Services = (props) => {
