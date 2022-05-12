@@ -22,7 +22,7 @@ const AutoCompleteInput = ({
                 value={value ? value : ""}
                 onChange={handleOnChange}
                 onSelect={handleOnSelect}
-                googleCallbackName="initOne"
+                // googleCallbackName="initOne"
             >
                 {({
                     getInputProps,

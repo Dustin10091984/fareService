@@ -566,8 +566,9 @@ export const ServiceProviders = (props) => {
                                                     <div className="user-img d-flex align-items-center justify-content-center">
                                                         <img
                                                             src={
-                                                                (provider.image
-                                                                    && `${process.env.REACT_APP_API_BASE_URL}${provider.image}`) || ""
+                                                                (provider.image &&
+                                                                    `${process.env.REACT_APP_API_BASE_URL}${provider.image}`) ||
+                                                                ""
                                                             }
                                                             onError={(e) => {
                                                                 e.target.onerror =
@@ -734,19 +735,25 @@ export const ServiceProviders = (props) => {
                                                                             : true)
                                                                     }
                                                                 >
-                                                                    {
-                                                                        (()=>{
-                                                                            if(provider.service_type == ServiceType.MOVING){
-                                                                                return "Get a Qoutation"
-                                                                            }
-                                                                            if((provider.account_type === "BASIC") &&
-                                                                            provider?.provider_profile?.hourly_rate){
-                                                                                return "Make a Request"
-                                                                            } else {
-                                                                                return "Get a Qoutation";
-                                                                            }
-                                                                        })()
-                                                                    }
+                                                                    {(() => {
+                                                                        if (
+                                                                            provider.service_type ==
+                                                                            ServiceType.MOVING
+                                                                        ) {
+                                                                            return "Get a Qoutation";
+                                                                        }
+                                                                        if (
+                                                                            provider.account_type ===
+                                                                                "BASIC" &&
+                                                                            provider
+                                                                                ?.provider_profile
+                                                                                ?.hourly_rate
+                                                                        ) {
+                                                                            return "Make a Request";
+                                                                        } else {
+                                                                            return "Get a Qoutation";
+                                                                        }
+                                                                    })()}
                                                                 </button>
                                                             ) : (
                                                                 <button
@@ -775,7 +782,9 @@ export const ServiceProviders = (props) => {
                                                         <div className="user-price">
                                                             {!!provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate && (provider.service_type != ServiceType.MOVING)
+                                                                ?.hourly_rate &&
+                                                            provider.service_type !=
+                                                                ServiceType.MOVING
                                                                 ? `$${provider?.provider_profile?.hourly_rate}`
                                                                 : ""}
                                                         </div>
@@ -815,14 +824,15 @@ export const ServiceProviders = (props) => {
                                                                                     (provider
                                                                                         ?.user_feedbacks[0]
                                                                                         ?.user
-                                                                                        ?.image
-                                                                                        && process
-                                                                                              .env
-                                                                                              .REACT_APP_API_BASE_URL +
-                                                                                          provider
-                                                                                              ?.user_feedbacks[0]
-                                                                                              ?.user
-                                                                                              ?.image) || ""
+                                                                                        ?.image &&
+                                                                                        process
+                                                                                            .env
+                                                                                            .REACT_APP_API_BASE_URL +
+                                                                                            provider
+                                                                                                ?.user_feedbacks[0]
+                                                                                                ?.user
+                                                                                                ?.image) ||
+                                                                                    ""
                                                                                 }
                                                                                 className="img-fluid"
                                                                                 alt="Not have"
@@ -906,12 +916,19 @@ export const ServiceProviders = (props) => {
                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
                                     <div className="user-img d-flex align-items-center justify-content-center">
                                         <img
-                                            src={state?.provider?.image && HOST+state?.provider?.image || ""}
+                                            src={
+                                                (state?.provider?.image &&
+                                                    HOST +
+                                                        state?.provider
+                                                            ?.image) ||
+                                                ""
+                                            }
                                             className="img-fluid"
                                             alt="Not Found"
                                             onError={(e) => {
                                                 e.target.onerror = null;
-                                                e.target.src = "/assets/img/Profile_avatar.png";
+                                                e.target.src =
+                                                    "/assets/img/Profile_avatar.png";
                                             }}
                                         />
                                     </div>
@@ -919,16 +936,21 @@ export const ServiceProviders = (props) => {
                                         <div>
                                             <div className=" w-100 ">
                                                 <div className="title">
-                                                    {state?.provider?.first_name}{" "}{state?.provider?.last_name}
+                                                    {
+                                                        state?.provider
+                                                            ?.first_name
+                                                    }{" "}
+                                                    {state?.provider?.last_name}
                                                 </div>
                                             </div>
                                             <div className="job-status">
-                                                {state?.provider_service_requests_count} Jobs Completed
+                                                {
+                                                    state?.provider_service_requests_count
+                                                }{" "}
+                                                Jobs Completed
                                             </div>
                                             <Rating
-                                                rating={
-                                                      5
-                                                }
+                                                rating={5}
                                                 justify="start"
                                             />
                                             {/* <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
@@ -1069,12 +1091,20 @@ export const ServiceProviders = (props) => {
                                                     const modifiers = {
                                                         highlighted: [
                                                             ...(providerSchedule?.data?.data?.map(
-                                                                (
-                                                                    schedule
-                                                                ) => {
-                                                                    if(moment(moment().format('YYYY-MM-DD')).isSameOrBefore(moment(new Date(
-                                                                        `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
-                                                                    )))) {
+                                                                (schedule) => {
+                                                                    if (
+                                                                        moment(
+                                                                            moment().format(
+                                                                                "YYYY-MM-DD"
+                                                                            )
+                                                                        ).isSameOrBefore(
+                                                                            moment(
+                                                                                new Date(
+                                                                                    `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                                                )
+                                                                            )
+                                                                        )
+                                                                    ) {
                                                                         return new Date(
                                                                             `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
                                                                         );
@@ -1086,12 +1116,20 @@ export const ServiceProviders = (props) => {
 
                                                     const disabledDays = [
                                                         ...(providerSchedule?.data?.data?.map(
-                                                            (
-                                                                schedule
-                                                            ) => {
-                                                                if(moment(moment().format('YYYY-MM-DD')).isSameOrBefore(moment(new Date(
-                                                                    `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
-                                                                )))) {
+                                                            (schedule) => {
+                                                                if (
+                                                                    moment(
+                                                                        moment().format(
+                                                                            "YYYY-MM-DD"
+                                                                        )
+                                                                    ).isSameOrBefore(
+                                                                        moment(
+                                                                            new Date(
+                                                                                `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                ) {
                                                                     return new Date(
                                                                         `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
                                                                     );
@@ -1107,8 +1145,10 @@ export const ServiceProviders = (props) => {
                                                                 DateUtils.isSameDay(
                                                                     day,
                                                                     disabledDay
-                                                                ) && !DateUtils.isDayBefore(
-                                                                    day, new Date()
+                                                                ) &&
+                                                                !DateUtils.isDayBefore(
+                                                                    day,
+                                                                    new Date()
                                                                 )
                                                         );
                                                     }
@@ -1627,7 +1667,7 @@ export const ServiceProviders = (props) => {
                                             </div>
                                             <div className="common-input">
                                                 <PlacesAutocomplete
-                                                    googleCallbackName="initTwo"
+                                                    // googleCallbackName="initTwo"
                                                     value={state.address}
                                                     onChange={(address) =>
                                                         setState((state) => ({
