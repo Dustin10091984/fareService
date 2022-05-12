@@ -156,9 +156,22 @@ const Basic = ({
             </div> */}
                 <div className="form-term my-2">
                     By clicking next you agree to{" "}
-                    <Link to={`/page/${terms?.name}`}>Terms of Service</Link>{" "}
-                    and{" "}
-                    <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
+                    {!!terms?.name && (
+                        <>
+                            <Link to={`/page/${terms?.name}`}>
+                                Terms of Service
+                            </Link>{" "}
+                            and
+                        </>
+                    )}{" "}
+                    {!!privacy?.name && (
+                        <>
+                            <Link to={`/page/${privacy?.name}`}>
+                                Privacy Policy
+                            </Link>
+                            .{" "}
+                        </>
+                    )}
                 </div>
 
                 <button
