@@ -92,7 +92,9 @@ const Header = (props) => {
                 is_search: true,
             }));
             const includesValue = (word, obj) => {
-                return _.some(obj, (value) => _.includes(value, word));
+                return _.some(obj, (value) =>
+                    _.includes(value.toLowerCase(), word)
+                );
             };
             const words = _.words(value);
             let subServices = [];
@@ -101,7 +103,7 @@ const Header = (props) => {
                     const searchResult = menu?.sub_services?.filter(
                         (subService) => {
                             return words.every((word) =>
-                                includesValue(word, subService)
+                                includesValue(word.toLowerCase(), subService)
                             );
                         }
                     );
@@ -649,7 +651,7 @@ const Header = (props) => {
                                 >
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
-                                        {state.header_menu?.length ? (
+                                        {/* {state.header_menu?.length ? (
                                             <>
                                                 <li className="nav-item">
                                                     <NavLink
@@ -670,7 +672,7 @@ const Header = (props) => {
                                             </>
                                         ) : (
                                             ""
-                                        )}
+                                        )} */}
                                     </ul>
                                 </div>
                             </nav>

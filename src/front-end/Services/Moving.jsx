@@ -288,7 +288,7 @@ export const Moving = (props) => {
                             }))
                         }
                         onSelect={handleFromAdessSelect}
-                        googleCallbackName="initOne"
+                        // googleCallbackName="initOne"
                     >
                         {({
                             getInputProps,
@@ -364,7 +364,7 @@ export const Moving = (props) => {
                             }))
                         }
                         onSelect={handleToAdessSelect}
-                        googleCallbackName="initTwo"
+                        // googleCallbackName="initTwo"
                     >
                         {({
                             getInputProps,
@@ -455,46 +455,58 @@ export const Moving = (props) => {
                 </div>
             </div>
             <div className="mb-3">
-            <hr/>
-                    <h4 className="mx-3 my-1">Choose service area<strong className="text-danger">*</strong></h4>
-                    <div className="d-flex justify-content-between">
+                <hr />
+                <h4 className="mx-3 my-1">
+                    Choose service area
+                    <strong className="text-danger">*</strong>
+                </h4>
+                <div className="d-flex justify-content-between">
                     <div className="common-input my-2 pr-2">
-                            <select 
-                                name="country"
-                                value={cityCountry?.country}
-                                onChange={(e) => {
-                                    handleCountryCityChange(e);
-                                }}
-                            >
-                                <option defaultValue="">Select Country</option>
-                                {countriesData?.data?.map((countryData, index) => (
-                                    <Fragment key={index}>
-                                        <option value={countryData.id}>{countryData.name}</option>
-                                    </Fragment>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="common-input my-2 pl-2">
-                            <select
-                                name="city"
-                                disabled={!cityCountry?.country}
-                                value={cityCountry?.city}
-                                onChange={(e) => {
-                                    handleCountryCityChange(e);
-                                }}
-                            >
-                                <option defaultValue="" >Select City</option>
-                                {(()=>{
-                                    const countryData = countriesData?.data?.find((countryData) => countryData.id == cityCountry?.country);
-                                    return countryData?.cities?.map((cityData, index) => (
-                                        <Fragment key={index}>
-                                            <option value={cityData.id}>{cityData.name}</option>
-                                        </Fragment>
-                                    ));
-                                })()}
-                            </select>
-                        </div>
+                        <select
+                            name="country"
+                            value={cityCountry?.country}
+                            onChange={(e) => {
+                                handleCountryCityChange(e);
+                            }}
+                        >
+                            <option defaultValue="">Select Country</option>
+                            {countriesData?.data?.map((countryData, index) => (
+                                <Fragment key={index}>
+                                    <option value={countryData.id}>
+                                        {countryData.name}
+                                    </option>
+                                </Fragment>
+                            ))}
+                        </select>
                     </div>
+                    <div className="common-input my-2 pl-2">
+                        <select
+                            name="city"
+                            disabled={!cityCountry?.country}
+                            value={cityCountry?.city}
+                            onChange={(e) => {
+                                handleCountryCityChange(e);
+                            }}
+                        >
+                            <option defaultValue="">Select City</option>
+                            {(() => {
+                                const countryData = countriesData?.data?.find(
+                                    (countryData) =>
+                                        countryData.id == cityCountry?.country
+                                );
+                                return countryData?.cities?.map(
+                                    (cityData, index) => (
+                                        <Fragment key={index}>
+                                            <option value={cityData.id}>
+                                                {cityData.name}
+                                            </option>
+                                        </Fragment>
+                                    )
+                                );
+                            })()}
+                        </select>
+                    </div>
+                </div>
                 <div
                     className="col-md-12 px-0 text-dark"
                     style={{ fontSize: "2rem" }}

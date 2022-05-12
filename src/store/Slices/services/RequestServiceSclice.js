@@ -132,7 +132,7 @@ export const getServiceRequestList = ({ params }) => async dispatch => {
             headers: {
                 Authorization: `${localStorage.userToken}`
             },
-            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/list?${params}`,
+            url: `${process.env.REACT_APP_API_BASE_URL}/api/user/order/list?${params || ''}`,
         }).then((response) => {
             const data = response.data;
             data.loading = false

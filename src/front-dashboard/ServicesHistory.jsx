@@ -73,7 +73,7 @@ export const ServicesHistory = (props) => {
     // }, [feedbackData])
 
     useEffect(() => {
-        dispatch(getServiceRequestList(location.search));
+        dispatch(getServiceRequestList(location?.search || ""));
         const interval = setInterval(() => {
             setState((state) => ({ ...state, second: state.second + 1 }));
         }, 1000);
@@ -82,55 +82,55 @@ export const ServicesHistory = (props) => {
         };
     }, []);
 
-    useEffect(() => {
-        // window.io = io;
-        // const liveOption = {
-        //     host: "http://api.farenow.com:6001",
-        //     broadcaster: 'socket.io',
-        //     client : window.io,
-        // };
-        // const localOption = {
-        //     host: "http://localhost:6001",
-        //     broadcaster: 'socket.io',
-        //     client : window.io,
-        // };
-        // // 'auth': {headers: {Authorization: localStorage.userToken }}
-        // // 'rejectUnauthorized': false,
-        // if (typeof window.io != 'undefined') {
-        //     window.Echo = new Echo(localOption);
-        //     window.Echo.connector.socket.on('connect', function(){
-        //         console.log("connect");
-        //     });
-        //     // window.Echo.connector.socket.on('disconnect', function(){
-        //     //     console.log("disconnect");
-        //     // });
-        //     window.Echo.channel('newMessage-3-2')
-        //     .listen('MessageEvent', (message) => {
-        //         console.log(message);
-        //     });
-        //     console.log(window.Echo);
-        // }
-    });
+    // useEffect(() => {
+    // window.io = io;
+    // const liveOption = {
+    //     host: "http://api.farenow.com:6001",
+    //     broadcaster: 'socket.io',
+    //     client : window.io,
+    // };
+    // const localOption = {
+    //     host: "http://localhost:6001",
+    //     broadcaster: 'socket.io',
+    //     client : window.io,
+    // };
+    // // 'auth': {headers: {Authorization: localStorage.userToken }}
+    // // 'rejectUnauthorized': false,
+    // if (typeof window.io != 'undefined') {
+    //     window.Echo = new Echo(localOption);
+    //     window.Echo.connector.socket.on('connect', function(){
+    //         console.log("connect");
+    //     });
+    //     // window.Echo.connector.socket.on('disconnect', function(){
+    //     //     console.log("disconnect");
+    //     // });
+    //     window.Echo.channel('newMessage-3-2')
+    //     .listen('MessageEvent', (message) => {
+    //         console.log(message);
+    //     });
+    //     console.log(window.Echo);
+    // }
+    // });
 
     useEffect(() => {
-        dispatch(getServiceRequestList(location.search));
+        location?.search && dispatch(getServiceRequestList(location.search));
     }, [location.search]);
 
     useEffect(() => {
-        if(feedbackMessage && feedbackError == false){
+        if (feedbackMessage && feedbackError == false) {
             ref.current.click();
             Swal.fire({
-                position: 'top-end',
-                icon: 'success',
+                position: "top-end",
+                icon: "success",
                 title: "Feedback added successfully!",
                 showConfirmButton: false,
-                timer: 1000
+                timer: 1000,
             });
             dispatch(serviceRequestListUpdate(feedbackData.service_request));
             // dispatch(getServiceRequestList(location.search));
             return;
         }
-    }, [feedbackMessage, feedbackError])
+    }, [feedbackMessage, feedbackError]);
 
     /**
      * get payable object and set state
@@ -301,14 +301,16 @@ export const ServicesHistory = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                            <div className="page-title">Services History</div>
-                            {loading == false && error == true && message && (
-                                <div
-                                    className="col-12  alert alert-danger text-center"
-                                    role="alert"
-                                    style={{ fontSize: 15 }}
-                                >
-                                    {message}
+                            {loading == false && error == true && message ? (
+                                <>
+                                    <div className="page-title">{message}</div>
+                                    <div className="text-center">
+                                        <i className="fa fa-frown-o fa-5x" />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="page-title">
+                                    Services History
                                 </div>
                             )}
                         </div>
@@ -325,6 +327,11 @@ export const ServicesHistory = (props) => {
                                                 className="font-weight-bold"
                                                 style={{
                                                     color: "#000",
+                                                }}
+                                                onClick={(evt) => {
+                                                    !!evt.target.getAttribute(
+                                                        "data-feature"
+                                                    ) && evt.preventDefault();
                                                 }}
                                             >
                                                 <div className="order-card order-history-card-11 d-flex">
@@ -443,16 +450,14 @@ export const ServicesHistory = (props) => {
                                                                         ) {
                                                                             return (
                                                                                 <div
+                                                                                    data-feature="true"
                                                                                     type="button"
-                                                                                    className="btn-price-serv mb-3 mt-3 disable-link"
+                                                                                    className="btn-price-serv mb-3 mt-3 preventDefault"
                                                                                     style={{
                                                                                         backgroundColor:
                                                                                             "red",
                                                                                     }}
-                                                                                    onClick={(
-                                                                                        evt
-                                                                                    ) => {
-                                                                                        // evt.preventDefault();
+                                                                                    onClick={() => {
                                                                                         handlePaymentClick(
                                                                                             serviceRequest?.payable
                                                                                         );
@@ -601,8 +606,9 @@ export const ServicesHistory = (props) => {
                                                                 return (
                                                                     <div className="order-des-b w-100">
                                                                         <div
+                                                                            data-feature="true"
                                                                             type="button"
-                                                                            className="button-common w-100 disable-link"
+                                                                            className="button-common w-100"
                                                                             onClick={(
                                                                                 evt
                                                                             ) => {
@@ -810,21 +816,24 @@ export const ServicesHistory = (props) => {
                                 )
                             )} */}
                     </div>
-                    <div
-                        style={{
-                            backgroundColor: "white",
-                            padding: "3rem",
-                            borderRadius: "1rem",
-                        }}
-                    >
-                        <Paginate
-                            {...{
-                                last_page: serviceRequestList?.last_page,
-                                current_page: serviceRequestList?.current_page,
-                                func: getServiceRequestList,
+                    {!!serviceRequestList?.last_page > 0 && (
+                        <div
+                            style={{
+                                backgroundColor: "white",
+                                padding: "3rem",
+                                borderRadius: "1rem",
                             }}
-                        />
-                    </div>
+                        >
+                            <Paginate
+                                {...{
+                                    last_page: serviceRequestList?.last_page,
+                                    current_page:
+                                        serviceRequestList?.current_page,
+                                    func: getServiceRequestList,
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
 
