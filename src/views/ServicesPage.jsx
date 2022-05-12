@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import Services from "./../front-end/Services";
+import Services from "./../front-end/Services/index";
 
 const ServicesPage = (props) => {
     useEffect(() => {
