@@ -11,6 +11,8 @@ import "../styles.css";
 import moment from "moment";
 import { GOOGLE_API, HOST } from "../../../constants";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Basic = ({
     step,
@@ -20,6 +22,14 @@ const Basic = ({
     handleProviderSignup,
     providerSignup,
 }) => {
+    const pages = useSelector((state) => state?.footerReducer?.pages);
+    const TERMS_AND_CONDITIONS = 1;
+    const PRIVACY = 2;
+    const terms = pages?.data?.find(
+        (page) => page?.type == TERMS_AND_CONDITIONS
+    );
+    const privacy = pages?.data?.find((page) => page?.type == PRIVACY);
+
     const isError = (name) => (basic.error[name] ? basic.error[name] : null);
     const isServerError = (name) => {
         if (
@@ -146,8 +156,22 @@ const Basic = ({
             </div> */}
                 <div className="form-term my-2">
                     By clicking next you agree to{" "}
-                    <a href="#">Terms of Service</a> and{" "}
-                    <a href="#">Privacy Policy</a>.{" "}
+                    {!!terms?.name && (
+                        <>
+                            <Link to={`/page/${terms?.name}`}>
+                                Terms of Service
+                            </Link>{" "}
+                            and
+                        </>
+                    )}{" "}
+                    {!!privacy?.name && (
+                        <>
+                            <Link to={`/page/${privacy?.name}`}>
+                                Privacy Policy
+                            </Link>
+                            .{" "}
+                        </>
+                    )}
                 </div>
 
                 <button
