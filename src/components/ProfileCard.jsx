@@ -88,6 +88,7 @@ const ProfileCard = ({ profile }) => {
                                     zIndex: "1",
                                     bottom: "10%",
                                     right: "0px",
+                                    cursor: "pointer",
                                 }}
                                 htmlFor="image"
                             ></label>
