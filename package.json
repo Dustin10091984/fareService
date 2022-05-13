@@ -63,6 +63,11 @@
       "not op_mini all"
     ]
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
     "redux-devtools": "^3.7.0"
   }
