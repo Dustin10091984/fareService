@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { getVehicleTypes } from '../../store/Slices/moving/movingSlice.js';
 import { getServiceQuestion } from '../../store/Slices/services/ServiceSclice.js';
 import { getCountriesList } from '../../store/Slices/common';
-import { Services } from './Services.jsx';
+import { Services } from './Services';
 
 const mapStateToProps = (state) => ({
     headerMenu: state.headerMenuReducer,
