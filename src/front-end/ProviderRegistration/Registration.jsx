@@ -354,43 +354,13 @@ const Registration = (props) => {
                     width: "100%",
                 }}
             >
-                {/* <div className="container">
-                    <div className="row">
-                        <div className="col-md-12 d-flex align-items-center justify-content-between py-5">
-                            <div className="logo-main">
-                                <img
-                                    src="img/logo.png"
-                                    className="img-fluid"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="login-btn">
-                                <a
-                                    href="#"
-                                    className="login-now text-capitalize text-white"
-                                >
-                                    login
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-
                 <div className="driver-from pt-5">
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-10 col-md-6 col-lg-6 offset-lg-1 p-b-md">
-                                <div className="banner-content">
-                                    {/* <h1 className="banner-title">
-                                        Drive with FareNow
-                                    </h1>
-                                    <div className="banner-des">
-                                        Earn good money with your vehicle.
-                                    </div> */}
-                                </div>
+                                <div className="banner-content"></div>
                             </div>
                             <div className="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
-                                {/* <!-- step 1 --> */}
                                 {step == 1 && (
                                     <Basic
                                         handleStep={(step) => handleStep(step)}
@@ -403,7 +373,6 @@ const Registration = (props) => {
                                         providerSignup={providerSignup}
                                     />
                                 )}
-                                {/* <!-- step 2 --> */}
                                 {step == 2 && (
                                     <Otp
                                         handleStep={(step) => handleStep(step)}
@@ -416,7 +385,6 @@ const Registration = (props) => {
                                         verifyOpt={verifyOpt}
                                     />
                                 )}
-                                {/* <!-- step 3 --> */}
                                 {step == 3 &&
                                     localStorage.getItem("providerToken") && (
                                         <BasicInfo
@@ -434,7 +402,6 @@ const Registration = (props) => {
                                             {...props}
                                         />
                                     )}
-                                {/* <!-- step 4 --> */}
                                 {step == 4 && (
                                     <SelectZipCode
                                         handleStep={(step) => handleStep(step)}
@@ -446,7 +413,6 @@ const Registration = (props) => {
                                         {...props}
                                     />
                                 )}
-                                {/* <!-- step 5 --> */}
                                 {step == 5 && (
                                     <ProviderType
                                         handleStep={(step) => handleStep(step)}
@@ -457,7 +423,6 @@ const Registration = (props) => {
                                         }
                                     />
                                 )}
-                                {/* <!-- step 6 user --> */}
                                 {step == 6 &&
                                     (providerType == "Individual" ||
                                         providerType == "Business") && (
@@ -474,21 +439,10 @@ const Registration = (props) => {
                                             {...props}
                                         />
                                     )}
-                                {/* <!-- step 6 company--> */}
-                                {/* {step == 6 && providerType == "Business" && (
-                                    <Company
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                    />
-                                )} */}
                             </div>
                         </div>
                     </div>
                 </div>
-
-                {/* <div className="arrow-down-banner text-center">
-                    <i className="fas fa-angle-down"></i>
-                </div> */}
             </div>
         </>
     );

@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import {
-    geocodeByAddress,
-    getLatLng,
-    geocodeByPlaceId,
-} from "react-places-autocomplete";
-import AutoCompleteInput from "../../../components/AutoCompleteInput";
-// import DayPickerInput from "react-day-picker/DayPickerInput";
 import "../styles.css";
 import moment from "moment";
 import { GOOGLE_API, HOST } from "../../../constants";
@@ -115,18 +108,6 @@ const Basic = ({
                         </div>
                     </div>
                 </div>
-                {/* <label className="custom-check">
-                                        Enable text messages
-                                        <input
-                                            type="checkbox"
-                                            checked="checked"
-                                        />
-                                        <span className="checkmark"></span>
-                                    </label> */}
-                {/* <div className="form-term mb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-                facere suscipit earum voluptatibus doloremque quia?
-            </div> */}
                 <div className="common-input mb-4">
                     <label htmlFor="name">Password</label>
                     <strong className="text-danger">*</strong>
@@ -142,18 +123,7 @@ const Basic = ({
                         {/* {isServerError("password")} */}
                     </div>
                 </div>
-                {/* <div className="common-input mb-4 d-none">
-                <label className="mb-0">Citis</label>
-                <select
-                    className="js-example-basic-single "
-                    name="state"
-                    onChange={handleBasic}
-                >
-                    <option value="AL">City </option>
-                    <option value="WY">Warri</option>
-                    <option value="WY">Benin</option>
-                </select>
-            </div> */}
+
                 <div className="form-term my-2">
                     By clicking next you agree to{" "}
                     {!!terms?.name && (
@@ -208,7 +178,14 @@ const Basic = ({
     );
 };
 
-const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo, verifyOpt}) => {
+const Otp = ({
+    step,
+    handleStep,
+    otpData,
+    handleOtp,
+    handleVerifyPhoneNo,
+    verifyOpt,
+}) => {
     const [state, setState] = useState({ loading: false });
     const handleResendOtp = (e) => {
         e.preventDefault();
@@ -254,7 +231,6 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo, verify
                 <label htmlFor="name">Code.</label>
                 <input
                     type="text"
-                    
                     name="otp"
                     onChange={handleOtp}
                     placeholder="0 0 0 0"
@@ -290,7 +266,10 @@ const Otp = ({ step, handleStep, otpData, handleOtp, handleVerifyPhoneNo, verify
                     }
                 >
                     {state.loading || verifyOpt?.loading ? (
-                        <><i className="fa fa-spinner fa-pulse"></i> Please wait...</>
+                        <>
+                            <i className="fa fa-spinner fa-pulse"></i> Please
+                            wait...
+                        </>
                     ) : (
                         "Next"
                     )}
@@ -341,9 +320,7 @@ const BasicInfo = ({
                             value: basicInfo?.first_name || "",
                         })}
                         defaultValue={basicInfo?.first_name || ""}
-                        className={`${
-                            errors.first_name && "is-invalid"
-                        }`}
+                        className={`${errors.first_name && "is-invalid"}`}
                         placeholder="First Name"
                     />
                     {errors.first_name &&
@@ -384,9 +361,7 @@ const BasicInfo = ({
                             value: basicInfo.last_name || "",
                         })}
                         defaultValue={basicInfo.last_name || ""}
-                        className={` ${
-                            errors.first_name && "is-invalid"
-                        }`}
+                        className={` ${errors.first_name && "is-invalid"}`}
                         placeholder="Last Name"
                     />
                     {errors.last_name &&
@@ -514,7 +489,7 @@ const SelectZipCode = ({
     handleServiceDetails,
     serviceDetail,
 }) => {
-    const [postalCode, setPostalCode] = useState({errors: {}});
+    const [postalCode, setPostalCode] = useState({ errors: {} });
     const {
         register,
         handleSubmit,
@@ -554,31 +529,37 @@ const SelectZipCode = ({
     // };
 
     const handleSelectPostalCode = (address) => {
-        const {address_components} = address;
-        const postalCode = address_components?.find((address) =>{
-            return address?.types?.includes("postal_code") ? address?.long_name : null
-        });
-        
-        const locality = address_components?.find((address) =>{
-            return address?.types?.includes("locality") ? address?.long_name : null
+        const { address_components } = address;
+        const postalCode = address_components?.find((address) => {
+            return address?.types?.includes("postal_code")
+                ? address?.long_name
+                : null;
         });
 
-        const country = address_components?.find((address) =>{
-            return address?.types?.includes("country") ? address?.long_name : null
+        const locality = address_components?.find((address) => {
+            return address?.types?.includes("locality")
+                ? address?.long_name
+                : null;
+        });
+
+        const country = address_components?.find((address) => {
+            return address?.types?.includes("country")
+                ? address?.long_name
+                : null;
         });
 
         const data = {
             zipCode: postalCode?.long_name,
             city: locality?.long_name,
-            country: country?.long_name
-        }
+            country: country?.long_name,
+        };
 
         if (data?.zipCode && data?.city && data?.country) {
             let code = zipCode?.zip_code?.find((object) => {
-                if(object.zipCode != data.zipCode){
-                    return false
+                if (object.zipCode != data.zipCode) {
+                    return false;
                 } else {
-                    return true
+                    return true;
                 }
             });
             if (code == undefined) {
@@ -590,7 +571,7 @@ const SelectZipCode = ({
                     ...postalCode,
                     postal_code: "",
                     errors: {},
-                })
+                });
             }
             setState({ ...state, zip_codeErr: "" });
         } else {
@@ -599,35 +580,61 @@ const SelectZipCode = ({
                 zip_codeErr: "Please select an other location",
             });
         }
-    }
+    };
 
-    const handleChangePostalCode = ({target: {name, value}}) => {
-        if(value){
+    const handleChangePostalCode = ({ target: { name, value } }) => {
+        if (value) {
             setPostalCode((prevState) => ({
                 ...prevState,
                 loading: true,
-                [name]: value
+                [name]: value,
             }));
             axios({
                 method: "post",
                 url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
-            }).then(function (response) {
-                    if(response.data.results.length > 0) {
+            })
+                .then(function (response) {
+                    if (response.data.results.length > 0) {
                         setPostalCode((postalCode) => ({
-                            ...postalCode, response: response.data.results, errors: {}, loading: false
+                            ...postalCode,
+                            response: response.data.results,
+                            errors: {},
+                            loading: false,
                         }));
                     } else {
                         setPostalCode((postalCode) => ({
-                            ...postalCode, response: null, errors: {...postalCode.errors, postal_code: "Invalid Postal Code"}, loading: false
+                            ...postalCode,
+                            response: null,
+                            errors: {
+                                ...postalCode.errors,
+                                postal_code: "Invalid Postal Code",
+                            },
+                            loading: false,
                         }));
                     }
-                }).catch((error) => {
-                    setPostalCode({...postalCode, response: null, errors: {...postalCode.errors,  postal_code: "Invalid Postal Code"}, loading: false});
+                })
+                .catch((error) => {
+                    setPostalCode({
+                        ...postalCode,
+                        response: null,
+                        errors: {
+                            ...postalCode.errors,
+                            postal_code: "Invalid Postal Code",
+                        },
+                        loading: false,
+                    });
                 });
         } else {
-            setPostalCode({...postalCode, [name]: value, errors: {...postalCode.errors, postal_code: "Postal Code is required"}});
+            setPostalCode({
+                ...postalCode,
+                [name]: value,
+                errors: {
+                    ...postalCode.errors,
+                    postal_code: "Postal Code is required",
+                },
+            });
         }
-    }
+    };
 
     const handleOnSubmit = (data) => {
         handleServiceDetails({ ...data, zip_code: zipCode?.zip_code });
@@ -714,40 +721,40 @@ const SelectZipCode = ({
                     <label htmlFor="name">Enter location</label>
                     <div className="common-input mr-1 mb-1">
                         <input
-                                type="text"
-                                name="postal_code"
-                                placeholder="2323"
-                                autoComplete="postal_code"
-                                defaultValue={''}
-                                value={postalCode?.postal_code || ""}
-                                onChange={handleChangePostalCode}
-                            />
-                        {
-                            postalCode?.loading && (<><i className="fa fa-spinner fa-pulse"></i> Loading...</>) 
-                        }
-                        {postalCode?.response && postalCode?.response?.length>0 ? postalCode?.response?.map((address, index) => (
-                            <div className="text-dark mt-2 mb-2" onClick={()=>handleSelectPostalCode(address)} role="button" key={index}>
-                                {address.formatted_address}
-                            </div>
-                        )) : (
-                            postalCode?.postal_code && (
-                            <div className="text-dark mt-2 mb-2">
-                                Please add complete zip code
-                            </div>
-                            )
+                            type="text"
+                            name="postal_code"
+                            placeholder="2323"
+                            autoComplete="postal_code"
+                            defaultValue={""}
+                            value={postalCode?.postal_code || ""}
+                            onChange={handleChangePostalCode}
+                        />
+                        {postalCode?.loading && (
+                            <>
+                                <i className="fa fa-spinner fa-pulse"></i>{" "}
+                                Loading...
+                            </>
                         )}
+                        {postalCode?.response &&
+                        postalCode?.response?.length > 0
+                            ? postalCode?.response?.map((address, index) => (
+                                  <div
+                                      className="text-dark mt-2 mb-2"
+                                      onClick={() =>
+                                          handleSelectPostalCode(address)
+                                      }
+                                      role="button"
+                                      key={index}
+                                  >
+                                      {address.formatted_address}
+                                  </div>
+                              ))
+                            : postalCode?.postal_code && (
+                                  <div className="text-dark mt-2 mb-2">
+                                      Please add complete zip code
+                                  </div>
+                              )}
                     </div>
-                    {/* <AutoCompleteInput
-                        placeholder="Type your area address"
-                        handleOnChange={handleOnChange}
-                        handleOnSelect={handleOnSelect}
-                        value={zipCode?.address}
-                    ></AutoCompleteInput> */}
-                    {/* <input
-                        {...register("name", { required: true })}
-                        
-                        placeholder="Enter location"
-                    /> */}
                 </div>
 
                 <div className="zip-code d-flex flex-wrap">
@@ -762,7 +769,9 @@ const SelectZipCode = ({
                                 onClick={() => {
                                     handleZipCode({
                                         zip_code: zipCode?.zip_code.filter(
-                                            (thisZip) => thisZip?.zipCode !== zip?.zipCode
+                                            (thisZip) =>
+                                                thisZip?.zipCode !==
+                                                zip?.zipCode
                                         ),
                                     });
                                 }}
@@ -861,7 +870,6 @@ const ProviderType = ({
                     <span className="checkmark"></span>
                 </label>
 
-                {/* <!--  --> */}
 
                 <div className="d-flex justify-content-between">
                     <button
@@ -971,7 +979,6 @@ const ProfileDetail = ({
                 {providerType === "Individual" && (
                     <>
                         <div className="common-input mb-4">
-                            {/* <div className="form-title mb-3">Legal Name</div> */}
                             <label htmlFor="name">First Name</label>
                             <input
                                 type="text"
@@ -1098,29 +1105,6 @@ const ProfileDetail = ({
                             }
                         )}
                     />
-                    {/* <DatePicker
-                        className={` ${
-                            errors?.dob ? "is-invalid" : ""
-                        }`}
-                        selected={
-                            providerType === "Business"
-                                ? profile?.founded || new Date()
-                                : profile?.dob || new Date()
-                        }
-                        onChange={(date) => {
-                            if (providerType === "Business") {
-                                handleDatePick({ founded: date });
-                            } else {
-                                handleDatePick({ dob: date });
-                            }
-                        }}
-                        // {...register("dob", {
-                        //     required: true,
-                        //     onChange: (e) => {
-                        //         handleProfile({ dob: e.target.value });
-                        //     },
-                        // })}
-                    /> */}
                     {errors?.dob && errors.dob.type === "required" && (
                         <strong className="text-danger">
                             Date of birth is required
