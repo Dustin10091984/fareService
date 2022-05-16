@@ -47,7 +47,7 @@ import { PaymentCard } from "./front-dashboard/PaymentCard";
 import { RegistrationPage } from "./views/Provider/Registration";
 import { Page } from "./front-end/Page";
 
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCartList } from './store/Slices/cart/cartsSlice';
 import Echo from "laravel-echo";
@@ -61,10 +61,13 @@ import axios from 'axios'
 import { MovingRequest } from './front-end/moving';
 import { HOST } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
 );
+
+export const MapLoadedApi = createContext(false);
 
 function App() {
   const [notification, setNotification] = useState();
@@ -79,7 +82,12 @@ function App() {
 
   // onMessageListener()
   //   .then((payload) => {
-  //   });
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.React_APP_GOOGLE_API,
+    libraries: ["places"],
+  });
+
     
     const handleMessageClick = (data) => {
       setState(data);
@@ -155,8 +163,12 @@ function App() {
     }
   }, [hash]); // do this on route change
 
+
+
+
   return (
     <Elements stripe={stripePromise} >
+      <MapLoadedApi.Provider value={isLoaded}>
       <div className="App">
         {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
         <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
@@ -225,6 +237,7 @@ function App() {
           <ToastContainer autoClose={5000} position={toast.POSITION.TOP_CENTER} />
         </div>
       </div>
+      </MapLoadedApi.Provider>
     </Elements>
   );
 }

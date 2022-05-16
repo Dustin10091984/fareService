@@ -200,12 +200,7 @@ const Header = (props) => {
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
                             <div className="header-logo">
-                                <Link
-                                    to={(location) => ({
-                                        ...location,
-                                        pathname: "/",
-                                    })}
-                                >
+                                <Link to="/">
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""
