@@ -1611,6 +1611,10 @@ body {
     justify-content: center;
 }
 
+.team-card .team-img .img-fluid {
+    width: 100%;
+    height: 100%;
+}
 .team-card .title {
     margin-top: 2rem;
     font-style: normal;
