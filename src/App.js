@@ -154,8 +154,10 @@ function App() {
       setTimeout(() => {
         const id = hash.replace('#', '');
         const element = document.getElementById(id);
+        // const position = element.getBoundingClientRect().top;
         if (element) {
           element.scrollIntoView({
+            // position: position + window.scrollY - 20,
             behavior: 'smooth',
           });
         }

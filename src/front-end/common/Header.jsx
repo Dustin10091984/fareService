@@ -92,9 +92,7 @@ const Header = (props) => {
                 is_search: true,
             }));
             const includesValue = (word, obj) => {
-                return _.some(obj, (value) =>
-                    _.includes(value.toLowerCase(), word)
-                );
+                return _.some(obj, (value) => _.includes(value, word));
             };
             const words = _.words(value);
             let subServices = [];
@@ -103,7 +101,7 @@ const Header = (props) => {
                     const searchResult = menu?.sub_services?.filter(
                         (subService) => {
                             return words.every((word) =>
-                                includesValue(word.toLowerCase(), subService)
+                                includesValue(word, subService)
                             );
                         }
                     );
@@ -242,6 +240,12 @@ const Header = (props) => {
                                                 setState((prevState) => ({
                                                     ...prevState,
                                                     is_search: true,
+                                                }));
+                                            }}
+                                            onBlur={() => {
+                                                setState((prevState) => ({
+                                                    ...prevState,
+                                                    is_search: false,
                                                 }));
                                             }}
                                             onChange={mySearch}
