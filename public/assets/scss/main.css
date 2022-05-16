@@ -3418,3 +3418,6 @@ input::-webkit-inner-spin-button {
     border-radius: 5px;
     cursor: pointer;
 }
+.border-round {
+    border-radius: 1rem;
+}

@@ -184,12 +184,12 @@ export const Index = (props) => {
                                 </div>
                                 <div className="sub-des">
                                     Cleaning and handyman tasks booked and paid
-                                    for directly through the Handy platform are
-                                    performed by
+                                    for directly through the Farenow platform
+                                    are performed by
                                     <br className="d-none d-md-block" />
                                     experienced, background-checked
                                     professionals who are highly rated by
-                                    customers like you. Learn more.
+                                    customers like you.
                                 </div>
                             </div>
                         </div>
