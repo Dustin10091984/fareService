@@ -135,7 +135,7 @@ const ProductDetail = (props) => {
                                             }
                                             isCenter={false}
                                         />
-                                        <div className="detail-price">
+                                        <div className="detail-price my-4">
                                             {`$${
                                                 food?.data?.price ||
                                                 product?.data?.price ||
@@ -143,7 +143,7 @@ const ProductDetail = (props) => {
                                             }`}
                                             {/* <span>$[deduction].00</span> */}
                                         </div>
-                                        <div className="detail-sub-title">
+                                        <div className="detail-sub-title my-3">
                                             Product description
                                         </div>
                                         <div className="detail-des-d">

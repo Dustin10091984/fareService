@@ -50,12 +50,12 @@ const Profile = ({ profile }) => {
             Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Your work has been saved",
+                title: "Profile Updated Successfully",
                 showConfirmButton: false,
                 timer: 1500,
             });
         }
-    }, [updateProfile?.error]);
+    }, [updateProfile?.message]);
 
     const handleChange = (e) => {
         // if (e.target.value == "") {
@@ -271,7 +271,7 @@ const Profile = ({ profile }) => {
                             Bio
                             <textarea
                                 type="text"
-                                placeholder="ZIP Code"
+                                placeholder="Bio"
                                 defaultValue={state?.profile?.bio || ""}
                                 {...register("bio", {
                                     required: true,

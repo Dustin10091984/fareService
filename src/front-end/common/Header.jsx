@@ -650,7 +650,7 @@ const Header = (props) => {
                                 >
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
-                                        {/* {state.header_menu?.length ? (
+                                        {!!state.header_menu?.length && (
                                             <>
                                                 <li className="nav-item">
                                                     <NavLink
@@ -669,9 +669,7 @@ const Header = (props) => {
                                                     </NavLink>
                                                 </li>
                                             </>
-                                        ) : (
-                                            ""
-                                        )} */}
+                                        )}
                                     </ul>
                                 </div>
                             </nav>
