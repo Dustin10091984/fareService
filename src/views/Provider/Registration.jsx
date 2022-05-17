@@ -7,7 +7,8 @@ const RegistrationPage = (props) => {
     useEffect(() => {
         document.title = "Farenow: Provider Registration From";
     });
-    return <Registration {...props} />;
-};
+    return <center><h1>testing</h1></center>;
+    // <Registration {...props} />;
+};;
 
 export { RegistrationPage };
