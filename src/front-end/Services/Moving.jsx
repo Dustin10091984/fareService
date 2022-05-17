@@ -14,15 +14,16 @@ import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 import Loading from "../common/Loading";
+import { MapLoadedApi } from "../../App";
 
 export const Moving = (props) => {
-    const { 
+    const {
         subServiceId,
         movingState,
         handleMovingState,
         countriesData,
         cityCountry,
-        handleCountryCityChange
+        handleCountryCityChange,
     } = props;
     const [state, setState] = useState({
         vehicle_type_id: "",
@@ -37,27 +38,29 @@ export const Moving = (props) => {
         service_type: ServiceType.MOVING,
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const closeRef = useRef(null);
 
     const dispatch = useDispatch();
 
-    const loading = useSelector((state) => state.movingReducer?.list?.loading);
-    const data = useSelector((state) => state.movingReducer?.list?.data);
-    const error = useSelector((state) => state.movingReducer?.list?.error);
-    const message = useSelector((state) => state.movingReducer?.list?.message);
+    // const loading = useSelector((state) => state.movingReducer?.list?.loading);
+    // const data = useSelector((state) => state.movingReducer?.list?.data);
+    // const error = useSelector((state) => state.movingReducer?.list?.error);
+    // const message = useSelector((state) => state.movingReducer?.list?.message);
 
     useEffect(() => {
         // dispatch(getVehicleTypes());
-        if(movingState) {
+        if (movingState) {
             setState({
-                ...movingState
+                ...movingState,
             });
         }
     }, []);
 
     useEffect(() => {
         handleMovingState(state);
-    }, [state])
+    }, [state]);
 
     const handleSelectTypeClick = (vehicle_type_id) => {
         vehicle_type_id === state.vehicle_type_id
@@ -81,25 +84,21 @@ export const Moving = (props) => {
         if (value.length < 1 || value.length > 12 || !re.test(value)) {
             setState((state) => ({
                 ...state,
-                zipCodeErr: (
-                    <div
-                        className="col-md-12 text-danger mt-2"
-                        style={{ fontSize: 15 }}
-                    >
-                        Zip Code characher(Number only) should be in between 4
-                        and 12
-                    </div>
-                ),
+                zipCodeErr: "Zip Code characher should be in between 1 and 12",
             }));
         } else {
+            setIsLoading(true);
             setState((state) => ({ ...state, zipCodeErr: "" }));
             axios({
                 method: "get",
                 url:
                     process.env.REACT_APP_API_BASE_URL +
-                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${props?.vehicle_type_id}${cityCountry?.city ? `&city=${cityCountry?.city}` : ''}`,
+                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${
+                        props?.vehicle_type_id
+                    }${cityCountry?.city ? `&city=${cityCountry?.city}` : ""}`,
             })
                 .then(function (response) {
+                    setIsLoading(false);
                     setState((state) => ({
                         ...state,
                         zipCodeData: response?.data?.data?.data,
@@ -107,6 +106,7 @@ export const Moving = (props) => {
                     }));
                 })
                 .catch((error) => {
+                    setIsLoading(false);
                     setState((state) => ({
                         ...state,
                         zipCodeData: "",
@@ -267,195 +267,13 @@ export const Moving = (props) => {
                     borderRadius: ".5rem",
                 }}
             > */}
+
             <div className="title-move mb-5">
                 please select your moving location.
             </div>
+
             <div className="mb-3">
-                <div
-                    className="col-md-12 px-0 text-dark"
-                    style={{ fontSize: "2rem" }}
-                >
-                    Moving From
-                    <strong className="text-danger">*</strong>
-                </div>
-                <div className="common-input p-1">
-                    <PlacesAutocomplete
-                        value={state.from_address}
-                        onChange={(from_address) =>
-                            setState((state) => ({
-                                ...state,
-                                from_address,
-                            }))
-                        }
-                        onSelect={handleFromAdessSelect}
-                        // googleCallbackName="initOne"
-                    >
-                        {({
-                            getInputProps,
-                            suggestions,
-                            getSuggestionItemProps,
-                            loading,
-                        }) => (
-                            <div>
-                                <input
-                                    {...getInputProps({
-                                        placeholder: "From ...",
-                                        className: "location-search-input m-1",
-                                    })}
-                                />
-                                <div className="autocomplete-dropdown-container">
-                                    {loading && <div>Loading...</div>}
-                                    {suggestions.map((suggestion) => {
-                                        const className = suggestion.active
-                                            ? "suggestion-item--active"
-                                            : "suggestion-item";
-                                        // inline style for demonstration purpose
-                                        const style = suggestion.active
-                                            ? {
-                                                  backgroundColor: "#fafafa",
-                                                  cursor: "pointer",
-                                                  fontSize: 15,
-                                                  margin: "5px",
-                                              }
-                                            : {
-                                                  backgroundColor: "#ffffff",
-                                                  cursor: "pointer",
-                                                  fontSize: 15,
-                                                  margin: "5px",
-                                              };
-                                        return (
-                                            <div
-                                                key={suggestion.index}
-                                                {...getSuggestionItemProps(
-                                                    suggestion,
-                                                    {
-                                                        className,
-                                                        style,
-                                                    }
-                                                )}
-                                            >
-                                                <span>
-                                                    {suggestion.description}
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-                    </PlacesAutocomplete>
-                </div>
-            </div>
-            <div className="mb-3">
-                <div
-                    className="col-md-12 px-0 text-dark"
-                    style={{ fontSize: "2rem" }}
-                >
-                    Moving To
-                    <strong className="text-danger">*</strong>
-                </div>
-                <div className="common-input pr-1">
-                    <PlacesAutocomplete
-                        value={state.to_address}
-                        onChange={(to_address) =>
-                            setState((state) => ({
-                                ...state,
-                                to_address,
-                            }))
-                        }
-                        onSelect={handleToAdessSelect}
-                        // googleCallbackName="initTwo"
-                    >
-                        {({
-                            getInputProps,
-                            suggestions,
-                            getSuggestionItemProps,
-                            loading,
-                        }) => (
-                            <div>
-                                <input
-                                    {...getInputProps({
-                                        placeholder: "To ...",
-                                        className: "location-search-input m-1",
-                                    })}
-                                />
-                                <div className="autocomplete-dropdown-container">
-                                    {loading && <div>Loading...</div>}
-                                    {suggestions.map((suggestion) => {
-                                        const className = suggestion.active
-                                            ? "suggestion-item--active"
-                                            : "suggestion-item";
-                                        // inline style for demonstration purpose
-                                        const style = suggestion.active
-                                            ? {
-                                                  backgroundColor: "#fafafa",
-                                                  cursor: "pointer",
-                                                  fontSize: 15,
-                                                  margin: "5px",
-                                              }
-                                            : {
-                                                  backgroundColor: "#ffffff",
-                                                  cursor: "pointer",
-                                                  fontSize: 15,
-                                                  margin: "5px",
-                                              };
-                                        return (
-                                            <div
-                                                key={suggestion.index}
-                                                {...getSuggestionItemProps(
-                                                    suggestion,
-                                                    {
-                                                        className,
-                                                        style,
-                                                    }
-                                                )}
-                                            >
-                                                <span>
-                                                    {suggestion.description}
-                                                </span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        )}
-                    </PlacesAutocomplete>
-                </div>
-            </div>
-            <div className="mb-3">
-                <div
-                    className="col-md-12 px-0 text-dark"
-                    style={{ fontSize: "2rem" }}
-                >
-                    Moving Date
-                    <strong className="text-danger">*</strong>
-                </div>
-                <div
-                    className="common-input pr-1"
-                    data-backdrop="static"
-                    data-keyboard="false"
-                    data-toggle="modal"
-                    data-target="#date"
-                >
-                    <input
-                        type="text"
-                        placeholder="date e.g 2222-12-30"
-                        value={
-                            state.date
-                                ? moment(state.date).format("YYYY-MM-DD")
-                                : ""
-                        }
-                        onChange={(e) =>
-                            setState((state) => ({
-                                ...state,
-                                date: e.target.value,
-                            }))
-                        }
-                    />
-                </div>
-            </div>
-            <div className="mb-3">
-                <hr />
+                {/* <hr /> */}
                 <h4 className="mx-3 my-1">
                     Choose service area
                     <strong className="text-danger">*</strong>
@@ -522,38 +340,263 @@ export const Moving = (props) => {
                         placeholder="Zip Code e.g 00000"
                         value={state.zip_code}
                         onChange={handleChangeZipCode}
+                        autoComplete="off"
                     />
                 </div>
             </div>
-            <div className="col-md-12 text-danger">{state?.zipCodeDataErr}</div>
-            {state?.zipCodeErr}
+            <div className="col-md-12 text-danger">
+                {state?.zipCodeDataErr || state?.zipCodeErr}
+            </div>
 
-            {state.zipCodeData !== "" && state.selectedZipCode == false && (
+            {state.zipCodeData != "" && state.selectedZipCode == false && (
                 <>
-                    <center
+                    {/* <center
                         className="col-md-12 text-dark mb-1 mt-1"
                         style={{ fontSize: "1.5rem" }}
                     >
                         Please Select ZipCode
-                    </center>
-                    {state?.zipCodeData?.map((data, index) => (
-                        <div
-                            key={index}
-                            className="col-md-12 text-dark mb-1 mt-1"
-                            style={{
-                                fontSize: "1.5rem",
-                                border: "1px solid #F1F2F7",
-                                backgroundColor: "#F1F2F7",
-                                borderRadius: "5px",
-                            }}
-                            data-code={data.code}
-                            onClick={() => handleSelectZipCode(data.code)}
-                        >
-                            {data.code}
+                    </center> */}
+                    {isLoading && (
+                        <div className="col-md-12 text-dark mb-1 mt-1 zip-code-box">
+                            <i className="fa fa-spinner fa-pulse"></i>{" "}
+                            Loading...
                         </div>
-                    ))}
+                    )}
+                    {state.zip_code &&
+                        state?.zipCodeData?.map((data, index) => (
+                            <div
+                                key={index}
+                                className="col-md-12 text-dark mb-1 mt-1 zip-code-box"
+                                data-code={data.code}
+                                onClick={() => handleSelectZipCode(data.code)}
+                            >
+                                {data.code}
+                            </div>
+                        ))}
                 </>
             )}
+
+            <MapLoadedApi.Consumer>
+                {(isLoading) =>
+                    isLoading && (
+                        <>
+                            <div className="mb-3">
+                                <div
+                                    className="col-md-12 px-0 text-dark"
+                                    style={{ fontSize: "2rem" }}
+                                >
+                                    Moving From
+                                    <strong className="text-danger">*</strong>
+                                </div>
+                                <div className="common-input p-1">
+                                    <PlacesAutocomplete
+                                        value={state.from_address}
+                                        onChange={(from_address) =>
+                                            setState((state) => ({
+                                                ...state,
+                                                from_address,
+                                            }))
+                                        }
+                                        onSelect={handleFromAdessSelect}
+                                        // googleCallbackName="initOne"
+                                    >
+                                        {({
+                                            getInputProps,
+                                            suggestions,
+                                            getSuggestionItemProps,
+                                            loading,
+                                        }) => (
+                                            <div>
+                                                <input
+                                                    {...getInputProps({
+                                                        placeholder: "From ...",
+                                                        className:
+                                                            "location-search-input m-1",
+                                                    })}
+                                                />
+                                                <div className="autocomplete-dropdown-container">
+                                                    {loading && (
+                                                        <div>Loading...</div>
+                                                    )}
+                                                    {suggestions.map(
+                                                        (suggestion) => {
+                                                            const className =
+                                                                suggestion.active
+                                                                    ? "suggestion-item--active"
+                                                                    : "suggestion-item";
+                                                            // inline style for demonstration purpose
+                                                            const style =
+                                                                suggestion.active
+                                                                    ? {
+                                                                          backgroundColor:
+                                                                              "#fafafa",
+                                                                          cursor: "pointer",
+                                                                          fontSize: 15,
+                                                                          margin: "5px",
+                                                                      }
+                                                                    : {
+                                                                          backgroundColor:
+                                                                              "#ffffff",
+                                                                          cursor: "pointer",
+                                                                          fontSize: 15,
+                                                                          margin: "5px",
+                                                                      };
+                                                            return (
+                                                                <div
+                                                                    key={
+                                                                        suggestion.index
+                                                                    }
+                                                                    {...getSuggestionItemProps(
+                                                                        suggestion,
+                                                                        {
+                                                                            className,
+                                                                            style,
+                                                                        }
+                                                                    )}
+                                                                >
+                                                                    <span>
+                                                                        {
+                                                                            suggestion.description
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <div
+                                    className="col-md-12 px-0 text-dark"
+                                    style={{ fontSize: "2rem" }}
+                                >
+                                    Moving To
+                                    <strong className="text-danger">*</strong>
+                                </div>
+                                <div className="common-input pr-1">
+                                    <PlacesAutocomplete
+                                        value={state.to_address}
+                                        onChange={(to_address) =>
+                                            setState((state) => ({
+                                                ...state,
+                                                to_address,
+                                            }))
+                                        }
+                                        onSelect={handleToAdessSelect}
+                                        // googleCallbackName="initTwo"
+                                    >
+                                        {({
+                                            getInputProps,
+                                            suggestions,
+                                            getSuggestionItemProps,
+                                            loading,
+                                        }) => (
+                                            <div>
+                                                <input
+                                                    {...getInputProps({
+                                                        placeholder: "To ...",
+                                                        className:
+                                                            "location-search-input m-1",
+                                                    })}
+                                                />
+                                                <div className="autocomplete-dropdown-container">
+                                                    {loading && (
+                                                        <div>Loading...</div>
+                                                    )}
+                                                    {suggestions.map(
+                                                        (suggestion) => {
+                                                            const className =
+                                                                suggestion.active
+                                                                    ? "suggestion-item--active"
+                                                                    : "suggestion-item";
+                                                            // inline style for demonstration purpose
+                                                            const style =
+                                                                suggestion.active
+                                                                    ? {
+                                                                          backgroundColor:
+                                                                              "#fafafa",
+                                                                          cursor: "pointer",
+                                                                          fontSize: 15,
+                                                                          margin: "5px",
+                                                                      }
+                                                                    : {
+                                                                          backgroundColor:
+                                                                              "#ffffff",
+                                                                          cursor: "pointer",
+                                                                          fontSize: 15,
+                                                                          margin: "5px",
+                                                                      };
+                                                            return (
+                                                                <div
+                                                                    key={
+                                                                        suggestion.index
+                                                                    }
+                                                                    {...getSuggestionItemProps(
+                                                                        suggestion,
+                                                                        {
+                                                                            className,
+                                                                            style,
+                                                                        }
+                                                                    )}
+                                                                >
+                                                                    <span>
+                                                                        {
+                                                                            suggestion.description
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </PlacesAutocomplete>
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <div
+                                    className="col-md-12 px-0 text-dark"
+                                    style={{ fontSize: "2rem" }}
+                                >
+                                    Moving Date
+                                    <strong className="text-danger">*</strong>
+                                </div>
+                                <div
+                                    className="common-input pr-1"
+                                    data-backdrop="static"
+                                    data-keyboard="false"
+                                    data-toggle="modal"
+                                    data-target="#date"
+                                >
+                                    <input
+                                        type="text"
+                                        placeholder="date e.g 2222-12-30"
+                                        value={
+                                            state.date
+                                                ? moment(state.date).format(
+                                                      "YYYY-MM-DD"
+                                                  )
+                                                : ""
+                                        }
+                                        onChange={(e) =>
+                                            setState((state) => ({
+                                                ...state,
+                                                date: e.target.value,
+                                            }))
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </>
+                    )
+                }
+            </MapLoadedApi.Consumer>
+
             <div className="text-center">
                 {state.from_address !== "" &&
                 state.to_address !== "" &&

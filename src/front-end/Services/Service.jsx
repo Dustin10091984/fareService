@@ -43,7 +43,7 @@ const Service = ({
                     <span className="error-color">
                         {" "}
                         {serviceData?.message == "Not Found"
-                            ? "This Service coming soon"
+                            ? "This service is not available at the moment."
                             : serviceData?.message}
                     </span>
                 </div>

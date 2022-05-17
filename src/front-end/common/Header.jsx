@@ -92,9 +92,7 @@ const Header = (props) => {
                 is_search: true,
             }));
             const includesValue = (word, obj) => {
-                return _.some(obj, (value) =>
-                    _.includes(value.toLowerCase(), word)
-                );
+                return _.some(obj, (value) => _.includes(value, word));
             };
             const words = _.words(value);
             let subServices = [];
@@ -103,7 +101,7 @@ const Header = (props) => {
                     const searchResult = menu?.sub_services?.filter(
                         (subService) => {
                             return words.every((word) =>
-                                includesValue(word.toLowerCase(), subService)
+                                includesValue(word, subService)
                             );
                         }
                     );
@@ -200,12 +198,7 @@ const Header = (props) => {
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
                             <div className="header-logo">
-                                <Link
-                                    to={(location) => ({
-                                        ...location,
-                                        pathname: "/",
-                                    })}
-                                >
+                                <Link to="/">
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""
@@ -247,6 +240,12 @@ const Header = (props) => {
                                                 setState((prevState) => ({
                                                     ...prevState,
                                                     is_search: true,
+                                                }));
+                                            }}
+                                            onBlur={() => {
+                                                setState((prevState) => ({
+                                                    ...prevState,
+                                                    is_search: false,
                                                 }));
                                             }}
                                             onChange={mySearch}
@@ -651,7 +650,7 @@ const Header = (props) => {
                                 >
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
-                                        {/* {state.header_menu?.length ? (
+                                        {!!state.header_menu?.length && (
                                             <>
                                                 <li className="nav-item">
                                                     <NavLink
@@ -670,9 +669,7 @@ const Header = (props) => {
                                                     </NavLink>
                                                 </li>
                                             </>
-                                        ) : (
-                                            ""
-                                        )} */}
+                                        )}
                                     </ul>
                                 </div>
                             </nav>

@@ -7,7 +7,6 @@ import { HOST } from "../constants";
 
 const ProfileCard = ({ profile }) => {
     const dispatch = useDispatch();
-    const imgLoading = useRef(null);
     const imageUpdate = useSelector((state) => state.userReducer.imageUpdate);
 
     useEffect(() => {

@@ -20,7 +20,12 @@ const OrderHistory = ({ title, list, pagination, data }) => {
                             <div className="col-md-6" key={index}>
                                 <div className="order-card d-flex align-items-center justify-content-between">
                                     <div className="order-des-b">
-                                        <div className="title">
+                                        <div
+                                            className="title"
+                                            style={{
+                                                lineHeight: 1.6,
+                                            }}
+                                        >
                                             {order?.food?.name ||
                                                 order?.product?.name}
                                         </div>

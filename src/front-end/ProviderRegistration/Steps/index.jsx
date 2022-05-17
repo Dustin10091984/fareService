@@ -718,12 +718,12 @@ const SelectZipCode = ({
                 </div>
                 <div className="common-input mb-4">
                     <div className="form-title mb-3">Where do you work?</div>
-                    <label htmlFor="name">Enter location</label>
+                    <label htmlFor="name">Enter ZipCode</label>
                     <div className="common-input mr-1 mb-1">
                         <input
                             type="text"
                             name="postal_code"
-                            placeholder="2323"
+                            placeholder="E.X 2323"
                             autoComplete="postal_code"
                             defaultValue={""}
                             value={postalCode?.postal_code || ""}
@@ -751,7 +751,7 @@ const SelectZipCode = ({
                               ))
                             : postalCode?.postal_code && (
                                   <div className="text-dark mt-2 mb-2">
-                                      Please add complete zip code
+                                      Please enter valid zip code.
                                   </div>
                               )}
                     </div>

@@ -109,6 +109,9 @@ const Login = (props) => {
                             <div className="text-center text-danger mb-2">
                                 {typeof state.errors == "string" &&
                                     state.errors}
+                                {hasError("user_name")
+                                    ? state.errors.user_name
+                                    : ""}
                             </div>
                             <div className="inner-box-log mx-auto">
                                 <form onSubmit={handleSignUp}>
@@ -121,11 +124,6 @@ const Login = (props) => {
                                             value={state.values.user_name}
                                             onChange={handleChange}
                                         />
-                                        <p className="text-danger">
-                                            {hasError("user_name")
-                                                ? state.errors.user_name
-                                                : ""}
-                                        </p>
                                     </div>
                                     <div className="common-input mb-5">
                                         <input

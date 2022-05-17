@@ -28,91 +28,87 @@ export const OrderDetail = (props) => {
             >
                 <div className="container">
                     <div className="row">
-                        <div className="col-12">
-                            <div className="shop-search prod-des-card d-flex align-items-center justify-content-center mx-auto">
-                                {/* <a href="#" className="button-common-2">
-                                    Go Back
-                                </a> */}
-                                {order?.error ? (
-                                    <div className="col-md-12 order-box-des">
-                                        <div className="order-num text-center">
-                                            Not Found Data
-                                        </div>
+                        <div className="col-12 shop-search prod-des-card d-flex align-items-center justify-content-center mx-auto">
+                            {/* <a href="#" className="button-common-2">
+                                Go Back
+                            </a> */}
+                            {order?.error ? (
+                                <div className="col-md-12 order-box-des">
+                                    <div className="order-num text-center">
+                                        Not Found Data
                                     </div>
-                                ) : (
-                                    <div className="product-detail-card-item">
-                                        {(() => {
-                                            let orderItem =
-                                                order?.data?.food ||
-                                                order?.data?.product;
-                                            let orderProvider =
-                                                order?.data?.restaurant ||
-                                                order?.data?.grocery_store;
-                                            return (
-                                                <div>
-                                                    <Link
-                                                        to="product-detail"
-                                                        className="product-card box-shadow-none d-flex justify-content-center flex-column"
-                                                    >
-                                                        <div className="prod-img mx-auto">
-                                                            <img
-                                                                className="img-fluid"
-                                                                src={
-                                                                    (orderItem?.image &&
-                                                                        `${HOST}${orderItem?.image}`) ||""
+                                </div>
+                            ) : (
+                                <div className="product-detail-card-item">
+                                    {(() => {
+                                        let orderItem =
+                                            order?.data?.food ||
+                                            order?.data?.product;
+                                        let orderProvider =
+                                            order?.data?.restaurant ||
+                                            order?.data?.grocery_store;
+                                        return (
+                                            <div>
+                                                <Link
+                                                    to="product-detail"
+                                                    className="product-card box-shadow-none d-flex justify-content-center flex-column border-round"
+                                                >
+                                                    <div className="prod-img mx-auto">
+                                                        <img
+                                                            className="img-fluid"
+                                                            src={
+                                                                (orderItem?.image &&
+                                                                    `${HOST}${orderItem?.image}`) ||
+                                                                ""
+                                                            }
+                                                            alt=""
+                                                            onError={(e) => {
+                                                                e.target.onerror =
+                                                                    null;
+                                                                e.target.src =
+                                                                    "/assets/img/product.png";
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <div className="prod-detail">
+                                                        <div className="title">
+                                                            {orderItem?.name}
+                                                        </div>
+                                                        <div className="sub-title">
+                                                            {
+                                                                orderProvider?.name
+                                                            }
+                                                        </div>
+                                                        <div className="price">
+                                                            {!!orderItem?.price &&
+                                                                `$${orderItem?.price}`}
+                                                        </div>
+                                                        {(orderItem?.rating && (
+                                                            <Rating
+                                                                rating={
+                                                                    orderItem?.rating
                                                                 }
-                                                                alt=""
-                                                                onError={(
-                                                                    e
-                                                                ) => {
-                                                                    e.target.onerror =
-                                                                        null;
-                                                                    e.target.src =
-                                                                        "/assets/img/product.png";
-                                                                }}
                                                             />
+                                                        )) ||
+                                                            ""}
+                                                        <div className="text-center">
+                                                            <button className="button-common d-none">
+                                                                View Menu
+                                                            </button>
+                                                            <button className="button-common-2 d-none">
+                                                                Closed
+                                                            </button>
                                                         </div>
-                                                        <div className="prod-detail">
-                                                            <div className="title">
-                                                                {
-                                                                    orderItem?.name
-                                                                }
-                                                            </div>
-                                                            <div className="sub-title">
-                                                                {
-                                                                    orderProvider?.name
-                                                                }
-                                                            </div>
-                                                            <div className="price">
-                                                                {`$${orderItem?.price}`}
-                                                            </div>
-                                                            {(orderItem?.rating && (
-                                                                <Rating
-                                                                    rating={
-                                                                        orderItem?.rating
-                                                                    }
-                                                                />
-                                                            )) ||
-                                                                ""}
-                                                            <div className="text-center">
-                                                                <button className="button-common d-none">
-                                                                    View Menu
-                                                                </button>
-                                                                <button className="button-common-2 d-none">
-                                                                    Closed
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                </div>
-                                            );
-                                        })()}
-                                    </div>
-                                )}
-                                {/* <a href="#" className="button-common">
-                                    Open
-                                </a> */}
-                            </div>
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        );
+                                    })()}
+                                </div>
+                            )}
+                            {/* <a href="#" className="button-common">
+                                Open
+                            </a> */}
                         </div>
                     </div>
                 </div>

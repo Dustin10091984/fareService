@@ -124,6 +124,9 @@ object-fit: cover;
 
 @media (max-width:375px) {
   
+    input[type=search] {
+            width: 10rem;
+        }
     .job-provider-card .user-des{
         flex-wrap: wrap;
         justify-content: center !important;
