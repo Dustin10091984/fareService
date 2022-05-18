@@ -289,11 +289,9 @@ const Header = (props) => {
                                         {!state.is_loggedin && (
                                             <li className="item-list">
                                                 <NavLink
-                                                    to={(location) => ({
-                                                        ...location,
-                                                        pathname:
-                                                            "/provider/registration",
-                                                    })}
+                                                    to={
+                                                        "/provider/registration"
+                                                    }
                                                     className="link"
                                                 >
                                                     <img
@@ -650,7 +648,7 @@ const Header = (props) => {
                                 >
                                     <ul className="navbar-nav mr-auto">
                                         {header_menu}
-                                        {!!state.header_menu?.length && (
+                                        {/* {!!state.header_menu?.length && (
                                             <>
                                                 <li className="nav-item">
                                                     <NavLink
@@ -669,7 +667,7 @@ const Header = (props) => {
                                                     </NavLink>
                                                 </li>
                                             </>
-                                        )}
+                                        )} */}
                                     </ul>
                                 </div>
                             </nav>

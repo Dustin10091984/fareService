@@ -67,6 +67,8 @@ const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
 );
 
+const gLibraries = ['places'];
+
 export const MapLoadedApi = createContext(false);
 
 function App() {
@@ -74,9 +76,9 @@ function App() {
   const [state, setState] = useState();
   const { hash } = useLocation();
 
+
   const messaging = getMessaging();
   onMessage(messaging, (payload) => {
-    console.log(payload);
     setNotification(payload);
   });
 
@@ -85,7 +87,7 @@ function App() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.React_APP_GOOGLE_API,
-    libraries: ["places"],
+    gLibraries,
   });
 
     
