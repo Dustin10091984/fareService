@@ -129,12 +129,13 @@ const Basic = ({
                         "By clicking next you agree to"}
                     {!!terms?.name && (
                         <>
+                            {" "}
                             <Link to={`/page/${terms?.name}`}>
                                 Terms of Service
-                            </Link>{" "}
-                            and
+                            </Link>
                         </>
-                    )}{" "}
+                    )}
+                    {!!terms?.name && !!privacy?.name && " and "}
                     {!!privacy?.name && (
                         <>
                             <Link to={`/page/${privacy?.name}`}>
