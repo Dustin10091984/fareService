@@ -67,7 +67,6 @@ const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
 );
 
-const gLibraries = ['places'];
 
 export const MapLoadedApi = createContext(false);
 
@@ -84,11 +83,11 @@ function App() {
 
   // onMessageListener()
   //   .then((payload) => {
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.React_APP_GOOGLE_API,
-    gLibraries,
-  });
+  // const { isLoaded } = useJsApiLoader({
+  //   id: "google-map-script",
+  //   googleMapsApiKey: process.env.React_APP_GOOGLE_API,
+  //   libraries: ['places'],
+  // });
 
     
     const handleMessageClick = (data) => {
@@ -172,7 +171,7 @@ function App() {
 
   return (
     <Elements stripe={stripePromise} >
-      <MapLoadedApi.Provider value={isLoaded}>
+      <MapLoadedApi.Provider value={{ isLoaded: true }}>
       <div className="App">
         {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
         <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
