@@ -61,7 +61,7 @@ import axios from 'axios'
 import { MovingRequest } from './front-end/moving';
 import { HOST } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
-import { useJsApiLoader } from "@react-google-maps/api";
+// import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
