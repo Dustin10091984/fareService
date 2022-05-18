@@ -29,12 +29,14 @@ const Service = ({
 
     useEffect(() => {
         if (cityCountry?.city) {
-            const zipCodesList = countriesData?.data
-                ?.find((countryData) => countryData.id == cityCountry?.country)
-                ?.cities?.find(
-                    (cities) => cities.id == cityCountry?.city
-                )?.zip_codes;
-            setZipCodes(zipCodesList);
+            setZipCodes(
+                countriesData?.data
+                    ?.find(
+                        (countryData) => countryData.id == cityCountry?.country
+                    )
+                    ?.cities?.find((cities) => cities.id == cityCountry?.city)
+                    ?.zip_codes
+            );
         }
     }, [cityCountry?.city]);
 
