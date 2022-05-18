@@ -40,6 +40,9 @@ export const Moving = (props) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [zipCodes, setZipCodes] = useState();
+    const [zipCodesList, setZipCodesList] = useState();
+    console.log(zipCodesList);
     const closeRef = useRef(null);
 
     const dispatch = useDispatch();
@@ -62,6 +65,23 @@ export const Moving = (props) => {
         handleMovingState(state);
     }, [state]);
 
+    useEffect(() => {
+        if (cityCountry?.city) {
+            setZipCodes(
+                countriesData?.data
+                    ?.find(
+                        (countryData) => countryData.id == cityCountry?.country
+                    )
+                    ?.cities?.find((cities) => cities.id == cityCountry?.city)
+                    ?.zip_codes
+            );
+        }
+    }, [cityCountry?.city]);
+
+    useEffect(() => {
+        setZipCodesList();
+    }, [cityCountry?.city, cityCountry?.country]);
+
     const handleSelectTypeClick = (vehicle_type_id) => {
         vehicle_type_id === state.vehicle_type_id
             ? (vehicle_type_id = "")
@@ -81,39 +101,45 @@ export const Moving = (props) => {
             [name]: value,
             selectedZipCode: false,
         }));
-        if (value.length < 1 || value.length > 12 || !re.test(value)) {
-            setState((state) => ({
-                ...state,
-                zipCodeErr: "Zip Code characher should be in between 1 and 12",
-            }));
-        } else {
-            setIsLoading(true);
-            setState((state) => ({ ...state, zipCodeErr: "" }));
-            axios({
-                method: "get",
-                url:
-                    process.env.REACT_APP_API_BASE_URL +
-                    `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${
-                        props?.vehicle_type_id
-                    }${cityCountry?.city ? `&city=${cityCountry?.city}` : ""}`,
-            })
-                .then(function (response) {
-                    setIsLoading(false);
-                    setState((state) => ({
-                        ...state,
-                        zipCodeData: response?.data?.data?.data,
-                        zipCodeDataErr: "",
-                    }));
-                })
-                .catch((error) => {
-                    setIsLoading(false);
-                    setState((state) => ({
-                        ...state,
-                        zipCodeData: "",
-                        zipCodeDataErr: error?.response?.data?.message,
-                    }));
-                });
-        }
+        // if (value.length < 1 || value.length > 12 || !re.test(value)) {
+        //     setState((state) => ({
+        //         ...state,
+        //         zipCodeErr: "Zip Code characher should be in between 1 and 12",
+        //     }));
+        // } else {
+        //     setIsLoading(true);
+        //     setState((state) => ({ ...state, zipCodeErr: "" }));
+        //     axios({
+        //         method: "get",
+        //         url:
+        //             process.env.REACT_APP_API_BASE_URL +
+        //             `/api/user/services/zip-code?zipCode=${value}&vehicle_type_id=${
+        //                 props?.vehicle_type_id
+        //             }${cityCountry?.city ? `&city=${cityCountry?.city}` : ""}`,
+        //     })
+        //         .then(function (response) {
+        //             setIsLoading(false);
+        //             setState((state) => ({
+        //                 ...state,
+        //                 zipCodeData: response?.data?.data?.data,
+        //                 zipCodeDataErr: "",
+        //             }));
+        //         })
+        //         .catch((error) => {
+        //             setIsLoading(false);
+        //             setState((state) => ({
+        //                 ...state,
+        //                 zipCodeData: "",
+        //                 zipCodeDataErr: error?.response?.data?.message,
+        //             }));
+        //         });
+        // }
+    };
+
+    const handleSearchZipCode = ({ target }) => {
+        setZipCodesList(
+            zipCodes.filter(({ code }) => code.includes(target.value))
+        );
     };
 
     const handleFromAdessSelect = (from_address) => {
@@ -339,7 +365,13 @@ export const Moving = (props) => {
                         name="zip_code"
                         placeholder="Zip Code e.g 00000"
                         value={state.zip_code}
-                        onChange={handleChangeZipCode}
+                        onChange={(e) => {
+                            handleChangeZipCode(e);
+                            handleSearchZipCode(e);
+                        }}
+                        onClick={(e) => {
+                            handleSearchZipCode(e);
+                        }}
                         autoComplete="off"
                     />
                 </div>
@@ -348,15 +380,15 @@ export const Moving = (props) => {
                 {state?.zipCodeDataErr || state?.zipCodeErr}
             </div>
 
-            {state.zipCodeData != "" && state.selectedZipCode == false && (
-                <>
-                    {/* <center
+            {/* {state.zipCodeData != "" && state.selectedZipCode == false && (
+                <> */}
+            {/* <center
                         className="col-md-12 text-dark mb-1 mt-1"
                         style={{ fontSize: "1.5rem" }}
                     >
                         Please Select ZipCode
                     </center> */}
-                    {isLoading && (
+            {/* {isLoading && (
                         <div className="col-md-12 text-dark mb-1 mt-1 zip-code-box">
                             <i className="fa fa-spinner fa-pulse"></i>{" "}
                             Loading...
@@ -374,6 +406,39 @@ export const Moving = (props) => {
                             </div>
                         ))}
                 </>
+            )} */}
+            {!!zipCodesList?.length ? (
+                state?.selectedZipCode == false && (
+                    <>
+                        <center
+                            className="col-md-12 text-dark mb-1 mt-1"
+                            style={{
+                                fontSize: "1.5rem",
+                            }}
+                        >
+                            Please Select ZipCode
+                        </center>
+                        {zipCodesList?.map((data, index) => (
+                            <div
+                                key={index}
+                                className="col-md-12 text-dark mb-1 mt-1"
+                                style={{
+                                    fontSize: "1.5rem",
+                                    border: "1px solid #F1F2F7",
+                                    backgroundColor: "#F1F2F7",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                }}
+                                data-code={data?.code}
+                                onClick={() => handleSelectZipCode(data?.code)}
+                            >
+                                {data?.code}
+                            </div>
+                        ))}
+                    </>
+                )
+            ) : (
+                <></>
             )}
 
             <MapLoadedApi.Consumer>

@@ -1,4 +1,4 @@
-import { useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 const Service = ({
     headerMenu,
     getServiceQuestion,
@@ -19,9 +19,36 @@ const Service = ({
             params: { subServiceId },
         },
     } = props;
+
+    const [zipCodes, setZipCodes] = useState();
+    const [zipCodesList, setZipCodesList] = useState();
+
     useEffect(() => {
         getServiceQuestion(subServiceId);
     }, [subServiceId]);
+
+    useEffect(() => {
+        if (cityCountry?.city) {
+            setZipCodes(
+                countriesData?.data
+                    ?.find(
+                        (countryData) => countryData.id == cityCountry?.country
+                    )
+                    ?.cities?.find((cities) => cities.id == cityCountry?.city)
+                    ?.zip_codes
+            );
+        }
+    }, [cityCountry?.city]);
+
+    useEffect(() => {
+        setZipCodesList();
+    }, [cityCountry?.city, cityCountry?.country]);
+
+    const handleSearchZipCode = ({ target }) => {
+        setZipCodesList(
+            zipCodes.filter(({ code }) => code.includes(target.value))
+        );
+    };
 
     return (
         <div
@@ -292,7 +319,13 @@ const Service = ({
                                         <input
                                             disabled={!cityCountry?.city}
                                             type="text"
-                                            onChange={handleZipCodeChange}
+                                            onChange={(e) => {
+                                                handleZipCodeChange(e);
+                                                handleSearchZipCode(e);
+                                            }}
+                                            onClick={(e) => {
+                                                handleSearchZipCode(e);
+                                            }}
                                             name="zipCode"
                                             value={service?.zipCode}
                                             placeholder="Zip Code"
@@ -300,7 +333,7 @@ const Service = ({
                                     </div>
                                 </div>
                                 {/* <div className=""> */}
-                                {service?.zipCodeData !== "" &&
+                                {!!zipCodesList?.length ? (
                                     service?.selectedZipCode == false && (
                                         <>
                                             <center
@@ -311,7 +344,7 @@ const Service = ({
                                             >
                                                 Please Select ZipCode
                                             </center>
-                                            {service?.zipCodeData?.map(
+                                            {zipCodesList?.map(
                                                 (data, index) => (
                                                     <div
                                                         key={index}
@@ -336,7 +369,10 @@ const Service = ({
                                                 )
                                             )}
                                         </>
-                                    )}
+                                    )
+                                ) : (
+                                    <></>
+                                )}
                                 <div className="col-md-12 text-danger">
                                     {service?.zipCodeDataErr ||
                                         service?.zipCodeErr}
