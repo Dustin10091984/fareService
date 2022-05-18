@@ -125,15 +125,17 @@ const Basic = ({
                 </div>
 
                 <div className="form-term my-2">
-                    By clicking next you agree to{" "}
+                    {(!!terms?.name || !!privacy?.name) &&
+                        "By clicking next you agree to"}
                     {!!terms?.name && (
                         <>
+                            {" "}
                             <Link to={`/page/${terms?.name}`}>
                                 Terms of Service
-                            </Link>{" "}
-                            and
+                            </Link>
                         </>
-                    )}{" "}
+                    )}
+                    {!!terms?.name && !!privacy?.name && " and "}
                     {!!privacy?.name && (
                         <>
                             <Link to={`/page/${privacy?.name}`}>
@@ -577,7 +579,7 @@ const SelectZipCode = ({
         } else {
             setState({
                 ...state,
-                zip_codeErr: "Please select an other location",
+                zip_codeErr: "Please Enter valid Zip Code",
             });
         }
     };
