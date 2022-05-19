@@ -8,10 +8,12 @@ export const GoogleMap = (props) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        return new Promise(async (resolve) => {
-            setDirectionsService(new window.google.maps.DirectionsService());
-            resolve();
-        });
+        if (window && window.google) {
+            let directions = new Promise(async (resolve) => {
+                resolve(new window.google.maps.DirectionsService());
+            });
+            setDirectionsService(directions);
+        }
     }, []);
 
     useEffect(async () => {
