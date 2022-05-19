@@ -15,7 +15,7 @@ import {
 import ServiceType from "../constants/ServiceType";
 import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
 import {HOST} from "./../constants"
 import Rating from "../components/Rating";
@@ -722,7 +722,7 @@ export const ServiceProviders = (props) => {
                                                                             : "#quotation")
                                                                     }
                                                                     disabled={
-                                                                        location
+                                                                        (location
                                                                             ?.state
                                                                             ?.service_type &&
                                                                         (location
@@ -732,7 +732,11 @@ export const ServiceProviders = (props) => {
                                                                         provider.service_type ==
                                                                             ServiceType.MOVING
                                                                             ? false
-                                                                            : true)
+                                                                            : true)) || (provider.account_type ===
+                                                                                "BASIC" &&
+                                                                            provider
+                                                                                ?.provider_profile
+                                                                                ?.hourly_rate && provider?.provider_schedules_count == 0)
                                                                     }
                                                                 >
                                                                     {(() => {
@@ -749,7 +753,7 @@ export const ServiceProviders = (props) => {
                                                                                 ?.provider_profile
                                                                                 ?.hourly_rate
                                                                         ) {
-                                                                            return "Make a Request";
+                                                                            return provider?.provider_schedules_count > 0 ? "Make a Request" : "Not Available";
                                                                         } else {
                                                                             return "Get a Qoutation";
                                                                         }
@@ -1383,7 +1387,7 @@ export const ServiceProviders = (props) => {
                                                     }))
                                                 }
                                                 onSelect={handleAddressChange}
-                                                googleCallbackName="myCallbackFunc"
+                                                googleCallbackName="initOne"
                                             >
                                                 {({
                                                     getInputProps,
@@ -1667,7 +1671,7 @@ export const ServiceProviders = (props) => {
                                             </div>
                                             <div className="common-input">
                                                 <PlacesAutocomplete
-                                                    // googleCallbackName="initTwo"
+                                                    googleCallbackName="initTwo"
                                                     value={state.address}
                                                     onChange={(address) =>
                                                         setState((state) => ({
