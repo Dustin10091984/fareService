@@ -17,7 +17,7 @@ import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 // import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-import {HOST} from "./../constants"
+import { HOST } from "./../constants";
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
 import Swal from "sweetalert2";
@@ -105,7 +105,11 @@ export const ServiceProviders = (props) => {
         } else {
             dispatch(getProviderList(props.location.search));
         }
-    }, [props.location.search, props.location.state]);
+    }, [
+        props.location.search,
+        location?.state?.service_type,
+        location?.state?.vehicle_type_id,
+    ]);
 
     useEffect(() => {
         if (providerList !== undefined && !providerList.length) {
@@ -162,7 +166,12 @@ export const ServiceProviders = (props) => {
         }
     }, [movingError, movingMessage]);
 
-    function handleContinueClick(event, type, provider, provider_service_requests_count) {
+    function handleContinueClick(
+        event,
+        type,
+        provider,
+        provider_service_requests_count
+    ) {
         setOpen(true);
         const { value } = event.target;
         if (state.is_loggedin) {
@@ -172,7 +181,7 @@ export const ServiceProviders = (props) => {
                     is_hourly: type,
                     provider_id: value,
                     provider,
-                    provider_service_requests_count
+                    provider_service_requests_count,
                 }));
                 if (location?.state?.service_type !== ServiceType.MOVING) {
                     if (type == true) {
@@ -429,6 +438,16 @@ export const ServiceProviders = (props) => {
         }
         setState((state) => ({ ...state, [name]: value }));
     };
+
+    const handleLoadMoreClick = (page) => {
+        dispatch(
+            getProviderList(
+                !!location?.search && `${location?.search}&page=${page}`
+            )
+        );
+        window.scrollTo(0, 0);
+    };
+
     return (
         <>
             {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
@@ -554,7 +573,7 @@ export const ServiceProviders = (props) => {
                             providerList !== null &&
                             providerList.error !== undefined &&
                             providerList.error === false &&
-                            providerList?.data?.data ? (
+                            providerList?.data?.data?.length ? (
                                 providerList.data.data.map(
                                     (provider, index) => {
                                         return (
@@ -725,18 +744,21 @@ export const ServiceProviders = (props) => {
                                                                         (location
                                                                             ?.state
                                                                             ?.service_type &&
-                                                                        (location
-                                                                            ?.state
-                                                                            ?.service_type ==
-                                                                            ServiceType.MOVING &&
-                                                                        provider.service_type ==
-                                                                            ServiceType.MOVING
-                                                                            ? false
-                                                                            : true)) || (provider.account_type ===
-                                                                                "BASIC" &&
+                                                                            (location
+                                                                                ?.state
+                                                                                ?.service_type ==
+                                                                                ServiceType.MOVING &&
+                                                                            provider.service_type ==
+                                                                                ServiceType.MOVING
+                                                                                ? false
+                                                                                : true)) ||
+                                                                        (provider.account_type ===
+                                                                            "BASIC" &&
                                                                             provider
                                                                                 ?.provider_profile
-                                                                                ?.hourly_rate && provider?.provider_schedules_count == 0)
+                                                                                ?.hourly_rate &&
+                                                                            provider?.provider_schedules_count ==
+                                                                                0)
                                                                     }
                                                                 >
                                                                     {(() => {
@@ -753,7 +775,10 @@ export const ServiceProviders = (props) => {
                                                                                 ?.provider_profile
                                                                                 ?.hourly_rate
                                                                         ) {
-                                                                            return provider?.provider_schedules_count > 0 ? "Make a Request" : "Not Available";
+                                                                            return provider?.provider_schedules_count >
+                                                                                0
+                                                                                ? "Make a Request"
+                                                                                : "Not Available";
                                                                         } else {
                                                                             return "Get a Qoutation";
                                                                         }
@@ -896,6 +921,22 @@ export const ServiceProviders = (props) => {
                                 <div className="text-center display-4">
                                     Please Wait we are working on it . . .
                                 </div>
+                            )}
+                            {providerList?.data?.current_page !=
+                                providerList?.data?.last_page && (
+                                <center>
+                                    <button
+                                        className="button-common"
+                                        onClick={() =>
+                                            handleLoadMoreClick(
+                                                providerList?.data
+                                                    ?.current_page + 1
+                                            )
+                                        }
+                                    >
+                                        Load More
+                                    </button>
+                                </center>
                             )}
                         </div>
                     </div>
@@ -2089,123 +2130,3 @@ export const ServiceProviders = (props) => {
     );
 };
 
-// <div className="job-provider-card">
-//                                 <div className="user-des d-flex align-items-center justify-content-start w-100">
-//                                     <div className="user-img d-flex align-items-center justify-content-center">
-//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
-//                                     </div>
-//                                     <div className="user-detail w-100">
-//                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
-//                                             <div className="title">Ekstrom Bothman</div>
-//                                             <Link to='/profile'  className="button-common">View Profile</Link>
-//                                         </div>
-//                                         <div className="job-status">179 Jobs Completed</div>
-//                                         <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
-//                                             <div className="star-rating-area">
-//                                                 <div className="rating-static clearfix mr-3" rel="4">
-//                                                     <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-//                                                 </div>
-//                                                 {/* <div className="ratilike ng-binding">5</div> */}
-//                                             </div>
-
-//                                             <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
-//                                         </div>
-//                                         <div className="user-price">$20.00</div>
-//                                     </div>
-//                                 </div>
-//                                 <hr/>
-//                                 <div className="useer-qust">
-//                                     <div className="title">How can i help ?</div>
-//                                     <div className="des">I'm Sharonda! I have over 8 years of
-//                                      experience in housekeeping. My goal is to delight my customers
-//                                      by providing a deep, thorough cleaning. Dusted surfaces, baseboards,
-//                                       ceiling fans, and polished appliances are a big deal to me. I pay
-//                                      close detail to all the nooks and cranies!</div>
-//                                 </div>
-
-//                                 <div className="top-reviews-list">
-//                                     <div className="review-title">Top Review</div>
-
-//                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-//                                         <div className="review-img">
-//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
-//                                         </div>
-
-//                                         <div className="review-detail">
-//                                         I'm Sharonda! I have over 8 years of experience in housekeeping.
-//                                         My goal is to delight my customers by providing a deep, thorough cleaning.
-//                                          Dusted surfaces, baseboards, ceiling fans, and polished appliances
-//                                          are a big deal to me. I pay close detail to all the nooks and cranies.
-//                                         </div>
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                             <div className="job-provider-card">
-//                                 <div className="user-des d-flex align-items-centet justify-content-start w-100">
-//                                     <div className="user-img d-flex align-items-center justify-content-center">
-//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
-//                                     </div>
-//                                     <div className="user-detail w-100">
-//                                         <div className=" w-100 d-flex align-items-centet justify-content-between">
-//                                             <div className="title">Ekstrom Bothman</div>
-//                                             <Link to='/profile'  className="button-common">View Profile</Link>
-//                                         </div>
-//                                         <div className="job-status">179 Jobs Completed</div>
-//                                         <div className="stars-rating w-100  d-flex align-items-centet justify-content-between">
-//                                             <div className="star-rating-area">
-//                                                 <div className="rating-static clearfix mr-3" rel="4">
-//                                                     <label className="full" title="{{ 'Awesome - 5 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Excellent - 4.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Excellent - 4 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Better - 3.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Good - 3 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Good - 2.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Fair - 2 stars' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Fair - 1.5 stars' | translate }}" ></label>
-//                                                     <label className="full" title="{{ 'Bad - 1 star' | translate }}" ></label>
-//                                                     <label className="half" title="{{ 'Bad - 0.5 stars' | translate }}" ></label>
-//                                                 </div>
-//                                                 {/* <div className="ratilike ng-binding">5</div> */}
-//                                             </div>
-
-//                                             <Link to='/payment' className="button-common-2">Conitnue with this Provider</Link>
-//                                         </div>
-//                                         <div className="user-price">$20.00</div>
-//                                     </div>
-//                                 </div>
-//                                 <hr/>
-//                                 <div className="useer-qust">
-//                                     <div className="title">How can i help ?</div>
-//                                     <div className="des">I'm Sharonda! I have over 8 years of
-//                                      experience in housekeeping. My goal is to delight my customers
-//                                      by providing a deep, thorough cleaning. Dusted surfaces, baseboards,
-//                                       ceiling fans, and polished appliances are a big deal to me. I pay
-//                                      close detail to all the nooks and cranies!</div>
-//                                 </div>
-
-//                                 <div className="top-reviews-list">
-//                                     <div className="review-title">Top Review</div>
-
-//                                     <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-//                                         <div className="review-img">
-//                                         <img src="/assets/img/Profile_avatar.png" className="img-fluid" alt=""/>
-//                                         </div>
-
-//                                         <div className="review-detail">
-//                                         I'm Sharonda! I have over 8 years of experience in housekeeping.
-//                                         My goal is to delight my customers by providing a deep, thorough cleaning.
-//                                          Dusted surfaces, baseboards, ceiling fans, and polished appliances
-//                                          are a big deal to me. I pay close detail to all the nooks and cranies.
-//                                         </div>
-//                                     </div>
-//                                 </div>
-//                             </div>
