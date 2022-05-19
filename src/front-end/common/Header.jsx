@@ -242,12 +242,12 @@ const Header = (props) => {
                                                     is_search: true,
                                                 }));
                                             }}
-                                            onBlur={() => {
-                                                setState((prevState) => ({
-                                                    ...prevState,
-                                                    is_search: false,
-                                                }));
-                                            }}
+                                            // onBlur={() => {
+                                            //     setState((prevState) => ({
+                                            //         ...prevState,
+                                            //         is_search: false,
+                                            //     }));
+                                            // }}
                                             onChange={mySearch}
                                         />
                                         <button type="button">Search</button>
