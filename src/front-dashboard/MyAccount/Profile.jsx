@@ -21,12 +21,12 @@ const Profile = ({ profile }) => {
         (state) => state.userReducer.updateProfile
     );
 
-    useEffect(() => {
-        return () => {
-            dispatch(initialState("profile"));
-            dispatch(initialState("updateProfile"));
-        };
-    }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         // dispatch(initialState("profile"));
+    //         // dispatch(initialState("updateProfile"));
+    //     };
+    // }, []);
 
     useEffect(() => {
         if (profile) {

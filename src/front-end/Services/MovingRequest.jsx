@@ -16,7 +16,9 @@ const MovingRequest = ({
 }) => {
     const ref = useRef(null);
     useEffect(() => {
-        getVehicleTypes();
+        if (!vehicleTypes?.data) {
+            getVehicleTypes();
+        }
     }, []);
 
     useEffect(() => {

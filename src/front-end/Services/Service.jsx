@@ -24,7 +24,9 @@ const Service = ({
     const [zipCodesList, setZipCodesList] = useState();
 
     useEffect(() => {
-        getServiceQuestion(subServiceId);
+        if (subServiceId && serviceData?.data?.id != subServiceId) {
+            getServiceQuestion(subServiceId);
+        }
     }, [subServiceId]);
 
     useEffect(() => {

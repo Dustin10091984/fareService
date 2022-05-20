@@ -24,7 +24,6 @@ import Swal from "sweetalert2";
 import { MapLoadedApi } from "../../App";
 
 export const MyAccount = (props) => {
-    console.log(props);
     const stripe = useStripe();
     const elements = useElements();
     const [state, setState] = useState({ type: "HOME", addCardError: true });
@@ -52,9 +51,9 @@ export const MyAccount = (props) => {
     useEffect(() => {
         if (localStorage.getItem("user_data")) {
             let user = JSON.parse(localStorage.getItem("user_data"));
-            dispatch(getProfile(user.id));
-            dispatch(getAddresses());
-            dispatch(getPaymentCards());
+            if (!!profile?.data == false) dispatch(getProfile(user.id));
+            if (!!addressList?.data == false) dispatch(getAddresses());
+            if (!!paymentCard?.data == false) dispatch(getPaymentCards());
         } else {
             localStorage.clear();
         }
