@@ -3421,3 +3421,8 @@ input::-webkit-inner-spin-button {
 .border-round {
     border-radius: 1rem;
 }
+.eye-icon {
+    margin-top: -3rem;
+    position: relative;
+    cursor: pointer;
+}

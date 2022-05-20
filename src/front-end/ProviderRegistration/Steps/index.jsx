@@ -15,6 +15,9 @@ const Basic = ({
     handleProviderSignup,
     providerSignup,
 }) => {
+    const [state, setState] = useState({
+        isVisible: false,
+    });
     const pages = useSelector((state) => state?.footerReducer?.pages);
     const TERMS_AND_CONDITIONS = 1;
     const PRIVACY = 2;
@@ -112,12 +115,34 @@ const Basic = ({
                     <label htmlFor="name">Password</label>
                     <strong className="text-danger">*</strong>
                     <input
-                        type="password"
+                        type={state.isVisible ? "text" : "password"}
                         name="password"
                         placeholder="password"
                         defaultValue={basic?.password || ""}
                         onChange={handleBasic}
                     />
+                    {!state?.isVisible && (
+                        <i
+                            onClick={() => {
+                                setState((state) => ({
+                                    ...state,
+                                    isVisible: !state.isVisible,
+                                }));
+                            }}
+                            className="fa fa-eye float-right rem-2 pr-3 eye-icon"
+                        ></i>
+                    )}
+                    {state?.isVisible && (
+                        <i
+                            onClick={() => {
+                                setState((state) => ({
+                                    ...state,
+                                    isVisible: !state.isVisible,
+                                }));
+                            }}
+                            className="fa fa-eye-slash float-right rem-2 pr-3 eye-icon"
+                        ></i>
+                    )}
                     <div className="text-danger">
                         {isError("password")}
                         {/* {isServerError("password")} */}

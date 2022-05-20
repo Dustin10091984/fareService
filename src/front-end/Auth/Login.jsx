@@ -11,6 +11,7 @@ const Login = (props) => {
             password: "",
         },
         errors: {},
+        isVisible: false,
     });
 
     useEffect(() => {
@@ -125,21 +126,57 @@ const Login = (props) => {
                                             onChange={handleChange}
                                         />
                                     </div>
-                                    <div className="common-input mb-5">
+                                    <div className="common-input">
                                         <input
-                                            type="password"
+                                            id="password"
+                                            type={
+                                                state?.isVisible
+                                                    ? "text"
+                                                    : "password"
+                                            }
                                             name="password"
                                             placeholder="Password"
                                             required
                                             value={state.values.password}
                                             onChange={handleChange}
                                         />
+                                        {!state?.isVisible && (
+                                            <i
+                                                onClick={() => {
+                                                    setState((state) => ({
+                                                        ...state,
+                                                        isVisible:
+                                                            !state.isVisible,
+                                                    }));
+                                                }}
+                                                className="fa fa-eye float-right fa-2x pr-3 eye-icon"
+                                            ></i>
+                                        )}
+                                        {state?.isVisible && (
+                                            <i
+                                                onClick={() => {
+                                                    setState((state) => ({
+                                                        ...state,
+                                                        isVisible:
+                                                            !state.isVisible,
+                                                    }));
+                                                }}
+                                                className="fa fa-eye-slash float-right fa-2x pr-3 eye-icon"
+                                            ></i>
+                                        )}
                                         <p className="text-danger">
                                             {hasError("password")
                                                 ? state.errors.password
                                                 : ""}
                                         </p>
                                     </div>
+                                    <Link
+                                        to="/forgot-password"
+                                        className="btn btn-link mb-3"
+                                        style={{ fontSize: "13px" }}
+                                    >
+                                        Forgot Password?
+                                    </Link>
 
                                     <button
                                         type="submit"
@@ -166,7 +203,7 @@ const Login = (props) => {
                                     Login with Facebook
                                 </button> */}
 
-                                <div className="login-detail mt-5 text-center">
+                                <div className="login-detail text-center">
                                     Do not have account?
                                     <Link
                                         to="/register"
@@ -174,15 +211,6 @@ const Login = (props) => {
                                         style={{ fontSize: "15px" }}
                                     >
                                         Register
-                                    </Link>
-                                </div>
-                                <div className="text-center">
-                                    <Link
-                                        to="/forgot-password"
-                                        className="btn btn-link"
-                                        style={{ fontSize: "15px" }}
-                                    >
-                                        Forgot Password?
                                     </Link>
                                 </div>
                             </div>
