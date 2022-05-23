@@ -176,7 +176,7 @@ const Footer = (props) => {
                                                                 key={`${service.id}_${sub_service.id}`}
                                                             >
                                                                 <Link
-                                                                    to={`/services/${service.id}/${sub_service.id}#cleaning-services`}
+                                                                    to={`/services/${service.id}/${sub_service.id}#services-section`}
                                                                     className="link"
                                                                     onClick={(
                                                                         e
@@ -185,7 +185,7 @@ const Footer = (props) => {
                                                                             location?.pathname ==
                                                                                 `/services/${service.id}/${sub_service.id}` &&
                                                                             location?.hash ==
-                                                                                "#cleaning-services"
+                                                                                "#services-section"
                                                                         ) {
                                                                             e.preventDefault();
                                                                         }
@@ -672,7 +672,7 @@ const Footer = (props) => {
                                                     key={`${service.id}_${sub_service.id}`}
                                                 >
                                                     <Link
-                                                        to={`/services/${service.id}/${sub_service.id}#cleaning-services`}
+                                                        to={`/services/${service.id}/${sub_service.id}#services-section`}
                                                         className="link"
                                                         data-dismiss="modal"
                                                         aria-label="Close"
@@ -681,7 +681,7 @@ const Footer = (props) => {
                                                                 location?.pathname ==
                                                                     `/services/${service.id}/${sub_service.id}` &&
                                                                 location?.hash ==
-                                                                    `#cleaning-services`
+                                                                    `#services-section`
                                                             ) {
                                                                 e.preventDefault();
                                                             }
