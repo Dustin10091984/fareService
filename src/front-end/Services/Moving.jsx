@@ -415,7 +415,7 @@ export const Moving = (props) => {
                                 fontSize: "1.5rem",
                             }}
                         >
-                            Please Select ZipCode
+                            Please Select Zip Code
                         </center>
                         {zipCodesList?.map((data, index) => (
                             <div
