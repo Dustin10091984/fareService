@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Rating from "../../components/Rating";
 import { HOST } from "../../constants";
 import { MovingRequest } from "./MovingRequest";
@@ -7,7 +8,9 @@ import { Service } from "./Service";
 export const Services = (props) => {
     const { serviceId, subServiceId } = props.match.params;
     const { headerMenu } = props;
-    const search = props.location.search; // could be '?foo=bar'
+    const { location } = props;
+    const { search } = location;
+
     const params = new URLSearchParams(search);
 
     const [state, setState] = useState({
@@ -325,9 +328,28 @@ export const Services = (props) => {
                                             {mainMenu?.sub_services?.map(
                                                 (subMenu, index) =>
                                                     index < 7 && (
-                                                        <li
+                                                        <Link
+                                                            to={`/services/${mainMenu.id}/${subMenu.id}#services-section`}
+                                                            onClick={(e) => {
+                                                                if (
+                                                                    location?.pathname ==
+                                                                        `/services/${mainMenu.id}/${subMenu.id}` &&
+                                                                    location?.hash ==
+                                                                        "#services-section"
+                                                                ) {
+                                                                    e.preventDefault();
+                                                                }
+                                                                window.scrollTo(
+                                                                    {
+                                                                        top: 0,
+                                                                        behavior:
+                                                                            "smooth",
+                                                                    }
+                                                                );
+                                                            }}
                                                             className="item"
                                                             key={index}
+                                                            role="button"
                                                         >
                                                             <div className="link">
                                                                 <i
@@ -336,7 +358,7 @@ export const Services = (props) => {
                                                                 ></i>
                                                                 {subMenu?.name}
                                                             </div>
-                                                        </li>
+                                                        </Link>
                                                     )
                                             )}
                                             {/* <li className="item">

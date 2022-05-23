@@ -55,7 +55,7 @@ const Service = ({
     return (
         <div
             className="moving-search-box house-cleaning-sec"
-            id={"cleaning-services"}
+            id={"services-section"}
         >
             {serviceData?.loading && (
                 <div className="service-loading">

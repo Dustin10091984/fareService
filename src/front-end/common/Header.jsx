@@ -172,7 +172,17 @@ const Header = (props) => {
                                     }}
                                 >
                                     <NavLink
-                                        to={`/services/${menu.id}/${sub_menu.id}#cleaning-services`}
+                                        to={`/services/${menu.id}/${sub_menu.id}#services-section`}
+                                        onClick={(e) => {
+                                            if (
+                                                location?.pathname ==
+                                                    `/services/${menu.id}/${sub_menu.id}` &&
+                                                location?.hash ==
+                                                    "#services-section"
+                                            ) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                         // ${
                                         //     menu.id == 3
                                         //         ? "?service_type=" +
@@ -285,8 +295,18 @@ const Header = (props) => {
                                                             <Link
                                                                 key={index}
                                                                 className="list-group-item search-item"
-                                                                to={`/services/${sub_menu.service_id}/${sub_menu.id}#cleaning-services`}
-                                                                onClick={() => {
+                                                                to={`/services/${sub_menu.service_id}/${sub_menu.id}#services-section`}
+                                                                onClick={(
+                                                                    e
+                                                                ) => {
+                                                                    if (
+                                                                        location?.pathname ==
+                                                                            `/services/${sub_menu.service_id}/${sub_menu.id}` &&
+                                                                        location?.hash ==
+                                                                            "#services-section"
+                                                                    ) {
+                                                                        e.preventDefault();
+                                                                    }
                                                                     setState({
                                                                         ...state,
                                                                         is_search: false,
@@ -310,6 +330,14 @@ const Header = (props) => {
                                                     to={
                                                         "/provider/registration"
                                                     }
+                                                    onClick={(e) => {
+                                                        if (
+                                                            location?.pathname ==
+                                                            "/provider/registration"
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     className="link"
                                                 >
                                                     <img
