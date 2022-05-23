@@ -758,7 +758,9 @@ export const ServiceProviders = (props) => {
                                                                                 ?.provider_profile
                                                                                 ?.hourly_rate &&
                                                                             provider?.provider_schedules_count ==
-                                                                                0)
+                                                                                0 &&
+                                                                            provider.service_type !=
+                                                                                ServiceType.MOVING)
                                                                     }
                                                                 >
                                                                     {(() => {
