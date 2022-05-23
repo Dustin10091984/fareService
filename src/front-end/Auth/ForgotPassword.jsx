@@ -87,7 +87,6 @@ const ForgotPassword = () => {
     };
 
     const handleChangePassword = async () => {
-        console.log(state.token);
         setState((state) => ({
             ...state,
             loading: true,
