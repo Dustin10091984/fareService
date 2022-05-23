@@ -1,5 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import {
+    Link,
+    NavLink,
+    useHistory,
+    useLocation,
+    useRouteMatch,
+} from "react-router-dom";
 import axios from "axios";
 // import ServiceType from "../../constants/ServiceType";
 import { Chat } from "../Chat/Chat";
@@ -24,7 +30,9 @@ const Header = (props) => {
 
     const ref = useRef(null);
 
+    const location = useLocation();
     const history = useHistory();
+    const routeMatch = useRouteMatch();
 
     const dispatch = useDispatch();
 
@@ -198,7 +206,18 @@ const Header = (props) => {
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
                             <div className="header-logo">
-                                <Link to="/">
+                                <Link
+                                    to={(location) => ({
+                                        ...location,
+                                        pathname: "/",
+                                        hash: "",
+                                    })}
+                                    onClick={(e) => {
+                                        if (location?.pathname == "/") {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                >
                                     <img
                                         src="/assets/img/logo.png"
                                         alt=""

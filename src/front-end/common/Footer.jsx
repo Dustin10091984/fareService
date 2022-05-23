@@ -1,21 +1,23 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Link } from "react-router-dom";
-import { getPages } from './../../store/Slices/footer/index';
+import { Link, withRouter, useLocation } from "react-router-dom";
+import { getPages } from "./../../store/Slices/footer/index";
 const Footer = (props) => {
     const [state, setState] = useState({
         links: [],
         modal: null,
-        total: false
+        total: false,
     });
 
+    const location = useLocation();
     const dispatch = useDispatch();
+
+    console.log(location);
 
     const ref = useRef(null);
 
-    const date = new Date()
-    const year = date.getFullYear()
+    const date = new Date();
+    const year = date.getFullYear();
 
     const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
     const pages = useSelector((state) => state?.footerReducer?.pages);
@@ -26,13 +28,13 @@ const Footer = (props) => {
     }, []);
 
     useEffect(() => {
-        if(getLinks?.length>0){
+        if (getLinks?.length > 0) {
             setState({
-                links: getLinks
-            })
+                links: getLinks,
+            });
         }
     }, [getLinks]);
-    
+
     return (
         <>
             <div className="container">
@@ -179,7 +181,17 @@ const Footer = (props) => {
                                                                 <Link
                                                                     to={`/services/${service.id}/${sub_service.id}#cleaning-services`}
                                                                     className="link"
-                                                                    onClick={() => {
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        if (
+                                                                            location?.pathname ==
+                                                                                `/services/${service.id}/${sub_service.id}` &&
+                                                                            location?.hash ==
+                                                                                "#cleaning-services"
+                                                                        ) {
+                                                                            e.preventDefault();
+                                                                        }
                                                                         window.scrollTo(
                                                                             {
                                                                                 top: 0,
@@ -347,7 +359,18 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-md-12 d-flex align-items-center justify-content-between flex-column flex-md-row">
                             <div className="footer-lgoo mb-5">
-                                <Link to={"/"}>
+                                <Link
+                                    to={(location) => ({
+                                        ...location,
+                                        pathname: "/",
+                                        hash: "",
+                                    })}
+                                    onClick={(e) => {
+                                        if (location?.pathname == "/") {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                >
                                     <img
                                         src="/assets/img/logo.png"
                                         className="img-fluid"
@@ -518,7 +541,17 @@ const Footer = (props) => {
                                                 });
                                             }}
                                         >
-                                            <Link to={`/page/${page.name}`}>
+                                            <Link
+                                                to={`/page/${page.name}`}
+                                                onClick={(e) => {
+                                                    if (
+                                                        location?.pathname ==
+                                                        `/page/${page.name}`
+                                                    ) {
+                                                        e.preventDefault();
+                                                    }
+                                                }}
+                                            >
                                                 {page.name}
                                             </Link>
                                             {/* <a href="#">{page?.name}</a> */}
@@ -644,16 +677,24 @@ const Footer = (props) => {
                                                     <Link
                                                         to={`/services/${service.id}/${sub_service.id}#cleaning-services`}
                                                         className="link"
-                                                        // data-dismiss="modal"
-                                                        // aria-label="Close"
-                                                        // onClick={() => {
-                                                        //     window.scrollTo({
-                                                        //         top: 0,
-                                                        //         behavior:
-                                                        //             "smooth",
-                                                        //     });
-                                                        //     ref.current.click();
-                                                        // }}
+                                                        data-dismiss="modal"
+                                                        aria-label="Close"
+                                                        onClick={(e) => {
+                                                            if (
+                                                                location?.pathname ==
+                                                                    `/services/${service.id}/${sub_service.id}` &&
+                                                                location?.hash ==
+                                                                    `#cleaning-services`
+                                                            ) {
+                                                                e.preventDefault();
+                                                            }
+                                                            window.scrollTo({
+                                                                top: 0,
+                                                                behavior:
+                                                                    "smooth",
+                                                            });
+                                                            ref.current.click();
+                                                        }}
                                                     >
                                                         {sub_service.name}
                                                     </Link>
@@ -669,6 +710,6 @@ const Footer = (props) => {
             </div>
         </>
     );
-}
+};
 
 export default withRouter(Footer);
