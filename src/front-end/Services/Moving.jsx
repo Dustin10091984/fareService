@@ -42,7 +42,6 @@ export const Moving = (props) => {
 
     const [zipCodes, setZipCodes] = useState();
     const [zipCodesList, setZipCodesList] = useState();
-    console.log(zipCodesList);
     const closeRef = useRef(null);
 
     const dispatch = useDispatch();

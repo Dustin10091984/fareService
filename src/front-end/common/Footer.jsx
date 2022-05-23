@@ -12,12 +12,9 @@ const Footer = (props) => {
     const location = useLocation();
     const dispatch = useDispatch();
 
-    console.log(location);
-
     const ref = useRef(null);
 
-    const date = new Date();
-    const year = date.getFullYear();
+    const year = new Date().getFullYear();
 
     const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
     const pages = useSelector((state) => state?.footerReducer?.pages);

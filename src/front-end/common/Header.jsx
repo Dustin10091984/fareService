@@ -79,7 +79,6 @@ const Header = (props) => {
     useEffect(() => {
         if (state?.is_loggedin) {
             if (notification?.fcmMessageId) {
-                console.log(notification);
                 ref.current.click();
             }
         }
