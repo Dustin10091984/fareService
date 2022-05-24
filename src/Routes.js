@@ -42,13 +42,13 @@ const PublicRoutes = [
     },
     {
         name: 'User Signup',
-        path: 'register',
+        path: '/register',
         component: Register,
         hash: '',
     },
     {
         name: 'Login',
-        path: 'login',
+        path: '/login',
         component: Login,
         hash: '',
     },

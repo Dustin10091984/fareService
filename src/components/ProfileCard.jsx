@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, memo } from "react";
 import { toast } from "react-toastify";
 import Rating from "./Rating";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import { HOST } from "../constants";
 const ProfileCard = ({ profile }) => {
     const dispatch = useDispatch();
     const imageUpdate = useSelector((state) => state.userReducer.imageUpdate);
+
+    console.log("sldkj");
 
     useEffect(() => {
         return () => {
@@ -105,4 +107,4 @@ const ProfileCard = ({ profile }) => {
     );
 };
 
-export default ProfileCard;
+export default memo(ProfileCard);

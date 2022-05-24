@@ -4,11 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-const Profile = ({ profile }) => {
+const Profile = ({ profile: { data } }) => {
     const loading = useRef(null);
     const dispatch = useDispatch();
     const [state, setState] = useState({ errors: {} });
-
     const {
         register,
         handleSubmit,
@@ -29,14 +28,14 @@ const Profile = ({ profile }) => {
     // }, []);
 
     useEffect(() => {
-        if (profile) {
+        if (data) {
             setState((prevState) => ({
                 ...prevState,
-                profile: profile?.data,
+                profile: data,
             }));
-            reset(profile?.data);
+            reset(data);
         }
-    }, [profile?.data]);
+    }, [data]);
 
     useEffect(() => {
         if (updateProfile?.error) {
@@ -329,4 +328,4 @@ const Profile = ({ profile }) => {
     );
 };
 
-export default Profile;
+export default React.memo(Profile);
