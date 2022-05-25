@@ -132,7 +132,7 @@ const PublicRoutes = [
     },
     {
         name: 'Pages',
-        path: '/pages/:name',
+        path: '/page/:name',
         component: Page,
         hash: '',
     },
