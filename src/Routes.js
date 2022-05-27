@@ -24,6 +24,7 @@ import { ProviderProfile } from "./front-end/ProviderProfile"
 import { Restaurant } from "./front-end/Restaurant"
 import { RestaurantPage } from "./front-end/RestaurantPage"
 import { ServiceProviders } from "./front-end/ServiceProviders"
+import { MovingRequest } from "./front-end/moving/index"
 import { RegistrationPage } from "./views/Provider/Registration"
 import { ServicesPage } from "./views/ServicesPage"
 
@@ -65,9 +66,9 @@ const PublicRoutes = [
         hash: '',
     },
     {
-        name: 'House Cleaning',
-        path: '/house-cleaning',
-        component: HouseCleaning,
+        name: 'Moving Request',
+        path: '/moving-request',
+        component: MovingRequest,
         hash: '',
     },
     {
