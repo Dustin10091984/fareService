@@ -73,7 +73,8 @@ export const ServicesHistory = (props) => {
     // }, [feedbackData])
 
     useEffect(() => {
-        dispatch(getServiceRequestList(location?.search || ""));
+        !serviceRequestList?.data?.length &&
+            dispatch(getServiceRequestList(location?.search || ""));
         const interval = setInterval(() => {
             setState((state) => ({ ...state, second: state.second + 1 }));
         }, 1000);
