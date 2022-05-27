@@ -98,19 +98,19 @@ const Header = (props) => {
                 ...prev,
                 is_search: true,
             }));
-            const includesValue = (word, obj) => {
-                return _.some(obj, (value) => _.includes(value, word));
-            };
+            const includesValue = (word, obj) =>
+                _.some(obj?.name, (value) =>
+                    _.includes(value.toLowerCase(), word)
+                );
             const words = _.words(value);
             let subServices = [];
             state?.header_menu.forEach((menu) => {
                 if (menu.sub_services) {
                     const searchResult = menu?.sub_services?.filter(
-                        (subService) => {
-                            return words.every((word) =>
-                                includesValue(word, subService)
-                            );
-                        }
+                        (subService) =>
+                            words.every((word) =>
+                                includesValue(word?.toLowerCase(), subService)
+                            )
                     );
                     if (searchResult?.length > 0) {
                         subServices = [...subServices, ...searchResult];
