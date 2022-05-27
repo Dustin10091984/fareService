@@ -6,6 +6,7 @@ import { GOOGLE_API, HOST } from "../../../constants";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Select from "react-select";
 
 const Basic = ({
     step,
@@ -515,6 +516,10 @@ const SelectZipCode = ({
     headerMenu,
     handleServiceDetails,
     serviceDetail,
+    providerType,
+    handleProviderType,
+    handleServiceChange,
+    services,
 }) => {
     const [postalCode, setPostalCode] = useState({ errors: {} });
     const {
@@ -528,6 +533,15 @@ const SelectZipCode = ({
 
     const handleOnChange = (address) => {
         handleZipCode({ address });
+    };
+
+    const handleServiceSelect = (serviceData) => {
+        handleZipCode({
+            service_id:
+                providerType == "Individual"
+                    ? [serviceData.value]
+                    : [...serviceData.map((item) => item.value)],
+        });
     };
 
     // const handleOnSelect = async (address, placeId) => {
@@ -664,7 +678,12 @@ const SelectZipCode = ({
     };
 
     const handleOnSubmit = (data) => {
-        handleServiceDetails({ ...data, zip_code: zipCode?.zip_code });
+        handleServiceDetails({
+            ...data,
+            zip_code: zipCode?.zip_code,
+            services: services,
+            from_web: true,
+        });
     };
     return (
         <div className="login-from step-4">
@@ -674,10 +693,25 @@ const SelectZipCode = ({
                 </div>
             )}
             <form onSubmit={handleSubmit(handleOnSubmit)}>
+                <ProviderType
+                    providerType={providerType}
+                    handleProviderType={(data) => handleProviderType(data)}
+                />
+                <label htmlFor="service_id">Services</label>
+                <Select
+                    isMulti={providerType == "Individual" ? false : true}
+                    options={[
+                        ...headerMenu?.map((item) => ({
+                            value: item.id,
+                            label: item.name,
+                        })),
+                    ]}
+                    onChange={handleServiceSelect}
+                    placeholder="Select Services"
+                />
                 <div className="common-input mb-4">
-                    <label htmlFor="service_id">Services</label>
                     <div className="form-title mb-3">
-                        <select
+                        {/* <select
                             {...register("service_id", {
                                 required: true,
                                 value: "",
@@ -702,7 +736,7 @@ const SelectZipCode = ({
                                         </React.Fragment>
                                     )
                             )}
-                        </select>
+                        </select> */}
                         {errors?.service_id &&
                             errors?.service_id?.type === "required" && (
                                 <div className="text-danger">
@@ -712,31 +746,60 @@ const SelectZipCode = ({
                     </div>
                 </div>
                 <div className="common-input mb-4">
-                    <div className="d-flex flex-wrap" id="subService">
-                        {zipCode?.service_id &&
-                            headerMenu
-                                ?.find(
-                                    (service) =>
-                                        service?.id == zipCode?.service_id
-                                )
-                                ?.sub_services?.map((item) => (
-                                    <label
-                                        key={item.id}
-                                        className="custom-check mr-4"
+                    {zipCode?.service_id?.map((serviceId, idx) =>
+                        ((service) => {
+                            return (
+                                <React.Fragment key={idx}>
+                                    <div className="mb-2">{service?.name}</div>
+                                    <div
+                                        className="d-flex flex-wrap"
+                                        id="subService"
                                     >
-                                        {item?.name}
-                                        <input
-                                            className="checkbox"
-                                            type="checkbox"
-                                            {...register("sub_services", {
-                                                required: true,
-                                            })}
-                                            defaultValue={item?.id}
-                                        ></input>
-                                        <span className="checkmark"></span>
-                                    </label>
-                                ))}
-                    </div>
+                                        {service?.sub_services?.map(
+                                            (item, index) => (
+                                                <React.Fragment key={index}>
+                                                    <label
+                                                        key={item.id}
+                                                        className="custom-check mr-4"
+                                                    >
+                                                        {item?.name}
+                                                        <input
+                                                            className="checkbox"
+                                                            type="checkbox"
+                                                            onClick={() => {
+                                                                handleServiceChange(
+                                                                    {
+                                                                        serviceId:
+                                                                            service.id,
+                                                                        subServiceId:
+                                                                            item?.id,
+                                                                    }
+                                                                );
+                                                            }}
+                                                            // {...register(
+                                                            //     "sub_services",
+                                                            //     {
+                                                            //         required: true,
+                                                            //     }
+                                                            // )}
+                                                            defaultValue={
+                                                                item?.id
+                                                            }
+                                                        ></input>
+                                                        <span className="checkmark"></span>
+                                                    </label>
+                                                </React.Fragment>
+                                            )
+                                        )}
+                                    </div>
+                                </React.Fragment>
+                            );
+                        })(
+                            headerMenu?.find(
+                                (service) => service?.id == serviceId
+                            )
+                        )
+                    )}
                     {errors.sub_services && (
                         <div className="text-danger">
                             Please select at least one sub service
@@ -752,7 +815,6 @@ const SelectZipCode = ({
                             name="postal_code"
                             placeholder="E.X 2323"
                             autoComplete="postal_code"
-                            defaultValue={""}
                             value={postalCode?.postal_code || ""}
                             onChange={handleChangePostalCode}
                         />
@@ -823,7 +885,10 @@ const SelectZipCode = ({
                         type="submit"
                         disabled={
                             zipCode?.zip_code?.length === 0 ||
-                            serviceDetail?.loading
+                            serviceDetail?.loading ||
+                            services?.find((service) => {
+                                return !service?.subServiceIds?.length === 1;
+                            })
                         }
                     >
                         {serviceDetail?.loading ? (
@@ -858,47 +923,46 @@ const ProviderType = ({
     };
 
     return (
-        <div className="login-from step-5">
-            <form onSubmit={handleSubmit(handleOnSubmit)}>
-                <div className="common-input mb-4">
-                    <div className="form-title mb-3">Choose your role?</div>
-                </div>
+        <div className="step-5">
+            {/* <form onSubmit={handleSubmit(handleOnSubmit)}> */}
+            <div className="common-input mb-4">
+                <div className="form-title mb-3">Choose your role?</div>
+            </div>
 
-                <label className="custom-radio">
-                    I am a individual
-                    <input
-                        type="radio"
-                        name="type"
-                        value="Individual"
-                        {...register("type", {
-                            required: true,
-                            onChange: (e) => {
-                                handleProviderType(e.target.value);
-                            },
-                        })}
-                        defaultChecked={providerType === "Individual"}
-                    />
-                    <span className="checkmark"></span>
-                </label>
-                <label className="custom-radio">
-                    We are a company
-                    <input
-                        type="radio"
-                        name="type"
-                        value="Business"
-                        {...register("type", {
-                            required: true,
-                            onChange: (e) => {
-                                handleProviderType(e.target.value);
-                            },
-                        })}
-                        defaultChecked={providerType === "Business"}
-                    />
-                    <span className="checkmark"></span>
-                </label>
+            <label className="custom-radio">
+                I am a individual
+                <input
+                    type="radio"
+                    name="type"
+                    value="Individual"
+                    {...register("type", {
+                        required: true,
+                        onChange: (e) => {
+                            handleProviderType(e.target.value);
+                        },
+                    })}
+                    defaultChecked={providerType === "Individual"}
+                />
+                <span className="checkmark"></span>
+            </label>
+            <label className="custom-radio">
+                We are a company
+                <input
+                    type="radio"
+                    name="type"
+                    value="Business"
+                    {...register("type", {
+                        required: true,
+                        onChange: (e) => {
+                            handleProviderType(e.target.value);
+                        },
+                    })}
+                    defaultChecked={providerType === "Business"}
+                />
+                <span className="checkmark"></span>
+            </label>
 
-
-                <div className="d-flex justify-content-between">
+            {/* <div className="d-flex justify-content-between">
                     <button
                         className="btn btn-primary w-100 mt-3"
                         id="step-4-back"
@@ -916,8 +980,8 @@ const ProviderType = ({
                     >
                         Next
                     </button>
-                </div>
-            </form>
+                </div> */}
+            {/* </form> */}
         </div>
     );
 };
@@ -978,12 +1042,17 @@ const ProfileDetail = ({
         <div className="login-from step-6-user">
             <form onSubmit={handleSubmit(handleOnSubmitProfile)}>
                 <div className="common-input mb-4">
-                    <div className="form-title mb-3 text-center">Profile Setting</div>
+                    <div className="form-title mb-3 text-center">
+                        Profile Setting
+                    </div>
 
                     <div className="user-profile">
                         <div className="user-image d-flex align-items-center justify-content-center">
                             <img
-                                src={profile?.image || '/assets/img/Profile_avatar.png'}
+                                src={
+                                    profile?.image ||
+                                    "/assets/img/Profile_avatar.png"
+                                }
                                 className="img-fluid"
                                 alt=""
                             />
@@ -1009,7 +1078,6 @@ const ProfileDetail = ({
                             <label htmlFor="name">First Name</label>
                             <input
                                 type="text"
-                                
                                 placeholder="First name"
                                 value={profile?.first_name}
                                 readOnly
@@ -1019,7 +1087,6 @@ const ProfileDetail = ({
                             <label htmlFor="name">Last Name</label>
                             <input
                                 type="text"
-                                
                                 placeholder="last name"
                                 value={profile?.last_name}
                                 readOnly
@@ -1216,9 +1283,7 @@ const ProfileDetail = ({
                 <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={` ${
-                            errors?.zip_code ? "is-invalid" : ""
-                        }`}
+                        className={` ${errors?.zip_code ? "is-invalid" : ""}`}
                         placeholder="zip code"
                         {...register("zip_code", {
                             required: true,
@@ -1237,9 +1302,7 @@ const ProfileDetail = ({
                 <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={` ${
-                            errors?.city ? "is-invalid" : ""
-                        }`}
+                        className={` ${errors?.city ? "is-invalid" : ""}`}
                         placeholder="City"
                         {...register("city", {
                             required: true,
@@ -1258,9 +1321,7 @@ const ProfileDetail = ({
                 <div className="common-input mb-4">
                     <input
                         type="text"
-                        className={` ${
-                            errors?.state ? "is-invalid" : ""
-                        }`}
+                        className={` ${errors?.state ? "is-invalid" : ""}`}
                         placeholder="state"
                         {...register("state", {
                             required: true,
@@ -1281,9 +1342,7 @@ const ProfileDetail = ({
                     <label htmlFor="name">Bio</label>
                     <textarea
                         type="text"
-                        className={` ${
-                            errors?.bio ? "is-invalid" : ""
-                        }`}
+                        className={` ${errors?.bio ? "is-invalid" : ""}`}
                         id="name"
                         placeholder="Enter you bio"
                         {...register("bio", {
@@ -1324,7 +1383,7 @@ const ProfileDetail = ({
                         className="btn btn-primary w-100 mt-3"
                         id="step-6-back"
                         type="button"
-                        onClick={() => handleStep(5)}
+                        onClick={() => handleStep(4)}
                         disabled={profileDetails?.loading}
                     >
                         Back
