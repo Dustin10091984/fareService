@@ -10,7 +10,12 @@ export const ProductDelivery = (props) => {
     const [state, setState] = useState({});
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getOrderList({ type: ProductType.GROCERY }));
+        if (
+            orderList?.length === 0 ||
+            (orderList?.length && orderList[0].type != ProductType.GROCERY)
+        ) {
+            dispatch(getOrderList({ type: ProductType.GROCERY }));
+        }
     }, []);
     const orderLoading = useSelector(
         (state) => state.orderReducer?.list?.loading

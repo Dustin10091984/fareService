@@ -10,7 +10,12 @@ export const FoodDelivery = (props) => {
     const [state, setState] = useState({});
     const dispatch = useDispatch();
     useEffect(() => {
+    if (
+        orderList?.length === 0 ||
+        (orderList?.length && orderList[0].type != ProductType.FOOD)
+    ) {
         dispatch(getOrderList({ type: ProductType.FOOD }));
+    }
     }, []);
     const orderLoading = useSelector(
         (state) => state.orderReducer?.list?.loading
