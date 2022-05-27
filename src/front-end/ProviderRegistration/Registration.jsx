@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import types from "react-day-picker";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import {
@@ -39,9 +40,19 @@ const Registration = (props) => {
     const [zipCode, setZipCode] = useState({
         address: "",
         zip_code: [],
-        service_id: "",
+        service_id: [],
     });
     const [providerType, setProviderType] = useState();
+    const [services, setServices] = useState([
+        // {
+        //     serviceId: 1,
+        //     subServiceIds: [1, 2, 3],
+        // },
+        // {
+        //     serviceId: 2,
+        //     subServiceIds: [4, 5, 6],
+        // },
+    ]);
     const [profile, setProfile] = useState({
         image: "",
     });
@@ -207,7 +218,11 @@ const Registration = (props) => {
             }));
             return;
         } else {
-            if (basic.code == "+234" || basic.code == "+92" || basic.code == "+1") {
+            if (
+                basic.code == "+234" ||
+                basic.code == "+92" ||
+                basic.code == "+1"
+            ) {
                 let error = "Phone number should be of 10 digits";
                 if (phone.length == 10) {
                     error = "";
@@ -294,6 +309,64 @@ const Registration = (props) => {
         }
     };
 
+    const handleServiceChange = ({ serviceId, subServiceId }) => {
+        setServices((prvServices) => {
+            let isExsitsService = prvServices?.find(
+                (service) => service.serviceId == serviceId
+            );
+            if (isExsitsService) {
+                let isExsitsSubService = isExsitsService?.subServiceIds?.find(
+                    (subService) => subService == subServiceId
+                );
+                if (isExsitsSubService) {
+                    return [
+                        ...prvServices?.map((filterService) => {
+                            if (filterService.serviceId == serviceId) {
+                                return {
+                                    serviceId: filterService?.serviceId,
+                                    subServiceIds: [
+                                        ...filterService?.subServiceIds?.filter(
+                                            (subId) => subId != subServiceId
+                                        ),
+                                    ],
+                                };
+                            } else {
+                                return {
+                                    serviceId: filterService?.serviceId,
+                                    subServiceIds: filterService?.subServiceIds,
+                                };
+                            }
+                        }),
+                    ];
+                } else {
+                    return [
+                        ...prvServices?.map((filterService) => {
+                            if (filterService.serviceId == serviceId) {
+                                return {
+                                    serviceId: filterService?.serviceId,
+                                    subServiceIds: [
+                                        ...filterService.subServiceIds,
+                                        subServiceId,
+                                    ],
+                                };
+                            } else {
+                                return {
+                                    serviceId: filterService?.serviceId,
+                                    subServiceIds: filterService?.subServiceIds,
+                                };
+                            }
+                        }),
+                    ];
+                }
+            } else {
+                return [
+                    ...prvServices,
+                    { serviceId, subServiceIds: [subServiceId] },
+                ];
+            }
+        });
+    };
+
     const handleZipCode = ({ address, zip_code, service_id }) => {
         if (address != undefined) {
             setZipCode((zipCode) => ({ ...zipCode, address }));
@@ -302,7 +375,10 @@ const Registration = (props) => {
             setZipCode((zipCode) => ({ ...zipCode, zip_code: zip_code }));
         }
         if (service_id != undefined) {
-            setZipCode((zipCode) => ({ ...zipCode, service_id }));
+            setZipCode((zipCode) => ({
+                ...zipCode,
+                service_id,
+            }));
         }
     };
 
@@ -410,10 +486,18 @@ const Registration = (props) => {
                                             handleZipCode(data);
                                         }}
                                         zipCode={zipCode}
+                                        services={services}
+                                        providerType={providerType}
+                                        handleProviderType={(data) =>
+                                            setProviderType(data)
+                                        }
+                                        handleServiceChange={(data) =>
+                                            handleServiceChange(data)
+                                        }
                                         {...props}
                                     />
                                 )}
-                                {step == 5 && (
+                                {/* {step == 5 && (
                                     <ProviderType
                                         handleStep={(step) => handleStep(step)}
                                         step={step}
@@ -422,8 +506,8 @@ const Registration = (props) => {
                                             setProviderType(data)
                                         }
                                     />
-                                )}
-                                {step == 6 &&
+                                )} */}
+                                {step == 5 &&
                                     (providerType == "Individual" ||
                                         providerType == "Business") && (
                                         <ProfileDetail
