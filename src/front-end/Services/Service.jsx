@@ -314,7 +314,7 @@ const Service = ({
                                     className="col-md-12 text-dark mb-2"
                                     style={{ fontSize: "1.5rem" }}
                                 >
-                                    ZipCode
+                                    Zip code
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <div className="common-input mb-4 mx-3">
