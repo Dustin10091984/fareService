@@ -44,6 +44,8 @@ export const Moving = (props) => {
     const [zipCodesList, setZipCodesList] = useState();
     const closeRef = useRef(null);
 
+    const [errors, setErrors] = useState();
+
     const dispatch = useDispatch();
 
     // const loading = useSelector((state) => state.movingReducer?.list?.loading);
@@ -136,9 +138,13 @@ export const Moving = (props) => {
     };
 
     const handleSearchZipCode = ({ target }) => {
-        setZipCodesList(
-            zipCodes.filter(({ code }) => code.includes(target.value))
+        const data = zipCodes?.filter(({ code }) =>
+            code.includes(target.value)
         );
+        setZipCodesList(data);
+        setErrors({
+            notFound: data.length ? "" : "Zip Code not found",
+        });
     };
 
     const handleFromAdessSelect = (from_address) => {
@@ -297,7 +303,7 @@ export const Moving = (props) => {
                 please select your moving location.
             </div>
 
-            <div className="mb-3">
+            <div className="mb-1">
                 {/* <hr /> */}
                 <h4 className="mx-3 my-1">
                     Choose service area
@@ -309,6 +315,10 @@ export const Moving = (props) => {
                             name="country"
                             value={cityCountry?.country}
                             onChange={(e) => {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    zip_code: "",
+                                }));
                                 handleCountryCityChange(e);
                             }}
                         >
@@ -328,6 +338,10 @@ export const Moving = (props) => {
                             disabled={!cityCountry?.country}
                             value={cityCountry?.city}
                             onChange={(e) => {
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    zip_code: "",
+                                }));
                                 handleCountryCityChange(e);
                             }}
                         >
@@ -368,15 +382,15 @@ export const Moving = (props) => {
                             handleChangeZipCode(e);
                             handleSearchZipCode(e);
                         }}
-                        onClick={(e) => {
-                            handleSearchZipCode(e);
-                        }}
+                        // onClick={(e) => {
+                        //     handleSearchZipCode(e);
+                        // }}
                         autoComplete="off"
                     />
                 </div>
-            </div>
-            <div className="col-md-12 text-danger">
-                {state?.zipCodeDataErr || state?.zipCodeErr}
+                {!!errors?.notFound && (
+                    <strong className="text-danger">{errors?.notFound}</strong>
+                )}
             </div>
 
             {/* {state.zipCodeData != "" && state.selectedZipCode == false && (
