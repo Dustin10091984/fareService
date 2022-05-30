@@ -29,13 +29,10 @@ const Service = ({
     const [zipCodesList, setZipCodesList] = useState();
 
     useEffect(() => {
-        getCountriesList({ sub_service_id: subServiceId });
-    }, []);
-
-    useEffect(() => {
         if (subServiceId && serviceData?.data?.id != subServiceId) {
             getServiceQuestion(subServiceId);
         }
+        !!subServiceId && getCountriesList({ sub_service_id: subServiceId });
     }, [subServiceId]);
 
     useEffect(() => {
@@ -359,7 +356,7 @@ const Service = ({
                                                     fontSize: "1.5rem",
                                                 }}
                                             >
-                                                Please Select ZipCode
+                                                Please Select Zip Code
                                             </center>
                                             {zipCodesList?.map(
                                                 (data, index) => (
