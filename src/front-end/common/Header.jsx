@@ -90,6 +90,7 @@ const Header = (props) => {
             ...state,
             is_loggedin: false,
         }));
+        history.push("/");
     };
 
     const mySearch = ({ target: { value } }) => {
