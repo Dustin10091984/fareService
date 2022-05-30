@@ -55,7 +55,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
         if ((newMsg, isChatOpen == true)) {
             dispatch(addMessage(newMsg));
         }
-    }, [newMsg]);
+    }, [newMsg?.id]);
 
     // useEffect(() => {
     //     if(notification?.fcmMessageId){

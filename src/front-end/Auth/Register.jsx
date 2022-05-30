@@ -18,7 +18,7 @@ const Register = (props) => {
             password_confirmation: "",
         },
         errors: {},
-        step: 3,
+        step: 1,
         timeLeft: 30,
         send: false,
         otpMessage: "",
