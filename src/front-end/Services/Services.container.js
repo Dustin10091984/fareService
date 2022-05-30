@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch) => {
         getVehicleTypes: () => {
             dispatch(getVehicleTypes());
         },
-        getCountriesList: () => {
-            dispatch(getCountriesList());
+        getCountriesList: (params) => {
+            dispatch(getCountriesList(params));
         }
     };
 };

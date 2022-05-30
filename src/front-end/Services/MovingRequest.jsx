@@ -12,7 +12,8 @@ const MovingRequest = ({
     handleStepClick,
     countriesData,
     cityCountry,
-    handleCountryCityChange
+    handleCountryCityChange,
+    getCountriesList,
 }) => {
     const ref = useRef(null);
     useEffect(() => {
@@ -22,13 +23,13 @@ const MovingRequest = ({
     }, []);
 
     useEffect(() => {
-        if(vehicleTypes?.data){
+        if (vehicleTypes?.data) {
             ref?.current?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
             });
         }
-    }, [vehicleTypes?.data])
+    }, [vehicleTypes?.data]);
 
     return (
         <>
@@ -98,6 +99,9 @@ const MovingRequest = ({
                                             }}
                                             onClick={() => {
                                                 handleSelectTypeClick(item.id);
+                                                getCountriesList({
+                                                    vehicle_type_id: item.id,
+                                                });
                                             }}
                                         >
                                             <div

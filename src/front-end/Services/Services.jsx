@@ -43,9 +43,9 @@ export const Services = (props) => {
         selected: {},
     });
 
-    useEffect(() => {
-        props?.getCountriesList();
-    }, []);
+    // useEffect(() => {
+    //     props?.getCountriesList();
+    // }, []);
 
     const handleChangeQuestion = ({ name, value }) => {
         setService({

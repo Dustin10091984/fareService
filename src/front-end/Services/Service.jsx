@@ -20,8 +20,17 @@ const Service = ({
         },
     } = props;
 
+    const [state, setState] = useState({
+        errors: {
+            notFound: "",
+        },
+    });
     const [zipCodes, setZipCodes] = useState();
     const [zipCodesList, setZipCodesList] = useState();
+
+    useEffect(() => {
+        getCountriesList({ sub_service_id: subServiceId });
+    }, []);
 
     useEffect(() => {
         if (subServiceId && serviceData?.data?.id != subServiceId) {
@@ -47,9 +56,15 @@ const Service = ({
     }, [cityCountry?.city, cityCountry?.country]);
 
     const handleSearchZipCode = ({ target }) => {
-        setZipCodesList(
-            zipCodes.filter(({ code }) => code.includes(target.value))
-        );
+        const data = zipCodes.filter(({ code }) => code.includes(target.value));
+        setZipCodesList(data);
+        setState((prevState) => ({
+            ...prevState,
+            errors: {
+                ...prevState.errors,
+                notFound: data.length ? "" : "No zip code found",
+            },
+        }));
     };
 
     return (
@@ -317,7 +332,7 @@ const Service = ({
                                     Zip code
                                 </div>
                                 <div className="d-flex justify-content-between">
-                                    <div className="common-input mb-4 mx-3">
+                                    <div className="common-input mb-2 mx-3">
                                         <input
                                             disabled={!cityCountry?.city}
                                             type="text"
@@ -325,9 +340,9 @@ const Service = ({
                                                 handleZipCodeChange(e);
                                                 handleSearchZipCode(e);
                                             }}
-                                            onClick={(e) => {
-                                                handleSearchZipCode(e);
-                                            }}
+                                            // onClick={(e) => {
+                                            //     handleSearchZipCode(e);
+                                            // }}
                                             name="zipCode"
                                             value={service?.zipCode}
                                             placeholder="Zip Code"
@@ -350,7 +365,7 @@ const Service = ({
                                                 (data, index) => (
                                                     <div
                                                         key={index}
-                                                        className="col-md-12 text-dark mb-1 mt-1"
+                                                        className="text-dark mb-1 mx-3 mt-1 p-1"
                                                         style={{
                                                             fontSize: "1.5rem",
                                                             border: "1px solid #F1F2F7",
@@ -375,10 +390,9 @@ const Service = ({
                                 ) : (
                                     <></>
                                 )}
-                                <div className="col-md-12 text-danger">
-                                    {service?.zipCodeDataErr ||
-                                        service?.zipCodeErr}
-                                </div>
+                                <strong className="col-md-12 text-danger">
+                                    {state?.errors?.notFound}
+                                </strong>
                                 {/* {service?.zipCodeErr} */}
                                 {/* </div> */}
                             </div>

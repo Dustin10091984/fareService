@@ -20,15 +20,13 @@ export default commonSlice.reducer
 
 
 const { getCountries } = commonSlice.actions
-export const getCountriesList = () => async dispatch => {
+export const getCountriesList = (params) => async dispatch => {
     try {
         dispatch(getCountries({ error: false, loading: true }))
         await axios({
             method: 'get',
             url: `${HOST}/api/user/services/countries`,
-            // params: {
-            //     chat_mark_read_id: chat_mark_read_id
-            // }
+            params,
         }).then((response) => {
             //handle success
             let data = response.data;
