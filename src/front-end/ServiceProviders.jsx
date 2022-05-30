@@ -769,13 +769,14 @@ export const ServiceProviders = (props) => {
                                                                             ServiceType.MOVING
                                                                         ) {
                                                                             return "Get a Qoutation";
-                                                                        }
-                                                                        if (
+                                                                        } else if (
                                                                             provider.account_type ===
                                                                                 "BASIC" &&
                                                                             provider
                                                                                 ?.provider_profile
-                                                                                ?.hourly_rate
+                                                                                ?.hourly_rate &&
+                                                                            provider.service_type !=
+                                                                                ServiceType.MOVING
                                                                         ) {
                                                                             return provider?.provider_schedules_count >
                                                                                 0
