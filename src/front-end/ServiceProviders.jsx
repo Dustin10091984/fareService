@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import {
@@ -24,6 +24,7 @@ import Swal from "sweetalert2";
 import DayPicker, { DateUtils } from "react-day-picker";
 // import "react-day-picker/lib/style.css";
 import "./Styles.css";
+import { MapLoadedApiContext } from "../helper/context";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
@@ -31,6 +32,8 @@ export const ServiceProviders = (props) => {
 
     const movingRef = useRef("movingModal");
     const qautationRef = useRef("qaotationModal");
+
+    const isLoaded = useContext(MapLoadedApiContext);
 
     const [state, setState] = useState({
         is_loggedin: false,
@@ -2040,7 +2043,7 @@ export const ServiceProviders = (props) => {
                                                 }
                                             }
                                         })()}
-                                    {movingError == false ||
+                                    {/* {movingError == false ||
                                         (!movingMessage && (
                                             <GoogleMap
                                                 {...props}
@@ -2056,7 +2059,7 @@ export const ServiceProviders = (props) => {
                                                     handleMoreDetailChange
                                                 }
                                             />
-                                        ))}
+                                        ))} */}
                                 </div>
                             </div>
                         </div>
@@ -2132,4 +2135,3 @@ export const ServiceProviders = (props) => {
         </>
     );
 };
-

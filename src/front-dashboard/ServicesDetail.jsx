@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Rating from "../components/Rating";
@@ -6,11 +6,13 @@ import Loading from "../front-end/common/Loading";
 import { getServiceRequest } from "../store/Slices/services/RequestServiceSclice";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
 import { HOST } from "../constants";
+import { MapLoadedApiContext } from "../helper/context";
 export const ServicesDetail = (props) => {
-
     const [state, setState] = useState({});
 
     const { id } = useParams();
+
+    const isLoaded = useContext(MapLoadedApiContext);
 
     const dispatch = useDispatch();
     const serviceRequestDetail = useSelector(
@@ -18,7 +20,12 @@ export const ServicesDetail = (props) => {
     );
 
     useEffect(() => {
-        dispatch(getServiceRequest(id));
+        if (
+            serviceRequestDetail?.data?.id != id ||
+            serviceRequestDetail?.data == undefined
+        ) {
+            dispatch(getServiceRequest(id));
+        }
     }, []);
 
     useEffect(() => {
@@ -91,8 +98,11 @@ export const ServicesDetail = (props) => {
                                                                 }
                                                                 className="img-fluid"
                                                                 alt=""
-                                                                onError={(e) => {
-                                                                    e.target.onerror = null;
+                                                                onError={(
+                                                                    e
+                                                                ) => {
+                                                                    e.target.onerror =
+                                                                        null;
                                                                     e.target.src =
                                                                         "/assets/img/Profile_avatar.png";
                                                                 }}
@@ -177,12 +187,12 @@ export const ServicesDetail = (props) => {
                                                     </div>
 
                                                     <div className="order-title">
-                                                    Service :{" "}
+                                                        Service :{" "}
                                                         <span className="order-num active">
-                                                        #{data?.id}
+                                                            #{data?.id}
                                                         </span>
                                                     </div>
-                                                    
+
                                                     <div className="order-title">
                                                         Request Status :{" "}
                                                         <span className="order-num active">
@@ -253,12 +263,12 @@ export const ServicesDetail = (props) => {
                                                         </>
                                                     )}
                                                 </div>
-                                                
                                             </div>
                                             <div className=" d-flex  align-items-center justify-content-between mb-5">
-                                                {(data?.type ==
+                                                {data?.type ==
                                                     "MOVING_REQUEST" &&
-                                                    state?.response) && (
+                                                    isLoaded &&
+                                                    state?.response && (
                                                         <Map
                                                             // required
                                                             id="direction-example"

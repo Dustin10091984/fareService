@@ -269,7 +269,7 @@ export const MyAccount = (props) => {
                                 fontSize: "2rem",
                             }}
                         >
-                            {isLoaded ? "My Account" : "testing"}
+                            My Account
                         </div>
                         <div className="row">
                             <div className="col-lg-4">

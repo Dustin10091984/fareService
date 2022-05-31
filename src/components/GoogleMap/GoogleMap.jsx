@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
 import moment from "moment";
 export const GoogleMap = (props) => {

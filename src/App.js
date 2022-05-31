@@ -52,7 +52,7 @@ import Footer from './front-end/common/Footer';
 // import { RegistrationPage } from "./views/Provider/Registration";
 // import { Page } from "./front-end/Page";
 
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCartList } from './store/Slices/cart/cartsSlice';
 import Echo from "laravel-echo";
@@ -78,6 +78,7 @@ function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
   const { hash } = useLocation();
 
 
@@ -86,7 +87,13 @@ function App() {
     setNotification(payload);
   });
 
-
+  useEffect(() => {
+    if (window.google && 'maps' in window.google) {
+      setIsLoaded(window.google.maps.version);
+    } else {
+      setIsLoaded(false);
+    }
+  }, [window.google])
 
   // const { isLoaded } = useJsApiLoader({
   //   id: "google-map-script",
@@ -187,7 +194,7 @@ function App() {
   return (
     <Elements stripe={stripePromise} >
       <LoginContext.Provider value={isLoggedIn}>
-        <MapLoadedApiContext.Provider value={{ isLoaded: true }}>
+        <MapLoadedApiContext.Provider value={isLoaded}>
           <div className="App">
             {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
             <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
