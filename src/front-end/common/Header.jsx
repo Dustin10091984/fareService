@@ -73,6 +73,11 @@ const Header = (props) => {
                 ...state,
                 is_loggedin: true,
             }));
+        } else {
+            setState((state) => ({
+                ...state,
+                is_loggedin: false,
+            }));
         }
     }, [localStorage.getItem("userToken")]);
 

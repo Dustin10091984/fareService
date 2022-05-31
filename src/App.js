@@ -67,18 +67,17 @@ import axios from 'axios'
 import { HOST } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
 import Routes from './Routes';
+import { LoginContext, MapLoadedApiContext } from './helper/context';
 // import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
 );
 
-
-export const MapLoadedApi = createContext(false);
-
 function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const { hash } = useLocation();
 
 
@@ -87,8 +86,8 @@ function App() {
     setNotification(payload);
   });
 
-  // onMessageListener()
-  //   .then((payload) => {
+
+
   // const { isLoaded } = useJsApiLoader({
   //   id: "google-map-script",
   //   googleMapsApiKey: process.env.React_APP_GOOGLE_API,
@@ -122,31 +121,35 @@ function App() {
   }, []);
 
   window.io = io;
-  // const option = {
-  //   host: `${HOST}:6001`,
-  //   broadcaster: 'socket.io',
-  // };
-  const liveOption = {
-    host: "https://api.farenow.com",
-    broadcaster: 'socket.io',
-  };
-  const localOption = {
-    host: "http://localhost:6001",
-    broadcaster: 'socket.io',
-  };
-  if (typeof window.io != 'undefined') {
-    window.Echo = new Echo(liveOption);
-    // client: io,
-    // auth: {headers: {Authorization: localStorage.userToken }}
 
-    window.Echo.connector.socket.on('connect', function () {
-      console.log("connect");
-    });
+  useEffect(() => {
+    // const option = {
+    //   host: `${HOST}:6001`,
+    //   broadcaster: 'socket.io',
+    // };
+    const liveOption = {
+      host: "https://api.farenow.com",
+      broadcaster: 'socket.io',
+    };
+    const localOption = {
+      host: "http://localhost:6001",
+      broadcaster: 'socket.io',
+    };
+    if (typeof window.io != 'undefined') {
+      window.Echo = new Echo(liveOption);
+      // client: io,
+      // auth: {headers: {Authorization: localStorage.userToken }}
 
-    window.Echo.connector.socket.on('disconnect', function () {
-      console.log("disconnect");
-    });
-  }
+      window.Echo.connector.socket.on('connect', function () {
+        console.log("connect");
+      });
+
+      window.Echo.connector.socket.on('disconnect', function () {
+        console.log("disconnect");
+      });
+    }
+  }, [window.io])
+
 
   useEffect(() => {
     // if not a hash link, scroll to top
@@ -172,25 +175,31 @@ function App() {
     }
   }, [hash]); // do this on route change
 
-
-
+  useEffect(() => {
+    if (!!localStorage.userToken) {
+      setIsLoggedIn(true)
+    } else {
+      localStorage.clear();
+      setIsLoggedIn(false)
+    }
+  }, [localStorage.userToken])
 
   return (
     <Elements stripe={stripePromise} >
-      <MapLoadedApi.Provider value={{ isLoaded: true }}>
-        <div className="App">
-          {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
-          <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
-          <Header notification={state}></Header>
-          <Routes />
-          <Footer />
-          <div style={{
-            fontSize: '1.5rem',
-          }}>
-          <ToastContainer autoClose={5000} position={toast.POSITION.TOP_CENTER} />
-        </div>
-      </div>
-      </MapLoadedApi.Provider>
+      <LoginContext.Provider value={isLoggedIn}>
+        <MapLoadedApiContext.Provider value={{ isLoaded: true }}>
+          <div className="App">
+            {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
+            <ReactNotificationComponent {...notification} handleMessageClick={handleMessageClick} />
+            <Header notification={state}></Header>
+            <Routes />
+            <Footer />
+            <div className='rem-1-5'>
+              <ToastContainer autoClose={5000} position={toast.POSITION.TOP_CENTER} />
+            </div>
+          </div>
+        </MapLoadedApiContext.Provider>
+      </LoginContext.Provider>
     </Elements>
   );
 }
