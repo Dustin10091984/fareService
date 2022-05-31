@@ -21,7 +21,7 @@ import Profile from "./Profile";
 import Loading from "../../front-end/common/Loading";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
 import Swal from "sweetalert2";
-import { MapLoadedApi } from "../../App";
+import { MapLoadedApiContext } from "./../../helper/context";
 
 export const MyAccount = (props) => {
     const stripe = useStripe();
@@ -245,7 +245,7 @@ export const MyAccount = (props) => {
     };
 
     return (
-        <MapLoadedApi.Consumer>
+        <MapLoadedApiContext.Consumer>
             {(isLoaded) => (
                 <>
                     <Loading
@@ -1008,6 +1008,6 @@ export const MyAccount = (props) => {
                     </div>
                 </>
             )}
-        </MapLoadedApi.Consumer>
+        </MapLoadedApiContext.Consumer>
     );
 };

@@ -14,7 +14,7 @@ import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 import Loading from "../common/Loading";
-import { MapLoadedApi } from "../../App";
+import { MapLoadedApiContext } from "../../helper/context";
 
 export const Moving = (props) => {
     const {
@@ -454,7 +454,7 @@ export const Moving = (props) => {
                 <></>
             )}
 
-            <MapLoadedApi.Consumer>
+            <MapLoadedApiContext.Consumer>
                 {(isLoading) =>
                     isLoading && (
                         <>
@@ -673,7 +673,7 @@ export const Moving = (props) => {
                         </>
                     )
                 }
-            </MapLoadedApi.Consumer>
+            </MapLoadedApiContext.Consumer>
 
             <div className="text-center">
                 {state.from_address !== "" &&
