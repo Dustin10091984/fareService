@@ -1,30 +1,22 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import moment from "moment";
-import {
-    getProviderList,
-    setStateProvider,
-} from "../store/Slices/providers/providerListSclice";
-import { getProviderSchedule } from "../store/Slices/providers/providerScheduleSclice";
-import { postRequestService } from "../store/Slices/services/RequestServiceSclice";
-import { getInitialRequestService } from "../store/Slices/services/RequestServiceSclice";
-import {
-    makeMovingRequest,
-    movingRequest as clearMovingRequest,
-} from "../store/Slices/moving/movingSlice";
-import ServiceType from "../constants/ServiceType";
-import { GoogleMap } from "../components/GoogleMap/GoogleMap";
+import { getInitialRequestService } from "./../../store/Slices/services/RequestServiceSclice";
+import { movingRequest as clearMovingRequest } from "./../../store/Slices/moving/movingSlice";
+import ServiceType from "./../../constants/ServiceType";
+// import { GoogleMap } from "../components/GoogleMap/GoogleMap";
 import { Link } from "react-router-dom";
 // import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
-import { HOST } from "./../constants";
-import Rating from "../components/Rating";
-import Loading from "./common/Loading";
+import { HOST } from "./../../constants";
+import Rating from "./../../components/Rating";
+import Loading from "./../common/Loading";
 import Swal from "sweetalert2";
 import DayPicker, { DateUtils } from "react-day-picker";
 // import "react-day-picker/lib/style.css";
-import "./Styles.css";
-import { MapLoadedApiContext } from "../helper/context";
+import "./Styles/Styles.css";
+import { MapLoadedApiContext } from "./../../helper/context";
+import { Filter } from "./Components/Filter";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
@@ -34,9 +26,7 @@ export const ServiceProviders = (props) => {
     const qautationRef = useRef("qaotationModal");
 
     const isLoaded = useContext(MapLoadedApiContext);
-console.log("====================================");
-console.log();
-console.log("====================================");
+
     const [state, setState] = useState({
         is_loggedin: false,
         loggedinErr: "",
@@ -62,29 +52,31 @@ console.log("====================================");
 
     const dispatch = useDispatch();
 
-    const providerList = useSelector((state) => state.provider);
-    const providerSchedule = useSelector((state) => state.providerSchedule);
-    const serviceRequest = useSelector((state) => state.serviceRequest);
+    // States
+    const {
+        providerList,
+        providerSchedule,
+        serviceRequest,
+        movingLoading,
+        movingRequest,
+        movingError,
+        movingMessage,
+    } = props;
 
-    const movingLoading = useSelector(
-        (state) => state.movingReducer?.movingRequest?.loading
-    );
-    const movingRequest = useSelector(
-        (state) => state.movingReducer?.movingRequest?.data
-    );
-    const movingError = useSelector(
-        (state) => state.movingReducer?.movingRequest?.error
-    );
-    const movingMessage = useSelector(
-        (state) => state.movingReducer?.movingRequest?.message
-    );
+    // Dispatch functions
+    const {
+        getProviderList,
+        getProviderSchedule,
+        makeMovingRequest,
+        postRequestService,
+    } = props;
 
-    useEffect(() => {
-        return () => {
-            dispatch(getInitialRequestService());
-            dispatch(setStateProvider(""));
-        };
-    }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         dispatch(getInitialRequestService());
+    //         dispatch(setStateProvider(""));
+    //     };
+    // }, []);
 
     useEffect(() => {
         if (localStorage.getItem("userToken")) {
@@ -98,17 +90,15 @@ console.log("====================================");
                 service_type: location?.state?.service_type,
                 vehicle_type_id: location?.state?.vehicle_type_id,
             }).toString();
-            dispatch(
-                getProviderList(
-                    `${
-                        props.location.search !== ""
-                            ? props.location.search + searchParams
-                            : `?${searchParams}`
-                    }`
-                )
+            getProviderList(
+                `${
+                    props.location.search !== ""
+                        ? props.location.search + searchParams
+                        : `?${searchParams}`
+                }`
             );
         } else {
-            dispatch(getProviderList(props.location.search));
+            getProviderList(props.location.search);
         }
     }, [
         props.location.search,
@@ -190,7 +180,7 @@ console.log("====================================");
                 }));
                 if (location?.state?.service_type !== ServiceType.MOVING) {
                     if (type == true) {
-                        dispatch(getProviderSchedule(value));
+                        getProviderSchedule(value);
                     }
                 }
             } else {
@@ -334,14 +324,12 @@ console.log("====================================");
                     email: state?.email || null,
                     detail: state?.detail || null,
                 };
-                dispatch(
-                    makeMovingRequest({
-                        ...moreDetails,
-                        ...location.state,
-                        date: moment(location.state.date).format("YYYY-MM-DD"),
-                        provider_id,
-                    })
-                );
+                makeMovingRequest({
+                    ...moreDetails,
+                    ...location.state,
+                    date: moment(location.state.date).format("YYYY-MM-DD"),
+                    provider_id,
+                });
             } else if (
                 is_hourly == false &&
                 location.state.service_type != ServiceType.MOVING
@@ -360,7 +348,7 @@ console.log("====================================");
                     JSON.stringify(props.location.state)
                 );
                 formData.append("provider_id", provider_id);
-                dispatch(postRequestService(formData, true));
+                postRequestService(formData, true);
             }
         } else {
             setState((state) => ({
@@ -445,10 +433,8 @@ console.log("====================================");
     };
 
     const handleLoadMoreClick = (page) => {
-        dispatch(
-            getProviderList(
-                !!location?.search && `${location?.search}&page=${page}`
-            )
+        getProviderList(
+            !!location?.search && `${location?.search}&page=${page}`
         );
         window.scrollTo(0, 0);
     };
@@ -471,106 +457,7 @@ console.log("====================================");
             <section className="service-provider-sec">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-4" style={{ zIndex: 0 }}>
-                            <div className="sticky-top">
-                                <div className="service-time-box">
-                                    <div className="date-ser mb-4">
-                                        <div className="title-servic px-2">
-                                            Date
-                                        </div>
-
-                                        <div className="time-list-pro">
-                                            <div className="mx-2 select-time">
-                                                Today
-                                            </div>
-                                            <div className="mx-2 select-time">
-                                                Within 3 days
-                                            </div>
-                                            <div className="mx-2 select-time">
-                                                Within a week
-                                            </div>
-                                            <div className="mx-2 select-time">
-                                                Chose Dates
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="title-servic px-2 mt-4">
-                                        Timing
-                                    </div>
-                                    <ul className="time-list mt-4 d-flex align-items-center justify-content-between flex-wrap">
-                                        <li className="d-flex align-items-center justify-content-center">
-                                            Morning (8AM - 12PM)
-                                        </li>
-                                        <li className="d-flex align-items-center justify-content-center">
-                                            Afternoon (12PM - 5PM)
-                                        </li>
-                                        <li className="d-flex align-items-center justify-content-center">
-                                            Afternoon (12PM - 5PM)
-                                        </li>
-                                    </ul>
-
-                                    <div className="common-input mb-4 ml-3 w-auto">
-                                        <select name="" id="">
-                                            <option value="">
-                                                Choose specific time
-                                            </option>
-                                            <option value="">
-                                                Choose specific time
-                                            </option>
-                                            <option value="">
-                                                Choose specific time
-                                            </option>
-                                            <option value="">
-                                                Choose specific time
-                                            </option>
-                                            <option value="">
-                                                Choose specific time
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <hr />
-
-                                    <div className="title-servic px-2 mt-4">
-                                        How often
-                                    </div>
-                                    <div className="time-list-pro">
-                                        <div className="mx-2 select-time">
-                                            Weekly
-                                        </div>
-                                        <div className="mx-2 select-time">
-                                            Every 2 Weeks
-                                        </div>
-                                        <div className="mx-2 select-time">
-                                            Every 4 Weeks
-                                        </div>
-                                        <div className="mx-2 select-time">
-                                            Just Once
-                                        </div>
-                                    </div>
-                                    <div className="ser-des">
-                                        Amet minim mollit non deserunt ullamco
-                                        est sit aliqua dolor do amet sint. Velit
-                                        officia consequat duis enim velit
-                                        mollit. Exercitation veniam consequat
-                                        sunt nostrud amet.
-                                    </div>
-
-                                    <hr />
-
-                                    <ul className="time-list mt-4 d-flex align-items-start flex-column">
-                                        <li className="d-flex align-items-center justify-content-center">
-                                            Elite Tasker
-                                        </li>
-                                        <li className="d-flex align-items-center justify-content-center">
-                                            Great Value
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
+                        <Filter></Filter>
                         <div className="col-md-8">
                             {state.error}
                             {state.loggedinErr}
@@ -1006,62 +893,7 @@ console.log("====================================");
                                                 rating={5}
                                                 justify="start"
                                             />
-                                            {/* <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
-                                                <div className="star-rating-area">
-                                                    <div className="star-rating-area d-flex align-items-center justify-content-center">
-                                                        <div
-                                                            className="rating-static clearfix mr-3"
-                                                            rel="4.6"
-                                                        >
-                                                            <label
-                                                                className="full"
-                                                                title="{{ 'Awesome - 5 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="half"
-                                                                title="{{ 'Excellent - 4.5 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="full"
-                                                                title="{{ 'Excellent - 4 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="half"
-                                                                title="{{ 'Better - 3.5 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="full"
-                                                                title="{{ 'Good - 3 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="half"
-                                                                title="{{ 'Good - 2.5 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="full"
-                                                                title="{{ 'Fair - 2 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="half"
-                                                                title="{{ 'Fair - 1.5 stars' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="full"
-                                                                title="{{ 'Bad - 1 star' | translate }}"
-                                                            ></label>
-                                                            <label
-                                                                className="half"
-                                                                title="{{ 'Bad - 0.5 stars' | translate }}"
-                                                            ></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
                                         </div>
-
-                                        {/* <a className="button-common" href="#">
-                                            Select & Continue
-                                        </a> */}
                                     </div>
                                 </div>
                             </div>
@@ -1910,7 +1742,7 @@ console.log("====================================");
                 </div>
             </div>
 
-            <div
+            {/* <div
                 className="modal fade bd-example-modal-lg"
                 id="moving"
                 tabIndex="-1"
@@ -1942,8 +1774,7 @@ console.log("====================================");
                             </button>
                         </div>
                         <div className="modal-body">
-                            {/* <div className="row">
-                            </div> */}
+                            <div className="row"></div>
                             <div className="row m-2">
                                 <div className="col-12">
                                     {movingRequest != undefined &&
@@ -2045,7 +1876,7 @@ console.log("====================================");
                                                 }
                                             }
                                         })()}
-                                    {/* {movingError == false ||
+                                    {movingError == false ||
                                         (!movingMessage && (
                                             <GoogleMap
                                                 {...props}
@@ -2061,7 +1892,7 @@ console.log("====================================");
                                                     handleMoreDetailChange
                                                 }
                                             />
-                                        ))} */}
+                                        ))}
                                 </div>
                             </div>
                         </div>
@@ -2133,7 +1964,7 @@ console.log("====================================");
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };
