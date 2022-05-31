@@ -434,12 +434,12 @@ const Service = ({
                         {serviceData?.data?.service_requests.length > 0 && (
                             <>
                                 <div className="title">We recommend you!</div>
-                                <ul className="time-list d-flex align-items-center justify-content-between flex-wrap recommend-times">
+                                <ul className="time-list d-flex align-items-center justify-content-center flex-wrap recommend-times">
                                     {serviceData?.data?.service_requests?.map(
                                         (service, index) => (
                                             <li
                                                 key={index}
-                                                className="d-flex align-items-center justify-content-center"
+                                                className="cursor-default d-flex align-items-center justify-content-center"
                                             >
                                                 {service?.hours} hours
                                             </li>

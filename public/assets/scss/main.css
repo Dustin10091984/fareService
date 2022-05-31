@@ -1721,11 +1721,12 @@ body {
 }
 
 
-.time-list li:hover {
+/* .time-list li:hover {
     background: #fea629;
     color: #fff;
 }
 
+*/
 .common-input {
     width: 100%;
 }
@@ -3425,4 +3426,7 @@ input::-webkit-inner-spin-button {
     margin-top: -3rem;
     position: relative;
     cursor: pointer;
+}
+.cursor-default {
+    cursor: default !important;
 }
