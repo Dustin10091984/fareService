@@ -3280,8 +3280,8 @@ section.best-house-clen.pad-y,
 }
 .time-list.recommend-times li {
     width: auto;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    /* margin-left: auto !important;
+        margin-right: auto !important; */
 }
 
 .qust-inputs-box{
