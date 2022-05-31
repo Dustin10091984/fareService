@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { GoogleMap as Map, DirectionsRenderer } from "@react-google-maps/api";
 import Swal from "sweetalert2";
+import { MapLoadedApiContext } from "../../helper/context";
 
 const MovingRequest = (props) => {
     const { location } = props;
@@ -14,18 +15,24 @@ const MovingRequest = (props) => {
     } = props;
     const [directionsService, setDirectionsService] = useState(null);
     const [state, setState] = useState({ response: null });
-    console.log(movingRequestData, movingRequestLoading);
+
+    const isLoaded = useContext(MapLoadedApiContext);
+
     useEffect(() => {
         setState({
             ...state,
             from_address: location?.state?.from_address,
             to_address: location?.state?.to_address,
         });
-        return new Promise(async (resolve) => {
-            setDirectionsService(new window.google.maps.DirectionsService());
-            resolve();
-        });
-    }, []);
+        if (isLoaded) {
+            return new Promise(async (resolve) => {
+                setDirectionsService(
+                    new window.google.maps.DirectionsService()
+                );
+                resolve();
+            });
+        }
+    }, [isLoaded]);
 
     useEffect(() => {
         if (movingRequestData && movingRequestLoading == false) {
@@ -104,30 +111,32 @@ const MovingRequest = (props) => {
                         <div className="qoutes-map-box p-4">
                             <div className="map-title mb-3">Moving Address</div>
                             <div className="map-box-new">
-                                <Map
-                                    // required
-                                    id="direction-example"
-                                    // required
-                                    mapContainerStyle={{
-                                        height: "30rem",
-                                        width: "100%",
-                                    }}
-                                    // center={{
-                                    //     lat: 0,
-                                    //     lng: -180,
-                                    // }}
-                                    // required
-                                    zoom={7}
-                                >
-                                    {state?.response !== null && (
-                                        <DirectionsRenderer
-                                            // required
-                                            options={{
-                                                directions: state?.response,
-                                            }}
-                                        />
-                                    )}
-                                </Map>
+                                {isLoaded && (
+                                    <Map
+                                        // required
+                                        id="direction-example"
+                                        // required
+                                        mapContainerStyle={{
+                                            height: "30rem",
+                                            width: "100%",
+                                        }}
+                                        // center={{
+                                        //     lat: 0,
+                                        //     lng: -180,
+                                        // }}
+                                        // required
+                                        zoom={7}
+                                    >
+                                        {state?.response !== null && (
+                                            <DirectionsRenderer
+                                                // required
+                                                options={{
+                                                    directions: state?.response,
+                                                }}
+                                            />
+                                        )}
+                                    </Map>
+                                )}
                             </div>
 
                             <div className="request-information mt-4 p-4">
