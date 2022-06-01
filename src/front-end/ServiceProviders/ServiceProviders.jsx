@@ -1353,7 +1353,7 @@ export const ServiceProviders = (props) => {
                             <button
                                 type="button"
                                 className="button-common"
-                                onClick={handleCloseModalClick}
+                                onClick={() => handleCloseModalClick}
                                 data-dismiss="modal"
                             >
                                 Close
@@ -1514,6 +1514,7 @@ export const ServiceProviders = (props) => {
                                                             icon: "success",
                                                             confirmButtonColor:
                                                                 "#fea629",
+                                                            allowOutsideClick: false,
                                                         }).then((result) => {
                                                             if (
                                                                 result.isConfirmed
@@ -1705,7 +1706,7 @@ export const ServiceProviders = (props) => {
                             <button
                                 type="button"
                                 className="button-common"
-                                onClick={handleCloseModalClick}
+                                onClick={() => handleCloseModalClick}
                                 data-dismiss="modal"
                                 ref={qautationRef}
                             >
@@ -1768,7 +1769,7 @@ export const ServiceProviders = (props) => {
                                 data-dismiss="modal"
                                 aria-label="Close"
                                 ref={movingRef}
-                                onClick={handleCloseModalClick}
+                                onClick={()=>handleCloseModalClick}
                             >
                                 <span aria-hidden="true">&times;</span>
                             </button>
