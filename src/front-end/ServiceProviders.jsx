@@ -151,6 +151,7 @@ console.log("====================================");
                 confirmButtonText: "Close",
                 icon: "error",
                 confirmButtonColor: "#fea629",
+                showCloseButton: true,
             });
             return;
         }
@@ -162,6 +163,7 @@ console.log("====================================");
                 confirmButtonText: "Go To Services History",
                 icon: "success",
                 confirmButtonColor: "#fea629",
+                showCloseButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleGoToServicesHistory();
@@ -919,6 +921,7 @@ console.log("====================================");
                                             confirmButtonText: "Close",
                                             icon: "error",
                                             confirmButtonColor: "#fea629",
+                                            showCloseButton: true,
                                         });
                                     })()}
                                     <div className="text-center display-4">
@@ -1615,6 +1618,7 @@ console.log("====================================");
                                                             icon: "error",
                                                             confirmButtonColor:
                                                                 "#fea629",
+                                                            showCloseButton: true,
                                                         });
                                                         return (
                                                             <div
@@ -1682,6 +1686,7 @@ console.log("====================================");
                                                             icon: "success",
                                                             confirmButtonColor:
                                                                 "#fea629",
+                                                            showCloseButton: true,
                                                         }).then((result) => {
                                                             if (
                                                                 result.isConfirmed

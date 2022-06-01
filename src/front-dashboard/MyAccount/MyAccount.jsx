@@ -389,6 +389,8 @@ export const MyAccount = (props) => {
                                                                                       "#d33",
                                                                                   confirmButtonText:
                                                                                       "Yes, delete it!",
+                                                                                  allowOutsideClick: false,
+                                                                                  showCloseButton: true,
                                                                               }
                                                                           ).then(
                                                                               (
@@ -492,6 +494,8 @@ export const MyAccount = (props) => {
                                                                         "#d33",
                                                                     confirmButtonText:
                                                                         "Yes, delete it!",
+                                                                    allowOutsideClick: false,
+                                                                    showCloseButton: true,
                                                                 }).then(
                                                                     (
                                                                         result

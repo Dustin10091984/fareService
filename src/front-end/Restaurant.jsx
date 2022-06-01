@@ -96,6 +96,7 @@ export const Restaurant = (props) => {
                 confirmButtonText: "Close",
                 confirmButtonColor: "#fea629",
                 icon: "error",
+                showCloseButton: true,
             });
         }
     }, [list.error]);

@@ -43,6 +43,7 @@ const MovingRequest = (props) => {
                 icon: "success",
                 allowOutsideClick: false,
                 confirmButtonColor: "#fea629",
+                showCloseButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
                     clearMovingRequest("");
@@ -60,6 +61,8 @@ const MovingRequest = (props) => {
                 confirmButtonText: "Close",
                 icon: "error",
                 confirmButtonColor: "#fea629",
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
             return;
         }

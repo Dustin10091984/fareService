@@ -143,6 +143,7 @@ export const Cart = (props) => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
+            allowOutsideClick: false,
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(deleteCart(id));

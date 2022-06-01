@@ -52,6 +52,8 @@ const Profile = ({ profile: { data } }) => {
                 title: "Profile Updated Successfully",
                 showConfirmButton: false,
                 timer: 1500,
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
         }
     }, [updateProfile?.message]);

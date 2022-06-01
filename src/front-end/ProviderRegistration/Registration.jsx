@@ -114,6 +114,8 @@ const Registration = (props) => {
                 title: "Oops...",
                 text: "Something went wrong!",
                 confirmButtonColor: "#fea629",
+                showCloseButton: true,
+                allowOutsideClick: false,
             });
         }
     }, [basicInfoRes?.loading, basicInfoRes?.message]);
@@ -131,6 +133,8 @@ const Registration = (props) => {
                 title: "Oops...",
                 text: "Something went wrong!",
                 confirmButtonColor: "#fea629",
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
         }
     }, [serviceDetail?.loading, serviceDetail?.message]);
@@ -170,6 +174,8 @@ const Registration = (props) => {
                 title: "Oops...",
                 text: "Something went wrong!",
                 confirmButtonColor: "#fea629",
+                showCloseButton: true,
+                allowOutsideClick: false,
             });
         }
     }, [profileDetails]);
