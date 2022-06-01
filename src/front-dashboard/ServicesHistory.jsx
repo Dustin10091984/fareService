@@ -126,6 +126,8 @@ export const ServicesHistory = (props) => {
                 title: "Feedback added successfully!",
                 showConfirmButton: false,
                 timer: 1000,
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
             dispatch(serviceRequestListUpdate(feedbackData.service_request));
             // dispatch(getServiceRequestList(location.search));
@@ -1087,6 +1089,8 @@ export const ServicesHistory = (props) => {
                                                         title: payMessage,
                                                         showConfirmButton: false,
                                                         timer: 1000,
+                                                        allowOutsideClick: false,
+                                                        showCloseButton: true,
                                                     });
                                                     payRef.current.click();
                                                     return;

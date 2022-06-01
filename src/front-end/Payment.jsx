@@ -593,6 +593,7 @@ export const Payment = (props) => {
                                                         confirmButtonColor:
                                                             "#fea629",
                                                         icon: "error",
+                                                        showCloseButton: true,
                                                     });
                                                     return (
                                                         <div
@@ -658,6 +659,7 @@ export const Payment = (props) => {
                                                         icon: "success",
                                                         confirmButtonColor:
                                                             "#fea629",
+                                                        showCloseButton: true,
                                                     }).then((result) => {
                                                         if (
                                                             result.isConfirmed

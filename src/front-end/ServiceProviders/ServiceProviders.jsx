@@ -77,7 +77,6 @@ export const ServiceProviders = (props) => {
     //         dispatch(setStateProvider(""));
     //     };
     // }, []);
-
     useEffect(() => {
         if (localStorage.getItem("userToken")) {
             setState((state) => ({
@@ -141,17 +140,22 @@ export const ServiceProviders = (props) => {
                 confirmButtonText: "Close",
                 icon: "error",
                 confirmButtonColor: "#fea629",
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
             return;
         }
         if (movingError == false && movingMessage) {
             movingRef.current.click();
+            setOpen(false);
             Swal.fire({
                 title: "Success!",
                 text: "Request Successfully Sent",
                 confirmButtonText: "Go To Services History",
                 icon: "success",
                 confirmButtonColor: "#fea629",
+                allowOutsideClick: false,
+                showCancelButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
                     handleGoToServicesHistory();
@@ -806,6 +810,8 @@ export const ServiceProviders = (props) => {
                                             confirmButtonText: "Close",
                                             icon: "error",
                                             confirmButtonColor: "#fea629",
+                                            showCancelButton: false,
+                                            showCloseButton: true,
                                         });
                                     })()}
                                     <div className="text-center display-4">
@@ -1447,6 +1453,8 @@ export const ServiceProviders = (props) => {
                                                             icon: "error",
                                                             confirmButtonColor:
                                                                 "#fea629",
+                                                            allowOutsideClick: false,
+                                                            showCloseButton: true,
                                                         });
                                                         return (
                                                             <div
@@ -1506,6 +1514,7 @@ export const ServiceProviders = (props) => {
                                                 ) {
                                                     case "string":
                                                         qautationRef.current.click();
+                                                        setOpen(false);
                                                         Swal.fire({
                                                             title: "Success!",
                                                             text: "Successfully created request service",
@@ -1515,6 +1524,7 @@ export const ServiceProviders = (props) => {
                                                             confirmButtonColor:
                                                                 "#fea629",
                                                             allowOutsideClick: false,
+                                                            showCloseButton: true,
                                                         }).then((result) => {
                                                             if (
                                                                 result.isConfirmed
