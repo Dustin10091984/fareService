@@ -3430,3 +3430,9 @@ input::-webkit-inner-spin-button {
 .cursor-default {
     cursor: default !important;
 }
+.angle-icon {
+    margin-top: -1.5rem;
+    cursor: pointer;
+    font-weight: "bold";
+    color: #fea629;
+}
