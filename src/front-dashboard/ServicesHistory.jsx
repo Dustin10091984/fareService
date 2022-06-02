@@ -83,36 +83,6 @@ export const ServicesHistory = (props) => {
         };
     }, []);
 
-    // useEffect(() => {
-    // window.io = io;
-    // const liveOption = {
-    //     host: "http://api.farenow.com:6001",
-    //     broadcaster: 'socket.io',
-    //     client : window.io,
-    // };
-    // const localOption = {
-    //     host: "http://localhost:6001",
-    //     broadcaster: 'socket.io',
-    //     client : window.io,
-    // };
-    // // 'auth': {headers: {Authorization: localStorage.userToken }}
-    // // 'rejectUnauthorized': false,
-    // if (typeof window.io != 'undefined') {
-    //     window.Echo = new Echo(localOption);
-    //     window.Echo.connector.socket.on('connect', function(){
-    //         console.log("connect");
-    //     });
-    //     // window.Echo.connector.socket.on('disconnect', function(){
-    //     //     console.log("disconnect");
-    //     // });
-    //     window.Echo.channel('newMessage-3-2')
-    //     .listen('MessageEvent', (message) => {
-    //         console.log(message);
-    //     });
-    //     console.log(window.Echo);
-    // }
-    // });
-
     useEffect(() => {
         location?.search && dispatch(getServiceRequestList(location.search));
     }, [location.search]);
