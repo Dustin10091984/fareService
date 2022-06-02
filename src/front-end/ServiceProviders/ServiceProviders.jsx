@@ -4,19 +4,16 @@ import moment from "moment";
 import { getInitialRequestService } from "./../../store/Slices/services/RequestServiceSclice";
 import { movingRequest as clearMovingRequest } from "./../../store/Slices/moving/movingSlice";
 import ServiceType from "./../../constants/ServiceType";
-// import { GoogleMap } from "../components/GoogleMap/GoogleMap";
-import { Link } from "react-router-dom";
-// import Calendar from "react-calendar";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { HOST } from "./../../constants";
 import Rating from "./../../components/Rating";
 import Loading from "./../common/Loading";
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import DayPicker, { DateUtils } from "react-day-picker";
-// import "react-day-picker/lib/style.css";
 import "./Styles/Styles.css";
-import { MapLoadedApiContext } from "./../../helper/context";
 import { Filter } from "./Components/Filter";
+import { ProviderCard } from "./Components/ProviderCard";
 
 export const ServiceProviders = (props) => {
     const { location, history } = props;
@@ -25,7 +22,7 @@ export const ServiceProviders = (props) => {
     const movingRef = useRef("movingModal");
     const qautationRef = useRef("qaotationModal");
 
-    const isLoaded = useContext(MapLoadedApiContext);
+    const ReactSwal = withReactContent(Swal);
 
     const [state, setState] = useState({
         is_loggedin: false,
@@ -53,15 +50,7 @@ export const ServiceProviders = (props) => {
     const dispatch = useDispatch();
 
     // States
-    const {
-        providerList,
-        providerSchedule,
-        serviceRequest,
-        movingLoading,
-        movingRequest,
-        movingError,
-        movingMessage,
-    } = props;
+    const { providerList, providerSchedule, serviceRequest } = props;
 
     // Dispatch functions
     const {
@@ -71,12 +60,13 @@ export const ServiceProviders = (props) => {
         postRequestService,
     } = props;
 
-    // useEffect(() => {
-    //     return () => {
-    //         dispatch(getInitialRequestService());
-    //         dispatch(setStateProvider(""));
-    //     };
-    // }, []);
+    useEffect(() => {
+        return () => {
+            dispatch(getInitialRequestService());
+            // dispatch(setStateProvider(""));
+        };
+    }, []);
+
     useEffect(() => {
         if (localStorage.getItem("userToken")) {
             setState((state) => ({
@@ -105,65 +95,77 @@ export const ServiceProviders = (props) => {
         location?.state?.vehicle_type_id,
     ]);
 
-    useEffect(() => {
-        if (providerList !== undefined && !providerList.length) {
+    useEffect(async () => {
+        if (providerList.length) {
             setState((state) => ({
                 ...state,
                 providerList: providerList,
             }));
         }
-        if (providerSchedule !== undefined && !providerSchedule.length) {
+        if (providerSchedule.length) {
             setState((state) => ({
                 ...state,
                 providerSchedule: providerSchedule,
             }));
             handleCalendarClick(new Date());
         }
-        // if(serviceRequest !== undefined && serviceRequest !== null){
-        //     setState(state => ({
-        //         ...state,
-        //         serviceRequest: serviceRequest,
-        //         submitting: false
-        //     }));
-        // }
-    }, [
-        providerList,
-        providerSchedule,
-        // serviceRequest
-    ]);
-
-    useEffect(() => {
-        if (movingError == true) {
-            Swal.fire({
+        if (!providerList?.loading && providerList?.error) {
+            await ReactSwal.fire({
                 title: "Error",
-                text: movingMessage,
+                text: providerList?.message || "Not found provider",
                 confirmButtonText: "Close",
                 icon: "error",
+                confirmButtonColor: "#fea629",
+            });
+        }
+    }, [providerList, providerSchedule]);
+
+    useEffect(async () => {
+        const { error, loading } = serviceRequest;
+        if (
+            error == false &&
+            loading == false &&
+            serviceRequest?.message == "success"
+        ) {
+            qautationRef.current.click();
+            await ReactSwal.fire({
+                title: "Success!",
+                text: "Successfully created request service",
+                confirmButtonText: "Go To Service History",
+                icon: "success",
+                confirmButtonColor: "#fea629",
+                allowOutsideClick: false,
+                showCloseButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    handleGoToServicesHistory();
+                }
+                setState((state) => ({
+                    ...state,
+                    address: "",
+                    detail: "",
+                    images: [],
+                    previewImages: [],
+                }));
+            });
+        }
+        if (
+            error == true &&
+            loading == false &&
+            typeof serviceRequest?.message == "string"
+        ) {
+            qautationRef.current.click();
+            await ReactSwal.fire({
+                title: "Error!",
+                text: serviceRequest?.message,
+                icon: "error",
+                confirmButtonText: "Ok",
                 confirmButtonColor: "#fea629",
                 allowOutsideClick: false,
                 showCloseButton: true,
             });
-            return;
         }
-        if (movingError == false && movingMessage) {
-            movingRef.current.click();
-            setOpen(false);
-            Swal.fire({
-                title: "Success!",
-                text: "Request Successfully Sent",
-                confirmButtonText: "Go To Services History",
-                icon: "success",
-                confirmButtonColor: "#fea629",
-                allowOutsideClick: false,
-                showCancelButton: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    handleGoToServicesHistory();
-                    dispatch(clearMovingRequest(""));
-                }
-            });
-        }
-    }, [movingError, movingMessage]);
+    }, [serviceRequest]);
 
     function handleContinueClick(
         event,
@@ -250,14 +252,6 @@ export const ServiceProviders = (props) => {
             ...state,
             selectedSlot: state.selectedSlot == value ? "" : value,
         }));
-
-        // if (!selectedSlot.includes(value)){
-        //     selectedSlot.push(value);
-        //     setState((state) => ({ ...state, selectedSlot }));
-        // } else {
-        //     selectedSlot = selectedSlot.filter((selected)=> selected !== value);
-        //     setState((state) => ({ ...state, selectedSlot }));
-        // }
     };
 
     const handleAddressChange = (address) => {
@@ -415,27 +409,6 @@ export const ServiceProviders = (props) => {
         }
     };
 
-    const handleMoreDetailChange = (e) => {
-        const { name, value } = e.target;
-        if (name == "phone") {
-            let regex =
-                /^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$/;
-            if (regex.test(value)) {
-                setState({
-                    ...state,
-                    [`${name}Err`]: "",
-                });
-            } else {
-                setState({
-                    ...state,
-                    [`${name}Err`]:
-                        value == "" ? "Required" : "e.g. +923331234567",
-                });
-            }
-        }
-        setState((state) => ({ ...state, [name]: value }));
-    };
-
     const handleLoadMoreClick = (page) => {
         getProviderList(
             !!location?.search && `${location?.search}&page=${page}`
@@ -445,19 +418,6 @@ export const ServiceProviders = (props) => {
 
     return (
         <>
-            {/* <div className="breadcrumb-sec-2 d-flex align-items-center justify-content-center flex-column">
-                    <div className="title">Our Home Cleaning Service Providers</div>
-                    <div className="detail">
-                        Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat<br /> duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-                    </div>
-                </div> */}
-
-            <Loading
-                loading={
-                    movingLoading == true ||
-                    (providerList?.error == false && providerList == undefined)
-                }
-            />
             <section className="service-provider-sec">
                 <div className="container">
                     <div className="row">
@@ -465,359 +425,16 @@ export const ServiceProviders = (props) => {
                         <div className="col-md-8">
                             {state.error}
                             {state.loggedinErr}
-                            {providerList !== undefined &&
-                            providerList !== null &&
-                            providerList.error !== undefined &&
-                            providerList.error === false &&
-                            providerList?.data?.data?.length ? (
-                                providerList.data.data.map(
-                                    (provider, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                className="job-provider-card"
-                                            >
-                                                <div className="user-des d-flex align-items-center justify-content-start w-100">
-                                                    <div className="user-img d-flex align-items-center justify-content-center">
-                                                        <img
-                                                            src={
-                                                                (provider.image &&
-                                                                    `${process.env.REACT_APP_API_BASE_URL}${provider.image}`) ||
-                                                                ""
-                                                            }
-                                                            onError={(e) => {
-                                                                e.target.onerror =
-                                                                    null;
-                                                                e.target.src =
-                                                                    "/assets/img/Profile_avatar.png";
-                                                            }}
-                                                            className="img-fluid"
-                                                            alt="Not Found"
-                                                        />
-                                                    </div>
-                                                    <div className="user-detail w-100">
-                                                        <div className=" w-100 d-flex align-items-center justify-content-between">
-                                                            <div className="title">
-                                                                {
-                                                                    provider.first_name
-                                                                }{" "}
-                                                                {
-                                                                    provider.last_name
-                                                                }
-                                                            </div>
-                                                            <Link
-                                                                to={`/provider/profile/${provider.id}`}
-                                                                className="button-common"
-                                                            >
-                                                                View Profile
-                                                            </Link>
-                                                        </div>
-                                                        <div className="job-status">
-                                                            {
-                                                                provider.provider_service_requests_count
-                                                            }{" "}
-                                                            Jobs Completed
-                                                        </div>
-                                                        <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
-                                                            <Rating
-                                                                rating={
-                                                                    provider?.rating
-                                                                }
-                                                            />
-
-                                                            {props.location
-                                                                .state !==
-                                                                undefined &&
-                                                            state.is_loggedin ===
-                                                                true ? (
-                                                                <button
-                                                                    onClick={(
-                                                                        event
-                                                                    ) => {
-                                                                        if (
-                                                                            location
-                                                                                .state
-                                                                                .service_type ==
-                                                                            ServiceType.MOVING
-                                                                        ) {
-                                                                            props?.history?.push(
-                                                                                {
-                                                                                    pathname:
-                                                                                        "/moving-request",
-                                                                                    state: {
-                                                                                        date: location
-                                                                                            ?.state
-                                                                                            ?.date,
-                                                                                        end_lat:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.end_lat,
-                                                                                        end_lng:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.end_lng,
-                                                                                        from_address:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.from_address,
-                                                                                        service_type:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.service_type,
-                                                                                        start_lat:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.start_lat,
-                                                                                        start_lng:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.start_lng,
-                                                                                        to_address:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.to_address,
-                                                                                        provider_id:
-                                                                                            provider.id,
-                                                                                        sub_service_id:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.sub_service_id,
-                                                                                        vehicle_type_id:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.vehicle_type_id,
-                                                                                        zip_code:
-                                                                                            location
-                                                                                                ?.state
-                                                                                                ?.zip_code,
-                                                                                        date: moment(
-                                                                                            location
-                                                                                                .state
-                                                                                                .date
-                                                                                        ).format(
-                                                                                            "YYYY-MM-DD"
-                                                                                        ),
-                                                                                    },
-                                                                                }
-                                                                            );
-                                                                            return;
-                                                                        }
-                                                                        handleContinueClick(
-                                                                            event,
-                                                                            provider.account_type ===
-                                                                                "BASIC" &&
-                                                                                provider
-                                                                                    ?.provider_profile
-                                                                                    ?.hourly_rate
-                                                                                ? true
-                                                                                : false,
-                                                                            provider,
-                                                                            provider?.provider_service_requests_count
-                                                                        );
-                                                                    }}
-                                                                    value={
-                                                                        provider.id
-                                                                    }
-                                                                    type="button"
-                                                                    data-backdrop="static"
-                                                                    data-keyboard="false"
-                                                                    className="button-common-2"
-                                                                    data-toggle="modal"
-                                                                    data-target={
-                                                                        location
-                                                                            .state
-                                                                            .service_type !=
-                                                                            ServiceType.MOVING &&
-                                                                        (provider.account_type ===
-                                                                            "BASIC" &&
-                                                                        provider
-                                                                            ?.provider_profile
-                                                                            ?.hourly_rate
-                                                                            ? "#hourly"
-                                                                            : "#quotation")
-                                                                    }
-                                                                    disabled={
-                                                                        (location
-                                                                            ?.state
-                                                                            ?.service_type &&
-                                                                            (location
-                                                                                ?.state
-                                                                                ?.service_type ==
-                                                                                ServiceType.MOVING &&
-                                                                            provider.service_type ==
-                                                                                ServiceType.MOVING
-                                                                                ? false
-                                                                                : true)) ||
-                                                                        (provider.account_type ===
-                                                                            "BASIC" &&
-                                                                            provider
-                                                                                ?.provider_profile
-                                                                                ?.hourly_rate &&
-                                                                            provider?.provider_schedules_count ==
-                                                                                0 &&
-                                                                            provider.service_type !=
-                                                                                ServiceType.MOVING)
-                                                                    }
-                                                                >
-                                                                    {(() => {
-                                                                        if (
-                                                                            provider.service_type ==
-                                                                            ServiceType.MOVING
-                                                                        ) {
-                                                                            return "Get a Qoutation";
-                                                                        } else if (
-                                                                            provider.account_type ===
-                                                                                "BASIC" &&
-                                                                            provider
-                                                                                ?.provider_profile
-                                                                                ?.hourly_rate &&
-                                                                            provider.service_type !=
-                                                                                ServiceType.MOVING
-                                                                        ) {
-                                                                            return provider?.provider_schedules_count >
-                                                                                0
-                                                                                ? "Make a Request"
-                                                                                : "Not Available";
-                                                                        } else {
-                                                                            return "Get a Qoutation";
-                                                                        }
-                                                                    })()}
-                                                                </button>
-                                                            ) : (
-                                                                <button
-                                                                    type="button"
-                                                                    className="button-common-2"
-                                                                    onClick={(
-                                                                        event
-                                                                    ) =>
-                                                                        handleContinueClick(
-                                                                            event,
-                                                                            provider.account_type ===
-                                                                                "BASIC"
-                                                                                ? true
-                                                                                : false,
-                                                                            provider
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    {provider.account_type ===
-                                                                    "BASIC"
-                                                                        ? "Make a Request"
-                                                                        : "Get a Qoutation"}
-                                                                </button>
-                                                            )}
-                                                        </div>
-                                                        <div className="user-price">
-                                                            {!!provider
-                                                                ?.provider_profile
-                                                                ?.hourly_rate &&
-                                                            provider.service_type !=
-                                                                ServiceType.MOVING
-                                                                ? `$${provider?.provider_profile?.hourly_rate}`
-                                                                : ""}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {provider.bio !== undefined &&
-                                                    provider
-                                                        ?.user_feedbacks[0] !==
-                                                        undefined && <hr />}
-                                                {provider.bio && (
-                                                    <div className="useer-qust">
-                                                        <div className="title">
-                                                            Bio
-                                                        </div>
-                                                        <div className="des">
-                                                            {provider.bio}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                <>
-                                                    {(() => {
-                                                        if (
-                                                            provider
-                                                                ?.user_feedbacks[0] !==
-                                                            undefined
-                                                        ) {
-                                                            return (
-                                                                <div className="top-reviews-list">
-                                                                    <div className="review-title">
-                                                                        Top
-                                                                        Review
-                                                                    </div>
-                                                                    <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-                                                                        <div className="review-img">
-                                                                            <img
-                                                                                src={
-                                                                                    (provider
-                                                                                        ?.user_feedbacks[0]
-                                                                                        ?.user
-                                                                                        ?.image &&
-                                                                                        process
-                                                                                            .env
-                                                                                            .REACT_APP_API_BASE_URL +
-                                                                                            provider
-                                                                                                ?.user_feedbacks[0]
-                                                                                                ?.user
-                                                                                                ?.image) ||
-                                                                                    ""
-                                                                                }
-                                                                                className="img-fluid"
-                                                                                alt="Not have"
-                                                                                onError={(
-                                                                                    e
-                                                                                ) => {
-                                                                                    e.target.onerror =
-                                                                                        null;
-                                                                                    e.target.src =
-                                                                                        "/assets/img/Profile_avatar.png";
-                                                                                }}
-                                                                            />
-                                                                        </div>
-                                                                        {provider
-                                                                            ?.user_feedbacks[0] && (
-                                                                            <>
-                                                                                <div className="review-detail">
-                                                                                    {
-                                                                                        provider
-                                                                                            ?.user_feedbacks[0]
-                                                                                            .comment
-                                                                                    }
-                                                                                </div>
-                                                                                <div className="review-rating">
-                                                                                    {/* ldskjflksdjflksdj */}
-                                                                                </div>
-                                                                            </>
-                                                                        )}
-                                                                    </div>
-                                                                </div>
-                                                            );
-                                                        }
-                                                    })()}
-                                                </>
-                                            </div>
-                                        );
-                                    }
-                                )
+                            {providerList?.data?.data?.length ? (
+                                <ProviderCard
+                                    list={providerList?.data?.data}
+                                    is_loggedin={state?.is_loggedin}
+                                    handleContinueClick={handleContinueClick}
+                                ></ProviderCard>
                             ) : providerList.error === true ? (
-                                <>
-                                    {(() => {
-                                        Swal.fire({
-                                            title: "Error",
-                                            text:
-                                                serviceRequest?.message ||
-                                                "Not found provider",
-                                            confirmButtonText: "Close",
-                                            icon: "error",
-                                            confirmButtonColor: "#fea629",
-                                            showCancelButton: false,
-                                            showCloseButton: true,
-                                        });
-                                    })()}
-                                    <div className="text-center display-4">
-                                        {providerList.message}
-                                    </div>
-                                </>
+                                <div className="text-center display-4">
+                                    {providerList.message}
+                                </div>
                             ) : (
                                 <div className="text-center display-4">
                                     Please Wait we are working on it . . .
@@ -930,24 +547,6 @@ export const ServiceProviders = (props) => {
                                         <center className="col-12">
                                             {state.questionsErr}
                                         </center>
-                                        {/* {state.serviceRequest !== undefined && state.serviceRequest.error === true ? (
-                                            <center className="col-12 ">
-                                                <div className="col-12  alert alert-danger" role="alert" style={{fontSize: 15}}>
-                                                    {state.serviceRequest.message}
-                                                </div>
-                                            </center>
-                                        ) : (
-                                            ''
-                                        )}
-                                        {state.serviceRequest !== undefined && state.serviceRequest.error === false ? (
-                                            <center className="col-12 ">
-                                                <div className="col-12  alert alert-success" role="alert" style={{ fontSize: 15 }}>
-                                                    {state.serviceRequest.message}
-                                                </div>
-                                            </center>
-                                        ) : (
-                                            ''
-                                        )} */}
                                     </div>
                                     <div className="row">
                                         <div className="col-md-6 align-items-center justify-content-center">
@@ -1082,55 +681,6 @@ export const ServiceProviders = (props) => {
                                                                 }}
                                                             />
                                                         </div>
-                                                        // <DayPicker
-                                                        //     fromMonth={new Date()}
-                                                        //     selectedDays={[
-                                                        //         ...(providerSchedule?.data?.data?.map(
-                                                        //             (schedule) => {
-                                                        //                 return new Date(
-                                                        //                     `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
-                                                        //                 );
-                                                        //             }
-                                                        //         ) || []),
-                                                        //     ]}
-                                                        //     disabledDays={[
-                                                        //         { before: new Date() },
-                                                        //         {
-                                                        //             ...(providerSchedule?.data?.data?.map(
-                                                        //                 (
-                                                        //                     schedule,
-                                                        //                     index
-                                                        //                 ) => {
-                                                        //                     return {
-                                                        //                         afterAll:
-                                                        //                             new Date(
-                                                        //                                 `${schedule?.provider_schedule?.year}-${schedule?.provider_schedule?.month}-${schedule?.provider_schedule?.date}`
-                                                        //                             ),
-                                                        //                     };
-                                                        //                 }
-                                                        //             ) || {
-                                                        //                 after: new Date(),
-                                                        //             }),
-                                                        //         },
-                                                        //     ]}
-                                                        // />
-                                                        // <Calendar
-                                                        //     onChange={
-                                                        //         handleCalendarClick
-                                                        //     }
-                                                        //     minDate={mindate}
-                                                        //     maxDate={maxDate}
-                                                        //     value={value}
-                                                        //     maxDetail="month"
-                                                        //     // tileDisabled={({
-                                                        //     //     activeStartDate,
-                                                        //     //     date,
-                                                        //     //     view,
-                                                        //     // }) =>
-                                                        //     //     date.getDay() ===
-                                                        //     //     mindate.getDate()
-                                                        //     // }
-                                                        // />
                                                     );
                                                 })()}
                                             </div>
@@ -1176,19 +726,6 @@ export const ServiceProviders = (props) => {
                                                     {" "}
                                                     Available time Slots
                                                 </li>
-                                                {/* {slots.map((time, index) =>{
-                                                    let slot = state?.timeSlots?.find((slot) => slot.start === time || slot.end === time);
-                                                    return(
-                                                        <React.Fragment key={index}>
-                                                            {slot ? (
-                                                                <li style={{backgroundColor: "#2F88E7", color: 'white'}} onClick={handleSlotClick} slot-id={slot.id} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
-                                                                ) : (
-                                                                <li style={{color: 'black'}} value={time} className="d-flex align-items-center justify-content-center">{time}</li>
-                                                            )}
-                                                        </React.Fragment>
-
-                                                    )}
-                                                )} */}
                                                 {state !== undefined &&
                                                 state.timeSlots !==
                                                     undefined ? (
@@ -1417,298 +954,155 @@ export const ServiceProviders = (props) => {
                                     <center className="col-12">
                                         {state.questionsErr}
                                     </center>
-                                    {serviceRequest != "" &&
-                                        (() => {
-                                            if (
-                                                serviceRequest.error == false &&
-                                                serviceRequest.loading == true
-                                            ) {
-                                                return (
-                                                    <div
-                                                        className="col-12  alert alert-info text-center"
-                                                        role="alert"
-                                                        style={{ fontSize: 15 }}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin"></i>{" "}
-                                                        Processing...
-                                                    </div>
-                                                );
-                                            }
-
-                                            if (
-                                                serviceRequest.error == true &&
-                                                serviceRequest.loading == false
-                                            ) {
-                                                switch (
-                                                    typeof serviceRequest.message
-                                                ) {
-                                                    case "string":
-                                                        Swal.fire({
-                                                            title: "Error",
-                                                            text:
-                                                                serviceRequest.message ||
-                                                                "something went wrong",
-                                                            confirmButtonText:
-                                                                "Close",
-                                                            icon: "error",
-                                                            confirmButtonColor:
-                                                                "#fea629",
-                                                            allowOutsideClick: false,
-                                                            showCloseButton: true,
-                                                        });
-                                                        return (
-                                                            <div
-                                                                className="col-12  alert alert-danger text-center"
-                                                                role="alert"
-                                                                style={{
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    serviceRequest.message
-                                                                }
-                                                            </div>
-                                                        );
-                                                        break;
-                                                    case "array":
-                                                        const errorMsg =
-                                                            Object.values(
-                                                                serviceRequest.message
-                                                            );
-                                                        return (
-                                                            <div
-                                                                className="col-12  alert alert-danger text-center"
-                                                                role="alert"
-                                                                style={{
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                {errorMsg.map(
-                                                                    (
-                                                                        msg,
-                                                                        index
-                                                                    ) => (
-                                                                        <React.Fragment
+                                    <>
+                                        <div
+                                            className="col-md-12 text-dark mb-2"
+                                            style={{ fontSize: 20 }}
+                                        >
+                                            Address
+                                        </div>
+                                        <div className="common-input">
+                                            <PlacesAutocomplete
+                                                googleCallbackName="initTwo"
+                                                value={state.address}
+                                                onChange={(address) =>
+                                                    setState((state) => ({
+                                                        ...state,
+                                                        address,
+                                                    }))
+                                                }
+                                                onSelect={handleAddressChange}
+                                            >
+                                                {({
+                                                    getInputProps,
+                                                    suggestions,
+                                                    getSuggestionItemProps,
+                                                    loading,
+                                                }) => (
+                                                    <div>
+                                                        <input
+                                                            {...getInputProps({
+                                                                placeholder:
+                                                                    "From ...",
+                                                                className:
+                                                                    "location-search-input m-1",
+                                                            })}
+                                                        />
+                                                        <div className="autocomplete-dropdown-container">
+                                                            {loading && (
+                                                                <div>
+                                                                    Loading...
+                                                                </div>
+                                                            )}
+                                                            {suggestions.map(
+                                                                (
+                                                                    suggestion
+                                                                ) => {
+                                                                    const className =
+                                                                        suggestion.active
+                                                                            ? "suggestion-item--active"
+                                                                            : "suggestion-item";
+                                                                    // inline style for demonstration purpose
+                                                                    const style =
+                                                                        suggestion.active
+                                                                            ? {
+                                                                                  backgroundColor:
+                                                                                      "#fafafa",
+                                                                                  cursor: "pointer",
+                                                                                  fontSize: 15,
+                                                                                  margin: "5px",
+                                                                              }
+                                                                            : {
+                                                                                  backgroundColor:
+                                                                                      "#ffffff",
+                                                                                  cursor: "pointer",
+                                                                                  fontSize: 15,
+                                                                                  margin: "5px",
+                                                                              };
+                                                                    return (
+                                                                        <div
                                                                             key={
-                                                                                index
+                                                                                suggestion.index
                                                                             }
-                                                                        >
-                                                                            {
-                                                                                msg
-                                                                            }
-                                                                        </React.Fragment>
-                                                                    )
-                                                                )}
-                                                            </div>
-                                                        );
-                                                        break;
-                                                }
-                                            }
-
-                                            if (
-                                                serviceRequest.error == false &&
-                                                serviceRequest.loading == false
-                                            ) {
-                                                switch (
-                                                    typeof serviceRequest.message
-                                                ) {
-                                                    case "string":
-                                                        qautationRef.current.click();
-                                                        setOpen(false);
-                                                        Swal.fire({
-                                                            title: "Success!",
-                                                            text: "Successfully created request service",
-                                                            confirmButtonText:
-                                                                "Go To Service History",
-                                                            icon: "success",
-                                                            confirmButtonColor:
-                                                                "#fea629",
-                                                            allowOutsideClick: false,
-                                                            showCloseButton: true,
-                                                        }).then((result) => {
-                                                            if (
-                                                                result.isConfirmed
-                                                            ) {
-                                                                handleGoToServicesHistory();
-                                                            }
-                                                        });
-                                                        return (
-                                                            <div
-                                                                className="col-12  alert alert-success text-center"
-                                                                role="alert"
-                                                                style={{
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    "Service request sent successfully"
-                                                                }
-                                                            </div>
-                                                        );
-                                                        break;
-                                                }
-                                            }
-                                        })()}
-                                    {serviceRequest?.error == false &&
-                                    serviceRequest?.loading == false &&
-                                    serviceRequest.message ? (
-                                        ""
-                                    ) : (
-                                        <>
-                                            <div
-                                                className="col-md-12 text-dark mb-2"
-                                                style={{ fontSize: 20 }}
-                                            >
-                                                Address
-                                            </div>
-                                            <div className="common-input">
-                                                <PlacesAutocomplete
-                                                    googleCallbackName="initTwo"
-                                                    value={state.address}
-                                                    onChange={(address) =>
-                                                        setState((state) => ({
-                                                            ...state,
-                                                            address,
-                                                        }))
-                                                    }
-                                                    onSelect={
-                                                        handleAddressChange
-                                                    }
-                                                >
-                                                    {({
-                                                        getInputProps,
-                                                        suggestions,
-                                                        getSuggestionItemProps,
-                                                        loading,
-                                                    }) => (
-                                                        <div>
-                                                            <input
-                                                                {...getInputProps(
-                                                                    {
-                                                                        placeholder:
-                                                                            "From ...",
-                                                                        className:
-                                                                            "location-search-input m-1",
-                                                                    }
-                                                                )}
-                                                            />
-                                                            <div className="autocomplete-dropdown-container">
-                                                                {loading && (
-                                                                    <div>
-                                                                        Loading...
-                                                                    </div>
-                                                                )}
-                                                                {suggestions.map(
-                                                                    (
-                                                                        suggestion
-                                                                    ) => {
-                                                                        const className =
-                                                                            suggestion.active
-                                                                                ? "suggestion-item--active"
-                                                                                : "suggestion-item";
-                                                                        // inline style for demonstration purpose
-                                                                        const style =
-                                                                            suggestion.active
-                                                                                ? {
-                                                                                      backgroundColor:
-                                                                                          "#fafafa",
-                                                                                      cursor: "pointer",
-                                                                                      fontSize: 15,
-                                                                                      margin: "5px",
-                                                                                  }
-                                                                                : {
-                                                                                      backgroundColor:
-                                                                                          "#ffffff",
-                                                                                      cursor: "pointer",
-                                                                                      fontSize: 15,
-                                                                                      margin: "5px",
-                                                                                  };
-                                                                        return (
-                                                                            <div
-                                                                                key={
-                                                                                    suggestion.index
+                                                                            {...getSuggestionItemProps(
+                                                                                suggestion,
+                                                                                {
+                                                                                    className,
+                                                                                    style,
                                                                                 }
-                                                                                {...getSuggestionItemProps(
-                                                                                    suggestion,
-                                                                                    {
-                                                                                        className,
-                                                                                        style,
-                                                                                    }
-                                                                                )}
-                                                                            >
-                                                                                <span>
-                                                                                    {
-                                                                                        suggestion.description
-                                                                                    }
-                                                                                </span>
-                                                                            </div>
-                                                                        );
-                                                                    }
-                                                                )}
-                                                            </div>
+                                                                            )}
+                                                                        >
+                                                                            <span>
+                                                                                {
+                                                                                    suggestion.description
+                                                                                }
+                                                                            </span>
+                                                                        </div>
+                                                                    );
+                                                                }
+                                                            )}
                                                         </div>
-                                                    )}
-                                                </PlacesAutocomplete>
-                                                {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
-                                            </div>
-                                            {state.addressErr}
-                                            <div
-                                                className="col-md-12 text-dark mb-2"
-                                                style={{ fontSize: 20 }}
-                                            >
-                                                Details
-                                            </div>
-                                            <div className="common-input">
-                                                <textarea
-                                                    type="text"
-                                                    onChange={
-                                                        handleDetailChange
-                                                    }
-                                                    name="detail"
-                                                    value={detail}
-                                                    placeholder="please add some details..."
-                                                />
-                                            </div>
-                                            <div
-                                                className="col-md-12 text-danger mt-2"
-                                                style={{ fontSize: 15 }}
-                                            >
-                                                {detailErr}
-                                            </div>
-                                            <input
-                                                type="file"
-                                                accept=".jpeg,.png,.jpg,.svg"
-                                                name="images"
-                                                id="file"
-                                                className="inputfile"
-                                                onChange={handleImagesChange}
-                                                multiple={true}
-                                            />
-                                            <label htmlFor="file">
-                                                Choose Images
-                                            </label>
-                                            {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
-                                            <div className="text-center">
-                                                <div className="row">
-                                                    <div className="col-md-12 d-flex justify-content-around">
-                                                        {state?.previewImages.map(
-                                                            (image, index) => (
-                                                                <img
-                                                                    key={index}
-                                                                    src={image}
-                                                                    className="rounded col-md-4"
-                                                                    alt="..."
-                                                                    style={{
-                                                                        height: "27.5rem",
-                                                                    }}
-                                                                />
-                                                            )
-                                                        )}
                                                     </div>
+                                                )}
+                                            </PlacesAutocomplete>
+                                            {/* <input type="text" onChange={handleAddressChange} name="address" value={state.address} placeholder="Address" /> */}
+                                        </div>
+                                        {state.addressErr}
+                                        <div
+                                            className="col-md-12 text-dark mb-2"
+                                            style={{ fontSize: 20 }}
+                                        >
+                                            Details
+                                        </div>
+                                        <div className="common-input">
+                                            <textarea
+                                                type="text"
+                                                onChange={handleDetailChange}
+                                                name="detail"
+                                                value={detail}
+                                                placeholder="please add some details..."
+                                            />
+                                        </div>
+                                        <div
+                                            className="col-md-12 text-danger mt-2"
+                                            style={{ fontSize: 15 }}
+                                        >
+                                            {detailErr}
+                                        </div>
+                                        <input
+                                            type="file"
+                                            accept=".jpeg,.png,.jpg,.svg"
+                                            name="images"
+                                            id="file"
+                                            className="inputfile"
+                                            onChange={handleImagesChange}
+                                            multiple={true}
+                                        />
+                                        <label htmlFor="file">
+                                            Choose Images
+                                        </label>
+                                        {/* <div className='col-md-12 text-danger mt-2' style={{ fontSize: 15 }}>{"imagesErr"}</div> */}
+                                        <div className="text-center">
+                                            <div className="row">
+                                                <div className="col-md-12 d-flex justify-content-around">
+                                                    {state?.previewImages.map(
+                                                        (image, index) => (
+                                                            <img
+                                                                key={index}
+                                                                src={image}
+                                                                className="rounded col-md-4"
+                                                                alt="..."
+                                                                style={{
+                                                                    height: "27.5rem",
+                                                                }}
+                                                            />
+                                                        )
+                                                    )}
                                                 </div>
                                             </div>
-                                        </>
-                                    )}
+                                        </div>
+                                    </>
+                                    {/* )} */}
                                 </div>
                             </div>
                         </div>
@@ -1734,248 +1128,29 @@ export const ServiceProviders = (props) => {
                                     detailErr ||
                                     state.submitting === true
                                         ? true
-                                        : false || detail == ""
+                                        : false ||
+                                          detail == "" ||
+                                          serviceRequest.loading
                                 }
-                                onClick={
-                                    serviceRequest.message == "success"
-                                        ? handleGoToServicesHistory
-                                        : handleAddPaymentClick
-                                }
+                                onClick={handleAddPaymentClick}
                                 type="button"
                                 className="button-common-2"
                             >
-                                {serviceRequest.message == "success"
-                                    ? "Go to Services History"
-                                    : "Get Quotation"}
+                                {serviceRequest?.loading ? (
+                                    <>
+                                        <i
+                                            className={`fa fa-spinner fa-pulse`}
+                                        ></i>{" "}
+                                        Loading...
+                                    </>
+                                ) : (
+                                    "Get Quotation"
+                                )}
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* <div
-                className="modal fade bd-example-modal-lg"
-                id="moving"
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="exampleModalCenterTitle"
-                aria-hidden="true"
-            >
-                <div
-                    className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable"
-                    role="document"
-                >
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h3
-                                className="modal-title display-4"
-                                id="exampleModalLongTitle"
-                            >
-                                Moving Request
-                            </h3>
-                            <button
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                                ref={movingRef}
-                                onClick={()=>handleCloseModalClick}
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="row"></div>
-                            <div className="row m-2">
-                                <div className="col-12">
-                                    {movingRequest != undefined &&
-                                        (() => {
-                                            if (
-                                                movingError == false &&
-                                                movingLoading == true
-                                            ) {
-                                                return (
-                                                    <div
-                                                        className="col-12  alert alert-info text-center"
-                                                        role="alert"
-                                                        style={{ fontSize: 15 }}
-                                                    >
-                                                        <i className="fa fa-spinner fa-spin"></i>{" "}
-                                                        Processing...
-                                                    </div>
-                                                );
-                                            }
-
-                                            if (
-                                                movingError == true &&
-                                                movingLoading == false
-                                            ) {
-                                                switch (typeof movingMessage) {
-                                                    case "string":
-                                                        return (
-                                                            <div
-                                                                className="col-12  alert alert-danger text-center"
-                                                                role="alert"
-                                                                style={{
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                {movingMessage}
-                                                            </div>
-                                                        );
-                                                        break;
-                                                    case "object":
-                                                        const errorMsg =
-                                                            Object.values(
-                                                                movingMessage
-                                                            );
-                                                        return (
-                                                            <div
-                                                                className="col-12  alert alert-danger text-center"
-                                                                role="alert"
-                                                                style={{
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                {errorMsg.map(
-                                                                    (
-                                                                        msg,
-                                                                        index
-                                                                    ) => (
-                                                                        <React.Fragment
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            style={{
-                                                                                fontSize: 15,
-                                                                            }}
-                                                                        >
-                                                                            {
-                                                                                msg
-                                                                            }
-                                                                            <br />
-                                                                        </React.Fragment>
-                                                                    )
-                                                                )}
-                                                            </div>
-                                                        );
-                                                        break;
-                                                }
-                                            }
-
-                                            if (
-                                                movingError == false &&
-                                                movingLoading == false
-                                            ) {
-                                                switch (typeof movingMessage) {
-                                                    case "string":
-                                                        return (
-                                                            <div
-                                                                className="col-12  alert alert-success text-center"
-                                                                role="alert"
-                                                                style={{
-                                                                    fontSize: 15,
-                                                                }}
-                                                            >
-                                                                {movingMessage ==
-                                                                "OK"
-                                                                    ? "Request Successfully Sent"
-                                                                    : movingMessage}
-                                                            </div>
-                                                        );
-                                                        break;
-                                                }
-                                            }
-                                        })()}
-                                    {movingError == false ||
-                                        (!movingMessage && (
-                                            <GoogleMap
-                                                {...props}
-                                                open={open}
-                                                moreDetails={{
-                                                    name: state?.name,
-                                                    email: state?.email,
-                                                    phone: state?.phone,
-                                                    phoneErr: state?.phoneErr,
-                                                    detail: state?.detail,
-                                                }}
-                                                handleMoreDetailChange={
-                                                    handleMoreDetailChange
-                                                }
-                                            />
-                                        ))}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button
-                                type="button"
-                                className="button-common"
-                                onClick={handleCloseModalClick}
-                                data-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                            <button
-                                data-dismiss={
-                                    movingMessage == "OK" ? "modal" : ""
-                                }
-                                disabled={(() => {
-                                    if (
-                                        ServiceType.MOVING ==
-                                        location?.state?.service_type
-                                    ) {
-                                        const {
-                                            from_address,
-                                            to_address,
-                                            date,
-                                            zip_code,
-                                            start_lat,
-                                            start_lng,
-                                            end_lat,
-                                            end_lng,
-                                        } = location?.state;
-                                        return (
-                                            from_address === "" ||
-                                            to_address === "" ||
-                                            date === "" ||
-                                            zip_code === "" ||
-                                            start_lat === "" ||
-                                            start_lng === "" ||
-                                            end_lat === "" ||
-                                            end_lng === "" ||
-                                            state?.phone === "" ||
-                                            state?.phoneErr !== "" ||
-                                            from_address === undefined ||
-                                            to_address === undefined ||
-                                            date === undefined ||
-                                            zip_code === undefined ||
-                                            start_lat === undefined ||
-                                            start_lng === undefined ||
-                                            end_lat === undefined ||
-                                            end_lng === undefined
-                                        );
-                                    }
-                                    return state.submitting === true
-                                        ? true
-                                        : false;
-                                })()}
-                                onClick={
-                                    movingMessage == "OK"
-                                        ? handleGoToServicesHistory
-                                        : handleAddPaymentClick
-                                }
-                                type="button"
-                                className="button-common-2"
-                            >
-                                {movingMessage == "OK"
-                                    ? "Go to Services History"
-                                    : "Get Quotation"}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
         </>
     );
 };

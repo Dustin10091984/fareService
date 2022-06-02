@@ -105,6 +105,7 @@ export const postRequestService = (payload, formData) => async dispatch => {
             const data = response.data;
             data.loading = false
             dispatch(requestService(data));
+            // dispatch(serviceRequestList(data?.data));
         }).catch((error) => {
             if (error.response.status === 401) {
                 localStorage.clear();

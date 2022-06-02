@@ -34,9 +34,6 @@ export const ServiceProviders = (props) => {
     const qautationRef = useRef("qaotationModal");
 
     const isLoaded = useContext(MapLoadedApiContext);
-console.log("====================================");
-console.log();
-console.log("====================================");
     const [state, setState] = useState({
         is_loggedin: false,
         loggedinErr: "",
