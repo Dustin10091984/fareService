@@ -9,7 +9,7 @@ const ForgotPassword = () => {
         loading: false,
         phone: "",
         code: "+1",
-        section: 0,
+        section: 1,
         token: "",
         password: "",
         password_confirmation: "",
@@ -670,36 +670,30 @@ const ForgotPassword = () => {
 
                                 {/* <div className="d-flex justify-content-between"> */}
                                 {state?.section == 1 && (
-                                    <div className="float-left">
-                                        <button
-                                            className="button-common"
+                                    <div className="float-left angle-icon">
+                                        <i
+                                            className="fas fa-angle-left fa-5x"
                                             onClick={() => {
                                                 setState((state) => ({
                                                     ...state,
                                                     section: 0,
                                                 }));
                                             }}
-                                        >
-                                            <i className="fa fa-arrow-left"></i>{" "}
-                                            Back
-                                        </button>
+                                        ></i>
                                     </div>
                                 )}
                                 {state?.section == 0 &&
                                     !!state?.otpSuccessMessage && (
-                                        <div className="float-right">
-                                            <button
-                                                className="button-common"
+                                        <div className="float-right angle-icon">
+                                            <i
+                                                className="fas fa-angle-right fa-5x"
                                                 onClick={() => {
                                                     setState((state) => ({
                                                         ...state,
                                                         section: 1,
                                                     }));
                                                 }}
-                                            >
-                                                Next{" "}
-                                                <i className="fa fa-arrow-right"></i>
-                                            </button>
+                                            ></i>
                                         </div>
                                     )}
                                 {/* </div> */}
