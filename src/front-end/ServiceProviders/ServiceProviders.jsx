@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
-import { getInitialRequestService } from "./../../store/Slices/services/RequestServiceSclice";
-import { movingRequest as clearMovingRequest } from "./../../store/Slices/moving/movingSlice";
 import ServiceType from "./../../constants/ServiceType";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { HOST } from "./../../constants";
 import Rating from "./../../components/Rating";
-import Loading from "./../common/Loading";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import DayPicker, { DateUtils } from "react-day-picker";
@@ -19,7 +15,6 @@ export const ServiceProviders = (props) => {
     const { location, history } = props;
     const [open, setOpen] = useState(false);
 
-    const movingRef = useRef("movingModal");
     const qautationRef = useRef("qaotationModal");
 
     const ReactSwal = withReactContent(Swal);
@@ -47,8 +42,6 @@ export const ServiceProviders = (props) => {
 
     const [value, setValue] = useState();
 
-    const dispatch = useDispatch();
-
     // States
     const { providerList, providerSchedule, serviceRequest } = props;
 
@@ -58,11 +51,12 @@ export const ServiceProviders = (props) => {
         getProviderSchedule,
         makeMovingRequest,
         postRequestService,
+        getInitialRequestService,
     } = props;
 
     useEffect(() => {
         return () => {
-            dispatch(getInitialRequestService());
+            getInitialRequestService();
             // dispatch(setStateProvider(""));
         };
     }, []);
@@ -365,7 +359,7 @@ export const ServiceProviders = (props) => {
     };
 
     const handleGoToServicesHistory = () => {
-        dispatch(getInitialRequestService());
+        getInitialRequestService();
         props.history.replace({
             pathname: "/services-history",
         });
@@ -382,7 +376,7 @@ export const ServiceProviders = (props) => {
             token: "",
             previewImages: [],
         }));
-        dispatch(getInitialRequestService());
+        getInitialRequestService();
     };
 
     const handleImagesChange = (e) => {
@@ -421,23 +415,27 @@ export const ServiceProviders = (props) => {
             <section className="service-provider-sec">
                 <div className="container">
                     <div className="row">
-                        <Filter></Filter>
+                        <Filter
+                            providerType={location?.state?.service_type}
+                        ></Filter>
                         <div className="col-md-8">
                             {state.error}
                             {state.loggedinErr}
-                            {providerList?.data?.data?.length ? (
+                            {providerList.loading && (
+                                <div className="text-center display-4 mb-5">
+                                    Please Wait we are working on it . . .
+                                </div>
+                            )}
+                            {!!providerList?.data?.data?.length && (
                                 <ProviderCard
                                     list={providerList?.data?.data}
                                     is_loggedin={state?.is_loggedin}
                                     handleContinueClick={handleContinueClick}
                                 ></ProviderCard>
-                            ) : providerList.error === true ? (
+                            )}
+                            {providerList.error && (
                                 <div className="text-center display-4">
                                     {providerList.message}
-                                </div>
-                            ) : (
-                                <div className="text-center display-4">
-                                    Please Wait we are working on it . . .
                                 </div>
                             )}
                             {providerList?.data?.current_page !=

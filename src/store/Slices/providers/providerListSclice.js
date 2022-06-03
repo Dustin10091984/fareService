@@ -6,7 +6,10 @@ const providerSlice = createSlice({
     initialState: [],
     reducers: {
         getProvider: (state, action) => {
-            return action.payload
+            return {
+                ...state,
+                ...action.payload
+            }
         },
         setStateProvider: (state, action) => {
             return action.payload
