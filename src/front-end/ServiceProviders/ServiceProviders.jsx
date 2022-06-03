@@ -73,15 +73,17 @@ export const ServiceProviders = (props) => {
                 service_type: location?.state?.service_type,
                 vehicle_type_id: location?.state?.vehicle_type_id,
             }).toString();
-            getProviderList(
-                `${
+            getProviderList({
+                search: `${
                     props.location.search !== ""
                         ? props.location.search + searchParams
                         : `?${searchParams}`
-                }`
-            );
+                }`,
+            });
         } else {
-            getProviderList(props.location.search);
+            getProviderList({
+                search: props.location.search ?? "",
+            });
         }
     }, [
         props.location.search,
@@ -404,9 +406,13 @@ export const ServiceProviders = (props) => {
     };
 
     const handleLoadMoreClick = (page) => {
-        getProviderList(
-            !!location?.search && `${location?.search}&page=${page}`
-        );
+        getProviderList({
+            search: !!location?.search && location.search,
+            params: {
+                page,
+            },
+            loadMore: true,
+        });
         window.scrollTo(0, 0);
     };
 
@@ -421,6 +427,11 @@ export const ServiceProviders = (props) => {
                         <div className="col-md-8">
                             {state.error}
                             {state.loggedinErr}
+                            {providerList.error && (
+                                <div className="text-center display-4">
+                                    {providerList.message}
+                                </div>
+                            )}
                             {providerList.loading && (
                                 <div className="text-center display-4 mb-5">
                                     Please Wait we are working on it . . .
@@ -432,11 +443,6 @@ export const ServiceProviders = (props) => {
                                     is_loggedin={state?.is_loggedin}
                                     handleContinueClick={handleContinueClick}
                                 ></ProviderCard>
-                            )}
-                            {providerList.error && (
-                                <div className="text-center display-4">
-                                    {providerList.message}
-                                </div>
                             )}
                             {providerList?.data?.current_page !=
                                 providerList?.data?.last_page && (
