@@ -9,7 +9,7 @@ const ForgotPassword = () => {
         loading: false,
         phone: "",
         code: "+1",
-        section: 1,
+        section: 0,
         token: "",
         password: "",
         password_confirmation: "",
