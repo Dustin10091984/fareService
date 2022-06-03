@@ -168,7 +168,7 @@ object-fit: cover;
       }
 }
 
-@media (max-width:375px) {
+@media (max-width:390px) {
     .job-provider-slider .carousel-indicators {
         bottom: -28px;
       }
