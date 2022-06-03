@@ -251,7 +251,7 @@ const ForgotPassword = () => {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-6 mt-3 mx-auto">
+                                            <center className="col-md-6 mt-3 mx-auto">
                                                 <button
                                                     disabled={state?.loading}
                                                     type="submit"
@@ -266,7 +266,7 @@ const ForgotPassword = () => {
                                                         "Send OTP"
                                                     )}
                                                 </button>
-                                            </div>
+                                            </center>
                                         </div>
                                     </form>
                                 )}
