@@ -3445,3 +3445,6 @@ input::-webkit-inner-spin-button {
     font-weight: "bold";
     color: #fea629;
 }
+.google-border {
+    border: 1px solid #eaeaea;
+}
