@@ -74,6 +74,31 @@ const stripePromise = loadStripe(
   process.env.React_APP_STRIPE_PUBLIC_KEY
 );
 
+window.io = io;
+
+const liveOption = {
+  host: "https://api.farenow.com",
+  broadcaster: 'socket.io',
+};
+const localOption = {
+  host: "http://localhost:6001",
+  broadcaster: 'socket.io',
+};
+if (typeof window.io != 'undefined') {
+  window.Echo = new Echo(liveOption);
+  // client: io,
+  // auth: {headers: {Authorization: localStorage.userToken }}
+
+  window.Echo.connector.socket.on('connect', function () {
+    console.log("connect");
+  });
+
+  window.Echo.connector.socket.on('disconnect', function () {
+    console.log("disconnect");
+  });
+}
+
+
 function App() {
   const [notification, setNotification] = useState();
   const [state, setState] = useState();
@@ -127,35 +152,6 @@ function App() {
     }
   }, []);
 
-  window.io = io;
-
-  useEffect(() => {
-    // const option = {
-    //   host: `${HOST}:6001`,
-    //   broadcaster: 'socket.io',
-    // };
-    const liveOption = {
-      host: "https://api.farenow.com",
-      broadcaster: 'socket.io',
-    };
-    const localOption = {
-      host: "http://localhost:6001",
-      broadcaster: 'socket.io',
-    };
-    if (typeof window.io != 'undefined') {
-      window.Echo = new Echo(liveOption);
-      // client: io,
-      // auth: {headers: {Authorization: localStorage.userToken }}
-
-      window.Echo.connector.socket.on('connect', function () {
-        console.log("connect");
-      });
-
-      window.Echo.connector.socket.on('disconnect', function () {
-        console.log("disconnect");
-      });
-    }
-  }, [window.io])
 
 
   useEffect(() => {

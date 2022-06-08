@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
+import { HOST } from "../../constants";
+import { GoogleLogin } from "react-google-login";
 
 const Login = (props) => {
     const { history, location } = props;
+
     const [state, setState] = useState({
+        socialLoading: false,
         isLoading: false,
         values: {
             user_name: "",
@@ -12,6 +16,7 @@ const Login = (props) => {
         },
         errors: {},
         isVisible: false,
+        socialError: "",
     });
 
     useEffect(() => {
@@ -35,14 +40,14 @@ const Login = (props) => {
         }));
     };
 
-    const handleSignUp = (event) => {
+    const handleSignUp = async (event) => {
         event.preventDefault();
         setState((state) => ({
             ...state,
             isLoading: true,
         }));
 
-        axios({
+        await axios({
             method: "post",
             url: process.env.REACT_APP_API_BASE_URL + "/api/user/login",
             data: state.values,
@@ -86,6 +91,36 @@ const Login = (props) => {
             });
     };
 
+    const handleSocialLogin = async ({ provider, token }) => {
+        await axios({
+            method: "post",
+            url: `${HOST}/api/user/login/${provider}/callback`,
+            data: {
+                token,
+            },
+        })
+            .then(function ({ data }) {
+                setState((state) => ({
+                    ...state,
+                    socialLoading: false,
+                    socialError: "",
+                }));
+                localStorage.setItem("userToken", data.data.auth_token);
+                localStorage.setItem(
+                    "user_data",
+                    JSON.stringify(data.data.user)
+                );
+                history.push("/dashboard");
+            })
+            .catch(({ response }) => {
+                setState((state) => ({
+                    ...state,
+                    socialLoading: false,
+                    socialError: response.data.message,
+                }));
+            });
+    };
+
     const hasError = (field) => (state.errors[field] ? true : false);
 
     return (
@@ -108,6 +143,7 @@ const Login = (props) => {
                                 Login
                             </div>
                             <div className="text-center text-danger mb-2">
+                                {state.socialError}
                                 {typeof state.errors == "string" &&
                                     state.errors}
                                 {hasError("user_name")
@@ -180,7 +216,7 @@ const Login = (props) => {
 
                                     <button
                                         type="submit"
-                                        className="button-common w-100 mb-5"
+                                        className="button-common w-100 mb-4"
                                         disabled={state.isLoading}
                                     >
                                         Login{" "}
@@ -192,10 +228,59 @@ const Login = (props) => {
                                     </button>
                                 </form>
 
-                                {/* <div className="other-login text-center">
+                                <div className="other-login text-center mb-4">
                                     OR
-                                </div> */}
-
+                                </div>
+                                <ul className="social d-flex justify-content-center mb-3">
+                                    <li className="item facebook mx-3">
+                                        <a
+                                            target="_blank"
+                                            onClick={() => {
+                                                // if (!state?.socialLoading) {
+                                                //     setState((state) => ({
+                                                //         ...state,
+                                                //         socialLoading: true,
+                                                //     }));
+                                                //     handleSocialLogin(
+                                                //         "facebook"
+                                                //     );
+                                                // }
+                                            }}
+                                        >
+                                            <img
+                                                src="/assets/img/facebook.png"
+                                                className="img-fluid"
+                                                alt="socail"
+                                            />
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div className="text-center">
+                                    <GoogleLogin
+                                        clientId={
+                                            process.env
+                                                .REACT_APP_GOOGLE_CLIENT_ID
+                                        }
+                                        buttonText="Login"
+                                        onSuccess={(res) => {
+                                            console.log("google", res);
+                                            handleSocialLogin({
+                                                token: res.tokenId,
+                                                provider: "google",
+                                            });
+                                            localStorage.setItem(
+                                                "googleToken",
+                                                res.tokenId
+                                            );
+                                        }}
+                                        onFailure={(res) => {
+                                            setState((state) => ({
+                                                ...state,
+                                                socialError: res.error,
+                                            }));
+                                        }}
+                                    />
+                                </div>
                                 {/* <button className="login-gmail mt-5">
                                     Login with Google
                                 </button>
