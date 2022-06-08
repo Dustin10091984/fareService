@@ -13,7 +13,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
 
     return (
         <>
-            {list.map((provider, index) => {
+            {list?.map((provider, index) => {
                 return (
                     <div key={index} className="job-provider-card">
                         <div className="user-des d-flex align-items-center justify-content-start w-100">
