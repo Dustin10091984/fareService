@@ -437,9 +437,9 @@ export const ServiceProviders = (props) => {
                                     Please Wait we are working on it . . .
                                 </div>
                             )}
-                            {!!providerList?.data?.data?.length && (
+                            {!!providerList?.data?.data?.data?.length && (
                                 <ProviderCard
-                                    list={providerList?.data?.data}
+                                    list={providerList?.data?.data?.data}
                                     is_loggedin={state?.is_loggedin}
                                     handleContinueClick={handleContinueClick}
                                 ></ProviderCard>
