@@ -236,41 +236,17 @@ const Login = (props) => {
                                     OR
                                 </div>
 
-                                <div className="text-center">
+                                <div className="text-center mb-4">
                                     <div
                                         class="fb-login-button"
                                         data-width=""
-                                        data-size="large"
+                                        data-size="medium"
                                         data-button-type="continue_with"
                                         data-layout="default"
                                         data-auto-logout-link="false"
                                         data-use-continue-as="false"
                                     ></div>
                                 </div>
-                                <ul className="social d-flex justify-content-center mb-3">
-                                    <li className="item facebook mx-3">
-                                        <a
-                                            target="_blank"
-                                            onClick={() => {
-                                                // if (!state?.socialLoading) {
-                                                //     setState((state) => ({
-                                                //         ...state,
-                                                //         socialLoading: true,
-                                                //     }));
-                                                //     handleSocialLogin(
-                                                //         "facebook"
-                                                //     );
-                                                // }
-                                            }}
-                                        >
-                                            <img
-                                                src="/assets/img/facebook.png"
-                                                className="img-fluid"
-                                                alt="socail"
-                                            />
-                                        </a>
-                                    </li>
-                                </ul>
                                 <div className="text-center">
                                     <div
                                         id="g_id_onload"
