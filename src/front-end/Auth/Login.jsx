@@ -235,38 +235,16 @@ const Login = (props) => {
                                 <div className="other-login text-center mb-4">
                                     OR
                                 </div>
-                                <ul className="social d-flex justify-content-center mb-3">
-                                    <li className="item facebook mx-3">
-                                        <a
-                                            target="_blank"
-                                            onClick={() => {
-                                                // if (!state?.socialLoading) {
-                                                //     setState((state) => ({
-                                                //         ...state,
-                                                //         socialLoading: true,
-                                                //     }));
-                                                //     handleSocialLogin(
-                                                //         "facebook"
-                                                //     );
-                                                // }
-                                            }}
-                                        >
-                                            <img
-                                                src="/assets/img/facebook.png"
-                                                className="img-fluid"
-                                                alt="socail"
-                                            />
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div className="text-center">
+
+                                <div className="text-center mb-4">
                                     <div
-                                        className="fb-login-button"
-                                        data-max-rows="1"
-                                        data-size="<medium, large>"
+                                        class="fb-login-button"
+                                        data-width=""
+                                        data-size="medium"
                                         data-button-type="continue_with"
-                                        data-width="<100% or px>"
-                                        data-scope="<comma separated list of permissions, e.g. public_profile, email>"
+                                        data-layout="default"
+                                        data-auto-logout-link="false"
+                                        data-use-continue-as="false"
                                     ></div>
                                 </div>
                                 <div className="text-center">
