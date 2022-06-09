@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "../../constants";
@@ -6,7 +6,8 @@ import { HOST } from "../../constants";
 
 const Login = (props) => {
     const { history, location } = props;
-
+    const divGoogle = useRef(null);
+    const divFacebook = useRef(null);
     const [state, setState] = useState({
         socialLoading: false,
         isLoading: false,
@@ -24,6 +25,23 @@ const Login = (props) => {
             history.push("/dashboard");
         }
     }, []);
+
+    useEffect(() => {
+        if (divGoogle.current) {
+            window.google?.accounts?.id?.initialize({
+                client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                callback: (res, error) => {
+                    // This is the function that will be executed once the authentication with google is finished
+                },
+            });
+            window.google?.accounts?.id?.renderButton(divGoogle.current, {
+                theme: "filled_blue",
+                size: "medium",
+                type: "standard",
+                text: "continue_with",
+            });
+        }
+    }, [divGoogle.current]);
 
     const handleChange = (event) => {
         event.persist();
@@ -249,18 +267,19 @@ const Login = (props) => {
                                 </div>
                                 <div className="text-center">
                                     <div
-                                        id="g_id_onload"
-                                        data-client_id={
-                                            process.env
-                                                .REACT_APP_GOOGLE_CLIENT_ID
-                                        }
-                                        data-callback="handleCredentialResponse"
-                                        data-auto_prompt="false"
+                                        ref={divGoogle}
+                                        // id="g_id_onload"
+                                        // data-client_id={
+                                        //     process.env
+                                        //         .REACT_APP_GOOGLE_CLIENT_ID
+                                        // }
+                                        // data-callback="handleCredentialResponse"
+                                        // data-auto_prompt="false"
                                     ></div>
-                                    <div
+                                    {/* <div
                                         className="g_id_signin"
                                         data-type="standard"
-                                    ></div>
+                                    ></div> */}
                                     {/* <GoogleLogin
                                         clientId={
                                             process.env
