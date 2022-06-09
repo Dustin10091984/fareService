@@ -260,14 +260,16 @@ const Login = (props) => {
                                     </li>
                                 </ul>
                                 <div className="text-center">
-                                <div
-                                    className="fb-login-button"
-                                    data-max-rows="1"
-                                    data-size="<medium, large>"
-                                    data-button-type="continue_with"
-                                    data-width="<100% or px>"
-                                    data-scope="<comma separated list of permissions, e.g. public_profile, email>"
-                                ></div>
+                                    <div
+                                        className="fb-login-button"
+                                        data-max-rows="1"
+                                        data-size="<medium, large>"
+                                        data-button-type="continue_with"
+                                        data-width="<100% or px>"
+                                        data-scope="<comma separated list of permissions, e.g. public_profile, email>"
+                                    ></div>
+                                </div>
+                                <div className="text-center">
                                     <div
                                         id="g_id_onload"
                                         data-client_id={
