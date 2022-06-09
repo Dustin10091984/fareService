@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "../../constants";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
 
 const Login = (props) => {
     const { history, location } = props;
@@ -89,6 +89,10 @@ const Login = (props) => {
                     isLoading: false,
                 }));
             });
+    };
+
+    window.handleCredentialResponse = function ({ credential }) {
+        handleSocialLogin({ provider: "google", token: credential });
     };
 
     const handleSocialLogin = async ({ provider, token }) => {
@@ -256,7 +260,28 @@ const Login = (props) => {
                                     </li>
                                 </ul>
                                 <div className="text-center">
-                                    <GoogleLogin
+                                <div
+                                    className="fb-login-button"
+                                    data-max-rows="1"
+                                    data-size="<medium, large>"
+                                    data-button-type="continue_with"
+                                    data-width="<100% or px>"
+                                    data-scope="<comma separated list of permissions, e.g. public_profile, email>"
+                                ></div>
+                                    <div
+                                        id="g_id_onload"
+                                        data-client_id={
+                                            process.env
+                                                .REACT_APP_GOOGLE_CLIENT_ID
+                                        }
+                                        data-callback="handleCredentialResponse"
+                                        data-auto_prompt="false"
+                                    ></div>
+                                    <div
+                                        className="g_id_signin"
+                                        data-type="standard"
+                                    ></div>
+                                    {/* <GoogleLogin
                                         clientId={
                                             process.env
                                                 .REACT_APP_GOOGLE_CLIENT_ID
@@ -279,7 +304,7 @@ const Login = (props) => {
                                                 socialError: res.error,
                                             }));
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 {/* <button className="login-gmail mt-5">
                                     Login with Google
