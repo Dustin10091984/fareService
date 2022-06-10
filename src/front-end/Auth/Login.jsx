@@ -20,27 +20,31 @@ const Login = (props) => {
         socialError: "",
     });
 
-    console.log(window.FB);
+
+    useEffect(() => {
+        if (window.FB) {
+            window?.FB?.login(({ authResponse }) => {
+                console.log(authResponse);
+                if (authResponse) {
+                    const { accessToken } = authResponse;
+                    handleCredentialResponse({
+                        provider: "facebook",
+                        token: accessToken,
+                    });
+                }
+            });
+        }
+    }, [window.FB]);
 
     useEffect(() => {
         if (localStorage.userToken) {
             history.push("/dashboard");
         }
-        window?.FB?.login(({ authResponse }) => {
-            console.log(authResponse);
-            if (authResponse) {
-                const { accessToken } = authResponse;
-                handleCredentialResponse({
-                    provider: "facebook",
-                    token: accessToken,
-                });
-            }
-        });
     }, []);
 
     useEffect(() => {
         window?.FB?.XFBML.parse(divFacebook.current);
-    }, [divFacebook.current]);
+    }, []);
 
     useEffect(() => {
         if (divGoogle.current) {
