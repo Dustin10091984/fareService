@@ -27,7 +27,7 @@ const Login = (props) => {
                 console.log(authResponse);
                 if (authResponse) {
                     const { accessToken } = authResponse;
-                    handleCredentialResponse({
+                    handleSocialLogin({
                         provider: "facebook",
                         token: accessToken,
                     });
@@ -55,7 +55,7 @@ const Login = (props) => {
                 client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 callback: ({ credential }, error) => {
                     if (credential) {
-                        handleCredentialResponse({
+                        handleSocialLogin({
                             provider: "google",
                             token: credential,
                         });
@@ -135,10 +135,6 @@ const Login = (props) => {
                     isLoading: false,
                 }));
             });
-    };
-
-    const handleCredentialResponse = function ({ provider, credential }) {
-        handleSocialLogin({ provider, token: credential });
     };
 
     const handleSocialLogin = async ({ provider, token }) => {
