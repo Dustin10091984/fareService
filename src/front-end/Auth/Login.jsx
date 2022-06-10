@@ -22,13 +22,10 @@ const Login = (props) => {
 
 
     useEffect(() => {
-        console.log("====================================");
-        console.log(console.log(window.FB, authResponse));
-        console.log("====================================");
         if (window.FB) {
-            window?.FB?.login(({ status, authResponse }) => {
+            window?.FB?.login(({ authResponse }) => {
                 console.log(authResponse);
-                if (status == "connected" && authResponse) {
+                if (authResponse) {
                     const { accessToken } = authResponse;
                     handleCredentialResponse({
                         provider: "facebook",
@@ -37,6 +34,9 @@ const Login = (props) => {
                 }
             });
         }
+        console.log("====================================");
+        console.log(window.FB);
+        console.log("====================================");
     }, [window.FB]);
 
     useEffect(() => {
@@ -284,6 +284,7 @@ const Login = (props) => {
 
                                 <div className="text-center mb-4">
                                     <div
+                                        ref={divFacebook}
                                         className="fb-login-button"
                                         data-width=""
                                         data-size="medium"
