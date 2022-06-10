@@ -20,6 +20,8 @@ const Login = (props) => {
         socialError: "",
     });
 
+    console.log(window.FB);
+
     useEffect(() => {
         if (localStorage.userToken) {
             history.push("/dashboard");
@@ -282,6 +284,7 @@ const Login = (props) => {
                                         data-layout="default"
                                         data-auto-logout-link="false"
                                         data-use-continue-as="false"
+                                        data-auto-popup-disable="true"
                                     ></div>
                                 </div>
                                 <div className="text-center">
