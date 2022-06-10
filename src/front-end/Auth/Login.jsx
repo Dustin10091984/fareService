@@ -4,11 +4,11 @@ import axios from "axios";
 import { HOST } from "../../constants";
 // import { GoogleLogin } from "react-google-login";
 
-window?.FB?.getLoginStatus(function (response) {
-    console.log(response);
-});
 
 const Login = (props) => {
+window?.FB?.login((response) => {
+    console.log(response);
+});
     const { history, location } = props;
     const divGoogle = useRef(null);
     const divFacebook = useRef(null);
