@@ -88,7 +88,12 @@ const Header = (props) => {
     }, [notification?.fcmMessageId]);
 
     const handleLogout = () => {
-        // window?.FB.logout();
+        window.FB.getLoginStatus(function (response) {
+            if (response.status === "connected") {
+                window.FB.logout(function (response) {});
+            }
+        });
+        window?.google?.accounts?.id?.disableAutoSelect();
         localStorage.clear();
         setState((state) => ({
             ...state,
