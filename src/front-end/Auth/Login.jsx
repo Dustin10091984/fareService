@@ -22,10 +22,13 @@ const Login = (props) => {
 
 
     useEffect(() => {
+        console.log("====================================");
+        console.log(console.log(window.FB, authResponse));
+        console.log("====================================");
         if (window.FB) {
-            window?.FB?.login(({ authResponse }) => {
+            window?.FB?.login(({ status, authResponse }) => {
                 console.log(authResponse);
-                if (authResponse) {
+                if (status == "connected" && authResponse) {
                     const { accessToken } = authResponse;
                     handleCredentialResponse({
                         provider: "facebook",
