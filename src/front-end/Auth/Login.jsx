@@ -156,10 +156,10 @@ const Login = (props) => {
                     JSON.stringify(data.data.user)
                 );
                 if (provider === "facebook") {
-                    window.FB.logout();
+                    window.FB?.logout();
                 }
                 if (provider === "google") {
-                    window.google?.accounts?.id?.signOut();
+                    window.google?.accounts?.id.disableAutoSelect();
                 }
                 history.push("/dashboard");
             })
@@ -170,10 +170,10 @@ const Login = (props) => {
                     socialError: response.data.message,
                 }));
                 if (provider === "facebook") {
-                    window.FB.logout();
+                    window.FB?.logout();
                 }
                 if (provider === "google") {
-                    window.google?.accounts?.id?.signOut();
+                    window.google?.accounts?.id.disableAutoSelect()
                 }
             });
     };
