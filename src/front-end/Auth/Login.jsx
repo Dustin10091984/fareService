@@ -25,6 +25,7 @@ const Login = (props) => {
             history.push("/dashboard");
         }
         window?.FB?.login(({ authResponse }) => {
+            console.log(authResponse);
             if (authResponse) {
                 const { accessToken } = authResponse;
                 handleCredentialResponse({
