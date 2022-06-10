@@ -82,10 +82,8 @@ const Header = (props) => {
     }, [localStorage.getItem("userToken")]);
 
     useEffect(() => {
-        if (state?.is_loggedin) {
-            if (notification?.fcmMessageId) {
-                ref.current.click();
-            }
+        if (state?.is_loggedin && notification?.fcmMessageId) {
+            ref.current.click();
         }
     }, [notification?.fcmMessageId]);
 

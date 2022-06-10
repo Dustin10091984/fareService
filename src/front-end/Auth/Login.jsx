@@ -155,6 +155,12 @@ const Login = (props) => {
                     "user_data",
                     JSON.stringify(data.data.user)
                 );
+                if (provider === "facebook") {
+                    window.FB.logout();
+                }
+                if (provider === "google") {
+                    window.google?.accounts?.id?.signOut();
+                }
                 history.push("/dashboard");
             })
             .catch(({ response }) => {
@@ -163,6 +169,12 @@ const Login = (props) => {
                     socialLoading: false,
                     socialError: response.data.message,
                 }));
+                if (provider === "facebook") {
+                    window.FB.logout();
+                }
+                if (provider === "google") {
+                    window.google?.accounts?.id?.signOut();
+                }
             });
     };
 
