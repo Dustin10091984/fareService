@@ -23,6 +23,8 @@ const Login = (props) => {
     useEffect(() => {
         if (localStorage.userToken) {
             history.push("/dashboard");
+        } else {
+            window.FB.XFBML.parse(divFacebook.current);
         }
     }, []);
 
