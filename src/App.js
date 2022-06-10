@@ -108,7 +108,7 @@ if (typeof window.io != 'undefined') {
 
 window.fbAsyncInit = function () {
   window.FB.init({
-    appId: '389930956527300',
+    appId: '5977506145599724',
     cookie: true,
     xfbml: true,
     version: 'v14.0'
