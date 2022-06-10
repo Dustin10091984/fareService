@@ -90,7 +90,7 @@ const Header = (props) => {
     }, [notification?.fcmMessageId]);
 
     const handleLogout = () => {
-        window?.FB.logout();
+        // window?.FB.logout();
         localStorage.clear();
         setState((state) => ({
             ...state,
