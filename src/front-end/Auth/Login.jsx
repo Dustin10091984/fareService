@@ -4,11 +4,7 @@ import axios from "axios";
 import { HOST } from "../../constants";
 // import { GoogleLogin } from "react-google-login";
 
-
 const Login = (props) => {
-window?.FB?.login((response) => {
-    console.log(response);
-});
     const { history, location } = props;
     const divGoogle = useRef(null);
     const divFacebook = useRef(null);
@@ -28,6 +24,15 @@ window?.FB?.login((response) => {
         if (localStorage.userToken) {
             history.push("/dashboard");
         }
+        window?.FB?.login(({ authResponse }) => {
+            if (authResponse) {
+                const { accessToken } = authResponse;
+                handleCredentialResponse({
+                    provider: "facebook",
+                    token: accessToken,
+                });
+            }
+        });
     }, []);
 
     useEffect(() => {
@@ -40,7 +45,10 @@ window?.FB?.login((response) => {
                 client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 callback: ({ credential }, error) => {
                     if (credential) {
-                        handleCredentialResponse({ credential });
+                        handleCredentialResponse({
+                            provider: "google",
+                            credential,
+                        });
                     }
                 },
             });
@@ -119,8 +127,8 @@ window?.FB?.login((response) => {
             });
     };
 
-    const handleCredentialResponse = function ({ credential }) {
-        handleSocialLogin({ provider: "google", token: credential });
+    const handleCredentialResponse = function ({ provider, credential }) {
+        handleSocialLogin({ provider, token: credential });
     };
 
     const handleSocialLogin = async ({ provider, token }) => {
@@ -266,7 +274,7 @@ window?.FB?.login((response) => {
 
                                 <div className="text-center mb-4">
                                     <div
-                                        class="fb-login-button"
+                                        className="fb-login-button"
                                         data-width=""
                                         data-size="medium"
                                         data-button-type="continue_with"
