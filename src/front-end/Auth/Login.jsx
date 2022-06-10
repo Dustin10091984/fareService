@@ -34,6 +34,9 @@ const Login = (props) => {
                 }
             });
         }
+        console.log("====================================");
+        console.log(window.FB);
+        console.log("====================================");
     }, [window.FB]);
 
     useEffect(() => {
