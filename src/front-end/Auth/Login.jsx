@@ -44,7 +44,7 @@ const Login = (props) => {
     }, []);
 
     useEffect(() => {
-        window?.FB?.XFBML.parse(divFacebook.current);
+        window?.FB?.XFBML.parse();
     }, []);
 
     useEffect(() => {
