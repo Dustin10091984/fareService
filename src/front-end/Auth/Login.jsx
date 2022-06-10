@@ -57,7 +57,7 @@ const Login = (props) => {
                     if (credential) {
                         handleCredentialResponse({
                             provider: "google",
-                            credential,
+                            token: credential,
                         });
                     }
                 },
