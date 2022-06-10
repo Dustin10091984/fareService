@@ -20,13 +20,14 @@ const Login = (props) => {
         socialError: "",
     });
 
+    const [tokenData, setTokenData] = useState(null);
 
     useEffect(() => {
         if (window.FB) {
             window?.FB?.login(({ authResponse }) => {
-                console.log(authResponse);
                 if (authResponse) {
                     const { accessToken } = authResponse;
+                    setTokenData({ token: accessToken, provider: "facebook" });
                     handleSocialLogin({
                         provider: "facebook",
                         token: accessToken,
@@ -34,10 +35,7 @@ const Login = (props) => {
                 }
             });
         }
-        console.log("====================================");
-        console.log(window.FB);
-        console.log("====================================");
-    }, [window.FB]);
+    }, []);
 
     useEffect(() => {
         if (localStorage.userToken) {
@@ -55,6 +53,7 @@ const Login = (props) => {
                 client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
                 callback: ({ credential }, error) => {
                     if (credential) {
+                        setTokenData({ token: credential, provider: "google" });
                         handleSocialLogin({
                             provider: "google",
                             token: credential,
