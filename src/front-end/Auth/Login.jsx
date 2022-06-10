@@ -32,11 +32,10 @@ const Login = (props) => {
         if (divGoogle.current) {
             window.google?.accounts?.id?.initialize({
                 client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-                callback: (res, error) => {
-                    console.log("====================================");
-                    console.log(res, error);
-                    console.log("====================================");
-                    // This is the function that will be executed once the authentication with google is finished
+                callback: ({ credential }, error) => {
+                    if (credential) {
+                        handleCredentialResponse({ credential });
+                    }
                 },
             });
             window.google?.accounts?.id?.renderButton(divGoogle.current, {
