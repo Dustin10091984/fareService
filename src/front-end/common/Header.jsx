@@ -292,13 +292,7 @@ const Header = (props) => {
                                     </div>
                                     {state?.is_search &&
                                         !!state?.subServices?.length && (
-                                            <ul
-                                                className="list-group-flush search-result"
-                                                style={{
-                                                    position: "absolute",
-                                                    zIndex: "1",
-                                                }}
-                                            >
+                                            <ul className="list-group-flush search-result">
                                                 {state?.subServices?.map(
                                                     (sub_menu, index) =>
                                                         index < 6 && (

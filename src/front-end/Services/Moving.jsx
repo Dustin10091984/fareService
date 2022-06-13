@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getVehicleTypes } from "./../../store/Slices/moving/movingSlice";
+import { useDispatch } from "react-redux";
+import Select from "react-select";
 import ServiceType from "./../../constants/ServiceType";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
-import {
-    geocodeByAddress,
-    geocodeByPlaceId,
-    getLatLng,
-} from "react-places-autocomplete";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import Calendar from "react-calendar";
-// import "react-calendar/dist/Calendar.css";
-import axios from "axios";
-import Loading from "../common/Loading";
 import { MapLoadedApiContext } from "../../helper/context";
 
 export const Moving = (props) => {
@@ -311,57 +304,48 @@ export const Moving = (props) => {
                 </h4>
                 <div className="d-flex justify-content-between">
                     <div className="common-input my-2 pr-2">
-                        <select
-                            name="country"
-                            value={cityCountry?.country}
-                            onChange={(e) => {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    zip_code: "",
-                                }));
-                                handleCountryCityChange(e);
+                        <Select
+                            // value={cityCountry?.country || null}
+                            options={countriesData?.data?.map(
+                                (countryData) => ({
+                                    value: countryData.id,
+                                    label: countryData.name,
+                                })
+                            )}
+                            onChange={({ value }) => {
+                                handleCountryCityChange({
+                                    name: "country",
+                                    value,
+                                });
                             }}
-                        >
-                            <option defaultValue="">Select Country</option>
-                            {countriesData?.data?.map((countryData, index) => (
-                                <Fragment key={index}>
-                                    <option value={countryData.id}>
-                                        {countryData.name}
-                                    </option>
-                                </Fragment>
-                            ))}
-                        </select>
+                            placeholder="Please Select Country"
+                            maxMenuHeight={200}
+                        />
                     </div>
                     <div className="common-input my-2 pl-2">
-                        <select
-                            name="city"
-                            disabled={!cityCountry?.country}
-                            value={cityCountry?.city}
-                            onChange={(e) => {
-                                setState((prevState) => ({
-                                    ...prevState,
-                                    zip_code: "",
+                        <Select
+                            // value={cityCountry?.city || null}
+                            isDisabled={!!!cityCountry?.country}
+                            options={((countryData) => {
+                                return countryData?.cities?.map((cityData) => ({
+                                    value: cityData.id,
+                                    label: cityData.name,
                                 }));
-                                handleCountryCityChange(e);
-                            }}
-                        >
-                            <option defaultValue="">Select City</option>
-                            {(() => {
-                                const countryData = countriesData?.data?.find(
+                            })(
+                                countriesData?.data?.find(
                                     (countryData) =>
                                         countryData.id == cityCountry?.country
-                                );
-                                return countryData?.cities?.map(
-                                    (cityData, index) => (
-                                        <Fragment key={index}>
-                                            <option value={cityData.id}>
-                                                {cityData.name}
-                                            </option>
-                                        </Fragment>
-                                    )
-                                );
-                            })()}
-                        </select>
+                                )
+                            )}
+                            onChange={({ value }) => {
+                                handleCountryCityChange({
+                                    name: "city",
+                                    value,
+                                });
+                            }}
+                            placeholder="Please Select City"
+                            maxMenuHeight={200}
+                        />
                     </div>
                 </div>
                 <div

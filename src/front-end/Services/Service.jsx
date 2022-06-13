@@ -1,4 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
+import Select from "react-select";
+
 const Service = ({
     headerMenu,
     getServiceQuestion,
@@ -261,7 +263,23 @@ const Service = ({
                                 </h4>
                                 <div className="d-flex justify-content-between">
                                     <div className="common-input my-2 mx-3">
-                                        <select
+                                        <Select
+                                            options={countriesData?.data?.map(
+                                                (countryData) => ({
+                                                    value: countryData.id,
+                                                    label: countryData.name,
+                                                })
+                                            )}
+                                            onChange={({ value }) => {
+                                                handleCountryCityChange({
+                                                    name: "country",
+                                                    value,
+                                                });
+                                            }}
+                                            placeholder="Please Select Country"
+                                            maxMenuHeight={200}
+                                        />
+                                        {/* <select
                                             name="country"
                                             value={cityCountry?.country}
                                             onChange={(e) => {
@@ -284,10 +302,35 @@ const Service = ({
                                                     </Fragment>
                                                 )
                                             )}
-                                        </select>
+                                        </select> */}
                                     </div>
                                     <div className="common-input my-2 mx-3">
-                                        <select
+                                        <Select
+                                            isDisabled={!!!cityCountry?.country}
+                                            options={((countryData) => {
+                                                return countryData?.cities?.map(
+                                                    (cityData) => ({
+                                                        value: cityData.id,
+                                                        label: cityData.name,
+                                                    })
+                                                );
+                                            })(
+                                                countriesData?.data?.find(
+                                                    (countryData) =>
+                                                        countryData.id ==
+                                                        cityCountry?.country
+                                                )
+                                            )}
+                                            onChange={({ value }) => {
+                                                handleCountryCityChange({
+                                                    name: "city",
+                                                    value,
+                                                });
+                                            }}
+                                            placeholder="Please Select City"
+                                            maxMenuHeight={200}
+                                        />
+                                        {/* <select
                                             name="city"
                                             disabled={!cityCountry?.country}
                                             value={cityCountry?.city}
@@ -319,7 +362,7 @@ const Service = ({
                                                     )
                                                 );
                                             })()}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 <div
