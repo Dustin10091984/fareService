@@ -57,7 +57,7 @@ export const Services = (props) => {
         });
     };
 
-    const handleCountryCityChange = ({ target: { name, value } }) => {
+    const handleCountryCityChange = ({ name, value }) => {
         if (name === "country") {
             setState({
                 ...state,

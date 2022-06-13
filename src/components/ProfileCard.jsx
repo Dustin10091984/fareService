@@ -1,5 +1,4 @@
 import { useEffect, memo } from "react";
-import { toast } from "react-toastify";
 import Rating from "./Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { changeImage, initialState } from "./../store/Slices/UserSlice";
@@ -8,8 +7,6 @@ import { HOST } from "../constants";
 const ProfileCard = ({ profile }) => {
     const dispatch = useDispatch();
     const imageUpdate = useSelector((state) => state.userReducer.imageUpdate);
-
-    console.log("sldkj");
 
     useEffect(() => {
         return () => {
