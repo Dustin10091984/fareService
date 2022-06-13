@@ -22,20 +22,14 @@ const Login = (props) => {
 
     const [tokenData, setTokenData] = useState(null);
 
-    useEffect(() => {
-        if (window.FB) {
-            window?.FB?.login(({ authResponse }) => {
-                if (authResponse) {
-                    const { accessToken } = authResponse;
-                    setTokenData({ token: accessToken, provider: "facebook" });
-                    handleSocialLogin({
-                        provider: "facebook",
-                        token: accessToken,
-                    });
-                }
-            });
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (window.FB) {
+    //         window?.FB?.login(({ authResponse }) => {
+    //             if (authResponse) {
+    //             }
+    //         });
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (localStorage.userToken) {
@@ -173,9 +167,27 @@ const Login = (props) => {
                     window.FB?.logout();
                 }
                 if (provider === "google") {
-                    window.google?.accounts?.id.disableAutoSelect()
+                    window.google?.accounts?.id.disableAutoSelect();
                 }
             });
+    };
+
+    const statusChangeCallback = ({ authResponse, status }) => {
+        if (authResponse && status === "connected") {
+            const { accessToken } = authResponse;
+            setTokenData({ token: accessToken, provider: "facebook" });
+            handleSocialLogin({
+                provider: "facebook",
+                token: accessToken,
+            });
+        } else {
+        }
+    };
+
+    window.handleFBLogin = () => {
+        window?.FB?.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
     };
 
     const hasError = (field) => (state.errors[field] ? true : false);
@@ -299,7 +311,8 @@ const Login = (props) => {
                                         data-layout="default"
                                         data-auto-logout-link="false"
                                         data-use-continue-as="false"
-                                        data-auto-popup-disable="true"
+                                        data-scope="public_profile,email"
+                                        data-onlogin="handleFBLogin"
                                     ></div>
                                 </div>
                                 <div className="text-center">
