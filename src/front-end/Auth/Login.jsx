@@ -172,7 +172,8 @@ const Login = (props) => {
             });
     };
 
-    const statusChangeCallback = ({ authResponse, status }) => {
+    const statusChangeCallback = (response) => {
+        const { authResponse, status } = response;
         if (authResponse && status === "connected") {
             const { accessToken } = authResponse;
             setTokenData({ token: accessToken, provider: "facebook" });
@@ -180,7 +181,16 @@ const Login = (props) => {
                 provider: "facebook",
                 token: accessToken,
             });
-        } else {
+        } else if (status === "not_authorized") {
+            setState((state) => ({
+                ...state,
+                socialError: "You have not authorized the app",
+            }));
+        } else if (status === "unknown") {
+            setState((state) => ({
+                ...state,
+                socialError: "facebook login failed",
+            }));
         }
     };
 
