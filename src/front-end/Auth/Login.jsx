@@ -7,7 +7,6 @@ import { HOST } from "../../constants";
 const Login = (props) => {
     const { history, location } = props;
     const divGoogle = useRef(null);
-    const divFacebook = useRef(null);
     const [state, setState] = useState({
         socialLoading: false,
         isLoading: false,
@@ -313,7 +312,6 @@ const Login = (props) => {
 
                                 <div className="text-center mb-4">
                                     <div
-                                        ref={divFacebook}
                                         className="fb-login-button"
                                         data-width=""
                                         data-size="medium"
