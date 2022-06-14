@@ -128,7 +128,10 @@ export const ServicesHistory = (props) => {
                 allowOutsideClick: false,
                 showCloseButton: true,
             });
-            handleServiceRequestNotification(payData.service_request_id);
+            
+            dispatch(
+                handleServiceRequestNotification(payData.service_request_id)
+            );
             payRef.current.click();
         }
     }, [payData]);
