@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
-import { getServiceRequestList, serviceRequestListUpdate } from "../store/Slices/services/RequestServiceSclice";
+import {
+    getServiceRequestList,
+    handleServiceRequestNotification,
+    serviceRequestListUpdate,
+} from "../store/Slices/services/RequestServiceSclice";
 import { pay } from "../store/Slices/payments/paymentSlice";
 import {
     addFeedback,
@@ -124,6 +128,7 @@ export const ServicesHistory = (props) => {
                 allowOutsideClick: false,
                 showCloseButton: true,
             });
+            handleServiceRequestNotification(payData.service_request_id);
             payRef.current.click();
         }
     }, [payData]);
