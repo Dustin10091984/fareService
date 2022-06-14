@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios';
 import { helperAxios } from "./../../../helper/axios";
 
 const paymentSlice = createSlice({
@@ -11,7 +12,10 @@ const paymentSlice = createSlice({
     },
     reducers: {
         payment: (state, action) => {
-            return action.payload;
+            return {
+                ...state,
+                payment: action.payload
+            };
         },
         list: (state, action) => {
             return {
