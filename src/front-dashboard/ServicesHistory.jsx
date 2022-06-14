@@ -13,7 +13,7 @@ import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Rating from "../components/Rating";
 import Paginate from "./../components/Paginate";
 import { HOST } from "../constants";
-import Swal from "sweetalert2";
+import { ReactSwal } from "../helper/swal";
 
 export const ServicesHistory = (props) => {
     const { location, history } = props;
@@ -90,7 +90,7 @@ export const ServicesHistory = (props) => {
     useEffect(() => {
         if (feedbackMessage && feedbackError == false) {
             ref.current.click();
-            Swal.fire({
+            ReactSwal.fire({
                 position: "top-end",
                 icon: "success",
                 title: "Feedback added successfully!",
@@ -1057,7 +1057,7 @@ export const ServicesHistory = (props) => {
                                                     payError == false &&
                                                     payData
                                                 ) {
-                                                    Swal.fire({
+                                                    ReactSwal.fire({
                                                         position: "top-end",
                                                         icon: "success",
                                                         title: payMessage,
