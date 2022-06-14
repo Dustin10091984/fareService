@@ -67,29 +67,29 @@ export const { paymentInitialState } = paymentSlice.actions;
 const { list, removeCard, addCard, payment } = paymentSlice.actions;
 
 export const pay = (data) => async dispatch => {
-    const url = `/api/user/transaction/payable-amount`;
-    dispatch(helperAxios("post", url, payment, true, data));
-    // try {
-    //     dispatch(payment({ error: false, loading: true }));
-    //     await axios({
-    //         method: 'post',
-    //         headers: {
-    //             Authorization: `${localStorage.userToken}`
-    //         },
-    //         url: process.env.REACT_APP_API_BASE_URL + `/api/user/transaction/payable-amount`,
-    //         data: data
-    //     }).then((response) => {
-    //         let data = response.data;
-    //         data.loading = false
-    //         dispatch(payment(data));
-    //     }).catch((error) => {
-    //         let data = error.response.data;
-    //         data.loading = false
-    //         dispatch(payment(data));
-    //     });
-    // } catch (error) {
-    //     dispatch(payment({ error: true, loading: false, message: "something went wrong!" }));
-    // }
+    // const url = `/api/user/transaction/payable-amount`;
+    // dispatch(helperAxios("post", url, payment, true, data));
+    try {
+        dispatch(payment({ error: false, loading: true }));
+        await axios({
+            method: 'post',
+            headers: {
+                Authorization: `${localStorage.userToken}`
+            },
+            url: process.env.REACT_APP_API_BASE_URL + `/api/user/transaction/payable-amount`,
+            data: data
+        }).then((response) => {
+            let data = response.data;
+            data.loading = false
+            dispatch(payment(data));
+        }).catch((error) => {
+            let data = error.response.data;
+            data.loading = false
+            dispatch(payment(data));
+        });
+    } catch (error) {
+        dispatch(payment({ error: true, loading: false, message: "something went wrong!" }));
+    }
 }
 
 export const addPaymentCard = (data) => async dispatch => {
