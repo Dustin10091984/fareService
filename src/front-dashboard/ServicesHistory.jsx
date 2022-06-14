@@ -1141,6 +1141,7 @@ export const ServicesHistory = (props) => {
                                 onClick={handlePayClick}
                                 disabled={
                                     payLoading ||
+                                    isLoading ||
                                     state?.payable?.amount == null ||
                                     checkoutError != null
                                 }
