@@ -51,10 +51,18 @@ export const ServicesHistory = (props) => {
         (state) => state?.serviceRequest?.list?.data
     );
 
-    const payLoading = useSelector((state) => state?.paymentReducer?.loading);
-    const payError = useSelector((state) => state?.paymentReducer?.error);
-    const payMessage = useSelector((state) => state?.paymentReducer?.message);
-    const payData = useSelector((state) => state?.paymentReducer?.data);
+    const payLoading = useSelector(
+        (state) => state?.paymentReducer?.payment?.loading
+    );
+    const payError = useSelector(
+        (state) => state?.paymentReducer?.payment?.error
+    );
+    const payMessage = useSelector(
+        (state) => state?.paymentReducer?.payment?.message
+    );
+    const payData = useSelector(
+        (state) => state?.paymentReducer?.payment?.data
+    );
 
     const feedbackLoading = useSelector(
         (state) => state?.feedbackReducer?.loading
@@ -104,6 +112,21 @@ export const ServicesHistory = (props) => {
             return;
         }
     }, [feedbackMessage, feedbackError]);
+
+    useEffect(() => {
+        if (payMessage && payError == false) {
+            ReactSwal.fire({
+                position: "top-end",
+                icon: "success",
+                title: payMessage,
+                showConfirmButton: false,
+                timer: 1000,
+                allowOutsideClick: false,
+                showCloseButton: true,
+            });
+            payRef.current.click();
+        }
+    }, [payData]);
 
     /**
      * get payable object and set state
@@ -1053,22 +1076,6 @@ export const ServicesHistory = (props) => {
                                                 );
                                             }
                                             if (payLoading == false) {
-                                                if (
-                                                    payError == false &&
-                                                    payData
-                                                ) {
-                                                    ReactSwal.fire({
-                                                        position: "top-end",
-                                                        icon: "success",
-                                                        title: payMessage,
-                                                        showConfirmButton: false,
-                                                        timer: 1000,
-                                                        allowOutsideClick: false,
-                                                        showCloseButton: true,
-                                                    });
-                                                    payRef.current.click();
-                                                    return;
-                                                }
                                                 if (payError) {
                                                     return (
                                                         <div
