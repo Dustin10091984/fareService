@@ -18,7 +18,7 @@ import Swal from "sweetalert2";
 export const ServicesHistory = (props) => {
     const { location, history } = props;
     // const location = useLocation();
-
+    const [isLoading, setIsLoading] = useState(false);
     const [state, setState] = useState({
         second: 0,
         payable: "",
@@ -159,6 +159,7 @@ export const ServicesHistory = (props) => {
      * handle pay click
      */
     const handlePayClick = async () => {
+        setIsLoading(true);
         const cardElement = elements.getElement("card");
         try {
             const { error, token } = await stripe.createToken(
@@ -168,14 +169,17 @@ export const ServicesHistory = (props) => {
                 dispatch(
                     pay({ token: token.id, payable_id: state.payable.id })
                 );
+                setIsLoading(false);
             }
             if (error) {
                 setState((state) => ({
                     ...state,
                     error: { ...state.error, stripeErr: error.message },
                 }));
+                setIsLoading(false);
             }
         } catch (error) {
+            setIsLoading(false);
             setState((state) => ({
                 ...state,
                 error: { ...state.error, stripeErr: error.message },
@@ -1136,6 +1140,7 @@ export const ServicesHistory = (props) => {
                             <button
                                 onClick={handlePayClick}
                                 disabled={
+                                    payLoading ||
                                     state?.payable?.amount == null ||
                                     checkoutError != null
                                 }
