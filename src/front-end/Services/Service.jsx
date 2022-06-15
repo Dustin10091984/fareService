@@ -480,30 +480,17 @@ const Service = ({
                                 <ul className="time-list d-flex align-items-center justify-content-center flex-wrap recommend-times">
                                     {serviceData?.data?.service_requests?.map(
                                         (service, index) =>
-                                            index < 2 && (
+                                            index <= 6 && (
                                                 <li
                                                     key={index}
                                                     className="cursor-default d-flex align-items-center justify-content-center"
                                                 >
-                                                    {service?.hours} hours
+                                                    {service?.hours == 1
+                                                        ? "hour"
+                                                        : "hours"}
                                                 </li>
                                             )
                                     )}
-                                    {/* <li className="d-flex align-items-center justify-content-center">
-                                        4 Hours
-                                    </li>
-                                    <li className="d-flex align-items-center justify-content-center">
-                                        6 Hours
-                                    </li>
-                                    <li className="d-flex align-items-center justify-content-center">
-                                        8 Hours
-                                    </li>
-                                    <li className="d-flex align-items-center justify-content-center">
-                                        10 Hours
-                                    </li>
-                                    <li className="d-flex align-items-center justify-content-center">
-                                        2 Hours
-                                    </li>} */}
                                 </ul>
                             </>
                         )}
