@@ -32,6 +32,128 @@ const Footer = (props) => {
         }
     }, [getLinks]);
 
+    const FooterServices = () => {
+        let sub_services = [];
+        headerMenu?.forEach((service) =>
+            service?.sub_services?.forEach((sub_service, index) => {
+                sub_services = [...sub_services, sub_service];
+            })
+        );
+        return sub_services.map(
+            (sub_service, index) =>
+                !!(index % 2 == 0) && (
+                    <tr className="show-all" key={index}>
+                        <td
+                            className="col-6"
+                            key={`${sub_service.service_id}_${sub_service.id}`}
+                        >
+                            <Link
+                                to={`/services/${sub_service.service_id}/${sub_service.id}#services-section`}
+                                className="link"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                                onClick={(e) => {
+                                    if (
+                                        location?.pathname ==
+                                            `/services/${sub_service.service_id}/${sub_service.id}` &&
+                                        location?.hash == `#services-section`
+                                    ) {
+                                        e.preventDefault();
+                                    }
+                                    window.scrollTo({
+                                        top: 0,
+                                        behavior: "smooth",
+                                    });
+                                    ref.current.click();
+                                }}
+                            >
+                                {sub_service.name}
+                            </Link>
+                        </td>
+                        {!!sub_services[index + 1] && (
+                            <td
+                                className="col-6"
+                                key={`${sub_services[index + 1].service_id}_${
+                                    sub_services[index + 1].id
+                                }`}
+                            >
+                                <Link
+                                    to={`/services/${
+                                        sub_services[index + 1].service_id
+                                    }/${
+                                        sub_services[index + 1].id
+                                    }#services-section`}
+                                    className="link"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={(e) => {
+                                        if (
+                                            location?.pathname ==
+                                                `/services/${
+                                                    sub_services[index + 1]
+                                                        .service_id
+                                                }/${
+                                                    sub_services[index + 1].id
+                                                }` &&
+                                            location?.hash ==
+                                                `#services-section`
+                                        ) {
+                                            e.preventDefault();
+                                        }
+                                        window.scrollTo({
+                                            top: 0,
+                                            behavior: "smooth",
+                                        });
+                                        ref.current.click();
+                                    }}
+                                >
+                                    {sub_services[index + 1].name}
+                                </Link>
+                            </td>
+                        )}
+                    </tr>
+                )
+        );
+    };
+
+    const FooterOtherLinks = () => {
+        if (state.modal?.type == "all") {
+            const otherLinks = state?.links?.filter(
+                (link) => link.type == null && link.is_blog == false
+            );
+            return otherLinks.map((link, index) => (
+                <div className="item col-md-6" key={link?.id}>
+                    <a
+                        href={link?.url}
+                        className=" link close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        target="_blank"
+                    >
+                        {link?.name || link?.page}
+                    </a>
+                </div>
+            ));
+        }
+        if (state?.modal?.type == "blog") {
+            const blogLinks = state?.links?.filter((link) => link?.is_blog);
+            return blogLinks.map((link, index) => (
+                <div className="item col-md-6" key={link?.id}>
+                    <a
+                        href={link?.url}
+                        className="link close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        target="_blank"
+                    >
+                        {link?.name || link?.page}
+                    </a>
+                </div>
+            ));
+        }
+        return <></>;
+    };
+
     return (
         <>
             <div className="container">
@@ -614,91 +736,28 @@ const Footer = (props) => {
                             </button>
                         </div>
                         <div className="modal-body">
+                            {state?.modal?.type == "services" && (
+                                <table className="table-borderless table rem-1-5">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col-6">Services</th>
+                                            <th scope="col-6">Services</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <FooterServices></FooterServices>
+                                    </tbody>
+                                </table>
+                            )}
                             <div className="row m-2 show-all">
                                 {/* <div className="d-flex show-all align-items-center justify-content-between flex-wrap"> */}
-                                {state?.modal?.type != "services" &&
-                                    state?.links?.map((link) => {
-                                        if (
-                                            state.modal?.type == "all" &&
-                                            link.type == null &&
-                                            link.is_blog == false
-                                        ) {
-                                            return (
-                                                <div
-                                                    className="item col-md-6"
-                                                    key={link?.id}
-                                                >
-                                                    <a
-                                                        href={link?.url}
-                                                        className=" link close"
-                                                        data-dismiss="modal"
-                                                        aria-label="Close"
-                                                        target="_blank"
-                                                    >
-                                                        {link?.name ||
-                                                            link?.page}
-                                                    </a>
-                                                </div>
-                                            );
-                                        } else if (
-                                            state?.modal?.type == "blog" &&
-                                            link?.is_blog
-                                        ) {
-                                            return (
-                                                <div
-                                                    className="item col-md-6"
-                                                    key={link?.id}
-                                                >
-                                                    <a
-                                                        href={link?.url}
-                                                        className="link close"
-                                                        data-dismiss="modal"
-                                                        aria-label="Close"
-                                                        target="_blank"
-                                                    >
-                                                        {link?.name ||
-                                                            link?.page}
-                                                    </a>
-                                                </div>
-                                            );
-                                        }
-                                    })}
-                                {state?.modal?.type == "services" &&
-                                    headerMenu?.map((service) =>
-                                        service?.sub_services?.map(
-                                            (sub_service) => (
-                                                <li
-                                                    className="item col-md-6"
-                                                    key={`${service.id}_${sub_service.id}`}
-                                                >
-                                                    <Link
-                                                        to={`/services/${service.id}/${sub_service.id}#services-section`}
-                                                        className="link"
-                                                        data-dismiss="modal"
-                                                        aria-label="Close"
-                                                        onClick={(e) => {
-                                                            if (
-                                                                location?.pathname ==
-                                                                    `/services/${service.id}/${sub_service.id}` &&
-                                                                location?.hash ==
-                                                                    `#services-section`
-                                                            ) {
-                                                                e.preventDefault();
-                                                            }
-                                                            window.scrollTo({
-                                                                top: 0,
-                                                                behavior:
-                                                                    "smooth",
-                                                            });
-                                                            ref.current.click();
-                                                        }}
-                                                    >
-                                                        {sub_service.name}
-                                                    </Link>
-                                                </li>
-                                            )
-                                        )
-                                    )}
+                                {state?.modal?.type != "services" && (
+                                    <table className="table-borderless table rem-1-5">
+                                        <tbody>
+                                            <FooterOtherLinks />
+                                        </tbody>
+                                    </table>
+                                )}
                                 {/* </div> */}
                             </div>
                         </div>
