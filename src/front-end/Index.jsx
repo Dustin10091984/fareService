@@ -56,8 +56,9 @@ export const Index = (props) => {
                                 <div className="title">Popular Services</div>
                                 <div className="sub-des">
                                     Explore our top services. All our services
-                                    are designed with you in mind. See for
-                                    yourself
+                                    are designed with you in mind.
+                                    <br />
+                                    <strong>See for yourself.</strong>
                                 </div>
                             </div>
                         </div>
@@ -217,14 +218,15 @@ export const Index = (props) => {
                                         Guaranteed
                                     </div>
                                     <div className="check-des">
-                                        Your Happiness, GuaranteedYour happiness
-                                        is our goal. If you’re not happy, we’ll
-                                        work to make it right. Our friendly
-                                        customer service agents are available 24
-                                        hours a day, 7 days a week. The Farenow
-                                        Happiness Guarantee only applies when
-                                        you book and pay for a service directly
-                                        through the Farenow platform.{" "}
+                                        Your Happiness, Guaranteed Your
+                                        happiness is our goal. If you’re not
+                                        happy, we’ll work to make it right. Our
+                                        friendly customer service agents are
+                                        available 24 hours a day, 7 days a week.
+                                        The Farenow Happiness Guarantee only
+                                        applies when you book and pay for a
+                                        service directly through the Farenow
+                                        platform.{" "}
                                         {/* <a href="#">Learn more</a> */}
                                     </div>
                                 </div>
@@ -250,10 +252,10 @@ export const Index = (props) => {
                                 <div className="title">Get the Farenow App</div>
                                 <div className="sub-des">
                                     Book and manage appointments, message your
-                                    pro, view pro profiles and ratings, see
-                                    real-time location of
+                                    pback-layerrofessional, view pro profiles
+                                    and ratings, see real-time location of
                                     <br className="d-none d-md-block" />
-                                    your pro and so much more.
+                                    your professional and so much more.
                                 </div>
                             </div>
                         </div>
@@ -320,9 +322,9 @@ export const Index = (props) => {
                                         alt=""
                                         className="img-fluid"
                                     />
-                                    <div className="back-layer">
-                                        {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
-                                    </div>
+                                    {/* <div className="back-layer"> */}
+                                    {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
+                                    {/* </div> */}
                                     {/* <div className="inner-btn d-flex align-items-center justify-content-center">
                                         <a href="#" className="button-common">
                                             Show all Home Products
