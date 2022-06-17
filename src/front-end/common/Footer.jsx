@@ -207,7 +207,7 @@ const Footer = (props) => {
                                     if (
                                         link.type == null &&
                                         link.is_blog == false &&
-                                        countLink < 0
+                                        countLink < 8
                                     ) {
                                         countLink = countLink + 1;
                                         return (
@@ -320,7 +320,7 @@ const Footer = (props) => {
                                             service?.sub_services?.map(
                                                 (sub_service) => {
                                                     if (
-                                                        total < 2 &&
+                                                        total < 8 &&
                                                         total != null
                                                     ) {
                                                         total++;
@@ -361,7 +361,7 @@ const Footer = (props) => {
                                                             </li>
                                                         );
                                                     } else if (
-                                                        total == 2 &&
+                                                        total == 8 &&
                                                         total != null
                                                     ) {
                                                         total = null;
