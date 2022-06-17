@@ -252,8 +252,9 @@ export const Index = (props) => {
                                 <div className="title">Get the Farenow App</div>
                                 <div className="sub-des">
                                     Book and manage appointments, message your
-                                    pback-layerrofessional, view pro profiles
-                                    and ratings, see real-time location of
+                                    pback-layerrofessional, view professional
+                                    profiles and ratings, see real-time location
+                                    of
                                     <br className="d-none d-md-block" />
                                     your professional and so much more.
                                 </div>
@@ -351,7 +352,7 @@ export const Index = (props) => {
                         <div className="col-md-12">
                             <div className="stre-detail">
                                 <div className="title">
-                                    Are You a Five Star Pro?
+                                    Are You a Five Star Professional?
                                 </div>
                                 <div className="des">
                                     From cleaners to handymen to smart home
@@ -367,7 +368,7 @@ export const Index = (props) => {
                                     className="button-common"
                                 >
                                     {/* <a href="#" className="button-common"> */}
-                                    Become a Farenow Pro
+                                    Become a Farenow professional
                                     {/* </a> */}
                                 </Link>
                             </div>
