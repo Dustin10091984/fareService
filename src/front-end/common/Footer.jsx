@@ -50,9 +50,13 @@ const Footer = (props) => {
                             <Link
                                 to={`/services/${sub_service.service_id}/${sub_service.id}#services-section`}
                                 className="link"
-                                data-dismiss="modal"
-                                aria-label="Close"
                                 onClick={(e) => {
+                                    console.log(
+                                        location?.pathname,
+                                        `/services/${sub_service.service_id}/${sub_service.id}`,
+                                        location?.hash,
+                                        `#services-section`
+                                    );
                                     if (
                                         location?.pathname ==
                                             `/services/${sub_service.service_id}/${sub_service.id}` &&
@@ -84,8 +88,6 @@ const Footer = (props) => {
                                         sub_services[index + 1].id
                                     }#services-section`}
                                     className="link"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
                                     onClick={(e) => {
                                         if (
                                             location?.pathname ==
@@ -121,35 +123,65 @@ const Footer = (props) => {
             const otherLinks = state?.links?.filter(
                 (link) => link.type == null && link.is_blog == false
             );
-            return otherLinks.map((link, index) => (
-                <div className="item col-md-6" key={link?.id}>
-                    <a
-                        href={link?.url}
-                        className=" link close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        target="_blank"
-                    >
-                        {link?.name || link?.page}
-                    </a>
-                </div>
-            ));
+            return otherLinks.map(
+                (link, index) =>
+                    !!(index % 2 == 0) && (
+                        <tr className="show-all" key={index}>
+                            <td>
+                                <a
+                                    href={link?.url}
+                                    className="link"
+                                    target="_blank"
+                                >
+                                    {link?.name || link?.page}
+                                </a>
+                            </td>
+                            {otherLinks[index + 1] && (
+                                <td>
+                                    <a
+                                        href={otherLinks[index + 1]?.url}
+                                        className="link"
+                                        target="_blank"
+                                    >
+                                        {otherLinks[index + 1]?.name ||
+                                            otherLinks[index + 1]?.page}
+                                    </a>
+                                </td>
+                            )}
+                        </tr>
+                    )
+            );
         }
         if (state?.modal?.type == "blog") {
             const blogLinks = state?.links?.filter((link) => link?.is_blog);
-            return blogLinks.map((link, index) => (
-                <div className="item col-md-6" key={link?.id}>
-                    <a
-                        href={link?.url}
-                        className="link close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        target="_blank"
-                    >
-                        {link?.name || link?.page}
-                    </a>
-                </div>
-            ));
+            return blogLinks.map(
+                (link, index) =>
+                    !!(index % 2 == 0) && (
+                        <tr className="show-all" key={index}>
+                            <td>
+                                <a
+                                    href={link?.url}
+                                    className="link"
+                                    target="_blank"
+                                >
+                                    {link?.name || link?.page}
+                                </a>
+                            </td>
+                            {blogLinks[index + 1] && (
+                                <td>
+                                    <a
+                                        href={blogLinks[index + 1]?.url}
+                                        className="link"
+                                        target="_blank"
+                                    >
+                                        {blogLinks[index + 1]?.name ||
+                                            blogLinks[index + 1]?.page}
+                                    </a>
+                                </td>
+                            )}
+                        </tr>
+                    )
+            );
         }
         return <></>;
     };
@@ -175,7 +207,7 @@ const Footer = (props) => {
                                     if (
                                         link.type == null &&
                                         link.is_blog == false &&
-                                        countLink < 8
+                                        countLink < 0
                                     ) {
                                         countLink = countLink + 1;
                                         return (
@@ -195,7 +227,7 @@ const Footer = (props) => {
                                     (link) =>
                                         link.type == null &&
                                         link.is_blog == false
-                                ).length >= 8 && (
+                                ).length >= 0 && (
                                     <li className="item">
                                         <span
                                             role="button"
@@ -288,7 +320,7 @@ const Footer = (props) => {
                                             service?.sub_services?.map(
                                                 (sub_service) => {
                                                     if (
-                                                        total < 8 &&
+                                                        total < 2 &&
                                                         total != null
                                                     ) {
                                                         total++;
@@ -329,7 +361,7 @@ const Footer = (props) => {
                                                             </li>
                                                         );
                                                     } else if (
-                                                        total == 8 &&
+                                                        total == 2 &&
                                                         total != null
                                                     ) {
                                                         total = null;
