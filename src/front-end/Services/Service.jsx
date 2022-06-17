@@ -486,8 +486,8 @@ const Service = ({
                                                     className="cursor-default d-flex align-items-center justify-content-center"
                                                 >
                                                     {service?.hours == 1
-                                                        ? "hour"
-                                                        : "hours"}
+                                                        ? `${service?.hours} hour`
+                                                        : `${service?.hours} hours`}
                                                 </li>
                                             )
                                     )}

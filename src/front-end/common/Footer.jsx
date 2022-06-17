@@ -158,7 +158,7 @@ const Footer = (props) => {
                             <div className="d-flex align-items-center justify-content-md-center">
                                 <ul className="footer-link">
                                     <div className="title">
-                                        POPULAR SERVICES
+                                        Popular Services
                                     </div>
                                     {(() => {
                                         let total = 0;

@@ -7,7 +7,8 @@ import {
   // Route,
   // Switch,
   // Redirect,
-  useLocation
+  useLocation,
+  useHistory
 } from "react-router-dom";
 // import ProtectedRoute from './components/ProtectedRoute';
 
@@ -68,6 +69,7 @@ import { HOST } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
 import Routes from './Routes';
 import { LoginContext, MapLoadedApiContext } from './helper/context';
+import { ReactSwal } from './helper/swal';
 // import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(
@@ -124,6 +126,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
   const { hash } = useLocation();
+  const history = useHistory();
 
 
   const messaging = getMessaging();
@@ -151,6 +154,8 @@ function App() {
   }
 
   const dispatch = useDispatch();
+  const location = useLocation();
+
   useEffect(async () => {
     if (!!localStorage?.userToken) {
       const token = await getToken();
@@ -205,6 +210,26 @@ function App() {
       setIsLoggedIn(false)
     }
   }, [localStorage.userToken])
+
+  // useEffect(() => {
+  //   if (!!localStorage?.user_data && !!localStorage?.userToken) {
+  //     window.addEventListener('click', () => {
+  //       let user = JSON.parse(localStorage.user_data);
+  //       if (!!user.phone || !user.phone_verification) {
+  //         location?.pathname != '/verification' && (
+  //           history.push({
+  //             pathname: '/verification',
+  //             state: {
+  //               verification: {
+  //                 phone: !!user.phone && user?.phone,
+  //                 verified: !!user?.phone_verification,
+  //               }
+  //             }
+  //           }))
+  //       }
+  //     })
+  //   }
+  // }, [localStorage?.user_data, localStorage?.user_data])
 
   return (
     <Elements stripe={stripePromise} >

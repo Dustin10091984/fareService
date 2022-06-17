@@ -26,8 +26,9 @@ import { ServiceProviders } from "./front-end/ServiceProviders/index"
 import { MovingRequest } from "./front-end/moving/index"
 import { RegistrationPage } from "./views/Provider/Registration"
 import { ServicesPage } from "./views/ServicesPage"
+import Verification from "./front-end/Auth/Verification"
 
-const PublicRoutes = [
+const publicRoutes = [
     {
         name: 'Home',
         path: '/',
@@ -136,9 +137,15 @@ const PublicRoutes = [
         component: Page,
         hash: '',
     },
+    {
+        name: 'Verification',
+        path: '/verification',
+        component: Verification,
+        hash: '',
+    }
 ]
 
-const PrivateRoutes = [
+const privateRoutes = [
     {
         name: 'Dashboard',
         path: '/dashboard',
@@ -185,10 +192,10 @@ const PrivateRoutes = [
 const Routes = () => {
     return (
         < Switch >
-            {PublicRoutes.map(({ name, path, component, hash }, index) => (
+            {publicRoutes.map(({ name, path, component, hash }, index) => (
                 <Route key={index} exact path={path} component={component} />
             ))}
-            {PrivateRoutes.map(({ name, path, component, hash }, index) => (
+            {privateRoutes.map(({ name, path, component, hash }, index) => (
                 <ProtectedRoute key={index} exact path={path} component={component} />
             ))}
             <Redirect to="/not-found" />

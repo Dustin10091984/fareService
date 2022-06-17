@@ -287,7 +287,7 @@ export const Services = (props) => {
                                         See all Services
                                     </div>
                                     <div className="sub-des">
-                                        liked or admired by many people or by a
+                                        Liked or admired by many people or by a
                                         particular person or group.
                                     </div>
                                 </div>
@@ -662,7 +662,7 @@ export const Services = (props) => {
                 </div>
             </div> */}
 
-            {props?.serviceData?.data?.service_contents && (
+            {props?.serviceData?.data?.service_contents?.length && (
                 <section className="service-des-card-sec pad-t">
                     <div className="container">
                         <div className="row">
@@ -1061,20 +1061,23 @@ export const Services = (props) => {
             <section className="handy-works pad-y">
                 <div className="container">
                     <div className="row">
-                        <div className="col-12">
-                            <div className="common-heading text-center">
-                                <div className="title">
-                                    Meet Some of Our Top{" "}
-                                    {props?.serviceData?.data?.name} {""}
-                                    Professionals
-                                </div>
-                                <div className="sub-des">
-                                    Build a Pro Team so that you always have a
-                                    great group of go-to professionals for all
-                                    your home {props?.serviceData?.data?.name}.{" "}
+                        {props?.serviceData?.data?.provider?.length && (
+                            <div className="col-12">
+                                <div className="common-heading text-center">
+                                    <div className="title">
+                                        Meet Some of Our Top{" "}
+                                        {props?.serviceData?.data?.name} {""}
+                                        Professionals
+                                    </div>
+                                    <div className="sub-des">
+                                        Build a Pro Team so that you always have
+                                        a great group of go-to professionals for
+                                        all your home{" "}
+                                        {props?.serviceData?.data?.name}.{" "}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                         <div className="col-12">
                             <div className="row">
                                 {props?.serviceData?.data?.provider?.map(
