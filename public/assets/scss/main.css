@@ -3376,14 +3376,14 @@ section.best-house-clen.pad-y,
     left: 1rem !important;
 }
 
-.show-all .item .link{
+.show-all .link {
     font-size: 1.8rem;
     font-style: normal;
     font-weight: normal;
     color: #606060;
 }
 
-.show-all .item .link:hover {
+.show-all .link:hover {
     color: #fea629;
 }
 
