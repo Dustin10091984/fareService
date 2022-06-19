@@ -231,7 +231,7 @@ const Profile = ({ profile: { data } }) => {
                         <div className="common-input mb-2">
                             Zip Code
                             <input
-                                type="text"
+                                type="number"
                                 placeholder="ZIP Code"
                                 defaultValue={state?.profile?.zip_code || ""}
                                 {...register("zip_code", {
