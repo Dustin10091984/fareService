@@ -1,12 +1,16 @@
-import { memo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import moment from "moment";
 
 const WorkStatus = memo(({ serviceRequest }) => {
-    const handleTimerChange = (duration) => {
-        return setInterval(() => {
-            return `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
+    const [state, setState] = useState({});
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setState((state) => ({ ...state, second: state.second + 1 }));
         }, 1000);
-    };
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <>
@@ -40,7 +44,7 @@ const WorkStatus = memo(({ serviceRequest }) => {
                                 "seconds"
                             );
                             // `${ duration.asDays().toFixed( 0 ) > 0 ? duration.asDays().toFixed(0) + "d" : ""}`
-                            return handleTimerChange(duration);
+                            return `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
                         }
                         return "Started";
                     }
