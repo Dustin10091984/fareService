@@ -71,12 +71,6 @@ export const ServicesHistory = (props) => {
     useEffect(() => {
         !serviceRequestList?.data?.length &&
             getServiceRequestList(location?.search || "");
-        const interval = setInterval(() => {
-            setState((state) => ({ ...state, second: state.second + 1 }));
-        }, 1000);
-        return () => {
-            clearInterval(interval);
-        };
     }, []);
 
     useEffect(() => {
