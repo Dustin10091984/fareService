@@ -8,19 +8,19 @@ import {
 import { pay } from '../../store/Slices/payments/paymentSlice';
 import { addFeedback, initialFeedback } from "./../../store/Slices/feedbacks/feedbackSlice";
 
-const mapStateToProps = ({ serviceRequest, paymentReducer, feebackBackReducer }) => ({
-    loading: serviceRequest?.list?.loading,
-    error: serviceRequest?.list?.error,
-    message: serviceRequest?.list?.message,
-    serviceRequestList: serviceRequest?.list?.data,
-    payLoading: paymentReducer?.payment?.loading,
-    payError: paymentReducer?.payment?.error,
-    payMessage: paymentReducer?.payment?.message,
-    payData: paymentReducer?.payment?.data,
-    feedbackLoading: feebackBackReducer?.loading,
-    feedbackError: feebackBackReducer?.error,
-    feedbackMessage: feebackBackReducer?.message,
-    feedbackData: feebackBackReducer?.data,
+const mapStateToProps = (state) => ({
+    loading: state?.serviceRequest?.list?.loading,
+    error: state?.serviceRequest?.list?.error,
+    message: state?.serviceRequest?.list?.message,
+    serviceRequestList: state?.serviceRequest?.list?.data,
+    payLoading: state?.paymentReducer?.payment?.loading,
+    payError: state?.paymentReducer?.payment?.error,
+    payMessage: state?.paymentReducer?.payment?.message,
+    payData: state?.paymentReducer?.payment?.data,
+    feedbackLoading: state?.feebackBackReducer?.loading,
+    feedbackError: state?.feebackBackReducer?.error,
+    feedbackMessage: state?.feebackBackReducer?.message,
+    feedbackData: state?.feebackBackReducer?.data,
 });
 
 const mapDispatchToProps = (dispatch) => {
