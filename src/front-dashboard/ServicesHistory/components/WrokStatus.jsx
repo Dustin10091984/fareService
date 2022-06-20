@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, memo } from "react";
+import { useState, useEffect, memo } from "react";
 import moment from "moment";
 
 const WorkStatus = memo(({ serviceRequest }) => {

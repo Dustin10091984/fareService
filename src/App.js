@@ -211,25 +211,28 @@ function App() {
     }
   }, [localStorage.userToken])
 
-  // useEffect(() => {
-  //   if (!!localStorage?.user_data && !!localStorage?.userToken) {
-  //     window.addEventListener('click', () => {
-  //       let user = JSON.parse(localStorage.user_data);
-  //       if (!!user.phone || !user.phone_verification) {
-  //         location?.pathname != '/verification' && (
-  //           history.push({
-  //             pathname: '/verification',
-  //             state: {
-  //               verification: {
-  //                 phone: !!user.phone && user?.phone,
-  //                 verified: !!user?.phone_verification,
-  //               }
-  //             }
-  //           }))
-  //       }
-  //     })
-  //   }
-  // }, [localStorage?.user_data, localStorage?.user_data])
+  useEffect(() => {
+    if (!!localStorage?.user_data == true && !!localStorage?.userToken == true) {
+      window.addEventListener('click', () => {
+        if (localStorage?.user_data) {
+          let user = JSON.parse(localStorage?.user_data);
+          if ((!!!user.phone || !user.phone_verification)) {
+            location?.pathname != '/verification' && (
+              history.push({
+                pathname: '/verification',
+                state: {
+                  verification: {
+                    email: user?.email,
+                    phone: !!user.phone && user?.phone,
+                    verified: !!user?.phone_verification,
+                  }
+                }
+              }))
+          }
+        }
+      })
+    }
+  }, [localStorage?.user_data, localStorage?.user_data])
 
   return (
     <Elements stripe={stripePromise} >
