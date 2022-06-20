@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { HOST } from "../../constants";
-import { useHistory } from "react-router-dom";
 
 const Verification = (props) => {
-    const { location } = props;
-    console.log("====================================");
-    console.log(location);
-    console.log("====================================");
+    const { location, history } = props;
+
+    const {
+        state: { verification },
+    } = location;
+
     const [state, setState] = useState({
         loading: false,
         phone: "",
@@ -22,14 +23,18 @@ const Verification = (props) => {
         passwordChangeMessage: "",
     });
 
-    const history = useHistory();
-
     const {
         register,
         handleSubmit,
-        setError,
         formState: { errors },
     } = useForm();
+
+    useEffect(() => {
+        setState((state) => ({
+            ...state,
+            loading: false,
+        }));
+    }, []);
 
     const handleBasic = async ({ phone }) => {
         setState((state) => ({
@@ -38,7 +43,10 @@ const Verification = (props) => {
         }));
         await axios({
             method: "post",
-            data: { phone: state?.code + phone },
+            data: {
+                email: verification.email,
+                phone: state?.code + phone,
+            },
             url: `${HOST}/api/user/send-otp`,
         })
             .then((response) => {
@@ -67,26 +75,41 @@ const Verification = (props) => {
         }));
         await axios({
             method: "post",
-            data: { otp, phone: state?.code + state.phone, for_password: true },
+            data: {
+                otp,
+                email: verification.email,
+                phone: state?.code + state.phone,
+                for_verification: true,
+            },
             url: `${HOST}/api/user/signup/phone/verify`,
         })
             .then((response) => {
-                let data = response.data;
-                setState((state) => ({
-                    ...state,
-                    otpVerifySuccessMessage: data.message,
-                    token: data.token,
-                    loading: false,
-                    section: 2,
-                }));
+                const data = response?.data;
+                if (data?.data) {
+                    localStorage.setItem("userToken", data?.data.auth_token);
+                    localStorage.setItem(
+                        "user_data",
+                        JSON.stringify(data?.data?.user)
+                    );
+                    setState((state) => ({
+                        ...state,
+                        loading: false,
+                    }));
+                    history.push("/dashboard");
+                } else {
+                    localStorage.clear();
+                    history.push("/login");
+                }
             })
             .catch((error) => {
-                let data = error.response.data;
+                let data = error.response?.data;
                 setState((state) => ({
                     ...state,
                     otpVerifyErrorMessage: data.message,
                     loading: false,
                 }));
+                localStorage.clear();
+                history.push("/login");
             });
     };
 
@@ -105,6 +128,13 @@ const Verification = (props) => {
                                         <div className="login-detail mt-0 mb-5 text-center">
                                             Please enter your phone number for
                                             Verification
+                                        </div>
+                                        <div className="row">
+                                            <div className="mx-auto rem-1-5 mb-2 col-md-6">
+                                                <strong>
+                                                    {`Email: ${verification.email}`}
+                                                </strong>
+                                            </div>
                                         </div>
                                         <div className="row">
                                             <div className="common-input mb-4 col-6 mx-auto">
@@ -175,7 +205,15 @@ const Verification = (props) => {
                                                 </div>
                                                 {!!state?.otpErrorMessage && (
                                                     <div className="text-danger">
-                                                        {state?.otpErrorMessage}
+                                                        {typeof state?.otpErrorMessage ==
+                                                            "string" &&
+                                                            state?.otpErrorMessage}
+                                                        {typeof state?.otpErrorMessage ==
+                                                            "object" &&
+                                                            state
+                                                                ?.otpErrorMessage[
+                                                                "phone"
+                                                            ]}
                                                     </div>
                                                 )}
                                                 {errors?.phone &&

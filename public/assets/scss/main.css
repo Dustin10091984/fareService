@@ -591,7 +591,6 @@ body {
     font-size: 3rem;
     line-height: 3.6rem;
     color: #ffffff;
-    background: rgba(254, 165, 41, 0.8);
     position: absolute;
     left: 0;
     top: 0;
@@ -617,7 +616,7 @@ body {
 }
 
 .service-box:hover .cat-title {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.534);
 }
 
 .service-list-box .service-name {
