@@ -40,6 +40,10 @@ export const ServicesHistory = (props) => {
         feedbackData,
     } = props;
 
+    console.log("====================================");
+    console.log(props);
+    console.log("====================================");
+
     // const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
     const [state, setState] = useState({

@@ -17,10 +17,10 @@ const mapStateToProps = (state) => ({
     payError: state?.paymentReducer?.payment?.error,
     payMessage: state?.paymentReducer?.payment?.message,
     payData: state?.paymentReducer?.payment?.data,
-    feedbackLoading: state?.feebackBackReducer?.loading,
-    feedbackError: state?.feebackBackReducer?.error,
-    feedbackMessage: state?.feebackBackReducer?.message,
-    feedbackData: state?.feebackBackReducer?.data,
+    feedbackLoading: state?.feedbackReducer?.loading,
+    feedbackError: state?.feedbackReducer?.error,
+    feedbackMessage: state?.feedbackReducer?.message,
+    feedbackData: state?.feedbackReducer?.data,
 });
 
 const mapDispatchToProps = (dispatch) => {
