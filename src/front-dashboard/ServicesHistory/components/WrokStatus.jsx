@@ -1,7 +1,13 @@
 import { memo } from "react";
 import moment from "moment";
 
-const WorkStatus = ({ serviceRequest }) => {
+const WorkStatus = memo(({ serviceRequest }) => {
+    const handleTimerChange = (duration) => {
+        return setInterval(() => {
+            return `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
+        }, 1000);
+    };
+
     return (
         <>
             {
@@ -34,7 +40,7 @@ const WorkStatus = ({ serviceRequest }) => {
                                 "seconds"
                             );
                             // `${ duration.asDays().toFixed( 0 ) > 0 ? duration.asDays().toFixed(0) + "d" : ""}`
-                            return `${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`;
+                            return handleTimerChange(duration);
                         }
                         return "Started";
                     }
@@ -54,6 +60,6 @@ const WorkStatus = ({ serviceRequest }) => {
             }
         </>
     );
-};
+});
 
 export { WorkStatus };
