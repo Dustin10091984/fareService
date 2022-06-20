@@ -8,7 +8,7 @@ import {
 import { pay } from '../../store/Slices/payments/paymentSlice';
 import { addFeedback, initialFeedback } from "./../../store/Slices/feedbacks/feedbackSlice";
 
-const mapStateToProps = ({ serviceRequest, paymentReducer, feedbackReducerfeedbackReducer }) => ({
+const mapStateToProps = ({ serviceRequest, paymentReducer, feedbackReducer }) => ({
     loading: serviceRequest?.list?.loading,
     error: serviceRequest?.list?.error,
     message: serviceRequest?.list?.message,
