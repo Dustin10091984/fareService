@@ -1,7 +1,7 @@
 import { memo } from "react";
 import moment from "moment";
 
-const WorkStatus = memo(({ serviceRequest }) => {
+const WorkStatus = ({ serviceRequest }) => {
     return (
         <>
             {
@@ -54,6 +54,6 @@ const WorkStatus = memo(({ serviceRequest }) => {
             }
         </>
     );
-});
+};
 
 export { WorkStatus };
