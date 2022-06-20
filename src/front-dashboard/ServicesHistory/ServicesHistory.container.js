@@ -8,19 +8,19 @@ import {
 import { pay } from '../../store/Slices/payments/paymentSlice';
 import { addFeedback, initialFeedback } from "./../../store/Slices/feedbacks/feedbackSlice";
 
-const mapStateToProps = (state) => ({
-    loading: state?.serviceRequest?.list?.loading,
-    error: state?.serviceRequest?.list?.error,
-    message: state?.serviceRequest?.list?.message,
-    serviceRequestList: state?.serviceRequest?.list?.data,
-    payLoading: state?.paymentReducer?.payment?.loading,
-    payError: state?.paymentReducer?.payment?.error,
-    payMessage: state?.paymentReducer?.payment?.message,
-    payData: state?.paymentReducer?.payment?.data,
-    feedbackLoading: state?.feedbackReducer?.loading,
-    feedbackError: state?.feedbackReducer?.error,
-    feedbackMessage: state?.feedbackReducer?.message,
-    feedbackData: state?.feedbackReducer?.data,
+const mapStateToProps = ({ serviceRequest, paymentReducer, feedbackReducerfeedbackReducer }) => ({
+    loading: serviceRequest?.list?.loading,
+    error: serviceRequest?.list?.error,
+    message: serviceRequest?.list?.message,
+    serviceRequestList: serviceRequest?.list?.data,
+    payLoading: paymentReducer?.payment?.loading,
+    payError: paymentReducer?.payment?.error,
+    payMessage: paymentReducer?.payment?.message,
+    payData: paymentReducer?.payment?.data,
+    feedbackLoading: feedbackReducer?.loading,
+    feedbackError: feedbackReducer?.error,
+    feedbackMessage: feedbackReducer?.message,
+    feedbackData: feedbackReducer?.data,
 });
 
 const mapDispatchToProps = (dispatch) => {
