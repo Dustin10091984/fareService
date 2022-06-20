@@ -94,69 +94,69 @@
 }
 
 
-.nav-sec {
-    .navbar-nav {
-        .nav-item {
-            padding: 1rem 1.5rem;
-            // position: relative;
-            .nav-link {
-                font-style: normal;
-                font-weight: normal;
-                font-size: 1.6rem;
-                line-height: 1.9rem;
-                color: #606060;
-                padding: 0;
+// .nav-sec {
+//     .navbar-nav {
+//         .nav-item {
+//             padding: 1rem 1.5rem;
+//             // position: relative;
+//             .nav-link {
+//                 font-style: normal;
+//                 font-weight: normal;
+//                 font-size: 1.6rem;
+//                 line-height: 1.9rem;
+//                 color: #606060;
+//                 padding: 0;
 
-                &:hover,
-                &.active {
-                    color: $primary;
-                }
-            }
+//                 &:hover,
+    //                 &.active {
+    //                     color: $primary;
+    //                 }
+    //             }
 
-            .dropdownmenu {
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                transform: translate(-50% , 30px);
-                width: 100%;
-                // max-width: 92.0rem;
-                background: #FFFFFF;
-                border-radius: 20px;
-                box-shadow: 0px 16px 14px -6px rgba(24, 39, 75, 0.12), 0px 0px 32px -4px rgba(24, 39, 75, 0.1);
-                padding: 2.0rem 1.5rem 0rem;
-                display: flex;
-                align-items: center;
-                flex-wrap: wrap;
-                margin-top: 1.4rem;
-                opacity: 0;
-                visibility: hidden;
-                margin: 0;
-                // transform: translateY(30px);
-                transition: all 0.4s ease-in-out;
-                z-index: 10;
-                .nav-item {
-                    padding-bottom: 2.5rem ;
-                    width: 33%;
-                    transform: translateY(20px);
-                    transition: all 0.8s ease-in-out;
-                    .nav-link {
-                        padding-bottom: 1.1rem;
-                    }
-                }
-            }
-           &:hover{
-                .dropdownmenu {
-                    opacity: 1;
-                    visibility: visible;
-                    transform: translate(-50% , 0px);
-                    .nav-item {
-                        transform: translateY(0px);
-                        transition: all 0.6s ease-in-out;
+//             .dropdownmenu {
+//                 position: absolute;
+//                 top: 100%;
+//                 left: 50%;
+//                 transform: translate(-50% , 30px);
+//                 width: 100%;
+//                 // max-width: 92.0rem;
+//                 background: #FFFFFF;
+//                 border-radius: 20px;
+//                 box-shadow: 0px 16px 14px -6px rgba(24, 39, 75, 0.12), 0px 0px 32px -4px rgba(24, 39, 75, 0.1);
+//                 padding: 2.0rem 1.5rem 0rem;
+//                 display: flex;
+//                 align-items: center;
+//                 flex-wrap: wrap;
+//                 margin-top: 1.4rem;
+//                 opacity: 0;
+//                 visibility: hidden;
+//                 margin: 0;
+//                 // transform: translateY(30px);
+//                 transition: all 0.4s ease-in-out;
+//                 z-index: 10;
+//                 .nav-item {
+//                     padding-bottom: 2.5rem ;
+//                     width: 33%;
+//                     transform: translateY(20px);
+//                     transition: all 0.8s ease-in-out;
+//                     .nav-link {
+//                         padding-bottom: 1.1rem;
+//                     }
+//                 }
+//             }
+//            &:hover{
+//                 .dropdownmenu {
+//                     opacity: 1;
+//                     visibility: visible;
+//                     transform: translate(-50% , 0px);
+//                     .nav-item {
+//                         transform: translateY(0px);
+//                         transition: all 0.6s ease-in-out;
                        
-                    }
-                }
-            }
-        }
-    }
-}
+//                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
