@@ -65,7 +65,7 @@ const Filter = memo(({ providerType }) => {
                     </div>
                     <div className="common-input time-list-pro mb-4 mx-2 w-auto">
                         <select
-                            value={searchParams.get("rating")}
+                            value={searchParams.get("rating") || ""}
                             name="rating"
                             className="select-time"
                             onChange={({ target: { name, value } }) => {

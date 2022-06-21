@@ -427,12 +427,13 @@ export const ServiceProviders = (props) => {
                         <div className="col-md-8">
                             {state.error}
                             {state.loggedinErr}
-                            {providerList.error && (
+                            {console.log(providerList)}
+                            {providerList?.data?.error && (
                                 <div className="text-center display-4">
-                                    {providerList.message}
+                                    {providerList?.data.message}
                                 </div>
                             )}
-                            {providerList.loading && (
+                            {providerList?.data?.loading && (
                                 <div className="text-center display-4 mb-5">
                                     Please Wait we are working on it . . .
                                 </div>
