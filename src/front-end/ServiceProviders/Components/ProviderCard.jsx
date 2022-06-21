@@ -146,8 +146,9 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                     (location?.state
                                                         ?.service_type ==
                                                         ServiceType.MOVING &&
-                                                    provider.service_type ==
-                                                        ServiceType.MOVING
+                                                    (provider.service_type ==
+                                                        ServiceType.MOVING ||
+                                                        ServiceType.MULTIPLE)
                                                         ? false
                                                         : true)) ||
                                                 (provider.account_type ===

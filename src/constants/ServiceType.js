@@ -1,7 +1,6 @@
 const ServiceType = {
     MOVING: 'MOVING',
-    CLEANING: 'CLEANING',
-    HANDYMAN: 'HANDYMAN',
+    MULTIPLE: 'MULTIPLE',
 };
 
 export default ServiceType;
