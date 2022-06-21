@@ -163,7 +163,9 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                 if (
                                                     provider.service_type ==
                                                         ServiceType.MOVING ||
-                                                    ServiceType.MULTIPLE
+                                                    (ServiceType.MULTIPLE &&
+                                                        provider?.provider_schedules_count ==
+                                                            0)
                                                 ) {
                                                     return "Get a Qoutation";
                                                 } else if (
