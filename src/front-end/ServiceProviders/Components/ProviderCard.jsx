@@ -24,7 +24,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
         if (
             provider.account_type === "BASIC" &&
             provider?.provider_profile?.hourly_rate &&
-            provider?.provider_schedules_count == 0
+            provider?.provider_schedules_count > 0
         ) {
             return false;
         }
