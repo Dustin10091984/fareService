@@ -22,9 +22,30 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
             (provider.account_type === "BASIC" &&
                 provider?.provider_profile?.hourly_rate &&
                 provider?.provider_schedules_count == 0 &&
-                (provider.service_type != ServiceType.MOVING ||
-                    ServiceType.MULTIPLE))
+                provider.service_type != ServiceType.MOVING)
         );
+    };
+
+    const handleMovingContinueClick = () => {
+        history?.push({
+            pathname: "/moving-request",
+            state: {
+                date: location?.state?.date,
+                end_lat: location?.state?.end_lat,
+                end_lng: location?.state?.end_lng,
+                from_address: location?.state?.from_address,
+                service_type: location?.state?.service_type,
+                start_lat: location?.state?.start_lat,
+                start_lng: location?.state?.start_lng,
+                to_address: location?.state?.to_address,
+                provider_id: provider.id,
+                sub_service_id: location?.state?.sub_service_id,
+                vehicle_type_id: location?.state?.vehicle_type_id,
+                zip_code: location?.state?.zip_code,
+                date: moment(location.state.date).format("YYYY-MM-DD"),
+            },
+        });
+        return;
     };
 
     return (
@@ -78,53 +99,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                         .service_type ==
                                                     ServiceType.MOVING
                                                 ) {
-                                                    history?.push({
-                                                        pathname:
-                                                            "/moving-request",
-                                                        state: {
-                                                            date: location
-                                                                ?.state?.date,
-                                                            end_lat:
-                                                                location?.state
-                                                                    ?.end_lat,
-                                                            end_lng:
-                                                                location?.state
-                                                                    ?.end_lng,
-                                                            from_address:
-                                                                location?.state
-                                                                    ?.from_address,
-                                                            service_type:
-                                                                location?.state
-                                                                    ?.service_type,
-                                                            start_lat:
-                                                                location?.state
-                                                                    ?.start_lat,
-                                                            start_lng:
-                                                                location?.state
-                                                                    ?.start_lng,
-                                                            to_address:
-                                                                location?.state
-                                                                    ?.to_address,
-                                                            provider_id:
-                                                                provider.id,
-                                                            sub_service_id:
-                                                                location?.state
-                                                                    ?.sub_service_id,
-                                                            vehicle_type_id:
-                                                                location?.state
-                                                                    ?.vehicle_type_id,
-                                                            zip_code:
-                                                                location?.state
-                                                                    ?.zip_code,
-                                                            date: moment(
-                                                                location.state
-                                                                    .date
-                                                            ).format(
-                                                                "YYYY-MM-DD"
-                                                            ),
-                                                        },
-                                                    });
-                                                    return;
+                                                    handleMovingContinueClick();
                                                 } else {
                                                     handleContinueClick(
                                                         event,
