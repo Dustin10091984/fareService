@@ -11,6 +11,27 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     const history = useHistory();
     const location = useLocation();
 
+    const showButtonText = (provider) => {
+        if (location?.state?.service_type == ServiceType.MOVING) {
+            return "Get a Qoutation";
+        } else {
+            if (provider?.service_type == ServiceType.MULTIPLE) {
+                if (
+                    provider.account_type === "BASIC" &&
+                    provider?.provider_profile?.hourly_rate
+                ) {
+                    return provider?.provider_schedules_count > 0
+                        ? "Make a Request"
+                        : "Not Available";
+                } else if (provider?.account_type == "PREMIUM") {
+                    return "Get a Qoutation";
+                } else {
+                    return "Get a Qoutation";
+                }
+            }
+        }
+    };
+
     const handleDisableLoad = (provider) => {
         if (provider?.service_type !== ServiceType.MULTIPLE) {
             return false;
@@ -146,31 +167,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                 provider
                                             )}
                                         >
-                                            {(() => {
-                                                if (
-                                                    (provider.service_type ==
-                                                        ServiceType.MOVING ||
-                                                        ServiceType.MULTIPLE) &&
-                                                    provider?.provider_schedules_count ==
-                                                        0
-                                                ) {
-                                                    return "Get a Qoutation";
-                                                } else if (
-                                                    provider.account_type ===
-                                                        "BASIC" &&
-                                                    provider?.provider_profile
-                                                        ?.hourly_rate &&
-                                                    provider.service_type !=
-                                                        ServiceType.MOVING
-                                                ) {
-                                                    return provider?.provider_schedules_count >
-                                                        0
-                                                        ? "Make a Request"
-                                                        : "Not Available";
-                                                } else {
-                                                    return "Get a Qoutation";
-                                                }
-                                            })()}
+                                            {showButtonText(provider)}
                                         </button>
                                     ) : (
                                         <button
