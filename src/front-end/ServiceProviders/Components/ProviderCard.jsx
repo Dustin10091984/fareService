@@ -11,6 +11,21 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     const history = useHistory();
     const location = useLocation();
 
+    const handleDisableLoad = (provider) => {
+        return (
+            (location?.state?.service_type &&
+                (location?.state?.service_type == ServiceType.MOVING &&
+                (provider.service_type == ServiceType.MOVING ||
+                    ServiceType.MULTIPLE)
+                    ? false
+                    : true)) ||
+            (provider.account_type === "BASIC" &&
+                provider?.provider_profile?.hourly_rate &&
+                provider?.provider_schedules_count == 0 &&
+                provider.service_type != ServiceType.MOVING)
+        );
+    };
+
     return (
         <>
             {list?.map((provider, index) => {
@@ -140,31 +155,15 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                     ? "#hourly"
                                                     : "#quotation")
                                             }
-                                            disabled={
-                                                (location?.state
-                                                    ?.service_type &&
-                                                    (location?.state
-                                                        ?.service_type ==
-                                                        ServiceType.MOVING &&
-                                                    (provider.service_type ==
-                                                        ServiceType.MOVING ||
-                                                        ServiceType.MULTIPLE)
-                                                        ? false
-                                                        : true)) ||
-                                                (provider.account_type ===
-                                                    "BASIC" &&
-                                                    provider?.provider_profile
-                                                        ?.hourly_rate &&
-                                                    provider?.provider_schedules_count ==
-                                                        0 &&
-                                                    provider.service_type !=
-                                                        ServiceType.MOVING)
-                                            }
+                                            disabled={handleDisableLoad(
+                                                provider
+                                            )}
                                         >
                                             {(() => {
                                                 if (
                                                     provider.service_type ==
-                                                    ServiceType.MOVING
+                                                        ServiceType.MOVING ||
+                                                    ServiceType.MULTIPLE
                                                 ) {
                                                     return "Get a Qoutation";
                                                 } else if (
