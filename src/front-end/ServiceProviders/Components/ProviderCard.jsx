@@ -12,19 +12,23 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     const location = useLocation();
 
     const handleDisableLoad = (provider) => {
-        return (
-            (location?.state?.service_type &&
-                (location?.state?.service_type == ServiceType.MOVING &&
-                (provider.service_type == ServiceType.MOVING ||
-                    ServiceType.MULTIPLE)
-                    ? false
-                    : true)) ||
-            (provider.account_type === "BASIC" &&
-                provider?.provider_profile?.hourly_rate &&
-                provider?.provider_schedules_count == 0 &&
-                (provider.service_type != ServiceType.MOVING ||
-                    ServiceType.MULTIPLE))
-        );
+        if (provider?.service_type !== ServiceType.MULTIPLE) {
+            return false;
+        }
+        if (
+            location?.state?.service_type == ServiceType.MOVING &&
+            provider.service_type == ServiceType.MOVING
+        ) {
+            return false;
+        }
+        if (
+            provider.account_type === "BASIC" &&
+            provider?.provider_profile?.hourly_rate &&
+            provider?.provider_schedules_count == 0
+        ) {
+            return false;
+        }
+        return true;
     };
 
     const handleMovingContinueClick = (provider_id) => {
