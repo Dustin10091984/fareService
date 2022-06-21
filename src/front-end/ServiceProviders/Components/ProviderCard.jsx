@@ -26,7 +26,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
         );
     };
 
-    const handleMovingContinueClick = () => {
+    const handleMovingContinueClick = (provider_id) => {
         history?.push({
             pathname: "/moving-request",
             state: {
@@ -38,7 +38,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                 start_lat: location?.state?.start_lat,
                 start_lng: location?.state?.start_lng,
                 to_address: location?.state?.to_address,
-                provider_id: provider.id,
+                provider_id,
                 sub_service_id: location?.state?.sub_service_id,
                 vehicle_type_id: location?.state?.vehicle_type_id,
                 zip_code: location?.state?.zip_code,
@@ -99,7 +99,9 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                         .service_type ==
                                                     ServiceType.MOVING
                                                 ) {
-                                                    handleMovingContinueClick();
+                                                    handleMovingContinueClick(
+                                                        provider.id
+                                                    );
                                                 } else {
                                                     handleContinueClick(
                                                         event,
@@ -215,16 +217,10 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                 <div className="review-img">
                                                     <img
                                                         src={
-                                                            (provider
+                                                            provider
                                                                 ?.user_feedbacks[0]
                                                                 ?.user?.image &&
-                                                                process.env
-                                                                    .REACT_APP_API_BASE_URL +
-                                                                    provider
-                                                                        ?.user_feedbacks[0]
-                                                                        ?.user
-                                                                        ?.image) ||
-                                                            ""
+                                                            `${HOST}${provider?.user_feedbacks[0]?.user?.image}`
                                                         }
                                                         className="img-fluid"
                                                         alt="Not have"
