@@ -247,8 +247,9 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                         src={
                                                             provider
                                                                 ?.user_feedbacks[0]
-                                                                ?.user?.image &&
-                                                            `${HOST}${provider?.user_feedbacks[0]?.user?.image}`
+                                                                ?.user?.image
+                                                                ? `${HOST}${provider?.user_feedbacks[0]?.user?.image}`
+                                                                : ""
                                                         }
                                                         className="img-fluid"
                                                         alt="Not have"
