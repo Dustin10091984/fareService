@@ -81,10 +81,34 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                 sub_service_id: location?.state?.sub_service_id,
                 vehicle_type_id: location?.state?.vehicle_type_id,
                 zip_code: location?.state?.zip_code,
-                date: moment(location.state.date).format("YYYY-MM-DD"),
+                date: moment(location?.state?.date).format("YYYY-MM-DD"),
             },
         });
         return;
+    };
+
+    const handleTargetModel = (provider) => {
+        if (provider?.service_type == ServiceType.MULTIPLE) {
+            if (provider.account_type == "BASIC") {
+                if (
+                    provider?.provider_profile?.hourly_rate &&
+                    provider?.provider_schedules_count > 0
+                ) {
+                    return "#hourly";
+                } else {
+                    return "#quotation";
+                }
+            } else if (provider.account_type == "PREMIUM") {
+                return "#quotation";
+            }
+        }
+        // location.state.service_type != ServiceType.MOVING &&
+        // (provider.account_type === "BASIC" &&
+        // (provider?.provider_profile?.hourly_rate ||
+        //     (provider.service_type == ServiceType.MULTIPLE &&
+        //         provider?.provider_schedules_count != 0))
+        //     ? "#hourly"
+        //     : "#quotation")
     };
 
     return (
@@ -162,20 +186,9 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                             data-keyboard="false"
                                             className="button-common-2"
                                             data-toggle="modal"
-                                            data-target={
-                                                location.state.service_type !=
-                                                    ServiceType.MOVING &&
-                                                (provider.account_type ===
-                                                    "BASIC" &&
-                                                (provider?.provider_profile
-                                                    ?.hourly_rate ||
-                                                    (provider.service_type ==
-                                                        ServiceType.MULTIPLE &&
-                                                        provider?.provider_schedules_count ==
-                                                            0))
-                                                    ? "#hourly"
-                                                    : "#quotation")
-                                            }
+                                            data-target={handleTargetModel(
+                                                provider
+                                            )}
                                             disabled={handleDisableLoad(
                                                 provider
                                             )}
