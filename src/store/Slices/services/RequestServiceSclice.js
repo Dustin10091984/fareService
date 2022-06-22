@@ -109,6 +109,7 @@ export const postRequestService = (payload, formData) => async dispatch => {
         }).catch((error) => {
             if (error.response.status === 401) {
                 localStorage.clear();
+                window.location.href = "/";
             }
             const data = error.response.data;
             data.loading = false
@@ -141,6 +142,7 @@ export const getServiceRequestList = ({ params }) => async dispatch => {
         }).catch((error) => {
             if (error.response.status === 401) {
                 localStorage.clear();
+                window.location.href = "/";
             }
             const data = error.response.data;
             data.loading = false
@@ -172,6 +174,7 @@ export const getServiceRequest = (id) => async dispatch => {
         }).catch((error) => {
             if (error.response.status === 401) {
                 localStorage.clear();
+                window.location.href = "/";
             }
             const data = error.response.data;
             data.loading = false

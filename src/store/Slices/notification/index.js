@@ -38,6 +38,7 @@ export const getNotifications = () => async dispatch => {
             //handle error
             if (error.response.status === 401) {
                 localStorage.clear();
+                window.location.href = "/";
             }
             let data = error?.response?.data;
             data.loading = false;

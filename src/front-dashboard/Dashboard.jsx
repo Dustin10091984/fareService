@@ -30,14 +30,22 @@ export const Dashboard = (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4">
-                            <Link to="/order-history" className="bash-card">
+                            <Link
+                                to="/order-history"
+                                className="bash-card"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                }}
+                            >
                                 <img
                                     src="/assets/img/order.svg"
                                     className="img-fluid"
                                     alt=""
                                 />
                                 <div className="dash-card-ds">
-                                    <div className="title">Orders History</div>
+                                    <div className="title">
+                                        {`Orders History(Coming Soon)`}
+                                    </div>
                                     <div className="des">
                                         View your Food and Grocery Orders.
                                     </div>
