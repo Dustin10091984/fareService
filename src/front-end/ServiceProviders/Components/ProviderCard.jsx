@@ -15,25 +15,38 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
         if (location?.state?.service_type == ServiceType.MOVING) {
             return "Get a Qoutation";
         } else {
-            if (provider?.service_type == ServiceType.MULTIPLE) {
+            if (
+                (provider.account_type === "BASIC" ||
+                    provider.account_type === "PREMIUM") &&
+                provider?.service_type == ServiceType.MULTIPLE
+            ) {
                 if (
-                    provider.account_type === "BASIC" &&
+                    provider?.provider_schedules_count > 0 &&
                     provider?.provider_profile?.hourly_rate
                 ) {
-                    return provider?.provider_schedules_count > 0
-                        ? "Make a Request"
-                        : "Not Available";
-                } else if (provider?.account_type == "PREMIUM") {
-                    return "Get a Qoutation";
+                    return "Make a Request";
                 } else {
                     return "Get a Qoutation";
                 }
+            } else if (
+                provider.account_type === "BASIC" &&
+                provider?.service_type !== ServiceType.MULTIPLE &&
+                provider?.provider_profile?.hourly_rate
+            ) {
+                return provider?.provider_schedules_count > 0
+                    ? "Make a Request"
+                    : "Not Available";
+            } else if (
+                provider?.account_type == "PREMIUM" &&
+                provider?.service_type !== ServiceType.MULTIPLE
+            ) {
+                return "Get a Qoutation";
             }
         }
     };
 
     const handleDisableLoad = (provider) => {
-        if (provider?.service_type !== ServiceType.MULTIPLE) {
+        if (provider?.service_type === ServiceType.MULTIPLE) {
             return false;
         } else if (
             location?.state?.service_type == ServiceType.MOVING &&
