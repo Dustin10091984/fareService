@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './store'
 import "./firebaseInit";
 import LocalServiceWorkerRegister from './sw-register';
+import "./helper/backend-events"
 require('dotenv').config();
 LocalServiceWorkerRegister();
 ReactDOM.render(

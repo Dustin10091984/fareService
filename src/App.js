@@ -86,18 +86,11 @@ const localOption = {
   host: "http://localhost:6001",
   broadcaster: 'socket.io',
 };
+console.log(process.env.REACT_APP_APP_DEBUG ? localOption : liveOption);
 if (typeof window.io != 'undefined') {
-  window.Echo = new Echo(liveOption);
+  window.Echo = new Echo(process.env.APP_DEBUG ? localOption : liveOption);
   // client: io,
   // auth: {headers: {Authorization: localStorage.userToken }}
-
-  window.Echo.connector.socket.on('connect', function () {
-    console.log("connect");
-  });
-
-  window.Echo.connector.socket.on('disconnect', function () {
-    console.log("disconnect");
-  });
 }
 
 (function (d, s, id) {
