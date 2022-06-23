@@ -108,22 +108,22 @@ const MovingRequest = ({
                                                 className="d-flex flex-column justify-content-end align-items-center flex-column m-3 moving-vehiclei-box"
                                                 style={{ fontSize: 15 }}
                                             >
-                                                {item.image ? (
-                                                    <img
-                                                        src={
-                                                            process.env
-                                                                .REACT_APP_API_BASE_URL +
-                                                            item.image
-                                                        }
-                                                        className="img-fluid m-1"
-                                                        alt="..."
-                                                    />
-                                                ) : (
-                                                    <i
-                                                        className="fa fa-car fa-5x"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                )}
+                                                <img
+                                                    src={
+                                                        item.image
+                                                            ? process.env
+                                                                  .REACT_APP_API_BASE_URL +
+                                                              item.image
+                                                            : ""
+                                                    }
+                                                    className="img-fluid m-1"
+                                                    alt="..."
+                                                    onError={(e) => {
+                                                        e.target.onerror = null;
+                                                        e.target.src =
+                                                            "/assets/img/vehicle-placeholder.svg";
+                                                    }}
+                                                />
                                                 <div className="vehicle-title mt-3">
                                                     {item.title}
                                                 </div>
