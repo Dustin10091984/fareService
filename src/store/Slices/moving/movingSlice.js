@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
+import { findIndex } from 'lodash';
 
 const movingSlice = createSlice({
     name: 'moving',
@@ -7,6 +8,44 @@ const movingSlice = createSlice({
     reducers: {
         vehicleTypes: (state, action) => {
             return { list: action.payload };
+        },
+        addVehicle: (state, action) => {
+            return {
+                ...state,
+                list: {
+                    ...state?.list,
+                    data: [...state?.list?.data, action.payload]
+                }
+            }
+        },
+        updateVehicle: (state, action) => {
+            console.log(action);
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    data: [
+                        ...state.list.data.map(vehicleType => {
+                            console.log(vehicleType.id == action.payload.id, vehicleType, action.payload);
+                            if (vehicleType.id == action.payload.id) {
+                                return action.payload;
+                            }
+                            return vehicleType;
+                        })
+                    ]
+                }
+            }
+        },
+        removeVehicle: (state, action) => {
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    data: [
+                        ...state?.list.data.filter(vehicleType => vehicleType.id != action.payload)
+                    ]
+                }
+            }
         },
         movingRequest: (state, action) => {
             return { movingRequest: action.payload };
@@ -18,7 +57,7 @@ const movingSlice = createSlice({
 });
 export default movingSlice.reducer;
 
-const { vehicleTypes } = movingSlice.actions;
+const { vehicleTypes, addVehicle, updateVehicle, removeVehicle } = movingSlice.actions;
 
 export const { movingRequest } = movingSlice.actions;
 
@@ -65,6 +104,22 @@ export const makeMovingRequest = (data) => async dispatch => {
         });
     } catch (error) {
         dispatch(vehicleTypes({ error: true, loading: false, message: "something went wrong!" }));
+    }
+}
+
+export const vehicleListUpdate = ({ type, vehicleType }) => dispatch => {
+    try {
+        if (type == 'new') {
+            console.log(type, vehicleType);
+            dispatch(addVehicle(vehicleType));
+        } else if (type == 'update') {
+            console.log(type, vehicleType);
+            dispatch(updateVehicle(vehicleType));
+        } else if (type == 'delete') {
+            console.log(type, vehicleType);
+            dispatch(removeVehicle(vehicleType));
+        }
+    } catch (error) {
     }
 }
 
