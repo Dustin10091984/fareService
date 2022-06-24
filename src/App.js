@@ -70,6 +70,7 @@ import { getMessaging, onMessage } from "firebase/messaging";
 import Routes from './Routes';
 import { LoginContext, MapLoadedApiContext } from './helper/context';
 import { ReactSwal } from './helper/swal';
+import { handleBackendEvents } from './helper/backend-events';
 // import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(
@@ -88,7 +89,7 @@ const localOption = {
 };
 console.log(process.env.REACT_APP_APP_DEBUG ? localOption : liveOption);
 if (typeof window.io != 'undefined') {
-  window.Echo = new Echo(process.env.APP_DEBUG ? localOption : liveOption);
+  window.Echo = new Echo(liveOption);
   // client: io,
   // auth: {headers: {Authorization: localStorage.userToken }}
 }
@@ -150,6 +151,7 @@ function App() {
   const location = useLocation();
 
   useEffect(async () => {
+    handleBackendEvents();
     if (!!localStorage?.userToken) {
       const token = await getToken();
       axios({

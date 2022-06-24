@@ -87,6 +87,7 @@ export const Index = (props) => {
                                                                 subService.image) ||
                                                         ""
                                                     }
+                                                    loading="lazy"
                                                     className="img-fluid"
                                                     alt=""
                                                     onError={(e) => {
