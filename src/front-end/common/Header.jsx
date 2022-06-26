@@ -653,17 +653,42 @@ const Header = (props) => {
                                                 </li>
                                             </>
                                         ) : (
-                                            <li className="item-list">
-                                                <Link
-                                                    to="/login"
+                                            <li className="dropdown show item-list">
+                                                <div
+                                                    // className="btn btn-secondary dropdown-toggle"
                                                     className="link"
+                                                    id="login-dropdownMenuLink"
+                                                    data-toggle="dropdown"
+                                                    aria-haspopup="true"
+                                                    aria-expanded="false"
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
                                                 >
-                                                    Login{" "}
-                                                    <i
-                                                        className="fa fa-sign-in fa-1x"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </Link>
+                                                    <span className="user-name-farenow">
+                                                        Login/Register
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    className="dropdown-menu dropdown-menu-right mt-2 user-dropdown-menu"
+                                                    aria-labelledby="login-dropdownMenuLink"
+                                                    style={{
+                                                        fontSize: "1.5rem",
+                                                    }}
+                                                >
+                                                    <Link
+                                                        to="/login"
+                                                        className="dropdown-item text-center"
+                                                    >
+                                                        Login
+                                                    </Link>
+                                                    <Link
+                                                        to="/register"
+                                                        className="dropdown-item text-center"
+                                                    >
+                                                        Register
+                                                    </Link>
+                                                </div>
                                             </li>
                                         )}
                                     </ul>
