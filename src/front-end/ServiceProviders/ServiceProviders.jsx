@@ -1122,11 +1122,6 @@ export const ServiceProviders = (props) => {
                                 Close
                             </button>
                             <button
-                                data-dismiss={
-                                    serviceRequest.message == "success"
-                                        ? "modal"
-                                        : ""
-                                }
                                 disabled={
                                     state.addressErr !== "" ||
                                     state.address === "" ||
