@@ -27,12 +27,12 @@ const WorkStatus = memo(({ serviceRequest }) => {
                         if (serviceRequest?.worked_times?.length > 0) {
                             let breakTime = 0;
                             let started = moment(
-                                serviceRequest.worked_times[0].start_at
+                                serviceRequest.worked_times[0].created_at
                             );
                             serviceRequest?.worked_times?.forEach((time) => {
-                                if (time.is_pause && time.end_at != null) {
-                                    breakTime = moment(time.start_at).diff(
-                                        time.end_at,
+                                if (time.is_pause && time.updated_at != null) {
+                                    breakTime = moment(time.created_at).diff(
+                                        time.updated_at,
                                         "seconds"
                                     );
                                 }
