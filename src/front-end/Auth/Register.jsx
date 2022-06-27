@@ -146,7 +146,10 @@ const Register = (props) => {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 "/api/user/signup/phone/verify",
-            data: state.values,
+            data: {
+                phone: state.values.phone,
+                otp: state.values.otp,
+            },
         })
             .then(function (response) {
                 setState((prevState) => ({
@@ -250,7 +253,7 @@ const Register = (props) => {
                                                             required
                                                             value={
                                                                 state.values
-                                                                    .phone
+                                                                    .phone || ""
                                                             }
                                                             onChange={
                                                                 handleChange
@@ -287,7 +290,7 @@ const Register = (props) => {
                                                 {/* <button className="login-gmail mt-5">
                                                     Login with Google
                                                 </button>
-                                                <button className="login-facebook mt-5">
+                                                <button className="login-facebook mt-5"> || ""
                                                     Login with Facebook
                                                 </button> */}
 
