@@ -88,7 +88,7 @@ export const MyAccount = (props) => {
             });
             return true;
         }
-    }, [delAddress]);
+    }, [delAddress?.loading]);
 
     useEffect(() => {
         if (address?.loading) {
@@ -115,7 +115,7 @@ export const MyAccount = (props) => {
             });
             return true;
         }
-    }, [address]);
+    }, [address?.loading]);
 
     useEffect(() => {
         if (removeCard?.loading) {
@@ -141,7 +141,7 @@ export const MyAccount = (props) => {
             });
             return true;
         }
-    }, [removeCard]);
+    }, [removeCard?.loading]);
 
     useEffect(async () => {
         if (addCard?.error == false && addCard.loading == false) {
@@ -380,12 +380,8 @@ export const MyAccount = (props) => {
                                                               <div className="order-btn-b m-3 align-baseline">
                                                                   <button
                                                                       className="btn-view-profile"
-                                                                      // data-backdrop="static"
-                                                                      // data-keyboard="false"
-                                                                      // data-toggle="modal"
-                                                                      // data-target="#delete"
                                                                       onClick={() => {
-                                                                          Swal.fire(
+                                                                          ReactSwal.fire(
                                                                               {
                                                                                   title: "Are you sure?",
                                                                                   text: "You won't be able to revert this!",
@@ -458,6 +454,7 @@ export const MyAccount = (props) => {
                                         data-toggle="modal"
                                         data-target={`#model`}
                                         className="button-common mb-4"
+                                        disabled={!isLoaded}
                                     >
                                         <i className="fa fa-plus"></i> Add
                                         Address
@@ -795,7 +792,7 @@ export const MyAccount = (props) => {
                     </div>
 
                     <div
-                        className="modal fade bd-example-modal-lg"
+                        className="modal fade bd-example-modal"
                         id="model"
                         tabIndex="-1"
                         role="dialog"
@@ -803,7 +800,7 @@ export const MyAccount = (props) => {
                         aria-hidden="true"
                     >
                         <div
-                            className="modal-dialog modal-dialog-centered modal-lg"
+                            className="modal-dialog modal-dialog-centered"
                             role="document"
                         >
                             <div className="modal-content">
@@ -1007,6 +1004,7 @@ export const MyAccount = (props) => {
                                         type="button"
                                         className="button-common"
                                         data-dismiss="modal"
+                                        disabled={address?.loading}
                                         onClick={() => {
                                             setState({
                                                 ...state,
@@ -1026,12 +1024,24 @@ export const MyAccount = (props) => {
                                         disabled={
                                             state?.address?.length < 5 ||
                                             state?.error?.zip_codeErr != "" ||
-                                            !state?.type
+                                            !state?.type ||
+                                            address?.loading
                                         }
                                         onClick={handleAddAddress}
                                     >
-                                        <i className="fa fa-plus"></i> Add
-                                        Address
+                                        {address?.loading ? (
+                                            <>
+                                                <i
+                                                    className={`fa fa-spinner fa-pulse`}
+                                                ></i>{" "}
+                                                Adding...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <i className="fa fa-plus"></i>{" "}
+                                                Add Address
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </div>
