@@ -172,7 +172,8 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                             "BASIC" &&
                                                             provider
                                                                 ?.provider_profile
-                                                                ?.hourly_rate
+                                                                ?.hourly_rate &&
+                                                            provider?.provider_service_requests_count
                                                             ? true
                                                             : false,
                                                         provider,

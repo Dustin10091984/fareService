@@ -22,11 +22,16 @@ import Loading from "../../front-end/common/Loading";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
 import Swal from "sweetalert2";
 import { MapLoadedApiContext } from "./../../helper/context";
+import { ReactSwal } from "../../helper/swal";
 
 export const MyAccount = (props) => {
     const stripe = useStripe();
     const elements = useElements();
-    const [state, setState] = useState({ type: "HOME", addCardError: true });
+    const [state, setState] = useState({
+        type: "HOME",
+        addCardError: true,
+        loadingForToken: false,
+    });
     const [checkoutError, setCheckoutError] = useState();
 
     // const isLoaded = useContext(MapLoadedApi);
@@ -138,32 +143,32 @@ export const MyAccount = (props) => {
         }
     }, [removeCard]);
 
-    useEffect(() => {
-        if (addCard?.loading) {
-            cardLoading.current = toast.info("Card adding...", {
-                toastId: loading.current,
-                autoClose: false,
-            });
-            return true;
-        }
-
-        if (addCard?.error == false) {
+    useEffect(async () => {
+        if (addCard?.error == false && addCard.loading == false) {
             closeRef.current.click();
-            toast.dismiss(cardLoading.current);
-            toast.success("Card added successfully", {
-                toastId: success.current,
+            await ReactSwal.fire({
+                icon: "success",
+                title: "Card added successfully",
+                showConfirmButton: false,
+                timer: 1000,
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
             return true;
         }
 
-        if (addCard?.error) {
-            toast.dismiss(cardLoading.current);
-            toast.error(addCard?.message || "Card adding failed", {
-                toastId: error.current,
+        if (addCard?.error && addCard?.loading == false) {
+            await ReactSwal.fire({
+                icon: "error",
+                title: addCard?.message || "card not added",
+                showConfirmButton: false,
+                timer: 1000,
+                allowOutsideClick: false,
+                showCloseButton: true,
             });
             return true;
         }
-    }, [addCard]);
+    }, [addCard.loading]);
 
     const handleChangeZipCode = (e) => {
         const { name, value } = e.target;
@@ -216,29 +221,32 @@ export const MyAccount = (props) => {
 
     const handleAddCardClick = async () => {
         try {
-            loading.current = toast.info("Card adding...", {
-                toastId: loading.current,
-                autoClose: false,
-            });
             setState((state) => ({
                 ...state,
+                loadingForToken: true,
                 error: { ...state.error, stripeErr: undefined },
             }));
             const { error, token } = await stripe.createToken(
                 elements.getElement(CardElement)
             );
             if (token) {
+                setState((state) => ({
+                    ...state,
+                    loadingForToken: false,
+                }));
                 dispatch(addPaymentCard({ token: token.id }));
             }
             if (error) {
                 setState((state) => ({
                     ...state,
+                    loadingForToken: false,
                     error: { ...state.error, stripeErr: error.message },
                 }));
             }
         } catch (error) {
             setState((state) => ({
                 ...state,
+                loadingForToken: false,
                 error: { ...state.error, stripeErr: error.message },
             }));
         }
@@ -613,6 +621,10 @@ export const MyAccount = (props) => {
                                         type="button"
                                         className="button-common"
                                         data-dismiss="modal"
+                                        disabled={
+                                            addCard?.loading ||
+                                            state.loadingForToken
+                                        }
                                         onClick={() => {
                                             dispatch(
                                                 paymentInitialState("addCard")
@@ -629,10 +641,25 @@ export const MyAccount = (props) => {
                                             !stripe ||
                                             !elements ||
                                             checkoutError ||
-                                            state?.addCardError
+                                            state?.addCardError ||
+                                            addCard?.loading ||
+                                            state.loadingForToken
                                         }
                                     >
-                                        <i className="fa fa-plus"></i> Add
+                                        {addCard?.loading ||
+                                        state.loadingForToken ? (
+                                            <>
+                                                <i
+                                                    className={`fa fa-spinner fa-pulse`}
+                                                ></i>{" "}
+                                                Adding...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <i className="fa fa-plus"></i>{" "}
+                                                Add
+                                            </>
+                                        )}
                                     </button>
                                 </div>
                             </div>

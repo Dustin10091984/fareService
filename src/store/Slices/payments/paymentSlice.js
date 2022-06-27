@@ -20,7 +20,16 @@ const paymentSlice = createSlice({
         list: (state, action) => {
             return {
                 ...state,
-                list: action.payload
+                list: action.payload.error == true ? {
+                    error: false,
+                    data: {
+                        object: 'list',
+                        data: [],
+                        has_more: false,
+                        url: '',
+                    },
+                    message: 'ok'
+                } : action.payload
             }
         },
         addCard: (state, action) => {
@@ -28,8 +37,8 @@ const paymentSlice = createSlice({
                 return {
                     ...state,
                     list: {
-                        ...state.list, data: {
-                            ...state.list.data, data: [action.payload.data, ...state.list.data.data]
+                        ...state?.list, data: {
+                            ...state?.list?.data, data: [action.payload?.data, ...state?.list?.data?.data]
                         }
                     },
                     addCard: action.payload
