@@ -20,7 +20,6 @@ import AddPaymentCard from "./AddPaymentCard";
 import Profile from "./Profile";
 import Loading from "../../front-end/common/Loading";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
-import Swal from "sweetalert2";
 import { MapLoadedApiContext } from "./../../helper/context";
 import { ReactSwal } from "../../helper/swal";
 
@@ -380,8 +379,8 @@ export const MyAccount = (props) => {
                                                               <div className="order-btn-b m-3 align-baseline">
                                                                   <button
                                                                       className="btn-view-profile"
-                                                                      onClick={() => {
-                                                                          ReactSwal.fire(
+                                                                      onClick={async () => {
+                                                                          await ReactSwal.fire(
                                                                               {
                                                                                   title: "Are you sure?",
                                                                                   text: "You won't be able to revert this!",
@@ -462,7 +461,7 @@ export const MyAccount = (props) => {
                                 </div>
                                 {(() => {
                                     if (addressList?.data) {
-                                        return addressList?.data.map(
+                                        return addressList?.data?.map(
                                             (address, index) => (
                                                 <div
                                                     style={{
@@ -487,21 +486,23 @@ export const MyAccount = (props) => {
                                                                 color: "#ff0000",
                                                                 cursor: "pointer",
                                                             }}
-                                                            onClick={() => {
-                                                                Swal.fire({
-                                                                    title: "Are you sure?",
-                                                                    text: "You won't be able to revert this!",
-                                                                    icon: "warning",
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor:
-                                                                        "#3085d6",
-                                                                    cancelButtonColor:
-                                                                        "#d33",
-                                                                    confirmButtonText:
-                                                                        "Yes, delete it!",
-                                                                    allowOutsideClick: false,
-                                                                    showCloseButton: true,
-                                                                }).then(
+                                                            onClick={async () => {
+                                                                await ReactSwal.fire(
+                                                                    {
+                                                                        title: "Are you sure?",
+                                                                        text: "You won't be able to revert this!",
+                                                                        icon: "warning",
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor:
+                                                                            "#3085d6",
+                                                                        cancelButtonColor:
+                                                                            "#d33",
+                                                                        confirmButtonText:
+                                                                            "Yes, delete it!",
+                                                                        allowOutsideClick: false,
+                                                                        showCloseButton: true,
+                                                                    }
+                                                                ).then(
                                                                     (
                                                                         result
                                                                     ) => {

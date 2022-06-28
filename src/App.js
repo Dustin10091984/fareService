@@ -198,15 +198,6 @@ function App() {
   }, [hash]); // do this on route change
 
   useEffect(() => {
-    if (!!localStorage.userToken) {
-      setIsLoggedIn(true)
-    } else {
-      localStorage.clear();
-      setIsLoggedIn(false)
-    }
-  }, [localStorage.userToken])
-
-  useEffect(() => {
     if (!!localStorage?.user_data == true && !!localStorage?.userToken == true) {
       window.addEventListener('click', () => {
         if (localStorage?.user_data) {
@@ -226,6 +217,12 @@ function App() {
           }
         }
       })
+    }
+    if (!!localStorage.userToken) {
+      setIsLoggedIn(true)
+    } else {
+      localStorage.clear();
+      setIsLoggedIn(false)
     }
   }, [localStorage?.user_data, localStorage?.user_data])
 
