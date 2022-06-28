@@ -9,9 +9,6 @@ const ReactSelect = ({
     placeholder,
     maxMenuHeight,
 }) => {
-    console.log("====================================");
-    console.log(value);
-    console.log("====================================");
     return (
         <Select
             isDisabled={isDisabled}
@@ -43,8 +40,8 @@ ReactSelect.propTypes = {
         PropTypes.object,
         PropTypes.arrayOf(PropTypes.object),
     ]),
-    options: PropTypes.arrayOf(PropTypes.object),
-    onChange: PropTypes.func,
+    options: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     maxMenuHeight: PropTypes.number,
 };

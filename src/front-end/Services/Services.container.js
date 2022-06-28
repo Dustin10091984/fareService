@@ -12,7 +12,6 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => {
     return {
-
         getServiceQuestion: (id) => {
             dispatch(getServiceQuestion(id));
         },

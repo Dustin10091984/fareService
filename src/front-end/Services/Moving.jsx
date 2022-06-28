@@ -71,16 +71,6 @@ export const Moving = (props) => {
         setZipCodesList();
     }, [cityCountry?.city, cityCountry?.country]);
 
-    const handleSelectTypeClick = (vehicle_type_id) => {
-        vehicle_type_id === state.vehicle_type_id
-            ? (vehicle_type_id = "")
-            : (vehicle_type_id = vehicle_type_id);
-        setState((state) => ({
-            ...state,
-            vehicle_type_id,
-        }));
-    };
-
     const handleChangeZipCode = (e) => {
         const { name, value } = e.target;
         let re = /^(0|[1-9][0-9]*)$/;
