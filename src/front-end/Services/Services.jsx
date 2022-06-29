@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "../../components/Rating";
 import { HOST } from "../../constants";
@@ -57,24 +56,21 @@ export const Services = (props) => {
         });
     };
 
-    const handleCountryCityChange = useCallback(
-        ({ name, value }) => {
-            if (name === "country") {
-                setState({
-                    ...state,
-                    [name]: value,
-                    city: "",
-                });
-            } else {
-                setState({
-                    ...state,
-                    [name]: value,
-                });
-            }
-            setService({ ...service, selectedZipCode: false, zipCode: "" });
-        },
-        [state.country, state.city]
-    );
+    const handleCountryCityChange = ({ name, value }) => {
+        if (name === "country") {
+            setState({
+                ...state,
+                [name]: value,
+                city: "",
+            });
+        } else {
+            setState({
+                ...state,
+                [name]: value,
+            });
+        }
+        setService({ ...service, selectedZipCode: false, zipCode: "" });
+    };
 
     const handleZipCodeChange = ({ target: { name, value } }) => {
         setService((state) => ({

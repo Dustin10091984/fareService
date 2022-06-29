@@ -58,10 +58,12 @@ const ServiceArea = ({
     );
 };
 
+ServiceArea.displayName = "ServiceArea";
+
 ServiceArea.propTypes = {
-    countriesData: PropTypes.arrayOf(PropTypes.object),
+    countriesData: PropTypes.arrayOf(PropTypes.object).isRequired,
     cityCountry: PropTypes.object,
-    handleCountryCityChange: PropTypes.func,
+    handleCountryCityChange: PropTypes.func.isRequired,
 };
 
 export { ServiceArea };
