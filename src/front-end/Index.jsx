@@ -104,66 +104,6 @@ export const Index = (props) => {
                                     )
                                 );
                             })}
-                            {/* <div className="service-box">
-                                <Link to="/grocery-stores">
-                                    <img
-                                        src="/assets/img/service2.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                    <div className="cat-title d-flex align-items-center justify-content-center">
-                                        Groceries
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="service-box">
-                                <Link to="/restaurants">
-                                    <img
-                                        src="/assets/img/service3.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                    <div className="cat-title d-flex align-items-center justify-content-center">
-                                        Food
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="service-box">
-                                <Link to="/moving-help">
-                                    <img
-                                        src="/assets/img/service4.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                    <div className="cat-title d-flex align-items-center justify-content-center">
-                                        Hanging Pictures & Shelves
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="service-box">
-                                <Link to="/house-cleaning">
-                                    <img
-                                        src="/assets/img/service5.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                    <div className="cat-title d-flex align-items-center justify-content-center">
-                                        Office Cleaning
-                                    </div>
-                                </Link>
-                            </div>
-                            <div className="service-box">
-                                <Link to="/moving-help">
-                                    <img
-                                        src="/assets/img/service6.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                    <div className="cat-title d-flex align-items-center justify-content-center">
-                                        TV Mounting
-                                    </div>
-                                </Link>
-                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -324,14 +264,6 @@ export const Index = (props) => {
                                         alt=""
                                         className="img-fluid"
                                     />
-                                    {/* <div className="back-layer"> */}
-                                    {/* <img src="/assets/img/layer-2.jpg" alt="" className="img-fluid"/> */}
-                                    {/* </div> */}
-                                    {/* <div className="inner-btn d-flex align-items-center justify-content-center">
-                                        <a href="#" className="button-common">
-                                            Show all Home Products
-                                        </a>
-                                    </div> */}
                                 </div>
                             </div>
                         </div>
@@ -368,9 +300,7 @@ export const Index = (props) => {
                                     to="/provider/registration"
                                     className="button-common"
                                 >
-                                    {/* <a href="#" className="button-common"> */}
                                     Become a Farenow professional
-                                    {/* </a> */}
                                 </Link>
                             </div>
                         </div>

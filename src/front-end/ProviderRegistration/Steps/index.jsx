@@ -577,8 +577,14 @@ const SelectZipCode = ({
                 : null;
         });
 
-        const locality = address_components?.find((address) => {
+        const city = address_components?.find((address) => {
             return address?.types?.includes("locality")
+                ? address?.long_name
+                : null;
+        });
+
+        const state = address_components?.find((address) => {
+            return address?.types?.includes("administrative_area_level_1")
                 ? address?.long_name
                 : null;
         });
@@ -591,11 +597,12 @@ const SelectZipCode = ({
 
         const data = {
             zipCode: postalCode?.long_name,
-            city: locality?.long_name,
+            city: city?.long_name,
+            state: state?.long_name,
             country: country?.long_name,
         };
 
-        if (data?.zipCode && data?.city && data?.country) {
+        if (data?.zipCode && data?.city && data?.country && data.state) {
             let code = zipCode?.zip_code?.find((object) => {
                 if (object.zipCode != data.zipCode) {
                     return false;
@@ -623,15 +630,15 @@ const SelectZipCode = ({
         }
     };
 
-    const handleChangePostalCode = ({ target: { name, value } }) => {
+    const handleChangePostalCode = async ({ target: { name, value } }) => {
         if (value) {
             setPostalCode((prevState) => ({
                 ...prevState,
                 loading: true,
                 [name]: value,
             }));
-            axios({
-                method: "post",
+            await axios({
+                method: "get",
                 url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
             })
                 .then(function (response) {

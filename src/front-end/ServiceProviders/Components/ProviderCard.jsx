@@ -168,16 +168,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                 } else {
                                                     handleContinueClick(
                                                         event,
-                                                        provider.account_type ===
-                                                            "BASIC" &&
-                                                            provider
-                                                                ?.provider_profile
-                                                                ?.hourly_rate &&
-                                                            provider?.provider_service_requests_count
-                                                            ? true
-                                                            : false,
-                                                        provider,
-                                                        provider?.provider_service_requests_count
+                                                        provider
                                                     );
                                                 }
                                             }}

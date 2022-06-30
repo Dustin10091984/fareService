@@ -1,26 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import ProfileCard from "../../components/ProfileCard";
-import {
-    addAddress,
-    deleteAddress,
-    getAddresses,
-    getProfile,
-    initialState,
-} from "../../store/Slices/UserSlice";
-import {
-    getPaymentCards,
-    addPaymentCard,
-    deleteCard,
-    paymentInitialState,
-} from "./../../store/Slices/payments/paymentSlice";
 import { toast } from "react-toastify";
 import AddPaymentCard from "./AddPaymentCard";
 import Profile from "./Profile";
 import Loading from "../../front-end/common/Loading";
 import AutoCompleteInput from "../../components/AutoCompleteInput";
-import Swal from "sweetalert2";
 import { MapLoadedApiContext } from "./../../helper/context";
 import { ReactSwal } from "../../helper/swal";
 
@@ -34,31 +20,41 @@ export const MyAccount = (props) => {
     });
     const [checkoutError, setCheckoutError] = useState();
 
+    const {
+        //states
+        profile,
+        address,
+        addressList,
+        delAddress,
+        paymentCard,
+        removeCard,
+        addCard,
+
+        // dispatch functions
+        addAddress,
+        deleteAddress,
+        getAddresses,
+        getProfile,
+        initialState,
+        getPaymentCards,
+        addPaymentCard,
+        deleteCard,
+        paymentInitialState,
+    } = props;
+
     // const isLoaded = useContext(MapLoadedApi);
-    const dispatch = useDispatch();
-    const cardLoading = useRef(null);
     const loading = useRef(null);
     const success = useRef(null);
     const error = useRef(null);
     const closeRef = useRef(null);
     const closeAddressModalRef = useRef(null);
-    const profile = useSelector((state) => state.userReducer?.profile);
-    const address = useSelector((state) => state.userReducer?.address);
-    const addressList = useSelector((state) => state.userReducer?.addresses);
-    const delAddress = useSelector((state) => state.userReducer?.delAddress);
-
-    const paymentCard = useSelector((state) => state.paymentReducer?.list);
-
-    const removeCard = useSelector((state) => state.paymentReducer?.removeCard);
-
-    const addCard = useSelector((state) => state.paymentReducer?.addCard);
 
     useEffect(() => {
         if (localStorage.getItem("user_data")) {
             let user = JSON.parse(localStorage.getItem("user_data"));
-            if (!!profile?.data == false) dispatch(getProfile(user.id));
-            if (!!addressList?.data == false) dispatch(getAddresses());
-            if (!!paymentCard?.data == false) dispatch(getPaymentCards());
+            !!!profile?.data && getProfile(user.id);
+            !!!addressList?.data && getAddresses();
+            !!!paymentCard?.data && getPaymentCards();
         } else {
             localStorage.clear();
         }
@@ -193,14 +189,12 @@ export const MyAccount = (props) => {
     };
 
     const handleAddAddress = () => {
-        dispatch(
-            addAddress({
-                type: state.type,
-                address: state.address,
-                flat_no: state.flat_no,
-                zip_code: state.zip_code,
-            })
-        );
+        addAddress({
+            type: state.type,
+            address: state.address,
+            flat_no: state.flat_no,
+            zip_code: state.zip_code,
+        });
     };
 
     const handleCardDetailsChange = (e) => {
@@ -234,7 +228,7 @@ export const MyAccount = (props) => {
                     ...state,
                     loadingForToken: false,
                 }));
-                dispatch(addPaymentCard({ token: token.id }));
+                addPaymentCard({ token: token.id });
             }
             if (error) {
                 setState((state) => ({
@@ -380,8 +374,8 @@ export const MyAccount = (props) => {
                                                               <div className="order-btn-b m-3 align-baseline">
                                                                   <button
                                                                       className="btn-view-profile"
-                                                                      onClick={() => {
-                                                                          ReactSwal.fire(
+                                                                      onClick={async () => {
+                                                                          await ReactSwal.fire(
                                                                               {
                                                                                   title: "Are you sure?",
                                                                                   text: "You won't be able to revert this!",
@@ -400,15 +394,10 @@ export const MyAccount = (props) => {
                                                                               (
                                                                                   result
                                                                               ) => {
-                                                                                  if (
-                                                                                      result.isConfirmed
-                                                                                  ) {
-                                                                                      dispatch(
-                                                                                          deleteCard(
-                                                                                              item.id
-                                                                                          )
+                                                                                  result.isConfirmed &&
+                                                                                      deleteCard(
+                                                                                          item.id
                                                                                       );
-                                                                                  }
                                                                               }
                                                                           );
                                                                           // setState({
@@ -462,7 +451,7 @@ export const MyAccount = (props) => {
                                 </div>
                                 {(() => {
                                     if (addressList?.data) {
-                                        return addressList?.data.map(
+                                        return addressList?.data?.map(
                                             (address, index) => (
                                                 <div
                                                     style={{
@@ -487,33 +476,30 @@ export const MyAccount = (props) => {
                                                                 color: "#ff0000",
                                                                 cursor: "pointer",
                                                             }}
-                                                            onClick={() => {
-                                                                Swal.fire({
-                                                                    title: "Are you sure?",
-                                                                    text: "You won't be able to revert this!",
-                                                                    icon: "warning",
-                                                                    showCancelButton: true,
-                                                                    confirmButtonColor:
-                                                                        "#3085d6",
-                                                                    cancelButtonColor:
-                                                                        "#d33",
-                                                                    confirmButtonText:
-                                                                        "Yes, delete it!",
-                                                                    allowOutsideClick: false,
-                                                                    showCloseButton: true,
-                                                                }).then(
+                                                            onClick={async () => {
+                                                                await ReactSwal.fire(
+                                                                    {
+                                                                        title: "Are you sure?",
+                                                                        text: "You won't be able to revert this!",
+                                                                        icon: "warning",
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor:
+                                                                            "#3085d6",
+                                                                        cancelButtonColor:
+                                                                            "#d33",
+                                                                        confirmButtonText:
+                                                                            "Yes, delete it!",
+                                                                        allowOutsideClick: false,
+                                                                        showCloseButton: true,
+                                                                    }
+                                                                ).then(
                                                                     (
                                                                         result
                                                                     ) => {
-                                                                        if (
-                                                                            result.isConfirmed
-                                                                        ) {
-                                                                            dispatch(
-                                                                                deleteAddress(
-                                                                                    address.id
-                                                                                )
+                                                                        result.isConfirmed &&
+                                                                            deleteAddress(
+                                                                                address.id
                                                                             );
-                                                                        }
                                                                     }
                                                                 );
                                                             }}
@@ -584,9 +570,7 @@ export const MyAccount = (props) => {
                                             setState({
                                                 ...state,
                                             });
-                                            dispatch(
-                                                paymentInitialState("addCard")
-                                            );
+                                            paymentInitialState("addCard");
                                         }}
                                     >
                                         <span aria-hidden="true">&times;</span>
@@ -622,11 +606,9 @@ export const MyAccount = (props) => {
                                             addCard?.loading ||
                                             state.loadingForToken
                                         }
-                                        onClick={() => {
-                                            dispatch(
-                                                paymentInitialState("addCard")
-                                            );
-                                        }}
+                                        onClick={() =>
+                                            paymentInitialState("addCard")
+                                        }
                                     >
                                         <i className="fa fa-close"></i> Cancel
                                     </button>
@@ -701,15 +683,11 @@ export const MyAccount = (props) => {
                                                 delete_address_id: null,
                                             });
                                             state?.delete_card_id &&
-                                                dispatch(
-                                                    paymentInitialState(
-                                                        "removeCard"
-                                                    )
+                                                paymentInitialState(
+                                                    "removeCard"
                                                 );
                                             state?.delete_address_id &&
-                                                dispatch(
-                                                    initialState("delAddress")
-                                                );
+                                                initialState("delAddress");
                                         }}
                                     >
                                         <span aria-hidden="true">&times;</span>
@@ -742,15 +720,11 @@ export const MyAccount = (props) => {
                                                 delete_address_id: null,
                                             });
                                             state?.delete_card_id &&
-                                                dispatch(
-                                                    paymentInitialState(
-                                                        "removeCard"
-                                                    )
+                                                paymentInitialState(
+                                                    "removeCard"
                                                 );
                                             state?.delete_address_id &&
-                                                dispatch(
-                                                    initialState("delAddress")
-                                                );
+                                                initialState("delAddress");
                                         }}
                                     >
                                         <i className="fa fa-close"></i> Cancel
@@ -763,17 +737,13 @@ export const MyAccount = (props) => {
                                         }}
                                         onClick={() => {
                                             if (state?.delete_card_id) {
-                                                dispatch(
-                                                    deleteCard(
-                                                        state?.delete_card_id
-                                                    )
+                                                deleteCard(
+                                                    state?.delete_card_id
                                                 );
                                             }
                                             if (state?.delete_address_id) {
-                                                dispatch(
-                                                    deleteAddress(
-                                                        state?.delete_address_id
-                                                    )
+                                                deleteAddress(
+                                                    state?.delete_address_id
                                                 );
                                             }
                                             setState({
@@ -820,7 +790,7 @@ export const MyAccount = (props) => {
                                                 flat_no: "",
                                                 zip_code: "",
                                             });
-                                            dispatch(initialState("address"));
+                                            initialState("address");
                                         }}
                                         // type="button"
                                         style={{
@@ -1013,7 +983,7 @@ export const MyAccount = (props) => {
                                                 flat_no: "",
                                                 zip_code: "",
                                             });
-                                            dispatch(initialState("address"));
+                                            initialState("address");
                                         }}
                                     >
                                         <i className="fa fa-close"></i> Close

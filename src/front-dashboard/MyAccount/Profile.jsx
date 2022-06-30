@@ -3,7 +3,7 @@ import { patchupdateProfile, initialState } from "../../store/Slices/UserSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
+import { ReactSwal } from "./../../helper/swal";
 const Profile = ({ profile: { data } }) => {
     const loading = useRef(null);
     const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const Profile = ({ profile: { data } }) => {
         }
     }, [data]);
 
-    useEffect(() => {
+    useEffect(async () => {
         if (updateProfile?.error) {
             toast.dismiss(loading.current);
             typeof updateProfile?.message !== "object"
@@ -46,7 +46,7 @@ const Profile = ({ profile: { data } }) => {
             return true;
         }
         if (updateProfile?.error === false && updateProfile?.message) {
-            Swal.fire({
+            await ReactSwal.fire({
                 position: "center",
                 icon: "success",
                 title: "Profile Updated Successfully",
