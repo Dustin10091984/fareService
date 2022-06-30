@@ -163,12 +163,18 @@ export const ServiceProviders = (props) => {
         }
     }, [serviceRequest]);
 
-    function handleContinueClick(
-        event,
-        type,
-        provider,
-        provider_service_requests_count
-    ) {
+    function handleContinueClick(event, provider) {
+        let type = null;
+        if (
+            (provider.account_type === "BASIC" ||
+                provider.service_type == "MULTIPLE") &&
+            provider?.provider_profile?.hourly_rate &&
+            provider?.provider_schedules_count
+        ) {
+            type = true;
+        } else {
+            type = false;
+        }
         setOpen(true);
         const { value } = event.target;
         if (state.is_loggedin) {
@@ -178,12 +184,14 @@ export const ServiceProviders = (props) => {
                     is_hourly: type,
                     provider_id: value,
                     provider,
-                    provider_service_requests_count,
+                    provider_service_requests_count:
+                        provider?.provider_service_requests_count,
                 }));
-                if (location?.state?.service_type !== ServiceType.MOVING) {
-                    if (type == true) {
-                        getProviderSchedule(value);
-                    }
+                if (
+                    location?.state?.service_type !== ServiceType.MOVING &&
+                    type
+                ) {
+                    getProviderSchedule(value);
                 }
             } else {
                 setState((state) => ({
@@ -427,7 +435,6 @@ export const ServiceProviders = (props) => {
                         <div className="col-md-8">
                             {state.error}
                             {state.loggedinErr}
-                            {console.log(providerList)}
                             {providerList?.data?.error && (
                                 <div className="text-center display-4">
                                     {providerList?.data.message}
