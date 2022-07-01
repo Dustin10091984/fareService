@@ -74,9 +74,9 @@ const ServiceArea = ({
 ServiceArea.displayName = "ServiceArea";
 
 ServiceArea.propTypes = {
-    countriesData: PropTypes.arrayOf(PropTypes.object).isRequired,
+    countriesData: PropTypes.arrayOf(PropTypes.object),
     cityCountry: PropTypes.object,
-    handleCountryOrStateCityChange: PropTypes.func.isRequired,
+    handleCountryOrStateCityChange: PropTypes.func,
 };
 
 export { ServiceArea };
