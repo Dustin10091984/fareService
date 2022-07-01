@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
-import Select from "react-select";
-
+import { ReactSelect } from "../../components/ReactSelect/ReactSelect";
+import { ServiceArea } from "./components/ServiceArea";
 const Service = ({
     headerMenu,
     getServiceQuestion,
@@ -9,7 +9,7 @@ const Service = ({
     handleZipCodeChange,
     handleSelectZipCode,
     handleChangeQuestion,
-    handleCountryCityChange,
+    handleCountryCityOrStateChange,
     getProviders,
     getCountriesList,
     countriesData,
@@ -38,34 +38,37 @@ const Service = ({
     }, [subServiceId]);
 
     useEffect(() => {
-        if (cityCountry?.city) {
+        if (cityCountry?.state) {
             setZipCodes(
                 countriesData?.data
                     ?.find(
                         (countryData) => countryData.id == cityCountry?.country
                     )
-                    ?.cities?.find((cities) => cities.id == cityCountry?.city)
+                    ?.states?.find((state) => state.id == cityCountry?.state)
                     ?.zip_codes
             );
         }
-    }, [cityCountry?.city]);
+    }, [cityCountry?.state]);
 
     useEffect(() => {
         setZipCodesList();
-    }, [cityCountry?.city, cityCountry?.country]);
+    }, [cityCountry?.state, cityCountry?.country]);
 
     const handleSearchZipCode = ({ target }) => {
-        const data = zipCodes.filter(({ code }) => code.includes(target.value));
-        setZipCodesList(data);
-        setState((prevState) => ({
-            ...prevState,
-            errors: {
-                ...prevState.errors,
-                notFound: data.length ? "" : "No zip code found",
-            },
-        }));
+        const data = zipCodes?.filter(({ code }) =>
+            code.includes(target.value)
+        );
+        if (data) {
+            setZipCodesList(data);
+            setState((prevState) => ({
+                ...prevState,
+                errors: {
+                    ...prevState.errors,
+                    notFound: data?.length ? "" : "No zip code found",
+                },
+            }));
+        }
     };
-
     return (
         <div
             className="moving-search-box house-cleaning-sec"
@@ -262,108 +265,14 @@ const Service = ({
                                     Choose service area
                                 </h4>
                                 <div className="d-flex justify-content-between">
-                                    <div className="common-input my-2 mx-3">
-                                        <Select
-                                            options={countriesData?.data?.map(
-                                                (countryData) => ({
-                                                    value: countryData.id,
-                                                    label: countryData.name,
-                                                })
-                                            )}
-                                            onChange={({ value }) => {
-                                                handleCountryCityChange({
-                                                    name: "country",
-                                                    value,
-                                                });
-                                            }}
-                                            placeholder="Please Select Country"
-                                            maxMenuHeight={200}
-                                        />
-                                        {/* <select
-                                            name="country"
-                                            value={cityCountry?.country}
-                                            onChange={(e) => {
-                                                handleCountryCityChange(e);
-                                            }}
-                                        >
-                                            <option defaultValue="">
-                                                Select Country
-                                            </option>
-                                            {countriesData?.data?.map(
-                                                (countryData, index) => (
-                                                    <Fragment key={index}>
-                                                        <option
-                                                            value={
-                                                                countryData.id
-                                                            }
-                                                        >
-                                                            {countryData.name}
-                                                        </option>
-                                                    </Fragment>
-                                                )
-                                            )}
-                                        </select> */}
-                                    </div>
-                                    <div className="common-input my-2 mx-3">
-                                        <Select
-                                            isDisabled={!!!cityCountry?.country}
-                                            options={((countryData) => {
-                                                return countryData?.cities?.map(
-                                                    (cityData) => ({
-                                                        value: cityData.id,
-                                                        label: cityData.name,
-                                                    })
-                                                );
-                                            })(
-                                                countriesData?.data?.find(
-                                                    (countryData) =>
-                                                        countryData.id ==
-                                                        cityCountry?.country
-                                                )
-                                            )}
-                                            onChange={({ value }) => {
-                                                handleCountryCityChange({
-                                                    name: "city",
-                                                    value,
-                                                });
-                                            }}
-                                            placeholder="Please Select City"
-                                            maxMenuHeight={200}
-                                        />
-                                        {/* <select
-                                            name="city"
-                                            disabled={!cityCountry?.country}
-                                            value={cityCountry?.city}
-                                            onChange={(e) => {
-                                                handleCountryCityChange(e);
-                                            }}
-                                        >
-                                            <option defaultValue="">
-                                                Select City
-                                            </option>
-                                            {(() => {
-                                                const countryData =
-                                                    countriesData?.data?.find(
-                                                        (countryData) =>
-                                                            countryData.id ==
-                                                            cityCountry?.country
-                                                    );
-                                                return countryData?.cities?.map(
-                                                    (cityData, index) => (
-                                                        <Fragment key={index}>
-                                                            <option
-                                                                value={
-                                                                    cityData.id
-                                                                }
-                                                            >
-                                                                {cityData.name}
-                                                            </option>
-                                                        </Fragment>
-                                                    )
-                                                );
-                                            })()}
-                                        </select> */}
-                                    </div>
+                                    <ServiceArea
+                                        {...{
+                                            countriesData: countriesData?.data,
+                                            cityCountry,
+                                            handleCountryCityOrStateChange,
+                                            extraClasses: "mx-3",
+                                        }}
+                                    />
                                 </div>
                                 <div
                                     className="col-md-12 text-dark mb-2"
@@ -373,8 +282,33 @@ const Service = ({
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <div className="common-input mb-2 mx-3">
+                                        {/* <ReactSelect
+                                            value={
+                                                zipCodes?.find(
+                                                    (codeData) =>
+                                                        codeData?.code ==
+                                                        service.zipCode
+                                                )
+                                                    ? {
+                                                          value: service.zipCode,
+                                                          label: service.zipCode,
+                                                      }
+                                                    : null
+                                            }
+                                            isDisabled={!cityCountry?.state}
+                                            placeholder="please select zip code"
+                                            options={zipCodes?.map(
+                                                (zipCode) => ({
+                                                    value: zipCode?.code,
+                                                    label: zipCode?.code,
+                                                })
+                                            )}
+                                            onChange={({ value }) => {
+                                                handleSelectZipCode(value);
+                                            }}
+                                        /> */}
                                         <input
-                                            disabled={!cityCountry?.city}
+                                            disabled={!cityCountry?.state}
                                             type="text"
                                             onChange={(e) => {
                                                 handleZipCodeChange(e);

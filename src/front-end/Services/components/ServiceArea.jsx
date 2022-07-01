@@ -1,11 +1,11 @@
-import { memo, useEffect } from "react";
 import { ReactSelect } from "../../../components/ReactSelect/ReactSelect";
 import PropTypes from "prop-types";
 
 const ServiceArea = ({
     countriesData,
     cityCountry,
-    handleCountryCityChange,
+    handleCountryCityOrStateChange,
+    extraClasses = "",
 }) => {
     const countries = countriesData?.map((item) => ({
         value: item.id,
@@ -14,14 +14,22 @@ const ServiceArea = ({
     const country = countriesData?.find(
         (item) => item.id == cityCountry?.country
     );
-    const cities = country?.cities?.map((item) => ({
+
+    const states = country?.states?.map((item) => ({
         value: item.id,
         label: item.name,
     }));
-    const city = country?.cities?.find((item) => item.id == cityCountry?.city);
+
+    const state = country?.states?.find((item) => item.id == cityCountry?.state);
+
+    // const cities = country?.cities?.map((item) => ({
+    //     value: item.id,
+    //     label: item.name,
+    // }));
+    // const city = country?.cities?.find((item) => item.id == cityCountry?.city);
     return (
         <>
-            <div className="common-input my-2 pr-2">
+            <div className={`common-input my-2 pr-2 ${extraClasses}`}>
                 <ReactSelect
                     value={
                         country
@@ -33,24 +41,29 @@ const ServiceArea = ({
                     }
                     options={countries}
                     onChange={({ value }) =>
-                        handleCountryCityChange({ name: "country", value })
+                        handleCountryCityOrStateChange({
+                            name: "country",
+                            value,
+                        })
                     }
                     placeholder="Please Select Country"
                     maxMenuHeight={200}
                 />
             </div>
-            <div className="common-input my-2 pl-2">
+            <div className={`common-input my-2 pr-2 ${extraClasses}`}>
                 <ReactSelect
                     isDisabled={!country}
-                    value={city ? { value: city?.id, label: city?.name } : null}
-                    options={cities}
+                    value={
+                        state ? { value: state?.id, label: state?.name } : null
+                    }
+                    options={states}
                     onChange={({ value }) =>
-                        handleCountryCityChange({
-                            name: "city",
+                        handleCountryCityOrStateChange({
+                            name: "state",
                             value,
                         })
                     }
-                    placeholder="Please Select City"
+                    placeholder="Please Select State"
                     maxMenuHeight={200}
                 />
             </div>
@@ -61,9 +74,9 @@ const ServiceArea = ({
 ServiceArea.displayName = "ServiceArea";
 
 ServiceArea.propTypes = {
-    countriesData: PropTypes.arrayOf(PropTypes.object).isRequired,
+    countriesData: PropTypes.arrayOf(PropTypes.object),
     cityCountry: PropTypes.object,
-    handleCountryCityChange: PropTypes.func.isRequired,
+    handleCountryOrStateCityChange: PropTypes.func,
 };
 
 export { ServiceArea };

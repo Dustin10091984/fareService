@@ -41,6 +41,8 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                 provider?.service_type !== ServiceType.MULTIPLE
             ) {
                 return "Get a Qoutation";
+            } else {
+                return "Not Available"
             }
         }
     };
@@ -102,13 +104,6 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                 return "#quotation";
             }
         }
-        // location.state.service_type != ServiceType.MOVING &&
-        // (provider.account_type === "BASIC" &&
-        // (provider?.provider_profile?.hourly_rate ||
-        //     (provider.service_type == ServiceType.MULTIPLE &&
-        //         provider?.provider_schedules_count != 0))
-        //     ? "#hourly"
-        //     : "#quotation")
     };
 
     return (

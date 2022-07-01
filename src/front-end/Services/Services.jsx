@@ -13,7 +13,7 @@ export const Services = (props) => {
     const params = new URLSearchParams(search);
 
     const [state, setState] = useState({
-        city: "",
+        state: "",
         country: "",
     });
 
@@ -56,12 +56,12 @@ export const Services = (props) => {
         });
     };
 
-    const handleCountryCityChange = ({ name, value }) => {
+    const handleCountryCityOrStateChange = ({ name, value }) => {
         if (name === "country") {
             setState({
                 ...state,
                 [name]: value,
-                city: "",
+                state: "",
             });
         } else {
             setState({
@@ -120,14 +120,19 @@ export const Services = (props) => {
             {parseInt(serviceId) === 3 ? (
                 <MovingRequest
                     {...props}
-                    cityCountry={{ city: state?.city, country: state?.country }}
+                    cityCountry={{
+                        state: state?.state,
+                        country: state?.country,
+                    }}
                     handleMovingState={handleMovingState}
                     movingState={movingState}
                     moving={moving}
                     subServiceId={subServiceId}
                     handleStepClick={handleStepClick}
                     handleSelectTypeClick={handleSelectTypeClick}
-                    handleCountryCityChange={handleCountryCityChange}
+                    handleCountryOrStateCityChange={
+                        handleCountryCityOrStateChange
+                    }
                 />
             ) : (
                 <>
@@ -146,7 +151,7 @@ export const Services = (props) => {
                                             <Service
                                                 {...props}
                                                 cityCountry={{
-                                                    city: state?.city,
+                                                    state: state?.state,
                                                     country: state?.country,
                                                 }}
                                                 service={service}
@@ -160,8 +165,8 @@ export const Services = (props) => {
                                                     handleSelectZipCode
                                                 }
                                                 getProviders={getProviders}
-                                                handleCountryCityChange={
-                                                    handleCountryCityChange
+                                                handleCountryCityOrStateChange={
+                                                    handleCountryCityOrStateChange
                                                 }
                                             />
                                         </>

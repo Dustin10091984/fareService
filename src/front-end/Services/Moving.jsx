@@ -18,7 +18,7 @@ export const Moving = (props) => {
         handleMovingState,
         countriesData,
         cityCountry,
-        handleCountryCityChange,
+        handleCountryCityOrStateChange,
     } = props;
     const [state, setState] = useState({
         vehicle_type_id: "",
@@ -163,7 +163,7 @@ export const Moving = (props) => {
                         {...{
                             countriesData: countriesData?.data,
                             cityCountry,
-                            handleCountryCityChange,
+                            handleCountryCityOrStateChange,
                         }}
                     />
                 </div>
