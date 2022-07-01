@@ -12,7 +12,7 @@ const MovingRequest = ({
     handleStepClick,
     countriesData,
     cityCountry,
-    handleCountryCityChange,
+    handleCountryCityOrStateChange,
     getCountriesList,
 }) => {
     const ref = useRef(null);
@@ -160,8 +160,8 @@ const MovingRequest = ({
                                         subServiceId={subServiceId}
                                         countriesData={countriesData}
                                         cityCountry={cityCountry}
-                                        handleCountryCityChange={
-                                            handleCountryCityChange
+                                        handleCountryCityOrStateChange={
+                                            handleCountryCityOrStateChange
                                         }
                                     />
                                 </div>
