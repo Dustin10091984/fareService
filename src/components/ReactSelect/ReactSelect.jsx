@@ -9,8 +9,24 @@ const ReactSelect = ({
     placeholder,
     maxMenuHeight,
 }) => {
+    const colourStyles = {
+        control: (styles) => {
+            console.log(styles);
+            return {
+                ...styles,
+                backgroundColor: "#F1F2F6",
+                borderColor: "#F1F2F6",
+                boxShadow: "none",
+                "&:hover": {
+                    borderColor: "#FABC66",
+                },
+                borderRadius: ".5rem",
+            };
+        },
+    };
     return (
         <Select
+            styles={colourStyles}
             isDisabled={isDisabled}
             isMulti={isMulti}
             value={value}

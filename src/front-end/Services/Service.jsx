@@ -1,5 +1,4 @@
 import { useState, useEffect, Fragment } from "react";
-import { ReactSelect } from "../../components/ReactSelect/ReactSelect";
 import { ServiceArea } from "./components/ServiceArea";
 const Service = ({
     headerMenu,
