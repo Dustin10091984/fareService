@@ -11,7 +11,6 @@ const ReactSelect = ({
 }) => {
     const colourStyles = {
         control: (styles) => {
-            console.log(styles);
             return {
                 ...styles,
                 backgroundColor: "#F1F2F6",
