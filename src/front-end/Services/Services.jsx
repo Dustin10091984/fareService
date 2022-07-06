@@ -130,7 +130,7 @@ export const Services = (props) => {
                     subServiceId={subServiceId}
                     handleStepClick={handleStepClick}
                     handleSelectTypeClick={handleSelectTypeClick}
-                    handleCountryOrStateCityChange={
+                    handleCountryCityOrStateChange={
                         handleCountryCityOrStateChange
                     }
                 />
