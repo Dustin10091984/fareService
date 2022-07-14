@@ -4,54 +4,12 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 import {
-  // Route,
-  // Switch,
-  // Redirect,
   useLocation,
   useHistory
 } from "react-router-dom";
-// import ProtectedRoute from './components/ProtectedRoute';
 
-// import Login from './front-end/Auth/Login';
-// import Register from './front-end/Auth/Register';
-// import ForgotPassword from './front-end/Auth/ForgotPassword';
 import Header from './front-end/common/Header';
 import Footer from './front-end/common/Footer';
-
-// import { Index } from './front-end/Index';
-// import { Shop } from './front-end/Shop';
-// import { ShopTwo } from './front-end/ShopTwo';
-// import { MovingHelp } from './front-end/MovingHelp';
-// import { HouseCleaning } from './front-end/HouseCleaning';
-// import { ServiceProviders } from './front-end/ServiceProviders';
-// import { ProviderProfile } from './front-end/ProviderProfile';
-// import { LatestNews } from './front-end/LatestNews';
-// import { Scolarship } from './front-end/Scolarship';
-// import { Retail } from './front-end/Retail';
-// import { AboutUs } from './front-end/AboutUs';
-// import { Payment } from './front-end/Payment';
-// import { Apply } from './front-end/Apply';
-// import { ProductDetail } from './front-end/ProductDetail';
-// import { Gaurantee } from './front-end/Gaurantee';
-// import { GroceryStore } from './front-end/GroceryStore';
-// import { Restaurant } from './front-end/Restaurant';
-// import { RestaurantPage } from './front-end/RestaurantPage';
-// import { GroceryStorePage } from './front-end/GroceryStorePage';
-// import { FoodDetails } from './front-end/FoodDetails';
-// import { Cart } from './front-end/Cart';
-// import { ServicesPage } from './views/ServicesPage';
-// import { Dashboard } from './front-dashboard/Dashboard';
-// import { OrderHistory } from './front-dashboard/OrderHistory';
-// import { FoodDelivery } from './front-dashboard/FoodDelivery';
-// import { ProductDelivery } from './front-dashboard/ProductDelivery';
-// import { ServicesHistory } from './front-dashboard/ServicesHistory';
-// import { OrderDetail } from './front-dashboard/OrderDetail';
-// import { ServicesDetail } from './front-dashboard/ServicesDetail';
-// import { ChangeP } from "./front-dashboard/ChangeP";
-// import { MyAccount } from "./front-dashboard/MyAccount/MyAccount";
-// import { PaymentCard } from "./front-dashboard/PaymentCard";
-// import { RegistrationPage } from "./views/Provider/Registration";
-// import { Page } from "./front-end/Page";
 
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -64,7 +22,6 @@ import { onMessageListener, getToken } from './firebaseInit';
 // import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
-// import { MovingRequest } from './front-end/moving';
 import { HOST } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
 import Routes from './Routes';
@@ -84,14 +41,14 @@ const liveOption = {
   broadcaster: 'socket.io',
 };
 const localOption = {
-  host: "http://localhost:6001",
+  host: "http://127.0.0.1:6001",
   broadcaster: 'socket.io',
+  client: io,
+  authEndpoint: '/broadcasting/auth'
 };
-console.log(process.env.REACT_APP_APP_DEBUG ? localOption : liveOption);
+
 if (typeof window.io != 'undefined') {
   window.Echo = new Echo(liveOption);
-  // client: io,
-  // auth: {headers: {Authorization: localStorage.userToken }}
 }
 
 (function (d, s, id) {
@@ -151,8 +108,10 @@ function App() {
   const location = useLocation();
 
   useEffect(async () => {
-    handleBackendEvents();
+    handleBackendEvents(dispatch);
     if (!!localStorage?.userToken) {
+      // window.Echo.connector.options.auth.headers['Authorization'] = localStorage.userToken;
+      // window.Echo.connector.options.auth.headers['Accept'] = 'application/json';
       const token = await getToken();
       axios({
         method: "post",
@@ -219,8 +178,11 @@ function App() {
       })
     }
     if (!!localStorage.userToken) {
+      // window.Echo.connector.options.auth.headers['Authorization'] = localStorage.userToken;
+      // window.Echo.connector.options.auth.headers['Accept'] = 'application/json';
       setIsLoggedIn(true)
     } else {
+      // window.Echo.connector.options.auth.headers['Authorization'] = '';
       localStorage.clear();
       setIsLoggedIn(false)
     }
@@ -247,58 +209,3 @@ function App() {
 }
 
 export default App;
-        //   <Switch>
-        //     <Route exact path='/' component={Index} />
-
-        //     {/* <Redirect
-        //     exact
-        //     from="/"
-        //     to="/"
-        //   /> */}
-
-        //     <Route path='/provider/registration' component={RegistrationPage} />
-        //     <Route path='/register' component={Register} />
-        //     <Route path='/login' component={Login} />
-        //     <Route path='/forgot-password' component={ForgotPassword} />
-
-        //     <ProtectedRoute path='/dashboard' component={Dashboard} />
-        //   <ProtectedRoute path='/payment' component={Payment} />
-        //   <ProtectedRoute path='/services-history' component={ServicesHistory} />
-        //   <ProtectedRoute path='/my-account' component={MyAccount} />
-        //   <ProtectedRoute path='/order-detail/:id' component={OrderDetail} />
-        //   <ProtectedRoute path='/cart' component={Cart} />
-        //   <ProtectedRoute path='/service-detail/:id' component={ServicesDetail} />
-
-        //   <Route path='/service-providers' component={ServiceProviders} />
-        //   <Route path='/shop' component={Shop} />
-        //   <Route path='/shop2' component={ShopTwo} />
-        //   <Route path='/moving-help' component={MovingHelp} />
-        //   <Route path='/moving-request' component={MovingRequest} />
-        //   <Route path='/house-cleaning' component={HouseCleaning} />
-        //   <Route path='/provider/profile/:id' component={ProviderProfile} />
-        //   <Route path='/latest-news' component={LatestNews} />
-        //   <Route path='/scolarship' component={Scolarship} />
-        //   <Route path='/retail' component={Retail} />
-        //   <Route path='/about-us' component={AboutUs} />
-        //   <Route path='/apply' component={Apply} />
-        //   <Route path='/product-detail/:id' component={ProductDetail} />
-        //   <Route path='/gaurantee' component={Gaurantee} />
-        //   {/* <Route path='/grocery-stores/:id/product/:productId' component={GroceryStore} /> */}
-        //   {/* <Route path='/grocery-stores/:id' component={GroceryStore} /> */}
-        //   <Route path='/grocery-stores' component={GroceryStore} />
-        //   <Route path='/grocery-stores-page/:id' component={GroceryStorePage} />
-        //   {/* <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} /> */}
-        //   {/* <Route path='/restaurants/:id' component={Restaurant} /> */}
-        //   <Route path='/restaurants' component={Restaurant} />
-        //   <Route path='/restaurant-page/:id' component={RestaurantPage} />
-        //   <Route path='/food-details' component={FoodDetails} />
-        //   <Route path='/services/:serviceId/:subServiceId' component={ServicesPage} />
-        //   <Route path='/services' component={ServicesPage} />
-        //   <Route path='/order-history' component={OrderHistory} />
-        //   <Route path='/food-delivery' component={FoodDelivery} />
-        //   <Route path='/product-delivery' component={ProductDelivery} />
-        //   <Route path='/change-password' component={ChangeP} />
-        //   <Route path='/payment-card' component={PaymentCard} />
-        //   <Route path='/page/:name' component={Page} />
-        //   <Redirect to="/not-found" />
-        // </Switch>

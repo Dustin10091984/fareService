@@ -204,3 +204,72 @@ const Routes = () => {
 }
 
 export default Routes;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   <Switch>
+        //     <Route exact path='/' component={Index} />
+
+        //     {/* <Redirect
+        //     exact
+        //     from="/"
+        //     to="/"
+        //   /> */}
+
+        //     <Route path='/provider/registration' component={RegistrationPage} />
+        //     <Route path='/register' component={Register} />
+        //     <Route path='/login' component={Login} />
+        //     <Route path='/forgot-password' component={ForgotPassword} />
+
+        //     <ProtectedRoute path='/dashboard' component={Dashboard} />
+        //   <ProtectedRoute path='/payment' component={Payment} />
+        //   <ProtectedRoute path='/services-history' component={ServicesHistory} />
+        //   <ProtectedRoute path='/my-account' component={MyAccount} />
+        //   <ProtectedRoute path='/order-detail/:id' component={OrderDetail} />
+        //   <ProtectedRoute path='/cart' component={Cart} />
+        //   <ProtectedRoute path='/service-detail/:id' component={ServicesDetail} />
+
+        //   <Route path='/service-providers' component={ServiceProviders} />
+        //   <Route path='/shop' component={Shop} />
+        //   <Route path='/shop2' component={ShopTwo} />
+        //   <Route path='/moving-help' component={MovingHelp} />
+        //   <Route path='/moving-request' component={MovingRequest} />
+        //   <Route path='/house-cleaning' component={HouseCleaning} />
+        //   <Route path='/provider/profile/:id' component={ProviderProfile} />
+        //   <Route path='/latest-news' component={LatestNews} />
+        //   <Route path='/scolarship' component={Scolarship} />
+        //   <Route path='/retail' component={Retail} />
+        //   <Route path='/about-us' component={AboutUs} />
+        //   <Route path='/apply' component={Apply} />
+        //   <Route path='/product-detail/:id' component={ProductDetail} />
+        //   <Route path='/gaurantee' component={Gaurantee} />
+        //   {/* <Route path='/grocery-stores/:id/product/:productId' component={GroceryStore} /> */}
+        //   {/* <Route path='/grocery-stores/:id' component={GroceryStore} /> */}
+        //   <Route path='/grocery-stores' component={GroceryStore} />
+        //   <Route path='/grocery-stores-page/:id' component={GroceryStorePage} />
+        //   {/* <Route path='/restaurants/:id/foods/:foodId' component={Restaurant} /> */}
+        //   {/* <Route path='/restaurants/:id' component={Restaurant} /> */}
+        //   <Route path='/restaurants' component={Restaurant} />
+        //   <Route path='/restaurant-page/:id' component={RestaurantPage} />
+        //   <Route path='/food-details' component={FoodDetails} />
+        //   <Route path='/services/:serviceId/:subServiceId' component={ServicesPage} />
+        //   <Route path='/services' component={ServicesPage} />
+        //   <Route path='/order-history' component={OrderHistory} />
+        //   <Route path='/food-delivery' component={FoodDelivery} />
+        //   <Route path='/product-delivery' component={ProductDelivery} />
+        //   <Route path='/change-password' component={ChangeP} />
+        //   <Route path='/payment-card' component={PaymentCard} />
+        //   <Route path='/page/:name' component={Page} />
+        //   <Redirect to="/not-found" />
+        // </Switch>

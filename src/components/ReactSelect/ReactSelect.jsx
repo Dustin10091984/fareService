@@ -19,7 +19,29 @@ const ReactSelect = ({
                 "&:hover": {
                     borderColor: "#FABC66",
                 },
-                borderRadius: ".5rem",
+                borderRadius: "1rem",
+                height: "1.7rem",
+            };
+        },
+        valueContainer: (styles) => {
+            return {
+                ...styles,
+                padding: "0rem 1rem",
+            };
+        },
+        input: (styles) => {
+            console.log(styles);
+            return {
+                ...styles,
+                padding: "0rem 1rem",
+                color: "#606060",
+            };
+        },
+        placeholder: (styles) => {
+            return {
+                ...styles,
+                color: "#606060",
+                fontSize: '1.39rem'
             };
         },
     };

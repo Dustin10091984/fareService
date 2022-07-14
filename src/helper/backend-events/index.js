@@ -1,18 +1,19 @@
 import { vehicleListUpdate } from "./../../store/Slices/moving/movingSlice";
-import { dispatch } from "./../../store";
 
-export const handleBackendEvents = () => {
+export const handleBackendEvents = (dispatch) => {
     const Echo = window.Echo;
     const eventArray = [
         {
             listen: 'VehicleTypeEvent',
             channels: [
-                { "new-vehicle-type": vehicleListUpdate },
-                { "update-vehicle-type": vehicleListUpdate },
-                { "delete-vehicle-type": vehicleListUpdate },
+                ...[
+                    'vehicle-type-created',
+                    'vehicle-type-updated',
+                    'vehicle-type-deleted'
+                ].map((event) => ({ [event]: vehicleListUpdate })),
             ],
         }
-    ]
+    ];
     eventArray.forEach(({ listen, channels }) => {
         channels.forEach((data) => {
             Object.entries(data).forEach(([key, value]) => {
@@ -23,4 +24,12 @@ export const handleBackendEvents = () => {
             })
         })
     });
+
+    // Get Notifications from backend
+    // if (localStorage?.user_data && window.Echo.connector.options.auth.headers['Authorization']) {
+    //     let user_data = JSON.parse(localStorage.user_data);
+    //     Echo?.private(`App.Models.User.${user_data.id}`).notification((notification) => {
+    //         console.log(notification);
+    //     });
+    // }
 }
