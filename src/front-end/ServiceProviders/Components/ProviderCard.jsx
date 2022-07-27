@@ -172,7 +172,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                             type="button"
                                             data-backdrop="static"
                                             data-keyboard="false"
-                                            className="button-common-2"
+                                            className="button-common-2 disabled-btn"
                                             data-toggle="modal"
                                             data-target={handleTargetModel(
                                                 provider
@@ -186,7 +186,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                     ) : (
                                         <button
                                             type="button"
-                                            className="button-common-2"
+                                            className="button-common-2 disabled-btn"
                                             onClick={(event) => {
                                                 handleContinueClick(
                                                     event,
