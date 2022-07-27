@@ -3462,7 +3462,7 @@ input::-webkit-inner-spin-button {
 .css-b62m3t-container {
     font-size: small;
 }
-button:disabled {
+.disabled-btn:disabled {
     background-color: #ff0000 !important;
     color: #fff !important;
     pointer-events: none;
