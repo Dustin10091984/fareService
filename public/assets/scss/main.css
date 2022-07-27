@@ -1813,10 +1813,10 @@ body {
     background: #f1f2f6;
     border-radius: 1rem;
     font-style: normal;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 1.5rem;
     line-height: 1.8rem;
-    color: #b6bcc1;
+    color: #82878b;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
