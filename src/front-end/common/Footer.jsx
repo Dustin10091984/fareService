@@ -36,9 +36,13 @@ const Footer = (props) => {
         let sub_services = [];
         headerMenu?.forEach((service) =>
             service?.sub_services?.forEach((sub_service, index) => {
-                sub_services = [...sub_services, sub_service];
+                sub_services = [
+                    ...sub_services,
+                    { ...sub_service, service: service.name },
+                ];
             })
         );
+
         return sub_services.map(
             (sub_service, index) =>
                 !!(index % 2 == 0) && (
@@ -48,18 +52,12 @@ const Footer = (props) => {
                             key={`${sub_service.service_id}_${sub_service.id}`}
                         >
                             <Link
-                                to={`/services/${sub_service.service_id}/${sub_service.id}#services-section`}
+                                to={`/services/${sub_service.service}/${sub_service.service_id}/${sub_service.name}/${sub_service.id}#services-section`}
                                 className="link"
                                 onClick={(e) => {
-                                    console.log(
-                                        location?.pathname,
-                                        `/services/${sub_service.service_id}/${sub_service.id}`,
-                                        location?.hash,
-                                        `#services-section`
-                                    );
                                     if (
                                         location?.pathname ==
-                                            `/services/${sub_service.service_id}/${sub_service.id}` &&
+                                            `/services/${sub_service.service}/${sub_service.service_id}/${sub_service.name}/${sub_service.id}` &&
                                         location?.hash == `#services-section`
                                     ) {
                                         e.preventDefault();
@@ -83,7 +81,9 @@ const Footer = (props) => {
                             >
                                 <Link
                                     to={`/services/${
-                                        sub_services[index + 1].service_id
+                                        sub_services[index + 1].service
+                                    }/${sub_services[index + 1].service_id}/${
+                                        sub_services[index + 1].name
                                     }/${
                                         sub_services[index + 1].id
                                     }#services-section`}
@@ -93,7 +93,12 @@ const Footer = (props) => {
                                             location?.pathname ==
                                                 `/services/${
                                                     sub_services[index + 1]
+                                                        .service
+                                                }/${
+                                                    sub_services[index + 1]
                                                         .service_id
+                                                }/${
+                                                    sub_services[index + 1].name
                                                 }/${
                                                     sub_services[index + 1].id
                                                 }` &&
@@ -330,7 +335,7 @@ const Footer = (props) => {
                                                                 key={`${service.id}_${sub_service.id}`}
                                                             >
                                                                 <Link
-                                                                    to={`/services/${service.id}/${sub_service.id}#services-section`}
+                                                                    to={`/services/${service.name}/${service.id}/${sub_service.name}/${sub_service.id}#services-section`}
                                                                     className="link"
                                                                     onClick={(
                                                                         e

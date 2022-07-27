@@ -133,9 +133,10 @@ body {
 }
 
 .search-result{
+    position: absolute;
     width: 50rem;
     font-size: 1.5rem;
-    border: 2px solid #fea529;
+    border: 2px solid #f1f2f6;
     border-radius: 1.5rem;
     z-index: 1;
     background: #fff;
@@ -608,9 +609,9 @@ body {
     -webkit-transition: all 0.4s ease-in-out;
     transition: all 0.4s ease-in-out;
     max-width: 100%;
-        min-width: 100%;
+    min-width: 100%;
         height: 100%;
-        object-fit: fill;
+    object-fit: cover;
 }
 
 .service-box:hover img {
@@ -3460,4 +3461,9 @@ input::-webkit-inner-spin-button {
 }
 .css-b62m3t-container {
     font-size: small;
+}
+button:disabled {
+    background-color: #ff0000 !important;
+    color: #fff !important;
+    pointer-events: none;
 }

@@ -154,10 +154,10 @@ export const Moving = (props) => {
 
             <div className="mb-1">
                 {/* <hr /> */}
-                <h4 className="mx-3 my-1">
+                <div className="col-md-12 px-0 text-dark rem-2">
                     Choose service area
                     <strong className="text-danger">*</strong>
-                </h4>
+                </div>
                 <div className="d-flex justify-content-between">
                     <ServiceArea
                         {...{

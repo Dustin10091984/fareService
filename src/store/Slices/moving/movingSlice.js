@@ -19,14 +19,12 @@ const movingSlice = createSlice({
             }
         },
         updateVehicle: (state, action) => {
-            console.log(action);
             return {
                 ...state,
                 list: {
                     ...state.list,
                     data: [
                         ...state.list.data.map(vehicleType => {
-                            console.log(vehicleType.id == action.payload.id, vehicleType, action.payload);
                             if (vehicleType.id == action.payload.id) {
                                 return action.payload;
                             }
@@ -110,13 +108,10 @@ export const makeMovingRequest = (data) => async dispatch => {
 export const vehicleListUpdate = ({ type, vehicleType }) => dispatch => {
     try {
         if (type == 'new') {
-            console.log(type, vehicleType);
             dispatch(addVehicle(vehicleType));
         } else if (type == 'update') {
-            console.log(type, vehicleType);
             dispatch(updateVehicle(vehicleType));
         } else if (type == 'delete') {
-            console.log(type, vehicleType);
             dispatch(removeVehicle(vehicleType));
         }
     } catch (error) {

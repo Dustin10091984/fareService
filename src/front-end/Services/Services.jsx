@@ -231,13 +231,13 @@ export const Services = (props) => {
                                                         (subMenu, index) =>
                                                             index < 7 && (
                                                                 <Link
-                                                                    to={`/services/${mainMenu.id}/${subMenu.id}#services-section`}
+                                                                    to={`/services/${mainMenu.name}/${mainMenu.id}/${subMenu.name}/${subMenu.id}#services-section`}
                                                                     onClick={(
                                                                         e
                                                                     ) => {
                                                                         if (
                                                                             location?.pathname ==
-                                                                                `/services/${mainMenu.id}/${subMenu.id}` &&
+                                                                                `/services/${mainMenu.name}/${mainMenu.id}/${subMenu.name}/${subMenu.id}` &&
                                                                             location?.hash ==
                                                                                 "#services-section"
                                                                         ) {

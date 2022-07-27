@@ -30,7 +30,6 @@ const ReactSelect = ({
             };
         },
         input: (styles) => {
-            console.log(styles);
             return {
                 ...styles,
                 padding: "0rem 1rem",
@@ -41,7 +40,7 @@ const ReactSelect = ({
             return {
                 ...styles,
                 color: "#606060",
-                fontSize: '1.39rem'
+                fontSize: "1.39rem",
             };
         },
     };
