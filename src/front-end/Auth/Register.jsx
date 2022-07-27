@@ -202,8 +202,6 @@ const Register = (props) => {
                             ...(state.errors = error.response.data.message),
                         },
                     }));
-                } else {
-                    console.log("Server not responding");
                 }
                 setState((prevState) => ({
                     ...prevState,

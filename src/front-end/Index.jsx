@@ -35,7 +35,7 @@ export const Index = (props) => {
                                     </a> */}
                                 </div>
 
-                                <div className="banner-image d-flex align-items-center justify-content-center">
+                                <div className="d-flex align-items-center justify-content-center">
                                     <img
                                         src="/assets/img/banner-img.jpg"
                                         className="img-fluid"
@@ -71,7 +71,9 @@ export const Index = (props) => {
                                             className="service-box"
                                         >
                                             <Link
-                                                to={`/services/${item.id}/${
+                                                to={`/services/${item.name}/${
+                                                    item.id
+                                                }/${subService.name}/${
                                                     subService.id
                                                 }${
                                                     item.id == 3

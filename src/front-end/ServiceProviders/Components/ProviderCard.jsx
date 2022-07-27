@@ -48,6 +48,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     };
 
     const handleDisableLoad = (provider) => {
+        return true;
         if (provider?.service_type === ServiceType.MULTIPLE) {
             return false;
         } else if (
@@ -149,7 +150,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                     <Rating rating={provider?.rating} />
 
                                     {location.state !== undefined &&
-                                    is_loggedin === true ? (
+                                    !is_loggedin === true ? (
                                         <button
                                             onClick={(event) => {
                                                 if (

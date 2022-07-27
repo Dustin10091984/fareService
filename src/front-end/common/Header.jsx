@@ -123,7 +123,13 @@ const Header = (props) => {
                             )
                     );
                     if (searchResult?.length > 0) {
-                        subServices = [...subServices, ...searchResult];
+                        subServices = [
+                            ...subServices,
+                            ...searchResult.map((data) => ({
+                                ...data,
+                                service: menu.name,
+                            })),
+                        ];
                         setState((prev) => ({
                             ...prev,
                             subServices,
@@ -182,7 +188,7 @@ const Header = (props) => {
                                     }}
                                 >
                                     <NavLink
-                                        to={`/services/${menu.id}/${sub_menu.id}#services-section`}
+                                        to={`/services/${menu.name}/${menu.id}/${sub_menu.name}/${sub_menu.id}#services-section`}
                                         onClick={(e) => {
                                             if (
                                                 location?.pathname ==
@@ -299,13 +305,13 @@ const Header = (props) => {
                                                             <Link
                                                                 key={index}
                                                                 className="list-group-item search-item"
-                                                                to={`/services/${sub_menu.service_id}/${sub_menu.id}#services-section`}
+                                                                to={`/services/${sub_menu.service}/${sub_menu.service_id}/${sub_menu.name}/${sub_menu.id}#services-section`}
                                                                 onClick={(
                                                                     e
                                                                 ) => {
                                                                     if (
                                                                         location?.pathname ==
-                                                                            `/services/${sub_menu.service_id}/${sub_menu.id}` &&
+                                                                            `/services/${sub_menu.service}/${sub_menu.service_id}/${sub_menu.name}/${sub_menu.id}` &&
                                                                         location?.hash ==
                                                                             "#services-section"
                                                                     ) {

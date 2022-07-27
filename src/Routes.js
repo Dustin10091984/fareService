@@ -109,7 +109,7 @@ const publicRoutes = [
     },
     {
         name: 'Service Info',
-        path: '/services/:serviceId/:subServiceId',
+        path: '/services/:service/:serviceId/:subService/:subServiceId',
         component: ServicesPage,
         hash: '',
     },

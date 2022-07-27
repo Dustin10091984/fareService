@@ -119,8 +119,6 @@ const Login = (props) => {
                                       error.response.data.message),
                               },
                     }));
-                } else {
-                    console.log("Server not responding");
                 }
                 setState((prevState) => ({
                     ...prevState,

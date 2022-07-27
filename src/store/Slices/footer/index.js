@@ -26,7 +26,7 @@ export const { pageLinks, pages } = FooterSlice.actions
 
 export const getPages = () => async dispatch => {
     try {
-        dispatch(pages({ error: false, loading: true }))
+        dispatch(pages({ error: false, loading: true }));
         await axios({
             method: 'get',
             url: `${HOST}/api/user/page`,
