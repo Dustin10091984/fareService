@@ -51,21 +51,13 @@ export const Page = (props) => {
 };
 
 const Content = ({ content }) => {
-    const [state, setState] = useState({});
+    
     const ref = useRef();
-    useEffect(() => {
-        let time = setInterval(() => {
-            setState({ time: new Date() });
-        }, 1000);
-        return () => clearInterval(time);
-    }, []);
-
-    console.log(state);
     useEffect(() => {
         if (ref.current && ref.current.innerHTML == "") {
             ref.current.innerHTML = content;
         }
-    }, [state.time]);
+    }, []);
 
     return (
         <>
