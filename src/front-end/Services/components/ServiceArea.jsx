@@ -22,11 +22,6 @@ const ServiceArea = ({
 
     const state = country?.states?.find((item) => item.id == cityCountry?.state);
 
-    // const cities = country?.cities?.map((item) => ({
-    //     value: item.id,
-    //     label: item.name,
-    // }));
-    // const city = country?.cities?.find((item) => item.id == cityCountry?.city);
     return (
         <>
             <div className={`common-input my-2 pr-2 ${extraClasses}`}>

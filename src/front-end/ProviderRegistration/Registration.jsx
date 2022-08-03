@@ -374,13 +374,13 @@ const Registration = (props) => {
     };
 
     const handleZipCode = ({ address, zip_code, service_id }) => {
-        if (address != undefined) {
+        if (address) {
             setZipCode((zipCode) => ({ ...zipCode, address }));
         }
-        if (zip_code != undefined) {
+        if (zip_code) {
             setZipCode((zipCode) => ({ ...zipCode, zip_code: zip_code }));
         }
-        if (service_id != undefined) {
+        if (service_id) {
             setZipCode((zipCode) => ({
                 ...zipCode,
                 service_id,

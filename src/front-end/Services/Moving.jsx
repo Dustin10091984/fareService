@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import Select from "react-select";
 import ServiceType from "./../../constants/ServiceType";
 import PlacesAutocomplete from "react-places-autocomplete";
 import moment from "moment";
@@ -55,21 +53,21 @@ export const Moving = (props) => {
     }, [state]);
 
     useEffect(() => {
-        if (cityCountry?.city) {
+        if (cityCountry?.state) {
             setZipCodes(
                 countriesData?.data
                     ?.find(
                         (countryData) => countryData.id == cityCountry?.country
                     )
-                    ?.cities?.find((cities) => cities.id == cityCountry?.city)
+                    ?.states?.find((state) => state.id == cityCountry?.state)
                     ?.zip_codes
             );
         }
-    }, [cityCountry?.city]);
+    }, [cityCountry?.state]);
 
     useEffect(() => {
         setZipCodesList();
-    }, [cityCountry?.city, cityCountry?.country]);
+    }, [cityCountry?.state, cityCountry?.country]);
 
     const handleChangeZipCode = (e) => {
         const { name, value } = e.target;
@@ -174,7 +172,7 @@ export const Moving = (props) => {
                     Zip Code
                     <strong className="text-danger">*</strong>
                 </div>
-                <div className={classNames(["common-input", "pr-1"])}>
+                <div className={classNames("common-input", "pr-1")}>
                     <input
                         // disabled={props?.vehicle_type_id == "" ? true : false}
                         type="text"
