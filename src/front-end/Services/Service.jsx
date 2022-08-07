@@ -373,31 +373,58 @@ const Service = ({
                                             </>
                                         )}
                                         {!service?.selectedZipCode &&
-                                        googleAddress?.response?.length > 0
-                                            ? googleAddress?.response?.map(
-                                                  (address, index) => (
-                                                      <div
-                                                          className="text-dark mt-2 mb-2"
-                                                          onClick={() =>
-                                                              handleSelectAddress(
-                                                                  address
-                                                              )
-                                                          }
-                                                          role="button"
-                                                          key={index}
-                                                      >
-                                                          {
-                                                              address.formatted_address
-                                                          }
-                                                      </div>
-                                                  )
-                                              )
-                                            : !service?.selectedZipCode && (
-                                                  <div className="text-dark mt-2 mb-2">
-                                                      Please enter valid zip
-                                                      code.
-                                                  </div>
-                                              )}
+                                            googleAddress?.response?.length >
+                                                0 &&
+                                            googleAddress?.response?.map(
+                                                (address, index) => (
+                                                    <div
+                                                        className="text-dark mt-2 mb-2"
+                                                        onClick={() =>
+                                                            handleSelectAddress(
+                                                                address
+                                                            )
+                                                        }
+                                                        role="button"
+                                                        key={index}
+                                                    >
+                                                        {
+                                                            address.formatted_address
+                                                        }
+                                                    </div>
+                                                )
+                                            )}
+                                        {(() => {
+                                            if (googleAddress?.errorMessage)
+                                                return (
+                                                    <div className="text-danger mt-2 mb-2">
+                                                        {
+                                                            googleAddress?.errorMessage
+                                                        }
+                                                    </div>
+                                                );
+                                            else if (googleAddress?.loading)
+                                                return (
+                                                    <div className="text-dark mt-2 mb-2">
+                                                        Loading...
+                                                    </div>
+                                                );
+                                            else if (state?.errors?.notFound)
+                                                return (
+                                                    <div className="text-danger mt-2 mb-2">
+                                                        {
+                                                            state?.errors
+                                                                ?.notFound
+                                                        }
+                                                    </div>
+                                                );
+                                            else if (state?.zipCodeErr)
+                                                return (
+                                                    <div className="text-danger mt-2 mb-2">
+                                                        {state?.zipCodeErr}
+                                                    </div>
+                                                );
+                                            else return null;
+                                        })()}
                                     </div>
                                 </div>
                                 {/* <div className=""> */}
