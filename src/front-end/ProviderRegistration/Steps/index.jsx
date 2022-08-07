@@ -600,9 +600,16 @@ const SelectZipCode = ({
             city: city?.long_name,
             state: state?.long_name,
             country: country?.long_name,
+            place_id: address?.place_id,
         };
 
-        if (data?.zipCode && data?.city && data?.country && data.state) {
+        if (
+            data?.zipCode &&
+            data?.city &&
+            data?.country &&
+            data?.state &&
+            data?.place_id
+        ) {
             let code = zipCode?.zip_code?.find((object) => {
                 if (object.zipCode != data.zipCode) {
                     return false;
@@ -610,7 +617,7 @@ const SelectZipCode = ({
                     return true;
                 }
             });
-            if (code == undefined) {
+            if (!code) {
                 handleZipCode({
                     zip_code: [...zipCode?.zip_code, data],
                     address: "",

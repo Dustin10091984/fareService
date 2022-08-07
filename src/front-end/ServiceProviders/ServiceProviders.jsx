@@ -163,35 +163,23 @@ export const ServiceProviders = (props) => {
         }
     }, [serviceRequest]);
 
-    function handleContinueClick(event, provider) {
-        let type = null;
-        if (
-            (provider.account_type === "BASIC" ||
-                provider.service_type == "MULTIPLE") &&
-            provider?.provider_profile?.hourly_rate &&
-            provider?.provider_schedules_count
-        ) {
-            type = true;
-        } else {
-            type = false;
-        }
-        setOpen(true);
-        const { value } = event.target;
+    const handleContinueClick = (provider) => {
         if (state.is_loggedin) {
-            if (props.location.state !== undefined) {
+            if (props.location.state) {
                 setState((state) => ({
                     ...state,
-                    is_hourly: type,
-                    provider_id: value,
+                    is_hourly:
+                        provider.provider_type == "Individual" ? true : false,
+                    provider_id: provider.id,
                     provider,
                     provider_service_requests_count:
                         provider?.provider_service_requests_count,
                 }));
                 if (
                     location?.state?.service_type !== ServiceType.MOVING &&
-                    type
+                    provider.provider_type == "Individual"
                 ) {
-                    getProviderSchedule(value);
+                    getProviderSchedule(provider.id);
                 }
             } else {
                 setState((state) => ({
@@ -221,7 +209,7 @@ export const ServiceProviders = (props) => {
                 ),
             }));
         }
-    }
+    };
 
     const handleCalendarClick = (selectedDate) => {
         setValue(selectedDate);

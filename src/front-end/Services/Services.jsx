@@ -83,9 +83,9 @@ export const Services = (props) => {
     const handleSelectZipCode = (code) => {
         setService((prevState) => ({
             ...prevState,
-            zipCode: code,
-            zipCodeErr: "",
-            selectedZipCode: true,
+            zipCode: code ? code : "",
+            zipCodeErr: code ? "" : "Please select a zip code",
+            selectedZipCode: code ? true : false,
         }));
     };
 

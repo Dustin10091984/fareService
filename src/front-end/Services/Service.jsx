@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState, useEffect, Fragment } from "react";
+import { GOOGLE_API } from "../../constants";
 import { ServiceArea } from "./components/ServiceArea";
 const Service = ({
     headerMenu,
@@ -28,6 +30,7 @@ const Service = ({
     });
     const [zipCodes, setZipCodes] = useState();
     const [zipCodesList, setZipCodesList] = useState();
+    const [googleAddress, setGoogleAddress] = useState();
 
     useEffect(() => {
         if (subServiceId && serviceData?.data?.id != subServiceId) {
@@ -67,6 +70,80 @@ const Service = ({
                 },
             }));
         }
+    };
+
+    const handleChangeZipCode = async (e) => {
+        const { value } = e.target;
+        handleZipCodeChange(e);
+        // handleSearchZipCode(e);
+        setGoogleAddress((prevState) => ({
+            ...prevState,
+            loading: true,
+        }));
+        await axios({
+            method: "get",
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
+        })
+            .then(function (response) {
+                if (response.data.results.length > 0) {
+                    setGoogleAddress((prevState) => ({
+                        ...prevState,
+                        response: response.data.results,
+                        errorMessage: null,
+                        loading: false,
+                    }));
+                } else {
+                    setGoogleAddress((prevState) => ({
+                        ...prevState,
+                        response: null,
+                        errorMessage: "Not match any address",
+                        loading: false,
+                    }));
+                }
+            })
+            .catch((error) => {
+                setGoogleAddress((prevState) => ({
+                    ...prevState,
+                    response: null,
+                    errorMessage: "Please Enter Valid Address",
+                    loading: false,
+                }));
+            });
+    };
+
+    const handleSelectAddress = (address) => {
+        const { address_components } = address;
+        const postalCode = address_components?.find((address) => {
+            return address?.types?.includes("postal_code")
+                ? address?.long_name
+                : null;
+        });
+
+        if (postalCode?.long_name) {
+            const data = zipCodes?.find(
+                ({ code }) => code == postalCode?.long_name
+            );
+            if (data) {
+                handleSelectZipCode(data?.code);
+                error(false);
+            } else {
+                handleSelectZipCode("");
+                error(true);
+            }
+        } else {
+            handleSelectZipCode("");
+            error(true);
+        }
+    };
+
+    const error = (isError) => {
+        setState((prevState) => ({
+            ...prevState,
+            errors: {
+                ...prevState.errors,
+                notFound: isError ? "Not found service location" : "",
+            },
+        }));
     };
     return (
         <div
@@ -280,50 +357,51 @@ const Service = ({
                                     Zip Code
                                 </div>
                                 <div className="d-flex justify-content-between">
-                                    <div className="common-input mb-2 mx-3">
-                                        {/* <ReactSelect
-                                            value={
-                                                zipCodes?.find(
-                                                    (codeData) =>
-                                                        codeData?.code ==
-                                                        service.zipCode
-                                                )
-                                                    ? {
-                                                          value: service.zipCode,
-                                                          label: service.zipCode,
-                                                      }
-                                                    : null
-                                            }
-                                            isDisabled={!cityCountry?.state}
-                                            placeholder="please select zip code"
-                                            options={zipCodes?.map(
-                                                (zipCode) => ({
-                                                    value: zipCode?.code,
-                                                    label: zipCode?.code,
-                                                })
-                                            )}
-                                            onChange={({ value }) => {
-                                                handleSelectZipCode(value);
-                                            }}
-                                        /> */}
+                                    <div className="common-input mb-2 mx-3 rem-1-5">
                                         <input
                                             disabled={!cityCountry?.state}
                                             type="text"
-                                            onChange={(e) => {
-                                                handleZipCodeChange(e);
-                                                handleSearchZipCode(e);
-                                            }}
-                                            // onClick={(e) => {
-                                            //     handleSearchZipCode(e);
-                                            // }}
+                                            onChange={handleChangeZipCode}
                                             name="zipCode"
                                             value={service?.zipCode}
                                             placeholder="Zip Code"
                                         />
+                                        {googleAddress?.loading && (
+                                            <>
+                                                <i className="fa fa-spinner fa-pulse"></i>{" "}
+                                                Loading...
+                                            </>
+                                        )}
+                                        {!service?.selectedZipCode &&
+                                        googleAddress?.response?.length > 0
+                                            ? googleAddress?.response?.map(
+                                                  (address, index) => (
+                                                      <div
+                                                          className="text-dark mt-2 mb-2"
+                                                          onClick={() =>
+                                                              handleSelectAddress(
+                                                                  address
+                                                              )
+                                                          }
+                                                          role="button"
+                                                          key={index}
+                                                      >
+                                                          {
+                                                              address.formatted_address
+                                                          }
+                                                      </div>
+                                                  )
+                                              )
+                                            : !service?.selectedZipCode && (
+                                                  <div className="text-dark mt-2 mb-2">
+                                                      Please enter valid zip
+                                                      code.
+                                                  </div>
+                                              )}
                                     </div>
                                 </div>
                                 {/* <div className=""> */}
-                                {!!zipCodesList?.length ? (
+                                {/* {!!zipCodesList?.length ? (
                                     service?.selectedZipCode == false && (
                                         <>
                                             <center
@@ -362,7 +440,7 @@ const Service = ({
                                     )
                                 ) : (
                                     <></>
-                                )}
+                                )} */}
                                 <strong className="col-md-12 text-danger">
                                     {state?.errors?.notFound}
                                 </strong>

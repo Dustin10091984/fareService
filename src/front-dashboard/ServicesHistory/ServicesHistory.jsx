@@ -516,9 +516,7 @@ export const ServicesHistory = (props) => {
                                                                                 // evt.preventDefault();
                                                                                 handleFeedbackClick(
                                                                                     serviceRequest.id,
-                                                                                    serviceRequest
-                                                                                        .provider
-                                                                                        .id
+                                                                                    serviceRequest.provider_id
                                                                                 );
                                                                             }}
                                                                             data-backdrop="static"

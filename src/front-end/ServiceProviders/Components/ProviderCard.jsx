@@ -6,105 +6,141 @@ import { Link } from "react-router-dom";
 import ServiceType from "../../../constants/ServiceType";
 import Rating from "../../../components/Rating";
 import { HOST } from "../../../constants";
+import { classNames } from "../../../helper/class-name";
 
 const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     const history = useHistory();
     const location = useLocation();
 
-    const showButtonText = (provider) => {
-        if (location?.state?.service_type == ServiceType.MOVING) {
-            return "Get a Qoutation";
-        } else {
+    const showHourlyRate = (provider) => {
+        {
             if (
-                (provider.account_type === "BASIC" ||
-                    provider.account_type === "PREMIUM") &&
-                provider?.service_type == ServiceType.MULTIPLE
+                provider.provider_type == "Individual" &&
+                !!provider?.provider_profile?.hourly_rate
             ) {
-                if (
-                    provider?.provider_schedules_count > 0 &&
-                    provider?.provider_profile?.hourly_rate
-                ) {
-                    return "Make a Request";
-                } else {
-                    return "Get a Qoutation";
-                }
-            } else if (
-                provider.account_type === "BASIC" &&
-                provider?.service_type !== ServiceType.MULTIPLE &&
-                provider?.provider_profile?.hourly_rate
-            ) {
-                return provider?.provider_schedules_count > 0
-                    ? "Make a Request"
-                    : "Not Available";
-            } else if (
-                provider?.account_type == "PREMIUM" &&
-                provider?.service_type !== ServiceType.MULTIPLE
-            ) {
-                return "Get a Qoutation";
-            } else {
-                return "Not Available"
+                return (
+                    <>
+                        <span>${provider.provider_profile.hourly_rate}</span>
+                        <span>/hr</span>
+                    </>
+                );
             }
         }
     };
 
+    const showButtonText = (provider) => {
+        if (provider.provider_type == "Individual") return "Make a Request";
+        else if (provider.provider_type == "Business") return "Get a Qoutation";
+
+        // if (location?.state?.service_type == ServiceType.MOVING) {
+        //     return "Get a Qoutation";
+        // } else {
+        //     if (
+        //         (provider.account_type === "BASIC" ||
+        //             provider.account_type === "PREMIUM") &&
+        //         provider?.service_type == ServiceType.MULTIPLE
+        //     ) {
+        //         if (
+        //             provider?.provider_schedules_count > 0 &&
+        //             provider?.provider_profile?.hourly_rate
+        //         ) {
+        //             return "Make a Request";
+        //         } else {
+        //             return "Get a Qoutation";
+        //         }
+        //     } else if (
+        //         provider.account_type === "BASIC" &&
+        //         provider?.service_type !== ServiceType.MULTIPLE &&
+        //         provider?.provider_profile?.hourly_rate
+        //     ) {
+        //         return provider?.provider_schedules_count > 0
+        //             ? "Make a Request"
+        //             : "Not Available";
+        //     } else if (
+        //         provider?.account_type == "PREMIUM" &&
+        //         provider?.service_type !== ServiceType.MULTIPLE
+        //     ) {
+        //         return "Get a Qoutation";
+        //     } else {
+        //         return "Not Available";
+        //     }
+        // }
+    };
+
     const handleDisableLoad = (provider) => {
-        return true;
-        if (provider?.service_type === ServiceType.MULTIPLE) {
+        if (provider.provider_type == "Business") {
             return false;
-        } else if (
-            location?.state?.service_type == ServiceType.MOVING &&
-            provider.service_type == ServiceType.MOVING
-        ) {
-            return false;
-        } else if (
-            provider.account_type === "BASIC" &&
-            provider?.provider_profile?.hourly_rate &&
-            provider?.provider_schedules_count > 0
-        ) {
-            return false;
-        } else if (provider.account_type === "PREMIUM") {
-            return false;
+        } else {
+            const array = [
+                provider.provider_type == "Individual",
+                !!provider?.provider_profile?.hourly_rate,
+                !!provider?.provider_schedules_count,
+            ];
+            return array.includes(false);
         }
-        return true;
+
+        // if (provider?.service_type === ServiceType.MULTIPLE) {
+        //     return false;
+        // } else if (
+        //     location?.state?.service_type == ServiceType.MOVING &&
+        //     provider.service_type == ServiceType.MOVING
+        // ) {
+        //     return false;
+        // } else if (
+        //     provider.account_type === "BASIC" &&
+        //     provider?.provider_profile?.hourly_rate &&
+        //     provider?.provider_schedules_count > 0
+        // ) {
+        //     return false;
+        // } else if (provider.account_type === "PREMIUM") {
+        //     return false;
+        // }
+        // return false;
     };
 
     const handleMovingContinueClick = (provider_id) => {
+        const {
+            state: {
+                date,
+                end_lat,
+                end_lng,
+                from_address,
+                service_type,
+                start_lat,
+                start_lng,
+                to_address,
+                sub_service_id,
+                vehicle_type_id,
+                zip_code,
+            },
+        } = location;
         history?.push({
             pathname: "/moving-request",
             state: {
-                date: location?.state?.date,
-                end_lat: location?.state?.end_lat,
-                end_lng: location?.state?.end_lng,
-                from_address: location?.state?.from_address,
-                service_type: location?.state?.service_type,
-                start_lat: location?.state?.start_lat,
-                start_lng: location?.state?.start_lng,
-                to_address: location?.state?.to_address,
+                date,
+                end_lat,
+                end_lng,
+                from_address,
+                service_type,
+                start_lat,
+                start_lng,
+                to_address,
                 provider_id,
-                sub_service_id: location?.state?.sub_service_id,
-                vehicle_type_id: location?.state?.vehicle_type_id,
-                zip_code: location?.state?.zip_code,
-                date: moment(location?.state?.date).format("YYYY-MM-DD"),
+                sub_service_id,
+                vehicle_type_id,
+                zip_code,
+                date: moment(date).format("YYYY-MM-DD"),
             },
         });
         return;
     };
 
     const handleTargetModel = (provider) => {
-        if (provider?.service_type == ServiceType.MULTIPLE) {
-            if (provider.account_type == "BASIC") {
-                if (
-                    provider?.provider_profile?.hourly_rate &&
-                    provider?.provider_schedules_count > 0
-                ) {
-                    return "#hourly";
-                } else {
-                    return "#quotation";
-                }
-            } else if (provider.account_type == "PREMIUM") {
-                return "#quotation";
-            }
+        if (!location.state.service_type == ServiceType.MOVING) {
+            if (provider.provider_type == "Individual") return "#hourly";
+            else if (provider.provider_type == "Business") return "#quotation";
         }
+        return null;
     };
 
     return (
@@ -150,7 +186,7 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                     <Rating rating={provider?.rating} />
 
                                     {location.state !== undefined &&
-                                    !is_loggedin === true ? (
+                                    is_loggedin === true ? (
                                         <button
                                             onClick={(event) => {
                                                 if (
@@ -163,7 +199,6 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                                     );
                                                 } else {
                                                     handleContinueClick(
-                                                        event,
                                                         provider
                                                     );
                                                 }
@@ -172,7 +207,14 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                             type="button"
                                             data-backdrop="static"
                                             data-keyboard="false"
-                                            className="button-common-2 disabled-btn"
+                                            className={classNames(
+                                                "button-common-2",
+                                                `${
+                                                    handleDisableLoad(provider)
+                                                        ? "disabled-btn"
+                                                        : ""
+                                                }`
+                                            )}
                                             data-toggle="modal"
                                             data-target={handleTargetModel(
                                                 provider
@@ -186,30 +228,24 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                     ) : (
                                         <button
                                             type="button"
-                                            className="button-common-2 disabled-btn"
-                                            onClick={(event) => {
-                                                handleContinueClick(
-                                                    event,
-                                                    provider.account_type ===
-                                                        "BASIC"
-                                                        ? true
-                                                        : false,
-                                                    provider
-                                                );
+                                            className={classNames(
+                                                "button-common-2",
+                                                `${
+                                                    handleDisableLoad(provider)
+                                                        ? "disabled-btn"
+                                                        : ""
+                                                }`
+                                            )}
+                                            onClick={() => {
+                                                handleContinueClick(provider);
                                             }}
                                         >
-                                            {provider.account_type === "BASIC"
-                                                ? "Make a Request"
-                                                : "Get a Qoutation"}
+                                            {showButtonText(provider)}
                                         </button>
                                     )}
                                 </div>
                                 <div className="user-price">
-                                    {!!provider?.provider_profile
-                                        ?.hourly_rate &&
-                                    provider.service_type != ServiceType.MOVING
-                                        ? `$${provider?.provider_profile?.hourly_rate}`
-                                        : ""}
+                                    {showHourlyRate(provider)}
                                 </div>
                             </div>
                         </div>
