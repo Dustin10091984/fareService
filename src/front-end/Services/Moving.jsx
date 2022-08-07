@@ -8,6 +8,8 @@ import Calendar from "react-calendar";
 import { MapLoadedApiContext } from "../../helper/context";
 import { ServiceArea } from "./components/ServiceArea";
 import { classNames } from "../../helper/class-name";
+import axios from "axios";
+import { GOOGLE_API } from "../../constants";
 
 export const Moving = (props) => {
     const {
@@ -31,7 +33,7 @@ export const Moving = (props) => {
         service_type: ServiceType.MOVING,
     });
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [googleAddress, setGoogleAddress] = useState();
 
     const [zipCodes, setZipCodes] = useState();
     const [zipCodesList, setZipCodesList] = useState();
@@ -69,14 +71,81 @@ export const Moving = (props) => {
         setZipCodesList();
     }, [cityCountry?.state, cityCountry?.country]);
 
-    const handleChangeZipCode = (e) => {
+    const handleChangeZipCode = async (e) => {
         const { name, value } = e.target;
-        let re = /^(0|[1-9][0-9]*)$/;
-
+        handleSearchZipCode(e);
         setState((state) => ({
             ...state,
             [name]: value,
             selectedZipCode: false,
+        }));
+        setGoogleAddress((prevState) => ({
+            ...prevState,
+            loading: true,
+        }));
+        await axios({
+            method: "get",
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
+        })
+            .then(function (response) {
+                if (response.data.results.length > 0) {
+                    setGoogleAddress((prevState) => ({
+                        ...prevState,
+                        response: response.data.results,
+                        errorMessage: null,
+                        loading: false,
+                    }));
+                } else {
+                    setGoogleAddress((prevState) => ({
+                        ...prevState,
+                        response: null,
+                        errorMessage: "Not match any address",
+                        loading: false,
+                    }));
+                }
+            })
+            .catch((error) => {
+                setGoogleAddress((prevState) => ({
+                    ...prevState,
+                    response: null,
+                    errorMessage: "Please Enter Valid Address",
+                    loading: false,
+                }));
+            });
+    };
+
+    const handleSelectAddress = (address) => {
+        const { address_components } = address;
+        const postalCode = address_components?.find((address) => {
+            return address?.types?.includes("postal_code")
+                ? address?.long_name
+                : null;
+        });
+
+        if (postalCode?.long_name) {
+            const data = zipCodes?.find(
+                ({ code }) => code == postalCode?.long_name
+            );
+            if (data) {
+                handleSelectZipCode(data?.code);
+                error(false);
+            } else {
+                handleSelectZipCode("");
+                error(true);
+            }
+        } else {
+            handleSelectZipCode("");
+            error(true);
+        }
+    };
+
+    const error = (isError) => {
+        setState((prevState) => ({
+            ...prevState,
+            errors: {
+                ...prevState.errors,
+                notFound: isError ? "Not found service location" : "",
+            },
         }));
     };
 
@@ -84,7 +153,7 @@ export const Moving = (props) => {
         const data = zipCodes?.filter(({ code }) =>
             code.includes(target.value)
         );
-        setZipCodesList(data);
+        // setZipCodesList(data);
         setErrors({
             notFound: data?.length ? "" : "Zip Code not found",
         });
@@ -138,9 +207,9 @@ export const Moving = (props) => {
     const handleSelectZipCode = (code) => {
         setState((state) => ({
             ...state,
-            zip_code: code,
-            zipCodeErr: "",
-            selectedZipCode: true,
+            zipCode: code ? code : "",
+            zipCodeErr: code ? "" : "Please select a zip code",
+            selectedZipCode: code ? true : false,
         }));
     };
 
@@ -172,28 +241,65 @@ export const Moving = (props) => {
                     Zip Code
                     <strong className="text-danger">*</strong>
                 </div>
-                <div className={classNames("common-input", "pr-1")}>
+                <div className={classNames("common-input", "pr-1", "rem-1-5")}>
                     <input
-                        // disabled={props?.vehicle_type_id == "" ? true : false}
+                        disabled={!cityCountry?.state}
                         type="text"
                         name="zip_code"
                         placeholder="Zip Code e.g 00000"
                         value={state.zip_code}
-                        onChange={(e) => {
-                            handleChangeZipCode(e);
-                            handleSearchZipCode(e);
-                        }}
+                        onChange={handleChangeZipCode}
+                        // onChange={(e) => {
+                        //     handleChangeZipCode(e);
+                        //     handleSearchZipCode(e);
+                        // }}
                         // onClick={(e) => {
                         //     handleSearchZipCode(e);
                         // }}
                         autoComplete="off"
                     />
+                    {!state?.selectedZipCode &&
+                        googleAddress?.response?.length > 0 &&
+                        googleAddress?.response?.map((address, index) => (
+                            <div
+                                className="text-dark mt-2 mb-2"
+                                onClick={() => handleSelectAddress(address)}
+                                role="button"
+                                key={index}
+                            >
+                                {address.formatted_address}
+                            </div>
+                        ))}
+                    {(() => {
+                        if (googleAddress?.errorMessage)
+                            return (
+                                <div className="text-danger mt-2 mb-2">
+                                    {googleAddress?.errorMessage}
+                                </div>
+                            );
+                        else if (googleAddress?.loading)
+                            return (
+                                <div className="text-dark mt-2 mb-2">
+                                    Loading...
+                                </div>
+                            );
+                        else if (errors?.notFound)
+                            return (
+                                <div className="text-danger mt-2 mb-2">
+                                    {errors?.notFound}
+                                </div>
+                            );
+                        else if (state?.zipCodeErr)
+                            return (
+                                <div className="text-danger mt-2 mb-2">
+                                    {state?.zipCodeErr}
+                                </div>
+                            );
+                        else return null;
+                    })()}
                 </div>
-                {!!errors?.notFound && (
-                    <strong className="text-danger">{errors?.notFound}</strong>
-                )}
             </div>
-
+            {/* 
             {!!zipCodesList?.length ? (
                 state?.selectedZipCode == false && (
                     <>
@@ -226,7 +332,7 @@ export const Moving = (props) => {
                 )
             ) : (
                 <></>
-            )}
+            )} */}
 
             <MapLoadedApiContext.Consumer>
                 {(isLoading) =>
