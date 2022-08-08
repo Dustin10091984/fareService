@@ -22,6 +22,8 @@ export const Services = (props) => {
         currentStep: 0,
         error: "",
         zipCode: "",
+        place_id: "",
+        address: "",
         zipCodeErr: "",
         zipCodeData: "",
         zipCodeDataErr: "",
@@ -72,11 +74,14 @@ export const Services = (props) => {
         setService({ ...service, selectedZipCode: false, zipCode: "" });
     };
 
-    const handleZipCodeChange = ({ target: { name, value } }) => {
+    const handleZipCodeChange = ({
+        target: { name, value },
+        selectedZipCode,
+    }) => {
         setService((state) => ({
             ...state,
             [name]: value,
-            selectedZipCode: false,
+            selectedZipCode: selectedZipCode ?? false,
         }));
     };
 
