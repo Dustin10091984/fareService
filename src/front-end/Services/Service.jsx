@@ -533,11 +533,13 @@ const Service = ({
                                         }
                                     );
                                     if (
-                                        service.zipCode === "" ||
+                                        (service.zipCode === "" &&
+                                            service?.place_id == "") ||
                                         service?.selectedZipCode == false
                                     ) {
                                         isDisabled = true;
                                     }
+
 
                                     return isDisabled;
                                 })()}
