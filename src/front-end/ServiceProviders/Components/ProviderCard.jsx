@@ -166,8 +166,16 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                             <div className="user-detail w-100">
                                 <div className=" w-100 d-flex align-items-center justify-content-between">
                                     <div className="title">
-                                        {provider.first_name}{" "}
-                                        {provider.last_name}
+                                        {provider?.provider_type ==
+                                        "Individual" ? (
+                                            <>
+                                                {provider.first_name}{" "}
+                                                {provider.last_name}
+                                            </>
+                                        ) : (
+                                            provider?.provider_profile
+                                                ?.business_name
+                                        )}
                                     </div>
                                     <Link
                                         to={`/provider/profile/${provider.id}`}
