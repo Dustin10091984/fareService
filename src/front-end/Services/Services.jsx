@@ -95,9 +95,13 @@ export const Services = (props) => {
     };
 
     const getProviders = () => {
+        let prms = new URLSearchParams();
+        if (service?.zipCode) prms.append("zip_code", service.zipCode);
+        if (service?.place_id) prms.append("place_id", service.place_id);
+        prms.append("subService", subServiceId);
         props.history.push({
             pathname: "/service-providers",
-            search: `?zipCode=${service.zipCode}&subService=${subServiceId}`,
+            search: `?${prms.toString()}`,
             state: service.selected,
         });
     };
