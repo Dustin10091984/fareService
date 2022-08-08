@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, Fragment } from "react";
-import { GOOGLE_API } from "../../constants";
+import { GOOGLE_API, HOST } from "../../constants";
 import { ServiceArea } from "./components/ServiceArea";
 const Service = ({
     headerMenu,
@@ -74,8 +74,13 @@ const Service = ({
 
     const handleChangeZipCode = async (e) => {
         const { value } = e.target;
-        handleZipCodeChange(e);
-        // handleSearchZipCode(e);
+        handleZipCodeChange({
+            target: {
+                name: "address",
+                value: value,
+            },
+        });
+        showError(false);
         setGoogleAddress((prevState) => ({
             ...prevState,
             loading: true,
@@ -111,37 +116,67 @@ const Service = ({
             });
     };
 
-    const handleSelectAddress = (address) => {
-        const { address_components } = address;
+    const handleSelectAddress = async (address) => {
+        const { place_id, address_components, formatted_address } = address;
         const postalCode = address_components?.find((address) => {
             return address?.types?.includes("postal_code")
                 ? address?.long_name
                 : null;
         });
+        handleZipCodeChange({
+            target: {
+                name: "address",
+                value: formatted_address,
+            },
+        });
+        await axios({
+            method: "get",
+            url: `${HOST}/api/user/services/check-place/${place_id}`,
+        })
+            .then(function (response) {
+                handleZipCodeChange({
+                    target: {
+                        name: "place_id",
+                        value: place_id,
+                    },
+                    selectedZipCode: true,
+                });
+                !!postalCode?.long_name &&
+                    handleSelectZipCode(postalCode?.long_name);
+            })
+            .catch((error) => {
+                handleZipCodeChange({
+                    target: {
+                        name: "address",
+                        value: "",
+                    },
+                });
+                showError(true);
+            });
 
-        if (postalCode?.long_name) {
-            const data = zipCodes?.find(
-                ({ code }) => code == postalCode?.long_name
-            );
-            if (data) {
-                handleSelectZipCode(data?.code);
-                error(false);
-            } else {
-                handleSelectZipCode("");
-                error(true);
-            }
-        } else {
-            handleSelectZipCode("");
-            error(true);
-        }
+        // if (postalCode?.long_name) {
+        //     const data = zipCodes?.find(
+        //         ({ code }) => code == postalCode?.long_name
+        //     );
+        //     if (data) {
+        //         handleSelectZipCode(data?.code);
+        //         error(false);
+        //     } else {
+        //         handleSelectZipCode("");
+        //         error(true);
+        //     }
+        // } else {
+        //     handleSelectZipCode("");
+        //     error(true);
+        // }
     };
 
-    const error = (isError) => {
+    const showError = (isError) => {
         setState((prevState) => ({
             ...prevState,
             errors: {
                 ...prevState.errors,
-                notFound: isError ? "Not found service location" : "",
+                notFound: isError ? "Not found provider on this location" : "",
             },
         }));
     };
@@ -336,8 +371,8 @@ const Service = ({
                                             )
                                     )}
                                 </div>
-                                <hr />
-                                <h4 className="mx-3 my-1">
+                                {/* <hr /> */}
+                                {/* <h4 className="mx-3 my-1">
                                     Choose service area
                                 </h4>
                                 <div className="d-flex justify-content-between">
@@ -349,21 +384,21 @@ const Service = ({
                                             extraClasses: "mx-3",
                                         }}
                                     />
-                                </div>
+                                </div> */}
                                 <div
                                     className="col-md-12 text-dark mb-2"
                                     style={{ fontSize: "1.5rem" }}
                                 >
-                                    Zip Code
+                                    Service area
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <div className="common-input mb-2 mx-3 rem-1-5">
                                         <input
-                                            disabled={!cityCountry?.state}
+                                            // disabled={!cityCountry?.state}
                                             type="text"
                                             onChange={handleChangeZipCode}
                                             name="zipCode"
-                                            value={service?.zipCode}
+                                            value={service?.address}
                                             placeholder="Zip Code"
                                         />
                                         {googleAddress?.loading && (
@@ -468,9 +503,9 @@ const Service = ({
                                 ) : (
                                     <></>
                                 )} */}
-                                <strong className="col-md-12 text-danger">
+                                {/* <strong className="col-md-12 text-danger">
                                     {state?.errors?.notFound}
-                                </strong>
+                                </strong> */}
                                 {/* {service?.zipCodeErr} */}
                                 {/* </div> */}
                             </div>
