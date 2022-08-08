@@ -136,11 +136,9 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     };
 
     const handleTargetModel = (provider) => {
-        if (!location.state.service_type == ServiceType.MOVING) {
-            if (provider.provider_type == "Individual") return "#hourly";
-            else if (provider.provider_type == "Business") return "#quotation";
-        }
-        return null;
+        if (location?.state?.service_type == ServiceType.MOVING) return null;
+        else if (provider?.provider_type == "Individual") return "#hourly";
+        else if (provider?.provider_type == "Business") return "#quotation";
     };
 
     return (
