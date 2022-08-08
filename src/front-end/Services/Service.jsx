@@ -399,7 +399,7 @@ const Service = ({
                                             onChange={handleChangeZipCode}
                                             name="zipCode"
                                             value={service?.address}
-                                            placeholder="Zip Code"
+                                            placeholder="Enter location"
                                         />
                                         {googleAddress?.loading && (
                                             <>

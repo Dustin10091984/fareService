@@ -9,7 +9,7 @@ import { MapLoadedApiContext } from "../../helper/context";
 import { ServiceArea } from "./components/ServiceArea";
 import { classNames } from "../../helper/class-name";
 import axios from "axios";
-import { GOOGLE_API } from "../../constants";
+import { GOOGLE_API, HOST } from "../../constants";
 
 export const Moving = (props) => {
     const {
@@ -30,6 +30,8 @@ export const Moving = (props) => {
         end_lng: "",
         date: new Date(),
         zip_code: "",
+        place_id: "",
+        address: "",
         service_type: ServiceType.MOVING,
     });
 
@@ -73,10 +75,10 @@ export const Moving = (props) => {
 
     const handleChangeZipCode = async (e) => {
         const { name, value } = e.target;
-        handleSearchZipCode(e);
+        // handleSearchZipCode(e);
         setState((state) => ({
             ...state,
-            [name]: value,
+            address: value,
             selectedZipCode: false,
         }));
         setGoogleAddress((prevState) => ({
@@ -114,37 +116,73 @@ export const Moving = (props) => {
             });
     };
 
-    const handleSelectAddress = (address) => {
-        const { address_components } = address;
+    const handleSelectAddress = async (address) => {
+        const { place_id, address_components, formatted_address } = address;
         const postalCode = address_components?.find((address) => {
             return address?.types?.includes("postal_code")
                 ? address?.long_name
                 : null;
         });
 
-        if (postalCode?.long_name) {
-            const data = zipCodes?.find(
-                ({ code }) => code == postalCode?.long_name
-            );
-            if (data) {
-                handleSelectZipCode(data?.code);
-                error(false);
-            } else {
-                handleSelectZipCode("");
-                error(true);
-            }
-        } else {
-            handleSelectZipCode("");
-            error(true);
-        }
+        setState((prev) => ({
+            ...prev,
+            address: formatted_address,
+        }));
+
+        await axios({
+            method: "get",
+            url: `${HOST}/api/user/services/check-place/${place_id}`,
+        })
+            .then(function (response) {
+                setState((prev) => ({
+                    ...prev,
+                    place_id,
+                    address: formatted_address,
+                    // selectedZipCode: true,
+                }));
+                !!postalCode?.long_name &&
+                    handleSelectZipCode(postalCode?.long_name);
+                showError(false);
+            })
+            .catch((error) => {
+                setState((prev) => ({
+                    ...prev,
+                    place_id,
+                    address: "",
+                    // selectedZipCode: true,
+                }));
+                // handleZipCodeChange({
+                //     target: {
+                //         name: "address",
+                //         value: "",
+                //     },
+                // });
+                showError(true);
+            });
+
+        // if (postalCode?.long_name) {
+        //     const data = zipCodes?.find(
+        //         ({ code }) => code == postalCode?.long_name
+        //     );
+        //     if (data) {
+        //         handleSelectZipCode(data?.code);
+        //         error(false);
+        //     } else {
+        //         handleSelectZipCode("");
+        //         error(true);
+        //     }
+        // } else {
+        //     handleSelectZipCode("");
+        //     error(true);
+        // }
     };
 
-    const error = (isError) => {
+    const showError = (isError) => {
         setState((prevState) => ({
             ...prevState,
             errors: {
                 ...prevState.errors,
-                notFound: isError ? "Not found service location" : "",
+                notFound: isError ? "Not found provider on this location" : "",
             },
         }));
     };
@@ -207,7 +245,7 @@ export const Moving = (props) => {
     const handleSelectZipCode = (code) => {
         setState((state) => ({
             ...state,
-            zipCode: code ? code : "",
+            zip_code: code ? code : "",
             zipCodeErr: code ? "" : "Please select a zip code",
             selectedZipCode: code ? true : false,
         }));
@@ -221,7 +259,7 @@ export const Moving = (props) => {
 
             <div className="mb-1">
                 {/* <hr /> */}
-                <div className="col-md-12 px-0 text-dark rem-2">
+                {/* <div className="col-md-12 px-0 text-dark rem-2">
                     Choose service area
                     <strong className="text-danger">*</strong>
                 </div>
@@ -233,21 +271,21 @@ export const Moving = (props) => {
                             handleCountryCityOrStateChange,
                         }}
                     />
-                </div>
+                </div> */}
                 <div
                     className="col-md-12 px-0 text-dark"
                     style={{ fontSize: "2rem" }}
                 >
-                    Zip Code
+                    Service area
                     <strong className="text-danger">*</strong>
                 </div>
                 <div className={classNames("common-input", "pr-1", "rem-1-5")}>
                     <input
-                        disabled={!cityCountry?.state}
+                        // disabled={!cityCountry?.state}
                         type="text"
                         name="zip_code"
-                        placeholder="Zip Code e.g 00000"
-                        value={state.zip_code}
+                        placeholder="Enter location"
+                        value={state.address}
                         onChange={handleChangeZipCode}
                         // onChange={(e) => {
                         //     handleChangeZipCode(e);
