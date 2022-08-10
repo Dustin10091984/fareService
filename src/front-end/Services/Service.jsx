@@ -129,9 +129,16 @@ const Service = ({
                 value: formatted_address,
             },
         });
+
+        let prms = new URLSearchParams();
+        prms.append("place_id", place_id);
+        service?.zip_code && prms.append("zip_code", service?.zip_code);
+        service?.vehicle_type_id &&
+            prms.append("sub_service_id", service?.vehicle_type_id);
+
         await axios({
             method: "get",
-            url: `${HOST}/api/user/services/check-place/${place_id}`,
+            url: `${HOST}/api/user/services/check-place/${place_id}?${prms.toString()}`,
         })
             .then(function (response) {
                 handleZipCodeChange({

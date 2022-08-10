@@ -23,11 +23,9 @@ const Registration = (props) => {
         serviceDetail,
         profileDetails,
     } = props;
-    const [step, setStep] = useState(
-        localStorage.getItem("providerToken") ? 3 : 1
-    );
+    const [step, setStep] = useState(1);
     const [basic, setBasic] = useState({
-        code: "+92",
+        code: "+1",
         error: {
             email: "",
             phone: "",

@@ -129,16 +129,26 @@ export const Moving = (props) => {
             address: formatted_address,
         }));
 
+        let prms = new URLSearchParams();
+        prms.append("place_id", place_id);
+        if (state?.zip_code) {
+            prms.append("zip_code", state?.zip_code);
+        }
+        prms.append(
+            "vehicle_type_id",
+            props?.vehicle_type_id || state?.vehicle_type_id
+        );
+
         await axios({
             method: "get",
-            url: `${HOST}/api/user/services/check-place/${place_id}`,
+            url: `${HOST}/api/user/services/check-place/${place_id}?${prms.toString()}`,
         })
             .then(function (response) {
                 setState((prev) => ({
                     ...prev,
                     place_id,
                     address: formatted_address,
-                    // selectedZipCode: true,
+                    selectedZipCode: true,
                 }));
                 !!postalCode?.long_name &&
                     handleSelectZipCode(postalCode?.long_name);
@@ -149,7 +159,7 @@ export const Moving = (props) => {
                     ...prev,
                     place_id,
                     address: "",
-                    // selectedZipCode: true,
+                    selectedZipCode: false,
                 }));
                 // handleZipCodeChange({
                 //     target: {
@@ -321,10 +331,10 @@ export const Moving = (props) => {
                                     Loading...
                                 </div>
                             );
-                        else if (errors?.notFound)
+                        else if (state?.errors?.notFound)
                             return (
                                 <div className="text-danger mt-2 mb-2">
-                                    {errors?.notFound}
+                                    {state?.errors?.notFound}
                                 </div>
                             );
                         else if (state?.zipCodeErr)
@@ -597,9 +607,9 @@ export const Moving = (props) => {
                 {state.from_address !== "" &&
                 state.to_address !== "" &&
                 state.date !== "" &&
-                state.zip_code !== "" &&
+                (state.zip_code !== "" || state?.place_id) &&
                 props?.vehicle_type_id !== "" &&
-                state?.selectedZipCode == true ? (
+                state?.selectedZipCode ? (
                     <Link
                         type="button"
                         to={{
@@ -608,6 +618,8 @@ export const Moving = (props) => {
                                 ...state,
                                 vehicle_type_id: props?.vehicle_type_id,
                                 sub_service_id: props?.subServiceId,
+                                place_id: state?.place_id,
+                                zip_code: state?.zip_code,
                             },
                         }}
                         className="button-common mt-4 w-100"
