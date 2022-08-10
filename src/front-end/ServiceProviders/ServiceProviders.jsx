@@ -202,6 +202,11 @@ export const ServiceProviders = (props) => {
                 }));
             }
         } else {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: "smooth",
+            });
             setState((state) => ({
                 ...state,
                 error: (

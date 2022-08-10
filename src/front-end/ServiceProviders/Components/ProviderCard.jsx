@@ -28,7 +28,8 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
         }
     };
 
-    const showButtonText = (provider) => {
+    const showButtonText = (provider, isDisabled) => {
+        if (isDisabled) return "Not Available";
         if (provider.provider_type == "Individual") return "Make a Request";
         else if (provider.provider_type == "Business") return "Get a Qoutation";
 
@@ -190,65 +191,28 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                 </div>
                                 <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
                                     <Rating rating={provider?.rating} />
-
-                                    {location.state !== undefined &&
-                                    is_loggedin === true ? (
-                                        <button
-                                            onClick={(event) => {
-                                                if (
-                                                    location.state
-                                                        .service_type ==
-                                                    ServiceType.MOVING
-                                                ) {
-                                                    handleMovingContinueClick(
-                                                        provider.id
-                                                    );
-                                                } else {
-                                                    handleContinueClick(
-                                                        provider
-                                                    );
-                                                }
-                                            }}
-                                            value={provider.id}
-                                            type="button"
-                                            data-backdrop="static"
-                                            data-keyboard="false"
-                                            className={classNames(
-                                                "button-common-2",
-                                                `${
-                                                    handleDisableLoad(provider)
-                                                        ? "disabled-btn"
-                                                        : ""
-                                                }`
-                                            )}
-                                            data-toggle="modal"
-                                            data-target={handleTargetModel(
-                                                provider
-                                            )}
-                                            disabled={handleDisableLoad(
-                                                provider
-                                            )}
-                                        >
-                                            {showButtonText(provider)}
-                                        </button>
-                                    ) : (
-                                        <button
-                                            type="button"
-                                            className={classNames(
-                                                "button-common-2",
-                                                `${
-                                                    handleDisableLoad(provider)
-                                                        ? "disabled-btn"
-                                                        : ""
-                                                }`
-                                            )}
-                                            onClick={() => {
-                                                handleContinueClick(provider);
-                                            }}
-                                        >
-                                            {showButtonText(provider)}
-                                        </button>
-                                    )}
+                                    <ContinueBtn
+                                        service_type={
+                                            location?.state?.service_type
+                                        }
+                                        provider={provider}
+                                        is_loggedin={is_loggedin}
+                                        handleMovingContinueClick={(data) =>
+                                            handleMovingContinueClick(data)
+                                        }
+                                        handleContinueClick={(data) =>
+                                            handleContinueClick(data)
+                                        }
+                                        handleTargetModel={(data) =>
+                                            handleTargetModel(data)
+                                        }
+                                        showButtonText={(data, check) =>
+                                            showButtonText(data, check)
+                                        }
+                                        handleDisableLoad={(data) =>
+                                            handleDisableLoad(data)
+                                        }
+                                    />
                                 </div>
                                 <div className="user-price">
                                     {showHourlyRate(provider)}
@@ -318,5 +282,40 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
         </>
     );
 });
+
+const ContinueBtn = ({
+    is_loggedin,
+    service_type,
+    provider,
+    handleMovingContinueClick,
+    handleContinueClick,
+    handleTargetModel,
+    showButtonText,
+    handleDisableLoad,
+}) => {
+    const isDisabled = handleDisableLoad(provider);
+    return (
+        <button
+            onClick={() => {
+                if (service_type == ServiceType.MOVING)
+                    handleMovingContinueClick(provider.id);
+                else handleContinueClick(provider);
+            }}
+            value={provider.id}
+            type="button"
+            data-backdrop="static"
+            data-keyboard="false"
+            className={classNames(
+                "button-common-2",
+                `${isDisabled ? "disabled-btn" : ""}`
+            )}
+            data-toggle={is_loggedin && "modal"}
+            data-target={handleTargetModel(provider)}
+            disabled={isDisabled}
+        >
+            {showButtonText(provider, isDisabled)}
+        </button>
+    );
+};
 
 export { ProviderCard };
