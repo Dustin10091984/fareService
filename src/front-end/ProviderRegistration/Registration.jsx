@@ -27,7 +27,7 @@ const Registration = (props) => {
         localStorage.getItem("providerToken") ? 3 : 1
     );
     const [basic, setBasic] = useState({
-        code: "+92",
+        code: "+1",
         error: {
             email: "",
             phone: "",

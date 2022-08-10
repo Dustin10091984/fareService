@@ -69,15 +69,21 @@ export const ServiceProviders = (props) => {
             }));
         }
         if (location?.state?.service_type === ServiceType.MOVING) {
-            let searchParams = new URLSearchParams({
-                service_type: location?.state?.service_type,
-                vehicle_type_id: location?.state?.vehicle_type_id,
-            }).toString();
+            let searchParams = new URLSearchParams(props.location.search);
+            searchParams.append("service_type", location?.state?.service_type);
+            searchParams.append(
+                "vehicle_type_id",
+                location?.state?.vehicle_type_id
+            );
+            if (location?.state?.zip_code)
+                searchParams.append("zipCode", location?.state?.zip_code);
+            if (location?.state?.place_id)
+                searchParams.append("place_id", location?.state?.place_id);
             getProviderList({
                 search: `${
-                    props.location.search !== ""
-                        ? props.location.search + searchParams
-                        : `?${searchParams}`
+                    props.location.search
+                        ? props.location.search + searchParams.toString()
+                        : `?${searchParams.toString()}`
                 }`,
             });
         } else {
