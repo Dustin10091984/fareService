@@ -570,7 +570,7 @@ const SelectZipCode = ({
     // };
 
     const handleSelectPostalCode = (address) => {
-        const { address_components } = address;
+        const { address_components, place_id, formatted_address } = address;
         const postalCode = address_components?.find((address) => {
             return address?.types?.includes("postal_code")
                 ? address?.long_name
@@ -596,27 +596,18 @@ const SelectZipCode = ({
         });
 
         const data = {
-            zipCode: postalCode?.long_name,
+            zipCode: postalCode?.long_name ?? state?.long_name,
             city: city?.long_name,
             state: state?.long_name,
             country: country?.long_name,
-            place_id: address?.place_id,
+            place_id,
+            formatted_address,
         };
 
-        if (
-            data?.zipCode &&
-            data?.city &&
-            data?.country &&
-            data?.state &&
-            data?.place_id
-        ) {
-            let code = zipCode?.zip_code?.find((object) => {
-                if (object.zipCode != data.zipCode) {
-                    return false;
-                } else {
-                    return true;
-                }
-            });
+        if (data?.city && data?.country && data?.state && data?.place_id) {
+            let code = zipCode?.zip_code?.find(
+                (object) => object.place_id == data.place_id
+            );
             if (!code) {
                 handleZipCode({
                     zip_code: [...zipCode?.zip_code, data],
@@ -790,12 +781,12 @@ const SelectZipCode = ({
                                                                     }
                                                                 );
                                                             }}
-                                                            // {...register(
-                                                            //     "sub_services",
-                                                            //     {
-                                                            //         required: true,
-                                                            //     }
-                                                            // )}
+                                                            {...register(
+                                                                "sub_services",
+                                                                {
+                                                                    required: true,
+                                                                }
+                                                            )}
                                                             defaultValue={
                                                                 item?.id
                                                             }
@@ -866,15 +857,15 @@ const SelectZipCode = ({
                             key={index}
                             className="badge-ctm d-flex align-items-center justify-content-between mr-2 mb-1"
                         >
-                            {zip?.zipCode}{" "}
+                            {zip?.formatted_address}{" "}
                             <span
                                 className="fa fa-times ml-1"
                                 onClick={() => {
                                     handleZipCode({
                                         zip_code: zipCode?.zip_code.filter(
                                             (thisZip) =>
-                                                thisZip?.zipCode !==
-                                                zip?.zipCode
+                                                thisZip?.place_id !==
+                                                zip?.place_id
                                         ),
                                     });
                                 }}
@@ -898,7 +889,7 @@ const SelectZipCode = ({
                         id="step-4"
                         type="submit"
                         disabled={
-                            zipCode?.zip_code?.length === 0 ||
+                            !zipCode?.service_id?.length ||
                             serviceDetail?.loading ||
                             services?.find((service) => {
                                 return !service?.subServiceIds?.length === 1;
