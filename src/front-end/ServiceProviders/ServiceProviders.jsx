@@ -495,7 +495,7 @@ export const ServiceProviders = (props) => {
                                                     HOST +
                                                         state?.provider
                                                             ?.image) ||
-                                                null
+                                                ""
                                             }
                                             className="img-fluid"
                                             alt="Not Found"
