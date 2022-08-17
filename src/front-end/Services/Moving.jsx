@@ -161,12 +161,6 @@ export const Moving = (props) => {
                     address: "",
                     selectedZipCode: false,
                 }));
-                // handleZipCodeChange({
-                //     target: {
-                //         name: "address",
-                //         value: "",
-                //     },
-                // });
                 showError(true);
             });
 
