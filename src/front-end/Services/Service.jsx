@@ -35,8 +35,13 @@ const Service = ({
     useEffect(() => {
         if (subServiceId && serviceData?.data?.id != subServiceId) {
             getServiceQuestion(subServiceId);
+            getCountriesList({ sub_service_id: subServiceId });
+            setGoogleAddress(null);
+            setState((prevState) => ({
+                ...prevState,
+                errors: null,
+            }));
         }
-        !!subServiceId && getCountriesList({ sub_service_id: subServiceId });
     }, [subServiceId]);
 
     useEffect(() => {
@@ -132,9 +137,10 @@ const Service = ({
 
         let prms = new URLSearchParams();
         prms.append("place_id", place_id);
+        prms.append("sub_service_id", subServiceId);
         service?.zip_code && prms.append("zip_code", service?.zip_code);
-        service?.vehicle_type_id &&
-            prms.append("sub_service_id", service?.vehicle_type_id);
+        // service?.vehicle_type_id &&
+        //     prms.append("sub_service_id", service?.vehicle_type_id);
 
         await axios({
             method: "get",

@@ -63,11 +63,11 @@ export const Index = (props) => {
                             </div>
                         </div>
                         <div className="col-md-12 d-flex align-content-center justify-content-between flex-wrap">
-                            {headerMenu.map((item, index) => {
+                            {headerMenu.map((item, idx) => {
                                 return item.sub_services.map(
                                     (subService, index) => (
                                         <div
-                                            key={index}
+                                            key={`${index}_${idx}`}
                                             className="service-box"
                                         >
                                             <Link
