@@ -3467,3 +3467,7 @@ input::-webkit-inner-spin-button {
     color: #fff !important;
     pointer-events: none;
 }
+.fb-login-button {
+    width: 100%;
+    height: 14px;
+}
