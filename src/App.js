@@ -22,7 +22,7 @@ import { onMessageListener, getToken } from './firebaseInit';
 // import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
-import { HOST } from './constants';
+import { HOST, React_APP_FACEBOOK_APP_AD } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
 import Routes from './Routes';
 import { LoginContext, MapLoadedApiContext } from './helper/context';
@@ -61,7 +61,7 @@ if (typeof window.io != 'undefined') {
 
 window.fbAsyncInit = function () {
   window.FB.init({
-    appId: '389930956527300',
+    appId: React_APP_FACEBOOK_APP_AD,
     cookie: true,
     xfbml: true,
     version: 'v14.0'
