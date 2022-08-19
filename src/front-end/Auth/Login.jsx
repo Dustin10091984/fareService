@@ -31,9 +31,7 @@ const Login = (props) => {
     // }, []);
 
     useEffect(() => {
-        if (localStorage.userToken) {
-            history.push("/dashboard");
-        }
+        if (localStorage.userToken) history.push("/dashboard");
     }, []);
 
     useEffect(() => {
@@ -55,7 +53,8 @@ const Login = (props) => {
                 },
             });
             window.google?.accounts?.id?.renderButton(divGoogle.current, {
-                theme: "filled_blue",
+                width: "100%",
+                theme: "outline",
                 size: "medium",
                 type: "standard",
                 text: "continue_with",
@@ -308,10 +307,10 @@ const Login = (props) => {
                                     OR
                                 </div>
 
-                                <div className="text-center mb-4">
+                                <div className="text-center mb-4 mx-auto">
                                     <div
-                                        className="fb-login-button"
-                                        data-width=""
+                                        className="fb-login-button w-100"
+                                        data-width="100%"
                                         data-size="medium"
                                         data-button-type="continue_with"
                                         data-layout="default"
@@ -323,6 +322,7 @@ const Login = (props) => {
                                 </div>
                                 <div className="text-center">
                                     <div
+                                        id="google-button"
                                         ref={divGoogle}
                                         // id="g_id_onload"
                                         // data-client_id={
@@ -369,12 +369,8 @@ const Login = (props) => {
                                 </button> */}
 
                                 <div className="login-detail text-center">
-                                    Do not have account?
-                                    <Link
-                                        to="/register"
-                                        className="btn btn-link"
-                                        style={{ fontSize: "15px" }}
-                                    >
+                                    Do not have account?{" "}
+                                    <Link to="/register" className="btn-link">
                                         Register
                                     </Link>
                                 </div>
