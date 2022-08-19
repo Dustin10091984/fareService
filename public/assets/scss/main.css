@@ -3479,3 +3479,13 @@ input::-webkit-inner-spin-button {
     width: 100% !important;
     margin-bottom: 2rem;
 }
+
+#google-button iframe {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+#google-button #container.haAclf {
+    width: 100% !important;
+    padding: 0 !important;
+}
