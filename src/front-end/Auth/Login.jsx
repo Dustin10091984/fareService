@@ -53,6 +53,7 @@ const Login = (props) => {
                 },
             });
             window.google?.accounts?.id?.renderButton(divGoogle.current, {
+                width: "100%",
                 theme: "outline",
                 size: "medium",
                 type: "standard",
