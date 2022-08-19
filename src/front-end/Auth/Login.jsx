@@ -321,6 +321,7 @@ const Login = (props) => {
                                 </div>
                                 <div className="text-center">
                                     <div
+                                        id="google-button"
                                         ref={divGoogle}
                                         // id="g_id_onload"
                                         // data-client_id={
@@ -367,12 +368,8 @@ const Login = (props) => {
                                 </button> */}
 
                                 <div className="login-detail text-center">
-                                    Do not have account?
-                                    <Link
-                                        to="/register"
-                                        className="btn btn-link"
-                                        style={{ fontSize: "15px" }}
-                                    >
+                                    Do not have account?{" "}
+                                    <Link to="/register" className="btn-link">
                                         Register
                                     </Link>
                                 </div>
