@@ -1,0 +1,611 @@
+[33mcommit c37eda1646a54ddeb3023f3a5e8b54046aab2f69[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sun May 1 17:46:59 2022 +0500
+
+    error messages issue
+
+[33mcommit d7be96d602df8b35e42cdaff897348ac341a0314[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sun May 1 17:23:04 2022 +0500
+
+    update index.html
+
+[33mcommit cfaa6bf2c42f208f1379f6a66f611d7fa36b0b93[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sun May 1 17:17:02 2022 +0500
+
+    update view product details page
+
+[33mcommit 6688cbe0552172242ce28071f0bcf71f43b40964[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sun May 1 14:13:53 2022 +0500
+
+    update cart
+
+[33mcommit 192b1accefd0d6f958b75896ef0a4f1efe989a9e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sun May 1 12:21:04 2022 +0500
+
+    goto section using section id
+
+[33mcommit f0a1261b2d09af30489e6c5ad8903f64d15181af[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sun May 1 11:52:19 2022 +0500
+
+    goto section using section id
+
+[33mcommit ab89ec4fb51f6c1b6bdbb429e9fd924872a65470[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sat Apr 30 03:05:02 2022 +0500
+
+    otp update
+
+[33mcommit 3237503fcadcf30fecdc87bb30ef380018c18e8a[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Fri Apr 29 16:23:00 2022 +0500
+
+    image issue
+
+[33mcommit f838bbf7bb54e440c8fb3e591b21ee42af43c330[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 27 17:51:12 2022 +0500
+
+    update imports
+
+[33mcommit 4f688864a777d1d5ed0278a48bfdbb00fad2af7c[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 27 17:46:49 2022 +0500
+
+    send revert
+
+[33mcommit f58bbb3fc0e74cd8dfe13119f442ea743ef4cec5[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 27 17:42:01 2022 +0500
+
+    send message to admin
+
+[33mcommit 186343d63486da9876f4ba3163736f2953b2e049[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Apr 26 11:46:25 2022 +0500
+
+    show content
+
+[33mcommit b272cb630e07bea4595867ebc28b7911f8ae1269[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 21:53:56 2022 +0500
+
+    page issue
+
+[33mcommit 66e0085cd764a39bf792f213900ad9baaf608a17[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 21:51:15 2022 +0500
+
+    page issue
+
+[33mcommit b275526fbf0646a62cdcd52750708b1db71333c5[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:43:53 2022 +0500
+
+    page issue
+
+[33mcommit 6f1a803e13bd9ef66d66d89b2189576c925e86ad[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:34:56 2022 +0500
+
+    page issue
+
+[33mcommit 7e4bb86b5ddc3b97dc3155753baf9e706a9657b8[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:29:33 2022 +0500
+
+    page issue
+
+[33mcommit f2039efb5685350ee1abb094c385c39a19133e6a[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:24:28 2022 +0500
+
+    page issue
+
+[33mcommit bcbbf08c5d12f4450d5a3c4d942e251924572168[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:19:57 2022 +0500
+
+    page issue
+
+[33mcommit bcda0d8941764d9ce867824aaf75e2c1c90bfc2e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:15:43 2022 +0500
+
+    page issue
+
+[33mcommit 7571b35998970504eccc97d8d5d157c715374c86[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:11:48 2022 +0500
+
+    page issue
+
+[33mcommit de2a4395ebbf0f996dc9a8c8e4208a854cba15a4[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:07:13 2022 +0500
+
+    page issue
+
+[33mcommit 3c0965926e56e6a018280ff9af4c6b05d4738a9d[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 20:03:39 2022 +0500
+
+    page issue
+
+[33mcommit e62c17f0a2c37911ea7b542b450d286e82aa6d48[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 18:13:00 2022 +0500
+
+    page issue
+
+[33mcommit 53a0e7d76b486ddaed3a94379c598c6a1a746e8b[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 18:07:28 2022 +0500
+
+    page issue
+
+[33mcommit 236a56edd85c3ef551533c513a3c109a873ddbea[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 18:02:11 2022 +0500
+
+    page issue
+
+[33mcommit 9d4a205cdda751ed3cb244e760100355ebbbd969[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 17:54:54 2022 +0500
+
+    page issue
+
+[33mcommit 7d2c8e6160a5d3bb058aebd85d0a6d715901bd83[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 17:50:33 2022 +0500
+
+    page issue
+
+[33mcommit 87ffa472179042dfe624ff2afd66767b7552950f[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 17:41:29 2022 +0500
+
+    page issue
+
+[33mcommit cf59a6bd77341e3426529bb2f3eae2fdfdd903da[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 17:35:03 2022 +0500
+
+    page issue
+
+[33mcommit c2404081414c3c22a31cf9143552b70328014641[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 25 16:48:52 2022 +0500
+
+    page issue
+
+[33mcommit aca8fd9e36c56aca3ef0f66b8c44a80bd1eae3d8[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Fri Apr 22 16:29:51 2022 +0500
+
+    show content
+
+[33mcommit 2ee35ea6f6977b66c5cf393641b72cdbfa2de741[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 20 16:25:38 2022 +0500
+
+    length issue
+
+[33mcommit 9456bb5e322b94dfb5ddc4c405688996b9ac4916[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 20 15:39:40 2022 +0500
+
+    notification
+
+[33mcommit 92708dceb9a286739b5b906e2dc2f07c95f5db6a[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 20 14:29:51 2022 +0500
+
+    notification issue
+
+[33mcommit 6af735fb3a790c4549f8fd87d0425662b1bca958[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 20 14:15:26 2022 +0500
+
+    notification issue
+
+[33mcommit 8ef5ae5a869f100c63f91804c0cb5fb3fb21ec43[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 20 11:06:19 2022 +0500
+
+    show pages
+
+[33mcommit 5f1123db992d1e04fadb6bc1e961f2eaca930db4[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 21:15:38 2022 +0500
+
+    footer issue
+
+[33mcommit 277209682338328c522b1d688154a8e8767871f4[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 21:09:37 2022 +0500
+
+    footer issue
+
+[33mcommit 684eba3985e2ecf6b833a0c75260ca6e6a9ba79d[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 21:01:11 2022 +0500
+
+    footer issue
+
+[33mcommit 3a03718bbd3a44ecad40a75e1fd7d8740674b2f0[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 20:59:16 2022 +0500
+
+    footer issue
+
+[33mcommit 5b1b36a7fc228349231416340d15c9e219a4af9a[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 20:52:02 2022 +0500
+
+    footer issue
+
+[33mcommit 4a6f4054bf5d2610fd2144f32b2d37d5474500a5[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 18:26:33 2022 +0500
+
+    footer issue
+
+[33mcommit 28b80c0f20b53c1e46efb394bf81e3ee3398809b[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 18:18:26 2022 +0500
+
+    footer issue
+
+[33mcommit c76db1b8afad291417b1fee180a6cf501a73675b[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 18 17:59:27 2022 +0500
+
+    footer issue
+
+[33mcommit 3e2433c90d7ee9ca3b60e03d3052cf3183bc24e9[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sat Apr 16 16:41:44 2022 +0500
+
+    links issue
+
+[33mcommit 21eb93dac7797659589e778a1240931c4c119635[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sat Apr 16 15:29:30 2022 +0500
+
+    update footer
+
+[33mcommit a9e22243dbd61f8b1fcb0ebfbad197111a10778c[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Sat Apr 16 14:53:03 2022 +0500
+
+    show services
+
+[33mcommit ed8b6a695f19a62d4c988cad856a48124f2f6924[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Apr 14 15:18:50 2022 +0500
+
+    show notification
+
+[33mcommit 7b1f52121baab908e8a91eb965a58d74dcf03302[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Apr 14 12:54:14 2022 +0500
+
+    update firebase packege
+
+[33mcommit 183bc819f8c675edc2f5342b4318f01d9110ccf6[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 15:25:50 2022 +0500
+
+    notification issue
+
+[33mcommit c16956c90b76ee7fb0cc321ac7794787770224f0[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 15:21:53 2022 +0500
+
+    notification issue
+
+[33mcommit 97c4a5a07b08c8c3f858d0c00e7d3356db553367[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 15:17:09 2022 +0500
+
+    notification issue
+
+[33mcommit 70cb14fe60961328b7d6940bda60c7ba7903e65c[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 15:10:00 2022 +0500
+
+    notification issue
+
+[33mcommit d9dc2c3c369e3783654633733b9759d3e9db32d5[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 15:01:00 2022 +0500
+
+    check is supported
+
+[33mcommit 7c5ae4091ad18aaea32192cae544fdcd8404ba4e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 12:51:57 2022 +0500
+
+    firebase issue
+
+[33mcommit e211dec97b0b211d7a7bcb4519404639ad1a01a6[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 11 10:47:35 2022 +0500
+
+    homepage in package
+
+[33mcommit 43129e1744bd93eef3a0d98247a2eaab0ca6135b[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Fri Apr 8 13:11:47 2022 +0500
+
+    no js message show
+
+[33mcommit 60bcbdbb550761bd7ddb80ecebe6e929d508302f[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 6 14:36:55 2022 +0500
+
+    add link
+
+[33mcommit 6d24a7c5ecb90eb17ad8c9aef71b0a23eea5eac2[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Apr 6 10:36:40 2022 +0500
+
+    dashboard issue
+
+[33mcommit ffaca105503c977892f6488940e3a380240dd034[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Apr 5 15:19:37 2022 +0500
+
+    improve code
+
+[33mcommit 2725cb6446b0c758ad6d3fb3e1091d97237b1908[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 17:36:51 2022 +0500
+
+    moving issue
+
+[33mcommit 8d114fdb0e882717903d0f1f19bafa1e5b76ff70[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 15:45:09 2022 +0500
+
+    chnage header
+
+[33mcommit 3192d0538f9b007a24dba667a1b4308c9b1664f0[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 14:52:42 2022 +0500
+
+    registor update
+
+[33mcommit 44ba202ef245bdb65ff4f2e16b36d904e3a9f1f8[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 14:03:07 2022 +0500
+
+    add ip for chat
+
+[33mcommit 97dd5f0d9b9e6fe2601dcf8006e52e5cf41d3cbd[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 13:39:13 2022 +0500
+
+    change text
+
+[33mcommit 853ccc025f2e85024bfaee3ecff2a3a87562d82d[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 12:51:53 2022 +0500
+
+    add image placeholder
+
+[33mcommit 41009bedfaf8310e048b7105cd5b588b9f2f34e3[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 12:42:25 2022 +0500
+
+    remove notification voice remove
+
+[33mcommit bb7ec5039782c0a46beb16aeb743e752b78bff58[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Apr 4 11:12:52 2022 +0500
+
+    add city and country in services and moving service
+
+[33mcommit 45b2a7444665ea5c55ac9a8f3b6766892b2797ae[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Fri Apr 1 19:09:55 2022 +0500
+
+    show filter in servce section
+
+[33mcommit 584c73ab6d7df7fc316e9eba2424ef94a45cea68[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Fri Apr 1 12:31:48 2022 +0500
+
+    update provider signup
+
+[33mcommit 7ed6bb603da979904684e6cd0ed3ee1fa8b354ec[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 31 11:46:38 2022 +0500
+
+    show links
+
+[33mcommit 585bf7c29ada054e9a57c1992d00fa5c881d111e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 30 18:11:46 2022 +0500
+
+    working on footer
+
+[33mcommit ef2335f600fdc89f20b70fcfed58f4acfe5408a2[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 30 17:31:08 2022 +0500
+
+    footer
+
+[33mcommit f41a135a35a03a45a570733ea95a24b1727caf1e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Mar 29 18:15:46 2022 +0500
+
+    social links add
+
+[33mcommit cdb80da595b24bba35ab36fbe03786def4b97f27[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Mar 29 14:40:49 2022 +0500
+
+    update footer
+
+[33mcommit 8b1b7b2e7ce1069276a0dabc068e07358de94eb7[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Mon Mar 28 17:01:41 2022 +0500
+
+    update handy to Farenow
+
+[33mcommit d9975d4b0c7d540f01e67c2d6a893f0e0d9cfda2[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Fri Mar 25 15:12:22 2022 +0500
+
+    notification
+
+[33mcommit 3858b0ba2cb53e2bf279a70ec0b9b6e40b21f214[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 24 18:19:39 2022 +0500
+
+    set notifications
+
+[33mcommit e1ab8ddec2d5393611baf8b7ee6d04fe68461814[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 18:30:39 2022 +0500
+
+    pay issue fixed
+
+[33mcommit 2853b6222826ea0e26d81b332c8b96b6d8dc6f7b[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 17:50:59 2022 +0500
+
+    moving request provider issue
+
+[33mcommit 26d53222807da87dba9dd67d56b902ba7dc35b9f[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 17:38:56 2022 +0500
+
+    moving request provider issue
+
+[33mcommit 4c87bfdce5e32c1a157cd0acf8e1e6b4e732630e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 17:23:25 2022 +0500
+
+    moving request provider issue
+
+[33mcommit 95255bab03319410c2a9ff8df688bfde01e01bfb[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 15:21:06 2022 +0500
+
+    phone number
+
+[33mcommit bcaf4312cbfabd6dd0cf950217984587b5ad2102[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 14:26:53 2022 +0500
+
+    feedback issue
+
+[33mcommit fb6fe21c331dbde2cb651bcc89227503ec826368[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 14:06:38 2022 +0500
+
+    feedback issue
+
+[33mcommit 9283d75e3a66a60c728ad7a49bf07166210afea0[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 13:50:48 2022 +0500
+
+    feedback issue
+
+[33mcommit f5e947bf309e2d8e29bed71871b7756ac3644abe[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 13:49:06 2022 +0500
+
+    feedback issue
+
+[33mcommit e4630d2a0c0567005c35d6d891604660fcd268e9[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Thu Mar 17 13:47:56 2022 +0500
+
+    feedback issue
+
+[33mcommit d667de8ef872fbb5db5a3f339215542f5b606d7c[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 14:47:23 2022 +0500
+
+    update service request
+
+[33mcommit 3d8c53acc739e4e57b6b15ced2605253f69b9761[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 14:09:43 2022 +0500
+
+    update service request
+
+[33mcommit 21e52856b745fc336179bd43d28d201349dcb0a9[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 13:11:44 2022 +0500
+
+    update service request
+
+[33mcommit b8007cf4c9e063e13b9d420fbaa44d9187ca81f0[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 13:03:14 2022 +0500
+
+    update service request
+
+[33mcommit 9d4104f3bd6110904ef364214469e5f6b84c146a[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 11:54:31 2022 +0500
+
+    chat debug
+
+[33mcommit ffb78560608f480c4534dfc5dcd8fc50ac01f861[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 11:26:07 2022 +0500
+
+    Registration
+
+[33mcommit 4de23e3a2742784cc09c9c0976f9623c9a1b0da8[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 11:17:27 2022 +0500
+
+    Registration
+
+[33mcommit 5af17fd2359e2318dfe8f980116cf3a6351a107e[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 11:05:59 2022 +0500
+
+    Registration
+
+[33mcommit 1393e8cd2c80397726b3fd2e3fb1842479cb8563[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 10:29:34 2022 +0500
+
+    login issue resolved
+
+[33mcommit 5db9b26c15259c3c73bc602d5c7a13427ff8b857[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Wed Mar 16 10:09:34 2022 +0500
+
+    show pending message
+
+[33mcommit 5d6614d88d851495314fe88e91c9cff6c6a4c22a[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Mar 15 14:12:09 2022 +0500
+
+    signup issue
+
+[33mcommit 3cd32cc11b2cee3dc5f416b8587e5e58a798d82f[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Mar 15 12:37:25 2022 +0500
+
+    update delete to sweet alert
+
+[33mcommit 976fe4ab2fe8f8ab0ce7fe8d380c5d82447f5123[m
+Author: Asad Raza <asadrazajutt1@gmail.com>
+Date:   Tue Mar 15 12:04:21 2022 +0500
+
+    update add new address modal

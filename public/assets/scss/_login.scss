@@ -1,0 +1,87 @@
+.login-sec {
+    height: 111.7rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.login-box {
+    width: 66.0rem;
+    height: 80.0rem;
+    background: #fff;
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+    padding: 5rem;
+    border-radius: 20px;
+}
+
+
+.login-facebook {
+    width: 23.8rem;
+    height: 4.0rem;
+    background: linear-gradient(153.43deg, #2E77E6 0%, #2760D7 83.33%);
+    border-radius: 1.0rem;
+    border: none;
+    outline: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    letter-spacing: 0.01em;
+    color: #FFFFFF;
+
+    &:hover {
+        background: linear-gradient(153.43deg, #2E77E6 0%, #2760D7 40.33%);
+    }
+}
+
+.login-gmail {
+    width: 23.8rem;
+    height: 4.0rem;
+    background: linear-gradient(153.43deg, #F94F4F 0%, #D72727 83.33%);
+    border-radius: 1.0rem;
+    border: none;
+    outline: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    letter-spacing: 0.01em;
+    color: #FFFFFF;
+
+    &:hover {
+        background: linear-gradient(153.43deg, #F94F4F 0%, #D72727 40%);
+    }
+}
+
+
+.login-detail {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    color: #B6BCC1;
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+
+.inner-box-log {
+    width: 23.7rem;
+}
+
+.other-login {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.7rem;
+    line-height: 2.1rem;
+    color: #B6BCC1;
+}
+
+.login-heading {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.6rem;
+    line-height: 4.4rem;
+    color: #000000;
+    margin-bottom: 5rem;
+}

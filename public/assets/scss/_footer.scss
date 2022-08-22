@@ -1,0 +1,143 @@
+.footer-sec {
+    padding-bottom: 8rem;
+}
+
+.footer-link {
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 1.8rem;
+        line-height: 2.2rem;
+        display: flex;
+        align-items: center;
+        color: $secondary;
+        padding: 0.8rem 0rem;
+    }
+
+    .item {
+        padding: 0.8rem 0rem;
+
+        .link {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 1.8rem;
+            line-height: 2.2rem;
+            color: #606060;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+
+    .d-item {
+        padding: 0.8rem 0rem;
+
+        .link {
+            color: #B6BCC1;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 1.8rem;
+            line-height: 2.2rem;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+}
+
+.footer-about {
+    max-width: 44.5rem;
+    width: 100%;
+
+    p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+        color: #B6BCC1;
+    }
+}
+
+
+.social {
+    .item {
+        border-radius: 1.8rem;
+
+        a {
+            width: 5.0rem;
+            height: 5.0rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        &.facebook {
+            background: #2E77E6;
+
+            &:hover {
+                background: rgba(46, 120, 230, 0.80);
+            }
+        }
+
+        &.instragram {
+            background: #F56040;
+
+            &:hover {
+                background: rgba(245, 97, 64, 0.80);
+            }
+        }
+
+        &.twitter {
+            background: #1DA1F2;
+
+            &:hover {
+                background: rgba(28, 160, 242, 0.80);
+            }
+        }
+
+        &.whatsapp {
+            background: #48C66A;
+
+            &:hover {
+                background: rgba(72, 198, 106, 0.80);
+            }
+        }
+    }
+}
+
+
+
+.footer-sec2 {
+    padding: 6.0rem 0rem;
+}
+
+.copyright-sec{
+    padding: 3.5rem 0rem;
+}
+
+.copy-des {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    color: #444444;
+}
+
+.footer-info-link {
+    li {
+        a {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 1.8rem;
+            line-height: 2.2rem;
+            color: #606060;
+            margin: 0rem 1.5rem;
+            &:hover{
+                color:$primary;
+            }
+        }
+    }
+}
