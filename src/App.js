@@ -22,7 +22,7 @@ import { onMessageListener, getToken } from './firebaseInit';
 // import Notifications from './components/notification/Notifications';
 import ReactNotificationComponent from './components/notification/ReactNotification';
 import axios from 'axios'
-import { HOST, React_APP_FACEBOOK_APP_AD } from './constants';
+import { HOST, React_APP_FACEBOOK_APP_AD, React_APP_STRIPE_PUBLIC_KEY } from './constants';
 import { getMessaging, onMessage } from "firebase/messaging";
 import Routes from './Routes';
 import { LoginContext, MapLoadedApiContext } from './helper/context';
@@ -30,9 +30,7 @@ import { ReactSwal } from './helper/swal';
 import { handleBackendEvents } from './helper/backend-events';
 // import { useJsApiLoader } from "@react-google-maps/api";
 
-const stripePromise = loadStripe(
-  process.env.React_APP_STRIPE_PUBLIC_KEY
-);
+
 
 window.io = io;
 
@@ -188,8 +186,12 @@ function App() {
     }
   }, [localStorage?.user_data, localStorage?.user_data])
 
+  const options = {
+    clientSecret: null,
+  };
+
   return (
-    <Elements stripe={stripePromise} >
+    <Elements stripe={loadStripe(React_APP_STRIPE_PUBLIC_KEY)} >
       <LoginContext.Provider value={isLoggedIn}>
         <MapLoadedApiContext.Provider value={isLoaded}>
           <div className="App">

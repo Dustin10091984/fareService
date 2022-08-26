@@ -232,7 +232,7 @@ const Footer = (props) => {
                                     (link) =>
                                         link.type == null &&
                                         link.is_blog == false
-                                ).length >= 0 && (
+                                ).length >= 8 && (
                                     <li className="item">
                                         <span
                                             role="button"
