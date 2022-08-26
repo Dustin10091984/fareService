@@ -2279,6 +2279,15 @@ body {
     max-width: 50rem;
     margin: 1.5rem 0;
 }
+.login-detail {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    color: #000000;
+    max-width: 50rem;
+    margin: auto;
+}
 
 .login-detail>.btn-link {
     font-size: 1.6rem;
@@ -3485,7 +3494,10 @@ input::-webkit-inner-spin-button {
     margin: 0 !important;
 }
 
-#container.haAclf {
-    width: 100% !important;
-    padding: 0 !important;
+html #gsi_536308_528297 {
+    background-color: black;
+}
+
+.CardField.CardField--ltr:focus {
+    border: 1px solid #fea629;
 }
