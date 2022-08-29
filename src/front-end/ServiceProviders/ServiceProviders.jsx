@@ -236,9 +236,17 @@ export const ServiceProviders = (props) => {
             }
         });
         if (timeSlots) {
-            setState((state) => ({ ...state, timeSlots: timeSlots }));
+            setState((state) => ({
+                ...state,
+                timeSlots: timeSlots,
+                dateTime: selectedDate.toLocaleDateString(),
+            }));
         } else {
-            setState((state) => ({ ...state, timeSlots: undefined }));
+            setState((state) => ({
+                ...state,
+                timeSlots: undefined,
+                dateTime: null,
+            }));
         }
         return;
     };
@@ -299,6 +307,7 @@ export const ServiceProviders = (props) => {
                 provider_id,
                 detail,
                 provider,
+                dateTime,
             } = state;
             // setState((state) => ({ ...state, submitting: true }));
             if (
@@ -316,6 +325,7 @@ export const ServiceProviders = (props) => {
                         token: "",
                         provider_id,
                         provider,
+                        dateTime,
                     },
                 });
             } else if (location?.state?.service_type == ServiceType.MOVING) {

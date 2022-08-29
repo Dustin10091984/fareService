@@ -5,6 +5,12 @@ import { toast } from "react-toastify";
 import Loading from "../common/Loading";
 import { HOST } from "../../constants";
 import { ReactSwal } from "../../helper/swal";
+import { ErrorMessage } from "./components/ErrorMessage";
+import { PaymentType } from "./components/PaymentType";
+import { PaymentCardList } from "./components/PaymentCardList";
+import { Button as ServiceOrOrderBtn } from "./components/Button";
+import { OrderDetailCard } from "./components/OrderDetailCard";
+import { ServiceRequestDetailCard } from "./components/ServiceRequestDetailCard";
 
 export const Payment = (props) => {
     const stripe = useStripe();
@@ -165,6 +171,41 @@ export const Payment = (props) => {
         }
     }, [orderData]);
 
+    useEffect(() => {
+        if (
+            serviceRequest.error == true &&
+            serviceRequest.loading == false &&
+            typeof serviceRequest.message == "string"
+        ) {
+            ReactSwal.fire({
+                title: "Error",
+                text: serviceRequest.message,
+                confirmButtonText: "Close",
+                confirmButtonColor: "#fea629",
+                icon: "error",
+                showCloseButton: true,
+                allowOutsideClick: false,
+            });
+        } else if (
+            serviceRequest.error == false &&
+            serviceRequest.loading == false &&
+            typeof serviceRequest.message == "string"
+        ) {
+            ReactSwal.fire({
+                title: "Success!",
+                text: "Successfully created request service",
+                confirmButtonText: "Go services history",
+                icon: "success",
+                confirmButtonColor: "#fea629",
+                showCloseButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    handleGoToServicesHistory();
+                }
+            });
+        }
+    }, [serviceRequest.error, serviceRequest.loading]);
+
     const handleChangeZipCode = (e) => {
         const { name, value } = e.target;
         setState((state) => ({ ...state, [name]: value }));
@@ -324,10 +365,24 @@ export const Payment = (props) => {
         }
     };
 
-    const handlepayemntCard = (id) => {
+    const handlePayemntCard = (id) => {
         setState((state) => ({
             ...state,
             card_id: id == state.card_id ? undefined : id,
+        }));
+    };
+
+    const handleChangePaymentMethod = (data) => {
+        setState((state) => ({
+            ...state,
+            paymentMethod: data,
+        }));
+    };
+
+    const handleCardHolderNameChange = ({ target: { value } }) => {
+        setState((state) => ({
+            ...state,
+            card_holder_name: value,
         }));
     };
 
@@ -341,121 +396,10 @@ export const Payment = (props) => {
                     <div className="row">
                         <div className="col-md-12">
                             <div className="moving-search-box">
-                                {stripeErr && (
-                                    <div
-                                        className="col-12  alert alert-danger text-center"
-                                        role="alert"
-                                        style={{ fontSize: 15 }}
-                                    >
-                                        please enter valid card details
-                                    </div>
-                                )}
-                                {serviceRequest.loading && (
-                                    <div
-                                        className="col-12  alert alert-primary text-center"
-                                        role="alert"
-                                        style={{ fontSize: 15 }}
-                                    >
-                                        please wait! loading...
-                                    </div>
-                                )}
-                                {(() => {
-                                    if (
-                                        serviceRequest.error == true &&
-                                        serviceRequest.loading == false
-                                    ) {
-                                        switch (typeof serviceRequest.message) {
-                                            case "string":
-                                                ReactSwal.fire({
-                                                    title: "Error",
-                                                    text: serviceRequest.message,
-                                                    confirmButtonText: "Close",
-                                                    confirmButtonColor:
-                                                        "#fea629",
-                                                    icon: "error",
-                                                    showCloseButton: true,
-                                                    allowOutsideClick: false,
-                                                });
-                                                return (
-                                                    <div
-                                                        className="col-12  alert alert-danger text-center"
-                                                        role="alert"
-                                                        style={{
-                                                            fontSize: 15,
-                                                        }}
-                                                    >
-                                                        {serviceRequest.message}
-                                                    </div>
-                                                );
-                                                break;
-                                            case "array":
-                                                const errorMsg = Object.values(
-                                                    serviceRequest.message
-                                                );
-                                                return (
-                                                    <div
-                                                        className="col-12  alert alert-danger text-center"
-                                                        role="alert"
-                                                        style={{
-                                                            fontSize: 15,
-                                                        }}
-                                                    >
-                                                        {errorMsg.map(
-                                                            (msg, index) => (
-                                                                <React.Fragment
-                                                                    key={index}
-                                                                >
-                                                                    {msg}
-                                                                    <br />
-                                                                </React.Fragment>
-                                                            )
-                                                        )}
-                                                    </div>
-                                                );
-                                                break;
-                                        }
-                                    }
-
-                                    if (
-                                        serviceRequest.error == false &&
-                                        serviceRequest.loading == false
-                                    ) {
-                                        switch (typeof serviceRequest.message) {
-                                            case "string":
-                                                ReactSwal.fire({
-                                                    title: "Success!",
-                                                    text: "Successfully created request service",
-                                                    confirmButtonText:
-                                                        "Go services history",
-                                                    icon: "success",
-                                                    confirmButtonColor:
-                                                        "#fea629",
-                                                    showCloseButton: true,
-                                                }).then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        handleGoToServicesHistory();
-                                                    }
-                                                });
-                                                return (
-                                                    <div
-                                                        className="col-12  alert alert-success text-center"
-                                                        role="alert"
-                                                        style={{
-                                                            fontSize: 15,
-                                                        }}
-                                                    >
-                                                        {
-                                                            "Successfully Requested sent to provider"
-                                                        }
-                                                    </div>
-                                                );
-                                                break;
-                                            // case 'array':
-                                            //     console.log('array');
-                                            //     break;
-                                        }
-                                    }
-                                })()}
+                                <ErrorMessage
+                                    stripeErr={stripeErr}
+                                    serviceRequest={serviceRequest}
+                                />
                                 <div className="d-flex justify-content-center">
                                     <div className="m-search-right-box">
                                         <div className="title-move mb-5">
@@ -463,198 +407,22 @@ export const Payment = (props) => {
                                                 ? "Please Select payment method"
                                                 : "Please fill Card details"}
                                         </div>
-                                        {state.type && state.cart_ids && (
-                                            <>
-                                                <div
-                                                    className="form-check ml-5"
-                                                    onClick={() => {
-                                                        setState({
-                                                            ...state,
-                                                            paymentMethod: 0,
-                                                        });
-                                                    }}
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        className="form-check-input radio"
-                                                        checked={
-                                                            state.paymentMethod ===
-                                                            0
-                                                        }
-                                                        defaultValue={0}
-                                                        readOnly
-                                                        onClick={() => {
-                                                            setState({
-                                                                ...state,
-                                                                paymentMethod: 0,
-                                                            });
-                                                        }}
-                                                    />
-                                                    <label
-                                                        className="form-check-label ml-4 option"
-                                                        htmlFor={`radio`}
-                                                    >
-                                                        Cash on Delivery
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    className="form-check ml-5 mt-2"
-                                                    onClick={() => {
-                                                        setState({
-                                                            ...state,
-                                                            paymentMethod: 1,
-                                                        });
-                                                    }}
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        className="form-check-input radio"
-                                                        checked={
-                                                            state.paymentMethod ===
-                                                            1
-                                                        }
-                                                        defaultValue={1}
-                                                        readOnly
-                                                    />
-                                                    <label
-                                                        className="form-check-label ml-4 option"
-                                                        htmlFor={`radio`}
-                                                    >
-                                                        Online pay
-                                                    </label>
-                                                </div>
-                                            </>
-                                        )}
-                                        {(state.paymentMethod === 1 ||
-                                            state.paymentMethod === undefined ||
-                                            state.cart_ids == undefined ||
-                                            state?.form?.serviceDetail
-                                                ?.is_hourly == true) && (
-                                            <>
-                                                {(state.paymentMethod === 1 ||
-                                                    state?.form?.serviceDetail
-                                                        ?.is_hourly) &&
-                                                    paymentCard?.data?.data?.map(
-                                                        (item, index) => (
-                                                            <div
-                                                                key={index}
-                                                                className="order-card d-flex align-items-center justify-content-between mt-2"
-                                                                style={
-                                                                    state.card_id ==
-                                                                    item.id
-                                                                        ? {
-                                                                              cursor: "pointer",
-                                                                              backgroundColor:
-                                                                                  "#fea11188",
-                                                                          }
-                                                                        : {
-                                                                              cursor: "pointer",
-                                                                          }
-                                                                }
-                                                                onClick={() =>
-                                                                    handlepayemntCard(
-                                                                        item.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <div>
-                                                                    {item.brand ==
-                                                                        "Visa" && (
-                                                                        <i
-                                                                            className="fa fa-cc-visa fa-5x text-primary"
-                                                                            aria-hidden="true"
-                                                                        ></i>
-                                                                    )}
-                                                                    {item.brand ==
-                                                                        "MasterCard" && (
-                                                                        <i
-                                                                            className="fa fa-cc-mastercard fa-5x "
-                                                                            aria-hidden="true"
-                                                                        ></i>
-                                                                    )}
-                                                                    {/* <img
-                                                    src="/assets/img/master-card.svg"
-                                                    alt=""
-                                                /> */}
-                                                                </div>
-                                                                <div className="d-flex align-items-center justify-content-between">
-                                                                    <div className="order-des-b ml-4">
-                                                                        <div
-                                                                            className="title"
-                                                                            style={
-                                                                                state.card_id ==
-                                                                                item.id
-                                                                                    ? {
-                                                                                          color: "white",
-                                                                                      }
-                                                                                    : {
-                                                                                          color: "black",
-                                                                                      }
-                                                                            }
-                                                                        >
-                                                                            {`${item?.brand}****${item?.last4}`}
-                                                                        </div>
-                                                                        {/* <div className="order-time">
-                                                                                primary
-                                                                            </div> */}
-                                                                        <div className="order-time">
-                                                                            Expires{" "}
-                                                                            {`${item?.exp_month}/${item?.exp_year}`}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    )}
-                                                <div className="common-input mb-3">
-                                                    <input
-                                                        type="text"
-                                                        name="card_number"
-                                                        placeholder="Card Holder Name"
-                                                        value={
-                                                            state.card_holder_name
-                                                        }
-                                                        onChange={({
-                                                            target: { value },
-                                                        }) =>
-                                                            setState({
-                                                                ...state,
-                                                                card_holder_name:
-                                                                    value,
-                                                            })
-                                                        }
-                                                    />
-                                                </div>
-                                                <div
-                                                    style={{
-                                                        padding: "0px 10px",
-                                                        borderRadius: "1rem",
-                                                        width: "100%",
-                                                        backgroundColor:
-                                                            "#f1f2f6",
-                                                    }}
-                                                >
-                                                    <CardElement
-                                                        onChange={
-                                                            handleCardDetailsChange
-                                                        }
-                                                        options={{
-                                                            style: {
-                                                                base: {
-                                                                    fontSize:
-                                                                        "14px",
-                                                                    lineHeight:
-                                                                        "45px",
-                                                                },
-                                                            },
-                                                        }}
-                                                    />
-                                                </div>
-                                                <p className="text-danger">
-                                                    {checkoutError}
-                                                </p>
-                                            </>
-                                        )}
+                                        <PaymentType
+                                            state={state}
+                                            handleChangePaymentMethod={
+                                                handleChangePaymentMethod
+                                            }
+                                        />
+                                        <PaymentCardList
+                                            {...{
+                                                handlePayemntCard,
+                                                handleCardDetailsChange,
+                                                handleCardHolderNameChange,
+                                                state,
+                                                paymentCard,
+                                                checkoutError,
+                                            }}
+                                        />
                                         {(state.paymentMethod === 1 ||
                                             state.paymentMethod === 0) && (
                                             <>
@@ -695,59 +463,19 @@ export const Payment = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    {state.type == undefined ||
-                                    state.cart_ids == undefined ? (
-                                        <button
-                                            disabled={
-                                                !stripe ||
-                                                !elements ||
-                                                submiting ||
-                                                checkoutError ||
-                                                serviceRequest.loading
-                                            }
-                                            onClick={
-                                                serviceRequest.message ==
-                                                    "success" ||
-                                                serviceRequest.message ==
-                                                    "Order already exist"
-                                                    ? handleGoToServicesHistory
-                                                    : handleClickMakeRequest
-                                            }
-                                            className="button-common mt-5 w-25"
-                                        >
-                                            {serviceRequest.message ==
-                                                "success" ||
-                                            serviceRequest.message ==
-                                                "Order already exist"
-                                                ? "Go to Services History"
-                                                : "Make Service Request"}
-                                        </button>
-                                    ) : (
-                                        <button
-                                            className="button-common mt-5 w-25"
-                                            disabled={(() => {
-                                                if (
-                                                    state.paymentMethod ==
-                                                        null ||
-                                                    state.address_id == null
-                                                ) {
-                                                    return true;
-                                                }
-                                                if (
-                                                    (state.paymentMethod == 1 &&
-                                                        !stripe) ||
-                                                    !elements ||
-                                                    submiting ||
-                                                    checkoutError
-                                                ) {
-                                                    return true;
-                                                }
-                                            })()}
-                                            onClick={handlePlaceOrder}
-                                        >
-                                            Place Order
-                                        </button>
-                                    )}
+                                    <ServiceOrOrderBtn
+                                        {...{
+                                            state,
+                                            handlePlaceOrder,
+                                            stripe,
+                                            elements,
+                                            submiting,
+                                            checkoutError,
+                                            serviceRequest,
+                                            handleGoToServicesHistory,
+                                            handleClickMakeRequest,
+                                        }}
+                                    />
                                 </div>
 
                                 <div className="row pad-t">
@@ -758,175 +486,20 @@ export const Payment = (props) => {
                                     <div className="col-md-12">
                                         {state.type &&
                                         state.cart_ids.length > 0 ? (
-                                            <>
-                                                {state.cart_ids?.map((item) => {
-                                                    const cart = cartList?.find(
-                                                        (cart) =>
-                                                            cart.id == item
-                                                    );
-                                                    const food = cart?.food;
-                                                    const product =
-                                                        cart?.product;
-                                                    if (food || product) {
-                                                        return (
-                                                            <div
-                                                                key={item}
-                                                                className="cart-total cart-page d-flex align-items-center justify-content-between"
-                                                            >
-                                                                <div className="d-flex align-items-center justify-content">
-                                                                    <div className="cart-img">
-                                                                        <img
-                                                                            style={{
-                                                                                width: "16rem",
-                                                                                height: "16rem",
-                                                                            }}
-                                                                            src={
-                                                                                (food?.image &&
-                                                                                    HOST +
-                                                                                        food.image) ||
-                                                                                (product?.image &&
-                                                                                    HOST +
-                                                                                        product.image) ||
-                                                                                ""
-                                                                            }
-                                                                            className="img-fluid"
-                                                                            alt=""
-                                                                            onError={(
-                                                                                e
-                                                                            ) => {
-                                                                                e.target.src =
-                                                                                    "/assets/img/cart-prod.jpg";
-                                                                            }}
-                                                                        />
-                                                                    </div>
-                                                                    <div className="cart-title">
-                                                                        {(food?.name &&
-                                                                            food.name) ||
-                                                                            (product?.name &&
-                                                                                product.name)}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="price-qnt-subtotal d-flex align-items-center justify-content-between flex-column">
-                                                                    <ul className="list-heading d-flex align-items-center justify-content-between w-100">
-                                                                        <li>
-                                                                            Price
-                                                                        </li>
-                                                                        <li>
-                                                                            Quantity
-                                                                        </li>
-                                                                        <li>
-                                                                            Subtotal
-                                                                        </li>
-                                                                    </ul>
-                                                                    <ul className="list-des d-flex align-items-center justify-content-between w-100">
-                                                                        <li>
-                                                                            $
-                                                                            {(food?.price &&
-                                                                                food.price) ||
-                                                                                (product?.price &&
-                                                                                    product.price)}
-                                                                        </li>
-                                                                        <li
-                                                                            className={
-                                                                                "d-flex justify-content-center"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                cart?.quantity
-                                                                            }
-                                                                        </li>
-                                                                        <li>
-                                                                            $
-                                                                            {
-                                                                                cart?.price
-                                                                            }
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    }
-                                                }) || "NOT FOUND"}
-                                                {state.type && state.cart_ids && (
-                                                    <div className="cart-price">
-                                                        Total
-                                                        {` $${(() => {
-                                                            let total = 0;
-                                                            state?.cart_ids?.forEach(
-                                                                (item) => {
-                                                                    total +=
-                                                                        parseInt(
-                                                                            cartList?.find(
-                                                                                (
-                                                                                    cart
-                                                                                ) =>
-                                                                                    cart.id ==
-                                                                                    item
-                                                                            )
-                                                                                ?.price
-                                                                        );
-                                                                }
-                                                            );
-                                                            return total;
-                                                        })()}`}
-                                                    </div>
-                                                )}
-                                            </>
+                                            <OrderDetailCard
+                                                {...{
+                                                    state,
+                                                    cartList,
+                                                    HOST,
+                                                }}
+                                            />
                                         ) : (
-                                            <div className="cart-total d-flex align-items-center justify-content-between">
-                                                <div className="cart-title">
-                                                    {state.type
-                                                        ? "Product Name"
-                                                        : "Service Request"}
-                                                </div>
-                                                <div className="price-qnt-subtotal">
-                                                    <ul className="list-heading d-flex align-items-center justify-content-between w-100">
-                                                        <li>
-                                                            {state.type
-                                                                ? "Price"
-                                                                : "Hourly Rate"}
-                                                        </li>
-                                                        <li>
-                                                            {state.type
-                                                                ? "Quantity"
-                                                                : "Total Hours"}
-                                                        </li>
-                                                        <li>Total</li>
-                                                    </ul>
-
-                                                    {(() => {
-                                                        if (
-                                                            state.type ==
-                                                                undefined &&
-                                                            serviceDetail
-                                                                ?.provider
-                                                                ?.provider_profile
-                                                                ?.hourly_rate &&
-                                                            serviceDetail.hours
-                                                        ) {
-                                                            const hourly_rate =
-                                                                serviceDetail
-                                                                    ?.provider
-                                                                    ?.provider_profile
-                                                                    ?.hourly_rate;
-                                                            const hours =
-                                                                serviceDetail?.hours;
-                                                            return (
-                                                                <ul className="list-des d-flex align-items-center justify-content-between w-100">
-                                                                    <li>{`$${hourly_rate}`}</li>
-                                                                    <li>
-                                                                        {hours}
-                                                                    </li>
-                                                                    <li>{`$${
-                                                                        hourly_rate *
-                                                                        hours
-                                                                    }`}</li>
-                                                                </ul>
-                                                            );
-                                                        }
-                                                    })()}
-                                                </div>
-                                            </div>
+                                            <ServiceRequestDetailCard
+                                                {...{
+                                                    state,
+                                                    serviceDetail,
+                                                }}
+                                            />
                                         )}
                                     </div>
                                 </div>
