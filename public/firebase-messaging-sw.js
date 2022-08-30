@@ -7,13 +7,13 @@ importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js")
 
 // Initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = {
-    apiKey: "AIzaSyBwl7MkF5KrDREPzDKIQSxH0sBE93JNSpw",
-    authDomain: "farenow-e023a.firebaseapp.com",
-    projectId: "farenow-e023a",
-    storageBucket: "farenow-e023a.appspot.com",
-    messagingSenderId: "604353431757",
-    appId: "1:604353431757:web:5dbf862d8c308c80e28184",
-    measurementId: "G-1X3ZF9YVWE"
+    apiKey: "AIzaSyCIKY05CetEmQ5zS8pc-jbIs05uhqK5dqE",
+    authDomain: "farenow-user.firebaseapp.com",
+    projectId: "farenow-user",
+    storageBucket: "farenow-user.appspot.com",
+    messagingSenderId: "22843191179",
+    appId: "1:22843191179:web:08ad45328ba46cedfbc98e",
+    measurementId: "G-B6LZBBKDZZ"
 };
 
 // eslint-disable-next-line no-undef

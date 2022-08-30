@@ -58,9 +58,10 @@ export const ProviderProfile = (props) => {
                                                 <div className="pro-pic">
                                                     <img
                                                         src={
-                                                            data?.provider
-                                                                ?.image
-                                                                && `${HOST}${data?.provider?.image}` || ""
+                                                            (data?.provider
+                                                                ?.image &&
+                                                                `${HOST}${data?.provider?.image}`) ||
+                                                            ""
                                                         }
                                                         onError={(e) => {
                                                             e.target.onerror =
@@ -137,8 +138,10 @@ export const ProviderProfile = (props) => {
                                                     >
                                                         <img
                                                             src={
-                                                                (data?.image && HOST +
-                                                                data?.image) || ""
+                                                                (data?.image &&
+                                                                    HOST +
+                                                                        data?.image) ||
+                                                                ""
                                                             }
                                                             className="d-block w-100"
                                                             alt="..."
@@ -214,9 +217,9 @@ export const ProviderProfile = (props) => {
                             </div>
                         </div>
                         <div className="col-md-4">
-                        <div className="service-time-box mb-5">
+                            <div className="service-time-box mb-5">
                                 <div className="title-servic px-2 mb-4">
-                                    Serrvices
+                                    Services
                                 </div>
 
                                 {/* <div className="ser-des text-left mb-4">
@@ -360,7 +363,8 @@ export const ProviderProfile = (props) => {
                                                                                         (feedback
                                                                                             ?.user
                                                                                             ?.image &&
-                                                                                            `${HOST}${feedback?.user?.image}`) || ""
+                                                                                            `${HOST}${feedback?.user?.image}`) ||
+                                                                                        ""
                                                                                     }
                                                                                     className="img-fluid"
                                                                                     alt=""
