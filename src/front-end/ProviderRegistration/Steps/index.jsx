@@ -1059,7 +1059,7 @@ const ProfileDetail = ({
                                     "/assets/img/Profile_avatar.png"
                                 }
                                 className="img-fluid"
-                                alt=""
+                                alt="avatar"
                             />
                         </div>
                         <label htmlFor="file-upload1" className="upload-image">

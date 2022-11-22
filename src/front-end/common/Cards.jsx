@@ -30,7 +30,7 @@ const Card = ({
                         <img
                             className="img-fluid"
                             src={image}
-                            alt=""
+                            alt="image"
                             onError={(e) => {
                                 e.target.src = errorImage;
                             }}
@@ -113,15 +113,17 @@ export const CheckOutCard = ({
                                     ) : (
                                         <i
                                             className="fa fa-minus plus-btn"
-                                            aria-hidden="true" onClick={handleMinusClick}
+                                            aria-hidden="true"
+                                            onClick={handleMinusClick}
                                         ></i>
                                     )}
-                                     <span className="font-weight-bold quantity-box d-flex aling-items-center justify-content-center">
+                                    <span className="font-weight-bold quantity-box d-flex aling-items-center justify-content-center">
                                         {quantity}
                                     </span>
                                     <i
                                         className="fa fa-plus plus-btn"
-                                        aria-hidden="true" onClick={handlePlusClick}
+                                        aria-hidden="true"
+                                        onClick={handlePlusClick}
                                     ></i>
                                 </div>
                             </div>
@@ -196,6 +198,7 @@ export const ProductCard = ({
                         onError={(e) => {
                             e.target.src = "/assets/img/shop-home.jpg";
                         }}
+                        alt="image"
                     ></img>
                 </Link>
                 <i
