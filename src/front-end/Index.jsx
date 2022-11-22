@@ -3,8 +3,18 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HOST } from "../constants";
 import ServiceType from "../constants/ServiceType";
+import { handleDescription, handleTitle } from "../helper";
 export const Index = (props) => {
     const headerMenu = useSelector((state) => state.headerMenuReducer);
+
+    useEffect(() => {
+        const services = headerMenu.map((item) => item.name);
+        handleTitle({ document, array: services });
+        handleDescription({
+            description: document.querySelector("meta[name='description']"),
+            array: services,
+        });
+    }, [headerMenu]);
     return (
         <>
             <div className="banner">
@@ -39,7 +49,7 @@ export const Index = (props) => {
                                     <img
                                         src="/assets/img/banner-img.jpg"
                                         className="img-fluid"
-                                        alt=""
+                                        alt="banner image"
                                     />
                                 </div>
                             </div>
@@ -58,7 +68,10 @@ export const Index = (props) => {
                                     Explore our top services. All our services
                                     are designed with you in mind.
                                     <br />
-                                    <strong>See for yourself.</strong>
+                                    <h1 className="text-center mt-2">
+                                        Home Cleaning Services, Moving Service
+                                        Near Me
+                                    </h1>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +104,7 @@ export const Index = (props) => {
                                                     }
                                                     loading="lazy"
                                                     className="img-fluid"
-                                                    alt=""
+                                                    alt="service image"
                                                     onError={(e) => {
                                                         e.target.onerror = null;
                                                         e.target.src =
@@ -144,13 +157,13 @@ export const Index = (props) => {
                                     <img
                                         src="/assets/img/back-check-layer.svg"
                                         className="img-fluid layer-img"
-                                        alt=""
+                                        alt="image"
                                     />
                                     <div className="layer-main-img">
                                         <img
                                             src="/assets/img/back-check.jpg"
                                             className="img-fluid"
-                                            alt=""
+                                            alt="image"
                                         />
                                     </div>
                                 </div>
@@ -209,7 +222,7 @@ export const Index = (props) => {
                                 <img
                                     src="/assets/img/phone.png"
                                     className="img-fluid"
-                                    alt=""
+                                    alt="image"
                                 />
                             </div>
 
@@ -218,14 +231,14 @@ export const Index = (props) => {
                                     <img
                                         src="/assets/img/play-store.png"
                                         className="img-fluid"
-                                        alt=""
+                                        alt="image"
                                     />
                                 </a>
                                 <a href="#">
                                     <img
                                         src="/assets/img/ios.png"
                                         className="img-fluid"
-                                        alt=""
+                                        alt="image"
                                     />
                                 </a>
                             </div>
@@ -263,7 +276,7 @@ export const Index = (props) => {
                                 <div className="hany-shop-img">
                                     <img
                                         src="/assets/img/shop-home.jpg"
-                                        alt=""
+                                        alt="image"
                                         className="img-fluid"
                                     />
                                 </div>
@@ -340,28 +353,28 @@ export const Index = (props) => {
                                     <img
                                         src="/assets/img/partner-1.png"
                                         className="partner"
-                                        alt=""
+                                        alt="avatar"
                                     />
                                 </div>
                                 <div className="p-logo text-left w-50 px-5 mb-5">
                                     <img
                                         src="/assets/img/partner-2.png"
                                         className="partner"
-                                        alt=""
+                                        alt="avatar"
                                     />
                                 </div>
                                 <div className="p-logo text-right w-50 px-5">
                                     <img
                                         src="/assets/img/partner-3.png"
                                         className="partner"
-                                        alt=""
+                                        alt="avatar"
                                     />
                                 </div>
                                 <div className="p-logo text-left w-50 px-5">
                                     <img
                                         src="/assets/img/partner-4.png"
                                         className="partner"
-                                        alt=""
+                                        alt="avatar"
                                     />
                                 </div>
                             </div>

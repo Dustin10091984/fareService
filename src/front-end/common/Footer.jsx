@@ -52,12 +52,27 @@ const Footer = (props) => {
                             key={`${sub_service.service_id}_${sub_service.id}`}
                         >
                             <Link
-                                to={`/services/${sub_service.service}/${sub_service.service_id}/${sub_service.name}/${sub_service.id}#services-section`}
+                                to={`/services/${sub_service.service.replace(
+                                    " ",
+                                    "-"
+                                )}/${
+                                    sub_service.service_id
+                                }/${sub_service.name.replace(" ", "-")}/${
+                                    sub_service.id
+                                }#services-section`}
                                 className="link"
                                 onClick={(e) => {
                                     if (
                                         location?.pathname ==
-                                            `/services/${sub_service.service}/${sub_service.service_id}/${sub_service.name}/${sub_service.id}` &&
+                                            `/services/${sub_service.service.replace(
+                                                " ",
+                                                "-"
+                                            )}/${
+                                                sub_service.service_id
+                                            }/${sub_service.name.replace(
+                                                " ",
+                                                "-"
+                                            )}/${sub_service.id}` &&
                                         location?.hash == `#services-section`
                                     ) {
                                         e.preventDefault();
@@ -80,26 +95,28 @@ const Footer = (props) => {
                                 }`}
                             >
                                 <Link
-                                    to={`/services/${
-                                        sub_services[index + 1].service
-                                    }/${sub_services[index + 1].service_id}/${
-                                        sub_services[index + 1].name
-                                    }/${
+                                    to={`/services/${sub_services[
+                                        index + 1
+                                    ].service.replace(" ", "-")}/${
+                                        sub_services[index + 1].service_id
+                                    }/${sub_services[index + 1].name.replace(
+                                        " ",
+                                        "-"
+                                    )}/${
                                         sub_services[index + 1].id
                                     }#services-section`}
                                     className="link"
                                     onClick={(e) => {
                                         if (
                                             location?.pathname ==
-                                                `/services/${
-                                                    sub_services[index + 1]
-                                                        .service
-                                                }/${
+                                                `/services/${sub_services[
+                                                    index + 1
+                                                ].service.replace(" ", "-")}/${
                                                     sub_services[index + 1]
                                                         .service_id
-                                                }/${
-                                                    sub_services[index + 1].name
-                                                }/${
+                                                }/${sub_services[
+                                                    index + 1
+                                                ].name.replace(" ", "-")}/${
                                                     sub_services[index + 1].id
                                                 }` &&
                                             location?.hash ==
@@ -335,14 +352,34 @@ const Footer = (props) => {
                                                                 key={`${service.id}_${sub_service.id}`}
                                                             >
                                                                 <Link
-                                                                    to={`/services/${service.name}/${service.id}/${sub_service.name}/${sub_service.id}#services-section`}
+                                                                    to={`/services/${service.name.replace(
+                                                                        " ",
+                                                                        "-"
+                                                                    )}/${
+                                                                        service.id
+                                                                    }/${sub_service.name.replace(
+                                                                        " ",
+                                                                        "-"
+                                                                    )}/${
+                                                                        sub_service.id
+                                                                    }#services-section`}
                                                                     className="link"
                                                                     onClick={(
                                                                         e
                                                                     ) => {
                                                                         if (
                                                                             location?.pathname ==
-                                                                                `/services/${service.id}/${sub_service.id}` &&
+                                                                                `/services/${service.name.replace(
+                                                                                    " ",
+                                                                                    "-"
+                                                                                )}/${
+                                                                                    service.id
+                                                                                }/${sub_service.name.replace(
+                                                                                    " ",
+                                                                                    "-"
+                                                                                )}/${
+                                                                                    sub_service.id
+                                                                                }` &&
                                                                             location?.hash ==
                                                                                 "#services-section"
                                                                         ) {
@@ -530,7 +567,7 @@ const Footer = (props) => {
                                     <img
                                         src="/assets/img/logo.png"
                                         className="img-fluid"
-                                        alt=""
+                                        alt="logo"
                                     />
                                 </Link>
                             </div>

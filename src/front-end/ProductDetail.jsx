@@ -97,7 +97,7 @@ const ProductDetail = (props) => {
                                                     ""
                                                 }
                                                 className="img-fluid"
-                                                alt=""
+                                                alt="product image"
                                                 onError={(e) => {
                                                     e.target.src =
                                                         "/assets/img/food.svg";
