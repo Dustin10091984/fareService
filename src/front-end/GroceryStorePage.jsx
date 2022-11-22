@@ -97,9 +97,8 @@ export const GroceryStorePage = (props) => {
                             <div className="restaurant-page-image">
                                 <img
                                     src={
-                                        (groceryStore?.data?.cover_image &&
-                                            `${HOST}${groceryStore?.data?.cover_image}`) ||
-                                        ""
+                                        groceryStore?.data?.cover_image
+                                            && `${HOST}${groceryStore?.data?.cover_image}` || ""
                                     }
                                     className="restaurant-banner"
                                     onError={(e) => {
@@ -107,8 +106,7 @@ export const GroceryStorePage = (props) => {
                                         e.target.src =
                                             "/assets/img/restaurant.jpg";
                                     }}
-                                    alt="restaurant"
-                                />
+                                ></img>
                             </div>
                             <div className="col-md-12">
                                 <div className="row d-flex align-items-center mt-4 mb-5">
@@ -170,39 +168,39 @@ export const GroceryStorePage = (props) => {
                         </div>
                     </div>
                     <div className="ctm-pagination mb-5">
-                        <div className="row">
-                            <div
-                                className="col-12 "
-                                style={{
-                                    marginTop: "10vh",
-                                    marginBottom: "2vh",
-                                }}
-                            >
-                                {(() => {
-                                    let data = {
-                                        current_page: 0,
-                                        total: 0,
-                                    };
-                                    if (
-                                        match?.params?.id &&
-                                        productsMeta?.last_page > 1
-                                    ) {
-                                        data.id = match?.params?.id;
-                                        data.last_page =
-                                            productsMeta?.last_page;
-                                        data.current_page =
-                                            productsMeta?.current_page;
-                                        data.func = getProducts;
-                                        return <Paginate {...data} />;
-                                    }
-                                })()}
-                            </div>
+                    <div className="row">
+                        <div
+                            className="col-12 "
+                            style={{
+                                marginTop: "10vh",
+                                marginBottom: "2vh",
+                            }}
+                        >
+                            {(() => {
+                                let data = {
+                                    current_page: 0,
+                                    total: 0,
+                                };
+                                if (
+                                    match?.params?.id &&
+                                    productsMeta?.last_page > 1
+                                ) {
+                                    data.id = match?.params?.id;
+                                    data.last_page = productsMeta?.last_page;
+                                    data.current_page =
+                                        productsMeta?.current_page;
+                                    data.func = getProducts;
+                                    return <Paginate {...data} />;
+                                }
+                            })()}
                         </div>
                     </div>
+                    </div>
+                   
                 </div>
                 <div className="col-md-3 p-0">
-                    <div className="restaurant-page-right-sec bs-3 pt-5">
-                        <Cart data={cartList}></Cart>
+                <div className="restaurant-page-right-sec bs-3 pt-5">
+                    <Cart data={cartList}></Cart>
                     </div>
                 </div>
             </div>

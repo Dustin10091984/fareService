@@ -70,7 +70,7 @@ export const ProviderProfile = (props) => {
                                                                 "/assets/img/Profile_avatar.png";
                                                         }}
                                                         className="img-fluid"
-                                                        alt="avatar"
+                                                        alt=""
                                                     />
                                                 </div>
                                                 <div className="pro-title">{`${data?.provider?.first_name} ${data?.provider?.last_name}`}</div>
@@ -144,7 +144,7 @@ export const ProviderProfile = (props) => {
                                                                 ""
                                                             }
                                                             className="d-block w-100"
-                                                            alt="portfolio image"
+                                                            alt="..."
                                                             style={{
                                                                 borderRadius:
                                                                     ".5rem",
@@ -367,7 +367,7 @@ export const ProviderProfile = (props) => {
                                                                                         ""
                                                                                     }
                                                                                     className="img-fluid"
-                                                                                    alt="avatar"
+                                                                                    alt=""
                                                                                     onError={(
                                                                                         e
                                                                                     ) => {

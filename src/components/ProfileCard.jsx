@@ -52,7 +52,7 @@ const ProfileCard = ({ profile }) => {
                                         : "/assets/img/Profile_avatar.png"
                                 }
                                 className="img-fluid"
-                                alt="profile avatar"
+                                alt=""
                             />
                             <input
                                 type="file"

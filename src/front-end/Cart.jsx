@@ -335,7 +335,7 @@ export const Cart = (props) => {
                                                                         ""
                                                                     }
                                                                     className="img-fluid"
-                                                                    alt="product image"
+                                                                    alt=""
                                                                     onError={(
                                                                         e
                                                                     ) => {

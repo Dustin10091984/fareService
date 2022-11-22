@@ -40,7 +40,7 @@ export const Dashboard = (props) => {
                                 <img
                                     src="/assets/img/order.svg"
                                     className="img-fluid"
-                                    alt="order image"
+                                    alt=""
                                 />
                                 <div className="dash-card-ds">
                                     <div className="title">
@@ -57,7 +57,7 @@ export const Dashboard = (props) => {
                                 <img
                                     src="/assets/img/service.svg"
                                     className="img-fluid"
-                                    alt="service image"
+                                    alt=""
                                 />
                                 <div className="dash-card-ds">
                                     <div className="title">
@@ -74,7 +74,7 @@ export const Dashboard = (props) => {
                                 <img
                                     src="/assets/img/account.svg"
                                     className="img-fluid"
-                                    alt="account icon"
+                                    alt=""
                                 />
                                 <div className="dash-card-ds">
                                     <div className="title">My Accounts</div>

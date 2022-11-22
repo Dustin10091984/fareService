@@ -58,7 +58,7 @@ const MovingRequest = ({
                                 : `/assets/img/new-moving.svg`
                         }
                         className="img-fluid"
-                        alt="image"
+                        alt=""
                     />
                     <div
                         ref={ref}

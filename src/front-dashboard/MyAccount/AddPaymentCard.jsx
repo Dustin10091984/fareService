@@ -16,7 +16,7 @@ const AddPaymentCard = () => {
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <img src="/assets/img/card.svg" alt="card" />
+                        <img src="/assets/img/card.svg" alt="" />
                     </div>
                     <div className="col-md-3 mr-2">
                         <div className="common-input mb-5">

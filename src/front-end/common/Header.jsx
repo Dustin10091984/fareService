@@ -188,13 +188,7 @@ const Header = (props) => {
                                     }}
                                 >
                                     <NavLink
-                                        to={`/services/${menu.name.replace(
-                                            " ",
-                                            "-"
-                                        )}/${menu.id}/${sub_menu.name.replace(
-                                            " ",
-                                            "-"
-                                        )}/${sub_menu.id}#services-section`}
+                                        to={`/services/${menu.name}/${menu.id}/${sub_menu.name}/${sub_menu.id}#services-section`}
                                         onClick={(e) => {
                                             if (
                                                 location?.pathname ==
@@ -251,7 +245,7 @@ const Header = (props) => {
                                 >
                                     <img
                                         src="/assets/img/logo.png"
-                                        alt="logo"
+                                        alt=""
                                         className="img-fluid"
                                         // style={{
                                         //     height: "15vh",
@@ -311,33 +305,13 @@ const Header = (props) => {
                                                             <Link
                                                                 key={index}
                                                                 className="list-group-item search-item"
-                                                                to={`/services/${sub_menu.service.replace(
-                                                                    " ",
-                                                                    "-"
-                                                                )}/${
-                                                                    sub_menu.service_id
-                                                                }/${sub_menu.name.replace(
-                                                                    " ",
-                                                                    "-"
-                                                                )}/${
-                                                                    sub_menu.id
-                                                                }#services-section`}
+                                                                to={`/services/${sub_menu.service}/${sub_menu.service_id}/${sub_menu.name}/${sub_menu.id}#services-section`}
                                                                 onClick={(
                                                                     e
                                                                 ) => {
                                                                     if (
                                                                         location?.pathname ==
-                                                                            `/services/${sub_menu.service.replace(
-                                                                                " ",
-                                                                                "-"
-                                                                            )}/${
-                                                                                sub_menu.service_id
-                                                                            }/${sub_menu.name.replace(
-                                                                                " ",
-                                                                                "-"
-                                                                            )}/${
-                                                                                sub_menu.id
-                                                                            }` &&
+                                                                            `/services/${sub_menu.service}/${sub_menu.service_id}/${sub_menu.name}/${sub_menu.id}` &&
                                                                         location?.hash ==
                                                                             "#services-section"
                                                                     ) {
@@ -379,7 +353,6 @@ const Header = (props) => {
                                                     <img
                                                         src="/assets/img/outline-user.svg"
                                                         className="img-fluid"
-                                                        alt="user avatar"
                                                     />{" "}
                                                     Become a Provider
                                                 </NavLink>
@@ -483,7 +456,6 @@ const Header = (props) => {
                                                             <img
                                                                 src="/assets/img/outline-bell.svg"
                                                                 className="img-fluid"
-                                                                alt="outline-bell"
                                                             />
                                                         </div>
                                                         <div
@@ -637,7 +609,6 @@ const Header = (props) => {
                                                         <img
                                                             src="/assets/img/outline-user.svg"
                                                             className="img-fluid"
-                                                            alt="outline-user"
                                                         />
                                                         {/* <i
                                                             className="fa fa-sort-desc ml-2"
