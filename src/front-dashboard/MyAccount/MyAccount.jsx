@@ -52,9 +52,9 @@ export const MyAccount = (props) => {
     useEffect(() => {
         if (localStorage.getItem("user_data")) {
             let user = JSON.parse(localStorage.getItem("user_data"));
-            !!!profile?.data && getProfile(user.id);
-            !!!addressList?.data && getAddresses();
-            !!!paymentCard?.data && getPaymentCards();
+            !profile?.data && getProfile(user.id);
+            !addressList?.data && getAddresses();
+            !paymentCard?.data && getPaymentCards();
         } else {
             localStorage.clear();
         }
