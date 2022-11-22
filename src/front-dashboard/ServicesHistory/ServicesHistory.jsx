@@ -457,7 +457,7 @@ export const ServicesHistory = (props) => {
                                                                                 ?.image) ||
                                                                     ""
                                                                 }
-                                                                alt="avatar"
+                                                                alt=""
                                                                 onError={(
                                                                     e
                                                                 ) => {

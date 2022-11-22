@@ -36,7 +36,7 @@ export const OrderHistory = () => {
                                 <img
                                     src="/assets/img/food.svg"
                                     className="img-fluid"
-                                    alt="Food image"
+                                    alt=""
                                 />
                                 <div className="dash-card-ds">
                                     <div className="title">Food Delivery</div>
@@ -52,7 +52,7 @@ export const OrderHistory = () => {
                                 <img
                                     src="/assets/img/groceries.svg"
                                     className="img-fluid"
-                                    alt="Grocer image"
+                                    alt=""
                                 />
                                 <div className="dash-card-ds">
                                     <div className="title">Groceries</div>

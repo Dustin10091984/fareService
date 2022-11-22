@@ -97,7 +97,7 @@ export const ServicesDetail = (props) => {
                                                                         : `/assets/img/Profile_avatar.png`
                                                                 }
                                                                 className="img-fluid"
-                                                                alt="avatar"
+                                                                alt=""
                                                                 onError={(
                                                                     e
                                                                 ) => {

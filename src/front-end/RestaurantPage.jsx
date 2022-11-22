@@ -104,22 +104,19 @@ export const RestaurantPage = (props) => {
                 >
                     <div className="row">
                         <div className="col-md-12 pl-0">
-                            <div className="restaurant-page-image">
-                                <img
-                                    src={
-                                        (restaurant?.data?.cover_image &&
-                                            `${HOST}${restaurant?.data?.cover_image}`) ||
-                                        ""
-                                    }
-                                    className="restaurant-banner"
-                                    onError={(e) => {
-                                        e.target.onerror = null;
-                                        e.target.src =
-                                            "/assets/img/restaurant.jpg";
-                                    }}
-                                    alt="restaurant"
-                                ></img>
-                            </div>
+                           <div className="restaurant-page-image">
+                           <img
+                                src={
+                                    (restaurant?.data?.cover_image
+                                        && `${HOST}${restaurant?.data?.cover_image}`) || ""
+                                }
+                                className="restaurant-banner"
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = "/assets/img/restaurant.jpg";
+                                }}
+                            ></img>
+                           </div>
                             <div className="col-md-12">
                                 <div className="row d-flex align-items-center mt-4 mb-5">
                                     <div className="col-md-8  restaurant-name">
@@ -181,39 +178,38 @@ export const RestaurantPage = (props) => {
                     </div>
 
                     <div className="ctm-pagination mb-5">
-                        <div className="row">
-                            <div
-                                className="col-12"
-                                style={{
-                                    marginTop: "10vh",
-                                    marginBottom: "2vh",
-                                }}
-                            >
-                                {(() => {
-                                    let data = {
-                                        current_page: 0,
-                                        total: 0,
-                                    };
-                                    if (
-                                        match?.params?.id &&
-                                        foodsMeta?.last_page > 1
-                                    ) {
-                                        data.id = match?.params?.id;
-                                        data.last_page = foodsMeta?.last_page;
-                                        data.current_page =
-                                            foodsMeta?.current_page;
-                                        data.func = getRestaurantFoods;
-                                        return <Paginate {...data} />;
-                                    }
-                                })()}
-                            </div>
+                    <div className="row">
+                        <div
+                            className="col-12"
+                            style={{
+                                marginTop: "10vh",
+                                marginBottom: "2vh",
+                            }}
+                        >
+                            {(() => {
+                                let data = {
+                                    current_page: 0,
+                                    total: 0,
+                                };
+                                if (
+                                    match?.params?.id &&
+                                    foodsMeta?.last_page > 1
+                                ) {
+                                    data.id = match?.params?.id;
+                                    data.last_page = foodsMeta?.last_page;
+                                    data.current_page = foodsMeta?.current_page;
+                                    data.func = getRestaurantFoods;
+                                    return <Paginate {...data} />;
+                                }
+                            })()}
                         </div>
+                    </div>
                     </div>
                 </div>
                 <div className="col-md-3 p-0">
-                    <div className="restaurant-page-right-sec bs-3 pt-5">
-                        <Cart data={cartList}></Cart>
-                    </div>
+                   <div className="restaurant-page-right-sec bs-3 pt-5">
+                   <Cart data={cartList}></Cart>
+                   </div>
                 </div>
             </div>
         </div>

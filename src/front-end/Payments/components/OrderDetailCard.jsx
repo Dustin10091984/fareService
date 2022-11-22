@@ -26,7 +26,7 @@ const OrderDetailCard = ({ state, cartList, HOST }) => {
                                             ""
                                         }
                                         className="img-fluid"
-                                        alt="image"
+                                        alt=""
                                         onError={(e) => {
                                             e.target.src =
                                                 "/assets/img/cart-prod.jpg";
