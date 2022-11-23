@@ -9,7 +9,7 @@ const Filter = memo(({ providerType }) => {
 
     const handleFilterClick = ({ type, value, change }) => {
         searchParams.toString();
-        if ((searchParams.has(type) && !change) || (change && !!!value)) {
+        if ((searchParams.has(type) && !change) || (change && !value)) {
             searchParams.delete(type);
         } else {
             change && searchParams.delete(type);

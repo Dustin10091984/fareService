@@ -159,7 +159,7 @@ function App() {
       window.addEventListener('click', () => {
         if (localStorage?.user_data) {
           let user = JSON.parse(localStorage?.user_data);
-          if ((!!!user.phone || !user.phone_verification)) {
+          if ((!user.phone || !user.phone_verification)) {
             location?.pathname != '/verification' && (
               history.push({
                 pathname: '/verification',
