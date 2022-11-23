@@ -61,7 +61,7 @@ export const OrderDetail = (props) => {
                                                                     `${HOST}${orderItem?.image}`) ||
                                                                 ""
                                                             }
-                                                            alt=""
+                                                            alt="Order image"
                                                             onError={(e) => {
                                                                 e.target.onerror =
                                                                     null;

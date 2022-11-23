@@ -26,6 +26,7 @@ import { ServiceProviders } from "./front-end/ServiceProviders/index"
 import { MovingRequest } from "./front-end/moving/index"
 import { RegistrationPage } from "./views/Provider/Registration"
 import { ServicesPage } from "./views/ServicesPage"
+import { NotFound } from "./views/NotFound"
 import Verification from "./front-end/Auth/Verification"
 
 const publicRoutes = [
@@ -114,6 +115,12 @@ const publicRoutes = [
         hash: '',
     },
     {
+        name: 'Not Found',
+        path: '/not-found',
+        component: NotFound,
+        hash: '',
+    },
+    {
         name: 'Order History',
         path: '/order-history',
         component: OrderHistory,
@@ -198,7 +205,7 @@ const Routes = () => {
             {privateRoutes.map(({ name, path, component, hash }, index) => (
                 <ProtectedRoute key={index} exact path={path} component={component} />
             ))}
-            <Redirect to="/not-found" />
+            <Redirect to="/not-found" component={Index} />
         </Switch >
     )
 }

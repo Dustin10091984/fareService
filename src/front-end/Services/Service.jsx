@@ -226,9 +226,9 @@ const Service = ({
                             getProviders();
                         }}
                     >
-                        <div className="title-move mb-5">
+                        <h1 className="title-move mb-5">
                             {serviceData?.data?.name}
-                        </div>
+                        </h1>
                         <div className="d-flex justify-content-between">
                             <div className="m-search-left-box w-100">
                                 <div className="qust-inputs-box">
@@ -552,7 +552,6 @@ const Service = ({
                                     ) {
                                         isDisabled = true;
                                     }
-
 
                                     return isDisabled;
                                 })()}
