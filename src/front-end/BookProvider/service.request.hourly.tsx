@@ -110,8 +110,8 @@ export default function BookServiceHourly(props: IBookServiceProps) {
         {submitted && (
           <BookQuotationSucceed
             onDone={close}
-            title="Quotation Submitted"
-            subTitle="Your form have been submitted successfully"
+            title="Request Processed"
+            subTitle="Your service have been booked successfully"
           />
         )}
       </div>

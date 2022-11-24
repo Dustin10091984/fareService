@@ -71,13 +71,14 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
                   </div>
                   <div className="text-xs space-x-24">
                     <span>
-                      <b>$2500.00</b>
+                      <b>${d.paid_amount || 0}</b>
                     </span>
                     <span>
-                      <b>$80.00</b>/hr
+                      <b>${d.provider?.provider_profile?.hourly_rate || 0}</b>
+                      /hr
                     </span>
                     <span>
-                      <b>18</b>hours
+                      <b>{d.worked_hours || 0} </b>hours
                     </span>
                   </div>
                 </div>

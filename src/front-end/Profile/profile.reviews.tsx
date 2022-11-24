@@ -1,33 +1,39 @@
 import * as React from "react";
 import Rating from "../../components/Rating";
+import { HOST } from "../../constants";
+import { padNumber } from "../../helper/utils";
 export interface IProfileReviewsProps {
-  provider: IProvider;
+  provider?: IProvider;
+  feedbacks: IFeedback[];
 }
-export interface IUserFeedbackProps {}
+export interface IUserFeedbackProps {
+  feedback?: IFeedback;
+}
 export const UserFeedback = (props: IUserFeedbackProps) => {
+  const { feedback: { user, comment, created_at } = {} } = props;
   return (
     <div>
       <div className="d-flex items-center space-x-3">
         <img
-          src="/assets/img/profile_avatar.png"
+          src={
+            user ? `${HOST}/${user.image}` : "/assets/img/profile_avatar.png"
+          }
           className="w-[8rem] h-[8rem] rounded-full"
         />
-        <span>Emma Jacob</span>
+        <span>{user ? `${user.first_name} ${user.last_name}` : "Unnamed"}</span>
       </div>
       <div className="d-flex items-center space-x-3 text-sm my-3">
         <Rating rating={4.1} className="text-xs text-orange-400" />
-        <small className="text-dark">05/09/2022</small>
+        <small className="text-dark">
+          {new Date(created_at).toLocaleDateString()}
+        </small>
       </div>
-      <p className="text-sm">
-        {
-          "Love the the product, the delivery got to me at the right time and place without  complaints. Keep it up"
-        }
-      </p>
+      <p className="text-sm">{comment}</p>
     </div>
   );
 };
 export default function ProfileReviews(props: IProfileReviewsProps) {
-  const { provider } = props;
+  const { provider, feedbacks } = props;
   let { rating = 0 } = provider;
   return (
     <div className="fare-card">
@@ -47,7 +53,7 @@ export default function ProfileReviews(props: IProfileReviewsProps) {
               justify={true}
               className="text-orange-400"
             />
-            <span>(234)</span>
+            <span>({padNumber(feedbacks?.length, 2)})</span>
           </div>
           <div className="flex-grow-1">
             {[5, 4, 3, 2, 1].map((rating) => (
@@ -70,7 +76,9 @@ export default function ProfileReviews(props: IProfileReviewsProps) {
       </div>
       <hr className="my-4" />
       <div>
-        <UserFeedback />
+        {feedbacks.map((feedback) => (
+          <UserFeedback key={feedback.id} feedback={feedback} />
+        ))}
       </div>
       <hr className="my-4" />
       <div className="d-flex justify-between items-center">

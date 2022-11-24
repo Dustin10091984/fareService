@@ -95,7 +95,7 @@ export const ServicesDetail = (props) => {
                             ? `${HOST}${data?.provider?.image}`
                             : `/assets/img/Profile_avatar.png`
                         }
-                        className="img-fluid w-[12rem] h-[12rem] flex-shrink-0 rounded-full my-6"
+                        className="img-fluid w-[12rem] h-[12rem] flex-shrink-0 rounded-full my-6 object-cover"
                         alt=""
                         onError={(e) => {
                           e.currentTarget.onerror = null;
@@ -116,15 +116,6 @@ export const ServicesDetail = (props) => {
                             <span>
                               ({padNumber(provider?.user_feedbacks_count, 2)})
                             </span>
-                          </div>
-
-                          <div className="user-price text-green text-xs">
-                            {data?.provider?.provider_profile?.hourly_rate !==
-                              null &&
-                            data?.provider?.provider_profile?.hourly_rate !==
-                              undefined
-                              ? `$${data?.provider?.provider_profile?.hourly_rate}/Per Hour`
-                              : null}
                           </div>
                         </div>
                       </div>

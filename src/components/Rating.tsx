@@ -14,6 +14,7 @@ const Rating = ({
   onChange,
 }: IRatingProps) => {
   const values = [5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.5];
+  let ratingValue = Number(rating.toFixed(1));
   return (
     <div className={"star-rating-area text-base" + " " + className}>
       <div
@@ -21,7 +22,7 @@ const Rating = ({
           justify ? justify : isCenter !== false ? "center" : "start"
         }`}
       >
-        <div className="rating-static clearfix mr-3" data-rel={rating}>
+        <div className="rating-static clearfix mr-3" data-rel={ratingValue}>
           {values.map((v) => (
             <label
               key={v}

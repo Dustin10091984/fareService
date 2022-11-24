@@ -31,7 +31,7 @@ export const ProviderProfile = (props) => {
 
   const providerProfile = useSelector<
     RootState,
-    DataResponse<{ provider: IProvider }>
+    DataResponse<{ provider: IProvider; feedbacks: IFeedback[] }>
   >((state) => state.providerProfile as any);
 
   useEffect(() => {
@@ -127,7 +127,10 @@ export const ProviderProfile = (props) => {
 
                 <ProfilePortfolio provider={data.provider} />
                 <ProfileHistory provider={data.provider} />
-                <ProfileReviews provider={data.provider} />
+                <ProfileReviews
+                  provider={data.provider}
+                  feedbacks={data.feedbacks}
+                />
               </div>
             </div>
           </div>
