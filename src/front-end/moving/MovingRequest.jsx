@@ -12,6 +12,7 @@ const MovingRequest = (props) => {
         movingRequestError,
         clearMovingRequest,
         movingRequestMessage,
+        makeMovingRequest,
     } = props;
     const [directionsService, setDirectionsService] = useState(null);
     const [state, setState] = useState({ response: null });
@@ -95,7 +96,7 @@ const MovingRequest = (props) => {
     } = useForm();
 
     const onSubmit = (data) => {
-        props.makeMovingRequest({
+        makeMovingRequest({
             ...data,
             ...location?.state,
         });

@@ -12,6 +12,8 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
     const history = useHistory();
     const location = useLocation();
 
+    const search = new URLSearchParams(location.search);
+
     const showHourlyRate = (provider) => {
         {
             if (
@@ -32,40 +34,6 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
         if (isDisabled) return "Not Available";
         if (provider.provider_type == "Individual") return "Make a Request";
         else if (provider.provider_type == "Business") return "Get a Qoutation";
-
-        // if (location?.state?.service_type == ServiceType.MOVING) {
-        //     return "Get a Qoutation";
-        // } else {
-        //     if (
-        //         (provider.account_type === "BASIC" ||
-        //             provider.account_type === "PREMIUM") &&
-        //         provider?.service_type == ServiceType.MULTIPLE
-        //     ) {
-        //         if (
-        //             provider?.provider_schedules_count > 0 &&
-        //             provider?.provider_profile?.hourly_rate
-        //         ) {
-        //             return "Make a Request";
-        //         } else {
-        //             return "Get a Qoutation";
-        //         }
-        //     } else if (
-        //         provider.account_type === "BASIC" &&
-        //         provider?.service_type !== ServiceType.MULTIPLE &&
-        //         provider?.provider_profile?.hourly_rate
-        //     ) {
-        //         return provider?.provider_schedules_count > 0
-        //             ? "Make a Request"
-        //             : "Not Available";
-        //     } else if (
-        //         provider?.account_type == "PREMIUM" &&
-        //         provider?.service_type !== ServiceType.MULTIPLE
-        //     ) {
-        //         return "Get a Qoutation";
-        //     } else {
-        //         return "Not Available";
-        //     }
-        // }
     };
 
     const handleDisableLoad = (provider) => {
@@ -79,24 +47,6 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
             ];
             return array.includes(false);
         }
-
-        // if (provider?.service_type === ServiceType.MULTIPLE) {
-        //     return false;
-        // } else if (
-        //     location?.state?.service_type == ServiceType.MOVING &&
-        //     provider.service_type == ServiceType.MOVING
-        // ) {
-        //     return false;
-        // } else if (
-        //     provider.account_type === "BASIC" &&
-        //     provider?.provider_profile?.hourly_rate &&
-        //     provider?.provider_schedules_count > 0
-        // ) {
-        //     return false;
-        // } else if (provider.account_type === "PREMIUM") {
-        //     return false;
-        // }
-        // return false;
     };
 
     const handleMovingContinueClick = (provider_id) => {
@@ -113,8 +63,25 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                 sub_service_id,
                 vehicle_type_id,
                 zip_code,
+                selected,
             },
         } = location;
+
+        let questions = null;
+        for (let key in selected) {
+            const seletedValue = selected[key];
+            if (!Array.isArray(seletedValue)) {
+                questions = questions
+                    ? { ...questions, [key]: seletedValue.value }
+                    : { [key]: seletedValue.value };
+            } else if (Array.isArray(seletedValue)) {
+                let options = seletedValue.map((option) => option.value);
+                questions = questions
+                    ? { ...questions, [key]: options }
+                    : { [key]: options };
+            }
+        }
+
         history?.push({
             pathname: "/moving-request",
             state: {
@@ -128,9 +95,10 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                 to_address,
                 provider_id,
                 sub_service_id,
-                vehicle_type_id,
+                vehicle_type_id: vehicle_type_id?.value,
                 zip_code,
                 date: moment(date).format("YYYY-MM-DD"),
+                questions,
             },
         });
         return;
@@ -179,7 +147,11 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                         )}
                                     </div>
                                     <Link
-                                        to={`/provider/profile/${provider.id}`}
+                                        to={`/provider/profile/${
+                                            provider.id
+                                        }?subService=${search.get(
+                                            "subService"
+                                        )}`}
                                         className="button-common"
                                     >
                                         View Profile
@@ -192,26 +164,17 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                 <div className="stars-rating w-100  d-flex align-items-center justify-content-between">
                                     <Rating rating={provider?.rating} />
                                     <ContinueBtn
-                                        service_type={
-                                            location?.state?.service_type
-                                        }
-                                        provider={provider}
-                                        is_loggedin={is_loggedin}
-                                        handleMovingContinueClick={(data) =>
-                                            handleMovingContinueClick(data)
-                                        }
-                                        handleContinueClick={(data) =>
-                                            handleContinueClick(data)
-                                        }
-                                        handleTargetModel={(data) =>
-                                            handleTargetModel(data)
-                                        }
-                                        showButtonText={(data, check) =>
-                                            showButtonText(data, check)
-                                        }
-                                        handleDisableLoad={(data) =>
-                                            handleDisableLoad(data)
-                                        }
+                                        {...{
+                                            service_type:
+                                                location?.state?.service_type,
+                                            provider,
+                                            is_loggedin,
+                                            handleMovingContinueClick,
+                                            handleContinueClick,
+                                            handleTargetModel,
+                                            showButtonText,
+                                            handleDisableLoad,
+                                        }}
                                     />
                                 </div>
                                 <div className="user-price">
@@ -219,63 +182,55 @@ const ProviderCard = memo(({ list, is_loggedin, handleContinueClick }) => {
                                 </div>
                             </div>
                         </div>
-                        {provider.bio !== undefined &&
-                            provider?.user_feedbacks[0] !== undefined && <hr />}
                         {provider.bio && (
                             <div className="useer-qust">
                                 <div className="title">Bio</div>
                                 <div className="des">{provider.bio}</div>
                             </div>
                         )}
-                        <>
-                            {(() => {
-                                if (provider?.user_feedbacks[0] !== undefined) {
-                                    return (
-                                        <div className="top-reviews-list">
-                                            <div className="review-title">
-                                                Top Review
-                                            </div>
-                                            <div className="review-item d-flex align-itmes-centetr justifu-content-between">
-                                                <div className="review-img">
-                                                    <img
-                                                        src={
-                                                            provider
-                                                                ?.user_feedbacks[0]
-                                                                ?.user?.image
-                                                                ? `${HOST}${provider?.user_feedbacks[0]?.user?.image}`
-                                                                : ""
-                                                        }
-                                                        className="img-fluid"
-                                                        alt="Not have"
-                                                        onError={(e) => {
-                                                            e.target.onerror =
-                                                                null;
-                                                            e.target.src =
-                                                                "/assets/img/Profile_avatar.png";
-                                                        }}
-                                                    />
-                                                </div>
-                                                {provider
-                                                    ?.user_feedbacks[0] && (
-                                                    <>
-                                                        <div className="review-detail">
-                                                            {
-                                                                provider
-                                                                    ?.user_feedbacks[0]
-                                                                    .comment
-                                                            }
-                                                        </div>
-                                                        <div className="review-rating">
-                                                            {/* ldskjflksdjflksdj */}
-                                                        </div>
-                                                    </>
-                                                )}
-                                            </div>
+                        {provider?.user_feedbacks[0] && (
+                            <>
+                                <hr />
+                                <div className="top-reviews-list">
+                                    <div className="review-title">
+                                        Top Review
+                                    </div>
+                                    <div className="review-item d-flex align-itmes-centetr justifu-content-between">
+                                        <div className="review-img">
+                                            <img
+                                                src={
+                                                    provider?.user_feedbacks[0]
+                                                        ?.user?.image
+                                                        ? `${HOST}${provider?.user_feedbacks[0]?.user?.image}`
+                                                        : ""
+                                                }
+                                                className="img-fluid"
+                                                alt="Not have"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src =
+                                                        "/assets/img/Profile_avatar.png";
+                                                }}
+                                            />
                                         </div>
-                                    );
-                                }
-                            })()}
-                        </>
+                                        {provider?.user_feedbacks[0] && (
+                                            <>
+                                                <div className="review-detail">
+                                                    {
+                                                        provider
+                                                            ?.user_feedbacks[0]
+                                                            .comment
+                                                    }
+                                                </div>
+                                                <div className="review-rating">
+                                                    {/* ldskjflksdjflksdj */}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 );
             })}

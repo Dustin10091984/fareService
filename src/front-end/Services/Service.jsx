@@ -1,17 +1,12 @@
 import axios from "axios";
 import { useState, useEffect, Fragment } from "react";
 import { GOOGLE_API, HOST } from "../../constants";
-import { ServiceArea } from "./components/ServiceArea";
+import { Question } from "./components/Question";
+
 const Service = ({
     headerMenu,
-    getServiceQuestion,
     serviceData,
-    service,
-    handleZipCodeChange,
-    handleSelectZipCode,
-    handleChangeQuestion,
     handleCountryCityOrStateChange,
-    getProviders,
     getCountriesList,
     countriesData,
     cityCountry,
@@ -28,52 +23,77 @@ const Service = ({
             notFound: "",
         },
     });
-    const [zipCodes, setZipCodes] = useState();
-    const [zipCodesList, setZipCodesList] = useState();
     const [googleAddress, setGoogleAddress] = useState();
 
-    useEffect(() => {
-        if (subServiceId && serviceData?.data?.id != subServiceId) {
-            getServiceQuestion(subServiceId);
-            getCountriesList({ sub_service_id: subServiceId });
-            setGoogleAddress(null);
-            setState((prevState) => ({
-                ...prevState,
-                errors: null,
-            }));
-        }
-    }, [subServiceId]);
+    const [service, setService] = useState({
+        selected: {},
+        currentStep: 0,
+        error: "",
+        zipCode: "",
+        place_id: "",
+        address: "",
+        zipCodeErr: "",
+        zipCodeData: "",
+        zipCodeDataErr: "",
+        selectedZipCode: false,
+    });
 
-    useEffect(() => {
-        if (cityCountry?.state) {
-            setZipCodes(
-                countriesData?.data
-                    ?.find(
-                        (countryData) => countryData.id == cityCountry?.country
-                    )
-                    ?.states?.find((state) => state.id == cityCountry?.state)
-                    ?.zip_codes
-            );
-        }
-    }, [cityCountry?.state]);
+    const handleChangeQuestion = ({ name, value }) => {
+        setService({
+            ...service,
+            selected: {
+                ...service?.selected,
+                [name]: value,
+            },
+        });
+    };
 
-    useEffect(() => {
-        setZipCodesList();
-    }, [cityCountry?.state, cityCountry?.country]);
+    const handleZipCodeChange = ({
+        target: { name, value },
+        selectedZipCode,
+    }) => {
+        setService((state) => ({
+            ...state,
+            [name]: value,
+            selectedZipCode: selectedZipCode ?? false,
+        }));
+    };
 
-    const handleSearchZipCode = ({ target }) => {
-        const data = zipCodes?.filter(({ code }) =>
-            code.includes(target.value)
-        );
-        if (data) {
-            setZipCodesList(data);
-            setState((prevState) => ({
-                ...prevState,
-                errors: {
-                    ...prevState.errors,
-                    notFound: data?.length ? "" : "No zip code found",
-                },
-            }));
+    const handleSelectZipCode = (code) => {
+        setService((prevState) => ({
+            ...prevState,
+            zipCode: code ? code : "",
+            zipCodeErr: code ? "" : "Please select a zip code",
+            selectedZipCode: code ? true : false,
+        }));
+    };
+
+    const getProviders = () => {
+        let prms = new URLSearchParams();
+        if (service?.zipCode) prms.append("zip_code", service.zipCode);
+        if (service?.place_id) prms.append("place_id", service.place_id);
+        prms.append("subService", subServiceId);
+        const selected = service?.selected;
+        if (selected) {
+            let question = null;
+            for (let key in selected) {
+                const seletedValue = selected[key];
+                if (!Array.isArray(seletedValue)) {
+                    question = question
+                        ? { ...question, [key]: seletedValue.value }
+                        : { [key]: seletedValue.value };
+                } else if (Array.isArray(seletedValue)) {
+                    let options = seletedValue.map((option) => option.value);
+                    question = question
+                        ? { ...question, [key]: options }
+                        : { [key]: options };
+                }
+            }
+            props.history.push({
+                pathname: "/service-providers",
+                search: `?${prms.toString()}`,
+                state: { ...question, subServiceName: serviceData?.data?.name },
+            });
         }
     };
 
@@ -139,8 +159,7 @@ const Service = ({
         prms.append("place_id", place_id);
         prms.append("sub_service_id", subServiceId);
         service?.zip_code && prms.append("zip_code", service?.zip_code);
-        // service?.vehicle_type_id &&
-        //     prms.append("sub_service_id", service?.vehicle_type_id);
+        subServiceId && prms.append("sub_service_id", subServiceId);
 
         await axios({
             method: "get",
@@ -166,22 +185,6 @@ const Service = ({
                 });
                 showError(true);
             });
-
-        // if (postalCode?.long_name) {
-        //     const data = zipCodes?.find(
-        //         ({ code }) => code == postalCode?.long_name
-        //     );
-        //     if (data) {
-        //         handleSelectZipCode(data?.code);
-        //         error(false);
-        //     } else {
-        //         handleSelectZipCode("");
-        //         error(true);
-        //     }
-        // } else {
-        //     handleSelectZipCode("");
-        //     error(true);
-        // }
     };
 
     const showError = (isError) => {
@@ -196,7 +199,7 @@ const Service = ({
     return (
         <div
             className="moving-search-box house-cleaning-sec"
-            id={"services-section"}
+            id="services-section"
         >
             {serviceData?.loading && (
                 <div className="service-loading">
@@ -212,7 +215,7 @@ const Service = ({
                     ></i>
                     <span className="error-color">
                         {" "}
-                        {serviceData?.message == "Not Found"
+                        {serviceData?.message === "Not Found"
                             ? "This service is not available at the moment."
                             : serviceData?.message}
                     </span>
@@ -231,173 +234,16 @@ const Service = ({
                         </div>
                         <div className="d-flex justify-content-between">
                             <div className="m-search-left-box w-100">
-                                <div className="qust-inputs-box">
-                                    {serviceData?.data?.questions.map(
-                                        (questionData, index, questionsData) =>
-                                            index % 2 === 0 && (
-                                                <Fragment key={index}>
-                                                    <div className="d-flex justify-content-between">
-                                                        <div className="common-input mb-4 mx-3">
-                                                            <select
-                                                                name={`question_${questionData.id}`}
-                                                                // data-question={`question_${questionData.id}`}
-                                                                onChange={(
-                                                                    e
-                                                                ) => {
-                                                                    const {
-                                                                        name,
-                                                                        value,
-                                                                    } =
-                                                                        e.target;
-                                                                    handleChangeQuestion(
-                                                                        {
-                                                                            name,
-                                                                            value,
-                                                                        }
-                                                                    );
-                                                                }}
-                                                                defaultValue={
-                                                                    service
-                                                                        .selected[
-                                                                        `question_${questionData.id}`
-                                                                    ]
-                                                                }
-                                                                required
-                                                            >
-                                                                <option
-                                                                    // disabled={true}
-                                                                    defaultValue=""
-                                                                    value=""
-                                                                >
-                                                                    {
-                                                                        questionData.question
-                                                                    }
-                                                                </option>
-                                                                {questionData?.options.map(
-                                                                    (
-                                                                        optionData,
-                                                                        index
-                                                                    ) => (
-                                                                        <Fragment
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                        >
-                                                                            <option
-                                                                                value={
-                                                                                    optionData?.id
-                                                                                }
-                                                                            >
-                                                                                {
-                                                                                    optionData?.option
-                                                                                }
-                                                                            </option>
-                                                                        </Fragment>
-                                                                    )
-                                                                )}
-                                                            </select>
-                                                        </div>
-                                                        {questionsData[
-                                                            index + 1
-                                                        ] && (
-                                                            <div className="common-input mb-4 mx-3">
-                                                                <select
-                                                                    name={`question_${
-                                                                        questionsData[
-                                                                            index +
-                                                                                1
-                                                                        ]?.id
-                                                                    }`}
-                                                                    // data-question={`question_${questionData.id}`}
-                                                                    onChange={(
-                                                                        e
-                                                                    ) => {
-                                                                        const {
-                                                                            name,
-                                                                            value,
-                                                                        } =
-                                                                            e.target;
-                                                                        handleChangeQuestion(
-                                                                            {
-                                                                                name,
-                                                                                value,
-                                                                            }
-                                                                        );
-                                                                    }}
-                                                                    defaultValue={
-                                                                        service
-                                                                            .selected[
-                                                                            `question_${
-                                                                                questionsData[
-                                                                                    index +
-                                                                                        1
-                                                                                ]
-                                                                                    .id
-                                                                            }`
-                                                                        ]
-                                                                    }
-                                                                    required
-                                                                >
-                                                                    <option
-                                                                        // disabled={true}
-                                                                        defaultValue=""
-                                                                        value=""
-                                                                    >
-                                                                        {
-                                                                            questionsData[
-                                                                                index +
-                                                                                    1
-                                                                            ]
-                                                                                ?.question
-                                                                        }
-                                                                    </option>
-                                                                    {questionsData[
-                                                                        index +
-                                                                            1
-                                                                    ]?.options.map(
-                                                                        (
-                                                                            optionData,
-                                                                            index
-                                                                        ) => (
-                                                                            <Fragment
-                                                                                key={
-                                                                                    index
-                                                                                }
-                                                                            >
-                                                                                <option
-                                                                                    value={
-                                                                                        optionData?.id
-                                                                                    }
-                                                                                >
-                                                                                    {
-                                                                                        optionData?.option
-                                                                                    }
-                                                                                </option>
-                                                                            </Fragment>
-                                                                        )
-                                                                    )}
-                                                                </select>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </Fragment>
-                                            )
-                                    )}
-                                </div>
-                                {/* <hr /> */}
-                                {/* <h4 className="mx-3 my-1">
-                                    Choose service area
-                                </h4>
-                                <div className="d-flex justify-content-between">
-                                    <ServiceArea
+                                <div className="">
+                                    <Question
                                         {...{
-                                            countriesData: countriesData?.data,
-                                            cityCountry,
-                                            handleCountryCityOrStateChange,
-                                            extraClasses: "mx-3",
+                                            handleChangeQuestion,
+                                            questions:
+                                                serviceData?.data?.questions,
+                                            service,
                                         }}
                                     />
-                                </div> */}
+                                </div>
                                 <div
                                     className="col-md-12 text-dark mb-2"
                                     style={{ fontSize: "1.5rem" }}
@@ -405,7 +251,7 @@ const Service = ({
                                     Service area
                                 </div>
                                 <div className="d-flex justify-content-between">
-                                    <div className="common-input mb-2 mx-3 rem-1-5">
+                                    <div className="common-input mb-2 rem-1-5">
                                         <input
                                             // disabled={!cityCountry?.state}
                                             type="text"
@@ -475,55 +321,9 @@ const Service = ({
                                         })()}
                                     </div>
                                 </div>
-                                {/* <div className=""> */}
-                                {/* {!!zipCodesList?.length ? (
-                                    service?.selectedZipCode == false && (
-                                        <>
-                                            <center
-                                                className="col-md-12 text-dark mb-1 mt-1"
-                                                style={{
-                                                    fontSize: "1.5rem",
-                                                }}
-                                            >
-                                                Please Select Zip Code
-                                            </center>
-                                            {zipCodesList?.map(
-                                                (data, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className="text-dark mb-1 mx-3 mt-1 p-1"
-                                                        style={{
-                                                            fontSize: "1.5rem",
-                                                            border: "1px solid #F1F2F7",
-                                                            backgroundColor:
-                                                                "#F1F2F7",
-                                                            borderRadius: "5px",
-                                                            cursor: "pointer",
-                                                        }}
-                                                        data-code={data?.code}
-                                                        onClick={() =>
-                                                            handleSelectZipCode(
-                                                                data?.code
-                                                            )
-                                                        }
-                                                    >
-                                                        {data?.code}
-                                                    </div>
-                                                )
-                                            )}
-                                        </>
-                                    )
-                                ) : (
-                                    <></>
-                                )} */}
-                                {/* <strong className="col-md-12 text-danger">
-                                    {state?.errors?.notFound}
-                                </strong> */}
-                                {/* {service?.zipCodeErr} */}
-                                {/* </div> */}
                             </div>
                         </div>
-                        <div className="text-center mt-0 mx-3">
+                        <div className="text-center mt-0">
                             <button
                                 type="submit"
                                 className="button-common mt-5 w-100"
@@ -552,7 +352,6 @@ const Service = ({
                                     ) {
                                         isDisabled = true;
                                     }
-
 
                                     return isDisabled;
                                 })()}

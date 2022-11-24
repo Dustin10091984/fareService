@@ -1,0 +1,120 @@
+import * as React from "react";
+import BookServiceDate from "./book.date";
+import BookHours from "./book.hours";
+import BookLocation from "./book.location";
+import BookPaymentMethod from "./book.payment";
+import BookQuotationSucceed from "./book.succeed";
+import BookSummary from "./book.summary";
+import BookTimeslot from "./book.timeslot";
+import { ReactSwal } from "../../helper/swal";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { postRequestService } from "../../store/Slices/services/RequestServiceSclice";
+import { RootState } from "../../store";
+import { getQuestionAnswers } from "../../store/Slices/services/QuestionAnswersSlice";
+import Loading from "./../common/Loading";
+export interface IBookServiceProps {
+  close: () => void;
+  provider: IProvider;
+}
+
+export default function BookServiceHourly(props: IBookServiceProps) {
+  const quotationValues = React.useRef<IServiceRequestHourly>();
+  const [sIndex, setSIndex] = React.useState(0);
+  const [submitted, setSubmitted] = React.useState(false);
+  const { close, provider } = props;
+  const dispatch = useDispatch();
+  const questionAnswers = useSelector<RootState>((state) =>
+    getQuestionAnswers(state.questionAnswers)
+  );
+  const serviceRequest = useSelector<RootState, any>(
+    (state) => state.serviceRequest
+  );
+  const onPrev = () => {
+    if (sIndex <= 0) return;
+    setSIndex(sIndex - 1);
+  };
+  const onSubmit = async () => {
+    console.log(quotationValues.current);
+    try {
+      const result = await dispatch(
+        postRequestService(
+          {
+            ...quotationValues.current,
+            //plan_id: 0,
+            questions: questionAnswers,
+            is_hourly: true,
+            provider_id: provider?.id,
+          },
+          false
+        )
+      );
+      console.log(result);
+      setSubmitted(true);
+    } catch (e) {
+      toast.error(e.message);
+    }
+  };
+  const onNext = async (values: Partial<IServiceRequestHourly>) => {
+    quotationValues.current = { ...quotationValues.current, ...values };
+    if (sIndex >= slides.length - 1) {
+      await onSubmit();
+      return;
+    }
+    setSIndex(sIndex + 1);
+  };
+  const slides = [
+    <BookServiceDate
+      onNext={({ date }) => {
+        onNext({ date: date.toISOString() });
+      }}
+    />,
+    <BookHours onNext={onNext} onPrev={onPrev} />,
+    <BookTimeslot onPrev={onPrev} onNext={onNext} />,
+    <BookLocation
+      onPrev={onPrev}
+      onNext={({ location }) => {
+        onNext({ address: location.label });
+      }}
+      title="Work Address"
+    />,
+    <BookPaymentMethod onPrev={onPrev} onNext={onNext} />,
+    <BookSummary
+      provider={provider}
+      onPrev={onPrev}
+      onNext={onSubmit}
+      {...quotationValues.current}
+    />,
+  ];
+
+  return (
+    <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">
+      <div className="d-flex flex-column items-center">
+        {serviceRequest.loading && <Loading loading={true} />}
+        {!submitted && (
+          <>
+            <div className="text-primary-main py-3">
+              {sIndex + 1} of {slides.length}
+            </div>
+            <button
+              className="fare-btn fare-btn-default fare-btn-large absolute right-8 top-8"
+              onClick={close}
+            >
+              <i className="fa fa-times mr-2 "></i>Close
+            </button>
+            {slides.map((s, index) => {
+              return index == sIndex ? s : "";
+            })}
+          </>
+        )}
+        {submitted && (
+          <BookQuotationSucceed
+            onDone={close}
+            title="Quotation Submitted"
+            subTitle="Your form have been submitted successfully"
+          />
+        )}
+      </div>
+    </div>
+  );
+}

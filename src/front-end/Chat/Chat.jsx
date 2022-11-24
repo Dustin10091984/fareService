@@ -116,8 +116,6 @@ export const Chat = ({ isChatOpen, ...props }) => {
         setState({ ...state, providers: resArr });
     }, [list]);
 
-    // console.log(state);
-
     const handleClickChat = (data) => {
         setActive((active) => ({
             ...active,

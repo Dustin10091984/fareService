@@ -3,13 +3,13 @@ import { getMessaging, getToken as token  } from "firebase/messaging";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyBwl7MkF5KrDREPzDKIQSxH0sBE93JNSpw",
-    authDomain: "farenow-e023a.firebaseapp.com",
-    projectId: "farenow-e023a",
-    storageBucket: "farenow-e023a.appspot.com",
-    messagingSenderId: "604353431757",
-    appId: "1:604353431757:web:5dbf862d8c308c80e28184",
-    measurementId: "G-1X3ZF9YVWE"
+  apiKey: "AIzaSyCIKY05CetEmQ5zS8pc-jbIs05uhqK5dqE",
+  authDomain: "farenow-user.firebaseapp.com",
+  projectId: "farenow-user",
+  storageBucket: "farenow-user.appspot.com",
+  messagingSenderId: "22843191179",
+  appId: "1:22843191179:web:08ad45328ba46cedfbc98e",
+  measurementId: "G-B6LZBBKDZZ"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -20,7 +20,7 @@ const messaging = getMessaging(app);
 
 
 export const getToken = async () => {
-    return token(messaging, { vapidKey: "BPCx5OIllrTpV_q1JisNn3o23k1co5usAIwFHCEByNN6aHvucTDL0l9idRk9H2ESXxECuIdybu3MInYYyrVqQ9s" }).then((currentToken) => {
+  return token(messaging, { vapidKey: "BJuZVOtwXL0Q7yrD_MHsYT3vbtcaRII0xJyTQAp78rgJzQ1j_EE_CuVPyqyVrzGO_Sli75fEDS3khI9H-7RgKDM" }).then((currentToken) => {
         if (currentToken) {
             return currentToken;
         } else {

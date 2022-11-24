@@ -1,6 +1,8 @@
 import PlacesAutocomplete from "react-places-autocomplete";
+import { classNames } from "../helper/class-name";
 
 const AutoCompleteInput = ({
+    id = "location",
     title,
     classes,
     placeholder,
@@ -9,7 +11,7 @@ const AutoCompleteInput = ({
     handleOnSelect,
 }) => {
     return (
-        <div className={`common-input ${classes}}`}>
+        <div className={classNames("common-input", classes)}>
             {title && (
                 <div
                     className="col-md-12 text-dark mb-2"
@@ -35,6 +37,7 @@ const AutoCompleteInput = ({
                             {...getInputProps({
                                 placeholder,
                                 className: "location-search-input m-1",
+                                id,
                             })}
                         />
                         <div className="autocomplete-dropdown-container">

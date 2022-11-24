@@ -3,372 +3,260 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HOST } from "../constants";
 import ServiceType from "../constants/ServiceType";
+import PopularServices from "./Services/services.popular";
+import HomeSearchBar from "./common/searchbar/searchbar.home";
 export const Index = (props) => {
-    const headerMenu = useSelector((state) => state.headerMenuReducer);
-    return (
-        <>
-            <div className="banner">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="banner-sec d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
-                                <div className="banner-text mb-5 mb-md-0">
-                                    <div className="title">The easy, </div>
-                                    <div className="subtitle">
-                                        reliable way to take care of your home.
-                                    </div>
-                                    <div className="des">
-                                        We make it easy for you to create the
-                                        best experience for your home. Book for
-                                        a handyman, get a professional service
-                                        or shop from a wide variety of products
-                                        and get them delivered to your doorstep.
-                                    </div>
-                                    <Link
-                                        className="button-common"
-                                        to="/#section1"
-                                    >
-                                        See all Services
-                                    </Link>
-                                    {/* <a href="#" className="button-common">
-                                        See all Services
-                                    </a> */}
-                                </div>
-
-                                <div className="d-flex align-items-center justify-content-center">
-                                    <img
-                                        src="/assets/img/banner-img.jpg"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  const headerMenu = useSelector((state) => state.headerMenuReducer);
+  return (
+    <>
+      <div className="banner">
+        <div className="container px-12">
+          <div className="row">
+            <div className="col-12">
+              <div className="banner-sec d-flex align-items-center justify-content-between flex-wrap flex-lg-nowrap">
+                <div className="banner-text mb-5 mb-md-0">
+                  <div className="font-bold text-5xl text-dark tracking-[-2px] leading-tight">
+                    The <span className="text-primary-main">easy</span> &
+                    <span className="text-primary-main"> reliable</span> way to
+                    take care of your home.
+                  </div>
+                  <div className="text-base text-dark mt-6">
+                    We make it easy for you to create the best experience for
+                    your home.
+                    <br /> Book for a handyman, get a professional service or
+                    shop from a wide variety of products and get them delivered
+                    to your doorstep.
+                  </div>
+                  <div className="my-5">
+                    <HomeSearchBar size="large" />
+                  </div>
                 </div>
+
+                <div className="d-flex align-items-center justify-content-center relative right-[-40px]">
+                  <img src="/assets/img/banner-img-background.svg" />
+                  <img
+                    src="/assets/img/banner-img.png"
+                    className="w-[420px] absolute"
+                    alt=""
+                  />
+                  <img
+                    src="/assets/img/banner-sub-img.png"
+                    className="w-[160px] absolute left-[-80px]"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section className="py-32 bg-gray-50" id={"popular-services"}>
+        <div className="container">
+          <PopularServices services={headerMenu} />
+        </div>
+      </section>
+
+      <section className="background-checked pad-y">
+        <div className="container px-12">
+          <div className="row">
+            <div className="col-12">
+              <div className="back-check-box d-flex align-items-center justify-content-between flex-wrap flex-lg-nowrap space-x-16">
+                <img
+                  src="/assets/img/back-check.png"
+                  className="img-fluid w-[500px]"
+                  alt=""
+                />
+
+                <div className="d-flex flex-column space-y-16">
+                  <div className="bg-primary-light p-10 rounded-[18px] border-primary border-b-4">
+                    <h1 className="text-primary-main text-3xl  font-medium mb-10">
+                      Vetted, Background - <br /> Checked Professionals
+                    </h1>
+                    <p className="text-base text-dark">
+                      Cleaning and handyman tasks booked and paid for directly
+                      through the Farenow platform are performed by experienced,
+                      background-checked professionals who are highly rated by
+                      customers like you.
+                    </p>
+                  </div>
+                  <div className="bg-orange-100 p-10 rounded-[18px] border-orange-300 border-b-4">
+                    <h1 className="text-orange-300 text-3xl font-medium mb-10">
+                      Your Happiness, Guaranteed
+                    </h1>
+                    <p className="text-base text-dark">
+                      Your happiness is our goal. If you’re not happy, we’ll
+                      work to make it right. Our friendly customer service
+                      agents are available 24 hours a day, 7 days a week. The
+                      Farenow Happiness Guarantee only applies when you book and
+                      pay for a service directly through the Farenow platform.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="download-apps pad-y bg-primary-dark">
+        <div className="container">
+          <div className="d-flex flex-wrap space-x-32 align-items-center flex-lg-nowrap">
+            <img
+              src="/assets/img/mobile-app.png"
+              className="img-fluid w-[54rem]"
+            />
+            <div className="text-white">
+              <h1 className="text-white text-5xl font-bold">
+                Download the Farenow App
+              </h1>
+              <p className="text-base py-16">
+                Book and manage appointments, message your
+                pback-layerrofessional, view professional profiles and ratings,
+                see real-time location of your professional and so much more.
+              </p>
+              <div>
+                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-xs mr-8 w-[240px] px-12">
+                  <img
+                    src="/assets/img/app-store-logo.svg"
+                    className="float-left mx-2"
+                  />
+                  Download on the <br />{" "}
+                  <span className="font-bold text-sm">App Store</span>
+                </button>
+                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-xs w-[240px] px-12">
+                  <img
+                    src="/assets/img/google-play-logo.svg"
+                    className="float-left mx-2"
+                  />
+                  Available on the <br />{" "}
+                  <span className="font-bold text-sm">Google Play</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <hr />
+          </div>
+        </div>
+      </div>
+      {/* 
+      <section className="shop-for-home pad-y">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="common-heading text-center">
+                <div className="title">Shop for your home with Farenow</div>
+                <div className="sub-des">
+                  Shop furniture, electronics, appliances, and more. Everything
+                  comes with expert installation by Farenow.
+                </div>
+              </div>
             </div>
 
-            <section className="services-sec" id={"section1"}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="common-heading">
-                                <div className="title">Popular Services</div>
-                                <div className="sub-des">
-                                    Explore our top services. All our services
-                                    are designed with you in mind.
-                                    <br />
-                                    <strong>See for yourself.</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-12 d-flex align-content-center justify-content-between flex-wrap">
-                            {headerMenu.map((item, idx) => {
-                                return item.sub_services.map(
-                                    (subService, index) => (
-                                        <div
-                                            key={`${index}_${idx}`}
-                                            className="service-box"
-                                        >
-                                            <Link
-                                                to={`/services/${item.name}/${
-                                                    item.id
-                                                }/${subService.name}/${
-                                                    subService.id
-                                                }${
-                                                    item.id == 3
-                                                        ? "?service_type=" +
-                                                          `${ServiceType.MOVING}#moving-section`
-                                                        : ""
-                                                }#services-section`}
-                                            >
-                                                <img
-                                                    src={
-                                                        (subService.image &&
-                                                            HOST +
-                                                                subService.image) ||
-                                                        ""
-                                                    }
-                                                    loading="lazy"
-                                                    className="img-fluid"
-                                                    alt=""
-                                                    onError={(e) => {
-                                                        e.target.onerror = null;
-                                                        e.target.src =
-                                                            "/assets/img/service1.jpg";
-                                                    }}
-                                                />
-                                                <div className="cat-title d-flex align-items-center justify-content-center">
-                                                    {subService.name}
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    )
-                                );
-                            })}
-                        </div>
-                    </div>
+            <div className="col-md-12">
+              <div className="shop-baner">
+                <div className="hany-shop-img">
+                  <img
+                    src="/assets/img/shop-home.jpg"
+                    alt=""
+                    className="img-fluid"
+                  />
                 </div>
-            </section>
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <hr />
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <section className="background-checked pad-y">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="common-heading text-center">
-                                <div className="title">
-                                    Vetted, Background-Checked Professionals
-                                </div>
-                                <div className="sub-des">
-                                    Cleaning and handyman tasks booked and paid
-                                    for directly through the Farenow platform
-                                    are performed by
-                                    <br className="d-none d-md-block" />
-                                    experienced, background-checked
-                                    professionals who are highly rated by
-                                    customers like you.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-12">
-                            <div className="back-check-box d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
-                                <div className="check-img">
-                                    <img
-                                        src="/assets/img/back-check-layer.svg"
-                                        className="img-fluid layer-img"
-                                        alt=""
-                                    />
-                                    <div className="layer-main-img">
-                                        <img
-                                            src="/assets/img/back-check.jpg"
-                                            className="img-fluid"
-                                            alt=""
-                                        />
-                                    </div>
-                                </div>
-                                <div className="back-check-text">
-                                    <div className="title">
-                                        Your Happiness,
-                                        <br />
-                                        Guaranteed
-                                    </div>
-                                    <div className="check-des">
-                                        Your Happiness, Guaranteed Your
-                                        happiness is our goal. If you’re not
-                                        happy, we’ll work to make it right. Our
-                                        friendly customer service agents are
-                                        available 24 hours a day, 7 days a week.
-                                        The Farenow Happiness Guarantee only
-                                        applies when you book and pay for a
-                                        service directly through the Farenow
-                                        platform.{" "}
-                                        {/* <a href="#">Learn more</a> */}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <hr />
+          </div>
+        </div>
+      </div>
+    */}
+      <section className="our-partners-sec pad-y bg-gray-50">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="mb-16 text-center">
+                <div className="text-4xl text-primary-main font-medium">
+                  Our Partners
                 </div>
-            </section>
-
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <hr />
-                    </div>
+                <div className="text-base text-dark">
+                  Farenow works with partners who want to provide their
+                  customers, tenants, or employees <br /> easy access to quality
+                  home services at affordable prices.
                 </div>
+              </div>
             </div>
-
-            <section className="download-apps pad-y">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="common-heading text-center">
-                                <div className="title">Get the Farenow App</div>
-                                <div className="sub-des">
-                                    Book and manage appointments, message your
-                                    pback-layerrofessional, view professional
-                                    profiles and ratings, see real-time location
-                                    of
-                                    <br className="d-none d-md-block" />
-                                    your professional and so much more.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-12">
-                            <div className="phone-box text-center">
-                                <img
-                                    src="/assets/img/phone.png"
-                                    className="img-fluid"
-                                    alt=""
-                                />
-                            </div>
-
-                            <div className="app-links mx-auto d-flex align-items-center justify-content-between pad-t">
-                                <a href="#">
-                                    <img
-                                        src="/assets/img/play-store.png"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                </a>
-                                <a href="#">
-                                    <img
-                                        src="/assets/img/ios.png"
-                                        className="img-fluid"
-                                        alt=""
-                                    />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <hr />
-                    </div>
-                </div>
+            <div className="col-md-12">
+              <div className="d-flex flex-wrap space-x-12 space-y-12 justify-center align-items-end">
+                {[1, 2, 3, 4].map((partnerIdx) => (
+                  <div
+                    key={partnerIdx}
+                    className="px-12 py-8 bg-white rounded-[16px] shadow-[0_8px_16px_0_#00000014]"
+                  >
+                    <img
+                      src={`/assets/img/partner-${partnerIdx}.png`}
+                      className="h-[4rem]"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <section className="shop-for-home pad-y">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="common-heading text-center">
-                                <div className="title">
-                                    Shop for your home with Farenow
-                                </div>
-                                <div className="sub-des">
-                                    Shop furniture, electronics, appliances, and
-                                    more. Everything comes with expert
-                                    installation by Farenow.
-                                </div>
-                            </div>
-                        </div>
+      <section className="five-star-sec py-20 bg-[#005ECB] relative">
+        <img
+          src="/assets/img/pro-back1.png"
+          className="absolute left-0 top-0"
+        />
+        <img
+          src="/assets/img/pro-back2.png"
+          className="absolute right-0 bottom-0"
+        />
+        <div className="container d-flex flex-wrap justify-between items-center px-8">
+          <div className="md:basis-1/2">
+            <h1 className="text-white text-[4rem] font-medium my-8">
+              Are You a Five Star Professional?
+            </h1>
+            <p className="text-xl text-gray-100 mb-16">
+              From cleaners to handymen to smart home installers, Farenow is
+              always looking for service professionals who are experts in their
+              trade and provide great service to their customers. The best home
+              service professionals use Farenow for the great pay and flexible
+              scheduling.
+            </p>
+            <Link
+              to="/provider/registration"
+              className="fare-btn fare-btn-outline-primary my-8"
+            >
+              Become a Farenow Pro
+            </Link>
+          </div>
+          <img
+            src="/assets/img/pro-img.png"
+            className="float-right w-[400px] relative"
+          />
+        </div>
+      </section>
 
-                        <div className="col-md-12">
-                            <div className="shop-baner">
-                                <div className="hany-shop-img">
-                                    <img
-                                        src="/assets/img/shop-home.jpg"
-                                        alt=""
-                                        className="img-fluid"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <hr />
-                    </div>
-                </div>
-            </div>
-
-            <section className="five-star-sec pad-y">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="stre-detail">
-                                <div className="title">
-                                    Are You a Five Star Professional?
-                                </div>
-                                <div className="des">
-                                    From cleaners to handymen to smart home
-                                    installers, Farenow is always looking for
-                                    service professionals who are experts in
-                                    their trade and provide great service to
-                                    their customers. The best home service
-                                    professionals use Farenow for the great pay
-                                    and flexible scheduling.
-                                </div>
-                                <Link
-                                    to="/provider/registration"
-                                    className="button-common"
-                                >
-                                    Become a Farenow professional
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <hr />
-                    </div>
-                </div>
-            </div>
-
-            <section className="our-partners-sec pad-y">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="common-heading text-center">
-                                <div className="title">Our Partners</div>
-                                <div className="sub-des">
-                                    Farenow works with partners who want to
-                                    provide their customers, tenants, or
-                                    employees easy access to quality{" "}
-                                    <br className="d-none d-md-block" />
-                                    home services at affordable prices.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-md-12">
-                            <div className="partner-logos d-flex align-items-center justify-content-between flex-wrap">
-                                <div className="p-logo text-right w-50 px-5 mb-5">
-                                    <img
-                                        src="/assets/img/partner-1.png"
-                                        className="partner"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="p-logo text-left w-50 px-5 mb-5">
-                                    <img
-                                        src="/assets/img/partner-2.png"
-                                        className="partner"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="p-logo text-right w-50 px-5">
-                                    <img
-                                        src="/assets/img/partner-3.png"
-                                        className="partner"
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="p-logo text-left w-50 px-5">
-                                    <img
-                                        src="/assets/img/partner-4.png"
-                                        className="partner"
-                                        alt=""
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </>
-    );
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <hr />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };

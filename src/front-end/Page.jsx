@@ -28,8 +28,6 @@ export const Page = (props) => {
         }
     }, [name, page?.title]);
 
-    console.log(state);
-
     return (
         <div className="container">
             <Loading loading={pages.loading}></Loading>

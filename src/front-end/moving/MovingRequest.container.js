@@ -9,14 +9,8 @@ const mapStateToProps = (state) => ({
     movingRequestMessage: state.movingReducer?.movingRequest?.message,
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        makeMovingRequest: (data) => {
-            dispatch(makeMovingRequest(data));
-        },
-        clearMovingRequest: (data) => {
-            dispatch(clear(data));
-        }
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    makeMovingRequest: (data) => dispatch(makeMovingRequest(data)),
+    clearMovingRequest: (data) => dispatch(clear(data))
+});
 export default connect(mapStateToProps, mapDispatchToProps)(MovingRequest);

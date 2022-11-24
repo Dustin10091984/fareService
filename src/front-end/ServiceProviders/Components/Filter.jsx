@@ -27,7 +27,9 @@ const Filter = memo(({ providerType }) => {
             <div className="sticky-top">
                 <div className="service-time-box">
                     <div className="date-ser mb-3">
-                        <div className="title-servic px-2">Provider Type</div>
+                        <div className="title-servic p-2 mb-4">
+                            Provider Type
+                        </div>
                         {providerType != ServiceType.MOVING && (
                             <div className="time-list-pro">
                                 <div
@@ -67,7 +69,7 @@ const Filter = memo(({ providerType }) => {
                         <select
                             value={searchParams.get("rating") || ""}
                             name="rating"
-                            className="select-time"
+                            className="select-time basis-full"
                             onChange={({ target: { name, value } }) => {
                                 handleFilterClick({
                                     type: name,
