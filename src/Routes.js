@@ -28,6 +28,7 @@ import { RegistrationPage } from "./views/Provider/Registration";
 import { ServicesPage } from "./views/ServicesPage";
 import Verification from "./front-end/Auth/Verification";
 import ServicesSearchPage from "./front-end/ServicesSearch";
+import RegisterWithEmail from "./front-end/Auth/RegisterWithEmail";
 const publicRoutes = [
   {
     name: "Home",
@@ -44,7 +45,7 @@ const publicRoutes = [
   {
     name: "User Signup",
     path: "/register",
-    component: Register,
+    component: RegisterWithEmail,
     hash: "",
   },
   {

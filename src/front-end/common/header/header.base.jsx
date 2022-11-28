@@ -14,6 +14,7 @@ import { getNotifications } from "../../../store/Slices/notification";
 import { headerMenu } from "../../../store/Slices/HeaderMenuSlice";
 import { pageLinks } from "../../../store/Slices/footer";
 import _ from "lodash";
+import { useModal } from "react-hooks-use-modal";
 
 export const BaseHeader = (props) => {
   const { notification, children } = props;
@@ -37,6 +38,9 @@ export const BaseHeader = (props) => {
   const dispatch = useDispatch();
 
   const notifications = useSelector((state) => state.notificationReducer.list);
+  const [Modal, openChat, closeChat, isChatOpen] = useModal("root", {
+    focusTrapOptions: { clickOutsideDeactivates: false },
+  });
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -144,6 +148,21 @@ export const BaseHeader = (props) => {
   const user_data = JSON.parse(localStorage.getItem("user_data"));
   const headerUserSection = (
     <div className="d-flex space-x-6">
+      <div
+        ref={ref}
+        type="button"
+        className="link mr-3"
+        data-backdrop="static"
+        data-keyboard="false"
+        data-toggle="modal"
+        data-target="#chat"
+        onClick={() => {
+          openChat();
+        }}
+      >
+        <img src="/assets/img/message.svg" className="img-fluid" />
+      </div>
+
       <div className="dropdown">
         <div
           onClick={() => {
@@ -245,7 +264,7 @@ export const BaseHeader = (props) => {
         >
           <img
             src={
-              user_data
+              user_data?.image
                 ? process.env.REACT_APP_API_BASE_URL + user_data.image
                 : "/assets/img/user.svg"
             }
@@ -343,6 +362,35 @@ export const BaseHeader = (props) => {
           </div>
         </div>
       </div>
+      <Modal>
+        <div className="fare-card max-w-[120rem] w-[80vw] p-0">
+          <div className="modal-header bg-primary-main text-white py-3 px-6 items-center">
+            <h3
+              className="modal-title text-[4rem] mx-6"
+              id="exampleModalLongTitle"
+            >
+              Chats
+            </h3>
+            <button
+              type="button"
+              className="fare-btn text-white bg-[#ffffff30]"
+              data-dismiss="modal"
+              aria-label="Close"
+              onClick={() => closeChat()}
+            >
+              &times;&ensp;Close
+            </button>
+          </div>
+          <div className="modal-body p-0">
+            <Chat
+              notification={notification}
+              isChatOpen={isChatOpen}
+              is_loggedin={state?.is_loggedin}
+              {...props}
+            ></Chat>
+          </div>
+        </div>
+      </Modal>
     </header>
   );
 };
