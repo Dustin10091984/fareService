@@ -114,7 +114,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
           options={serviceOptions}
           placeholder="What service do you need?"
           isSearchable={true}
-          className={clsx(["text-sm px-2 grow", textSizeClsName])}
+          className={clsx(["text-sm px-2 grow w-[25rem]", textSizeClsName])}
           name="subServiceId"
           value={subService}
           onChange={(newValue: any) => {

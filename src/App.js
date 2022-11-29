@@ -171,7 +171,7 @@ function App() {
       !!localStorage?.user_data == true &&
       !!localStorage?.userToken == true
     ) {
-      window.addEventListener("click", () => {
+      /* window.addEventListener("click", () => {
         if (localStorage?.user_data) {
           let user = JSON.parse(localStorage?.user_data);
           if (!!!user.phone || !user.phone_verification) {
@@ -188,7 +188,7 @@ function App() {
               });
           }
         }
-      });
+      }); */
     }
     if (!!localStorage.userToken) {
       // window.Echo.connector.options.auth.headers['Authorization'] = localStorage.userToken;
@@ -221,6 +221,7 @@ function App() {
             <Footer />
             <div className="rem-1-5">
               <ToastContainer
+                className={"text-sm w-[42rem]"}
                 autoClose={5000}
                 position={toast.POSITION.TOP_CENTER}
               />

@@ -10,7 +10,7 @@ export default function SearchBarHeader(props: ISearchBarHeaderProps) {
   return (
     <BaseHeader>
       {
-        <div className="max-w-[64rem]">
+        <div className="max-w-[80rem]">
           <HomeSearchBar
             zipCode={Number(searchParams.get("zip_code")) || 0}
             subServiceId={Number(searchParams.get("subService")) || 0}

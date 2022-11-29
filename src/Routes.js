@@ -29,6 +29,7 @@ import { ServicesPage } from "./views/ServicesPage";
 import Verification from "./front-end/Auth/Verification";
 import ServicesSearchPage from "./front-end/ServicesSearch";
 import RegisterWithEmail from "./front-end/Auth/RegisterWithEmail";
+import ForgotPasswordWithEmail from "./front-end/Auth/ForgotPasswordWithEmail";
 const publicRoutes = [
   {
     name: "Home",
@@ -57,7 +58,7 @@ const publicRoutes = [
   {
     name: "Forgot Password",
     path: "/forgot-password",
-    component: ForgotPassword,
+    component: ForgotPasswordWithEmail,
     hash: "",
   },
   {

@@ -10,7 +10,7 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "./Styles/Styles.css";
 import { Filter } from "./Components/Filter";
 import ProviderCard from "./Components/ProviderCard";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation, useParams } from "react-router-dom";
 import { getQuestionAnswers } from "./../../store/Slices/services/QuestionAnswersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "react-hooks-use-modal";
@@ -19,10 +19,12 @@ import BookProviderQuotation from "../BookProvider/service.request.quotation";
 import { RootState } from "../../store";
 import { getInitialRequestService } from "../../store/Slices/services/RequestServiceSclice";
 import { getProviderList } from "../../store/Slices/providers/providerListSclice";
+import { toast } from "react-toastify";
 
 export const ServiceProviders = (props) => {
   const history = useHistory();
   const location = useLocation<any>();
+
   const searchParams = new URLSearchParams(location.search);
 
   const subService = searchParams.get("subService");
@@ -224,7 +226,7 @@ export const ServiceProviders = (props) => {
         left: 0,
         behavior: "smooth",
       });
-      setState((state) => ({
+      /* setState((state) => ({
         ...state,
         error: (
           <div
@@ -234,10 +236,29 @@ export const ServiceProviders = (props) => {
             Please login
           </div>
         ),
-      }));
+      })); */
+      toast.warning(
+        <div>
+          <p>
+            You should login first to
+            {provider.provider_type == "Individual"
+              ? " book service"
+              : " get a quotation"}
+          </p>
+          <Link
+            to={`/login?returnUrl=${encodeURIComponent(window.location.href)}`}
+          >
+            Click here
+          </Link>{" "}
+          to login
+        </div>,
+        {
+          autoClose: 10000,
+          bodyClassName: "w-max",
+        }
+      );
     }
   };
-
   const handleCalendarClick = (selectedDate) => {
     setValue(selectedDate);
     let timeSlots = providerSchedule?.data?.data.filter((slot) => {

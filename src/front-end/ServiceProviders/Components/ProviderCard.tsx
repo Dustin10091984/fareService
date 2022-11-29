@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ServiceType from "../../../constants/ServiceType";
-import Rating from "../../../components/Rating";
+import Rating, { RatingWithLabel } from "../../../components/Rating";
 import { HOST } from "../../../constants";
 import { classNames } from "../../../helper/class-name";
 import React from "react";
@@ -142,9 +142,7 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
                 <div className="stars-rating w-100 d-flex items-center justify-start space-x-6">
                   {showHourlyRate(provider)}
                   <div>
-                    <i className="fa fa-star text-orange-400"></i>
-                    &nbsp;
-                    <b>{provider?.rating ?? 0}</b>&nbsp;
+                    <RatingWithLabel rating={provider?.rating ?? 0} />
                     <span>
                       ({padNumber(provider?.user_feedbacks_count, 2)})
                     </span>

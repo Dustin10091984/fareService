@@ -4,17 +4,33 @@ interface IRatingProps {
   rating?: number;
   justify?: boolean;
   className?: string;
+  oneStar?: boolean;
   onChange?: (value: number) => void;
 }
+export const RatingWithLabel = (props: IRatingProps) => {
+  let { rating = 0, className } = props;
+  rating = Math.round(Number(rating || 0) * 10) / 10;
+  return (
+    <span className={className}>
+      <i className="fa fa-star text-orange-400"></i>
+      &nbsp;
+      <b>{rating}</b> &nbsp;
+    </span>
+  );
+};
+
 const Rating = ({
   isCenter = true,
   rating = 0,
   justify = false,
   className = "",
+  oneStar = false,
   onChange,
 }: IRatingProps) => {
   const values = [5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.5];
-  let ratingValue = Number(rating.toFixed(1));
+
+  let ratingValue = Math.round(Number(rating) * 10) / 10;
+
   return (
     <div className={"star-rating-area text-base" + " " + className}>
       <div
@@ -32,60 +48,7 @@ const Rating = ({
               }}
             ></label>
           ))}
-          {/* <label
-            className="full"
-            title="{{ 'Awesome - 5 stars' | translate }}"
-            onClick={() => {
-              onChange(5);
-            }}
-          ></label>
-          <label
-            className="half"
-            title="{{ 'Excellent - 4.5 stars' | translate }}"
-            onClick={() => {
-              onChange(4.5);
-            }}
-          ></label>
-          <label
-            className="full"
-            title="{{ 'Excellent - 4 stars' | translate }}"
-            onClick={() => {
-              onChange(4);
-            }}
-          ></label>
-          <label
-            className="half"
-            title="{{ 'Better - 3.5 stars' | translate }}"
-            onClick={() => {
-              onChange(3.5);
-            }}
-          ></label>
-          <label
-            className="full"
-            title="{{ 'Good - 3 stars' | translate }}"
-          ></label>
-          <label
-            className="half"
-            title="{{ 'Good - 2.5 stars' | translate }}"
-          ></label>
-          <label
-            className="full"
-            title="{{ 'Fair - 2 stars' | translate }}"
-          ></label>
-          <label
-            className="half"
-            title="{{ 'Fair - 1.5 stars' | translate }}"
-          ></label>
-          <label
-            className="full"
-            title="{{ 'Bad - 1 star' | translate }}"
-          ></label>
-          <label
-            className="half"
-            title="{{ 'Bad - 0.5 stars' | translate }}"
-          ></label> */}
         </div>
-        {/* <div className="ratilike ng-binding">5</div> */}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "../../constants";
+import OTPVerifyInput from "./OTPVerifyInput";
 
 const RegisterWithEmail = (props) => {
   const { history } = props;
@@ -90,6 +91,15 @@ const RegisterWithEmail = (props) => {
       errors: {
         ...state.errors,
         [event.target.name]: "",
+      },
+    }));
+  };
+  const handleOptChange = (optCodes) => {
+    setState((state) => ({
+      ...state,
+      values: {
+        ...state.values,
+        otp: optCodes,
       },
     }));
   };
@@ -251,7 +261,7 @@ const RegisterWithEmail = (props) => {
                           </div>
                           <button
                             type="submit"
-                            className="fare-btn fare-btn-primary w-100 my-3"
+                            className="fare-btn fare-btn-lg fare-btn-primary w-100 my-3"
                             disabled={state.isLoading}
                           >
                             Submit{" "}
@@ -278,11 +288,17 @@ const RegisterWithEmail = (props) => {
                   case 2:
                     return (
                       <div className="inner-box-log mx-auto text-base">
-                        <div className="text-center -mt-6 mb-6 text-gray-500">
+                        <div className="text-center -mt-8 mb-8 text-gray-500">
                           {state?.otpMessage}
                         </div>
                         <form onSubmit={handleOtpSignUp}>
-                          <div className="common-input">
+                          <div className="my-4">
+                            <OTPVerifyInput
+                              length={4}
+                              onComplete={handleOptChange}
+                            />
+                          </div>
+                          {/* <div className="common-input">
                             <input
                               type="text"
                               name="otp"
@@ -295,7 +311,7 @@ const RegisterWithEmail = (props) => {
                             <p className="text-danger">
                               {hasError("otp") ? state.errors.otp : ""}
                             </p>
-                          </div>
+                          </div> */}
                           <div className="item show-all rem-1-5 text-center my-3">
                             {state?.timeLeft > 0 && state?.timeLeft < 29 ? (
                               <span className="rem-1-5 m-2 text-base">
@@ -312,7 +328,7 @@ const RegisterWithEmail = (props) => {
                           </div>
                           <button
                             type="submit"
-                            className="fare-btn fare-btn-primary w-100 my-3"
+                            className="fare-btn fare-btn-primary fare-btn-lg  w-100 my-3"
                             disabled={state.isLoading}
                           >
                             Submit{" "}
@@ -426,7 +442,7 @@ const RegisterWithEmail = (props) => {
                           <div className="col-md-12">
                             <button
                               type="submit"
-                              className="fare-btn fare-btn-primary w-100 my-3"
+                              className="fare-btn fare-btn-lg  fare-btn-primary w-100 my-3"
                               disabled={state.isLoading || state?.success}
                             >
                               Register{" "}

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RatingWithLabel } from "../../components/Rating";
 import { HOST } from "../../constants";
 import { padNumber } from "../../helper/utils";
 
@@ -32,9 +33,7 @@ export default function ProfileAvatar({ provider }: IProfileAvatarProps) {
         </div>
         <div className="text-gray-400">{`${provider?.provider_service_requests_count} Jobs Completed`}</div>
         <div>
-          <i className="fa fa-star text-orange-400"></i>
-          &nbsp;
-          <b>{provider?.rating ?? 0}</b>&nbsp;
+          <RatingWithLabel rating={provider?.rating} />
           <span>({padNumber(provider?.user_feedbacks_count, 2)})</span>
           <span className="mx-4"></span>
           <i className="fa fa-map-marker text-gray-500"></i>

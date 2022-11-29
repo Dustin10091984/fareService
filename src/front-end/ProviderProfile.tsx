@@ -16,6 +16,7 @@ import { useModal } from "react-hooks-use-modal";
 import { RootState } from "../store";
 import BookServiceHourly from "./BookProvider/service.request.hourly";
 import SubHeader from "./common/header/header.sub";
+import ProfilePaymentMethods from "./Profile/profile.payment";
 
 export const ProviderProfile = (props) => {
   const { id } = props.match.params;
@@ -47,6 +48,22 @@ export const ProviderProfile = (props) => {
   } = provider ?? {};
   //const isService = provider_profile?.hourly_rate != null;
   const isService = provider_type == "Individual";
+
+  const verification = (
+    <p>
+      ID: &ensp;
+      <span className="text-gray-500">
+        {verified_at ? (
+          <>
+            Verified&ensp;
+            <img src="/assets/img/check.svg" className="d-inline" />
+          </>
+        ) : (
+          "Not Verified"
+        )}
+      </span>
+    </p>
+  );
   return (
     <>
       <Loading loading={providerProfile?.loading} />
@@ -100,23 +117,9 @@ export const ProviderProfile = (props) => {
                   </p>
                   <br />
                   <h2>Verification</h2>
-                  <p>
-                    ID: &ensp;
-                    <span className="text-gray-500">
-                      {verified_at ? (
-                        <>
-                          Verified&ensp;
-                          <img
-                            src="/assets/img/check.svg"
-                            className="d-inline"
-                          />
-                        </>
-                      ) : (
-                        "Not Verified"
-                      )}
-                    </span>
-                  </p>
+                  {verification}
                 </div>
+                <ProfilePaymentMethods />
               </div>
 
               <div className="d-flex flex-column flex-grow gap-16">

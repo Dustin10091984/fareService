@@ -4,13 +4,13 @@ import axios from "axios";
 import { HOST } from "../../constants";
 import { useHistory } from "react-router-dom";
 import OTPVerifyInput from "./OTPVerifyInput";
+import { toast } from "react-toastify";
 
-const ForgotPassword = () => {
+const ForgotPasswordWithEmail = () => {
   const [state, setState] = useState({
     loading: false,
-    phone: "",
-    code: "+1",
-    section: 1,
+    email: "",
+    section: 0,
     token: "",
     password: "",
     password_confirmation: "",
@@ -28,14 +28,14 @@ const ForgotPassword = () => {
     formState: { errors },
   } = useForm();
 
-  const handleBasic = async ({ phone }) => {
+  const handleBasic = async ({ email }) => {
     setState((state) => ({
       ...state,
       loading: true,
     }));
     await axios({
       method: "post",
-      data: { phone: state?.code + phone },
+      data: { email: email },
       url: `${HOST}/api/user/forgot-password`,
     })
       .then((response) => {
@@ -57,15 +57,15 @@ const ForgotPassword = () => {
       });
   };
 
-  const handleOtpSubmit = async ({ otp }) => {
+  const handleOtpSubmit = async () => {
     setState((state) => ({
       ...state,
       loading: true,
     }));
     await axios({
       method: "post",
-      data: { otp, phone: state?.code + state.phone, for_password: true },
-      url: `${HOST}/api/user/signup/phone/verify`,
+      data: { otp: state.otp, email: state.email, for_password: true },
+      url: `${HOST}/api/user/signup/email/verify`,
     })
       .then((response) => {
         let data = response.data;
@@ -81,7 +81,7 @@ const ForgotPassword = () => {
         let data = error.response.data;
         setState((state) => ({
           ...state,
-          otpVerifyErrorMessage: data.message,
+          otpVerifyErrorMessage: data.message.otp,
           loading: false,
         }));
       });
@@ -92,33 +92,47 @@ const ForgotPassword = () => {
       ...state,
       loading: true,
     }));
-    await axios({
-      method: "post",
-      data: {
-        phone: state?.code + state.phone,
-        token: state.token,
-        password: state?.password,
-        password_confirmation: state?.password_confirmation,
-      },
-      url: `${HOST}/api/user/change-password`,
-    })
-      .then((response) => {
-        history.push({
-          pathname: "/login",
-          state: {
-            from: "forgot-password",
-            message: "Password change successfully",
-          },
-        });
-      })
-      .catch((error) => {
-        let data = error.response.data;
-        setState((state) => ({
-          ...state,
-          passwordChangeMessage: data.message,
-          loading: false,
-        }));
+    try {
+      const response = await axios({
+        method: "post",
+        data: {
+          email: state.email,
+          token: state.token,
+          password: state?.password,
+          password_confirmation: state?.password_confirmation,
+        },
+        url: `${HOST}/api/user/change-password`,
       });
+      toast.success("Password change successfully");
+
+      history.push({
+        pathname: "/login",
+        state: {
+          from: "forgot-password",
+        },
+      });
+    } catch (error) {
+      let data = error.response.data;
+      setState((state) => ({
+        ...state,
+        passwordChangeMessage: data.message,
+        loading: false,
+      }));
+      let message = "";
+      if (typeof data.message == "string") message = data.message;
+      else if (typeof data.message == "object") {
+        message = (
+          <>
+            {Object.keys(data.message).map((key) => (
+              <p>
+                <b>{key}:</b> {data.message[key]}
+              </p>
+            ))}
+          </>
+        );
+        toast.error(message);
+      }
+    }
   };
   return (
     <>
@@ -127,127 +141,71 @@ const ForgotPassword = () => {
           <div className="row">
             <div className="col-md-12">
               <div className="login-box h-auto mx-auto">
-                <div className="login-heading mb-4 text-center">
+                <div className="login-heading text-center text-4xl">
                   Forget Password
                 </div>
                 {state?.section == 0 && (
                   <form onSubmit={handleSubmit(handleBasic)}>
-                    <div className="login-detail mt-0 mb-5 text-center">
-                      Forgot your password, Enter your phone below.
-                    </div>
-                    <div className="row">
-                      <div className="common-input mb-4 col-8 mx-auto">
-                        <label className="rem-1-5 text-sm">Phone</label>
-                        <strong className="text-danger">*</strong>
-                        <div className="d-flex phone-input">
-                          <select
-                            className="js-example-basic-single col-4"
-                            name="code"
-                            defaultValue={state?.code}
-                            onChange={({ target: { value } }) =>
-                              setState((state) => ({
-                                ...state,
-                                code: value,
-                              }))
-                            }
-                          >
-                            <option value={"+1"}>+1 </option>
-                            <option value={"+92"}>+92</option>
-                            <option value={"+234"}>+234</option>
-                          </select>
-                          <input
-                            type="tel"
-                            name="phone"
-                            className="phone-input-2 col-8"
-                            placeholder="1234567890"
-                            {...register("phone", {
-                              required: true,
-                              minLength: 10,
-                              maxLength: 10,
-                              defaultValue: !!state?.phone && state?.phone,
-                              onChange: ({ target: { value } }) => {
-                                setState((prevState) => ({
-                                  ...prevState,
-                                  otpErrorMessage: "",
-                                  phone: value,
-                                }));
-                              },
-                            })}
-                          />
+                    <div className="common-input mb-4">
+                      <input
+                        type="tel"
+                        name="email"
+                        placeholder="Enter your email address"
+                        {...register("email", {
+                          required: true,
+                          defaultValue: !!state?.email && state?.email,
+                          onChange: ({ target: { value } }) => {
+                            setState((prevState) => ({
+                              ...prevState,
+                              otpErrorMessage: "",
+                              email: value,
+                            }));
+                          },
+                        })}
+                      />
+                      {!!state?.otpErrorMessage && (
+                        <div className="text-danger">
+                          {state?.otpErrorMessage}
                         </div>
-                        {!!state?.otpErrorMessage && (
-                          <div className="text-danger">
-                            {state?.otpErrorMessage}
-                          </div>
-                        )}
-                        {errors?.phone &&
-                          (() => {
-                            if (errors.phone.type === "required") {
-                              return (
-                                <div className="text-danger">
-                                  phone is required
-                                </div>
-                              );
-                            }
-                            if (errors.phone.type === "minLength") {
-                              return (
-                                <div className="text-danger">
-                                  phone must be at least 10 digits
-                                </div>
-                              );
-                            }
-                            if (errors.phone.type === "maxLength") {
-                              return (
-                                <div className="text-danger">
-                                  phone must be at most 10 digits
-                                </div>
-                              );
-                            }
-                          })()}
-                      </div>
+                      )}
+                      {errors?.email &&
+                        (() => {
+                          if (errors.email.type === "required") {
+                            return (
+                              <div className="text-danger">
+                                email is required
+                              </div>
+                            );
+                          }
+                        })()}
                     </div>
-                    <div className="row">
-                      <center className="col-md-8 mt-3 mx-auto">
-                        <button
-                          disabled={state?.loading}
-                          type="submit"
-                          className="fare-btn fare-btn-primary w-100 mb-5"
-                        >
-                          {!!state?.loading ? (
-                            <>
-                              Please wait{" "}
-                              <i className="fas fa-spinner fa-pulse"></i>
-                            </>
-                          ) : (
-                            "Send OTP"
-                          )}
-                        </button>
-                      </center>
-                    </div>
+                    <button
+                      disabled={state?.loading}
+                      type="submit"
+                      className="fare-btn fare-btn-primary fare-btn-lg w-100 my-3"
+                    >
+                      {!!state?.loading ? (
+                        <>
+                          Please wait{" "}
+                          <i className="fas fa-spinner fa-pulse"></i>
+                        </>
+                      ) : (
+                        "Send OTP"
+                      )}
+                    </button>
                   </form>
                 )}
                 {state?.section == 1 && (
-                  <form onSubmit={handleSubmit(handleOtpSubmit)}>
-                    <div className="login-detail mt-0 mb-5 text-center">
-                      Forgot your password, Enter your phone below.
-                    </div>
-                    <div className="text-center">
-                      <div className="row mb-2">
-                        {!!state?.otpSuccessMessage && (
-                          <div className="mx-auto">
-                            <span className="rem-1-5 text-success">
-                              {state?.otpSuccessMessage}
-                            </span>
-                          </div>
-                        )}
+                  <div className="inner-box-log mx-auto text-base">
+                    {!!state?.otpSuccessMessage && (
+                      <div className="text-center -mt-8 mb-8 text-gray-500">
+                        {state?.otpSuccessMessage}
                       </div>
+                    )}
+                    <form onSubmit={handleSubmit(handleOtpSubmit)}>
                       <div className="row">
                         <div className="mx-auto">
                           <div className="text-left">
-                            <label className="rem-1-5">
-                              OTP
-                              <strong className="text-danger">*</strong>
-                            </label>
                             <OTPVerifyInput
                               length={4}
                               onComplete={(value) => {
@@ -291,11 +249,11 @@ const ForgotPassword = () => {
                         </div>
                       </div>
                       <div className="row">
-                        <div className="mx-auto col-md-8 mt-12">
+                        <div className="mx-auto col-md-12 mt-12">
                           <button
                             disabled={state?.loading}
                             type="submit"
-                            className="fare-btn fare-btn-primary w-100 mb-5"
+                            className="fare-btn fare-btn-primary fare-btn-lg w-100 mb-5"
                           >
                             {!!state?.loading ? (
                               <>
@@ -308,8 +266,8 @@ const ForgotPassword = () => {
                           </button>
                         </div>
                       </div>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
                 )}
                 {state?.section == 2 && (
                   <form onSubmit={handleSubmit(handleChangePassword)}>
@@ -319,7 +277,7 @@ const ForgotPassword = () => {
                       </div>
                     )}
                     <div className="row">
-                      <div className="col-md-6 mx-auto">
+                      <div className="col-md-12 mx-auto">
                         <div className="common-input">
                           <label className="rem-1-5">Password</label>
                           <strong className="text-danger">*</strong>
@@ -342,12 +300,7 @@ const ForgotPassword = () => {
                         </div>
                         {typeof state?.passwordChangeMessage === "object" && (
                           <div className="text-danger">
-                            {state?.passwordErrorMessage["password"]}
-                          </div>
-                        )}
-                        {!!state?.passwordErrorMessage && (
-                          <div className="text-danger">
-                            {state?.passwordErrorMessage}
+                            {state?.passwordChangeMessage["password"]}
                           </div>
                         )}
                         {errors.password &&
@@ -377,7 +330,7 @@ const ForgotPassword = () => {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-6 mx-auto">
+                      <div className="col-md-12 mx-auto">
                         <div className="common-input mt-4">
                           <label className="rem-1-5">Confirm Password</label>
                           <strong className="text-danger">*</strong>
@@ -403,15 +356,10 @@ const ForgotPassword = () => {
                           {typeof state?.passwordChangeMessage === "object" && (
                             <div className="text-danger">
                               {
-                                state?.passwordErrorMessage[
+                                state?.passwordChangeMessage[
                                   "passwopassword_confirmationrd"
                                 ]
                               }
-                            </div>
-                          )}
-                          {!!state?.passwordErrorMessage && (
-                            <div className="text-danger">
-                              {state?.passwordErrorMessage}
                             </div>
                           )}
                           {errors.password_confirmation &&
@@ -459,10 +407,10 @@ const ForgotPassword = () => {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-6 mx-auto">
+                      <div className="col-md-12 mx-auto">
                         <button
                           disabled={state?.loading}
-                          className="button-common w-100 mt-4"
+                          className="fare-btn fare-btn-primary fare-btn-lg w-100 mt-4"
                           type="submit"
                         >
                           {!!state?.loading ? (
@@ -496,7 +444,7 @@ const ForgotPassword = () => {
                 {state?.section == 0 && !!state?.otpSuccessMessage && (
                   <div className="float-right angle-icon">
                     <i
-                      className="fas fa-angle-right fa-5x"
+                      className="fas fa-angle-right fa-1x"
                       onClick={() => {
                         setState((state) => ({
                           ...state,
@@ -506,6 +454,16 @@ const ForgotPassword = () => {
                     ></i>
                   </div>
                 )}
+                <hr className="my-4 mx-8" />
+                <div className="text-[1.6rem] text-gray-400 text-center px-8">
+                  By signing and clicking Get a Price, you affirm you have read
+                  and agree to the Farenow Terms, and you agree and authorize
+                  Farenow and its affiliates, and their networks of service
+                  professionals, to deliver marketing calls or texts using
+                  automated technology to the number you provided above
+                  regarding your project and other home services offers. Consent
+                  is not a condition of purchase.
+                </div>
                 {/* </div> */}
               </div>
             </div>
@@ -516,4 +474,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ForgotPasswordWithEmail;

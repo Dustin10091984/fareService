@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
+import Empty from "../../components/Empty";
 import Rating from "../../components/Rating";
 import { HOST } from "../../constants";
 import { padNumber } from "../../helper/utils";
@@ -33,8 +34,11 @@ export const UserFeedback = (props: IUserFeedbackProps) => {
   );
 };
 export default function ProfileReviews(props: IProfileReviewsProps) {
-  const { provider, feedbacks } = props;
+  let { provider, feedbacks = [] } = props;
   let { rating = 0 } = provider;
+
+  const [viewAll, setViewAll] = useState(false);
+
   return (
     <div className="fare-card">
       <div>
@@ -76,14 +80,34 @@ export default function ProfileReviews(props: IProfileReviewsProps) {
       </div>
       <hr className="my-4" />
       <div>
-        {feedbacks.map((feedback) => (
-          <UserFeedback key={feedback.id} feedback={feedback} />
+        {feedbacks.slice(0, viewAll ? undefined : 1).map((feedback) => (
+          <React.Fragment key={feedback.id}>
+            <UserFeedback key={feedback.id} feedback={feedback} />
+            <hr className="mt-3 mb-4" />
+          </React.Fragment>
         ))}
+        {!feedbacks?.length && (
+          <div className="h-[15rem] d-flex items-center justify-center">
+            <Empty
+              text="No feedbacks"
+              icon="commenting"
+              className="text-gray-400"
+            />
+          </div>
+        )}
       </div>
-      <hr className="my-4" />
       <div className="d-flex justify-between items-center">
-        <span>1 of 80</span>
-        <button className="fare-btn fare-btn-default">View all</button>
+        <span>
+          {viewAll ? feedbacks.length : 1} of {feedbacks.length}
+        </span>
+        <button
+          className="fare-btn fare-btn-default"
+          onClick={() => {
+            setViewAll(!viewAll);
+          }}
+        >
+          {viewAll ? "Close" : "View all"}
+        </button>
       </div>
     </div>
   );

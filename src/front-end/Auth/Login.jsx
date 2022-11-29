@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "../../constants";
+import OTPVerifyInput from "./OTPVerifyInput";
 // import { GoogleLogin } from "react-google-login";
 
 const Login = (props) => {
@@ -110,46 +111,54 @@ const Login = (props) => {
       ...state,
       isLoading: true,
     }));
-
-    await axios({
-      method: "post",
-      url: process.env.REACT_APP_API_BASE_URL + "/api/user/login",
-      data: state.values,
-    })
-      .then(function (response) {
-        const data = response.data.data;
-        localStorage.setItem("userToken", data.auth_token);
-        localStorage.setItem("user_data", JSON.stringify(data.user));
-        if (
-          history.action === "POP" ||
-          location?.state?.from == "forgot-password"
-        ) {
-          history.push("/dashboard");
-        } else {
-          history.goBack();
-        }
-      })
-      .catch((error) => {
-        //handle error
-        if (error.response && error.response.data["error"]) {
-          let errors = null;
-          if (typeof error.response.data.message == "string") {
-            errors = error.response.data.message;
-          }
-          setState((state) => ({
-            ...state,
-            errors: errors
-              ? errors
-              : {
-                  ...(state.errors = error.response.data.message),
-                },
-          }));
-        }
-        setState((prevState) => ({
-          ...prevState,
-          isLoading: false,
-        }));
+    try {
+      const response = await axios({
+        method: "post",
+        url: process.env.REACT_APP_API_BASE_URL + "/api/user/login",
+        data: state.values,
       });
+
+      const data = response.data.data;
+      localStorage.setItem("userToken", data.auth_token);
+      localStorage.setItem("user_data", JSON.stringify(data.user));
+
+      const searchParams = new URLSearchParams(location.search);
+      const returnUrl = searchParams.get("returnUrl");
+      if (returnUrl) {
+        const rUrl = new URL(decodeURIComponent(returnUrl));
+        history.push({
+          pathname: rUrl.pathname,
+          search: rUrl.search,
+        });
+      } else if (
+        history.action === "POP" ||
+        location?.state?.from == "forgot-password"
+      ) {
+        history.push("/dashboard");
+      } else {
+        history.goBack();
+      }
+    } catch (error) {
+      //handle error
+      if (error.response && error.response.data["error"]) {
+        let errors = null;
+        if (typeof error.response.data.message == "string") {
+          errors = error.response.data.message;
+        }
+        setState((state) => ({
+          ...state,
+          errors: errors
+            ? errors
+            : {
+                ...(state.errors = error.response.data.message),
+              },
+        }));
+      }
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
   };
 
   const handleSocialLogin = async ({ provider, token }) => {
@@ -233,6 +242,7 @@ const Login = (props) => {
                 </div>
               )}
               <div className="login-heading text-center text-4xl">Login</div>
+
               <div className="text-center text-danger mb-2">
                 {state.socialError}
                 {typeof state.errors == "string" && state.errors}
@@ -296,7 +306,7 @@ const Login = (props) => {
                   </div>
                   <button
                     type="submit"
-                    className="fare-btn fare-btn-primary w-100 mb-4"
+                    className="fare-btn fare-btn-primary fare-btn-lg  w-100 mb-4"
                     disabled={state.isLoading}
                   >
                     Login{" "}
@@ -358,42 +368,6 @@ const Login = (props) => {
                     data-onlogin="handleFBLogin"
                   ></div>
                 </div>
-                <div className="text-center">
-                  {/* <div
-                                        className="g_id_signin"
-                                        data-type="standard"
-                                    ></div> */}
-                  {/* <GoogleLogin
-                                        clientId={
-                                            process.env
-                                                .REACT_APP_GOOGLE_CLIENT_ID
-                                        }
-                                        buttonText="Login"
-                                        onSuccess={(res) => {
-                                            console.log("google", res);
-                                            handleSocialLogin({
-                                                token: res.tokenId,
-                                                provider: "google",
-                                            });
-                                            localStorage.setItem(
-                                                "googleToken",
-                                                res.tokenId
-                                            );
-                                        }}
-                                        onFailure={(res) => {
-                                            setState((state) => ({
-                                                ...state,
-                                                socialError: res.error,
-                                            }));
-                                        }}
-                                    /> */}
-                </div>
-                {/* <button className="login-gmail mt-5">
-                                    Login with Google
-                                </button>
-                                <button className="login-facebook mt-5">
-                                    Login with Facebook
-                                </button> */}
 
                 <div className="text-center text-sm my-4">
                   Don't have an account?&ensp;
