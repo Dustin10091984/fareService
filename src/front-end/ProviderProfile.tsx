@@ -18,6 +18,8 @@ import BookServiceHourly from "./BookProvider/service.request.hourly";
 import SubHeader from "./common/header/header.sub";
 import ProfilePaymentMethods from "./Profile/profile.payment";
 import { getMinutesFromTimeString } from "../helper/utils";
+import { getQuestionAnswers } from "../store/Slices/services/QuestionAnswersSlice";
+import { toast } from "react-toastify";
 
 export const ProviderProfile = (props) => {
   const { id } = props.match.params;
@@ -35,6 +37,9 @@ export const ProviderProfile = (props) => {
     RootState,
     DataResponse<{ provider: IProvider; feedbacks: IFeedback[] }>
   >((state) => state.providerProfile as any);
+  const questionAnswers = useSelector<RootState>((state) =>
+    getQuestionAnswers(state.questionAnswers)
+  );
 
   useEffect(() => {
     dispatch(getProviderProfile(id));
@@ -75,6 +80,13 @@ export const ProviderProfile = (props) => {
       </span>
     </p>
   );
+  const onBookClick = () => {
+    if (questionAnswers) {
+      openBook();
+    } else {
+      toast.warn("Please select service type and location");
+    }
+  };
   return (
     <>
       <Loading loading={providerProfile?.loading} />
@@ -86,7 +98,7 @@ export const ProviderProfile = (props) => {
         )}
       </Modal>
       <SubHeader title="Profile">
-        <button className="fare-btn fare-btn-primary" onClick={openBook}>
+        <button className="fare-btn fare-btn-primary" onClick={onBookClick}>
           {isService ? "Book service" : "Book provider"}
         </button>
       </SubHeader>

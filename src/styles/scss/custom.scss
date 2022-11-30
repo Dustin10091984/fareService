@@ -651,14 +651,19 @@ button:disabled:hover {
   border-radius: 12px;
   left: 1rem !important;
 }
-.user-dropdown-menu .dropdown-item {
-  /* font-family: Product Sans; */
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1.6rem;
-  line-height: 2rem;
-  color: #606060;
-  padding: 1rem;
+.user-dropdown-menu {
+  .dropdown-item {
+    /* font-family: Product Sans; */
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    color: #606060;
+    padding: 1rem;
+    &:active {
+      background: inherit;
+    }
+  }
 }
 .order-summary {
   .list-group-item {

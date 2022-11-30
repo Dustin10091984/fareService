@@ -61,7 +61,7 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
     setSIndex(sIndex + 1);
   };
   const slides = [
-    <BookServiceDate
+    /*  <BookServiceDate
       onNext={onNext}
       schedules={provider?.schedules}
       blockedSlots={provider?.blocked_slots}
@@ -78,7 +78,7 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
       onNext={onNext}
       nextLabel="Get quotation"
       title="Where is your home?"
-    />,
+    />, */
     <BookQuotationForm onNext={onNext} />,
   ];
   return (

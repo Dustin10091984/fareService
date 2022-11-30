@@ -208,7 +208,8 @@ export const ServiceProviders = (props) => {
         setIsService(provider?.provider_type == "Individual");
         openBook();
       } else {
-        setState((state) => ({
+        toast.warn("Please select service type and location");
+        /* setState((state) => ({
           ...state,
           error: (
             <div
@@ -218,7 +219,7 @@ export const ServiceProviders = (props) => {
               Please select category from header
             </div>
           ),
-        }));
+        })); */
       }
     } else {
       window.scrollTo({
