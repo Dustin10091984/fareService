@@ -17,7 +17,7 @@ export const UserFeedback = (props: IUserFeedbackProps) => {
       <div className="d-flex items-center space-x-3">
         <img
           src={
-            user ? `${HOST}/${user.image}` : "/assets/img/profile_avatar.png"
+            user ? `${HOST}/${user.image}` : "/assets/img/Profile_avatar.png"
           }
           className="w-[8rem] h-[8rem] rounded-full"
         />
