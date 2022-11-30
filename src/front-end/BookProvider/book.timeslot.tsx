@@ -2,13 +2,21 @@ import * as React from "react";
 import { range } from "underscore";
 import clsx from "clsx";
 import RadioBoxButton from "../../components/button.radio";
+import { getScheduleAndBlockedSlotOFDate } from "./book.date";
+import {
+  getMinutesFromTimeString,
+  getTimeString,
+} from "./../../helper/utils/index";
 
 export interface IBookTimeslotProps<T> {
   onPrev?: () => void;
   onNext?: (values: Partial<T>) => void;
+  date?: string;
+  schedules?: ISchedule[];
+  blockedSlots?: IBlockedSlot[];
 }
 const toHourString = (hour: number) => {
-  return `${hour % 12 || 12} ${hour >= 12 ? "am" : "pm"}`;
+  return `${hour % 12 || 12} ${hour >= 12 ? "pm" : "am"}`;
 };
 export default function BookTimeslot(
   props: IBookTimeslotProps<IServiceRequestHourly>
@@ -18,14 +26,42 @@ export default function BookTimeslot(
     [12, 17],
     [18, 22],
   ];
-  const { onPrev, onNext } = props;
+  const { onPrev, onNext, date, schedules = [], blockedSlots = [] } = props;
   const slotNames = ["Morning", "Afternoon", "Evening"];
   const [slot, setSlot] = React.useState(0); // slot index, ex. morning, afternoon...
   const [times, setTimes] = React.useState([]);
+
+  const [schedule, blockedSlot] = getScheduleAndBlockedSlotOFDate(
+    new Date(date),
+    schedules,
+    blockedSlots
+  );
+  const scheduleTime = {
+    from: getMinutesFromTimeString(schedule?.from_time),
+    to: getMinutesFromTimeString(schedule?.to_time || "24:00"),
+  };
+  const blockTime = {
+    from: getMinutesFromTimeString(blockedSlot?.from_time),
+    to: getMinutesFromTimeString(blockedSlot?.to_time),
+  };
+  console.log(scheduleTime, blockTime);
+  const isHourBlocked = (h: number) => {
+    if (60 * h < scheduleTime.from || (h + 1) * 60 > scheduleTime.to)
+      return true;
+    if (h * 60 >= blockTime.from && (h + 1) * 60 < blockTime.to) return true;
+    return false;
+  };
+
   return (
     <div className="d-flex flex-column items-center gap-8">
       <span className="font-medium text-3xl">Select times slot</span>
-      <p>Provider preferred time 10:00AM to 04:00 PM </p>
+      {schedule && (
+        <p>
+          Provider preferred time {getTimeString(schedule.from_time)}
+          &ensp;to&ensp;
+          {getTimeString(schedule.to_time)}{" "}
+        </p>
+      )}
       <div className="grid grid-cols-3 gap-x-6 gap-y-12 w-[90rem]">
         {slots.map((s, i) => {
           return (
@@ -47,7 +83,7 @@ export default function BookTimeslot(
             <button
               key={t}
               className={clsx([
-                "text-base shadow-[0_8px_16px_0_#00000014] px-8 py-10 border-2 rounded-[24px] hover:bg-gray-50 text-gray-700 text-center",
+                "text-base shadow-[0_8px_16px_0_#00000014] px-8 py-10 border-2 rounded-[24px] hover:bg-gray-50 text-gray-700 text-center disabled:text-gray-400",
                 { "bg-primary text-white": times.includes(t) },
               ])}
               onClick={() => {
@@ -55,6 +91,7 @@ export default function BookTimeslot(
                 else times.push(t);
                 setTimes([...times]);
               }}
+              disabled={isHourBlocked(t)}
             >
               {`${toHourString(t).toUpperCase()} - ${toHourString(
                 t + 1

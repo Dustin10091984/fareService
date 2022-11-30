@@ -63,8 +63,9 @@
   flex-basis: 45%;
 
   &.selected {
-    background: rgba(254, 165, 41, 0.3);
-    color: #fea629;
+    //background: rgba(254, 165, 41, 0.3);
+    background-color: $primary-light;
+    color: $primary;
   }
 }
 

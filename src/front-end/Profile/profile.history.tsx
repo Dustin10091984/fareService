@@ -22,8 +22,9 @@ export default function ProfileWorkHistory(props: IProfileWorkHistoryProps) {
   const [tabIndex, setTabIndex] = useState(0);
   const [pageIndex, setPageIndex] = useState([0, 0]);
 
-  const dataForTabs = [1, 0].map((is_completed) =>
-    data?.filter((d) => !!d.is_completed === !!is_completed)
+  const dataForTabs = [1, 0].map(
+    (is_completed) =>
+      data?.filter((d) => !!d.is_completed === !!is_completed) || []
   );
   const currentTabData = dataForTabs[tabIndex];
   const totalPageSize = Math.ceil(currentTabData?.length / 2);

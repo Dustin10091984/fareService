@@ -42,10 +42,6 @@ export default function ProfileReviews(props: IProfileReviewsProps) {
   return (
     <div className="fare-card">
       <div>
-        <button className="text-primary-main">Write a review</button>
-      </div>
-      <hr className="my-4" />
-      <div>
         <h1>Ratings and reviews</h1>
         <div className="d-flex space-x-12 px-3">
           <div className="flex-shrink-0">
@@ -105,6 +101,7 @@ export default function ProfileReviews(props: IProfileReviewsProps) {
           onClick={() => {
             setViewAll(!viewAll);
           }}
+          disabled={!feedbacks.length}
         >
           {viewAll ? "Close" : "View all"}
         </button>

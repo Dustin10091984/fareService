@@ -17,6 +17,7 @@ import { RootState } from "../store";
 import BookServiceHourly from "./BookProvider/service.request.hourly";
 import SubHeader from "./common/header/header.sub";
 import ProfilePaymentMethods from "./Profile/profile.payment";
+import { getMinutesFromTimeString } from "../helper/utils";
 
 export const ProviderProfile = (props) => {
   const { id } = props.match.params;
@@ -45,9 +46,19 @@ export const ProviderProfile = (props) => {
     verified_at = "",
     provider_profile = null,
     provider_type = "Individual",
+    schedules = [],
   } = provider ?? {};
   //const isService = provider_profile?.hourly_rate != null;
   const isService = provider_type == "Individual";
+  const hoursPerWeek = Math.round(
+    schedules.reduce(
+      (total, schedule) =>
+        total +
+        getMinutesFromTimeString(schedule.to_time) -
+        getMinutesFromTimeString(schedule.from_time),
+      0
+    ) / 60
+  );
 
   const verification = (
     <p>
@@ -109,7 +120,9 @@ export const ProviderProfile = (props) => {
 
                 <div className="fare-card">
                   <h2>Hours per week</h2>
-                  <p className="text-gray-500">More than 30 hrs/week</p>
+                  <p className="text-gray-500">
+                    More than {hoursPerWeek || 30} hrs/week
+                  </p>
                   <br />
                   <h2>Languages</h2>
                   <p>

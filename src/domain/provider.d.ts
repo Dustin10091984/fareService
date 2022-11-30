@@ -18,6 +18,7 @@ interface IProvider extends IProviderBase {
   schedules: ISchedule[];
   portfolios: IPortfolio[];
   provider_services: IProviderService[];
+  blocked_slots: IBlockedSlot[];
 }
 interface IProviderProfile {
   id: number;
@@ -49,4 +50,10 @@ interface ISchedule {
   from_time: string;
   to_time: string;
   is_custom: number;
+}
+
+interface IBlockedSlot {
+  date: string;
+  from_time: string;
+  to_time: string;
 }

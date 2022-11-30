@@ -65,12 +65,20 @@ export default function BookServiceHourly(props: IBookServiceProps) {
   };
   const slides = [
     <BookServiceDate
+      schedules={provider?.schedules}
+      blockedSlots={provider?.blocked_slots}
       onNext={({ date }) => {
         onNext({ date: date.toISOString() });
       }}
     />,
     <BookHours onNext={onNext} onPrev={onPrev} />,
-    <BookTimeslot onPrev={onPrev} onNext={onNext} />,
+    <BookTimeslot
+      onPrev={onPrev}
+      onNext={onNext}
+      schedules={provider?.schedules}
+      blockedSlots={provider?.blocked_slots}
+      date={quotationValues.current?.date}
+    />,
     <BookLocation
       onPrev={onPrev}
       onNext={({ location }) => {

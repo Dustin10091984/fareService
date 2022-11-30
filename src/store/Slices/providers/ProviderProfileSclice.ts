@@ -28,16 +28,24 @@ export const getProviderProfile = (id) => async (dispatch) => {
     //handle success
     let profileData = response.data;
     profileData.loading = false;
+    profileData.data.feedbacks = [];
 
-    const feedbacksResponse = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/api/user/feedback`,
-      {
-        params: {
-          provider_id: id,
-        },
-      }
-    );
-    profileData.data.feedbacks = feedbacksResponse.data?.data || [];
+    try {
+      const feedbacksResponse = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/api/user/feedback`,
+        {
+          params: {
+            provider_id: id,
+          },
+        }
+      );
+      profileData.data.feedbacks = feedbacksResponse.data?.data || [];
+    } catch (err) {
+      /**
+       * don't block whether no feedbacks found.
+       */
+      console.log(err);
+    }
     dispatch(getProvider(profileData));
   } catch (error) {
     //handle error

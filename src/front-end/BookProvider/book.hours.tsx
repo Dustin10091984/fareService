@@ -1,6 +1,8 @@
 import * as React from "react";
 import { range } from "underscore";
 import RadioBoxButton from "../../components/button.radio";
+import { getMinutesFromTimeString } from "../../helper/utils";
+import { getScheduleAndBlockedSlotOFDate } from "./book.date";
 export interface IBookHoursProps extends IBookSliderProps {
   onNext: (value: { hours: number }) => void;
 }
@@ -8,6 +10,7 @@ export interface IBookHoursProps extends IBookSliderProps {
 export default function BookHours(props: IBookHoursProps) {
   const { onPrev, onNext } = props;
   const [hours, setHours] = React.useState(0);
+
   return (
     <div className="d-flex flex-column items-center gap-8">
       <span className="font-medium text-3xl">Select service hour(s)</span>

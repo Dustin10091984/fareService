@@ -1,14 +1,9 @@
 import * as React from "react";
+import { getTimeString } from "../../helper/utils";
 
 export interface IProfileAvailabilityProps {
   provider: IProvider;
 }
-const getTimeString = (time: string) => {
-  if (!time) return "";
-  let [hour, min] = time.split(":");
-  let h = Number(hour);
-  return `${h > 12 ? h - 12 : h}:${min} ${h >= 12 ? "PM" : "AM"}`;
-};
 export default function ProfileAvailability(props: IProfileAvailabilityProps) {
   const {
     provider: { schedules },

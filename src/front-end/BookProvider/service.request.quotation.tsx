@@ -61,8 +61,18 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
     setSIndex(sIndex + 1);
   };
   const slides = [
-    <BookServiceDate onNext={onNext} />,
-    <BookTimeslot onPrev={onPrev} onNext={onNext} />,
+    <BookServiceDate
+      onNext={onNext}
+      schedules={provider?.schedules}
+      blockedSlots={provider?.blocked_slots}
+    />,
+    <BookTimeslot
+      onPrev={onPrev}
+      onNext={onNext}
+      schedules={provider?.schedules}
+      blockedSlots={provider?.blocked_slots}
+      date={quotationValues.current?.date}
+    />,
     <BookLocation
       onPrev={onPrev}
       onNext={onNext}
