@@ -105,6 +105,24 @@ const Login = (props) => {
     }));
   };
 
+  const gotoReturnUrl = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const returnUrl = searchParams.get("returnUrl");
+    if (returnUrl) {
+      const rUrl = new URL(decodeURIComponent(returnUrl));
+      history.push({
+        pathname: rUrl.pathname,
+        search: rUrl.search,
+      });
+    } else if (
+      history.action === "POP" ||
+      location?.state?.from == "forgot-password"
+    ) {
+      history.push("/dashboard");
+    } else {
+      history.goBack();
+    }
+  };
   const handleSignUp = async (event) => {
     event.preventDefault();
     setState((state) => ({
@@ -122,22 +140,7 @@ const Login = (props) => {
       localStorage.setItem("userToken", data.auth_token);
       localStorage.setItem("user_data", JSON.stringify(data.user));
 
-      const searchParams = new URLSearchParams(location.search);
-      const returnUrl = searchParams.get("returnUrl");
-      if (returnUrl) {
-        const rUrl = new URL(decodeURIComponent(returnUrl));
-        history.push({
-          pathname: rUrl.pathname,
-          search: rUrl.search,
-        });
-      } else if (
-        history.action === "POP" ||
-        location?.state?.from == "forgot-password"
-      ) {
-        history.push("/dashboard");
-      } else {
-        history.goBack();
-      }
+      gotoReturnUrl();
     } catch (error) {
       //handle error
       if (error.response && error.response.data["error"]) {
@@ -183,7 +186,7 @@ const Login = (props) => {
         if (provider === "google") {
           window.google?.accounts?.id.disableAutoSelect();
         }
-        history.push("/dashboard");
+        gotoReturnUrl();
       })
       .catch(({ response }) => {
         setState((state) => ({
