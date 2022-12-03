@@ -20,7 +20,13 @@ import { RootState } from "../../store";
 import { getInitialRequestService } from "../../store/Slices/services/RequestServiceSclice";
 import { getProviderList } from "../../store/Slices/providers/providerListSclice";
 import { toast } from "react-toastify";
-
+import { getServiceQuestion } from "../../store/Slices/services/ServiceSclice";
+const modalConfig = {
+  preventScroll: false,
+  focusTrapOptions: {
+    clickOutsideDeactivates: false,
+  },
+};
 export const ServiceProviders = (props) => {
   const history = useHistory();
   const location = useLocation<any>();
@@ -38,12 +44,10 @@ export const ServiceProviders = (props) => {
 
   const ReactSwal = withReactContent(Swal);
 
-  const [Modal, openBook, closeBook, isBookOpen] = useModal("root", {
-    preventScroll: false,
-    focusTrapOptions: {
-      clickOutsideDeactivates: false,
-    },
-  });
+  const [Modal, openBook, closeBook, isBookOpen] = useModal(
+    "root",
+    modalConfig
+  );
 
   const [state, setState] = useState<{
     is_loggedin: boolean;
@@ -190,37 +194,23 @@ export const ServiceProviders = (props) => {
  */
   const handleContinueClick = (provider: IProvider) => {
     if (state.is_loggedin) {
-      if (subService && questionAnswers) {
-        setState((state) => ({
-          ...state,
-          is_hourly: provider.provider_type == "Individual" ? true : false,
-          provider_id: provider.id,
-          provider,
-          provider_service_requests_count:
-            provider?.provider_service_requests_count,
-        }));
-        /* if (
+      setState((state) => ({
+        ...state,
+        is_hourly: provider.provider_type == "Individual" ? true : false,
+        provider_id: provider.id,
+        provider,
+        provider_service_requests_count:
+          provider?.provider_service_requests_count,
+      }));
+      /* if (
           location?.state?.service_type !== ServiceType.MOVING &&
           provider.provider_type == "Individual"
         ) {
           getProviderSchedule(provider.id);
         } */
-        setIsService(provider?.provider_type == "Individual");
-        openBook();
-      } else {
-        toast.warn("Please select service type and location");
-        /* setState((state) => ({
-          ...state,
-          error: (
-            <div
-              className="col-md-12 alert alert-danger rounded-full px-5 bg-red-400 text-red-100 text-base font-medium"
-              role="alert"
-            >
-              Please select category from header
-            </div>
-          ),
-        })); */
-      }
+      setIsService(provider?.provider_type == "Individual");
+      if (!questionAnswers) dispatch(getServiceQuestion(subService));
+      openBook();
     } else {
       window.scrollTo({
         top: 0,

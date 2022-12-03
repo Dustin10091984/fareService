@@ -20,16 +20,19 @@ import ProfilePaymentMethods from "./Profile/profile.payment";
 import { getMinutesFromTimeString } from "../helper/utils";
 import { getQuestionAnswers } from "../store/Slices/services/QuestionAnswersSlice";
 import { toast } from "react-toastify";
-
+const modalConfig = {
+  preventScroll: false,
+  focusTrapOptions: {
+    clickOutsideDeactivates: false,
+  },
+};
 export const ProviderProfile = (props) => {
   const { id } = props.match.params;
 
-  const [Modal, openBook, closeBook, isBookOpen] = useModal("root", {
-    preventScroll: false,
-    focusTrapOptions: {
-      clickOutsideDeactivates: false,
-    },
-  });
+  const [Modal, openBook, closeBook, isBookOpen] = useModal(
+    "root",
+    modalConfig
+  );
 
   const dispatch = useDispatch();
 
@@ -81,7 +84,7 @@ export const ProviderProfile = (props) => {
     </p>
   );
   const onBookClick = () => {
-    if (questionAnswers) {
+    if (true) {
       openBook();
     } else {
       toast.warn("Please select service type and location");

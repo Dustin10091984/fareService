@@ -60,7 +60,7 @@ export default function BookServiceDate(props: IBookServiceDateProps) {
         </p>
       )}
       <FareDatePicker
-        isBlocked={isBlocked}
+        //isBlocked={isBlocked}
         onChange={(e) => {
           setServiceDate(e);
         }}

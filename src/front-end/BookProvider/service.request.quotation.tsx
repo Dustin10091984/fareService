@@ -12,6 +12,8 @@ import { postRequestService } from "../../store/Slices/services/RequestServiceSc
 import { RootState } from "../../store";
 import { getQuestionAnswers } from "../../store/Slices/services/QuestionAnswersSlice";
 import Loading from "./../common/Loading";
+import ServiceWizard from "../Services/services.wizard";
+import { ServiceState } from "../../store/Slices/services/ServiceSclice";
 
 export interface IBookProviderProps {
   close?: () => void;
@@ -28,6 +30,13 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
   const questionAnswers = useSelector<RootState>((state) =>
     getQuestionAnswers(state.questionAnswers)
   );
+  const service = useSelector<RootState, ServiceState>(
+    (state) => state.service
+  );
+  const slideStartIndex = React.useMemo(() => {
+    if (!questionAnswers) return 0;
+    return 1;
+  }, []);
   const serviceRequest = useSelector<RootState, any>(
     (state) => state.serviceRequest
   );
@@ -79,8 +88,17 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
       nextLabel="Get quotation"
       title="Where is your home?"
     />, */
+    <ServiceWizard
+      className="self-stretch"
+      service={service?.data}
+      loading={service?.loading}
+      config={{ shadow: false, showSeq: false, completeLabel: "Book" }}
+      onComplete={() => {
+        onNext({});
+      }}
+    />,
     <BookQuotationForm onNext={onNext} />,
-  ];
+  ].slice(slideStartIndex);
   return (
     <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">
       <div className="d-flex flex-column items-center">

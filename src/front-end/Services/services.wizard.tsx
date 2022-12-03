@@ -1,23 +1,41 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { setQuestionAnswers } from "../../store/Slices/services/QuestionAnswersSlice";
+import { clsx } from "clsx";
+import Loading from "./../common/Loading";
 
 export interface IServiceWizardProps {
   service: IService;
-  getProviders: () => void;
+  loading?: boolean;
+  onComplete: () => void;
+  className?: string;
+  config?: {
+    shadow?: boolean;
+    showSeq?: boolean;
+    completeLabel?: string;
+  };
 }
 
 export default function ServiceWizard(props: IServiceWizardProps) {
-  const { service, getProviders } = props;
+  const {
+    config: {
+      shadow = true,
+      showSeq = false,
+      completeLabel = "Get Providers",
+    } = {},
+    className = "",
+    loading = false,
+  } = props;
+  const { service } = props;
   const [step, setStep] = React.useState(0);
   const [activeOptions, setActiveOptions] = React.useState([]);
   const activeOption = activeOptions[step] ?? 0;
-  const { questions = [] } = service;
+  const questions = service?.questions || [];
   const question = questions.at(step);
   const dispatch = useDispatch();
 
   const nextStep = () => {
-    if (step < service.questions?.length - 1) setStep(step + 1);
+    if (step < questions?.length - 1) setStep(step + 1);
   };
   const prevStep = () => {
     if (step > 0) setStep(step - 1);
@@ -28,20 +46,29 @@ export default function ServiceWizard(props: IServiceWizardProps) {
       questionAnswer[`question_${questions[i].id}`] = activeOptions[i];
     }
     dispatch(setQuestionAnswers(questionAnswer));
-    getProviders();
+    props.onComplete();
   };
   const optionClicked = (op) => () => {
     activeOptions[step] = op.id;
     setActiveOptions([...activeOptions]);
   };
   return (
-    <div className="rounded-[32px] shadow bg-white p-16 text-center">
-      {!question && "No question"}
+    <div
+      className={clsx([
+        "rounded-[32px] bg-white p-16 text-center",
+        className,
+        { shadow: shadow },
+      ])}
+    >
+      {/* !question && "No question" */}
+      <Loading loading={loading} backdrop={false} />
       {question && (
         <>
-          <div className="text-primary-main">
-            {step + 1} of {service.questions?.length}
-          </div>
+          {showSeq && (
+            <div className="text-primary-main">
+              {step + 1} of {questions?.length}
+            </div>
+          )}
           <div className="text-[4rem] font-medium">{question.question}</div>
           <div className="flex w-[75%] mx-auto my-12 gap-10 justify-center flex-wrap items-end">
             {question.options.map((op) => (
@@ -76,9 +103,7 @@ export default function ServiceWizard(props: IServiceWizardProps) {
                 step < service.questions.length - 1 ? nextStep : onComplete
               }
             >
-              {step < service.questions.length - 1
-                ? "Continue"
-                : "Get Providers"}
+              {step < service.questions.length - 1 ? "Continue" : completeLabel}
             </button>
           </div>
         </>

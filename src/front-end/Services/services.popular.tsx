@@ -85,14 +85,7 @@ export default function PopularServices(props: IPopularServicesProps) {
                         className="service-box h-[30rem] w-100 m-0"
                       >
                         <Link
-                          to={`/services/${item.name}/${item.id}/${
-                            subService.name
-                          }/${subService.id}${
-                            item.id == 3
-                              ? "?service_type=" +
-                                `${ServiceType.MOVING}#moving-section`
-                              : ""
-                          }#services-section`}
+                          to={`/services/search?subService=${subService.id}`}
                         >
                           <img
                             src={

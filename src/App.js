@@ -25,10 +25,11 @@ import Routes from "./Routes";
 import { LoginContext, MapLoadedApiContext } from "./helper/context";
 import { ReactSwal } from "./helper/swal";
 import { handleBackendEvents } from "./helper/backend-events";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 // import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(process.env.React_APP_STRIPE_PUBLIC_KEY);
-
+const paypalClientID = process.env.REACT_APP_PAYPAL_CLIENT_ID;
 window.io = io;
 
 const liveOption = {
@@ -106,12 +107,6 @@ function App() {
     }
   }, [window.google]);
 
-  // const { isLoaded } = useJsApiLoader({
-  //   id: "google-map-script",
-  //   googleMapsApiKey: process.env.React_APP_GOOGLE_API,
-  //   libraries: ['places'],
-  // });
-
   const handleMessageClick = (data) => {
     setState(data);
   };
@@ -123,8 +118,6 @@ function App() {
     (async () => {
       handleBackendEvents(dispatch);
       if (!!localStorage?.userToken) {
-        // window.Echo.connector.options.auth.headers['Authorization'] = localStorage.userToken;
-        // window.Echo.connector.options.auth.headers['Accept'] = 'application/json';
         const token = await getToken();
         axios({
           method: "post",
@@ -167,11 +160,11 @@ function App() {
   }, [hash]); // do this on route change
 
   useEffect(() => {
-    if (
+    /*if (
       !!localStorage?.user_data == true &&
       !!localStorage?.userToken == true
     ) {
-      /* window.addEventListener("click", () => {
+       window.addEventListener("click", () => {
         if (localStorage?.user_data) {
           let user = JSON.parse(localStorage?.user_data);
           if (!!!user.phone || !user.phone_verification) {
@@ -188,8 +181,8 @@ function App() {
               });
           }
         }
-      }); */
-    }
+      }); 
+    }*/
     if (!!localStorage.userToken) {
       // window.Echo.connector.options.auth.headers['Authorization'] = localStorage.userToken;
       // window.Echo.connector.options.auth.headers['Accept'] = 'application/json';
@@ -206,29 +199,31 @@ function App() {
       stripe={stripePromise}
       options={{ appearance: stripeElementsAppearance }}
     >
-      <LoginContext.Provider value={isLoggedIn}>
-        <MapLoadedApiContext.Provider value={isLoaded}>
-          <div className="App">
-            {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
-            <ReactNotificationComponent
-              {...notification}
-              handleMessageClick={handleMessageClick}
-            />
-            <Header notification={state}></Header>
-            <section className="bg-gray-50 text-base">
-              <Routes />
-            </section>
-            <Footer />
-            <div className="rem-1-5">
-              <ToastContainer
-                className={"text-sm w-[42rem]"}
-                autoClose={5000}
-                position={toast.POSITION.TOP_CENTER}
+      <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
+        <LoginContext.Provider value={isLoggedIn}>
+          <MapLoadedApiContext.Provider value={isLoaded}>
+            <div className="App">
+              {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
+              <ReactNotificationComponent
+                {...notification}
+                handleMessageClick={handleMessageClick}
               />
+              <Header notification={state}></Header>
+              <section className="bg-gray-50 text-base">
+                <Routes />
+              </section>
+              <Footer />
+              <div className="rem-1-5">
+                <ToastContainer
+                  className={"text-sm w-[42rem]"}
+                  autoClose={5000}
+                  position={toast.POSITION.TOP_CENTER}
+                />
+              </div>
             </div>
-          </div>
-        </MapLoadedApiContext.Provider>
-      </LoginContext.Provider>
+          </MapLoadedApiContext.Provider>
+        </LoginContext.Provider>
+      </PayPalScriptProvider>
     </Elements>
   );
 }

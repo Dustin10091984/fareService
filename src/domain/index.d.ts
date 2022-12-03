@@ -5,9 +5,9 @@ type DataResponse<T> = {
   data: T;
 };
 
-interface IBookSliderProps {
+interface IBookSliderProps<T = any> {
   onPrev?: () => void;
-  onNext?: (value?: any) => void;
+  onNext?: (value?: T) => void;
   prevLabel?: string;
   nextLabel?: string;
   title?: string;

@@ -13,12 +13,19 @@ import { postRequestService } from "../../store/Slices/services/RequestServiceSc
 import { RootState } from "../../store";
 import { getQuestionAnswers } from "../../store/Slices/services/QuestionAnswersSlice";
 import Loading from "./../common/Loading";
-export interface IBookServiceProps {
+import ServiceWizard from "../Services/services.wizard";
+import ProfileServices from "../Profile/profile.services";
+import BookServices from "./book.services";
+import {
+  getServiceQuestion,
+  ServiceState,
+} from "../../store/Slices/services/ServiceSclice";
+export interface IBookServiceHourlyProps {
   close: () => void;
   provider: IProvider;
 }
 
-export default function BookServiceHourly(props: IBookServiceProps) {
+export default function BookServiceHourly(props: IBookServiceHourlyProps) {
   const quotationValues = React.useRef<IServiceRequestHourly>();
   const [sIndex, setSIndex] = React.useState(0);
   const [submitted, setSubmitted] = React.useState(false);
@@ -30,6 +37,14 @@ export default function BookServiceHourly(props: IBookServiceProps) {
   const serviceRequest = useSelector<RootState, any>(
     (state) => state.serviceRequest
   );
+  const service = useSelector<RootState, ServiceState>(
+    (state) => state.service
+  );
+  const slideStartIndex = React.useMemo(() => {
+    if (!service) return 0;
+    if (!questionAnswers) return 1;
+    return 2;
+  }, []);
   const onPrev = () => {
     if (sIndex <= 0) return;
     setSIndex(sIndex - 1);
@@ -63,7 +78,23 @@ export default function BookServiceHourly(props: IBookServiceProps) {
     }
     setSIndex(sIndex + 1);
   };
-  const slides = [
+  let slides = [
+    <BookServices
+      provider={provider}
+      onNext={async ({ service }) => {
+        onNext({ service });
+        dispatch(getServiceQuestion(service.sub_service.id));
+      }}
+    />,
+    <ServiceWizard
+      className="self-stretch"
+      service={service?.data}
+      loading={service?.loading}
+      config={{ shadow: false, showSeq: false, completeLabel: "Book" }}
+      onComplete={() => {
+        onNext({});
+      }}
+    />,
     <BookServiceDate
       schedules={provider?.schedules}
       blockedSlots={provider?.blocked_slots}
@@ -88,12 +119,15 @@ export default function BookServiceHourly(props: IBookServiceProps) {
     />,
     <BookPaymentMethod onPrev={onPrev} onNext={onNext} />,
     <BookSummary
+      payMethod={quotationValues.current?.payMethod}
       provider={provider}
+      nextLabel="Confirm request"
       onPrev={onPrev}
       onNext={onSubmit}
       {...quotationValues.current}
     />,
   ];
+  slides = slides.slice(slideStartIndex);
 
   return (
     <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">

@@ -21,13 +21,14 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
   const searchParams = new URLSearchParams(location.search);
   const subServiceId = searchParams.get("subService");
   const serviceId = searchParams.get("serviceId");
-  const placeId = searchParams.get("place_id");
-  const zipCode = searchParams.get("zip_code");
+  const placeId = searchParams.get("place_id") || "";
+  const zipCode = searchParams.get("zip_code") || "";
 
   const getProviders = () => {
-    history.push(
-      `/service-providers?zip_code=${zipCode}&place_id=${placeId}&subService=${subServiceId}`
-    );
+    let url = `/service-providers?subService=${subServiceId}`;
+    if (zipCode) url = url + `&zip_code=${zipCode}`;
+    if (placeId) url = url + `&place_id=${placeId}`;
+    history.push(url);
   };
   React.useEffect(() => {
     dispatch(getServiceQuestion(subServiceId));
@@ -36,7 +37,7 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
     <div className="container py-32">
       {service?.loading && <Loading loading={true} backdrop={false} />}
       {service?.data && (
-        <ServiceWizard service={service.data} getProviders={getProviders} />
+        <ServiceWizard service={service.data} onComplete={getProviders} />
       )}
     </div>
   );

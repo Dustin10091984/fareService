@@ -19,7 +19,7 @@ import {
   IPaymentSliceState,
 } from "../../store/Slices/payments/paymentSlice";
 import { RootState } from "../../store";
-
+import { PayPalButtons } from "@paypal/react-paypal-js";
 export interface IBookPaymentMethodProps extends IBookSliderProps {}
 
 export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
@@ -70,6 +70,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
             </span>
           }
         />
+
         <RadioBoxButton
           checked={payMethod == "Paypal"}
           onChange={() => {
@@ -123,6 +124,10 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
         <button
           className="fare-btn fare-btn-primary fare-btn-lg"
           onClick={() => {
+            if (payMethod == "Paypal") {
+              onNext && onNext({ payMethod });
+              return;
+            }
             if (stage == 0 && payMethod) setStage(1);
             else if (showAddCardForm) {
               //setCreditCards([...creditCards, getValues()]);
@@ -132,7 +137,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
             } else {
               onNext &&
                 onNext({
-                  card_id: paymentCards[selectedCard].id,
+                  card_id: paymentCards[selectedCard]?.id,
                 });
             }
           }}

@@ -11,7 +11,7 @@ export interface IUserFeedbackProps {
   feedback?: IFeedback;
 }
 export const UserFeedback = (props: IUserFeedbackProps) => {
-  const { feedback: { user, comment, created_at } = {} } = props;
+  const { feedback: { user, comment, created_at, rating } = {} } = props;
   return (
     <div>
       <div className="d-flex items-center space-x-3">
@@ -24,7 +24,7 @@ export const UserFeedback = (props: IUserFeedbackProps) => {
         <span>{user ? `${user.first_name} ${user.last_name}` : "Unnamed"}</span>
       </div>
       <div className="d-flex items-center space-x-3 text-sm my-3">
-        <Rating rating={4.1} className="text-xs text-orange-400" />
+        <Rating rating={rating} className="text-xs text-orange-400" />
         <small className="text-dark">
           {new Date(created_at).toLocaleDateString()}
         </small>
@@ -35,7 +35,7 @@ export const UserFeedback = (props: IUserFeedbackProps) => {
 };
 export default function ProfileReviews(props: IProfileReviewsProps) {
   let { provider, feedbacks = [] } = props;
-  let { rating = 0 } = provider;
+  let rating = provider.rating || 0;
 
   const [viewAll, setViewAll] = useState(false);
 

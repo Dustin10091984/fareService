@@ -230,7 +230,7 @@ const Footer = (props) => {
                               key={`${service.id}_${sub_service.id}`}
                             >
                               <Link
-                                to={`/services/${service.name}/${service.id}/${sub_service.name}/${sub_service.id}#services-section`}
+                                to={`/services/search?subService=${sub_service.id}`}
                                 className="link"
                                 onClick={(e) => {
                                   if (

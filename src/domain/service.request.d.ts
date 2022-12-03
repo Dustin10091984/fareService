@@ -1,4 +1,5 @@
 interface IServiceRequestHourly {
+  service: IProviderService;
   address: string;
   hours: number;
   is_hourly: boolean;
@@ -12,5 +13,7 @@ interface IServiceRequestHourly {
     end: string;
   }[];
   card_id: string;
+  payMethod: "Card" | "Paypal";
   plan_id: number;
+  order_paypal: any;
 }
