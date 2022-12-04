@@ -81,7 +81,7 @@ const ForgotPasswordWithEmail = () => {
         let data = error.response.data;
         setState((state) => ({
           ...state,
-          otpVerifyErrorMessage: data.message.otp,
+          otpVerifyErrorMessage: data.message?.otp || data.message,
           loading: false,
         }));
       });
@@ -145,7 +145,7 @@ const ForgotPasswordWithEmail = () => {
                   Forget Password
                 </div>
                 {state?.section == 0 && (
-                  <form onSubmit={handleSubmit(handleBasic)}>
+                  <form onSubmit={handleSubmit(handleBasic)} className="mx-6">
                     <div className="common-input mb-4">
                       <input
                         type="tel"
@@ -428,7 +428,9 @@ const ForgotPasswordWithEmail = () => {
                 )}
 
                 {/* <div className="d-flex justify-content-between"> */}
-                {state?.section == 1 && (
+                {/*
+                * === not provided in the design ===
+                 {state?.section == 1 && (
                   <div className="float-left angle-icon">
                     <i
                       className="fas fa-angle-left fa-1x"
@@ -453,7 +455,7 @@ const ForgotPasswordWithEmail = () => {
                       }}
                     ></i>
                   </div>
-                )}
+                )} */}
                 <hr className="my-4 mx-8" />
                 <div className="text-[1.6rem] text-gray-400 text-center px-8">
                   By signing and clicking Get a Price, you affirm you have read

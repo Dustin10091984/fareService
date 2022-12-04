@@ -32,6 +32,11 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
   };
   React.useEffect(() => {
     dispatch(getServiceQuestion(subServiceId));
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   }, [subServiceId]);
   return (
     <div className="container py-32">

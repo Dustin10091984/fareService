@@ -13,7 +13,11 @@ import { RootState } from "../../store";
 import { getQuestionAnswers } from "../../store/Slices/services/QuestionAnswersSlice";
 import Loading from "./../common/Loading";
 import ServiceWizard from "../Services/services.wizard";
-import { ServiceState } from "../../store/Slices/services/ServiceSclice";
+import {
+  getServiceQuestion,
+  ServiceState,
+} from "../../store/Slices/services/ServiceSclice";
+import BookServices from "./book.services";
 
 export interface IBookProviderProps {
   close?: () => void;
@@ -34,8 +38,9 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
     (state) => state.service
   );
   const slideStartIndex = React.useMemo(() => {
-    if (!questionAnswers) return 0;
-    return 1;
+    if (!service) return 0;
+    if (!questionAnswers) return 1;
+    return 2;
   }, []);
   const serviceRequest = useSelector<RootState, any>(
     (state) => state.serviceRequest
@@ -88,6 +93,13 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
       nextLabel="Get quotation"
       title="Where is your home?"
     />, */
+    <BookServices
+      provider={provider}
+      onNext={async ({ service }) => {
+        onNext({ service });
+        dispatch(getServiceQuestion(service.sub_service.id));
+      }}
+    />,
     <ServiceWizard
       className="self-stretch"
       service={service?.data}

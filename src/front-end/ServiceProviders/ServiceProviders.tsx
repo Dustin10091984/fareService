@@ -286,7 +286,13 @@ export const ServiceProviders = (props) => {
     });
     window.scrollTo(0, 0);
   };
-
+  let message = "";
+  if (providerList?.data?.error) message = providerList?.data.message;
+  else if (providerList?.data?.loading) {
+    message = "Please Wait we are working on it . . .";
+  } else if (!providerList?.data?.data?.data?.length) {
+    message = "No results found";
+  }
   return (
     <>
       <Modal>
@@ -307,16 +313,11 @@ export const ServiceProviders = (props) => {
             <div className="col-md-8">
               {state.error}
               {state.loggedinErr}
-              {providerList?.data?.error && (
-                <div className="text-center display-4">
-                  {providerList?.data.message}
-                </div>
+
+              {message && (
+                <div className="text-center display-4 mb-5">{message}</div>
               )}
-              {providerList?.data?.loading && (
-                <div className="text-center display-4 mb-5">
-                  Please Wait we are working on it . . .
-                </div>
-              )}
+
               {!!providerList?.data?.data?.data?.length && (
                 <ProviderCard
                   list={providerList?.data?.data?.data}

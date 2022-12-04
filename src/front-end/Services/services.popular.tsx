@@ -17,15 +17,15 @@ const makeArrowComponent =
       <div
         {...props}
         className={clsx([
-          "shadow absolute text-primary-main p-3 text-xl bg-white w-[64px] h-[64px] rounded-[24px] z-10 text-center",
+          "shadow absolute text-primary-main text-xl bg-white w-[6.4rem] h-[6.4rem] rounded-[2.4rem] z-10 text-center",
           direction === "left" ? "left-[-20px]" : "right-[-20px]",
         ])}
-        style={{ top: `calc(50% - 30px)` }}
+        style={{ top: `calc(50% - 3.2rem)` }}
       >
         {direction === "left" ? (
-          <i className="fa fa-angle-left text-3xl"></i>
+          <i className="fa fa-angle-left text-3xl leading-[6.0rem] "></i>
         ) : (
-          <i className="fa fa-angle-right text-3xl"></i>
+          <i className="fa fa-angle-right text-3xl leading-[6.0rem] "></i>
         )}
       </div>
     );

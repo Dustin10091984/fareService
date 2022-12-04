@@ -84,10 +84,30 @@ export const ProviderProfile = (props) => {
     </p>
   );
   const onBookClick = () => {
-    if (true) {
+    const is_loggedin = !!localStorage.getItem("userToken");
+    if (is_loggedin) {
       openBook();
     } else {
-      toast.warn("Please select service type and location");
+      toast.warning(
+        <div>
+          <p>
+            You should login first to
+            {provider.provider_type == "Individual"
+              ? " book service"
+              : " get a quotation"}
+          </p>
+          <Link
+            to={`/login?returnUrl=${encodeURIComponent(window.location.href)}`}
+          >
+            Click here
+          </Link>{" "}
+          to login
+        </div>,
+        {
+          autoClose: 10000,
+          bodyClassName: "w-max",
+        }
+      );
     }
   };
   return (

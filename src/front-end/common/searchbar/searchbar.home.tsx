@@ -69,6 +69,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
    * Zip Code State
    */
   const loadZipCodeOptions = async (value: string | number) => {
+    if (!value) return null;
     const resp = await axios({
       method: "get",
       url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
@@ -85,6 +86,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
   };
 
   const [zipCode, setZipCode] = useState<SelectValue>();
+  const [zipCodeInput, setZipCodeInput] = useState("");
 
   useEffect(() => {
     loadZipCodeOptions(propZipCode).then((options) => {
@@ -133,6 +135,10 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
           onChange={(newValue: any) => {
             setZipCode(newValue);
           }}
+          onInputChange={(val) => {
+            setZipCodeInput(val);
+          }}
+          menuIsOpen={zipCodeInput != ""}
         />
         <button
           className={clsx(

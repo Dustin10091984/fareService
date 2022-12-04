@@ -52,21 +52,10 @@ const Footer = (props) => {
               key={`${sub_service.service_id}_${sub_service.id}`}
             >
               <Link
-                to={`/services/${sub_service.service}/${sub_service.service_id}/${sub_service.name}/${sub_service.id}#services-section`}
+                to={`/services/search?subService=${sub_service.id}`}
                 className="link"
-                onClick={(e) => {
-                  if (
-                    location?.pathname ==
-                      `/services/${sub_service.service}/${sub_service.service_id}/${sub_service.name}/${sub_service.id}` &&
-                    location?.hash == `#services-section`
-                  ) {
-                    e.preventDefault();
-                  }
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                  ref.current.click();
+                onClick={() => {
+                  ref.current?.click();
                 }}
               >
                 {sub_service.name}
@@ -80,29 +69,12 @@ const Footer = (props) => {
                 }`}
               >
                 <Link
-                  to={`/services/${sub_services[index + 1].service}/${
-                    sub_services[index + 1].service_id
-                  }/${sub_services[index + 1].name}/${
+                  to={`/services/search?subService=${
                     sub_services[index + 1].id
-                  }#services-section`}
+                  }`}
                   className="link"
-                  onClick={(e) => {
-                    if (
-                      location?.pathname ==
-                        `/services/${sub_services[index + 1].service}/${
-                          sub_services[index + 1].service_id
-                        }/${sub_services[index + 1].name}/${
-                          sub_services[index + 1].id
-                        }` &&
-                      location?.hash == `#services-section`
-                    ) {
-                      e.preventDefault();
-                    }
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    });
-                    ref.current.click();
+                  onClick={() => {
+                    ref.current?.click();
                   }}
                 >
                   {sub_services[index + 1].name}
@@ -194,23 +166,15 @@ const Footer = (props) => {
                   Send
                 </button>
               </div>
-              <p className="text-[1.7rem] py-8">Download the Farenow App</p>
+              <p className="text-[1.6rem] font-medium py-8 text-gray-600">
+                Download the Farenow App
+              </p>
               <div>
-                <button className="rounded-2xl p-3 bg-slate-900 hover:bg-slate-800 text-white text-[1rem] w-[140px]  mr-8">
-                  <img
-                    src="/assets/img/app-store-logo-white.svg"
-                    className="float-left m-2 w-[20px]"
-                  />
-                  Download on the <br />{" "}
-                  <span className="font-bold text-xs">App Store</span>
+                <button className="mr-4">
+                  <img src="/assets/img/download-app-store.svg" />
                 </button>
-                <button className="rounded-2xl p-3 bg-slate-900 hover:bg-slate-800 text-white text-[1rem] w-[140px]">
-                  <img
-                    src="/assets/img/google-play-logo.svg"
-                    className="float-left mx-2 w-[28px]"
-                  />
-                  Available on the <br />{" "}
-                  <span className="font-bold text-xs">Google Play</span>
+                <button>
+                  <img src="/assets/img/download-google-play.svg" />
                 </button>
               </div>
             </div>
@@ -232,19 +196,6 @@ const Footer = (props) => {
                               <Link
                                 to={`/services/search?subService=${sub_service.id}`}
                                 className="link"
-                                onClick={(e) => {
-                                  if (
-                                    location?.pathname ==
-                                      `/services/${service.id}/${sub_service.id}` &&
-                                    location?.hash == "#services-section"
-                                  ) {
-                                    e.preventDefault();
-                                  }
-                                  window.scrollTo({
-                                    top: 0,
-                                    behavior: "smooth",
-                                  });
-                                }}
                               >
                                 {sub_service.name}
                               </Link>
@@ -510,12 +461,12 @@ const Footer = (props) => {
         aria-hidden="true"
       >
         <div
-          className="modal-dialog modal-dialog-centered modal"
+          className="modal-dialog modal-dialog-centered modal text-sm"
           role="document"
         >
-          <div className="modal-content">
+          <div className="modal-content ">
             <div className="modal-header">
-              <h2 className="modal-title" id="exampleModalLongTitle">
+              <h2 className="modal-title text-lg" id="exampleModalLongTitle">
                 {state.modal?.title}
               </h2>
               <button

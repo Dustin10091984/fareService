@@ -257,7 +257,7 @@ const Login = (props) => {
                     <input
                       type="text"
                       name="user_name"
-                      placeholder="Email/Phone +123456789000"
+                      placeholder="Enter your email address"
                       required
                       value={state.values.user_name}
                       onChange={handleChange}
@@ -268,7 +268,7 @@ const Login = (props) => {
                       id="password"
                       type={state?.isVisible ? "text" : "password"}
                       name="password"
-                      placeholder="Password"
+                      placeholder="Enter your password"
                       required
                       value={state.values.password}
                       onChange={handleChange}

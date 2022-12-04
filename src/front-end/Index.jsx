@@ -115,7 +115,7 @@ export const Index = (props) => {
                 see real-time location of your professional and so much more.
               </p>
               <div>
-                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-xs mr-8 w-[240px] px-12">
+                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 w-[240px] px-12">
                   <img
                     src="/assets/img/app-store-logo.svg"
                     className="float-left mx-2"
@@ -123,7 +123,7 @@ export const Index = (props) => {
                   Download on the <br />{" "}
                   <span className="font-bold text-sm">App Store</span>
                 </button>
-                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-xs w-[240px] px-12">
+                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] w-[240px] px-12">
                   <img
                     src="/assets/img/google-play-logo.svg"
                     className="float-left mx-2"

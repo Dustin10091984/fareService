@@ -20,7 +20,7 @@ export default function ServiceWizard(props: IServiceWizardProps) {
   const {
     config: {
       shadow = true,
-      showSeq = false,
+      showSeq = true,
       completeLabel = "Get Providers",
     } = {},
     className = "",
@@ -32,6 +32,7 @@ export default function ServiceWizard(props: IServiceWizardProps) {
   const activeOption = activeOptions[step] ?? 0;
   const questions = service?.questions || [];
   const question = questions.at(step);
+  const total = questions?.length;
   const dispatch = useDispatch();
 
   const nextStep = () => {
@@ -66,7 +67,7 @@ export default function ServiceWizard(props: IServiceWizardProps) {
         <>
           {showSeq && (
             <div className="text-primary-main">
-              {step + 1} of {questions?.length}
+              {step + 1} of {total}
             </div>
           )}
           <div className="text-[4rem] font-medium">{question.question}</div>
@@ -89,21 +90,21 @@ export default function ServiceWizard(props: IServiceWizardProps) {
             ))}
           </div>
           <div className="space-x-12 py-6">
-            <button
-              className="fare-btn text-primary-main bg-gray-100 fare-btn-lg disabled:text-white"
-              disabled={step <= 0}
-              onClick={prevStep}
-            >
-              Previous
-            </button>
+            {total > 1 && (
+              <button
+                className="fare-btn text-primary-main bg-gray-100 fare-btn-lg disabled:text-white"
+                disabled={step <= 0}
+                onClick={prevStep}
+              >
+                Previous
+              </button>
+            )}
             <button
               className="fare-btn fare-btn-primary fare-btn-lg"
               disabled={activeOption == 0}
-              onClick={
-                step < service.questions.length - 1 ? nextStep : onComplete
-              }
+              onClick={step < total - 1 ? nextStep : onComplete}
             >
-              {step < service.questions.length - 1 ? "Continue" : completeLabel}
+              {step < total - 1 ? "Continue" : completeLabel}
             </button>
           </div>
         </>

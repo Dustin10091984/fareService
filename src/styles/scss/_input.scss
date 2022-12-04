@@ -18,9 +18,24 @@
     width: 100%;
     color: #606060;
     padding: 2rem 1.6rem; // changed by @evhenii
-
+    border-right: 10px solid transparent;
     &::placeholder {
       color: #b6bcc1;
+    }
+  }
+
+  &.select-wrapper {
+    position: relative;
+    &::after {
+      content: "▼";
+      font-size: 1rem;
+      top: 6px;
+      right: 10px;
+      position: absolute;
+    }
+    select {
+      -webkit-appearance: none;
+      appearance: none;
     }
   }
 
