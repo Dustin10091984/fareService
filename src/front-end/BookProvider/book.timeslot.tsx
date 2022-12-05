@@ -36,9 +36,12 @@ export default function BookTimeslot(
     schedules,
     blockedSlots
   );
+  /**
+   * don't use schedule time
+   */
   const scheduleTime = {
-    from: getMinutesFromTimeString(schedule?.from_time),
-    to: getMinutesFromTimeString(schedule?.to_time || "24:00"),
+    from: 0, //getMinutesFromTimeString(schedule?.from_time),
+    to: 24 * 60, //getMinutesFromTimeString(schedule?.to_time || "24:00"),
   };
   const blockTime = {
     from: getMinutesFromTimeString(blockedSlot?.from_time),

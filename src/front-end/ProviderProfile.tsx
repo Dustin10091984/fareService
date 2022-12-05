@@ -110,6 +110,34 @@ export const ProviderProfile = (props) => {
       );
     }
   };
+  /* const pp: IProvider = {
+    ...provider,
+    schedules: [
+      {
+        day: "Mon",
+        from_time: "12:00",
+        to_time: "18:00",
+        id: 0,
+        is_custom: 0,
+        provider_id: 0,
+      },
+      {
+        day: "Wed",
+        from_time: "12:00",
+        to_time: "18:00",
+        id: 0,
+        is_custom: 0,
+        provider_id: 0,
+      },
+    ],
+    blocked_slots: [
+      {
+        date: "2022-12-07",
+        from_time: "08:00",
+        to_time: "12:00",
+      },
+    ],
+  }; */
   return (
     <>
       <Loading loading={providerProfile?.loading} />

@@ -78,6 +78,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     }
     setSIndex(sIndex + 1);
   };
+
   let slides = [
     <BookServices
       provider={provider}

@@ -16,7 +16,7 @@ export const getScheduleAndBlockedSlotOFDate = (
   if (!date) return [];
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const weekDay = weekDays[date.getDay()];
-  const schedule = schedules.find((s) => s.day.startsWith(weekDay));
+  let schedule = schedules.find((s) => s.day.startsWith(weekDay));
 
   const slot = blockedSlots.find((s) => {
     return date.toISOString() == new Date(`${s.date} 00:00:00`).toISOString();
@@ -33,8 +33,12 @@ export default function BookServiceDate(props: IBookServiceDateProps) {
       schedules,
       blockedSlots
     );
-    /** no schdule - block day */
-    if (!schedule) return true;
+    /** not in schdule - block day */
+    if (schedules.length > 0 && !schedule) return true;
+    return false;
+    /**
+     * don't block though blocked slot is found
+     */
     if (
       slot &&
       slot.from_time <= schedule.from_time &&
@@ -60,7 +64,7 @@ export default function BookServiceDate(props: IBookServiceDateProps) {
         </p>
       )}
       <FareDatePicker
-        //isBlocked={isBlocked}
+        isBlocked={isBlocked}
         onChange={(e) => {
           setServiceDate(e);
         }}
