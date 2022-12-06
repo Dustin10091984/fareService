@@ -173,7 +173,7 @@ export const Chat = ({ isChatOpen, ...props }) => {
               className="mt-1 mb-2"
               border
               icon={
-                <i className="fa fa-arrow-left mr-1" aria-hidden="true">
+                <i className="la la-arrow-left mr-1" aria-hidden="true">
                   {" "}
                 </i>
               }

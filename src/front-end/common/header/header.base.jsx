@@ -15,6 +15,7 @@ import { headerMenu } from "../../../store/Slices/HeaderMenuSlice";
 import { pageLinks } from "../../../store/Slices/footer";
 import _ from "lodash";
 import { useModal } from "react-hooks-use-modal";
+import clsx from "clsx";
 
 export const BaseHeader = (props) => {
   const { notification, children } = props;
@@ -33,7 +34,7 @@ export const BaseHeader = (props) => {
 
   const location = useLocation();
   const history = useHistory();
-  const routeMatch = useRouteMatch();
+  const routeLoginMatch = useRouteMatch("/login");
 
   const dispatch = useDispatch();
 
@@ -278,26 +279,26 @@ export const BaseHeader = (props) => {
             fontSize: "1.5rem",
           }}
         >
-          <div className="px-4 py-3 border-bottom text-sm text-primary-main font-medium">
+          <div className="px-4 py-3  border-solid border-b border-gray-100 text-sm text-primary-main font-medium">
             {user_data?.first_name}&ensp;{user_data?.last_name}
           </div>
           <Link
             to="/dashboard"
-            className=" dropdown-item border-bottom border-gray-100"
+            className="dropdown-item border-solid border-b border-gray-100"
           >
-            <i
-              className="fa fa-tachometer px-2 w-[3.6rem]"
-              aria-hidden="true"
-            ></i>
+            <i className="la la-home px-2 w-[3.6rem]" aria-hidden="true"></i>
             Dashboard
           </Link>
-          <Link to="/my-account" className=" dropdown-item border-bottom">
-            <i className="fa fa-user px-2 w-[3.6rem]" aria-hidden="true"></i>
+          <Link
+            to="/my-account"
+            className="dropdown-item  border-solid border-b border-gray-100"
+          >
+            <i className="la la-user px-2 w-[3.6rem] " aria-hidden="true"></i>
             My Account
           </Link>
           <Link to="" onClick={handleLogout} className="dropdown-item">
             <i
-              className="fa fa-sign-out px-2 w-[3.6rem]"
+              className="la la-sign-out px-2 w-[3.6rem]"
               aria-hidden="true"
             ></i>
             Logout
@@ -346,13 +347,23 @@ export const BaseHeader = (props) => {
                 <>
                   <Link
                     to="/login"
-                    className="fare-btn fare-btn-outline-primary mx-2"
+                    className={clsx([
+                      "fare-btn mx-2",
+                      routeLoginMatch?.isExact
+                        ? "fare-btn-primary"
+                        : "fare-btn-outline-primary",
+                    ])}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="fare-btn fare-btn-primary mx-2"
+                    className={clsx([
+                      "fare-btn mx-2",
+                      !routeLoginMatch
+                        ? "fare-btn-primary"
+                        : "fare-btn-outline-primary",
+                    ])}
                   >
                     Sign up
                   </Link>

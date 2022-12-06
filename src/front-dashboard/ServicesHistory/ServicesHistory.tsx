@@ -333,7 +333,7 @@ export const ServicesHistory = (props) => {
               data-dismiss="modal"
               ref={ref}
             >
-              <i className="fa fa-times mr-2 "></i>Close
+              <i className="la la-times mr-2 "></i>Close
             </button>
 
             <div className="d-flex flex-column items-center gap-12 mt-16">

@@ -32,16 +32,23 @@ export const Index = (props) => {
                   </div>
                 </div>
 
-                <div className="d-flex align-items-center justify-content-center relative right-[-40px]">
-                  <img src="/assets/img/banner-img-background.svg" />
+                <div className="d-flex align-items-center justify-content-center relative right-[-4rem]">
+                  <img
+                    src="/assets/img/banner-img-background.svg"
+                    className="w-[45rem]"
+                  />
                   <img
                     src="/assets/img/banner-img.png"
-                    className="w-[420px] absolute"
+                    className="w-[42rem] absolute"
                     alt=""
                   />
                   <img
                     src="/assets/img/banner-sub-img.png"
-                    className="w-[160px] absolute left-[-80px]"
+                    className="w-[16rem] absolute left-[-8rem]"
+                  />
+                  <img
+                    src="/assets/img/provider-card-sample.png"
+                    className="absolute w-[40rem] bottom-0 -left-[15rem]"
                   />
                 </div>
               </div>
@@ -50,7 +57,7 @@ export const Index = (props) => {
         </div>
       </div>
 
-      <section className="py-32 bg-gray-50" id={"popular-services"}>
+      <section className="py-32 bg-gray-100" id={"popular-services"}>
         <div className="container">
           <PopularServices services={headerMenu} />
         </div>
@@ -238,7 +245,7 @@ export const Index = (props) => {
             </p>
             <Link
               to="/provider/registration"
-              className="fare-btn fare-btn-outline-primary my-8"
+              className="fare-btn fare-btn-outline-primary fare-btn-lg my-8"
             >
               Become a Farenow Pro
             </Link>

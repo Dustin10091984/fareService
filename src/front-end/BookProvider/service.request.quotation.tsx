@@ -112,7 +112,7 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
     <BookQuotationForm onNext={onNext} />,
   ].slice(slideStartIndex);
   return (
-    <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">
+    <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto scrollbar">
       <div className="d-flex flex-column items-center">
         {serviceRequest.loading && <Loading loading={true} />}
         {!submitted && (
@@ -124,7 +124,7 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
               className="fare-btn fare-btn-default fare-btn-large absolute right-8 top-8"
               onClick={close}
             >
-              <i className="fa fa-times mr-2 "></i>Close
+              <i className="la la-times mr-2 "></i>Close
             </button>
             {slides.map((s, index) => {
               return index == sIndex ? s : <></>;

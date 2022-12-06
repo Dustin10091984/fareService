@@ -3,6 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "../../constants";
 import OTPVerifyInput from "./OTPVerifyInput";
+import CommonInput from "../../components/input.common";
 
 const RegisterWithEmail = (props) => {
   const { history } = props;
@@ -246,6 +247,7 @@ const RegisterWithEmail = (props) => {
                       <div className="inner-box-log mx-auto">
                         <form onSubmit={handleEmailSignUp}>
                           <div className="common-input mb-5">
+                            <label>Email Address</label>
                             <input
                               type="text"
                               name="email"
@@ -347,6 +349,7 @@ const RegisterWithEmail = (props) => {
                         <div className="row">
                           <div className="col-md-6">
                             <div className="common-input mb-5">
+                              <label>First Name</label>
                               <input
                                 type="text"
                                 placeholder="First Name"
@@ -363,6 +366,7 @@ const RegisterWithEmail = (props) => {
                           </div>
                           <div className="col-md-6">
                             <div className="common-input mb-5">
+                              <label>Last Name</label>
                               <input
                                 type="text"
                                 placeholder="Last Name"
@@ -379,6 +383,7 @@ const RegisterWithEmail = (props) => {
                           </div>
                           <div className="col-md-6">
                             <div className="common-input mb-5">
+                              <label>Email Address</label>
                               <input
                                 type="text"
                                 placeholder="Email"
@@ -393,6 +398,7 @@ const RegisterWithEmail = (props) => {
                           </div>
                           <div className="col-md-6">
                             <div className="common-input mb-5">
+                              <label>Zip Code</label>
                               <input
                                 type="text"
                                 placeholder="ZIP Code"
@@ -408,36 +414,34 @@ const RegisterWithEmail = (props) => {
                             </div>
                           </div>
                           <div className="col-md-6">
-                            <div className="common-input mb-5">
-                              <input
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                value={state.values.password}
-                                onChange={handleChange}
-                              />
-                              <p className="text-danger">
-                                {hasError("password")
+                            <CommonInput
+                              label="Password"
+                              type="password"
+                              placeholder="Password"
+                              name="password"
+                              value={state.values.password}
+                              onChange={handleChange}
+                              error={
+                                hasError("password")
                                   ? state.errors.password
-                                  : ""}
-                              </p>
-                            </div>
+                                  : ""
+                              }
+                            />
                           </div>
                           <div className="col-md-6">
-                            <div className="common-input mb-5">
-                              <input
-                                type="password"
-                                placeholder="Confirm Password"
-                                name="password_confirmation"
-                                value={state.values.password_confirmation}
-                                onChange={handleChange}
-                              />
-                              <p className="text-danger">
-                                {hasError("password_confirmation")
+                            <CommonInput
+                              label="Confirm Password"
+                              type="password"
+                              placeholder="Confirm Password"
+                              name="password_confirmation"
+                              value={state.values.password_confirmation}
+                              onChange={handleChange}
+                              error={
+                                hasError("password_confirmation")
                                   ? state.errors.password_confirmation
-                                  : ""}
-                              </p>
-                            </div>
+                                  : ""
+                              }
+                            />
                           </div>
                           <div className="col-md-12">
                             <button
@@ -445,7 +449,7 @@ const RegisterWithEmail = (props) => {
                               className="fare-btn fare-btn-lg  fare-btn-primary w-100 my-3"
                               disabled={state.isLoading || state?.success}
                             >
-                              Register{" "}
+                              Submit{" "}
                               {state.isLoading ? (
                                 <i className="fas fa-spinner fa-spin ml-3"></i>
                               ) : (

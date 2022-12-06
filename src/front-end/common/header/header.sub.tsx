@@ -20,7 +20,7 @@ export default function SubHeader(
             history.goBack();
           }}
         >
-          <i className="fa fa-arrow-left"></i>&ensp;Back
+          <i className="la la-arrow-left"></i>&ensp;Back
         </button>
         <h1 className="text-3xl flex-grow font-medium">{title}</h1>
         {children}

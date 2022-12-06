@@ -160,8 +160,8 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
               </div>
             )}
             <div className="d-flex items-center space-x-4">
-              <div className="flex-grow">
-                <i className="fa fa-map-marker text-gray-500"></i>
+              <div className="flex-grow text-sm">
+                <i className="las la-map-marker text-gray-500 text-xl"></i>
                 &nbsp; {provider?.provider_profile.city}
               </div>
               <Link

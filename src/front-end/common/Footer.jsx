@@ -179,7 +179,7 @@ const Footer = (props) => {
               </div>
             </div>
             <div className="col-start-5 col-span-2">
-              <div className="d-flex align-items-center md:justify-center">
+              <div className="flex items-center md:justify-center">
                 <ul className="footer-link">
                   <div className="mb-4 font-bold text-xl">Popular Services</div>
                   {(() => {
@@ -327,7 +327,7 @@ const Footer = (props) => {
       <footer className="footer-sec2 bg-primary-dark">
         <div className="container">
           <div className="row">
-            <div className="col-md-12 d-flex flex-wrap align-items-center justify-content-between flex-column flex-md-row">
+            <div className="col-md-12 flex flex-wrap items-start justify-content-between flex-column flex-md-row">
               <div className="footer-lgoo mb-5 p-4 rounded-xl bg-gray-50">
                 <Link
                   to={(location) => ({

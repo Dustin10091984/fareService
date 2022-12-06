@@ -143,7 +143,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
               className="fare-btn fare-btn-default fare-btn-large absolute right-8 top-8"
               onClick={close}
             >
-              <i className="fa fa-times mr-2 "></i>Close
+              <i className="la la-times mr-2 "></i>Close
             </button>
             {slides.map((s, index) => {
               return index == sIndex ? s : "";

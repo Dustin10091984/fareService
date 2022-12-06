@@ -25,7 +25,7 @@ const Filter = memo(({ providerType }) => {
   return (
     <aside className="col-md-4" style={{ zIndex: 0 }}>
       <div className="sticky-top">
-        <div className="service-time-box">
+        <div className="service-time-box text-gray-500">
           <div className="date-ser mb-3">
             <div className="title-servic p-2 mb-4">Provider Type</div>
             {providerType != ServiceType.MOVING && (
@@ -59,11 +59,11 @@ const Filter = memo(({ providerType }) => {
               </div>
             )}
           </div>
-          <div className="common-input time-list-pro mb-4 mx-2 w-auto ">
+          <div className="time-list-pro mb-4 mx-2 w-auto ">
             <select
               value={searchParams.get("rating") || ""}
               name="rating"
-              className="select-time basis-full"
+              className="select-time basis-full outline-none "
               onChange={({ target: { name, value } }) => {
                 handleFilterClick({
                   type: name,
@@ -114,56 +114,6 @@ const Filter = memo(({ providerType }) => {
               </div>
             </div>
           </div>
-          {/* 
-                    <div className="title-servic px-2 mt-4">Timing</div>
-                    <ul className="time-list mt-4 d-flex align-items-center justify-content-between flex-wrap">
-                        <li className="d-flex align-items-center justify-content-center">
-                            Morning (8AM - 12PM)
-                        </li>
-                        <li className="d-flex align-items-center justify-content-center">
-                            Afternoon (12PM - 5PM)
-                        </li>
-                        <li className="d-flex align-items-center justify-content-center">
-                            Afternoon (12PM - 5PM)
-                        </li>
-                    </ul> */}
-
-          {/* <div className="common-input mb-4 ml-3 w-auto">
-                        <select name="" id="">
-                            <option value="">Choose specific time</option>
-                            <option value="">Choose specific time</option>
-                            <option value="">Choose specific time</option>
-                            <option value="">Choose specific time</option>
-                            <option value="">Choose specific time</option>
-                        </select>
-                    </div> */}
-
-          {/* <hr /> */}
-
-          {/* <div className="title-servic px-2 mt-4">How often</div>
-                    <div className="time-list-pro">
-                        <div className="mx-2 select-time">Weekly</div>
-                        <div className="mx-2 select-time">Every 2 Weeks</div>
-                        <div className="mx-2 select-time">Every 4 Weeks</div>
-                        <div className="mx-2 select-time">Just Once</div>
-                    </div>
-                    <div className="ser-des">
-                        Amet minim mollit non deserunt ullamco est sit aliqua
-                        dolor do amet sint. Velit officia consequat duis enim
-                        velit mollit. Exercitation veniam consequat sunt nostrud
-                        amet.
-                    </div> */}
-
-          {/* <hr /> */}
-
-          {/* <ul className="time-list mt-4 d-flex align-items-start flex-column">
-                        <li className="d-flex align-items-center justify-content-center">
-                            Elite Tasker
-                        </li>
-                        <li className="d-flex align-items-center justify-content-center">
-                            Great Value
-                        </li>
-                    </ul> */}
         </div>
       </div>
     </aside>

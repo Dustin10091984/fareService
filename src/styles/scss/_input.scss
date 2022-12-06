@@ -3,25 +3,29 @@
   font-size: 1.6rem;
 
   label {
-    //font-size: 1.6rem;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
   }
 
   input,
   select {
-    background: #f1f2f6;
+    background: white; //#f1f2f6;
     border-radius: 1rem;
     border: none;
-    outline: none;
+    outline: 1px solid #bdbdbd;
     font-style: normal;
     font-weight: normal;
     line-height: 1.8rem;
     width: 100%;
-    color: #606060;
+    color: #555555;
     padding: 2rem 1.6rem; // changed by @evhenii
-    border-right: 10px solid transparent;
+
     &::placeholder {
       color: #b6bcc1;
     }
+  }
+  select {
+    border-right: 10px solid transparent;
   }
 
   &.select-wrapper {
@@ -40,10 +44,10 @@
   }
 
   textarea {
-    background: #f1f2f6;
+    background: white; //#f1f2f6;
     border-radius: 1rem;
     border: none;
-    outline: none;
+    outline: 1px solid #bdbdbd;
     font-style: normal;
     font-weight: normal;
     font-size: 1.52rem;
@@ -67,15 +71,16 @@
   border-radius: 1rem;
   font-style: normal;
   font-weight: normal;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   line-height: 1.8rem;
-  color: #b6bcc1;
+  color: #666;
   display: flex;
   align-items: center;
   padding: 1.6rem !important;
   margin-bottom: 1rem;
   cursor: pointer;
-  flex-basis: 45%;
+  flex-basis: 47%;
+  border-right: 10px solid transparent;
 
   &.selected {
     //background: rgba(254, 165, 41, 0.3);

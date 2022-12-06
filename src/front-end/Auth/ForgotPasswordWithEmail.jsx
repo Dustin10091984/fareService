@@ -147,6 +147,7 @@ const ForgotPasswordWithEmail = () => {
                 {state?.section == 0 && (
                   <form onSubmit={handleSubmit(handleBasic)} className="mx-6">
                     <div className="common-input mb-4">
+                      <label>Email Address</label>
                       <input
                         type="tel"
                         name="email"

@@ -4,6 +4,7 @@ import axios from "axios";
 import { HOST } from "../../constants";
 import OTPVerifyInput from "./OTPVerifyInput";
 // import { GoogleLogin } from "react-google-login";
+import { type } from "./../../store/Slices/services/QuestionAnswersSlice";
 
 const Login = (props) => {
   const { history, location } = props;
@@ -68,7 +69,7 @@ const Login = (props) => {
         shape: "pill",
       });
 
-      tokenClient.current = window.google.accounts.oauth2.initTokenClient({
+      tokenClient.current = window.google?.accounts?.oauth2?.initTokenClient({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         scope: "https://www.googleapis.com/auth/contacts.readonly",
         prompt: "select_account", // '' | 'none' | 'consent' | 'select_account'
@@ -233,6 +234,13 @@ const Login = (props) => {
 
   const hasError = (field) => (state.errors[field] ? true : false);
 
+  const togglePasswordVisibility = () => {
+    setState((state) => ({
+      ...state,
+      isVisible: !state.isVisible,
+    }));
+  };
+
   return (
     <div className="login-sec d-flex align-items-center bg-gray-50">
       <div className="container">
@@ -254,6 +262,7 @@ const Login = (props) => {
               <div className="mx-6">
                 <form onSubmit={handleSignUp}>
                   <div className="common-input mb-5">
+                    <label>Email Address</label>
                     <input
                       type="text"
                       name="user_name"
@@ -264,6 +273,7 @@ const Login = (props) => {
                     />
                   </div>
                   <div className="common-input">
+                    <label>Password</label>
                     <input
                       id="password"
                       type={state?.isVisible ? "text" : "password"}
@@ -275,34 +285,27 @@ const Login = (props) => {
                     />
                     {!state?.isVisible && (
                       <i
-                        onClick={() => {
-                          setState((state) => ({
-                            ...state,
-                            isVisible: !state.isVisible,
-                          }));
-                        }}
-                        className="fa fa-eye float-right pr-3 eye-icon text-base"
+                        onClick={togglePasswordVisibility}
+                        className="la la-eye-slash float-right pr-3 eye-icon text-xl text-gray-600"
                       ></i>
                     )}
                     {state?.isVisible && (
                       <i
-                        onClick={() => {
-                          setState((state) => ({
-                            ...state,
-                            isVisible: !state.isVisible,
-                          }));
-                        }}
-                        className="fa fa-eye-slash float-right pr-3 eye-icon text-base"
+                        onClick={togglePasswordVisibility}
+                        className="la la-eye float-right pr-3 eye-icon text-xl text-gray-600"
                       ></i>
                     )}
                     <p className="text-danger">
                       {hasError("password") ? state.errors.password : ""}
                     </p>
                   </div>
-                  <div className="d-flex justify-end my-4">
+                  <div className="flex my-4 items-center">
+                    <input type="checkbox" className="mr-3 w-[2rem] h-[2rem]" />
+                    <div className="text-sm">Remember me</div>
+                    <div className="flex-grow-1"></div>
                     <Link
                       to="/forgot-password"
-                      className="btn btn-link text-base"
+                      className="btn btn-link text-sm"
                     >
                       Forgot Password?
                     </Link>

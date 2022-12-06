@@ -792,7 +792,7 @@ const SelectZipCode = ({
             >
               {zip?.formatted_address}{" "}
               <span
-                className="fa fa-times ml-1"
+                className="la la-times ml-1"
                 onClick={() => {
                   handleZipCode({
                     zip_code: zipCode?.zip_code.filter(

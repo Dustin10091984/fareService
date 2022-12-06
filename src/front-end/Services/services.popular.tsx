@@ -54,11 +54,11 @@ export default function PopularServices(props: IPopularServicesProps) {
         Explore our top services. All our services are designed with you in
         mind.
       </p>
-      <div className="bg-primary-light p-3 px-4 d-flex space-x-4 rounded-[24px]">
+      <div className="bg-primary-light p-3 px-4 d-flex space-x-4 rounded-[2.4rem]">
         {services.map((service, index) => (
           <button
             className={clsx([
-              "rounded-[16px] px-3 py-2 text-base text-gray-600",
+              "rounded-[1.6rem] px-4 py-2 text-base text-gray-600",
               { "bg-primary-main text-white": activeServiceIndex == index },
             ])}
             key={service.id}
@@ -79,7 +79,7 @@ export default function PopularServices(props: IPopularServicesProps) {
                 const item = services?.at(activeServiceIndex);
                 return (
                   item && (
-                    <div className="p-3">
+                    <div className="p-3" key={item.id}>
                       <div
                         key={`${index}_${activeServiceIndex}`}
                         className="service-box h-[30rem] w-100 m-0"

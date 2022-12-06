@@ -674,3 +674,42 @@ button:disabled:hover {
 .shadow-normal {
   box-shadow: 0px 8px 16px 0px #00000014;
 }
+/* 
+.scrollbar::-webkit-scrollbar {
+  width: 1rem;
+  height: 1rem;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  margin: 2rem;
+  background: #ffffff80;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #dddddd;
+  border-radius: 100vh;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cfcfcf;
+}
+ */
+*::-webkit-scrollbar {
+  width: 1rem;
+  height: 1rem;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  margin: 2rem;
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #e8e8e8;
+  border-radius: 100vh;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #cfcfcf;
+}

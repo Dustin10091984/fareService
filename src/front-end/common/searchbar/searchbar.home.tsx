@@ -90,6 +90,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
 
   useEffect(() => {
     loadZipCodeOptions(propZipCode).then((options) => {
+      if (!options) return;
       setZipCode(options.find((op) => op.value === propPlaceId));
     });
   }, []);
@@ -109,7 +110,7 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
       <div className="rounded-[24px] bg-primary-light d-flex p-2 items-center border-blue-200 border-x border-y">
         <img
           src="/assets/img/search-normal.svg"
-          className="ml-4 mb-1 w-[2.5rem]"
+          className="ml-4 mb-1 w-[2.5rem]  h-[2.5rem]"
         />
         <ReactSelect
           styles={searchStyle}
@@ -124,7 +125,11 @@ export default function HomeSearchBar(props: IHomeSearchBarProps) {
           }}
         />
         <div className="bg-primary-main w-[1px] mx-3 my-2 self-stretch"></div>
-        <i className="fa fa-map-marker text-sm mx-3 text-secondary"></i>
+        <i className="fa fa-map-marker text-sm mx-3 text-secondary d-none"></i>
+        <img
+          src="/assets/img/icon-map-marker.svg"
+          className="ml-4 mb-1 w-[2.5rem] h-[2.5rem]"
+        />
         <ReactAsyncSelect
           cacheOptions
           loadOptions={loadZipCodeOptions}
