@@ -247,11 +247,6 @@ const Login = (props) => {
         <div className="row">
           <div className="col-md-12">
             <div className="login-box shadow rounded-[32px] mx-auto">
-              {location?.state?.from == "forgot-password" && (
-                <div className="text-success rem-1-5 alert alert-success text-center">
-                  {location?.state?.message}
-                </div>
-              )}
               <div className="login-heading text-center text-4xl">Login</div>
 
               <div className="text-center text-danger mb-2">

@@ -5,8 +5,19 @@ import { HOST } from "../constants";
 import ServiceType from "../constants/ServiceType";
 import PopularServices from "./Services/services.popular";
 import HomeSearchBar from "./common/searchbar/searchbar.home";
+import DownloadDialog from "./common/download.dialog";
+import { useModal } from "react-hooks-use-modal";
+import { useRef } from "react";
 export const Index = (props) => {
   const headerMenu = useSelector((state) => state.headerMenuReducer);
+
+  const [DownloadModal, openDownload, closeDownload] = useModal("root");
+  const downloadType = useRef("APP_STORE");
+  const openDownloadDialog = (type) => {
+    downloadType.current = type;
+    openDownload();
+  };
+
   return (
     <>
       <div className="banner">
@@ -122,7 +133,12 @@ export const Index = (props) => {
                 see real-time location of your professional and so much more.
               </p>
               <div>
-                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 w-[240px] px-12">
+                <button
+                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 w-[240px] px-12"
+                  onClick={() => {
+                    openDownloadDialog("APP_STORE");
+                  }}
+                >
                   <img
                     src="/assets/img/app-store-logo.svg"
                     className="float-left mx-2"
@@ -130,7 +146,12 @@ export const Index = (props) => {
                   Download on the <br />{" "}
                   <span className="font-bold text-sm">App Store</span>
                 </button>
-                <button className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] w-[240px] px-12">
+                <button
+                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] w-[240px] px-12"
+                  onClick={() => {
+                    openDownloadDialog("GOOGLE_PLAY");
+                  }}
+                >
                   <img
                     src="/assets/img/google-play-logo.svg"
                     className="float-left mx-2"
@@ -257,13 +278,9 @@ export const Index = (props) => {
         </div>
       </section>
 
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <hr />
-          </div>
-        </div>
-      </div>
+      <DownloadModal>
+        <DownloadDialog type={downloadType.current} />
+      </DownloadModal>
     </>
   );
 };

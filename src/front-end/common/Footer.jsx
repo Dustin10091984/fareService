@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useModal } from "react-hooks-use-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter, useLocation } from "react-router-dom";
+import { APP_STORE, GOOGLE_PLAY } from "../../constants";
 import { getPages } from "./../../store/Slices/footer/index";
+import DownloadDialog from "./download.dialog";
 const Footer = (props) => {
   const [state, setState] = useState({
     links: [],
@@ -19,6 +22,9 @@ const Footer = (props) => {
   const getLinks = useSelector((state) => state?.footerReducer?.pageLinks);
   const pages = useSelector((state) => state?.footerReducer?.pages);
   const headerMenu = useSelector((state) => state?.headerMenuReducer);
+
+  const [DownloadModal, openDownload, closeDownload] = useModal("root");
+  const downloadType = useRef("APP_STORE");
 
   useEffect(() => {
     dispatch(getPages());
@@ -144,8 +150,16 @@ const Footer = (props) => {
     return <></>;
   };
 
+  const openDownloadDialog = (type) => {
+    downloadType.current = type;
+    openDownload();
+  };
+
   return (
     <>
+      <DownloadModal>
+        <DownloadDialog type={downloadType.current} />
+      </DownloadModal>
       <footer className="footer-sec pt-32 py-24">
         <div className="container px-16">
           <div className="grid lg:grid-cols-10 gap-4">
@@ -169,11 +183,20 @@ const Footer = (props) => {
               <p className="text-[1.6rem] font-medium py-8 text-gray-600">
                 Download the Farenow App
               </p>
-              <div>
-                <button className="mr-4">
+              <div class="flex gap-6">
+                <button
+                  onClick={() => {
+                    openDownloadDialog("APP_STORE");
+                  }}
+                >
                   <img src="/assets/img/download-app-store.svg" />
                 </button>
-                <button>
+                <button
+                  href={GOOGLE_PLAY.user}
+                  onClick={() => {
+                    openDownloadDialog("GOOGLE_PLAY");
+                  }}
+                >
                   <img src="/assets/img/download-google-play.svg" />
                 </button>
               </div>
