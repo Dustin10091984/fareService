@@ -24,7 +24,7 @@ export const Index = (props) => {
         <div className="container px-12">
           <div className="row">
             <div className="col-12">
-              <div className="banner-sec d-flex align-items-center justify-content-between flex-wrap flex-lg-nowrap">
+              <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
                 <div className="banner-text mb-5 mb-md-0">
                   <div className="font-bold text-5xl text-dark tracking-[-2px] leading-tight">
                     The <span className="text-primary-main">easy</span> &
@@ -81,7 +81,7 @@ export const Index = (props) => {
               <div className="back-check-box d-flex align-items-center justify-content-between flex-wrap flex-lg-nowrap space-x-16">
                 <img
                   src="/assets/img/back-check.png"
-                  className="img-fluid w-[500px]"
+                  className="img-fluid w-[56rem] m-8"
                   alt=""
                 />
 
@@ -134,7 +134,7 @@ export const Index = (props) => {
               </p>
               <div>
                 <button
-                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 w-[240px] px-12"
+                  className="fare-btn bg-gray-50 hover:bg-primary-light border-primary border-b-2 text-primary-main text-[14px] mr-8 mb-8 w-[240px] px-12"
                   onClick={() => {
                     openDownloadDialog("APP_STORE");
                   }}

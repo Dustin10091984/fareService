@@ -43,6 +43,21 @@ export default function PopularServices(props: IPopularServicesProps) {
       services[activeServiceIndex]?.sub_services?.length || 0,
       4
     ),
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+    ],
     slidesToScroll: 1,
     prevArrow: <PrevArrowComponent />,
     nextArrow: <NextArrowComponent />,

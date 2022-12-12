@@ -372,12 +372,13 @@ export const BaseHeader = (props) => {
     <header className="header-sec">
       <div className="container">
         <div className="row">
-          <div className="lg:hidden w-100 space-y-6 px-6">
+          <div className="lg:hidden w-100 px-8">
             <div className="flex justify-between">
               {headerLogo}
               {headerSideSection}
             </div>
-            <div>{children}</div>
+            <hr className="border-gray-100 my-8" />
+            <div className="ml-auto">{children}</div>
           </div>
           <div className="hidden lg:flex col-md-12 align-items-center justify-content-between flex-no-wrap">
             {headerLogo}
