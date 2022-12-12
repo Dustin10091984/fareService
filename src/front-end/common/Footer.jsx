@@ -350,7 +350,7 @@ const Footer = (props) => {
       <footer className="footer-sec2 bg-primary-dark">
         <div className="container">
           <div className="row">
-            <div className="col-md-12 flex flex-wrap items-start justify-content-between flex-column flex-md-row">
+            <div className="col-md-12 flex gap-6 justify-content-between flex-col md:items-start md:flex-row items-center">
               <div className="footer-lgoo mb-5 p-4 rounded-xl bg-gray-50">
                 <Link
                   to={(location) => ({

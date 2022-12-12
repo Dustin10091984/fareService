@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Registration from './Registration';
-import { providerSignup, verifyPhoneNo, postBasicInfo, postServiceDetails, postProfileDetail } from "./../../store/Slices/providers/registration";
+import { providerSignup, postBasicInfo, postServiceDetails, postProfileDetail, verifyEmail } from "./../../store/Slices/providers/registration";
 
 const mapStateToProps = (state) => ({
     providerSignup: state.registrationReducer?.signupProvider,
@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
         handleProviderSignup: (signupData) => {
             dispatch(providerSignup(signupData));
         },
-        handleVerifyPhoneNo: (otpData) => {
-            dispatch(verifyPhoneNo(otpData));
+        handleVerifyEmail: (otpData) => {
+            dispatch(verifyEmail(otpData));
         },
         handleBasicInfoSubmit: (basicInfo) => {
             dispatch(postBasicInfo(basicInfo));

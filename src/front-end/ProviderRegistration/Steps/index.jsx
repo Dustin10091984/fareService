@@ -80,9 +80,9 @@ const Basic = ({
           <div className="common-input mb-4 col-12">
             <label>Phone</label>
             <strong className="text-danger">*</strong>
-            <div className="d-flex phone-input">
+            <div className="d-flex phone-input gap-6">
               <select
-                className="js-example-basic-single  col-3"
+                className="js-example-basic-single basis-1/3"
                 name="code"
                 defaultValue={basic?.code}
                 onChange={handleBasic}
@@ -94,7 +94,7 @@ const Basic = ({
               <input
                 type="tel"
                 name="phone"
-                className="phone-input-2 col-9"
+                className="phone-input-2 flex-grow"
                 placeholder="1234567890"
                 defaultValue={basic?.phone || ""}
                 onChange={handleBasic}
@@ -199,7 +199,7 @@ const Otp = ({
   handleStep,
   otpData,
   handleOtp,
-  handleVerifyPhoneNo,
+  handleVerifyEmail,
   verifyOpt,
 }) => {
   const [state, setState] = useState({ loading: false });
@@ -208,12 +208,12 @@ const Otp = ({
     setState({ loading: true });
     axios({
       method: "post",
-      data: { phone: otpData?.phone },
-      url: `${HOST}/api/provider/signup/phone/verify/resend`,
+      data: { email: otpData?.email },
+      url: `${HOST}/api/provider/signup/email/verify/resend`,
     })
       .then(function (response) {
         setState({
-          success: "OTP has been sent to your phone number",
+          success: "OTP has been sent to your email",
           loading: false,
         });
       })
@@ -237,7 +237,7 @@ const Otp = ({
       <div className="form-term mb-2">
         How Whould you like customer to contact you?
       </div>
-      <div className="form-term mb-2">Phone: {otpData?.phone}</div>
+      <div className="form-term mb-2">Email: {otpData?.email}</div>
 
       <div className="common-input mb-4">
         <label htmlFor="name">Code.</label>
@@ -257,7 +257,7 @@ const Otp = ({
       </div>
       <div className="d-flex justify-content-between">
         <button
-          className="btn btn-primary w-100 mt-3"
+          className="fare-btn fare-btn-primary w-100 mt-3"
           id="step-2-back"
           type="button"
           onClick={() => handleStep(1)}
@@ -266,13 +266,13 @@ const Otp = ({
         </button>
         <div className="px-3"></div>
         <button
-          className="btn btn-primary w-100 mt-3"
+          className="fare-btn fare-btn-primary w-100 mt-3"
           id="step-2"
           type="button"
           disabled={state.loading}
           onClick={() =>
-            handleVerifyPhoneNo({
-              phone: otpData?.phone,
+            handleVerifyEmail({
+              email: otpData?.email,
               otp: otpData?.otp,
             })
           }
@@ -443,7 +443,7 @@ const BasicInfo = ({
 
         <div className="d-flex justify-content-between">
           <button
-            className="btn btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-primary w-100 mt-3"
             id="step-3-back"
             type="button"
             disabled={localStorage.getItem("providerToken")}
@@ -453,7 +453,7 @@ const BasicInfo = ({
           </button>
           <div className="px-3"></div>
           <button
-            className="btn btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-primary w-100 mt-3"
             id="step-3"
             type="submit"
             disabled={basicInfoRes?.loading}
@@ -807,7 +807,7 @@ const SelectZipCode = ({
 
         <div className="d-flex justify-content-between">
           <button
-            className="btn btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-primary w-100 mt-3"
             id="step-4-back"
             type="button"
             onClick={() => handleStep(3)}
@@ -816,7 +816,7 @@ const SelectZipCode = ({
           </button>
           <div className="px-3"></div>
           <button
-            className="btn btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-primary w-100 mt-3"
             id="step-4"
             type="submit"
             disabled={
@@ -899,7 +899,7 @@ const ProviderType = ({
 
       {/* <div className="d-flex justify-content-between">
                     <button
-                        className="btn btn-primary w-100 mt-3"
+                        className="fare-btn fare-btn-primary w-100 mt-3"
                         id="step-4-back"
                         type="button"
                         onClick={() => handleStep(4)}
@@ -908,7 +908,7 @@ const ProviderType = ({
                     </button>
                     <div className="px-3"></div>
                     <button
-                        className="btn btn-primary w-100 mt-3"
+                        className="fare-btn fare-btn-primary w-100 mt-3"
                         disabled={providerType == undefined}
                         id="step-4"
                         type="submit"
@@ -1270,7 +1270,7 @@ const ProfileDetail = ({
 
         <div className="d-flex justify-content-between">
           <button
-            className="btn btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-primary w-100 mt-3"
             id="step-6-back"
             type="button"
             onClick={() => handleStep(4)}
@@ -1280,7 +1280,7 @@ const ProfileDetail = ({
           </button>
           <div className="px-3"></div>
           <button
-            className="btn btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-primary w-100 mt-3"
             id="submit"
             type="submit"
             disabled={profileDetails?.loading}

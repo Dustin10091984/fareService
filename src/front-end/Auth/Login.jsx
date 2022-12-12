@@ -322,7 +322,7 @@ const Login = (props) => {
                 <div className="other-login text-center mb-4">
                   or continue with
                 </div>
-                <div className="d-flex justify-center  items-center space-x-4">
+                <div className="d-flex justify-center items-center gap-4 flex-wrap">
                   <button
                     className="rounded-pill bg-gray-100 border text-[1.6rem] px-12 py-2 hover:bg-gray-50 d-flex items-center"
                     onClick={() => {

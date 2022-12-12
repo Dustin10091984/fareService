@@ -146,6 +146,35 @@ export const BaseHeader = (props) => {
     }
   };
 
+  const headerLogo = (
+    <div className="header-logo">
+      {/**
+       * Brand Logo
+       */}
+      <Link
+        to={(location) => ({
+          ...location,
+          pathname: "/",
+          hash: "",
+        })}
+        onClick={(e) => {
+          if (location?.pathname == "/") {
+            e.preventDefault();
+          }
+        }}
+      >
+        <img
+          src="/assets/img/logo.png"
+          alt=""
+          className="img-fluid"
+          // style={{
+          //     height: "15vh",
+          //     width: "auto",
+          // }}
+        />
+      </Link>
+    </div>
+  );
   const user_data = JSON.parse(localStorage.getItem("user_data"));
   const headerUserSection = (
     <div className="d-flex space-x-6">
@@ -307,69 +336,53 @@ export const BaseHeader = (props) => {
       </div>
     </div>
   );
+  const headerSideSection = (
+    <div className="d-flex align-items-center">
+      {state.is_loggedin ? (
+        headerUserSection
+      ) : (
+        <>
+          <Link
+            to="/login"
+            className={clsx([
+              "fare-btn mx-2",
+              routeLoginMatch?.isExact
+                ? "fare-btn-primary"
+                : "fare-btn-outline-primary",
+            ])}
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className={clsx([
+              "fare-btn mx-2",
+              !routeLoginMatch
+                ? "fare-btn-primary"
+                : "fare-btn-outline-primary",
+            ])}
+          >
+            Sign up
+          </Link>
+        </>
+      )}
+    </div>
+  );
   return (
     <header className="header-sec">
       <div className="container">
         <div className="row">
-          <div className="col-md-12 d-flex align-items-center justify-content-between flex-wrap lg:flex-no-wrap">
-            <div className="header-logo">
-              {/**
-               * Brand Logo
-               */}
-              <Link
-                to={(location) => ({
-                  ...location,
-                  pathname: "/",
-                  hash: "",
-                })}
-                onClick={(e) => {
-                  if (location?.pathname == "/") {
-                    e.preventDefault();
-                  }
-                }}
-              >
-                <img
-                  src="/assets/img/logo.png"
-                  alt=""
-                  className="img-fluid"
-                  // style={{
-                  //     height: "15vh",
-                  //     width: "auto",
-                  // }}
-                />
-              </Link>
+          <div className="lg:hidden w-100 space-y-6 px-6">
+            <div className="flex justify-between">
+              {headerLogo}
+              {headerSideSection}
             </div>
+            <div>{children}</div>
+          </div>
+          <div className="hidden lg:flex col-md-12 align-items-center justify-content-between flex-no-wrap">
+            {headerLogo}
             {children}
-            <div className="d-flex align-items-center order-1 order-md-2">
-              {state.is_loggedin ? (
-                headerUserSection
-              ) : (
-                <>
-                  <Link
-                    to="/login"
-                    className={clsx([
-                      "fare-btn mx-2",
-                      routeLoginMatch?.isExact
-                        ? "fare-btn-primary"
-                        : "fare-btn-outline-primary",
-                    ])}
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className={clsx([
-                      "fare-btn mx-2",
-                      !routeLoginMatch
-                        ? "fare-btn-primary"
-                        : "fare-btn-outline-primary",
-                    ])}
-                  >
-                    Sign up
-                  </Link>
-                </>
-              )}
-            </div>
+            {headerSideSection}
           </div>
         </div>
       </div>

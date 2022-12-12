@@ -90,13 +90,13 @@ export const providerSignup = (data) => async (dispatch) => {
   }
 };
 
-export const verifyPhoneNo = (data) => async (dispatch) => {
+export const verifyEmail = (data) => async (dispatch) => {
   try {
     dispatch(verifyCode({ error: false, loading: true }));
     await axios({
       method: "post",
       data,
-      url: HOST + `/api/provider/signup/phone/verify`,
+      url: HOST + `/api/provider/signup/email/verify`,
     })
       .then((response) => {
         //handle success
