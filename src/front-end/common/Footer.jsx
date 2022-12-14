@@ -183,7 +183,7 @@ const Footer = (props) => {
               <p className="text-[1.6rem] font-medium py-8 text-gray-600">
                 Download the Farenow App
               </p>
-              <div class="flex gap-6">
+              <div className="flex gap-6">
                 <button
                   onClick={() => {
                     openDownloadDialog("APP_STORE");
@@ -326,15 +326,7 @@ const Footer = (props) => {
                       }}
                       className="item"
                     >
-                      <Link
-                        className="link"
-                        to={`/page/${page.name}`}
-                        onClick={(e) => {
-                          if (location?.pathname == `/page/${page.name}`) {
-                            e.preventDefault();
-                          }
-                        }}
-                      >
+                      <Link className="link" to={`/page/${page.name}`}>
                         {page.name}
                       </Link>
                       {/* <a href="#">{page?.name}</a> */}

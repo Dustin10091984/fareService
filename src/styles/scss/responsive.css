@@ -134,7 +134,6 @@ html {
     width: 10rem;
   }
   .job-provider-card .user-des {
-    flex-wrap: wrap;
     justify-content: center !important;
   }
   .header-logo {
