@@ -18,6 +18,7 @@ import {
   ServiceState,
 } from "../../store/Slices/services/ServiceSclice";
 import BookServices from "./book.services";
+import { toast } from "react-toastify";
 
 export interface IBookProviderProps {
   close?: () => void;
@@ -52,7 +53,15 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
   const onSubmit = async () => {
     console.log(quotationValues.current);
     try {
-      const result = await dispatch(
+      const formData = new FormData();
+      for (let key in quotationValues.current) {
+        formData.append(key, quotationValues.current[key]);
+      }
+      formData.append("is_hourly", "0");
+      formData.append("provider_id", `${provider.id}`);
+      formData.append("questions", JSON.stringify(questionAnswers));
+      const result = await dispatch(postRequestService(formData, true));
+      /* const result = await dispatch(
         postRequestService(
           {
             ...quotationValues.current,
@@ -60,11 +69,13 @@ export default function BookProviderQuotation(props: IBookProviderProps) {
             provider_id: provider.id,
             questions: questionAnswers,
           },
-          false
+          true
         )
-      );
+      ); */
       setSubmitted(true);
-    } catch (e) {}
+    } catch (e) {
+      toast.error("Something went wrong!");
+    }
   };
   const onNext = (values: any) => {
     quotationValues.current = { ...quotationValues.current, ...values };

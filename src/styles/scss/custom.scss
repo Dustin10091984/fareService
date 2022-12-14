@@ -209,8 +209,8 @@ button:disabled:hover {
   padding: 1.5rem;
   margin: 1.5rem;
   border-radius: 5px;
-  border: 1px solid #fea629;
-  color: #fea629;
+  border: 1px solid $primary;
+  color: $primary;
   font-size: 1.5rem;
 }
 
@@ -220,8 +220,8 @@ button:disabled:hover {
 }
 
 .pagination__link--active a {
-  color: #fff;
-  background: #fea629;
+  color: #fff !important;
+  background: $primary;
   font-size: 1.5rem;
 }
 

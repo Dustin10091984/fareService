@@ -19,7 +19,7 @@ export const Index = (props) => {
   };
 
   return (
-    <>
+    <div className="bg-white">
       <div className="banner">
         <div className="container px-12">
           <div className="row">
@@ -68,7 +68,7 @@ export const Index = (props) => {
         </div>
       </div>
 
-      <section className="py-32 bg-gray-100" id={"popular-services"}>
+      <section className="py-32 bg-gray-50" id={"popular-services"}>
         <div className="container">
           <PopularServices services={headerMenu} />
         </div>
@@ -281,6 +281,6 @@ export const Index = (props) => {
       <DownloadModal>
         <DownloadDialog type={downloadType.current} />
       </DownloadModal>
-    </>
+    </div>
   );
 };

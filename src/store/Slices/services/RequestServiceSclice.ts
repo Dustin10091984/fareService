@@ -98,6 +98,7 @@ export const postRequestService = (payload, formData) => async (dispatch) => {
       Authorization: `${localStorage.userToken}`,
     };
   }
+  console.log(headers);
   try {
     dispatch(requestService({ error: false, loading: true }));
 

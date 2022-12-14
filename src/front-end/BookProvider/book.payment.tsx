@@ -141,7 +141,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
                 });
             }
           }}
-          disabled={false}
+          disabled={payMethod == "Card" && !paymentCards[selectedCard]?.id}
         >
           Next
         </button>
