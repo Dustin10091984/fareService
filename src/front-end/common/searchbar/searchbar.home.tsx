@@ -29,6 +29,12 @@ const searchStyle: StylesConfig = {
     border: "none",
     boxShadow: "none",
     background: "transparent",
+    minHeight: "3rem",
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    whiteSpace: "nowrap",
+    textOverflow: "clip",
   }),
   dropdownIndicator: () => ({
     display: "none",
