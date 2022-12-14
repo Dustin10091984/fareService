@@ -296,7 +296,7 @@ export const MyAccount = (props) => {
               >
                 <Profile profile={profile} />
               </div>
-              <div className="col-md-12 mb-5 service-time-box time-list d-flex align-items-center justify-content-between flex-wrap">
+              <div className="col-md-12 mb-5 service-time-box d-flex align-items-center justify-content-between flex-wrap">
                 <div
                   className="text-center col-md-12"
                   style={{
@@ -400,7 +400,7 @@ export const MyAccount = (props) => {
                       <div className="col-md-12 d-flex">Not Found</div>
                     )}
               </div>
-              <div className="col-md-12 service-time-box time-list d-flex align-items-center justify-content-center flex-wrap">
+              <div className="col-md-12 service-time-box d-flex align-items-center justify-content-center flex-wrap">
                 <div
                   className="text-center col-md-12"
                   style={{

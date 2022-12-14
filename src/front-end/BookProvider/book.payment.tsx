@@ -138,6 +138,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
               onNext &&
                 onNext({
                   card_id: paymentCards[selectedCard]?.id,
+                  payMethod: "Card",
                 });
             }
           }}

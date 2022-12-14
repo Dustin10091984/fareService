@@ -190,7 +190,10 @@ export const BaseHeader = (props) => {
           openChat();
         }}
       >
-        <img src="/assets/img/message.svg" className="img-fluid" />
+        <img
+          src="/assets/img/message.svg"
+          className="img-fluid w-[4.8rem] h-[4.8rem]"
+        />
       </div>
 
       <div className="dropdown">
@@ -213,7 +216,10 @@ export const BaseHeader = (props) => {
             }}
           >
             {/* <span className="user-name-farenow">Notification</span> */}
-            <img src="/assets/img/notification.svg" className="img-fluid" />
+            <img
+              src="/assets/img/notification.svg"
+              className="img-fluid w-[4.8rem] h-[4.8rem]"
+            />
           </div>
           <div
             className="dropdown-menu dropdown-menu-right mt-2 notification-dropdown-menu w-[48rem]"
@@ -298,7 +304,7 @@ export const BaseHeader = (props) => {
                 ? process.env.REACT_APP_API_BASE_URL + user_data.image
                 : "/assets/img/user.svg"
             }
-            className="img-fluid user-avatar"
+            className="img-fluid user-avatar w-[4.8rem] h-[4.8rem]"
           />
         </div>
         <div
