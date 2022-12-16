@@ -35,12 +35,15 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
   const paymentCards = paymentStates.list?.data?.data ?? [];
 
   const [payMethod, setPayMethod] = React.useState<"Card" | "Paypal">();
-  const [selectedCard, setSelectedCard] = React.useState(0);
+  const [selectedCard, setSelectedCard] = React.useState(-1);
   const [stage, setStage] = React.useState(0); // 0 for initial, 1 for main
   const [isAdding, setIsAdding] = React.useState(false); //paymentCards.length == 0);
 
   const { register, getValues, setValue } = useForm<ICreditCard>();
   const showAddCardForm = stage == 1 && isAdding && payMethod == "Card";
+  const isNextDisabled =
+    !payMethod ||
+    (stage === 1 && payMethod === "Card" && !paymentCards[selectedCard]);
 
   useEffect(() => {
     dispatch(getPaymentCards());
@@ -142,7 +145,10 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
                 });
             }
           }}
-          disabled={payMethod == "Card" && !paymentCards[selectedCard]?.id}
+          disabled={
+            !payMethod ||
+            (payMethod == "Card" && !paymentCards[selectedCard]?.id)
+          }
         >
           Next
         </button>
