@@ -16,4 +16,5 @@ interface IServiceRequestHourly {
   payMethod: "Card" | "Paypal";
   plan_id: number;
   order_paypal: any;
+  checkoutPlan: boolean;
 }

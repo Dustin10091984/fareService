@@ -11,7 +11,7 @@ export interface IBookLocationProps extends IBookSliderProps {
 }
 
 export default function BookLocation(props: IBookLocationProps) {
-  const location = React.useRef<ILocation>();
+  const [location, setLocation] = React.useState<ILocation>();
   const { onPrev, onNext, nextLabel = "Next", title = "Work Address" } = props;
   return (
     <div className="d-flex flex-column items-center gap-8">
@@ -19,7 +19,7 @@ export default function BookLocation(props: IBookLocationProps) {
       <div className="w-[48rem]">
         <LocationInput
           onChange={(v) => {
-            location.current = v;
+            setLocation(v);
           }}
           placeholder="Enter the location of your project"
         />
@@ -36,8 +36,9 @@ export default function BookLocation(props: IBookLocationProps) {
         <button
           className="fare-btn fare-btn-primary fare-btn-lg"
           onClick={() => {
-            onNext({ location: location.current });
+            onNext({ location });
           }}
+          disabled={!location}
         >
           {nextLabel}
         </button>

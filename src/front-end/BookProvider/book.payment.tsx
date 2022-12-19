@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import RadioBoxButton from "../../components/button.radio";
 import PaymentCreditCardForm from "../../components/Payment/card.form";
@@ -20,14 +20,31 @@ import {
 } from "../../store/Slices/payments/paymentSlice";
 import { RootState } from "../../store";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-export interface IBookPaymentMethodProps extends IBookSliderProps {}
+import { toast } from "react-toastify";
+import BookSubscriptionPlan from "./book.plan";
+export interface IBookPaymentMethodProps
+  extends IBookSliderProps,
+    IServiceRequestHourly {
+  provider: IProviderBase;
+  onNext: (value: {
+    plan_id?: number;
+    card_id?: string;
+    payMethod: "Card" | "Paypal";
+  }) => void;
+}
+
+type PaymentStagesType =
+  | "SelectMethod"
+  | "SelectCard"
+  | "AddCard"
+  | "SelectPlan";
 
 export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
 
-  const { onNext, onPrev } = props;
+  const { onNext, onPrev, provider, checkoutPlan } = props;
 
   const paymentStates = useSelector<RootState, IPaymentSliceState>(
     (state) => state.paymentReducer
@@ -36,14 +53,16 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
 
   const [payMethod, setPayMethod] = React.useState<"Card" | "Paypal">();
   const [selectedCard, setSelectedCard] = React.useState(-1);
-  const [stage, setStage] = React.useState(0); // 0 for initial, 1 for main
-  const [isAdding, setIsAdding] = React.useState(false); //paymentCards.length == 0);
+  const [stage, setStage] = React.useState<PaymentStagesType>(() =>
+    checkoutPlan ? "SelectPlan" : "SelectMethod"
+  ); // 0 for initial, 1 for main
+  const [planId, setPlanId] = useState<number>(0);
+  //const [isAdding, setIsAdding] = React.useState(false); //paymentCards.length == 0);
 
   const { register, getValues, setValue } = useForm<ICreditCard>();
-  const showAddCardForm = stage == 1 && isAdding && payMethod == "Card";
+  const showAddCardForm = stage == "AddCard"; //stage == 1 && isAdding && payMethod == "Card";
   const isNextDisabled =
-    !payMethod ||
-    (stage === 1 && payMethod === "Card" && !paymentCards[selectedCard]);
+    !payMethod || (stage === "SelectCard" && !paymentCards[selectedCard]);
 
   useEffect(() => {
     dispatch(getPaymentCards());
@@ -55,9 +74,26 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
     );
     if (token) {
       await dispatch(addPaymentCard({ token: token.id }));
-      setIsAdding(false);
+      return token;
+      //setIsAdding(false);
     }
+    if (error) {
+      toast.error(error.message);
+    }
+    return false;
   };
+  if (stage == "SelectPlan")
+    return (
+      <BookSubscriptionPlan
+        provider={provider}
+        prevLabel="Back"
+        onPrev={onPrev}
+        onNext={({ plan_id }) => {
+          setPlanId(plan_id);
+          setStage("SelectMethod");
+        }}
+      />
+    );
   return (
     <div className="d-flex flex-column items-center gap-8">
       <span className="font-medium text-3xl">Payment Method</span>
@@ -78,6 +114,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
           checked={payMethod == "Paypal"}
           onChange={() => {
             setPayMethod("Paypal");
+            setStage("SelectMethod");
           }}
           text={
             <span className="d-flex items-center justify-between w-[30rem]">
@@ -87,7 +124,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
         />
       </div>
       {showAddCardForm && <PaymentCreditCardForm {...{ register, setValue }} />}
-      {stage == 1 && !isAdding && payMethod == "Card" && (
+      {stage == "SelectCard" && (
         <div className="grid grid-cols-2 gap-8 p-8 rounded-[32px] border w-[80rem] items-center">
           {paymentCards.map((card, index) => {
             return (
@@ -104,7 +141,8 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
           <button
             className="fare-btn fare-btn-default w-[16rem] m-auto"
             onClick={() => {
-              setIsAdding(true);
+              //setIsAdding(true);
+              setStage("AddCard");
             }}
           >
             <i className="fa fa-plus mr-1"></i> Add new card
@@ -116,9 +154,13 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
           <button
             className="fare-btn fare-btn-default fare-btn-lg"
             onClick={() => {
-              if (showAddCardForm) {
-                setIsAdding(false);
-              } else onPrev && onPrev();
+              if (stage == "SelectCard") {
+                setStage("SelectMethod");
+              } else if (stage == "AddCard") {
+                setStage("SelectCard");
+              } else {
+                onPrev && onPrev();
+              }
             }}
           >
             Previous
@@ -126,22 +168,26 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
         }
         <button
           className="fare-btn fare-btn-primary fare-btn-lg"
-          onClick={() => {
-            if (payMethod == "Paypal") {
-              onNext && onNext({ payMethod });
-              return;
-            }
-            if (stage == 0 && payMethod) setStage(1);
-            else if (showAddCardForm) {
+          onClick={async () => {
+            if (stage == "SelectMethod") {
+              if (payMethod == "Paypal") {
+                onNext && onNext({ payMethod, plan_id: planId });
+                return;
+              } else if (payMethod == "Card") {
+                setStage("SelectCard");
+              }
+            } else if (stage == "AddCard") {
               //setCreditCards([...creditCards, getValues()]);
-              addCreditCard().then(() => {
-                setIsAdding(false);
-              });
-            } else {
+              if (await addCreditCard()) {
+                //setIsAdding(false);
+                setStage("SelectCard");
+              }
+            } else if (stage == "SelectCard") {
               onNext &&
                 onNext({
                   card_id: paymentCards[selectedCard]?.id,
                   payMethod: "Card",
+                  plan_id: planId,
                 });
             }
           }}

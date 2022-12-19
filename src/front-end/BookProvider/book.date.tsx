@@ -36,17 +36,6 @@ export default function BookServiceDate(props: IBookServiceDateProps) {
     /** not in schdule - block day */
     if (schedules.length > 0 && !schedule) return true;
     return false;
-    /**
-     * don't block though blocked slot is found
-     */
-    if (
-      slot &&
-      slot.from_time <= schedule.from_time &&
-      slot.to_time >= schedule.to_time
-    ) {
-      return true;
-    }
-    return false;
   };
   const [schedule] = getScheduleAndBlockedSlotOFDate(
     serviceDate,

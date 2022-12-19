@@ -23,7 +23,7 @@ export default function FareDatePicker(props: IFareDatePickerProps) {
   const tileClassName = ({ date, view }: CalendarTileProperties) => {
     if (view != "month") return "";
     if (props.isBlocked && props.isBlocked(date)) return "blocked";
-    return "";
+           return "";
   };
   return (
     <Calendar

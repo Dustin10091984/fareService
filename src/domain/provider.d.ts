@@ -13,6 +13,16 @@ interface IProviderBase {
   provider_profile: IProviderProfile;
 
   verified_at: null | string;
+  plans: IProviderPlan[];
+}
+interface IProviderPlan {
+  id: number;
+  title: string;
+  price: string;
+  type: string;
+  duration: number;
+  off: number;
+  description: string;
 }
 interface IProvider extends IProviderBase {
   schedules: ISchedule[];

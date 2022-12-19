@@ -20,6 +20,8 @@ import {
   getServiceQuestion,
   ServiceState,
 } from "../../store/Slices/services/ServiceSclice";
+import BookCheckoutPlan from "./book.subscription";
+import BookSubscriptionPlan from "./book.plan";
 export interface IBookServiceHourlyProps {
   close: () => void;
   provider: IProvider;
@@ -100,7 +102,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       schedules={provider?.schedules}
       blockedSlots={provider?.blocked_slots}
       onNext={({ date }) => {
-        onNext({ date: date.toISOString() });
+        onNext({ date: date.toLocaleDateString() });
       }}
     />,
     <BookHours onNext={onNext} onPrev={onPrev} />,
@@ -118,7 +120,17 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       }}
       title="Work Address"
     />,
-    <BookPaymentMethod onPrev={onPrev} onNext={onNext} />,
+    <BookCheckoutPlan
+      onNext={({ checkoutPlan }) => {
+        onNext({ checkoutPlan });
+      }}
+    />,
+    <BookPaymentMethod
+      onPrev={onPrev}
+      onNext={onNext}
+      provider={provider}
+      {...quotationValues.current}
+    />,
     <BookSummary
       payMethod={quotationValues.current?.payMethod}
       provider={provider}
