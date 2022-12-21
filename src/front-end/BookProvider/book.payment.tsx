@@ -56,7 +56,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
   const [stage, setStage] = React.useState<PaymentStagesType>(() =>
     checkoutPlan ? "SelectPlan" : "SelectMethod"
   ); // 0 for initial, 1 for main
-  const [planId, setPlanId] = useState<number>(0);
+  const [planId, setPlanId] = useState<number>(null);
   //const [isAdding, setIsAdding] = React.useState(false); //paymentCards.length == 0);
 
   const { register, getValues, setValue } = useForm<ICreditCard>();

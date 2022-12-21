@@ -46,7 +46,7 @@ export default function BookSummary(props: IBookSummaryProps) {
           </span>
         </li>
         {questions?.map((q) => (
-          <li className="list-group-item d-flex justify-between">
+          <li className="list-group-item d-flex justify-between" key={q.id}>
             {q.question}:
             <span className="font-bold">
               {q.options.find(

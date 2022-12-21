@@ -157,9 +157,9 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
             >
               <i className="la la-times mr-2 "></i>Close
             </button>
-            {slides.map((s, index) => {
-              return index == sIndex ? s : "";
-            })}
+            {
+              slides[sIndex]
+            }
           </>
         )}
         {submitted && (

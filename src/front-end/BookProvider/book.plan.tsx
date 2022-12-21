@@ -13,10 +13,11 @@ export default function BookSubscriptionPlan(
 ) {
   const { provider, onNext, onPrev, prevLabel } = props;
   const [selectedPlan, setSelectedPlan] = React.useState(0);
+  let plans = provider?.plans ?? [];
   const settings = {
     dots: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: Math.min(3, plans.length),
     slidesToScroll: 1,
     swipeToSlide: true,
     arrows: false,
@@ -39,7 +40,7 @@ export default function BookSubscriptionPlan(
         </div>
       </div>
       <div className="w-100 mb-5">
-        {!(provider.plans?.length > 0) && (
+        {!(plans?.length > 0) && (
           <div className="flex-grow-1 flex justify-center items-center h-[10rem]">
             <Empty
               text="No Plans"
@@ -49,20 +50,22 @@ export default function BookSubscriptionPlan(
           </div>
         )}
         <Slider {...settings}>
-          {provider.plans?.map((plan) => {
+          {plans?.map((plan) => {
             return (
               <div className="px-3 py-5">
-                <SubscriptionPlan
-                  plan={plan}
-                  key={plan.id}
-                  active={selectedPlan === plan.id}
-                  onNext={() => {
-                    onNext({ plan_id: plan.id });
-                  }}
-                  onSelect={() => {
-                    setSelectedPlan(plan.id);
-                  }}
-                />
+                <div className="m-auto  max-w-[30rem]">
+                  <SubscriptionPlan
+                    plan={plan}
+                    key={plan.id}
+                    active={selectedPlan === plan.id}
+                    onNext={() => {
+                      onNext({ plan_id: plan.id });
+                    }}
+                    onSelect={() => {
+                      setSelectedPlan(plan.id);
+                    }}
+                  />
+                </div>
               </div>
             );
           })}
