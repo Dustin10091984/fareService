@@ -63,7 +63,7 @@ export const ServicesDetail = (props) => {
     <>
       <SubHeader title="Service Details" />
       <Loading loading={serviceRequestDetailResp?.loading} />
-      {!serviceRequestDetailResp?.loading && (
+      {(
         <div className="dashborad-box order-history order-summary pad-y">
           <div className="container">
             <div className="w-[90rem] mx-auto p-0 fare-card">

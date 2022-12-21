@@ -42,6 +42,7 @@ const WorkStatus = memo(({ serviceRequest }: IWorkStatusProps) => {
               });
               let now = moment();
               let duration = moment.duration(now.diff(started));
+              
               duration = duration.subtract(breakTime, "seconds");
               // `${ duration.asDays().toFixed( 0 ) > 0 ? duration.asDays().toFixed(0) + "d" : ""}`
               return <div className="text-base text-primary-main font-medium">{`${duration.days()}d ${duration.hours()}h ${duration.minutes()}m ${duration.seconds()}s`}</div>;
