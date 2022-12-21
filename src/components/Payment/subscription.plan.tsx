@@ -40,7 +40,7 @@ export default function SubscriptionPlan(props: ISubscriptionPlanProps) {
             <p className="text-base font-medium">{plan.title}</p>
             <p className="text-sm font-medium">
               <span className={plan.off > 0 && "line-through mr-2"}>
-                ${plan.price}
+                ${Number(plan.price).toFixed(2)}
               </span>
               {plan.off > 0 &&
                 `$${(((100 - plan.off) / 100) * Number(plan.price)).toFixed(

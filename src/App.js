@@ -33,7 +33,7 @@ const paypalClientID = process.env.REACT_APP_PAYPAL_CLIENT_ID;
 window.io = io;
 
 const liveOption = {
-  host: "https://api.farenow.com",
+  host: process.env.REACT_APP_API_BASE_URL, //"https://api.farenow.com",
   broadcaster: "socket.io",
 };
 const localOption = {

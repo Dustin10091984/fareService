@@ -66,7 +66,7 @@ export const ServicesDetail = (props) => {
       {!serviceRequestDetailResp?.loading && (
         <div className="dashborad-box order-history order-summary pad-y">
           <div className="container">
-            <div className="col-md-8 mx-auto p-0 fare-card">
+            <div className="w-[90rem] mx-auto p-0 fare-card">
               {(() => {
                 if (serviceRequestDetailResp?.error) {
                   return (

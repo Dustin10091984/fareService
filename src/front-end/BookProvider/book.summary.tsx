@@ -20,6 +20,7 @@ export default function BookSummary(props: IBookSummaryProps) {
     address,
     provider,
     payMethod,
+    plan_id
   } = props;
 
   const service = useSelector<RootState, ServiceState>(
@@ -31,7 +32,8 @@ export default function BookSummary(props: IBookSummaryProps) {
   const questionAnswers = useSelector<RootState>((state) =>
     getQuestionAnswers(state.questionAnswers)
   );
-  const amount = Number(provider.provider_profile?.hourly_rate) * hours;
+  const plan = provider.plans?.find(p => p.id === plan_id);
+  const amount = Number(provider.provider_profile?.hourly_rate) * hours * (100 - (plan?.off ?? 0)) / 100;
   return (
     <div className="d-flex flex-column items-center gap-8 order-summary">
       <span className="font-medium text-3xl">Order Summary</span>
@@ -65,7 +67,7 @@ export default function BookSummary(props: IBookSummaryProps) {
         <li className="list-group-item d-flex justify-between bg-primary-dark text-white">
           Total (USD)
           <span className="font-bold">
-            ${Number(provider.provider_profile?.hourly_rate) * hours}
+            ${amount.toFixed(2)}
           </span>
         </li>
       </ul>
