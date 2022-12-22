@@ -145,53 +145,6 @@ export const ServiceProviders = (props) => {
     }
   }, [providerList, providerSchedule]);
 
-  /* useEffect(() => {
-    const { error, loading } = serviceRequest;
-    if (
-      error == false &&
-      loading == false &&
-      serviceRequest?.message == "success"
-    ) {
-      qautationRef.current?.click();
-      ReactSwal.fire({
-        title: "Success!",
-        text: "Successfully created request service",
-        confirmButtonText: "Go To Service History",
-        icon: "success",
-        confirmButtonColor: "#fea629",
-        allowOutsideClick: false,
-        showCloseButton: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          handleGoToServicesHistory();
-        }
-        setState((state) => ({
-          ...state,
-          address: "",
-          detail: "",
-          images: [],
-          previewImages: [],
-        }));
-      });
-    }
-    if (
-      error == true &&
-      loading == false &&
-      typeof serviceRequest?.message == "string"
-    ) {
-      qautationRef.current.click();
-      ReactSwal.fire({
-        title: "Error!",
-        text: serviceRequest?.message,
-        icon: "error",
-        confirmButtonText: "Ok",
-        confirmButtonColor: "#fea629",
-        allowOutsideClick: false,
-        showCloseButton: true,
-      });
-    }
-  }, [serviceRequest]);
- */
   const handleContinueClick = (provider: IProvider) => {
     if (state.is_loggedin) {
       setState((state) => ({

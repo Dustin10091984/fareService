@@ -1,10 +1,21 @@
+import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { useModal } from "react-hooks-use-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, withRouter, useLocation } from "react-router-dom";
-import { APP_STORE, GOOGLE_PLAY } from "../../constants";
+import { toast } from "react-toastify";
+import { APP_STORE, GOOGLE_PLAY, HOST } from "../../constants";
 import { getPages } from "./../../store/Slices/footer/index";
 import DownloadDialog from "./download.dialog";
+
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const Footer = (props) => {
   const [state, setState] = useState({
     links: [],
@@ -16,6 +27,7 @@ const Footer = (props) => {
   const dispatch = useDispatch();
 
   const ref = useRef(null);
+  const emailRef = useRef(null);
 
   const year = new Date().getFullYear();
 
@@ -154,7 +166,23 @@ const Footer = (props) => {
     downloadType.current = type;
     openDownload();
   };
-
+  const subscribe = async () => {
+    const email = emailRef.current?.value;
+    if (!validateEmail(email)) {
+      toast.error("Please enter valid email.");
+    } else {
+      try {
+        await axios({
+          method: "post",
+          data: { email: email },
+          url: `${HOST}/api/subscribers`,
+        });
+        toast.success("Subscription succeed.");
+      } catch (e) {
+        toast.error("Subscription failed.");
+      }
+    }
+  };
   return (
     <>
       <DownloadModal>
@@ -175,8 +203,12 @@ const Footer = (props) => {
                 <input
                   className="text-sm border-none bg-transparent outline-none w-100 p-2"
                   placeholder="Enter your email"
+                  ref={emailRef}
                 />
-                <button className="fare-btn fare-btn-primary rounded-full">
+                <button
+                  className="fare-btn fare-btn-primary rounded-full"
+                  onClick={subscribe}
+                >
                   Send
                 </button>
               </div>

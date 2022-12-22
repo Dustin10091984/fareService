@@ -22,6 +22,7 @@ import {
 } from "../../store/Slices/services/ServiceSclice";
 import BookCheckoutPlan from "./book.subscription";
 import BookSubscriptionPlan from "./book.plan";
+import { getProviderProfile } from "../../store/Slices/providers/ProviderProfileSclice";
 export interface IBookServiceHourlyProps {
   close: () => void;
   provider: IProvider;
@@ -32,6 +33,16 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
   const [sIndex, setSIndex] = React.useState(0);
   const [submitted, setSubmitted] = React.useState(false);
   const { close, provider } = props;
+  
+  const providerProfileState = useSelector<RootState, any>(state => state.providerProfile);
+  const providerProfile = providerProfileState?.data?.provider;
+
+  React.useEffect(() => {
+    if (provider.id !== providerProfile?.id) {
+      dispatch(getProviderProfile(provider.id));
+    }
+  }, [provider.id])
+
   const dispatch = useDispatch();
   const questionAnswers = useSelector<RootState>((state) =>
     getQuestionAnswers(state.questionAnswers)
@@ -83,7 +94,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
 
   let slides = [
     <BookServices
-      provider={provider}
+      provider={providerProfile}
       onNext={async ({ service }) => {
         onNext({ service });
         dispatch(getServiceQuestion(service.sub_service.id));
@@ -99,8 +110,8 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       }}
     />,
     <BookServiceDate
-      schedules={provider?.schedules}
-      blockedSlots={provider?.blocked_slots}
+      schedules={providerProfile?.schedules}
+      blockedSlots={providerProfile?.blocked_slots}
       onNext={({ date }) => {
         onNext({ date: date.toLocaleDateString() });
       }}
@@ -109,8 +120,8 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     <BookTimeslot
       onPrev={onPrev}
       onNext={onNext}
-      schedules={provider?.schedules}
-      blockedSlots={provider?.blocked_slots}
+      schedules={providerProfile?.schedules}
+      blockedSlots={providerProfile?.blocked_slots}
       date={quotationValues.current?.date}
     />,
     <BookLocation
@@ -128,12 +139,12 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
     <BookPaymentMethod
       onPrev={onPrev}
       onNext={onNext}
-      provider={provider}
+      provider={providerProfile}
       {...quotationValues.current}
     />,
     <BookSummary
       payMethod={quotationValues.current?.payMethod}
-      provider={provider}
+      provider={providerProfile}
       nextLabel="Confirm request"
       onPrev={onPrev}
       onNext={onSubmit}
@@ -144,8 +155,8 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
 
   return (
     <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">
-      <div className="d-flex flex-column items-center">
-        {serviceRequest.loading && <Loading loading={true} />}
+      <div className="d-flex flex-column items-center ">
+        
         {!submitted && (
           <>
             <div className="text-primary-main py-3">
@@ -157,8 +168,10 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
             >
               <i className="la la-times mr-2 "></i>Close
             </button>
+            {serviceRequest.loading && <Loading loading={true} />}
+            {providerProfileState.loading && <Loading className="h-[40rem]" loading={true} backdrop={false}  />}
             {
-              slides[sIndex]
+              providerProfile && slides[sIndex]
             }
           </>
         )}
