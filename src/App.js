@@ -26,6 +26,7 @@ import { LoginContext, MapLoadedApiContext } from "./helper/context";
 import { ReactSwal } from "./helper/swal";
 import { handleBackendEvents } from "./helper/backend-events";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { QueryClient, QueryClientProvider } from "react-query";
 // import { useJsApiLoader } from "@react-google-maps/api";
 
 const stripePromise = loadStripe(process.env.React_APP_STRIPE_PUBLIC_KEY);
@@ -85,6 +86,8 @@ const stripeElementsAppearance = {
     // See all possible variables below
   },
 };
+
+const queryClient = new QueryClient();
 
 function App() {
   const [notification, setNotification] = useState();
@@ -201,27 +204,29 @@ function App() {
     >
       <PayPalScriptProvider options={{ "client-id": paypalClientID }}>
         <LoginContext.Provider value={isLoggedIn}>
-          <MapLoadedApiContext.Provider value={isLoaded}>
-            <div className="App">
-              {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
-              <ReactNotificationComponent
-                {...notification}
-                handleMessageClick={handleMessageClick}
-              />
-              <Header notification={state}></Header>
-              <section className="bg-gray-50 text-base">
-                <Routes />
-              </section>
-              <Footer />
-              <div className="rem-1-5">
-                <ToastContainer
-                  className={"text-sm w-[42rem]"}
-                  autoClose={5000}
-                  position={toast.POSITION.TOP_CENTER}
+          <QueryClientProvider client={queryClient}>
+            <MapLoadedApiContext.Provider value={isLoaded}>
+              <div className="App">
+                {/* {JSON.parse(localStorage.getItem('user_data'))?.device_token ? null : <Notifications /> } */}
+                <ReactNotificationComponent
+                  {...notification}
+                  handleMessageClick={handleMessageClick}
                 />
+                <Header notification={state}></Header>
+                <section className="bg-gray-50 text-base">
+                  <Routes />
+                </section>
+                <Footer />
+                <div className="rem-1-5">
+                  <ToastContainer
+                    className={"text-sm w-[42rem]"}
+                    autoClose={5000}
+                    position={toast.POSITION.TOP_CENTER}
+                  />
+                </div>
               </div>
-            </div>
-          </MapLoadedApiContext.Provider>
+            </MapLoadedApiContext.Provider>
+          </QueryClientProvider>
         </LoginContext.Provider>
       </PayPalScriptProvider>
     </Elements>

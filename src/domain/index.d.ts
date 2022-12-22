@@ -23,3 +23,15 @@ interface ICreditCard {
 type QuestionAnswers = {
   [question: string]: string;
 };
+
+interface IFAQ {
+  id: number;
+  question: string;
+  answers: {
+    answer: string;
+  }[];
+  sub_service: {
+    id: number;
+    name: string;
+  };
+}

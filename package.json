@@ -36,6 +36,7 @@
     "react-hooks-use-modal": "^3.2.0",
     "react-paginate": "^8.1.0",
     "react-places-autocomplete": "^7.3.0",
+    "react-query": "^3.39.2",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",

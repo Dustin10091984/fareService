@@ -28,6 +28,7 @@ import Verification from "./front-end/Auth/Verification";
 import ServicesSearchPage from "./front-end/ServicesSearch";
 import RegisterWithEmail from "./front-end/Auth/RegisterWithEmail";
 import ForgotPasswordWithEmail from "./front-end/Auth/ForgotPasswordWithEmail";
+import FAQ from "./front-end/FAQ";
 const publicRoutes = [
   {
     name: "Home",
@@ -135,6 +136,11 @@ const publicRoutes = [
     path: "/product-delivery",
     component: ProductDelivery,
     hash: "",
+  },
+  {
+    name: "FAQ",
+    path: "/faq",
+    component: FAQ,
   },
   {
     name: "Pages",
