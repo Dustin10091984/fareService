@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .fare-btn {
+    @apply text-[1.6rem] py-5 px-8 rounded-3xl font-medium;
+  }
+  .fare-btn-outline-success {
+    @apply bg-white text-green-500 border-green-500 border;
+  }
+  .fare-btn-outline-primary {
+    @apply bg-white text-primary hover:bg-primary-light border-primary border;
+  }
+  .fare-btn-primary {
+    @apply bg-primary hover:bg-primary-dark text-white hover:text-white;
+  }
+  .fare-btn-default {
+    @apply bg-gray-100 hover:bg-gray-200 text-primary-main hover:text-primary-dark;
+  }
+  .fare-btn-lg {
+    @apply text-sm py-8 px-16 font-medium;
+  }
+  .fare-btn-sm {
+    @apply py-3 px-5 font-normal;
+  }
+}

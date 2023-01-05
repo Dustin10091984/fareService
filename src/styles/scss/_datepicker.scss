@@ -1,0 +1,55 @@
+.fare-datepicker {
+  &.react-calendar {
+    width: 520px;
+    font-family: "Product Sans";
+    border-radius: 32px;
+    border-color: #dadada;
+    padding: 12px 24px;
+
+    .react-calendar__month-view__days {
+      row-gap: 0.8rem;
+    }
+    .react-calendar__navigation__arrow {
+      color: $primary;
+      border-radius: 12px;
+      background-color: #efefef;
+      margin: 0 4px;
+    }
+    .react-calendar__month-view__weekdays__weekday {
+      color: $primary;
+      font-weight: 500;
+      font-size: 1.8rem;
+    }
+    .react-calendar__tile {
+      border-radius: 24px;
+
+      &:disabled {
+        background-color: white;
+        color: #bdbdbd;
+      }
+      &.blocked:not(:disabled) {
+        background-color: #ec766d;
+        color: white;
+        text-decoration: line-through;
+      }
+    }
+    button.react-calendar__tile--active {
+      &,
+      &:hover {
+        background-color: $primary;
+        color: white;
+      }
+    }
+    .react-calendar__month-view__days__day--weekend {
+      color: black;
+    }
+    button.react-calendar__tile--now {
+      &,
+      &:hover,
+      &:focus {
+        background-color: #f97316;
+        color: white;
+      }
+    }
+  }
+}

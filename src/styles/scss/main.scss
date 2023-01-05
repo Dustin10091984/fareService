@@ -1,0 +1,75 @@
+//@import url("./bootstrap.min.css");
+@font-face {
+  font-family: Product Sans;
+  src: url(../fonts/ProductSans-Black.ttf);
+  font-style: normal;
+  font-weight: 800;
+}
+@font-face {
+  font-family: Product Sans;
+  src: url(../fonts/ProductSans-Bold.ttf);
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../fonts/ProductSans-Medium.ttf);
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../fonts/ProductSans-Regular.ttf);
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../fonts/ProductSans-Light.ttf);
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../fonts/ProductSans-Light.ttf);
+  font-style: normal;
+  font-weight: 200;
+}
+
+body {
+  font-family: Product Sans;
+}
+
+$primary: #0068e1;
+$primary-dark: #3b5998;
+$primary-light: #ebf4ff;
+$secondary: #000;
+$white: #fff;
+
+@import "header";
+@import "footer";
+@import "banner";
+@import "services";
+@import "index";
+@import "breadcrumb";
+@import "shop";
+@import "product";
+@import "rating";
+@import "moving";
+@import "input";
+@import "service-provider";
+@import "news";
+@import "login";
+@import "dash-card";
+@import "card";
+@import "tabs";
+@import "datepicker";
+
+@import "~react-credit-cards/lib/styles.scss";
+@import url("./responsive.css");
+@import "./libstyles.scss";
+@import "./custom.scss";

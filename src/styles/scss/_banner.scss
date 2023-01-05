@@ -1,0 +1,70 @@
+.banner-sec {
+  //border-bottom: 1px solid #d0d0d0;
+  padding: 5rem 0rem;
+}
+.banner-text {
+  max-width: 66rem;
+
+  .title {
+    font-style: normal;
+    font-weight: 900;
+    font-size: 5.2rem;
+    line-height: 6.3rem;
+    color: $primary;
+  }
+
+  .subtitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.4rem;
+    line-height: 4.1rem;
+    color: $secondary;
+  }
+
+  .des {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 25px;
+    color: #d0d0d0;
+    margin-top: 4rem;
+    margin-bottom: 6rem;
+  }
+}
+
+.banner-image {
+  width: 100%;
+  max-width: 39.4rem;
+  position: relative;
+  img {
+    border-radius: 1.7rem;
+  }
+  &::before {
+    content: "";
+    display: block;
+    width: 33.4rem;
+    height: 33.4rem;
+    background: $primary;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: -1;
+    margin-top: 4rem;
+    // margin-left: 6rem;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 33.4rem;
+    height: 33.4rem;
+    background: $primary;
+    opacity: 0.2;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: -1;
+  }
+}

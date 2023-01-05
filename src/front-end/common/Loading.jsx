@@ -1,30 +1,23 @@
-const Loading = ({ loading = false }) => {
-    return (
-        <div
-            style={{
-                height: "100%",
-                width: loading ? "100%" : "0%",
-                position: "fixed",
-                zIndex: "9999",
-                top: 0,
-                left: 0,
-                backgroundColor: "rgb(0, 0, 0)",
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-                cursor: "wait",
-            }}
-        >
-            {loading && (
-                <i
-                    className="fa fa-spinner fa-pulse fa-5x fa-fw"
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                    }}
-                ></i>
-            )}
-        </div>
-    );
+import clsx from "clsx";
+
+const Loading = ({ loading = false, backdrop = true, className = "" }) => {
+  const loadingComponent = loading && (
+    <i className="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+  );
+  return (
+    <div
+      className={clsx([
+        "d-flex items-center justify-center",
+        {
+          "w-100 h-100 fixed z-[9999] top-0 left-0 bg-[#000000a0]":
+            loading && backdrop,
+        },
+        className
+      ])}
+    >
+      {loadingComponent}
+    </div>
+  );
 };
 
 export default Loading;

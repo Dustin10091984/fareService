@@ -2279,15 +2279,6 @@ body {
     max-width: 50rem;
     margin: 1.5rem 0;
 }
-.login-detail {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.6rem;
-    line-height: 2.5rem;
-    color: #000000;
-    max-width: 50rem;
-    margin: auto;
-}
 
 .login-detail>.btn-link {
     font-size: 1.6rem;
@@ -3494,23 +3485,7 @@ input::-webkit-inner-spin-button {
     margin: 0 !important;
 }
 
-html #gsi_536308_528297 {
-    background-color: black;
-}
-
-.CardField.CardField--ltr:focus {
-    border: 1px solid #fea629;
-}
-/* show not found text on image */
-.not-found {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    background-color: #00000050;
-    font-size: 10rem;
-    font-weight: 600;
-    text-align: center;
-    z-index: 1;
+#container.haAclf {
+    width: 100% !important;
+    padding: 0 !important;
 }

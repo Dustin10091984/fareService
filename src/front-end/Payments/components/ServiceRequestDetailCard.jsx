@@ -4,14 +4,22 @@ const ServiceRequestDetailCard = memo(({ state, serviceDetail }) => {
     return (
         <div className="cart-total d-flex align-items-center justify-content-between">
             <div className="cart-title pt-3">
-                <div className="mt-2">{"Service Name: Cleaning"}</div>
+                <div className="mt-2">
+                    Service Name: {serviceDetail.questions?.subServiceName}
+                </div>
                 <div className="mt-2">
                     Provider Name: {serviceDetail?.provider?.first_name}
                 </div>
                 <address className="mt-2">
                     Address: {serviceDetail?.address}
                 </address>
-                <small>Slot: 00:10</small>
+                <small>Details: {serviceDetail?.detail}</small>
+                <br />
+                <small>
+                    SlotId:{" "}
+                    {Array.isArray(serviceDetail?.slots) &&
+                        serviceDetail?.slots[0]}
+                </small>
                 <br />
                 <small>Date: {serviceDetail?.dateTime}</small>
             </div>

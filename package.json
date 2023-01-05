@@ -6,6 +6,7 @@
   "dependencies": {
     "@chatscope/chat-ui-kit-react": "^1.8.2",
     "@chatscope/chat-ui-kit-styles": "^1.2.3",
+    "@paypal/react-paypal-js": "^7.8.2",
     "@react-google-maps/api": "^2.5.0",
     "@reduxjs/toolkit": "^1.5.1",
     "@stripe/react-stripe-js": "^1.6.0",
@@ -13,33 +14,48 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
+    "autoprefixer": "^10.4.12",
     "axios": "^0.21.1",
+    "clsx": "^1.2.1",
     "dotenv": "^9.0.2",
     "firebase": "^9.6.10",
     "laravel-echo": "^1.11.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "postcss": "^8.4.17",
+    "postcss-cli": "^10.0.0",
     "quill-delta-to-html": "^0.12.1",
     "react": "^17.0.1",
-    "react-calendar": "^3.4.0",
+    "react-app-rewired": "^2.2.1",
+    "react-calendar": "^3.9.0",
+    "react-credit-cards": "^0.8.3",
     "react-day-picker": "^7.4.10",
     "react-dom": "^17.0.1",
+    "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.27.0",
+    "react-hooks-use-modal": "^3.2.0",
     "react-paginate": "^8.1.0",
     "react-places-autocomplete": "^7.3.0",
+    "react-query": "^3.39.2",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.2",
-    "react-select": "^5.3.2",
+    "react-scripts": "^5.0.1",
+    "react-select": "^5.5.2",
+    "react-slick": "^0.29.0",
     "react-toastify": "^8.1.0",
+    "sass": "^1.55.0",
+    "slick-carousel": "^1.8.1",
     "socket.io-client": "^2.3.0",
     "sweetalert2": "^11.3.4",
     "sweetalert2-react-content": "4.2",
+    "tailwindcss": "^3.1.8",
+    "underscore": "^1.13.6",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "watch:css": "npx tailwindcss -i src/styles/scss/tailwind.css -o src/styles/scss/tailwind_build.css -w",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -65,12 +81,26 @@
       "not op_mini all"
     ]
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
   },
   "devDependencies": {
-    "redux-devtools": "^3.7.0"
+    "@types/jest": "^29.1.2",
+    "@types/node": "^18.8.5",
+    "@types/react": "^17.0.1",
+    "@types/react-calendar": "^3.5.3",
+    "@types/react-credit-cards": "^0.8.1",
+    "@types/react-dom": "^17.0.1",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/underscore": "^1.11.4",
+    "redux-devtools": "^3.7.0",
+    "typescript": "^4.8.4"
   }
 }

@@ -255,21 +255,31 @@ export const Payment = (props) => {
                     },
                 },
             }));
+            const { questions, provider, ...rest } = serviceDetail;
+            const { subServiceName, ...restQuestions } = questions;
             if (state?.card_id) {
-                let data = serviceDetail;
-                data.card_id = state.card_id;
-                // false means this is not form data
-                postRequestService(data, false);
+                postRequestService(
+                    {
+                        questions: restQuestions,
+                        card_id: state?.card_id,
+                        ...rest,
+                    },
+                    false
+                );
                 return;
             }
             const { error, token } = await stripe.createToken(
                 elements.getElement(CardElement)
             );
             if (token && serviceDetail) {
-                let withToken = serviceDetail;
+                let withToken = {
+                    questions: restQuestions,
+                    ...rest,
+                };
                 withToken.token = token.id;
                 // false means this is not form data
                 postRequestService(withToken, false);
+                return true;
             }
             if (error) {
                 setState((state) => ({
