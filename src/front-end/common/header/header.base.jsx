@@ -164,7 +164,7 @@ export const BaseHeader = (props) => {
         }}
       >
         <img
-          src="/assets/img/logo.png"
+          src="/assets/img/brand-primary.svg"
           alt=""
           className="img-fluid"
           // style={{

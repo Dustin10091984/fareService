@@ -392,7 +392,7 @@ const Footer = (props) => {
                   }}
                 >
                   <img
-                    src="/assets/img/logo.png"
+                    src="/assets/img/brand-secondary.svg"
                     className="img-fluid"
                     alt=""
                   />
