@@ -378,7 +378,7 @@ const Footer = (props) => {
         <div className="container">
           <div className="row">
             <div className="col-md-12 flex gap-6 justify-content-between flex-col md:items-start md:flex-row items-center">
-              <div className="footer-lgoo mb-5 p-4 rounded-xl bg-gray-50">
+              <div className="">
                 <Link
                   to={(location) => ({
                     ...location,
