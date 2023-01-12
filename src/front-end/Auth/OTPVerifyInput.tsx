@@ -71,7 +71,6 @@ export default function OTPVerifyInput(props: IOTPVerifyInputProps) {
                 }
               }}
               onKeyDown={(e) => {
-                console.log(e);
                 if (
                   e.key === "Backspace" &&
                   (e.target as HTMLInputElement).value == "" &&

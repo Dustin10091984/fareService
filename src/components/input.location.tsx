@@ -37,11 +37,13 @@ export default function LocationInput(props: ILocationInputProps) {
     const addresses = resp.data.results as {
       formatted_address: string;
       place_id: string;
+      address_components: any;
     }[];
     return addresses.map((ad) => ({
       value: ad.place_id,
       label: ad.formatted_address,
       zipCode: Number(value),
+      address_components: ad.address_components,
     }));
   };
 

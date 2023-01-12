@@ -25,7 +25,7 @@ export const Index = (props) => {
           <div className="row">
             <div className="col-12">
               <div className="banner-sec flex flex-col items-center justify-between lg:flex-row">
-                <div className="banner-text mb-5 mb-md-0">
+                <div className="banner-text mb-5 mb-md-0 w-100">
                   <div className="font-bold text-5xl text-dark tracking-[-2px] leading-tight">
                     The <span className="text-primary-main">easy</span> &
                     <span className="text-primary-main"> reliable</span> way to
