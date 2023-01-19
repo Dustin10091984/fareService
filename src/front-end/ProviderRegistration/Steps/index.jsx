@@ -6,7 +6,9 @@ import { GOOGLE_API, HOST } from "../../../constants";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CommonInput from "../../../components/input.common";
 import Select from "react-select";
+import OTPVerifyInput from "../../Auth/OTPVerifyInput";
 
 const Basic = ({
   step,
@@ -19,11 +21,6 @@ const Basic = ({
   const [state, setState] = useState({
     isVisible: false,
   });
-  const pages = useSelector((state) => state?.footerReducer?.pages);
-  const TERMS_AND_CONDITIONS = 1;
-  const PRIVACY = 2;
-  const terms = pages?.data?.find((page) => page?.type == TERMS_AND_CONDITIONS);
-  const privacy = pages?.data?.find((page) => page?.type == PRIVACY);
 
   const isError = (name) => (basic.error[name] ? basic.error[name] : null);
   const isServerError = (name) => {
@@ -40,7 +37,6 @@ const Basic = ({
   const handleNextClick = () => {
     handleProviderSignup({
       email: basic.email,
-      phone: `${basic.code}${basic.phone}`,
       password: basic.password,
     });
     // handleStep(step + 1);
@@ -55,128 +51,42 @@ const Basic = ({
       {basic.success && (
         <div className="alert alert-success text-center">{basic.success}</div>
       )}
-      <div className="login-from step-1">
-        <div className="form-title mb-3">Set Up Your Business Profile.</div>
-        <div className="form-term mb-2">
-          How would you like customer to contact you?
+      <div className="step-1">
+        <div className="login-heading text-center text-4xl">
+          Set Up Your Business Profile
         </div>
-
-        <div className="common-input mb-4">
-          <label htmlFor="name">Email</label>
-          <strong className="text-danger">*</strong>
-          <input
-            type="email"
-            name="email"
-            placeholder="john.doe@gmail.com"
-            defaultValue={basic?.email || ""}
-            onChange={handleBasic}
-          />
-          <div className="text-danger">
-            {isError("email")}
-            {/* {isServerError("email")} */}
-          </div>
-        </div>
-        <div className="row">
-          <div className="common-input mb-4 col-12">
-            <label>Phone</label>
-            <strong className="text-danger">*</strong>
-            <div className="d-flex phone-input gap-6">
-              <select
-                className="js-example-basic-single basis-1/3"
-                name="code"
-                defaultValue={basic?.code}
-                onChange={handleBasic}
-              >
-                <option value={"+1"}>+1 </option>
-                <option value={"+92"}>+92</option>
-                <option value={"+234"}>+234</option>
-              </select>
-              <input
-                type="tel"
-                name="phone"
-                className="phone-input-2 flex-grow"
-                placeholder="1234567890"
-                defaultValue={basic?.phone || ""}
-                onChange={handleBasic}
-              />
-            </div>
-            <div className="text-danger">
-              {isError("phone")}
-              {/* {isServerError("phone")} */}
-            </div>
-          </div>
-        </div>
-        <div className="common-input mb-4">
-          <label htmlFor="name">Password</label>
-          <strong className="text-danger">*</strong>
-          <input
-            type={state.isVisible ? "text" : "password"}
-            name="password"
-            placeholder="password"
-            defaultValue={basic?.password || ""}
-            onChange={handleBasic}
-          />
-          {!state?.isVisible && (
-            <i
-              onClick={() => {
-                setState((state) => ({
-                  ...state,
-                  isVisible: !state.isVisible,
-                }));
-              }}
-              className="fa fa-eye float-right rem-2 pr-3 eye-icon"
-            ></i>
-          )}
-          {state?.isVisible && (
-            <i
-              onClick={() => {
-                setState((state) => ({
-                  ...state,
-                  isVisible: !state.isVisible,
-                }));
-              }}
-              className="fa fa-eye-slash float-right rem-2 pr-3 eye-icon"
-            ></i>
-          )}
-          <div className="text-danger">
-            {isError("password")}
-            {/* {isServerError("password")} */}
-          </div>
-        </div>
-
-        <div className="form-term my-2">
-          {(!!terms?.name || !!privacy?.name) &&
-            "By clicking next you agree to"}
-          {!!terms?.name && (
-            <>
-              {" "}
-              <Link to={`/page/${terms?.name}`}>Terms of Service</Link>
-            </>
-          )}
-          {!!terms?.name && !!privacy?.name && " and "}
-          {!!privacy?.name && (
-            <>
-              <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
-            </>
-          )}
-        </div>
+        <CommonInput
+          label="Email Address"
+          type="email"
+          placeholder="Enter your email address"
+          name="email"
+          value={basic?.email}
+          onChange={handleBasic}
+          error={isError("email")}
+        />
+        <CommonInput
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          name="password"
+          value={basic?.password}
+          onChange={handleBasic}
+          error={isError("password")}
+        />
 
         <button
           disabled={(() => {
             return (
               providerSignup?.loading ||
               isError("email") ||
-              isError("phone") ||
               isError("password") ||
               basic?.email == "" ||
               basic?.email == undefined ||
               basic?.password == "" ||
-              basic?.password == undefined ||
-              basic?.phone == "" ||
-              basic?.phone == undefined
+              basic?.password == undefined
             );
           })()}
-          className="fare-btn fare-btn-primary w-100 mt-3"
+          className="fare-btn fare-btn-lg fare-btn-primary w-100 mt-3"
           id="step-1"
           type="button"
           onClick={handleNextClick}
@@ -202,18 +112,25 @@ const Otp = ({
   handleVerifyEmail,
   verifyOpt,
 }) => {
-  const [state, setState] = useState({ loading: false });
+  console.log(otpData);
+  const { email = "" } = otpData;
+  const hiddenEmail =
+    email.substring(0, 2) + "****" + email.substring(email.lastIndexOf("@"));
+  const [state, setState] = useState({
+    loading: false,
+    message: `We have sent a verification code to your email at ${hiddenEmail}`,
+  });
   const handleResendOtp = (e) => {
     e.preventDefault();
-    setState({ loading: true });
+    setState({ loading: true, message: "" });
     axios({
       method: "post",
-      data: { email: otpData?.email },
+      data: { email },
       url: `${HOST}/api/provider/signup/email/verify/resend`,
     })
       .then(function (response) {
         setState({
-          success: "OTP has been sent to your email",
+          message: `We have sent a verification code to your email at ${hiddenEmail}`,
           loading: false,
         });
       })
@@ -226,47 +143,29 @@ const Otp = ({
   };
 
   return (
-    <div className="login-from step-2">
-      {state?.success && (
-        <div className="alert alert-success text-center">{state?.success}</div>
-      )}
+    <div className="step-2">
       {state?.error && (
-        <div className="alert alert-success text-center">{state?.error}</div>
+        <div className="alert alert-danger text-center">
+          {state?.error && typeof state?.error == "string"
+            ? state?.error
+            : JSON.stringify(state?.error)}
+        </div>
       )}
-      <div className="form-title mb-3">Please enter OTP Code.</div>
-      <div className="form-term mb-2">
-        How Whould you like customer to contact you?
+      <div className="login-heading text-center text-4xl">Enter OTP</div>
+      <div className="text-center -mt-8 mb-8 text-gray-500">
+        {state?.message}
       </div>
-      <div className="form-term mb-2">Email: {otpData?.email}</div>
-
-      <div className="common-input mb-4">
-        <label htmlFor="name">Code.</label>
-        <input
-          type="text"
-          name="otp"
-          onChange={handleOtp}
-          placeholder="0 0 0 0"
-        />
-      </div>
-      <div className="text-danger">{otpData?.error?.otp}</div>
-      <div className="form-term my-2">
-        Didn't you receive any code? <br />{" "}
-        <a href="#" onClick={handleResendOtp}>
-          Resend New Code
-        </a>{" "}
-      </div>
-      <div className="d-flex justify-content-between">
+      <form>
+        <div className="my-4">
+          <OTPVerifyInput length={4} onComplete={handleOtp} />
+        </div>
+        <div className="item show-all rem-1-5 text-center my-3">
+          <a className="btn-link m-2 text-base" onClick={handleResendOtp}>
+            Resend Code
+          </a>
+        </div>
         <button
-          className="fare-btn fare-btn-primary w-100 mt-3"
-          id="step-2-back"
-          type="button"
-          onClick={() => handleStep(1)}
-        >
-          Back
-        </button>
-        <div className="px-3"></div>
-        <button
-          className="fare-btn fare-btn-primary w-100 mt-3"
+          className="fare-btn fare-btn-primary fare-btn-lg  w-100 my-3"
           id="step-2"
           type="button"
           disabled={state.loading}
@@ -282,10 +181,10 @@ const Otp = ({
               <i className="fa fa-spinner fa-pulse"></i> Please wait...
             </>
           ) : (
-            "Next"
+            "Submit"
           )}
         </button>
-      </div>
+      </form>
     </div>
   );
 };
@@ -311,7 +210,7 @@ const BasicInfo = ({
 
   return (
     <form onSubmit={handleSubmit(handleBasic)}>
-      <div className="login-from step-3">
+      <div className="step-3">
         <div className="form-title mb-3">
           To start , help us get to know you and your business
         </div>
@@ -652,7 +551,7 @@ const SelectZipCode = ({
     });
   };
   return (
-    <div className="login-from step-4">
+    <div className="step-4">
       {state?.zip_codeErr && (
         <div className="alert alert-danger text-center">
           {state?.zip_codeErr}
@@ -974,7 +873,7 @@ const ProfileDetail = ({
     handleProfileDetails(form);
   };
   return (
-    <div className="login-from step-6-user">
+    <div className="step-6-user">
       <form onSubmit={handleSubmit(handleOnSubmitProfile)}>
         <div className="common-input mb-4">
           <div className="form-title mb-3 text-center">Profile Setting</div>
@@ -1031,7 +930,7 @@ const ProfileDetail = ({
               <input
                 type="text"
                 className={` ${errors?.business_name ? "is-invalid" : ""}`}
-                placeholder="Business name"
+                placeholder="Enter your Business Name"
                 defaultValue={profile?.business_name}
                 {...register("business_name", {
                   required: true,
@@ -1044,7 +943,7 @@ const ProfileDetail = ({
               />
               {errors.business_name && (
                 <strong className="text-danger">
-                  business name is required
+                  Business Name is required
                 </strong>
               )}
             </div>
@@ -1121,7 +1020,7 @@ const ProfileDetail = ({
           <input
             type="text"
             className={` ${errors?.hourly_rate ? "is-invalid" : ""}`}
-            placeholder="Add hourly rate like 12"
+            placeholder="Add hourly rate, e.g. 12"
             {...register("hourly_rate", {
               required: true,
               pattern: /^[0-9]*$/,
@@ -1146,7 +1045,7 @@ const ProfileDetail = ({
           <input
             type="text"
             className={` ${errors?.street_address ? "is-invalid" : ""}`}
-            placeholder="street address"
+            placeholder="Street Address"
             {...register("street_address", {
               required: true,
               onChange: (e) => {
@@ -1166,7 +1065,7 @@ const ProfileDetail = ({
           <input
             type="text"
             className={` ${errors?.suite_number ? "is-invalid" : ""}`}
-            placeholder="suit or #"
+            placeholder="Suit or #"
             {...register("suite_number", {
               required: true,
               onChange: (e) => {
@@ -1183,7 +1082,7 @@ const ProfileDetail = ({
           <input
             type="text"
             className={` ${errors?.zip_code ? "is-invalid" : ""}`}
-            placeholder="zip code"
+            placeholder="Zip Code"
             {...register("zip_code", {
               required: true,
               onChange: (e) => {
@@ -1217,7 +1116,7 @@ const ProfileDetail = ({
           <input
             type="text"
             className={` ${errors?.state ? "is-invalid" : ""}`}
-            placeholder="state"
+            placeholder="State"
             {...register("state", {
               required: true,
               onChange: (e) => {
@@ -1237,7 +1136,7 @@ const ProfileDetail = ({
             type="text"
             className={` ${errors?.bio ? "is-invalid" : ""}`}
             id="name"
-            placeholder="Enter you bio"
+            placeholder="Enter your bio."
             {...register("bio", {
               required: true,
               minLength: 20,
@@ -1268,19 +1167,9 @@ const ProfileDetail = ({
           Please make sure all information you submit is accurate before submit.
         </div>
 
-        <div className="d-flex justify-content-between">
+        <div className="flex flex-col justify-content-between">
           <button
-            className="fare-btn fare-btn-primary w-100 mt-3"
-            id="step-6-back"
-            type="button"
-            onClick={() => handleStep(4)}
-            disabled={profileDetails?.loading}
-          >
-            Back
-          </button>
-          <div className="px-3"></div>
-          <button
-            className="fare-btn fare-btn-primary w-100 mt-3"
+            className="fare-btn fare-btn-lg fare-btn-primary w-100 mt-3"
             id="submit"
             type="submit"
             disabled={profileDetails?.loading}
@@ -1290,8 +1179,17 @@ const ProfileDetail = ({
                 <i className={`fa fa-spinner fa-pulse`}></i> Loading...
               </span>
             ) : (
-              "submit"
+              "Submit"
             )}
+          </button>
+          <button
+            className="fare-btn fare-btn-lg fare-btn-default w-100 mt-3"
+            id="step-6-back"
+            type="button"
+            onClick={() => handleStep(3)}
+            disabled={profileDetails?.loading}
+          >
+            Back
           </button>
         </div>
       </form>

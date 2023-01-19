@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import ProviderSettings, {
+  ProviderSettingSection,
+  IProviderSettings,
+} from "./Steps/ProviderSettings";
+import RegisterSucceed from "./Steps/RegisterSucceed";
 import {
   Basic,
   Otp,
@@ -13,6 +20,12 @@ import {
 
 const Registration = (props) => {
   // dispatch actions
+
+  const pages = useSelector((state) => state?.footerReducer?.pages);
+  const TERMS_AND_CONDITIONS = 1;
+  const PRIVACY = 2;
+  const terms = pages?.data?.find((page) => page?.type == TERMS_AND_CONDITIONS);
+  const privacy = pages?.data?.find((page) => page?.type == PRIVACY);
   const { handleProviderSignup, handleVerifyEmail, handleBasicInfoSubmit } =
     props;
   const {
@@ -21,14 +34,14 @@ const Registration = (props) => {
     basicInfoRes,
     serviceDetail,
     profileDetails,
+    handleServiceDetails,
+    handleProfileDetails,
   } = props;
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1); // @remove-this: 2
   const [basic, setBasic] = useState({
-    code: "+1",
     error: {
       email: "",
       phone: "",
-      password: "",
     },
   });
 
@@ -119,7 +132,7 @@ const Registration = (props) => {
       serviceDetail?.loading == false &&
       serviceDetail?.message == "success"
     ) {
-      handleStep(5);
+      handleStep(4);
     }
     if (serviceDetail.loading == false && serviceDetail.error) {
       Swal.fire({
@@ -139,28 +152,28 @@ const Registration = (props) => {
       profileDetails?.message == "success"
     ) {
       localStorage.removeItem("providerToken");
-      setStep(1);
-      setBasic({
-        success:
-          "Congratulation! You are successfully registered. We will let you know when we launch our website. Thank you.",
-        code: "+92",
-        error: {
-          email: "",
-          phone: "",
-          password: "",
-        },
-      });
-      setOtpData({});
-      setBasicInfo({});
-      setZipCode({
-        address: "",
-        zip_code: [],
-        service_id: "",
-      });
-      setProviderType();
-      setProfile({
-        image: "",
-      });
+      setStep(5);
+      // setBasic({
+      //   success:
+      //     "Congratulation! You are successfully registered. We will let you know when we launch our website. Thank you.",
+      //   code: "+92",
+      //   error: {
+      //     email: "",
+      //     phone: "",
+      //     password: "",
+      //   },
+      // });
+      // setOtpData({});
+      // setBasicInfo({});
+      // setZipCode({
+      //   address: "",
+      //   zip_code: [],
+      //   service_id: "",
+      // });
+      // setProviderType();
+      // setProfile({
+      //   image: "",
+      // });
     }
     if (profileDetails.loading == false && profileDetails.error) {
       Swal.fire({
@@ -202,67 +215,6 @@ const Registration = (props) => {
     }
   };
 
-  const handlePhoneChange = (phone) => {
-    let regx = /^[0-9]{10,12}$/;
-    if (!regx.test(phone)) {
-      setBasic((basic) => ({
-        ...basic,
-        error: {
-          ...basic.error,
-          phone: `Please enter a valid phone number and should be of ${
-            (basic.code == "+234" && "10") ||
-            (basic.code == "+92" && "10") ||
-            (basic.code == "+1" && "10")
-          } digits`,
-        },
-      }));
-      return;
-    } else {
-      if (basic.code == "+234" || basic.code == "+92" || basic.code == "+1") {
-        let error = "Phone number should be of 10 digits";
-        if (phone.length == 10) {
-          error = "";
-        }
-        setBasic((basic) => ({
-          ...basic,
-          error: {
-            ...basic.error,
-            phone: error,
-          },
-        }));
-        return;
-      }
-      // if (basic.code == "+92") {
-      //     let error = "Phone number should be of 10 digits";
-      //     if (phone.length == 10) {
-      //         error = "";
-      //     }
-      //     setBasic((basic) => ({
-      //         ...basic,
-      //         error: {
-      //             ...basic.error,
-      //             phone: error,
-      //         },
-      //     }));
-      //     return;
-      // }
-      // if (basic.code == "+1") {
-      //     let error = "";
-      //     if (phone.length != 10) {
-      //         error = "Phone number should be of 10 digits";
-      //     }
-      //     setBasic((basic) => ({
-      //         ...basic,
-      //         error: {
-      //             ...basic.error,
-      //             phone: error,
-      //         },
-      //     }));
-      //     return;
-      // }
-    }
-  };
-
   const handlePasswordChange = (password) => {
     let regex =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
@@ -289,15 +241,8 @@ const Registration = (props) => {
   const handleBasic = (e) => {
     const { name, value } = e.target;
     setBasic({ ...basic, [name]: value });
-    if (name === "code") {
-      handlePhoneChange(basic?.phone);
-      return;
-    }
     if (name === "email") {
       handleEmailChange(value);
-      return;
-    } else if (name === "phone") {
-      handlePhoneChange(value);
       return;
     } else if (name === "password") {
       handlePasswordChange(value);
@@ -376,8 +321,9 @@ const Registration = (props) => {
     setProfile((profile) => ({ ...profile, ...data }));
   };
 
-  const handleOtp = (e) => {
-    const { name, value } = e.target;
+  const handleOtp = (value) => {
+    console.log(value);
+    const name = "otp";
     let regx = /^[0-9]{4,4}$/;
     if (regx.test(value)) {
       setOtpData({
@@ -411,90 +357,106 @@ const Registration = (props) => {
 
   return (
     <>
-      <div
-        className="main-registration"
-        style={{
-          background:
-            "url(/assets/img/banner.jpg) no-repeat fixed center/cover",
-          height: "100vh",
-          width: "100%",
-        }}
-      >
-        <div className="driver-from pt-5">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-10 col-md-6 col-lg-6 offset-lg-1 p-b-md">
-                <div className="banner-content"></div>
+      <div className="login-sec d-flex align-items-center bg-gray-50">
+        <div className="container">
+          <div className="login-box h-auto mx-auto">
+            <div className="banner-content"></div>
+            {step == 1 && (
+              <Basic
+                handleStep={(step) => handleStep(step)}
+                step={step}
+                handleBasic={(e) => handleBasic(e)}
+                basic={basic}
+                handleProviderSignup={handleProviderSignup}
+                providerSignup={providerSignup}
+              />
+            )}
+            {step == 2 && (
+              <Otp
+                handleStep={(step) => handleStep(step)}
+                step={step}
+                handleOtp={(e) => handleOtp(e)}
+                otpData={otpData}
+                handleVerifyEmail={handleVerifyEmail}
+                verifyOpt={verifyOpt}
+              />
+            )}
+            {step == 3 && localStorage.getItem("providerToken") && (
+              <ProviderSettings
+                onComplete={(settings) => {
+                  handleBasicInfo(settings);
+                  handleBasicInfoSubmit(settings);
+                  setProviderType(settings.type);
+
+                  handleServiceChange(settings);
+                  handleServiceDetails({
+                    ...settings,
+                    services: settings.services.filter(
+                      (s) => s.subServiceIds.length > 0
+                    ),
+                    from_web: true,
+                  });
+                  setStep(4);
+                }}
+              />
+              // <BasicInfo
+              //   handleStep={(step) => handleStep(step)}
+              //   handleBasicInfoSubmit={handleBasicInfoSubmit}
+              //   handleBasicInfo={(data) => handleBasicInfo(data)}
+              //   basicInfo={basicInfo}
+              //   step={step}
+              //   {...props}
+              // />
+            )}
+            {/* {step == 4 && (
+              <SelectZipCode
+                handleStep={(step) => handleStep(step)}
+                step={step}
+                handleZipCode={(data) => {
+                  handleZipCode(data);
+                }}
+                zipCode={zipCode}
+                services={services}
+                providerType={providerType}
+                handleProviderType={(data) => setProviderType(data)}
+                handleServiceChange={(data) => handleServiceChange(data)}
+                {...props}
+              />
+            )} */}
+            {step == 4 &&
+              (providerType == "Individual" || providerType == "Business") && (
+                <ProfileDetail
+                  handleStep={(step) => handleStep(step)}
+                  step={step}
+                  profile={profile}
+                  providerType={providerType}
+                  handleProfile={(data) => handleProfile(data)}
+                  {...props}
+                />
+              )}
+            {step == 5 && (
+              <div className=" w-[54rem] m-auto">
+                <RegisterSucceed
+                  title="Provider Account Setup Successfully"
+                  subTitle="You have successfully setup your provider account. Download the Farenow provider app and Login to continue."
+                />
               </div>
-              <div className="col-sm-10 col-md-6 col-lg-4 mt-5 mt-md-0">
-                {step == 1 && (
-                  <Basic
-                    handleStep={(step) => handleStep(step)}
-                    step={step}
-                    handleBasic={(e) => handleBasic(e)}
-                    basic={basic}
-                    handleProviderSignup={handleProviderSignup}
-                    providerSignup={providerSignup}
-                  />
-                )}
-                {step == 2 && (
-                  <Otp
-                    handleStep={(step) => handleStep(step)}
-                    step={step}
-                    handleOtp={(e) => handleOtp(e)}
-                    otpData={otpData}
-                    handleVerifyEmail={handleVerifyEmail}
-                    verifyOpt={verifyOpt}
-                  />
-                )}
-                {step == 3 && localStorage.getItem("providerToken") && (
-                  <BasicInfo
-                    handleStep={(step) => handleStep(step)}
-                    handleBasicInfoSubmit={handleBasicInfoSubmit}
-                    handleBasicInfo={(data) => handleBasicInfo(data)}
-                    basicInfo={basicInfo}
-                    step={step}
-                    {...props}
-                  />
-                )}
-                {step == 4 && (
-                  <SelectZipCode
-                    handleStep={(step) => handleStep(step)}
-                    step={step}
-                    handleZipCode={(data) => {
-                      handleZipCode(data);
-                    }}
-                    zipCode={zipCode}
-                    services={services}
-                    providerType={providerType}
-                    handleProviderType={(data) => setProviderType(data)}
-                    handleServiceChange={(data) => handleServiceChange(data)}
-                    {...props}
-                  />
-                )}
-                {/* {step == 5 && (
-                                    <ProviderType
-                                        handleStep={(step) => handleStep(step)}
-                                        step={step}
-                                        providerType={providerType}
-                                        handleProviderType={(data) =>
-                                            setProviderType(data)
-                                        }
-                                    />
-                                )} */}
-                {step == 5 &&
-                  (providerType == "Individual" ||
-                    providerType == "Business") && (
-                    <ProfileDetail
-                      handleStep={(step) => handleStep(step)}
-                      step={step}
-                      profile={profile}
-                      providerType={providerType}
-                      handleProfile={(data) => handleProfile(data)}
-                      {...props}
-                    />
-                  )}
-              </div>
+            )}
+            <div className="form-term my-4 text-center">
+              {(!!terms?.name || !!privacy?.name) &&
+                "By clicking next you agree to"}
+              {!!terms?.name && (
+                <>
+                  {" "}
+                  <Link to={`/page/${terms?.name}`}>Terms of Service</Link>
+                </>
+              )}
+              {!!terms?.name && !!privacy?.name && " and "}
+              {!!privacy?.name && (
+                <>
+                  <Link to={`/page/${privacy?.name}`}>Privacy Policy</Link>.{" "}
+                </>
+              )}
             </div>
           </div>
         </div>

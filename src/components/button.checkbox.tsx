@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import * as React from "react";
 
-export interface IRadioBoxButtonProps {
+export interface ICheckBoxButtonProps {
   checked?: boolean;
-  onChange?: (e: any) => void;
+  onChange?: (checked: boolean) => void;
   text?: string | JSX.Element;
   className?: string;
   shadow?: boolean;
 }
 
-export default function RadioBoxButton(props: IRadioBoxButtonProps) {
+export default function CheckBoxButton(props: ICheckBoxButtonProps) {
   const {
     checked = false,
     onChange,
@@ -23,19 +23,21 @@ export default function RadioBoxButton(props: IRadioBoxButtonProps) {
         { "border-primary-main text-primary-main": checked },
         { "text-gray-700": !checked },
         { "shadow-[0_8px_16px_0_#00000014]": shadow },
-        "text-sm px-8 py-10 border-2 rounded-[24px] flex items-center hover:bg-gray-50",
+        "text-sm px-8 py-3 rounded-3xl flex items-center bg-primary-light hover:bg-gray-50",
         className,
       ])}
-      onClick={onChange}
+      onClick={() => onChange(!checked)}
     >
+      <span className="mx-3 grow text-start">{text}</span>
       <input
-        type="radio"
-        name="slots"
-        className={clsx([`w-[2rem] h-[2rem] `, { active: checked }])}
+        type="checkbox"
+        className={clsx([
+          `w-[2rem] h-[2rem] bg-transparent`,
+          { active: checked },
+        ])}
         checked={checked}
-        onChange={onChange}
+        onChange={() => onChange(!checked)}
       />
-      <span className="mx-3">{text}</span>
     </button>
   );
 }
