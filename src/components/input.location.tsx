@@ -7,6 +7,7 @@ import { GOOGLE_API } from "../constants";
 
 export interface ILocationInputProps {
   placeholder?: string;
+  shadow?: boolean;
   onChange?: (value: { value: string; label: string; zipCode: number }) => void;
 }
 
@@ -24,7 +25,7 @@ const searchStyle: StylesConfig = {
 };
 
 export default function LocationInput(props: ILocationInputProps) {
-  const { placeholder = "" } = props;
+  const { placeholder = "", shadow = true } = props;
   /**
    * Zip Code State
    */
@@ -48,7 +49,12 @@ export default function LocationInput(props: ILocationInputProps) {
   };
 
   return (
-    <div className="border shadow-normal p-3 d-flex items-center rounded-[1.6rem]">
+    <div
+      className={clsx([
+        "border p-3 d-flex items-center rounded-[1.6rem]",
+        shadow ? "shadow-normal" : "",
+      ])}
+    >
       <i className="fa fa-map-marker text-sm mx-3 text-secondary"></i>
       <ReactAsyncSelect
         cacheOptions

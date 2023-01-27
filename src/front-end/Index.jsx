@@ -31,7 +31,7 @@ export const Index = (props) => {
                     <span className="text-primary-main"> reliable</span> way to
                     take care of your home.
                   </div>
-                  <div className="text-base text-dark mt-6">
+                  <div className="text-xl md:text-base text-dark mt-6 px-8">
                     We make it easy for you to create the best experience for
                     your home.
                     <br /> Book for a handyman, get a professional service or

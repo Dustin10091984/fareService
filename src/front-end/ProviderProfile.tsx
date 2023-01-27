@@ -175,7 +175,7 @@ export const ProviderProfile = (props) => {
         )}
         {data?.provider && (
           <div className="container">
-            <div className="d-flex xl:flex-nowrap flex-wrap gap-16">
+            <div className="d-flex wrap xl:flex-nowrap  gap-16">
               <div className="xl:flex grid grid-cols-2 lg:grid-cols-3 xl:flex-no-wrap xl:flex-col gap-16 xl:basis-[38.4rem] flex-shrink-0 w-100">
                 <ProfileAvatar provider={data.provider} />
                 <ProfileAvailability provider={data.provider} />

@@ -22,6 +22,7 @@ import categorySlice from "./Slices/category/index";
 import notificationSlice from "./Slices/notification";
 import commonSlice from "./Slices/common";
 import QuestionAnswersSlice from "./Slices/services/QuestionAnswersSlice";
+import blogSlice from "./Slices/blog/blogSlice";
 
 const reducers = combineReducers({
   commonReducer: commonSlice,
@@ -47,6 +48,7 @@ const reducers = combineReducers({
   categoryReducer: categorySlice,
   registrationReducer: registrationSlice,
   notificationReducer: notificationSlice,
+  blogReducer: blogSlice
 });
 
 export default reducers;

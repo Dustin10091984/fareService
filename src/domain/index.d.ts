@@ -35,3 +35,7 @@ interface IFAQ {
     name: string;
   };
 }
+
+interface ILocation {
+  placeId: string;
+}
