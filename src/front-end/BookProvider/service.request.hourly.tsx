@@ -115,7 +115,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       schedules={providerProfile?.schedules}
       blockedSlots={providerProfile?.blocked_slots}
       onNext={({ date }) => {
-        onNext({ date: date.toLocaleDateString() });
+        onNext({ date: date.toLocaleDateString("sv") });
       }}
     />,
     <BookHours onNext={onNext} onPrev={onPrev} />,
@@ -134,6 +134,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       title="Work Address"
     />,
     <BookCheckoutPlan
+      onPrev={onPrev}
       onNext={({ checkoutPlan }) => {
         onNext({ checkoutPlan });
       }}
