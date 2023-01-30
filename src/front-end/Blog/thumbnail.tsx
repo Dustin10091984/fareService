@@ -1,0 +1,93 @@
+import clsx from "clsx";
+import * as React from "react";
+
+export interface IBlogThumbnailProps {
+  size?: "sm" | "base" | "lg";
+  imagePosition?: "before" | "after";
+  orientation?: "vertical" | "horizontal";
+  showContent?: boolean;
+  showInfo?: boolean;
+  titleClass?: string;
+  blog: Blog;
+  shadow?: boolean;
+}
+
+export default function BlogThumbnail(props: IBlogThumbnailProps) {
+  const {
+    size = "base",
+    imagePosition = "before",
+    orientation = "horizontal",
+    showContent = true,
+    showInfo = true,
+    titleClass = "",
+    blog,
+    shadow = true,
+  } = props;
+
+  let height = {
+    sm: 12,
+    base: 21,
+    lg: 36,
+  };
+  let width = {
+    sm: "basis-1/2 md:max-w-[18rem]",
+    base: "basis-1/3 md:max-w-[30rem]",
+    lg: "basis-2/3 md:max-w-[75rem]",
+  };
+  return (
+    <div
+      className={clsx([
+        "bg-white rounded-[2.4rem] flex gap-6 flex-col p-4",
+        orientation == "vertical"
+          ? ""
+          : imagePosition == "before"
+          ? "md:flex-row"
+          : "md:flex-row-reverse",
+        {
+          "shadow-normal": shadow,
+        },
+      ])}
+    >
+      <div
+        className={clsx([
+          "flex-shrink-0",
+          { [width[size]]: orientation == "horizontal" },
+        ])}
+      >
+        <img
+          src={blog.featured_image}
+          className={clsx([`object-cover rounded-3xl w-100`])}
+          style={{ height: `${height[size]}rem` }}
+        />
+      </div>
+      <div
+        className={clsx([
+          "flex flex-col gap-6 text-[1.6rem]",
+          size == "sm" ? "px-2 py-2" : "px-4 py-2",
+        ])}
+      >
+        <h1
+          className={clsx([
+            "font-medium",
+            size == "sm" ? "text-base" : "text-2xl",
+            titleClass,
+          ])}
+        >
+          {blog.title}
+        </h1>
+        {showInfo && (
+          <div className="flex gap-4 text-gray-500">
+            <span>
+              <i className="la la-user"></i>Emmanuel Jake
+            </span>
+            <span>
+              <i className="la la-clock"></i>
+              {new Date(blog.created_at).toDateString()}
+            </span>
+          </div>
+        )}
+        {showContent && <p className="">{blog.slug}</p>}
+      </div>
+    </div>
+  );
+}
