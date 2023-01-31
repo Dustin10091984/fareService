@@ -43,6 +43,7 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
+  const paypal = false;
 
   const { onNext, onPrev, provider, checkoutPlan } = props;
 
@@ -109,19 +110,20 @@ export default function BookPaymentMethod(props: IBookPaymentMethodProps) {
             </span>
           }
         />
-
-        <RadioBoxButton
-          checked={payMethod == "Paypal"}
-          onChange={() => {
-            setPayMethod("Paypal");
-            setStage("SelectMethod");
-          }}
-          text={
-            <span className="d-flex items-center justify-between w-[30rem]">
-              Paypal <img src="/assets/img/payment-paypal.png" />
-            </span>
-          }
-        />
+        {paypal && (
+          <RadioBoxButton
+            checked={payMethod == "Paypal"}
+            onChange={() => {
+              setPayMethod("Paypal");
+              setStage("SelectMethod");
+            }}
+            text={
+              <span className="d-flex items-center justify-between w-[30rem]">
+                Paypal <img src="/assets/img/payment-paypal.png" />
+              </span>
+            }
+          />
+        )}
       </div>
       {showAddCardForm && <PaymentCreditCardForm {...{ register, setValue }} />}
       {stage == "SelectCard" && (

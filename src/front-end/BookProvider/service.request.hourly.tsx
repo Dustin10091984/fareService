@@ -33,15 +33,17 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
   const [sIndex, setSIndex] = React.useState(0);
   const [submitted, setSubmitted] = React.useState(false);
   const { close, provider } = props;
-  
-  const providerProfileState = useSelector<RootState, any>(state => state.providerProfile);
+
+  const providerProfileState = useSelector<RootState, any>(
+    (state) => state.providerProfile
+  );
   const providerProfile = providerProfileState?.data?.provider;
 
   React.useEffect(() => {
     if (provider.id !== providerProfile?.id) {
       dispatch(getProviderProfile(provider.id));
     }
-  }, [provider.id])
+  }, [provider.id]);
 
   const dispatch = useDispatch();
   const questionAnswers = useSelector<RootState>((state) =>
@@ -113,7 +115,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       schedules={providerProfile?.schedules}
       blockedSlots={providerProfile?.blocked_slots}
       onNext={({ date }) => {
-        onNext({ date: date.toLocaleDateString() });
+        onNext({ date: date.toLocaleDateString("sv") });
       }}
     />,
     <BookHours onNext={onNext} onPrev={onPrev} />,
@@ -132,6 +134,7 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
       title="Work Address"
     />,
     <BookCheckoutPlan
+      onPrev={onPrev}
       onNext={({ checkoutPlan }) => {
         onNext({ checkoutPlan });
       }}
@@ -156,7 +159,6 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
   return (
     <div className="fare-card w-[108rem] max-h-[100vh] overflow-auto">
       <div className="d-flex flex-column items-center ">
-        
         {!submitted && (
           <>
             <div className="text-primary-main py-3">
@@ -169,10 +171,10 @@ export default function BookServiceHourly(props: IBookServiceHourlyProps) {
               <i className="la la-times mr-2 "></i>Close
             </button>
             {serviceRequest.loading && <Loading loading={true} />}
-            {providerProfileState.loading && <Loading className="h-[40rem]" loading={true} backdrop={false}  />}
-            {
-              providerProfile && slides[sIndex]
-            }
+            {providerProfileState.loading && (
+              <Loading className="h-[40rem]" loading={true} backdrop={false} />
+            )}
+            {providerProfile && slides[sIndex]}
           </>
         )}
         {submitted && (

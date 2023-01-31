@@ -4,10 +4,17 @@ import * as React from "react";
 import { StylesConfig } from "react-select";
 import ReactAsyncSelect from "react-select/async";
 import { GOOGLE_API } from "../constants";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 export interface ILocationInputProps {
   placeholder?: string;
-  onChange?: (value: { value: string; label: string; zipCode: number }) => void;
+  shadow?: boolean;
+  isAddress?: boolean;
+  onChange?: (value: {
+    value: string;
+    label: string;
+    zipCode?: number;
+  }) => void;
 }
 
 const searchStyle: StylesConfig = {
@@ -24,7 +31,7 @@ const searchStyle: StylesConfig = {
 };
 
 export default function LocationInput(props: ILocationInputProps) {
-  const { placeholder = "" } = props;
+  const { placeholder = "", shadow = true, isAddress = false } = props;
   /**
    * Zip Code State
    */
@@ -46,22 +53,67 @@ export default function LocationInput(props: ILocationInputProps) {
       address_components: ad.address_components,
     }));
   };
-
+  const loadAddressOptions = async (value: string | number) => {
+    const resp = await axios({
+      method: "get",
+      url: `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${value}&key=${GOOGLE_API}`,
+      headers: {},
+    });
+    const addresses = resp.data.results as {
+      description: string;
+      place_id: string;
+    }[];
+    return addresses.map((ad) => ({
+      value: ad.place_id,
+      label: ad.description,
+    }));
+  };
   return (
-    <div className="border shadow-normal p-3 d-flex items-center rounded-[1.6rem]">
+    <div
+      className={clsx([
+        "border p-3 d-flex items-center rounded-[1.6rem]",
+        shadow ? "shadow-normal" : "",
+      ])}
+    >
       <i className="fa fa-map-marker text-sm mx-3 text-secondary"></i>
-      <ReactAsyncSelect
-        cacheOptions
-        loadOptions={loadZipCodeOptions}
-        placeholder={placeholder}
-        className={clsx(["px-2 w-100", "text-base"])}
-        styles={searchStyle}
-        value={value}
-        onChange={(newValue: any) => {
-          setValue(newValue);
-          props.onChange && props.onChange(newValue);
-        }}
-      />
+      {isAddress && (
+        <GooglePlacesAutocomplete
+          selectProps={{
+            value: value,
+            onChange: (newValue: any) => {
+              setValue(newValue);
+              console.log(newValue);
+              props.onChange &&
+                props.onChange({
+                  label: newValue.label,
+                  value: newValue.value?.place_id,
+                });
+            },
+            styles: {
+              ...searchStyle,
+              menuList: (provided) => ({
+                ...provided,
+              }),
+            },
+            placeholder,
+            className: "px-2 w-100 text-base ",
+          }}
+        />
+      )}
+      {!isAddress && (
+        <ReactAsyncSelect
+          cacheOptions
+          loadOptions={loadZipCodeOptions}
+          placeholder={placeholder}
+          className={clsx(["px-2 w-100", "text-base"])}
+          styles={searchStyle}
+          value={value}
+          onChange={(newValue: any) => {
+            setValue(newValue);
+            props.onChange && props.onChange(newValue);
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -29,6 +29,7 @@ import ServicesSearchPage from "./front-end/ServicesSearch";
 import RegisterWithEmail from "./front-end/Auth/RegisterWithEmail";
 import ForgotPasswordWithEmail from "./front-end/Auth/ForgotPasswordWithEmail";
 import FAQ from "./front-end/FAQ";
+import BlogPage from "front-end/Blog";
 const publicRoutes = [
   {
     name: "Home",
@@ -66,12 +67,12 @@ const publicRoutes = [
     component: ServiceProviders,
     hash: "",
   },
-  {
-    name: "Moving Request",
-    path: "/moving-request",
-    component: MovingRequest,
-    hash: "",
-  },
+  // {
+  //   name: "Moving Request",
+  //   path: "/moving-request",
+  //   component: MovingRequest,
+  //   hash: "",
+  // },
   {
     name: "Provider profile",
     path: "/provider/profile/:id",
@@ -153,6 +154,11 @@ const publicRoutes = [
     path: "/verification",
     component: Verification,
     hash: "",
+  },
+  {
+    name: "Blogs",
+    path: "/blog",
+    component: BlogPage,
   },
 ];
 
