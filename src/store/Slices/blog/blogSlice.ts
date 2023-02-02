@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { BaseThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk';
-import axios from 'axios';
-import { HOST } from '../../../constants';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { BaseThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
+import axios from "axios";
+import { HOST } from "../../../constants";
 
 const blogs: Blog[] = [
   {
@@ -9,76 +9,79 @@ const blogs: Blog[] = [
     title: "Home Cleaning",
     slug: "Home cleaning...",
     created_at: new Date().toString(),
-    featured_image: "https://staging-api.farenow.com/storage/sub_services/62a19b3dbb92f-1654758205.jpg",
+    featured_image:
+      "https://staging-api.farenow.com/storage/sub_services/62a19b3dbb92f-1654758205.jpg",
     category: {
       id: 1,
-      name: "Cleaning Service"
-    }
+      name: "Cleaning Service",
+    },
   },
   {
     id: 2,
     title: "Commercial Cleaning",
     slug: "Comercial cleaning...",
     created_at: new Date().toString(),
-    featured_image: "https://staging-api.farenow.com/storage/sub_services/62a1997257715-1654757746.jpg",
+    featured_image:
+      "https://staging-api.farenow.com/storage/sub_services/62a1997257715-1654757746.jpg",
     category: {
       id: 1,
-      name: "Cleaning Service"
-    }
+      name: "Cleaning Service",
+    },
   },
   {
     id: 3,
     title: "Sanitization",
     slug: "Sanitization...",
     created_at: new Date().toString(),
-    featured_image: "https://staging-api.farenow.com/storage/sub_services/62a19d8f693a3-1654758799.jpg",
+    featured_image:
+      "https://staging-api.farenow.com/storage/sub_services/62a19d8f693a3-1654758799.jpg",
     category: {
       id: 1,
-      name: "Cleaning Service"
-    }
+      name: "Cleaning Service",
+    },
   },
   {
     id: 4,
     title: "TV Repaire",
     slug: "TV repaire...",
     created_at: new Date().toString(),
-    featured_image: "https://staging-api.farenow.com/storage/sub_services/62a19f9ad53ec-1654759322.jpg",
+    featured_image:
+      "https://staging-api.farenow.com/storage/sub_services/62a19f9ad53ec-1654759322.jpg",
     category: {
       id: 2,
-      name: "Electrical Service"
-    }
+      name: "Electrical Service",
+    },
   },
   {
     id: 5,
     title: "AC Repaire",
     slug: "AC repaire...",
     created_at: new Date().toString(),
-    featured_image: "https://staging-api.farenow.com/storage/sub_services/629e2ed83c3a8-1654533848.jpg",
+    featured_image:
+      "https://staging-api.farenow.com/storage/sub_services/629e2ed83c3a8-1654533848.jpg",
     category: {
       id: 2,
-      name: "Electrical Service"
-    }
+      name: "Electrical Service",
+    },
   },
-  
-]
+];
 
-export interface BlogState{
-  categories: BlogCategory[],
-  topCategoryBlogs: Blog[],
-  recentBlogs: Blog[],
+export interface BlogState {
+  categories: BlogCategory[];
+  topCategoryBlogs: Blog[];
+  recentBlogs: Blog[];
 }
 
 const initialState: BlogState = {
   categories: [],
   topCategoryBlogs: [],
   recentBlogs: [],
-}
+};
 
 export const blogSlice = createSlice({
-  name: 'Blog',
+  name: "Blog",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.categories = action.payload;
@@ -89,27 +92,25 @@ export const blogSlice = createSlice({
     builder.addCase(fetchRecentBlogs.fulfilled, (state, action) => {
       state.recentBlogs = action.payload;
     });
-  }
+  },
 });
 
-export const fetchCategories = createAsyncThunk('categories', async () => {
+export const fetchCategories = createAsyncThunk("categories", async () => {
   const res = await axios.get(`${HOST}/api/category`);
   return res.data["data"] || [];
 });
 
-export const fetchTopCategoryBlogs = createAsyncThunk('topCategoryBlog', async (categories: BlogCategory[], thunkApi) => {
-  const topBlogs = await Promise.all(categories.map(async (c) => {
-    const res = await axios.get(`${HOST}/api/blog`, {
-      params: { categoryId: c.id }
-    });
-    const blog = res.data?.data[0] || null;
-    return blog as Blog;
-  }));
-  return topBlogs.filter(b => b != null);
-});
+export const fetchTopCategoryBlogs = createAsyncThunk(
+  "topCategoryBlog",
+  async (categories: BlogCategory[], thunkApi) => {
+    const res = await axios.get(`${HOST}/api/blog?trend=true`);
+    return res.data["data"] || [];
+  }
+);
 
-export const fetchRecentBlogs = createAsyncThunk('recentBlogs', async () => {
-  return blogs.slice(0, 4);
-})
+export const fetchRecentBlogs = createAsyncThunk("recentBlogs", async () => {
+  const res = await axios.get(`${HOST}/api/blog`);
+  return (res.data["data"] || []).slice(0, 4);
+});
 
 export default blogSlice.reducer;

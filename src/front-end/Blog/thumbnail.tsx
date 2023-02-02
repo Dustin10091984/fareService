@@ -2,7 +2,7 @@ import clsx from "clsx";
 import * as React from "react";
 
 export interface IBlogThumbnailProps {
-  size?: "sm" | "base" | "lg";
+  size?: "xs" | "sm" | "base" | "lg";
   imagePosition?: "before" | "after";
   orientation?: "vertical" | "horizontal";
   showContent?: boolean;
@@ -10,6 +10,7 @@ export interface IBlogThumbnailProps {
   titleClass?: string;
   blog: Blog;
   shadow?: boolean;
+  className?: string;
 }
 
 export default function BlogThumbnail(props: IBlogThumbnailProps) {
@@ -22,14 +23,17 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
     titleClass = "",
     blog,
     shadow = true,
+    className = "",
   } = props;
 
   let height = {
+    xs: 8,
     sm: 12,
-    base: 21,
+    base: orientation == "vertical" ? 24 : 21,
     lg: 36,
   };
   let width = {
+    xs: "basis-1/2 md:max-w-[12rem]",
     sm: "basis-1/2 md:max-w-[18rem]",
     base: "basis-1/3 md:max-w-[30rem]",
     lg: "basis-2/3 md:max-w-[75rem]",
@@ -46,6 +50,7 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
         {
           "shadow-normal": shadow,
         },
+        className,
       ])}
     >
       <div
@@ -62,14 +67,14 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
       </div>
       <div
         className={clsx([
-          "flex flex-col gap-6 text-[1.6rem]",
-          size == "sm" ? "px-2 py-2" : "px-4 py-2",
+          "flex flex-col gap-6 text-[1.6rem] grow",
+          ["sm", "xs"].includes(size) ? "px-2 py-2" : "px-4 py-2",
         ])}
       >
         <h1
           className={clsx([
             "font-medium",
-            size == "sm" ? "text-base" : "text-2xl",
+            ["sm", "xs"].includes(size) ? "text-base" : "text-2xl",
             titleClass,
           ])}
         >
@@ -77,7 +82,7 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
         </h1>
         {showInfo && (
           <div className="flex gap-4 text-gray-500">
-            <span>
+            <span className="text-red-200">
               <i className="la la-user"></i>Emmanuel Jake
             </span>
             <span>
