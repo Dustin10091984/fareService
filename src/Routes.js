@@ -157,7 +157,7 @@ const publicRoutes = [
   },
   {
     name: "Blogs",
-    path: "/blog",
+    path: "/blog(.)*",
     component: BlogPage,
   },
 ];

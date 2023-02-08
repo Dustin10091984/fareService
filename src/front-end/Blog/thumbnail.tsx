@@ -82,8 +82,8 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
         </h1>
         {showInfo && (
           <div className="flex gap-4 text-gray-500">
-            <span className="text-red-200">
-              <i className="la la-user"></i>Emmanuel Jake
+            <span className="">
+              <i className="la la-user"></i>{blog.author}
             </span>
             <span>
               <i className="la la-clock"></i>

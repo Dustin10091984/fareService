@@ -15,6 +15,7 @@ const blogs: Blog[] = [
       id: 1,
       name: "Cleaning Service",
     },
+    contents: [],
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const blogs: Blog[] = [
       id: 1,
       name: "Cleaning Service",
     },
+    contents: [],
   },
   {
     id: 3,
@@ -39,6 +41,7 @@ const blogs: Blog[] = [
       id: 1,
       name: "Cleaning Service",
     },
+    contents: [],
   },
   {
     id: 4,
@@ -51,6 +54,7 @@ const blogs: Blog[] = [
       id: 2,
       name: "Electrical Service",
     },
+    contents: [],
   },
   {
     id: 5,
@@ -63,6 +67,7 @@ const blogs: Blog[] = [
       id: 2,
       name: "Electrical Service",
     },
+    contents: [],
   },
 ];
 

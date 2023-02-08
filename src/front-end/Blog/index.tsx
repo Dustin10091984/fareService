@@ -9,6 +9,7 @@ import {
   fetchRecentBlogs,
   fetchTopCategoryBlogs,
 } from "store/Slices/blog/blogSlice";
+import BlogDetail from "./detail";
 
 export interface IBlogPageProps {}
 
@@ -31,6 +32,9 @@ export default function BlogPage(props: IBlogPageProps) {
     <Switch>
       <Route path="/blog" exact>
         <BlogList />
+      </Route>
+      <Route path="/blog/:slug">
+        <BlogDetail />
       </Route>
     </Switch>
   );
