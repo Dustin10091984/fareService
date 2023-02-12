@@ -87,7 +87,13 @@ const stripeElementsAppearance = {
   },
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 function App() {
   const [notification, setNotification] = useState();

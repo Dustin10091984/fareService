@@ -1,5 +1,5 @@
 import axios from 'axios';
-export const helperAxios = (method, url, reducer, token = false, data = null, formData = false, fun, stateTypes) => async dispatch => {
+export const helperAxios = (method, url, reducer, token = false, data = null, formData = false, fun ?: any, stateTypes?: any) => async dispatch => {
     if (method && url && reducer)
         try {
             url = `${process.env.REACT_APP_API_BASE_URL}` + url;
@@ -43,3 +43,10 @@ export const helperAxios = (method, url, reducer, token = false, data = null, fo
             dispatch(reducer({ error: true, loading: false, ...stateTypes, message: "something went wrong!" }));
         }
 };
+
+
+export const axiosInstance = axios.create({
+  headers: {
+    Authorization: `${localStorage.userToken}`,
+  },
+});

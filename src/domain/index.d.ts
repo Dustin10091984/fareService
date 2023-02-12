@@ -21,7 +21,7 @@ interface ICreditCard {
 }
 
 type QuestionAnswers = {
-  [question: string]: string;
+  [question: string]: number | number[];
 };
 
 interface IFAQ {

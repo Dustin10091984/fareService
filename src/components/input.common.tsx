@@ -31,4 +31,18 @@ const CommonInput = React.forwardRef<HTMLInputElement, ICommonInputProps>(
   }
 );
 
+export interface ICommonTextAreaProps extends React.HTMLProps<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+}
+export const CommonTextArea = React.forwardRef<HTMLTextAreaElement, ICommonTextAreaProps>((props, ref) => {
+  const { type, label, error } = props;
+  return (
+    <div className="common-input mb-5">
+      <label>{label}</label>
+      <textarea {...props} ref={ref}></textarea>
+      <p className="text-danger">{error}</p>
+    </div>
+  );
+})
 export default CommonInput;
