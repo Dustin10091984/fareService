@@ -8,7 +8,7 @@ import BlogThumbnail from "./thumbnail";
 export interface IBlogAsideProps {}
 
 export default function BlogAside(props: IBlogAsideProps) {
-  const { recentBlogs, categories } = useSelector<RootState, BlogState>(
+  const { recentBlogs, categories, popularBlogs } = useSelector<RootState, BlogState>(
     (state) => state.blogReducer
   );
 
@@ -26,7 +26,7 @@ export default function BlogAside(props: IBlogAsideProps) {
       />
     ));
 
-  const popularPosts = recentBlogs.map((b) => (
+  const popularPosts = popularBlogs.map((b) => (
     <BlogThumbnail size="xs" showContent={false} showInfo={false} blog={b} />
   ));
 

@@ -6,6 +6,7 @@ import { RootState } from "store";
 import {
   BlogState,
   fetchCategories,
+  fetchPopularBlogs,
   fetchRecentBlogs,
   fetchTopCategoryBlogs,
 } from "store/Slices/blog/blogSlice";
@@ -21,6 +22,8 @@ export default function BlogPage(props: IBlogPageProps) {
   const initialize = async () => {
     await dispatch(fetchCategories());
     await dispatch(fetchRecentBlogs());
+    await dispatch(fetchPopularBlogs());
+    
   };
   useEffect(() => {
     initialize();

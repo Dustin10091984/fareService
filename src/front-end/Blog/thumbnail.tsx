@@ -1,5 +1,7 @@
 import clsx from "clsx";
+import { QuillDeltaToHtmlConverter } from "quill-delta-to-html";
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 
 export interface IBlogThumbnailProps {
   size?: "xs" | "sm" | "base" | "lg";
@@ -38,10 +40,27 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
     base: "basis-1/3 md:max-w-[30rem]",
     lg: "basis-2/3 md:max-w-[75rem]",
   };
+  const history = useHistory();
+  const onClick = () => {
+    history.push(`/blog/${blog.slug}`);
+  }
+
+  const contents = React.useMemo(() => {
+    const contents = blog.contents.map((c) => {
+      const converter = new QuillDeltaToHtmlConverter(JSON.parse(c.content)?.ops);
+      const content = converter.convert();
+      const dom = document.createElement("div");
+      dom.innerHTML = content;
+      return dom.innerText;
+    });
+    return contents;
+
+  }, [blog.contents]);
+  
   return (
     <div
       className={clsx([
-        "bg-white rounded-[2.4rem] flex gap-6 flex-col p-4",
+        "bg-white rounded-[2.4rem] flex gap-6 flex-col p-4 cursor-pointer",
         orientation == "vertical"
           ? ""
           : imagePosition == "before"
@@ -52,6 +71,7 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
         },
         className,
       ])}
+      onClick={onClick}
     >
       <div
         className={clsx([
@@ -91,7 +111,7 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
             </span>
           </div>
         )}
-        {showContent && <p className="">{blog.slug}</p>}
+        {showContent && <p className="text-ellipsis overflow-hidden content-thumb">{contents.join("\n").slice(300)}</p>}
       </div>
     </div>
   );

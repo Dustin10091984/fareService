@@ -24,6 +24,7 @@ interface BlogContent{
   image: string;
 }
 interface BlogComment{
+  id: number;
   comment_id: number | null;
   comment: string;
   replies: BlogComment[];

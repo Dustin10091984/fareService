@@ -297,6 +297,9 @@ const Footer = (props) => {
               <div className="d-flex align-items-center md:justify-center">
                 <ul className="footer-link">
                   <div className="mb-4 font-bold text-xl">Pages</div>
+                  <li className="item">
+                    <Link to={'/blog'} className="link">Blog</Link>
+                  </li>
                   {state?.links?.map((link) => {
                     let countLink = 0;
                     if (

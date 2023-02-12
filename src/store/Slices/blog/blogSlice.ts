@@ -75,12 +75,14 @@ export interface BlogState {
   categories: BlogCategory[];
   topCategoryBlogs: Blog[];
   recentBlogs: Blog[];
+  popularBlogs: Blog[];
 }
 
 const initialState: BlogState = {
   categories: [],
   topCategoryBlogs: [],
   recentBlogs: [],
+  popularBlogs: [],
 };
 
 export const blogSlice = createSlice({
@@ -97,6 +99,9 @@ export const blogSlice = createSlice({
     builder.addCase(fetchRecentBlogs.fulfilled, (state, action) => {
       state.recentBlogs = action.payload;
     });
+    builder.addCase(fetchPopularBlogs.fulfilled, (state, action) => {
+      state.popularBlogs = action.payload;
+    })
   },
 });
 
@@ -118,4 +123,8 @@ export const fetchRecentBlogs = createAsyncThunk("recentBlogs", async () => {
   return (res.data["data"] || []).slice(0, 4);
 });
 
+export const fetchPopularBlogs = createAsyncThunk("popularBlogs", async () => {
+  const res = await axios.get(`${HOST}/api/blog?popular=true`);
+  return (res.data["data"] || []);
+});
 export default blogSlice.reducer;

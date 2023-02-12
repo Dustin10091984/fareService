@@ -1,7 +1,7 @@
 import * as React from "react";
 import BlogLayout from "./layout";
 import BlogThumbnail from "./thumbnail";
-import { useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
 import { HOST } from "./../../constants/index";
 import Slider from "react-slick";
@@ -9,33 +9,35 @@ import { useSelector } from "react-redux";
 import { RootState } from "store";
 import { BlogState } from "store/Slices/blog/blogSlice";
 import BlogAside from "./aside";
+import { useQuery } from "react-query";
+import Paginate from "components/Paginate";
+import Skeleton from 'react-loading-skeleton'
 
 export interface IBlogListProps {}
+
+const fetchBlogs = async (params: { categoryId: string, search: string, page: number}) => {
+  const res = await axios.get(`${HOST}/api/blog`, {
+    params,
+  });
+  return res.data as {data: Blog[], meta: any};
+};
 
 export default function BlogList(props: IBlogListProps) {
   const { topCategoryBlogs, recentBlogs: relatedBlogs } = useSelector<
     RootState,
     BlogState
   >((state) => state.blogReducer);
-  const { search } = useLocation();
-  const [blogs, setBlogs] = React.useState<Blog[]>([]);
-  let urlParams = new URLSearchParams(search);
-  let categoryId = urlParams.get("categoryId");
+  const location = useLocation();
+  const history = useHistory();
+  let urlParams = new URLSearchParams(location.search);
+  let categoryId = urlParams.get("categoryId") ?? "";
+  let search = urlParams.get("search") ?? "";
+  let page = Number(urlParams.get("page")) || 1;
+  
+  const blogsQuery = useQuery(['blogs', categoryId, search, page], () => fetchBlogs({ categoryId, search, page }));
+  const { data: blogs = [], meta: { current_page = 1, last_page = 1 } = {} } = blogsQuery.data || {};
 
-  React.useEffect(() => {
-    fetchBlogs(Number(categoryId));
-  }, [categoryId]);
-
-  const fetchBlogs = async (categoryId: number) => {
-    let params = {} as any;
-    if (categoryId) {
-      params = { categoryId };
-    }
-    const res = await axios.get(`${HOST}/api/blog`, {
-      params,
-    });
-    setBlogs(res.data.data || []);
-  };
+  
   const sliderSettings = {
     dots: true,
     speed: 500,
@@ -56,6 +58,9 @@ export default function BlogList(props: IBlogListProps) {
       />
     );
   });
+  const onPageChange = ({ id, params }) => {
+    history.push(`/blog${params}`);
+  }
   return (
     <>
       <BlogLayout>
@@ -82,9 +87,18 @@ export default function BlogList(props: IBlogListProps) {
         {/*  */}
         <div className="grid lg:grid-cols-3 gap-32">
           <div className="col-span-2 space-y-16">
+            {blogsQuery.isLoading && <Skeleton count={5} height="24rem"/>}
             {blogs.map((b) => (
               <BlogThumbnail size="base" blog={b} />
             ))}
+            <div className="w-max">
+              <Paginate
+                current_page={current_page}
+                last_page={5}
+                func={onPageChange}
+                params={{ categoryId, search }}
+              />
+            </div>
           </div>
           <div>
             <BlogAside />

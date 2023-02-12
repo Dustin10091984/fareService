@@ -2,19 +2,23 @@ import * as React from "react";
 
 export interface IBlogCommentsProps {
   comments: BlogComment[];
+  onReply?: (commentId: number) => void;
 }
 interface IBlogCommentProps {
   comment: BlogComment;
   level?: number;
+  onReply?: (commentId: number) => void;
 }
 const BlogComment = (props: IBlogCommentProps) => {
   let {
     comment,
     created_at = new Date(),
     user: { first_name, last_name, image: avatar } = {},
-    replies = []
+    replies = [],
+    comment_id,
+    id
   } = props.comment;
-  const { level = 0 } = props;
+  const { level = 0, onReply } = props;
 
   if (!avatar) {
     avatar = "/assets/img/user.svg";
@@ -37,7 +41,7 @@ const BlogComment = (props: IBlogCommentProps) => {
           <hr className="border-2" />
           <p>{comment}</p>
           <div>
-            <button className="fare-btn fare-btn-primary fare-btn-sm px-8 rounded-[8px]">
+            <button className="fare-btn fare-btn-primary fare-btn-sm px-8 rounded-full" onClick={()=>onReply(id)}>
               <i className="la la-edit mr-2"></i>
               Reply
             </button>
@@ -47,14 +51,14 @@ const BlogComment = (props: IBlogCommentProps) => {
       <hr/>
       {
         replies.map(r =>
-          <BlogComment comment={r} level={level + 1} />)
+          <BlogComment comment={r} level={level + 1} onReply={onReply} />)
       }
     </>
   );
 };
 
 export default function BlogComments(props: IBlogCommentsProps) {
-  const { comments = [] } = props;
+  const { comments = [], onReply } = props;
   return (
     <div className="space-y-12">
       <div className="border-b-4 border-solid border-gray-200">
@@ -64,7 +68,7 @@ export default function BlogComments(props: IBlogCommentsProps) {
         {comments
           .filter((c) => c.comment_id == null)
           .map((c) => (
-            <BlogComment comment={c} />
+            <BlogComment comment={c} onReply={onReply} />
           ))}
       </div>
     </div>
