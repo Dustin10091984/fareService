@@ -111,7 +111,7 @@ export default function ServiceWizard(props: IServiceWizardProps) {
     for (let i in questions) {
       questionAnswer[`question_${questions[i].id}`] = questions[i].is_multiple
         ? activeOptions[i]
-        : activeOption[i][0];
+        : activeOptions[i][0];
     }
     dispatch(setQuestionAnswers(questionAnswer));
     props.onComplete();
