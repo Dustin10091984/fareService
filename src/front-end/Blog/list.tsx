@@ -94,7 +94,7 @@ export default function BlogList(props: IBlogListProps) {
             <div className="w-max">
               <Paginate
                 current_page={current_page}
-                last_page={5}
+                last_page={last_page}
                 func={onPageChange}
                 params={{ categoryId, search }}
               />
