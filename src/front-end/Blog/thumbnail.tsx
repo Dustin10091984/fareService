@@ -111,7 +111,7 @@ export default function BlogThumbnail(props: IBlogThumbnailProps) {
             </span>
           </div>
         )}
-        {showContent && <p className="text-ellipsis overflow-hidden content-thumb">{contents.join("\n").slice(300)}</p>}
+        {showContent && <p className="text-ellipsis overflow-hidden content-thumb">{contents.join("\n").slice(0,300)}</p>}
       </div>
     </div>
   );
