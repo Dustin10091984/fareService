@@ -2,8 +2,16 @@ interface IService {
   id: number;
   name: string;
   image: string;
+  terms: string;
   sub_services?: ISubService[];
   questions?: IServiceQuestion[];
+  service_contents?: IServiceContent[];
+}
+interface IServiceContent{
+  sub_service_id: number;
+  title: string;
+  description: string;
+  image: string;
 }
 interface IServiceQuestion {
   id: number;
@@ -18,7 +26,7 @@ interface IServiceQuestionOptions {
   option: string;
 }
 interface IMenu extends IService {}
-interface ISubService extends IService {
+interface ISubService extends Omit<IService, "service_contents"> {
   service_id: number;
 }
 
