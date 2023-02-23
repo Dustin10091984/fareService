@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const HeaderMenuSlice = createSlice({
   name: "header_menu",

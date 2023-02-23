@@ -10,7 +10,7 @@ import ServiceWizard from "./Services/services.wizard";
 import Loading from "./common/Loading";
 import LocationInput from "components/input.location";
 import clsx from "clsx";
-
+import { Helmet } from 'react-helmet';
 export interface IServicesSearchPageProps {}
 
 export default function ServicesSearchPage(props: IServicesSearchPageProps) {
@@ -25,6 +25,7 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
   const serviceId = searchParams.get("serviceId");
   const placeId = searchParams.get("place_id") || "";
   const zipCode = searchParams.get("zip_code") || "";
+  
 
   const [location, setLocation] = React.useState<ILocation>();
 
@@ -53,6 +54,7 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
           onChange={(value) => {
             setLocation({ placeId: value.value });
           }}
+          defaultValue={zipCode}
         />
         <button
           className="fare-btn fare-btn-primary fare-btn-lg"
@@ -69,13 +71,35 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
     </div>
   );
 
+  let meta;
+  if (service?.data) {
+    meta = (
+      <Helmet>
+        <title>Farenow - {service?.data?.name}</title>
+        <meta name="description" content={service?.data.terms} />
+        <meta property="og:title" content={service?.data.name} />
+        
+        {service?.data?.service_contents.map((content) => (
+          <meta property="og:description" content={content.description} />
+        ))}
+        {service?.data?.service_contents.map((content) => (
+          <meta property="og:image" content={content.image} />
+        ))}
+      </Helmet>
+    );
+  }
   return (
-    <div className="container py-32">
-      {service?.loading && <Loading loading={true} backdrop={false} />}
-      {!service?.loading && !placeId && locationSection}
-      {placeId && service?.data && (
-        <ServiceWizard service={service.data} onComplete={getProviders} />
-      )}
-    </div>
+    <>
+      {meta}
+      <div className="container py-32">
+        {service?.loading && (
+          <Loading loading={true} backdrop={false} className="h-[24rem]" />
+        )}
+        {!service?.loading && !placeId && locationSection}
+        {placeId && service?.data && (
+          <ServiceWizard service={service.data} onComplete={getProviders} />
+        )}
+      </div>
+    </>
   );
 }

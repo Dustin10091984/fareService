@@ -30,6 +30,8 @@ import RegisterWithEmail from "./front-end/Auth/RegisterWithEmail";
 import ForgotPasswordWithEmail from "./front-end/Auth/ForgotPasswordWithEmail";
 import FAQ from "./front-end/FAQ";
 import BlogPage from "front-end/Blog";
+import Page404 from "./front-end/404";
+import ServicesInfo from "./front-end/ServicesInfo";
 const publicRoutes = [
   {
     name: "Home",
@@ -109,11 +111,16 @@ const publicRoutes = [
     component: RestaurantPage,
     hash: "",
   },
+  // {
+  //   name: "Service Info",
+  //   path: "/services/:service/:serviceId/:subService/:subServiceId",
+  //   component: ServicesPage,
+  //   hash: "",
+  // },
   {
     name: "Service Info",
-    path: "/services/:service/:serviceId/:subService/:subServiceId",
-    component: ServicesPage,
-    hash: "",
+    path: "/services/:service/:subService/:location?",
+    component: ServicesInfo,
   },
   {
     name: "Service Search",
@@ -160,6 +167,11 @@ const publicRoutes = [
     path: "/blog(.)*",
     component: BlogPage,
   },
+  {
+    name: "404",
+    path: "/404",
+    component: Page404,
+  }
 ];
 
 const privateRoutes = [
@@ -215,7 +227,7 @@ const Routes = () => {
       {privateRoutes.map(({ name, path, component, hash }, index) => (
         <ProtectedRoute key={index} exact path={path} component={component} />
       ))}
-      <Redirect to="/not-found" />
+      <Redirect to="/404" />
     </Switch>
   );
 };

@@ -33,6 +33,7 @@
     "react-dom": "^17.0.1",
     "react-dropzone": "^14.2.3",
     "react-google-places-autocomplete": "^3.4.0",
+    "react-helmet": "^6.1.0",
     "react-hook-form": "^7.27.0",
     "react-hooks-use-modal": "^3.2.0",
     "react-loading-skeleton": "^3.1.1",
