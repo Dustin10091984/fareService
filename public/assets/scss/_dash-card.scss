@@ -1,0 +1,245 @@
+.dash-card-ds {
+    padding: 0px 26px;
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.6rem;
+        line-height: 3.2rem;
+        color: #000000;
+    }
+    .des {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+        color: #b6bcc1;
+        margin-top: 1.1rem;
+    }
+}
+
+.page-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 4.6rem;
+    line-height: 5.6rem;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 8rem;
+}
+
+// order-card
+
+.order-card {
+    padding: 2.8rem;
+    background: #ffffff;
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+    border-radius: 12px;
+    margin-bottom: 3rem;
+    .order-des-b {
+        .title {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 2.6rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #563d67;
+            margin-bottom: 1.2rem;
+        }
+        .sub-title {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.4rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #606060;
+            margin-bottom: 1.5rem;
+        }
+        .service-label {
+            min-width: 5.9rem;
+            max-width: 13.4rem;
+            height: 3rem;
+            background: #fea629;
+            border-radius: 5rem;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #ffffff;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+        .order-time {
+            font-weight: normal;
+            font-size: 1.4rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #d0d0d0;
+        }
+    }
+    .order-btn-b {
+        .btn-view {
+            min-width: 5.9rem;
+
+            height: 3rem;
+            background: #fea629;
+            border-radius: 5rem;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #ffffff;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+        .btn-view-profile {
+            min-width: 10.9rem;
+            height: 3rem;
+            background: #2f88e7;
+            border-radius: 5rem;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #ffffff;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+        .btn-price {
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2f88e7;
+            min-width: 9rem;
+            height: 3rem;
+            border-radius: 5rem;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #ffffff;
+            padding: 0 0.5rem;
+        }
+        .btn-price-serv {
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #22d78b;
+            min-width: 6.3rem;
+            height: 3rem;
+            border-radius: 5rem;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 2rem;
+            text-transform: capitalize;
+            color: #ffffff;
+            padding: 0 0.5rem;
+        }
+    }
+}
+
+// order detail`
+
+.order-box-des {
+    background: #ffffff;
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+    border-radius: 12px;
+    padding: 3rem;
+    margin-bottom: 1rem;
+    .order-num {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.2rem;
+        line-height: 2rem;
+        text-transform: capitalize;
+        color: #b6bcc1;
+        &.active {
+            color: $primary;
+        }
+    }
+    .order-title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.6rem;
+        line-height: 2rem;
+        text-transform: capitalize;
+        color: #563d67;
+        margin-top: 2.5rem;
+    }
+    .order-number {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.2rem;
+        line-height: 2rem;
+        text-transform: capitalize;
+        color: #000000;
+        background: rgba(27, 128, 245, 0.1);
+        padding: 0.5rem;
+    }
+}
+
+.subtotal-box {
+    .order-number {
+        font-size: 1.8rem !important;
+        &.pink {
+            background: rgba(249, 89, 89, 0.1) !important;
+        }
+    }
+}
+
+.bg-none {
+    background: none !important;
+}
+
+.service-card-des {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.service-name {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.52rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: #ffffff;
+    width: 134px;
+    height: 28px;
+    background: #fea629;
+    border-radius: 50px;
+}
+
+.text-green {
+    color: #22d78b !important;
+}
+
+.forget-pass {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.52rem;
+    line-height: 1.8rem;
+    color: #2f88e7;
+}

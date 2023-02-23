@@ -1,0 +1,50 @@
+.shop-left-box {
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.6rem;
+        line-height: 4.1rem;
+        color: $secondary;
+        margin-bottom: 2rem;
+        span{
+            color: #666;
+        }
+    }
+}
+
+.left-menu {
+    .item {
+        padding: .5rem 0rem;
+        .link {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 2.0rem;
+            line-height: 2.0rem;
+            color: #606060;
+            padding: 0;
+            outline: none;
+            box-shadow: none;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+
+
+        .left-sub-links {
+            padding-left: 4.0rem;
+            margin-top: 1.5rem;
+            .sub-link {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 1.8rem;
+                line-height: 2.0rem;
+                color: #B6BCC1;
+                padding: 0.4rem 0;
+               &:hover{
+                color: #606060;
+               }
+            }
+        }
+    }
+}

@@ -1,0 +1,119 @@
+.breadcrumb-sec {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 48.4rem;
+    &.product-detail-bread {
+        height: 68.4rem;
+    }
+
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 3.6rem;
+        line-height: 4.4rem;
+        color: #000000;
+    }
+
+    .detail {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+        color: #b6bcc1;
+    }
+}
+.breadcrumb-sec-2 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 28.4rem;
+
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 3.6rem;
+        line-height: 4.4rem;
+        color: #000000;
+    }
+
+    .detail {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+        color: #b6bcc1;
+    }
+    .detail2 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+        color: #000000;
+    }
+}
+
+.shop-search {
+    background: #fff;
+    width: 98rem;
+    min-height: 23rem;
+    max-height: 43rem;
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+    border-radius: 2rem;
+    &.services-serch {
+        width: 66rem;
+        .input-box {
+            width: 50rem;
+        }
+    }
+
+    .input-box {
+        width: 67.2rem;
+    }
+}
+
+.shop-serch-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.6rem;
+    line-height: 4.4rem;
+    text-align: center;
+    color: #000000;
+}
+
+.retailer {
+    background-position: top center;
+    height: 80.4rem;
+}
+
+// dashborad .breadcrumb
+.breadcrumb-dash {
+    background-color: #eaeaea;
+    padding: 3rem 0rem;
+}
+.order-history{
+    background-color: #eaeaea;
+}
+
+.breadcrumb {
+    background: none;
+    margin: 0;
+    .breadcrumb-item {
+        font-size: 1.8rem;
+        line-height: 2.2rem;
+        &.active{
+            a{
+                color: #606060;
+            }
+        }
+        a {
+            color: #fea629;
+
+        }
+    }
+}
+
+.breadcrumb-item+.breadcrumb-item::before{
+    content: "\f105 ";
+    font-family: 'FontAwesome';
+    padding-top: 0.2rem;
+    color: #fea629;
+}

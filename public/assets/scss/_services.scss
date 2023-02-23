@@ -1,0 +1,127 @@
+.services-sec {
+    padding: 10.0rem 0rem 3.5rem;
+}
+
+.common-heading {
+    margin-bottom: 10.0rem;
+
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 3.0rem;
+        line-height: 4.4rem;
+        color: $secondary;
+        margin-bottom: 1.5rem;
+    }
+
+    .sub-des {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.6rem;
+        line-height: 2.5rem;
+        color: #B6BCC1;
+    }
+}
+
+.service-box {
+    border-radius: 20px;
+    overflow: hidden;
+    width: 35.0rem;
+    height: 35.0rem;
+    position: relative;
+    margin-bottom: 6.5rem;
+
+    .cat-title {
+        width: 100%;
+        height: 100%;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 3.0rem;
+        line-height: 3.6rem;
+        color: #FFFFFF;
+        background: rgba(254, 165, 41, 0.80);
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        transition: all 0.4s ease-in-out;
+        text-align: center;
+    }
+
+    img {
+        transition: all 0.4s ease-in-out;
+    }
+
+    &:hover {
+        img {
+            transform: scale(1.2);
+        }
+
+        .cat-title {
+            background: rgba(0, 0, 0, 0.80);
+        }
+    }
+}
+
+
+.service-list-box {
+    .service-name {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 3.2rem;
+        line-height: 3.9rem;
+        color: #606060;
+        cursor: pointer;
+
+        &:hover,
+        &.active {
+            color: #FEA629;
+        }
+    }
+}
+
+.service-card {
+    padding: 0 2rem;
+
+    .service-img {
+        width: 26.0rem;
+        height: 28.6rem;
+        box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+        border-radius: 2.0rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .service-list {
+        margin-top: 5rem;
+
+        .item {
+            padding: 1rem 0rem;
+            border-bottom: 1px solid #D0D0D0;
+
+            .link {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 1.6rem;
+                line-height: 1.9rem;
+                color: #444444;
+                padding: 1rem 0rem;
+                transition: all 0.4s;
+
+                &:hover {
+                    color: $primary;
+                    padding-left: 1rem;
+                }
+            }
+        }
+    }
+}
+
+.service-line {
+    height: 100%;
+    width: 0.1rem;
+    background: $primary;
+}

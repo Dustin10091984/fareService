@@ -1,0 +1,242 @@
+@font-face {
+  font-family: Product Sans;
+  src: url(../assets/fonts/ProductSans-Black.ttf);
+  font-style: normal;
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../assets/fonts/ProductSans-Bold.ttf);
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../assets/fonts/ProductSans-Medium.ttf);
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../assets/fonts/ProductSans-Regular.ttf);
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../assets/fonts/ProductSans-Light.ttf);
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Product Sans;
+  src: url(../assets/fonts/ProductSans-Light.ttf);
+  font-style: normal;
+  font-weight: 200;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-family: Product Sans;
+}
+
+$primary:#FEA629;
+$secondary:#000;
+@import 'header';
+@import 'footer';
+@import 'banner';
+@import 'services';
+@import 'index';
+@import 'breadcrumb';
+@import 'shop';
+@import 'product';
+@import 'rating';
+@import 'moving';
+@import 'input';
+@import 'service-provider';
+@import 'news';
+@import 'login';
+@import 'dash-card';
+
+ul,
+li,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+}
+
+hr {
+  margin: 0rem;
+  border-bottom: 1ps solid #D0D0D0;
+}
+
+.pad-t {
+  padding-top: 10.0rem;
+}
+
+.pad-b {
+  padding-bottom: 10.0rem;
+}
+
+.pad-y {
+  padding: 10.0rem 0rem;
+}
+
+@media (min-width:1200px) {
+  .container {
+    max-width: 1170px;
+  }
+}
+
+
+.button-common {
+  text-align: center;
+  background: $primary;
+  border: none;
+  outline: none;
+  min-width: 17.8rem;
+  height: 4rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: 3.8rem;
+  letter-spacing: 0.01em;
+  padding: 0 2.5rem;
+  color: #FFFFFF;
+  box-shadow: 0px 8px 12px -6px rgba(254, 166, 41, 0.08), 0px 10px 24px -4px rgba(254, 166, 41, 0.12);
+  border-radius: 10px;
+  display: inline-block;
+
+  &:hover {
+    background: $secondary;
+    color: #FFFFFF;
+  }
+}
+
+.button-common-2 {
+  text-align: center;
+  background: #2F88E7;
+  border: none;
+  outline: none;
+  min-width: 17.8rem;
+  height: 4rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: 4.0rem;
+  letter-spacing: 0.01em;
+  padding: 0 2.5rem;
+  color: #FFFFFF;
+  box-shadow: 0px 8px 12px -6px rgba(254, 166, 41, 0.08), 0px 10px 24px -4px rgba(254, 166, 41, 0.12);
+  border-radius: 10px;
+  display: inline-block;
+
+  &:hover {
+    background: $primary;
+    color: #FFFFFF;
+  }
+}
+
+
+.cart-total {
+  .cart-title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2.0rem;
+    line-height: 2.4rem;
+    color: #000000;
+  }
+
+  .price-qnt-subtotal {
+    max-width: 40rem;
+    width: 100%;
+
+    .list-heading {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 1.8rem;
+      line-height: 2.2rem;
+      color: #606060;
+      padding: 1rem;
+    }
+
+    .list-des {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 1.8rem;
+      line-height: 2.2rem;
+      color: #000000;
+      padding: 1rem;
+    }
+  }
+}
+
+.cart-img {
+  margin-right: 3rem;
+}
+
+.cart-page {
+  padding: 4rem 0rem;
+}
+
+
+.email-check-out {
+  max-width: 58.6rem;
+
+  .button-common {
+    min-width: 25.0rem;
+  }
+}
+
+.cart-price {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 3.0rem;
+  line-height: 3.6rem;
+  text-align: right;
+  color: #000000;
+  margin-bottom: 3rem;
+}
+
+.update-cart {
+  min-width: 18.5rem;
+  height: 4rem;
+  background: #B6BCC1;
+  border-radius: 1.0rem;
+  font-weight: 500;
+  font-size: 2.0rem;
+  line-height: 3.8rem;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+  border: none;
+  outline: none;
+  padding: 0 1em;
+  display: inline-block;
+  margin-bottom: 2rem;
+  &:hover{
+    background: $primary;
+    color: #FFFFFF;
+  }
+}
