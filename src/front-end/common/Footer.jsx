@@ -249,7 +249,8 @@ const Footer = (props) => {
                               key={`${service.id}_${sub_service.id}`}
                             >
                               <Link
-                                to={`/services/search?subService=${sub_service.id}`}
+                                //to={`/services/search?subService=${sub_service.id}`}
+                                to={`/services/${service.name.replace(" ", "-")}/${sub_service.name.replace(" ", "-")}`}
                                 className="link"
                               >
                                 {sub_service.name}
