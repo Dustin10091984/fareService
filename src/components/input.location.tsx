@@ -15,6 +15,7 @@ export interface ILocationInputProps {
     label: string;
     zipCode?: number;
   }) => void;
+  defaultValue?: string;
 }
 
 const searchStyle: StylesConfig = {
@@ -31,12 +32,13 @@ const searchStyle: StylesConfig = {
 };
 
 export default function LocationInput(props: ILocationInputProps) {
-  const { placeholder = "", shadow = true, isAddress = false } = props;
+  const { placeholder = "", shadow = true, isAddress = false, defaultValue = "" } = props;
   /**
    * Zip Code State
    */
   const [value, setValue] = React.useState<any>();
   const loadZipCodeOptions = async (value: string | number) => {
+    value = value || defaultValue;
     const resp = await axios({
       method: "get",
       url: `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GOOGLE_API}`,
@@ -108,6 +110,8 @@ export default function LocationInput(props: ILocationInputProps) {
           className={clsx(["px-2 w-100", "text-base"])}
           styles={searchStyle}
           value={value}
+          defaultOptions
+          defaultMenuIsOpen={!!defaultValue}
           onChange={(newValue: any) => {
             setValue(newValue);
             props.onChange && props.onChange(newValue);

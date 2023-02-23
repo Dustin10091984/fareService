@@ -100,7 +100,8 @@ export default function PopularServices(props: IPopularServicesProps) {
                         className="service-box h-[30rem] w-100 m-0"
                       >
                         <Link
-                          to={`/services/search?subService=${subService.id}`}
+                          //to={`/services/search?subService=${subService.id}`}
+                          to={`/services/${item.name.replace(" ", "-")}/${subService.name.replace(" ", "-")}`}
                         >
                           <img
                             src={
