@@ -8,7 +8,7 @@ export interface IServicesInfoProps {
 }
 
 export default function ServicesInfo(props: IServicesInfoProps) {
-  let { service, subService, location } = useParams<{ service: string, subService: string, location?: string }>();
+  let { service, subService, location = "" } = useParams<{ service: string, subService: string, location?: string }>();
   const services = useSelector<RootState, IMenu[]>(state => state.headerMenuReducer);
   service = service.toLowerCase();
   subService = subService.toLowerCase();
