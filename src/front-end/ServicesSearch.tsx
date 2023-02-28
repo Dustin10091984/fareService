@@ -20,6 +20,7 @@ export default function ServicesSearchPage(props: IServicesSearchPageProps) {
   const service = useSelector<RootState, ServiceState>(
     (state) => state.service
   );
+  console.log(service);
   const searchParams = new URLSearchParams(_location.search);
   const subServiceId = searchParams.get("subService");
   const serviceId = searchParams.get("serviceId");

@@ -119,7 +119,7 @@ const publicRoutes = [
   // },
   {
     name: "Service Info",
-    path: "/services/:service/:subService/:location?",
+    path: "/services/:service/:subService",
     component: ServicesInfo,
   },
   {

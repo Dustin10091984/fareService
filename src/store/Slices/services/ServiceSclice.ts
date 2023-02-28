@@ -23,6 +23,7 @@ export default serviceSlice.reducer;
 const { serviceQuestion } = serviceSlice.actions;
 export const getServiceQuestion = (serviceId) => async (dispatch) => {
   try {
+    console.log("ServiceID----", serviceId);
     dispatch(serviceQuestion({ error: false, loading: true }));
     await axios({
       method: "get",
