@@ -1,0 +1,102 @@
+
+// .star-rating-area {
+
+//     .ratilike {
+
+//     }
+// }
+    
+    .star-rating-area .rating > input:checked ~ label,
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+    color: $primary; }
+    
+    .star-rating-area .rating > input:checked + label:hover,
+    .rating > input:checked ~ label:hover,
+    .rating > label:hover ~ input:checked ~ label,
+    .star-rating-area .rating > input:checked ~ label:hover ~ label {
+    color: $primary; }
+    
+    .star-rating-area .rating-static {
+    clear: both;
+    float: none;
+    // margin: 0 auto;
+    text-align: center;
+    display: inline-block;
+    direction: ltr !important; }
+    
+    .star-rating-area .rating-static > label:before {
+    margin: 0.2rem;
+    font-size: 2.2rem;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005"; }
+    
+    .star-rating-area .rating-static > .half:before {
+    content: "\f089";
+    position: absolute; }
+    
+    .star-rating-area .rating-static > label {
+    color: #cccccc;
+    float: right;
+    margin-bottom: 0; 
+    position: relative;
+}
+    
+.star-rating-area .rating-static[rel="0.1"] label:last-child,
+.star-rating-area .rating-static[rel="0.2"] label:last-child,
+.star-rating-area .rating-static[rel="0.3"] label:last-child,
+.star-rating-area .rating-static[rel="0.4"] label:last-child,
+.star-rating-area .rating-static[rel="0.5"] label:last-child,
+.star-rating-area .rating-static[rel="0.6"] label:nth-child(n + 9),
+.star-rating-area .rating-static[rel="0.7"] label:nth-child(n + 9),
+.star-rating-area .rating-static[rel="0.8"] label:nth-child(n + 9),
+.star-rating-area .rating-static[rel="0.9"] label:nth-child(n + 9),
+.star-rating-area .rating-static[rel="1"] label:nth-child(n + 9),
+.star-rating-area .rating-static[rel="1.1"] label:nth-child(n + 8),
+.star-rating-area .rating-static[rel="1.2"] label:nth-child(n + 8),
+.star-rating-area .rating-static[rel="1.3"] label:nth-child(n + 8),
+.star-rating-area .rating-static[rel="1.4"] label:nth-child(n + 8),
+.star-rating-area .rating-static[rel="1.5"] label:nth-child(n + 8),
+.star-rating-area .rating-static[rel="1.6"] label:nth-child(n + 7),
+.star-rating-area .rating-static[rel="1.7"] label:nth-child(n + 7),
+.star-rating-area .rating-static[rel="1.8"] label:nth-child(n + 7),
+.star-rating-area .rating-static[rel="1.9"] label:nth-child(n + 7),
+.star-rating-area .rating-static[rel="2"] label:nth-child(n + 7),
+.star-rating-area .rating-static[rel="2.1"] label:nth-child(n + 6),
+.star-rating-area .rating-static[rel="2.2"] label:nth-child(n + 6),
+.star-rating-area .rating-static[rel="2.3"] label:nth-child(n + 6),
+.star-rating-area .rating-static[rel="2.4"] label:nth-child(n + 6),
+.star-rating-area .rating-static[rel="2.5"] label:nth-child(n + 6),
+.star-rating-area .rating-static[rel="2.6"] label:nth-child(n + 5),
+.star-rating-area .rating-static[rel="2.7"] label:nth-child(n + 5),
+.star-rating-area .rating-static[rel="2.8"] label:nth-child(n + 5),
+.star-rating-area .rating-static[rel="2.9"] label:nth-child(n + 5),
+.star-rating-area .rating-static[rel="3"] label:nth-child(n + 5),
+.star-rating-area .rating-static[rel="3.1"] label:nth-child(n + 4),
+.star-rating-area .rating-static[rel="3.2"] label:nth-child(n + 4),
+.star-rating-area .rating-static[rel="3.3"] label:nth-child(n + 4),
+.star-rating-area .rating-static[rel="3.4"] label:nth-child(n + 4),
+.star-rating-area .rating-static[rel="3.5"] label:nth-child(n + 4),
+.star-rating-area .rating-static[rel="3.6"] label:nth-child(n + 3),
+.star-rating-area .rating-static[rel="3.7"] label:nth-child(n + 3),
+.star-rating-area .rating-static[rel="3.8"] label:nth-child(n + 3),
+.star-rating-area .rating-static[rel="3.9"] label:nth-child(n + 3),
+.star-rating-area .rating-static[rel="4"] label:nth-child(n + 3),
+.star-rating-area .rating-static[rel="4.1"] label:nth-child(n + 2),
+.star-rating-area .rating-static[rel="4.2"] label:nth-child(n + 2),
+.star-rating-area .rating-static[rel="4.3"] label:nth-child(n + 2),
+.star-rating-area .rating-static[rel="4.4"] label:nth-child(n + 2),
+.star-rating-area .rating-static[rel="4.5"] label:nth-child(n + 2),
+.star-rating-area .rating-static[rel="4.6"] label,
+.star-rating-area .rating-static[rel="4.7"] label,
+.star-rating-area .rating-static[rel="4.8"] label,
+.star-rating-area .rating-static[rel="4.9"] label,
+.star-rating-area .rating-static[rel="5"] label {
+  color: $primary;
+}
+    /*-------------------------Star-Reating-end--------------------------*/
+    
+    
+
+  

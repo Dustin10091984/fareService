@@ -1,0 +1,143 @@
+.common-input {
+    width: 100%;
+
+    input,
+    select {
+        background: #F1F2F6;
+        border-radius: 1.0rem;
+        height: 4.0rem;
+        border: none;
+        outline: none;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.52rem;
+        line-height: 1.8rem;
+        width: 100%;
+        color: #606060;
+        padding: 0 1.4rem;
+
+        &::placeholder {
+            color: #B6BCC1;
+        }
+    }
+
+    textarea {
+        background: #F1F2F6;
+        border-radius: 1.0rem;
+        border: none;
+        outline: none;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.52rem;
+        line-height: 1.8rem;
+        width: 100%;
+        color: #606060;
+        padding: 1.4rem;
+        height: 12.2rem;
+        resize: none;
+
+        &::placeholder {
+            color: #B6BCC1;
+        }
+    }
+}
+
+
+.select-time {
+    max-width: 14.2rem;
+    width: 100%;
+    height: 4.0rem;
+    background: #F1F2F6;
+    border-radius: 1.0rem;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    color: #B6BCC1;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(254, 165, 41, 0.30);
+        color: #FEA629;
+    }
+}
+
+
+
+/* The container */
+.filter-check {
+    display: block;
+    position: relative;
+    padding-left: 3.5rem;
+    margin-bottom: 1.2rem;
+    cursor: pointer;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2.6rem;
+    line-height: 3.2rem;
+    color: #606060;
+}
+
+/* Hide the browser's default checkbox */
+.filter-check input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 1.8rem;
+    width: 1.8rem;
+    border-radius: 0.4rem;
+    background-color: #F1F2F6;
+}
+
+/* On mouse-over, add a grey background color */
+.filter-check:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.filter-check input:checked~.checkmark {
+    background-color: $primary;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.filter-check input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.filter-check .checkmark:after {
+    left: 0.6rem;
+    top: 0.1rem;
+    width: 0.6rem;
+    height: 1.2rem;
+    border: solid white;
+    border-width: 0 .2rem .2rem 0;
+    transform: rotate(45deg);
+}

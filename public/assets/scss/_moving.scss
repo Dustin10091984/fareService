@@ -1,0 +1,346 @@
+.moving-help-sec {
+    // position: relative;
+    margin-top: -33rem;
+}
+
+.moving-search-box {
+    background: #FFFFFF;
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+    border-radius: 2.0rem;
+    padding: 9rem;
+
+}
+
+
+.title-move {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.6rem;
+    line-height: 4.4rem;
+    text-align: center;
+    color: #000000;
+}
+
+.m-search-left-box,
+.m-search-right-box {
+    width: 45.0rem;
+}
+
+
+.sub-label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    color: #606060;
+}
+
+.moving-des {
+    .title {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.2rem;
+        line-height: 2.7rem;
+        text-align: center;
+        color: #606060;
+    }
+
+    p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.6rem;
+        line-height: 2.5rem;
+        color: #B6BCC1;
+    }
+
+    strong {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.6rem;
+        line-height: 2.5rem;
+        display: inline-block;
+        color: #606060;
+    }
+}
+
+
+.hanfy-card {
+    .inner-card-handy {
+        width: 35.0rem;
+        height: 35.0rem;
+        background: #FFFFFF;
+        border-radius: 2.0rem;
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.16);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .hnady-img {
+            width: 14.2rem;
+            height: 15.7rem;
+            background: #F1F2F6;
+            border-radius: 2.0rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            margin-top: 4rem;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 2.8rem;
+            line-height: 3.4rem;
+            color: #000000;
+            padding: 0rem 4rem;
+            text-align: center;
+        }
+    }
+
+    .detail-handy {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.6rem;
+        line-height: 2.5rem;
+        text-align: center;
+        color: #B6BCC1;
+        margin-top: 5rem;
+    }
+}
+
+.service-card-des {
+    margin-bottom: 10rem;
+
+    .src-image-box {
+        width: 68.2rem;
+        min-width: 68.2rem;
+        height: 48.0rem;
+        border-radius: 2.0rem;
+        overflow: hidden;
+        margin-right: 5rem;
+    }
+
+    .service-card-detail {
+        .title {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 4.0rem;
+            line-height: 4.1rem;
+            color: #000000;
+            margin-bottom: 2rem;
+        }
+
+        .des {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 1.6rem;
+            line-height: 3.0rem;
+            color: #606060;
+
+            ul {
+                li {
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 1.6rem;
+                    line-height: 3.0rem;
+                    color: #606060;
+                    list-style: inside;
+                }
+            }
+        }
+    }
+
+    &:nth-child(even) {
+        .src-image-box {
+            order: 1;
+            margin-right: auto;
+            margin-left: 5rem;
+        }
+
+        .service-card-detail {
+            order: 0;
+        }
+    }
+}
+
+
+.qusr-list {
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 8px 16px -6px rgba(24, 39, 75, 0.08);
+    border-radius: 20px;
+    padding: 3rem 3rem 0rem 3rem;
+
+    .title {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 2.8rem;
+        line-height: 3.4rem;
+        color: #000000;
+        padding-bottom: 1.1rem;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .des {
+        border-top: 1px solid #D0D0D0;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.8rem;
+        line-height: 2.2rem;
+        color: #606060;
+        padding-bottom: 3rem;
+        padding-top: 1rem;
+
+        ul {
+            padding-left: 1.5rem;
+
+            li {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 1.6rem;
+                line-height: 2.2rem;
+                color: #606060;
+                list-style: disc;
+                padding-bottom: 1rem;
+            }
+        }
+    }
+}
+
+
+
+
+.team-card {
+    // width: 35.0rem;
+    // height: 35.0rem;
+    background: #FFFFFF;
+    border-radius: 2.0rem;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    padding: 4rem 3rem;
+    height: 100%;
+
+    .team-img {
+        width: 14.2rem;
+        height: 15.7rem;
+        background: #F1F2F6;
+        border-radius: 2.0rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        margin-top: 2rem;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 2.8rem;
+        line-height: 3.4rem;
+        color: #000000;
+        padding: 0rem 1rem;
+        text-align: center;
+    }
+
+    .job-cmplte {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.8rem;
+        line-height: 2.5rem;
+        text-align: center;
+        color: #B6BCC1;
+    }
+
+    .detail-team {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.6rem;
+        line-height: 2.5rem;
+        text-align: center;
+        color: #B6BCC1;
+        margin-top: 2rem;
+    }
+}
+
+
+
+
+.clen-info {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: #606060;
+    margin: 0px;
+
+    strong {
+        display: block;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.2rem;
+        line-height: 2.2rem;
+        text-align: center;
+        color: #000000;
+        margin-bottom: 1rem;
+    }
+}
+
+
+.affordable-detail {
+    .title {
+        display: block;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 2.2rem;
+        line-height: 2.2rem;
+        text-align: center;
+        color: #000000;
+        margin-bottom: 1rem;
+    }
+
+    .des {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1.6rem;
+        line-height: 2.5rem;
+        text-align: center;
+        color: #B6BCC1;
+        margin: 0px;
+    }
+}
+
+.house-cleaning-sec {
+    max-width: 66.0rem;
+    margin: 0 auto;
+}
+
+
+.time-list {
+width: 29.2rem;
+margin: 0 auto;
+margin-top: 4rem;
+    li {
+        height: 3.8rem;
+        border: 1px solid #D0D0D0;
+        box-sizing: border-box;
+        border-radius: 50px;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+        text-align: center;
+        color: #D0D0D0;
+        cursor: pointer;
+        padding: 0 1.5rem;
+        margin-bottom: 1.5rem;
+        &:hover{
+            background: $primary;
+            color: #fff;
+        }
+    }
+}
