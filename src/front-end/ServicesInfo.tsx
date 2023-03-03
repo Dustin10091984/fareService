@@ -78,7 +78,7 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           disabled={!locationData}
           onClick={() => {
             history.push(
-              `/services/${originalServiceName}/${originalSubServiceName}?${_location.search}&place_id=${locationData.placeId}`
+              `/services/${service}/${subService}?${_location.search}&place_id=${locationData.placeId}`
             );
           }}
         >

@@ -101,7 +101,7 @@ export default function PopularServices(props: IPopularServicesProps) {
                       >
                         <Link
                           //to={`/services/search?subService=${subService.id}`}
-                          to={`/services/${item.name.replace(" ", "-")}/${subService.name.replace(" ", "-")}`}
+                          to={`/services/${item.name.replace(" ", "-").toLowerCase()}/${subService.name.replace(" ", "-").toLowerCase()}`}
                         >
                           <img
                             src={
