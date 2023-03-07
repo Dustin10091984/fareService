@@ -118,6 +118,11 @@ const publicRoutes = [
   //   hash: "",
   // },
   {
+    name: "Service Search",
+    path: "/services/search",
+    component: ServicesSearchPage,
+  },
+  {
     name: "Service Info",
     path: "/:service/:subService",
     component: ServicesInfo,
@@ -126,11 +131,6 @@ const publicRoutes = [
     name: "Service Info",
     path: "/:service/:subService/:stName",
     component: ServicesInfo,
-  },
-  {
-    name: "Service Search",
-    path: "/services/search",
-    component: ServicesSearchPage,
   },
   {
     name: "Order History",
