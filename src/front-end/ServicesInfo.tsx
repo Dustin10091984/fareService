@@ -12,15 +12,14 @@ import {
 import { Helmet } from 'react-helmet';
 import ServiceWizard from "./Services/services.wizard";
 import { HOST } from "../constants";
+import axios from "axios";
 
 export interface IServicesInfoProps {
 }
 
 export default function ServicesInfo(props: IServicesInfoProps) {
-  let { service, subService } = useParams<{ service: string, subService: string }>();
-  let originalServiceName = service;
-  let originalSubServiceName = subService;
-  // alert(subService)
+  let { service, subService, stName } = useParams<{ service: string, subService: string, stName: string }>();
+  // console.log("stname", stName);
   const services = useSelector<RootState, IMenu[]>(state => state.headerMenuReducer);
   service = service.toLowerCase();
   subService = subService.toLowerCase();
@@ -31,7 +30,7 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   const searchParams = new URLSearchParams(_location.search);
   const subServiceId = matchingSubService?.id;
   const serviceId = matchingService?.id;
-  const placeId = searchParams.get("place_id") || "";
+  const [placeId, setPlaceId] = React.useState(searchParams.get("place_id") || "");
   const zipCode = searchParams.get("zip_code") || "";
   // alert(placeId);
 
@@ -44,6 +43,30 @@ export default function ServicesInfo(props: IServicesInfoProps) {
   console.log(serviceData?.data, placeId);
 
   const [locationData, setLocationData] = React.useState<ILocation>();
+  const [stateName, setStateName] = React.useState('');
+
+  const getPlaceId = async(stName) => {
+    let city_name = stName; // State Name
+    let country_code = 'US'; // Country Code
+    let key =  process.env.React_APP_GOOGLE_API; // Google Api Key
+
+    let query = `https://maps.googleapis.com/maps/api/geocode/json?address=${city_name}&components=country:${country_code}&location_type=GEOMETRIC_CENTER&key=${key}&sensor=false`;
+    await axios({
+      method: "get",
+      url: query,
+    })
+      .then((response) => {
+        let data = response.data;
+        console.log('success', data['results'][0]['place_id']);
+        setPlaceId(data['results'][0]['place_id']);
+      })
+      .catch((error) => {
+        let data = error.response.data;
+        console.log('error', data);
+      });
+  }
+
+  if(stName) getPlaceId(stName)
 
   const getProviders = () => {
     let url = `/service-providers?subService=${subServiceId}`;
@@ -70,6 +93,7 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           placeholder="Enter your location"
           onChange={(value) => {
             setLocationData({ placeId: value.value });
+            setStateName(value['address_components'][1]['long_name'].toLowerCase().replace(' ', '-'));
           }}
           defaultValue={zipCode}
         />
@@ -77,8 +101,9 @@ export default function ServicesInfo(props: IServicesInfoProps) {
           className="fare-btn fare-btn-primary fare-btn-lg"
           disabled={!locationData}
           onClick={() => {
+            // console.log('locationData', locationData)
             history.push(
-              `/services/${service}/${subService}?${_location.search}&place_id=${locationData.placeId}`
+              `/${service}/${subService}/${stateName}?${_location.search}`
             );
           }}
         >
@@ -131,15 +156,15 @@ export default function ServicesInfo(props: IServicesInfoProps) {
               </div>
             </div>
           </div>
-          {serviceData?.data?.service_contents.map((content) => (
+          {serviceData?.data?.service_contents.map((content, index) => (
             <div className="row">
               <div className="col-2"></div>
-              <div className="col-4">
+              {index % 2 === 0 && <div className="col-4" style={{display: 'flex', alignItems: 'center'}}>
                 <div className="text-xl md:text-base text-dark mt-6 px-8">
                   <span>{content.description}</span>
                 </div>
-              </div>
-              <div className="col-4">
+              </div> }
+              <div className="col-4" style={{display: 'flex', alignItems: 'center'}}>
                 <img
                   src={
                     (content.image) && HOST + content.image ||
@@ -154,6 +179,11 @@ export default function ServicesInfo(props: IServicesInfoProps) {
                   }}
                 />
               </div>
+              {index % 2 === 1 && <div className="col-4" style={{display: 'flex', alignItems: 'center'}}>
+                <div className="text-xl md:text-base text-dark mt-6 px-8">
+                  <span>{content.description}</span>
+                </div>
+              </div> }
             </div>
           ))}
         </div>
