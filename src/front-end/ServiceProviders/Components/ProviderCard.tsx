@@ -166,7 +166,7 @@ const ProviderCard: React.FC<IProviderCardProps> = ({
               </div>
               <Link
                 type="button"
-                to={`/provider/profile/${provider.id}`}
+                to={`/provider/profile/${provider.first_name.toLowerCase()+'-'+provider?.last_name.toLowerCase()}`}
                 className="fare-btn fare-btn-default"
               >
                 View Profile

@@ -120,7 +120,7 @@ export const ServicesDetail = (props) => {
                         </div>
                       </div>
                       <Link
-                        to={`/provider/profile/${data?.provider?.id}`}
+                        to={`/provider/profile/${data?.provider?.first_name.toLowerCase()+'-'+data?.provider?.last_name.toLowerCase()}`}
                         className="fare-btn fare-btn-primary"
                       >
                         View Profile
