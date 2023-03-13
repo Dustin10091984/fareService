@@ -77,7 +77,7 @@ const publicRoutes = [
   // },
   {
     name: "Provider profile",
-    path: "/provider/profile/:id",
+    path: "/provider/profile/:name",
     component: ProviderProfile,
     hash: "",
   },
@@ -123,6 +123,12 @@ const publicRoutes = [
     component: ServicesSearchPage,
   },
   {
+    name: "Pages",
+    path: "/page/:name",
+    component: Page,
+    hash: "",
+  },
+  {
     name: "Service Info",
     path: "/:service/:subService",
     component: ServicesInfo,
@@ -154,12 +160,6 @@ const publicRoutes = [
     name: "FAQ",
     path: "/faq",
     component: FAQ,
-  },
-  {
-    name: "Pages",
-    path: "/page/:name",
-    component: Page,
-    hash: "",
   },
   {
     name: "Verification",

@@ -27,7 +27,7 @@ const modalConfig = {
   },
 };
 export const ProviderProfile = (props) => {
-  const { id } = props.match.params;
+  const { name } = props.match.params;
 
   const [Modal, openBook, closeBook, isBookOpen] = useModal(
     "root",
@@ -45,8 +45,8 @@ export const ProviderProfile = (props) => {
   );
 
   useEffect(() => {
-    dispatch(getProviderProfile(id));
-  }, [id]);
+    dispatch(getProviderProfile(name));
+  }, [name]);
 
   const { error: err = false, message = "", data } = providerProfile ?? {};
   const { provider } = data ?? {};
