@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProviderProfile } from "../store/Slices/providers/ProviderProfileSclice";
+import { getProviderProfile, getProviderProfileByName } from "../store/Slices/providers/ProviderProfileSclice";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
 import Loading from "./common/Loading";
@@ -45,7 +45,7 @@ export const ProviderProfile = (props) => {
   );
 
   useEffect(() => {
-    dispatch(getProviderProfile(name));
+    dispatch(getProviderProfileByName(name));
   }, [name]);
 
   const { error: err = false, message = "", data } = providerProfile ?? {};
